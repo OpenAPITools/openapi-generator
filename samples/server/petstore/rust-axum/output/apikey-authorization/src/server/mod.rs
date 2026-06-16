@@ -127,11 +127,10 @@ where
         .get_payment_method_by_id(&mut event, method, host, cookies, claims, path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::payments::GetPaymentMethodByIdResponse::Status200_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -150,6 +149,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::payments::GetPaymentMethodByIdResponse::Status422_UnprocessableEntity(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(422);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -280,11 +280,10 @@ where
         .get_payment_methods(&mut event, method, host, cookies, claims)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::payments::GetPaymentMethodsResponse::Status200_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -435,11 +434,10 @@ where
         .post_make_payment(&mut event, method, host, cookies, claims, body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::payments::PostMakePaymentResponse::Status200_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -458,6 +456,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::payments::PostMakePaymentResponse::Status422_UnprocessableEntity(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(422);
                 {
                     let mut response_headers = response.headers_mut().unwrap();

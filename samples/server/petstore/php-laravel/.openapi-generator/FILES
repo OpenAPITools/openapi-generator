@@ -75,7 +75,6 @@ Model/ReadOnlyFirst.php
 Model/SingleRefType.php
 Model/SpecialModelName.php
 Model/Tag.php
-Model/TestEnumParametersEnumHeaderStringParameter.php
 Model/TestEnumParametersEnumQueryDoubleParameter.php
 Model/TestEnumParametersEnumQueryIntegerParameter.php
 Model/TestEnumParametersRequestEnumFormString.php

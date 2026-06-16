@@ -294,6 +294,7 @@ public class TypeScriptFetchClientCodegenTest {
 
         Map<String, Object> properties = new HashMap<>();
         properties.put("fileNaming", TypeScriptFetchClientCodegen.KEBAB_CASE);
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, false);
 
         File output = generate(properties);
 
@@ -301,7 +302,10 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(pet);
         TestUtils.assertFileContains(pet, "} from './pet-category';");
         TestUtils.assertFileExists(Paths.get(output + "/models/pet-category.ts"));
-        TestUtils.assertFileExists(Paths.get(output + "/apis/pet-controller-api.ts"));
+        Path petApi = Paths.get(output + "/apis/pet-controller-api.ts");
+        TestUtils.assertFileExists(petApi);
+        TestUtils.assertFileContains(petApi, "} from '../models/pet';");
+        TestUtils.assertFileNotContains(petApi, "} from '../models/Pet';");
     }
 
     @Test(description = "Verify names of files generated in kebab-case and imports with additional model prefix")
@@ -310,6 +314,7 @@ public class TypeScriptFetchClientCodegenTest {
         Map<String, Object> properties = new HashMap<>();
         properties.put("fileNaming", TypeScriptFetchClientCodegen.KEBAB_CASE);
         properties.put(CodegenConstants.MODEL_NAME_PREFIX, "SomePrefix");
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, false);
 
         File output = generate(properties);
 
@@ -317,7 +322,10 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(pet);
         TestUtils.assertFileContains(pet, "} from './some-prefix-pet-category';");
         TestUtils.assertFileExists(Paths.get(output + "/models/some-prefix-pet-category.ts"));
-        TestUtils.assertFileExists(Paths.get(output + "/apis/pet-controller-api.ts"));
+        Path petApi = Paths.get(output + "/apis/pet-controller-api.ts");
+        TestUtils.assertFileExists(petApi);
+        TestUtils.assertFileContains(petApi, "} from '../models/some-prefix-pet';");
+        TestUtils.assertFileNotContains(petApi, "} from '../models/SomePrefixPet';");
     }
 
     @Test(description = "Verify names of files generated in camelCase and imports")

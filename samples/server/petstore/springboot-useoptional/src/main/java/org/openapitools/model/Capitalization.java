@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
@@ -19,19 +20,25 @@ import jakarta.annotation.Generated;
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Capitalization {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> smallCamel = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> capitalCamel = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> smallSnake = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> capitalSnake = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> scAETHFlowPoints = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> ATT_NAME = Optional.empty();
 
   public Capitalization smallCamel(String smallCamel) {

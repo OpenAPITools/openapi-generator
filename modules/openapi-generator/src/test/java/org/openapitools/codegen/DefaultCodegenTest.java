@@ -288,6 +288,46 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOAS31ContentMediaTypeBinaryFormParameter() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/binary-schema.yaml");
+        new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+        new InlineModelResolver().flatten(openAPI);
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/upload").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        CodegenParameter file = paramsByBaseName.get("file");
+        assertTrue(file.isFormParam);
+        assertTrue(file.isBinary);
+        assertTrue(file.isFile);
+
+        CodegenParameter nullableFile = paramsByBaseName.get("nullableFile");
+        assertTrue(nullableFile.isFormParam);
+        assertTrue(nullableFile.isBinary);
+        assertTrue(nullableFile.isFile);
+
+        CodegenParameter encodedFile = paramsByBaseName.get("encodedFile");
+        assertTrue(encodedFile.isFormParam);
+        assertFalse(encodedFile.isBinary);
+        assertFalse(encodedFile.isFile);
+
+        CodegenParameter inferredFile = paramsByBaseName.get("inferredFile");
+        assertTrue(inferredFile.isFormParam);
+        assertTrue(inferredFile.isBinary);
+        assertTrue(inferredFile.isFile);
+
+        CodegenParameter image = paramsByBaseName.get("image");
+        assertTrue(image.isFormParam);
+        assertFalse(image.isBinary);
+        assertFalse(image.isFile);
+    }
+
+    @Test
     public void testOriginalOpenApiDocumentVersion() {
         // Test with OAS 2.0 document.
         String location = "src/test/resources/2_0/python-prior/petstore-with-fake-endpoints-models-for-testing.yaml";
