@@ -1,8 +1,5 @@
-package {{packageName}}.infrastructure
+package org.openapitools.client.infrastructure
 
-{{#supportAndroidApiLevel25AndBelow}}
-import android.os.Build
-{{/supportAndroidApiLevel25AndBelow}}
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -24,45 +21,19 @@ import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 import java.net.URLConnection
-{{^threetenbp}}
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
-{{/threetenbp}}
 import java.util.Locale
 import java.util.regex.Pattern
-{{#useCoroutines}}
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlinx.coroutines.suspendCancellableCoroutine
-{{/useCoroutines}}
-{{#kotlinx_serialization}}
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-{{/kotlinx_serialization}}
-{{#threetenbp}}
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.LocalTime
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.OffsetTime
-{{/threetenbp}}
-{{#gson}}
-import com.google.gson.reflect.TypeToken
-{{/gson}}
-{{#jackson}}
-import {{jacksonPackage}}.core.type.TypeReference
-{{/jackson}}
-{{#moshi}}
-import com.squareup.moshi.adapter
-{{/moshi}}
+import tools.jackson.core.type.TypeReference
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class ApiClient({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val baseUrl: String, {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val client: Call.Factory = defaultClient) {
-    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
+open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
+    companion object {
         protected const val CONTENT_TYPE: String = "Content-Type"
         @Deprecated(
           message = "Please use the capitalized constant `CONTENT_TYPE` instead.",
@@ -126,30 +97,27 @@ import com.squareup.moshi.adapter
         )
         protected const val TextMediaType: String = TEXT_MEDIA_TYPE
 
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}const val BASE_URL_KEY: String = "{{packageName}}.baseUrl"
+        const val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
         @Deprecated(
           message = "Please use the capitalized constant `BASE_URL_KEY` instead.",
           replaceWith = ReplaceWith("BASE_URL_KEY")
         )
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}const val baseUrlKey: String = BASE_URL_KEY
+        const val baseUrlKey: String = BASE_URL_KEY
 
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val apiKey: MutableMap<String, String> = mutableMapOf()
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var username: String? = null
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var password: String? = null
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var accessToken: String? = null
+        val apiKey: MutableMap<String, String> = mutableMapOf()
+        val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
+        var username: String? = null
+        var password: String? = null
+        var accessToken: String? = null
 
         @JvmStatic
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val defaultClient: OkHttpClient by lazy {
+        val defaultClient: OkHttpClient by lazy {
             builder.build()
         }
 
         @JvmStatic
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val builder: OkHttpClient.Builder = OkHttpClient.Builder()
+        val builder: OkHttpClient.Builder = OkHttpClient.Builder()
     }
-
-    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var userCredentialsProvider: () -> Pair<String?, String?> = { username to password }
-    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var accessTokenProvider: () -> String? = { accessToken }
 
     /**
      * Guess Content-Type header from the given byteArray (defaults to "application/octet-stream").
@@ -231,20 +199,7 @@ import com.squareup.moshi.adapter
         }
 
         return if (contentType?.contains("json") == true) {
-            {{#moshi}}
-            Serializer.moshi.adapter(Any::class.java).toJson(obj)
-            {{/moshi}}
-            {{#gson}}
-            Serializer.gson.toJson(obj)
-            {{/gson}}
-            {{#jackson}}
             Serializer.jacksonObjectMapper.writeValueAsString(obj)
-            {{/jackson}}
-            {{#kotlinx_serialization}}
-            // Note: Without a custom serializer, kotlinx.serialization cannot serialize Any?
-            // The custom serializer should be provided at PartConfig creation to capture type info
-            parameterToString(obj)
-            {{/kotlinx_serialization}}
         } else {
             parameterToString(obj)
         }
@@ -311,39 +266,18 @@ import com.squareup.moshi.adapter
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
-                    {{#moshi}}
-                    Serializer.moshi.adapter(T::class.java).toJson(content)
-                    {{/moshi}}
-                    {{#gson}}
-                    Serializer.gson.toJson(content, T::class.java)
-                    {{/gson}}
-                    {{#jackson}}
                     Serializer.jacksonObjectMapper.writeValueAsString(content)
-                    {{/jackson}}
-                    {{#kotlinx_serialization}}
-                    Serializer.kotlinxSerializationJson.encodeToString(content)
-                    {{/kotlinx_serialization}}
                         .toRequestBody((mediaType ?: JSON_MEDIA_TYPE).toMediaTypeOrNull())
                 }
             mediaType == XML_MEDIA_TYPE -> throw UnsupportedOperationException("xml not currently supported.")
-            mediaType == TEXT_MEDIA_TYPE -> {
-                val textualContent = when (content) {
-                    is Char, is CharSequence -> content.toString()
-                    is Number -> content.toString()
-                    is Boolean -> content.toString()
-                    else -> throw UnsupportedOperationException("requestBody currently only supports text body containing primitive types: characters, numbers, or booleans.")
-                }
-                textualContent.toRequestBody(mediaType.toMediaTypeOrNull())
-            }
+            mediaType == TEXT_MEDIA_TYPE && content is String ->
+                content.toRequestBody(TEXT_MEDIA_TYPE.toMediaTypeOrNull())
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, text body, byte body and File body.")
         }
 
-    {{#moshi}}
-    @OptIn(ExperimentalStdlibApi::class)
-    {{/moshi}}
     protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JSON_MEDIA_TYPE): T? {
-        val body = response.body ?: return null
+        val body = response.body
 
         if (T::class.java == Unit::class.java) {
             // No need to parse the body when we're not interested in the body
@@ -388,18 +322,8 @@ import com.squareup.moshi.adapter
                 }
             }
 
-            {{^supportAndroidApiLevel25AndBelow}}
             // Attention: if you are developing an android app that supports API Level 25 and below, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
             val tempFile = java.nio.file.Files.createTempFile(prefix, suffix).toFile()
-            {{/supportAndroidApiLevel25AndBelow}}
-            {{#supportAndroidApiLevel25AndBelow}}
-            val tempFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                java.nio.file.Files.createTempFile(prefix, suffix).toFile()
-            } else {
-                @Suppress("DEPRECATION")
-                createTempFile(prefix, suffix)
-            }
-            {{/supportAndroidApiLevel25AndBelow}}
             tempFile.deleteOnExit()
             body.byteStream().use { inputStream ->
                 tempFile.outputStream().use { tempFileOutputStream ->
@@ -415,10 +339,7 @@ import com.squareup.moshi.adapter
                 if (bodyContent.isEmpty()) {
                     return null
                 }
-                {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{!
-                }}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{!
-                }}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{!
-                }}{{#kotlinx_serialization}}Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
+                Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {})
             }
             mediaType == OCTET_MEDIA_TYPE -> body.bytes() as? T
             mediaType == TEXT_MEDIA_TYPE -> body.string() as? T
@@ -426,77 +347,28 @@ import com.squareup.moshi.adapter
         }
     }
 
-    {{#hasAuthMethods}}
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
-        {{#authMethods}}
-        {{#isApiKey}}
-        {{#isKeyInHeader}}
-        if (requestConfig.headers["{{keyParamName}}"].isNullOrEmpty()) {
-        {{/isKeyInHeader}}
-        {{#isKeyInQuery}}
-        if (requestConfig.query["{{keyParamName}}"].isNullOrEmpty()) {
-        {{/isKeyInQuery}}
-            if (apiKey["{{keyParamName}}"] != null) {
-                if (apiKeyPrefix["{{keyParamName}}"] != null) {
-                    {{#isKeyInHeader}}
-                    requestConfig.headers["{{keyParamName}}"] = apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!
-                    {{/isKeyInHeader}}
-                    {{#isKeyInQuery}}
-                    requestConfig.query["{{keyParamName}}"] = listOf(apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
-                    {{/isKeyInQuery}}
+        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
+            accessToken?.let { accessToken ->
+                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken "
+            }
+        }
+        if (requestConfig.headers["api_key"].isNullOrEmpty()) {
+            if (apiKey["api_key"] != null) {
+                if (apiKeyPrefix["api_key"] != null) {
+                    requestConfig.headers["api_key"] = apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!
                 } else {
-                    {{#isKeyInHeader}}
-                    requestConfig.headers["{{keyParamName}}"] = apiKey["{{keyParamName}}"]!!
-                    {{/isKeyInHeader}}
-                    {{#isKeyInQuery}}
-                    requestConfig.query["{{keyParamName}}"] = listOf(apiKey["{{keyParamName}}"]!!)
-                    {{/isKeyInQuery}}
-                }
-            }
-        {{#isKeyInQuery}}
-        }
-        {{/isKeyInQuery}}
-        {{#isKeyInHeader}}
-        }
-        {{/isKeyInHeader}}
-        {{/isApiKey}}
-        {{#isBasic}}
-        {{#isBasicBasic}}
-        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
-            val (user, passw) = userCredentialsProvider()
-            user?.let { user ->
-                passw?.let { passw ->
-                    requestConfig.headers[AUTHORIZATION] = okhttp3.Credentials.basic(user, passw)
+                    requestConfig.headers["api_key"] = apiKey["api_key"]!!
                 }
             }
         }
-        {{/isBasicBasic}}
-        {{#isBasicBearer}}
-        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
-            accessTokenProvider()?.let { token ->
-                requestConfig.headers[AUTHORIZATION] = "Bearer $token"
-            }
-        }
-        {{/isBasicBearer}}
-        {{/isBasic}}
-        {{#isOAuth}}
-        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
-            accessTokenProvider()?.let { token ->
-                requestConfig.headers[AUTHORIZATION] = "Bearer $token "
-            }
-        }
-        {{/isOAuth}}
-        {{/authMethods}}
     }
-    {{/hasAuthMethods}}
 
-    protected {{#useCoroutines}}suspend {{/useCoroutines}}inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiResponse<T?> {
+    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
-        {{#hasAuthMethods}}
 
         // take authMethod from operation
         updateAuthParams(requestConfig)
-        {{/hasAuthMethods}}
 
         val url = httpUrl.newBuilder()
             .addEncodedPathSegments(requestConfig.path.trimStart('/'))
@@ -539,33 +411,12 @@ import com.squareup.moshi.adapter
         }.apply {
             val headersBuilder = Headers.Builder()
             headers.forEach { header ->
-                {{#useNonAsciiHeaders}}
-                headersBuilder.addUnsafeNonAscii(header.key, header.value)
-                {{/useNonAsciiHeaders}}
-                {{^useNonAsciiHeaders}}
                 headersBuilder.add(header.key, header.value)
-                {{/useNonAsciiHeaders}}
             }
             this.headers(headersBuilder.build())
         }.build()
 
-        {{#useCoroutines}}
-        val response: Response = suspendCancellableCoroutine { continuation ->
-            val call = client.newCall(request)
-            continuation.invokeOnCancellation { call.cancel() }
-            call.enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    continuation.resumeWithException(e)
-                }
-                override fun onResponse(call: Call, response: Response) {
-                    continuation.resume(response)
-                }
-            })
-        }
-        {{/useCoroutines}}
-        {{^useCoroutines}}
         val response = client.newCall(request).execute()
-        {{/useCoroutines}}
 
         val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase(Locale.US)
 
@@ -607,37 +458,21 @@ import com.squareup.moshi.adapter
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime -> parseDateToQueryString<OffsetDateTime>(value)
-        is OffsetTime -> parseDateToQueryString<OffsetTime>(value)
-        is LocalDateTime -> parseDateToQueryString<LocalDateTime>(value)
-        is LocalDate -> parseDateToQueryString<LocalDate>(value)
-        is LocalTime -> parseDateToQueryString<LocalTime>(value)
+        is OffsetDateTime -> parseDateToQueryString(value)
+        is OffsetTime -> parseDateToQueryString(value)
+        is LocalDateTime -> parseDateToQueryString(value)
+        is LocalDate -> parseDateToQueryString(value)
+        is LocalTime -> parseDateToQueryString(value)
         else -> value.toString()
     }
 
     protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {
-        {{#toJson}}
         /*
         .replace("\"", "") converts the json object string to an actual string for the query parameter.
         The moshi or gson adapter allows a more generic solution instead of trying to use a native
         formatter. It also easily allows to provide a simple way to define a custom date format pattern
         inside a gson/moshi adapter.
         */
-        {{#moshi}}
-        return Serializer.moshi.adapter(T::class.java).toJson(value).replace("\"", "")
-        {{/moshi}}
-        {{#gson}}
-        return Serializer.gson.toJson(value, T::class.java).replace("\"", "")
-        {{/gson}}
-        {{#jackson}}
         return Serializer.jacksonObjectMapper.writeValueAsString(value).replace("\"", "")
-        {{/jackson}}
-        {{#kotlinx_serialization}}
-        return Serializer.kotlinxSerializationJson.encodeToString(value).replace("\"", "")
-        {{/kotlinx_serialization}}
-        {{/toJson}}
-        {{^toJson}}
-        return value.toString()
-        {{/toJson}}
     }
 }
