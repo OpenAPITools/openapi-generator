@@ -119,6 +119,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
     public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generateConstructorWithAllArgs";
     public static final String GENERATE_BUILDERS = "generateBuilders";
+    public static final String OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY = "optionalGettersForNullableFieldsOnly";
 
     @Getter @Setter
     protected String dateLibrary = "java8";
@@ -182,6 +183,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected String booleanGetterPrefix = "get";
     @Setter protected boolean ignoreAnyOfInEnum = false;
+    @Getter @Setter
+    protected boolean optionalGettersForNullableFieldsOnly = false;
     @Setter protected String parentGroupId = "";
     @Setter protected String parentArtifactId = "";
     @Setter protected String parentVersion = "";
@@ -370,6 +373,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "whether to generate a constructor for all arguments").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(GENERATE_BUILDERS, "Whether to generate builders for models").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, "Make getters of nullable / non-required fields return Optional<T> while keeping the field and setter as the raw type. Opt-in, disabled by default.", optionalGettersForNullableFieldsOnly));
         cliOptions.add(CliOption.newBoolean(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "Ignore discriminator field type for Jackson serialization", disableDiscriminatorJsonIgnoreProperties));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
@@ -452,6 +456,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         convertPropertyToBooleanAndWriteBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, this::setGenerateConstructorWithAllArgs);
         convertPropertyToBooleanAndWriteBack(GENERATE_BUILDERS, this::setGenerateBuilders);
+        convertPropertyToBooleanAndWriteBack(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, this::setOptionalGettersForNullableFieldsOnly);
         convertPropertyToBooleanAndWriteBack(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, this::setDisableDiscriminatorJsonIgnoreProperties);
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");

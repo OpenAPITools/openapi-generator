@@ -228,8 +228,17 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-{{#jackson}}{{>jackson_annotations}}{{/jackson}}{{#withXml}}{{>xmlAccessorAnnotation}}{{/withXml}}  public {{>nullableAnnotation}}{{>nullableDataTypeBeanValidation}} {{getter}}() {
+{{#jackson}}{{>jackson_annotations}}{{/jackson}}{{#withXml}}{{>xmlAccessorAnnotation}}{{/withXml}}  public {{>nullableAnnotation}}{{#optionalGettersForNullableFieldsOnly}}{{^required}}{{^isNullable}}java.util.Optional<{{/isNullable}}{{/required}}{{/optionalGettersForNullableFieldsOnly}}{{>nullableDataTypeBeanValidation}}{{#optionalGettersForNullableFieldsOnly}}{{^required}}{{^isNullable}}>{{/isNullable}}{{/required}}{{/optionalGettersForNullableFieldsOnly}} {{getter}}() {
+    {{#optionalGettersForNullableFieldsOnly}}{{^required}}{{^isNullable}}
+    return java.util.Optional.ofNullable({{name}});
+    {{/isNullable}}{{#isNullable}}
     return {{name}};
+    {{/isNullable}}{{/required}}{{#required}}
+    return {{name}};
+    {{/required}}{{/optionalGettersForNullableFieldsOnly}}
+    {{^optionalGettersForNullableFieldsOnly}}
+    return {{name}};
+    {{/optionalGettersForNullableFieldsOnly}}
   }
   {{/lombok.Getter}}
 
