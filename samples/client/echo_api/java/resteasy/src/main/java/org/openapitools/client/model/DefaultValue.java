@@ -309,7 +309,7 @@ public class DefaultValue {
   @JsonIgnore
 
   public List<String> getArrayStringNullable() {
-        return arrayStringNullable.orElse(null);
+    return arrayStringNullable.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_NULLABLE, required = false)
@@ -354,7 +354,7 @@ public class DefaultValue {
   @JsonIgnore
 
   public List<String> getArrayStringExtensionNullable() {
-        return arrayStringExtensionNullable.orElse(null);
+    return arrayStringExtensionNullable.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE, required = false)
@@ -387,7 +387,7 @@ public class DefaultValue {
   @JsonIgnore
 
   public String getStringNullable() {
-        return stringNullable.orElse(null);
+    return stringNullable.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_STRING_NULLABLE, required = false)

@@ -128,7 +128,7 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonIgnore
 
   public Integer getIntegerProp() {
-        return integerProp.orElse(null);
+    return integerProp.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_INTEGER_PROP, required = false)
@@ -161,7 +161,7 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonIgnore
 
   public BigDecimal getNumberProp() {
-        return numberProp.orElse(null);
+    return numberProp.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_NUMBER_PROP, required = false)
@@ -194,7 +194,7 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonIgnore
 
   public Boolean getBooleanProp() {
-        return booleanProp.orElse(null);
+    return booleanProp.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_BOOLEAN_PROP, required = false)
@@ -227,7 +227,7 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonIgnore
 
   public String getStringProp() {
-        return stringProp.orElse(null);
+    return stringProp.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_STRING_PROP, required = false)
@@ -260,7 +260,7 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonIgnore
 
   public LocalDate getDateProp() {
-        return dateProp.orElse(null);
+    return dateProp.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_DATE_PROP, required = false)
@@ -293,7 +293,7 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonIgnore
 
   public OffsetDateTime getDatetimeProp() {
-        return datetimeProp.orElse(null);
+    return datetimeProp.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_DATETIME_PROP, required = false)
@@ -338,7 +338,7 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonIgnore
 
   public List<Object> getArrayNullableProp() {
-        return arrayNullableProp.orElse(null);
+    return arrayNullableProp.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_NULLABLE_PROP, required = false)
@@ -383,7 +383,7 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonIgnore
 
   public List<Object> getArrayAndItemsNullableProp() {
-        return arrayAndItemsNullableProp.orElse(null);
+    return arrayAndItemsNullableProp.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP, required = false)
@@ -461,7 +461,7 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonIgnore
 
   public Map<String, Object> getObjectNullableProp() {
-        return objectNullableProp.orElse(null);
+    return objectNullableProp.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_NULLABLE_PROP, required = false)
@@ -506,7 +506,7 @@ public class NullableClass extends HashMap<String, Object> {
   @JsonIgnore
 
   public Map<String, Object> getObjectAndItemsNullableProp() {
-        return objectAndItemsNullableProp.orElse(null);
+    return objectAndItemsNullableProp.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP, required = false)

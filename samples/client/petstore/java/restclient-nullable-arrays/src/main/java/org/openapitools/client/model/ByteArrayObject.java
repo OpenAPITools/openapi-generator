@@ -78,7 +78,7 @@ public class ByteArrayObject {
   @JsonIgnore
 
   public byte[] getNullableArray() {
-        return nullableArray.orElse(null);
+    return nullableArray.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_ARRAY, required = false)
@@ -136,7 +136,7 @@ public class ByteArrayObject {
   @JsonIgnore
 
   public String getNullableString() {
-        return nullableString.orElse(null);
+    return nullableString.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_STRING, required = false)
