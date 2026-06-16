@@ -114,12 +114,15 @@ public class RustServerCodegenTest {
         target.toFile().deleteOnExit();
     }
 
+    /**
+     * Test that model pattern validation dependencies are enabled for client-only builds.
+     */
     @Test
-    public void testPatternValidationModelsEnableClientRegexDependencies() throws IOException {
+    public void testClientFeatureIncludesPatternValidationDependencies() throws IOException {
         Path target = Files.createTempDirectory("test");
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("rust-server")
-                .setInputSpec("src/test/resources/3_0/rust-server/pattern-validation.yaml")
+                .setInputSpec("src/test/resources/3_0/rust-server/pattern-validation-client-feature.yaml")
                 .setSkipOverwrite(false)
                 .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -129,7 +132,9 @@ public class RustServerCodegenTest {
         Path modelsPath = Path.of(target.toString(), "/src/models.rs");
         TestUtils.assertFileExists(cargoPath);
         TestUtils.assertFileExists(modelsPath);
-        TestUtils.assertFileContains(modelsPath, "lazy_static::lazy_static!", "regex::Regex");
+
+        TestUtils.assertFileContains(modelsPath, "lazy_static::lazy_static!");
+        TestUtils.assertFileContains(modelsPath, "regex::Regex");
 
         String cargoToml = Files.readString(cargoPath);
         int clientStart = cargoToml.indexOf("client = [");
@@ -141,6 +146,7 @@ public class RustServerCodegenTest {
                 "Client-only builds need lazy_static when shared models emit pattern validation statics");
         Assert.assertTrue(clientFeature.contains("\"regex\""),
                 "Client-only builds need regex when shared models emit pattern validation statics");
+        TestUtils.assertFileContains(cargoPath, "serde_valid = { version = \">=2.0, <2.0.2\", optional = true }");
 
         // Clean up
         target.toFile().deleteOnExit();

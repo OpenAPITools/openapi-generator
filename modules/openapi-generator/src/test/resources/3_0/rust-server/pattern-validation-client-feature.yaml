@@ -1,18 +1,18 @@
 openapi: 3.0.3
 info:
-  title: Pattern validation test
+  title: Rust server pattern validation client feature test
   version: 1.0.0
 paths:
   /phone:
     get:
       operationId: getPhone
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PhoneNumber'
+                $ref: "#/components/schemas/PhoneNumber"
 components:
   schemas:
     PhoneNumber:
@@ -22,4 +22,4 @@ components:
       properties:
         value:
           type: string
-          pattern: '^[+][1-9]\d{1,14}$'
+          pattern: '^\\+[1-9]\\d{1,14}$'
