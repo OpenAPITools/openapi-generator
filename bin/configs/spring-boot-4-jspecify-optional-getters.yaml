@@ -1,0 +1,22 @@
+generatorName: spring
+library: spring-boot
+outputDir: samples/openapi3/server/petstore/springboot-4-jspecify-optional-getters
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/jspecify.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+validateSpec: false
+additionalProperties:
+  groupId: org.openapitools.openapi3
+  documentationProvider: springdoc
+  interfaceOnly: true
+  artifactId: springboot-optional-getters
+  snapshotVersion: "true"
+  useSpringBoot4: true
+  useJackson3: true
+  useBeanValidation: true
+  withXml: true
+  hideGenerationTimestamp: "true"
+  generateConstructorWithAllArgs: true
+  generateBuilders: true
+  openApiNullable: false
+  useJspecify: true
+  optionalGettersForNullableFieldsOnly: "true"
