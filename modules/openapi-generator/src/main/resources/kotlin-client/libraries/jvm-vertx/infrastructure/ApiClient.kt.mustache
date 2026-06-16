@@ -4,7 +4,7 @@ import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
 import java.nio.charset.StandardCharsets
 {{#jackson}}
-import com.fasterxml.jackson.core.type.TypeReference
+import {{jacksonPackage}}.core.type.TypeReference
 {{/jackson}}
 {{#gson}}
 import com.google.gson.reflect.TypeToken
