@@ -24,10 +24,12 @@ data class Tag(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("name")
     @get:JsonProperty("name") val name: kotlin.String? = null
 ) {
 

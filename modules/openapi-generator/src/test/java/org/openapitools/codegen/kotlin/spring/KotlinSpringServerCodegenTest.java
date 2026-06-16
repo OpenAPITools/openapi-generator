@@ -6476,7 +6476,7 @@ public class KotlinSpringServerCodegenTest {
         String content = Files.readString(modelFile);
         int idx = content.indexOf("val optionalNonNullableWithDefault:");
         Assert.assertTrue(idx >= 0, "optionalNonNullableWithDefault property must exist");
-        String context = content.substring(Math.max(0, idx - 200), idx);
+        String context = content.substring(Math.max(0, idx - 300), idx);
         Assert.assertTrue(context.contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
                 "optionalNonNullableWithDefault must have @JsonInclude(NON_NULL)");
         Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.SKIP)"),
@@ -6776,5 +6776,41 @@ public class KotlinSpringServerCodegenTest {
         assertThat(myObjectFile).isNotNull();
         String content = Files.readString(myObjectFile.toPath());
         assertThat(content).contains("com.example.ExternalModel?");
+    }
+
+    @Test(description = "nameMappings: @param:JsonProperty must use the original JSON field name for deserialization")
+    public void paramJsonPropertyAnnotationWithNameMappings() throws IOException {
+        // When a property is renamed via nameMappings, @param:JsonProperty must carry the
+        // original JSON field name so Jackson can deserialize from the correct JSON key.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/param-json-property.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.addNameMapping("snake_case_value", "mappedValue")
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+        assertFileContains(
+                itemFile.toPath(),
+                "@param:JsonProperty(\"snake_case_value\")\n    @get:JsonProperty(\"snake_case_value\", required = true) val mappedValue"
+        );
+    }
+
+    @Test(description = "auto-renamed digit-starting property: @param:JsonProperty must use the original JSON field name")
+    public void paramJsonPropertyAnnotationWithDigitStartingPropertyName() throws IOException {
+        // When a property name starts with a digit, the Kotlin codegen wraps it in backticks
+        // (e.g. "2nd_field" -> `2ndField`). @param:JsonProperty must still carry the original
+        // JSON field name so that Jackson can deserialize it correctly.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/param-json-property.yaml"
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+        assertFileContains(
+                itemFile.toPath(),
+                "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\") val `2ndField`"
+        );
     }
 }

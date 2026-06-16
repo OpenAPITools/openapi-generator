@@ -38,9 +38,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class Query (
 
     /* Query */
+    @param:JsonProperty("id")
     @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
+    @param:JsonProperty("outcomes")
     @get:JsonProperty("outcomes")
     val outcomes: kotlin.collections.List<Query.Outcomes>? = null
 

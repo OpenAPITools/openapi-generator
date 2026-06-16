@@ -32,41 +32,49 @@ data class User(
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") var id: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("username")
     @get:JsonProperty("username") var username: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("firstName")
     @get:JsonProperty("firstName") var firstName: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("lastName")
     @get:JsonProperty("lastName") var lastName: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("email")
     @get:JsonProperty("email") var email: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("password")
     @get:JsonProperty("password") var password: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("phone")
     @get:JsonProperty("phone") var phone: kotlin.String? = null,
 
     @Schema(example = "null", description = "User Status")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("userStatus")
     @get:JsonProperty("userStatus") var userStatus: kotlin.Int? = null
 ) : java.io.Serializable {
 

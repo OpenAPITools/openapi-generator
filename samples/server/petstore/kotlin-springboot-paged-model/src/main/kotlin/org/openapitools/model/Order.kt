@@ -24,10 +24,12 @@ data class Order(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("amount")
     @get:JsonProperty("amount") val amount: kotlin.Double? = null
 ) : java.io.Serializable {
 

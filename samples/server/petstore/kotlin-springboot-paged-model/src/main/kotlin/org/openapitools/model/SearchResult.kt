@@ -26,15 +26,18 @@ data class SearchResult(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("query")
     @get:JsonProperty("query") val query: kotlin.String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("totalHits")
     @get:JsonProperty("totalHits") val totalHits: kotlin.Int? = null,
 
     @field:Valid
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("page")
     @get:JsonProperty("page") val page: PageMeta? = null
 ) : java.io.Serializable {
 
