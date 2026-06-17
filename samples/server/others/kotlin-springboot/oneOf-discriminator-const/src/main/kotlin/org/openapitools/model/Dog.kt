@@ -25,9 +25,11 @@ import jakarta.validation.Valid
 data class Dog(
 
     @field:Valid
+    @param:JsonProperty("petType")
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String = "dog",
 
     @get:Min(value=0)
+    @param:JsonProperty("packSize")
     @get:JsonProperty("packSize", required = true) val packSize: kotlin.Int = 0
 ) : Pet {
 

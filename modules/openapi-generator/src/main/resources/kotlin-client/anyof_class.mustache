@@ -107,7 +107,7 @@ import java.io.IOException
 {{#anyOf}}
 {{^vendorExtensions.x-duplicated-data-type}}
     @JvmInline
-    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}value class {{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}(val value: {{{dataType}}}) : {{classname}}
+    {{#explicitApi}}public {{/explicitApi}}value class {{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}({{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: {{{dataType}}}) : {{classname}}
 
 {{/vendorExtensions.x-duplicated-data-type}}
 {{/anyOf}}

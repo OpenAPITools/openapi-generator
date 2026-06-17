@@ -1,4 +1,11 @@
+{{#vendorExtensions}}
+{{^x-produces-sse}}
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+{{/x-produces-sse}}
+{{/vendorExtensions}}
+{{^vendorExtensions}}
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+{{/vendorExtensions}}
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum {{{operationId}}}Response {
@@ -16,33 +23,43 @@ pub enum {{{operationId}}}Response {
     {{#dataType}}
       {{^hasHeaders}}
         {{#vendorExtensions}}
+          {{#x-produces-sse}}
+    (models::SSE)
+          {{/x-produces-sse}}
           {{#x-produces-plain-text}}
     (String)
           {{/x-produces-plain-text}}
           {{#x-produces-bytes}}
     (ByteArray)
           {{/x-produces-bytes}}
+          {{^x-produces-sse}}
           {{^x-produces-plain-text}}
           {{^x-produces-bytes}}
     ({{{dataType}}})
           {{/x-produces-bytes}}
           {{/x-produces-plain-text}}
+          {{/x-produces-sse}}
         {{/vendorExtensions}}
       {{/hasHeaders}}
       {{#hasHeaders}}
     {
         {{#vendorExtensions}}
+          {{#x-produces-sse}}
+        body: models::SSE,
+          {{/x-produces-sse}}
           {{#x-produces-plain-text}}
         body: String,
           {{/x-produces-plain-text}}
           {{#x-produces-bytes}}
         body: ByteArray,
           {{/x-produces-bytes}}
+          {{^x-produces-sse}}
           {{^x-produces-plain-text}}
           {{^x-produces-bytes}}
         body: {{{dataType}}},
           {{/x-produces-bytes}}
           {{/x-produces-plain-text}}
+          {{/x-produces-sse}}
         {{/vendorExtensions}}
       {{/hasHeaders}}
     {{/dataType}}

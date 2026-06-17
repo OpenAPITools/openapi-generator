@@ -757,6 +757,135 @@ paths:
       - application/json
       x-tags:
       - tag: pet
+  /pet/findWithSizeConstraintFromAllOfRef:
+    get:
+      operationId: findPetsWithSizeConstraintFromAllOfRef
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          allOf:
+          - $ref: "#/components/schemas/PageSizeWithMax"
+        style: form
+      - explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Pet"
+                type: array
+          description: successful operation
+      summary: Find pets — size maximum resolved from allOf $ref (no inline maximum)
+      tags:
+      - pet
+      x-spring-paginated: true
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: pet
+  /pet/findWithDefaultFromAllOfRef:
+    get:
+      operationId: findPetsWithDefaultFromAllOfRef
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          allOf:
+          - $ref: "#/components/schemas/PageSizeWithDefault"
+        style: form
+      - explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Pet"
+                type: array
+          description: successful operation
+      summary: Find pets — size default resolved from allOf $ref (no inline default)
+      tags:
+      - pet
+      x-spring-paginated: true
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: pet
+  /pet/findWithMinSizeConstraintFromAllOfRef:
+    get:
+      operationId: findPetsWithMinSizeConstraintFromAllOfRef
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          allOf:
+          - $ref: "#/components/schemas/PageSizeWithMin"
+        style: form
+      - explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Pet"
+                type: array
+          description: successful operation
+      summary: Find pets — size minimum resolved from allOf $ref (no inline minimum)
+      tags:
+      - pet
+      x-spring-paginated: true
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: pet
   /nullable/check-required-only:
     post:
       operationId: checkRequiredOnly
@@ -881,6 +1010,18 @@ components:
       - "createdAt,asc"
       - "createdAt,desc"
       type: string
+    PageSizeWithMax:
+      format: int32
+      maximum: 75
+      type: integer
+    PageSizeWithDefault:
+      default: 7
+      format: int32
+      type: integer
+    PageSizeWithMin:
+      format: int32
+      minimum: 5
+      type: integer
     Pet:
       example:
         id: 0

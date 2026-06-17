@@ -2,6 +2,7 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
@@ -29,27 +30,39 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Order(
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("petId")
     @get:JsonProperty("petId") val petId: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("quantity")
     @get:JsonProperty("quantity") val quantity: kotlin.Int? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("shipDate")
     @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
 
     @Schema(example = "null", description = "Order Status")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("status")
     @get:JsonProperty("status") val status: Order.Status? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("complete")
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
 ) {
 

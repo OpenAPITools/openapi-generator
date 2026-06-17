@@ -236,9 +236,9 @@ interface FakeApiInterface {
      *
      * To test enum parameters
      * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumHeaderStringArray
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumHeaderString
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumHeaderString
      * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumQueryStringArray
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumQueryString
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumQueryString
      * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter $enumQueryInteger
      * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumQueryDouble
      * @param null | \OpenAPI\Server\Model\EnumClass[] $enumQueryModelArray
@@ -248,9 +248,9 @@ interface FakeApiInterface {
      */
     public function testEnumParameters(
             ?array $enumHeaderStringArray,
-            ?\OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumHeaderString,
+            ?\OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumHeaderString,
             ?array $enumQueryStringArray,
-            ?\OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumQueryString,
+            ?\OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumQueryString,
             ?\OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter $enumQueryInteger,
             ?\OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumQueryDouble,
             ?array $enumQueryModelArray,

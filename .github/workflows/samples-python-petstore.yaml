@@ -62,10 +62,14 @@ jobs:
             ~/.local/pipx/venvs/poetry/
             .mypy_cache/
 
+      - name: Install via pip
+        working-directory: ${{ matrix.sample }}
+        run: pip install -r requirements.txt
+
       - name: Install poetry
         run: pipx install --python '${{ steps.py.outputs.python-path }}' poetry
 
-      - name: Install
+      - name: Install via poetry
         working-directory: ${{ matrix.sample }}
         run: poetry install
 

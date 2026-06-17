@@ -2,34 +2,36 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.OuterEnumDto;
 import org.springframework.lang.Nullable;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * EnumTestDto
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class EnumTestDto {
 
   /**
    * Gets or Sets enumString
    */
-  public enum EnumStringEnum {
+  public enum EnumStringEnum implements ValuedEnum<String> {
     UPPER("UPPER"),
     
     LOWER("lower"),
@@ -63,12 +65,13 @@ public class EnumTestDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
    */
-  public enum EnumStringRequiredEnum {
+  public enum EnumStringRequiredEnum implements ValuedEnum<String> {
     UPPER("UPPER"),
     
     LOWER("lower"),
@@ -107,7 +110,7 @@ public class EnumTestDto {
   /**
    * Gets or Sets enumInteger
    */
-  public enum EnumIntegerEnum {
+  public enum EnumIntegerEnum implements ValuedEnum<Integer> {
     NUMBER_1(1),
     
     NUMBER_MINUS_1(-1);
@@ -139,12 +142,13 @@ public class EnumTestDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
    */
-  public enum EnumNumberEnum {
+  public enum EnumNumberEnum implements ValuedEnum<Double> {
     NUMBER_1_DOT_1(1.1),
     
     NUMBER_MINUS_1_DOT_2(-1.2);
@@ -176,8 +180,10 @@ public class EnumTestDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumNumberEnum enumNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable OuterEnumDto outerEnum;
 
   public EnumTestDto() {

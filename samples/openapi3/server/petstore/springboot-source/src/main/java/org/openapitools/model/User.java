@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
@@ -18,23 +19,31 @@ import jakarta.annotation.Generated;
  * A User who is purchasing from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class User {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String username;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String firstName;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String lastName;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String email;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String password;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String phone;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer userStatus;
 
   public User id(@Nullable Long id) {
