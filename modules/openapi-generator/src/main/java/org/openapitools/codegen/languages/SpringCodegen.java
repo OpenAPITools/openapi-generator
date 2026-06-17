@@ -1449,7 +1449,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
         // and discriminator-based oneOf interfaces.
         for (CodegenModel cm : allModels.values()) {
-            String schemaAnnotation = (String) cm.vendorExtensions.get("x-jackson-default-impl");
+            Object rawAnnotationExt = cm.vendorExtensions.get("x-jackson-default-impl");
+            String schemaAnnotation = rawAnnotationExt != null ? rawAnnotationExt.toString() : null;
             String configValue = typeInfoDefaultImpls.get(cm.schemaName);
             String rawValue;
             if (configValue != null && !configValue.isBlank()) {
