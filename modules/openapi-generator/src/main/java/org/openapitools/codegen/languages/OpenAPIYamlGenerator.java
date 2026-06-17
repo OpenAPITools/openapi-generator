@@ -62,8 +62,9 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         cliOptions.clear();
         cliOptions.add(CliOption.newString(OUTPUT_NAME, "Output filename").defaultValue(outputFile));
         cliOptions.add(CliOption.newBoolean(SORT_OUTPUT,
-                "Sort paths alphabetically, schemas/parameters by name, and HTTP methods in classical order "
-                        + "(GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH, TRACE).")
+                "Sort paths alphabetically, component maps (schemas, parameters, requestBodies, responses, " +
+                        "headers, examples, links, callbacks, securitySchemes) by name, and HTTP methods in classical " +
+                        "order (GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH, TRACE).")
                 .defaultValue(Boolean.FALSE.toString()));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
     }

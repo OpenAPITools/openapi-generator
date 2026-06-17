@@ -18,7 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |outputFileName|Output file name| |openapi.json|
-|sortOutput|Sort paths alphabetically, schemas/parameters by name, and HTTP methods in classical order (GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH, TRACE).| |false|
+|sortOutput|Sort paths alphabetically, component maps (schemas, parameters, requestBodies, responses, headers, examples, links, callbacks, securitySchemes) by name, and HTTP methods in classical order (GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH, TRACE).| |false|
 
 ## IMPORT MAPPING
 
