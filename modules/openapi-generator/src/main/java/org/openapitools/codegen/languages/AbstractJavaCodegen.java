@@ -779,6 +779,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 String resolved = toModelName(rawValue);
                 if (resolved != null && !resolved.isBlank()) {
+                    if (!allModels.containsKey(resolved)) {
+                        LOGGER.warn("x-jackson-default-impl / typeInfoDefaultImpls on schema '{}' refers to '{}' which is not a known model in this spec. " +
+                                "This is valid for external or catch-all classes, but may indicate a typo.", cm.schemaName, resolved);
+                    }
                     cm.vendorExtensions.put("x-jackson-resolved-default-impl", resolved);
                     // When a discriminator is present, the typeInfoAnnotation partial is rendered
                     // inside {{#discriminator}}, so the template engine resolves 'vendorExtensions'
