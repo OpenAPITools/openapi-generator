@@ -632,6 +632,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         // override parent one
         importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
+        // JsonSetter and Nulls always come from com.fasterxml.jackson.annotation regardless of Jackson 2 or 3
+        // (Jackson 3.x intentionally keeps jackson-annotations at 2.x, same package)
+        importMapping.put("JsonSetter", "com.fasterxml.jackson.annotation.JsonSetter");
+        importMapping.put("Nulls", "com.fasterxml.jackson.annotation.Nulls");
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("Nullable", useJspecify? "org.jspecify.annotations.Nullable": "org.springframework.lang.Nullable");
@@ -1206,6 +1210,18 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (model.getVendorExtensions().containsKey("x-jackson-optional-nullable-helpers")) {
             model.imports.add("Arrays");
+        }
+
+        // Optional + non-nullable: always emit @JsonInclude(NON_NULL) so null fields are omitted from
+        // serialized output regardless of who deserializes on the other end — closer to spec.
+        // When openApiNullable=false, also add @JsonSetter(nulls = Nulls.SKIP) on the setter.
+        if (!property.required && !property.isNullable) {
+            model.imports.add("JsonInclude");
+            if (!openApiNullable) {
+                property.vendorExtensions.put("x-has-json-setter-nulls-skip", true);
+                model.imports.add("JsonSetter");
+                model.imports.add("Nulls");
+            }
         }
     }
 

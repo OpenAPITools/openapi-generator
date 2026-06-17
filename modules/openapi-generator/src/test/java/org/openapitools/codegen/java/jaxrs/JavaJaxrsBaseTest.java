@@ -261,6 +261,60 @@ public abstract class JavaJaxrsBaseTest {
         assertOperation(group6.get(0), "group6", "", false);
     }
 
+    @Test
+    public void testCommonPathDoesNotShadowOtherTags() throws IOException {
+        // Regression test for https://github.com/OpenAPITools/openapi-generator/issues/23414
+        // tag-one owns /foo/bar/one and /foo/bar/two
+        // tag-two owns /foo/bar/three and /baz/bar/four
+        // The generator must NOT set commonPath="/foo/bar" for tag-one because that would
+        // shadow tag-two's /foo/bar/three at the JAX-RS class-level @Path routing.
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_23414.yaml");
+        codegen.setUseTags(true);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator(true);
+        generator.opts(new ClientOptInput().openAPI(openAPI).config(codegen));
+        var dryRunTMan = ((DryRunTemplateManager) generator.getTemplateProcessor()).enableTemplateDataCapturing();
+        generator.generate();
+
+        // tag-one: owns /foo/bar/one and /foo/bar/two
+        final var tagOneData = dryRunTMan.getCapturedTemplateData(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/TagOneApi.java"));
+        String tagOneCommonPath = (String) tagOneData.get("commonPath");
+
+        // tag-two: owns /foo/bar/three and /baz/bar/four
+        final var tagTwoData = dryRunTMan.getCapturedTemplateData(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/TagTwoApi.java"));
+
+        // Critical assertion: TagOneApi must not claim /foo/bar as its class-level @Path
+        // because TagTwoApi also has /foo/bar/three — that route would be unreachable.
+        Assert.assertNotEquals(tagOneCommonPath, "/foo/bar",
+                "TagOneApi commonPath must not shadow TagTwoApi's /foo/bar/three");
+
+        // All four operations must still be reachable via commonPath + operation.path
+        List<CodegenOperation> tagOneOps = getOperationsList(tagOneData);
+        Assert.assertEquals(tagOneOps.size(), 2);
+        for (CodegenOperation op : tagOneOps) {
+            String fullPath = tagOneCommonPath + op.path;
+            Assert.assertTrue(
+                    fullPath.equals("/foo/bar/one") || fullPath.equals("/foo/bar/two"),
+                    "Unexpected full path for tag-one operation: " + fullPath);
+        }
+
+        List<CodegenOperation> tagTwoOps = getOperationsList(tagTwoData);
+        String tagTwoCommonPath = (String) tagTwoData.get("commonPath");
+        Assert.assertEquals(tagTwoOps.size(), 2);
+        for (CodegenOperation op : tagTwoOps) {
+            String fullPath = tagTwoCommonPath + op.path;
+            Assert.assertTrue(
+                    fullPath.equals("/foo/bar/three") || fullPath.equals("/baz/bar/four"),
+                    "Unexpected full path for tag-two operation: " + fullPath);
+        }
+    }
+
     private void assertOperation(CodegenOperation op, String expectedBasename, String expectedPath, boolean expectedSubResourceOp) {
         Assert.assertEquals(op.path, expectedPath);
         Assert.assertEquals(op.baseName, expectedBasename);

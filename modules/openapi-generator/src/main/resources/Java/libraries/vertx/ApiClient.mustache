@@ -731,7 +731,19 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             config.put("userAgent", "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
         }
 
-        return WebClient.create(vertx, new WebClientOptions(config){{#useVertx5}}, new PoolOptions(poolConfig){{/useVertx5}});
+        {{#useVertx5}}
+        // PoolOptions(JsonObject) does not initialize defaults first (unlike its
+        // no-arg constructor and unlike WebClientOptions(JsonObject)), so building
+        // it directly from an empty or partial poolConfig leaves fields such as
+        // maxLifetimeUnit null and triggers a NullPointerException when the
+        // WebClient is created. Overlay poolConfig on the serialized defaults so
+        // absent keys keep their documented values.
+        PoolOptions poolOptions = new PoolOptions(new PoolOptions().toJson().mergeIn(poolConfig));
+        return WebClient.create(vertx, new WebClientOptions(config), poolOptions);
+        {{/useVertx5}}
+        {{^useVertx5}}
+        return WebClient.create(vertx, new WebClientOptions(config));
+        {{/useVertx5}}
     }
 
 

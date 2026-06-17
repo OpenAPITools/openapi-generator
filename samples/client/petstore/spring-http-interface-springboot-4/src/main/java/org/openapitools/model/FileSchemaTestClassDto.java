@@ -2,9 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,11 +27,13 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("FileSchemaTestClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class FileSchemaTestClassDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable FileDto file;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid FileDto> files = new ArrayList<>();
 
   public FileSchemaTestClassDto file(@Nullable FileDto file) {
@@ -46,6 +51,7 @@ public class FileSchemaTestClassDto {
     return file;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("file")
   public void setFile(@Nullable FileDto file) {
     this.file = file;
@@ -74,6 +80,7 @@ public class FileSchemaTestClassDto {
     return files;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("files")
   public void setFiles(List<@Valid FileDto> files) {
     this.files = files;

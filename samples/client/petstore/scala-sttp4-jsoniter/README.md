@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-    - Generator version: 7.23.0-SNAPSHOT
+    - Generator version: 7.24.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -66,6 +66,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | **parameterTypes** | **GET** /fake/misc | misc parameter type tests
 *PetApi* | **addPet** | **POST** /pet | Add a new pet to the store
 *PetApi* | **deletePet** | **DELETE** /pet/${petIdPathParam} | Deletes a pet
 *PetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status

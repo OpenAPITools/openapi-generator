@@ -1,6 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.Nulls
@@ -23,14 +24,20 @@ import jakarta.validation.Valid
  */
 data class SearchResult(
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("query")
     @get:JsonProperty("query") val query: kotlin.String? = null,
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("totalHits")
     @get:JsonProperty("totalHits") val totalHits: kotlin.Int? = null,
 
     @field:Valid
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("page")
     @get:JsonProperty("page") val page: PageMeta? = null
 ) : java.io.Serializable {
 

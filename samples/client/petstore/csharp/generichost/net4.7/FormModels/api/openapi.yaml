@@ -772,7 +772,7 @@ paths:
         name: enum_header_string
         required: false
         schema:
-          $ref: "#/components/schemas/testEnumParameters_enum_header_string_parameter"
+          $ref: "#/components/schemas/testEnumParameters_request_enum_form_string"
         style: simple
       - description: Query parameter enum test (string array)
         explode: true
@@ -790,7 +790,7 @@ paths:
         name: enum_query_string
         required: false
         schema:
-          $ref: "#/components/schemas/testEnumParameters_enum_header_string_parameter"
+          $ref: "#/components/schemas/testEnumParameters_request_enum_form_string"
         style: form
       - description: Query parameter enum test (double)
         explode: true
@@ -2819,13 +2819,6 @@ components:
         enum_form_string:
           $ref: "#/components/schemas/testEnumParameters_request_enum_form_string"
       type: object
-    testEnumParameters_enum_header_string_parameter:
-      default: -efg
-      enum:
-      - _abc
-      - -efg
-      - (xyz)
-      type: string
     testEnumParameters_enum_query_integer_parameter:
       enum:
       - 1

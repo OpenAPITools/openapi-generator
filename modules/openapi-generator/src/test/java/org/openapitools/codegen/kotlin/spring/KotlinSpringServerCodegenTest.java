@@ -3022,6 +3022,41 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    /**
+     * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/17445.
+     * OpenAPI 'default' responses must emit responseCode = "default" in @ApiResponse (swagger2),
+     * not "0" (internal pre-processed value) or "200" (incorrect mapping from parent codegen).
+     * Also verifies that useResponseEntity=false does not crash when the first response is 'default'.
+     */
+    @Test
+    public void defaultResponseCodeRenderedAsDefault() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        Path userApi = root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt");
+        // operations whose only OpenAPI response is 'default:' must use responseCode = "default"
+        assertFileContains(userApi,
+                "ApiResponse(responseCode = \"default\", description = \"successful operation\")"
+        );
+        // explicit HTTP 200 responses must still use the concrete status code
+        assertFileContains(userApi,
+                "ApiResponse(responseCode = \"200\", description = \"successful operation\", content"
+        );
+        // the raw internal representation ("0") must never appear in generated output
+        assertFileNotContains(userApi,
+                "responseCode = \"0\""
+        );
+    }
+
     @Test
     public void reactiveWithoutFlow() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -6369,26 +6404,89 @@ public class KotlinSpringServerCodegenTest {
     }
 
     /**
-     * Scenario 3: required=false, nullable=false
-     * Expected: nullable type with null default, AND @field:JsonSetter(nulls=Nulls.FAIL) to block explicit nulls.
+     * Scenario 3: required=false, nullable=false, no default, openApiNullable=false (default).
+     * Without openApiNullable, use lenient @JsonSetter(nulls = Nulls.SKIP) — silently ignores explicit null.
+     * Always emits @JsonInclude(NON_NULL) so null fields are omitted from serialized output.
      */
-    @Test(description = "Scenario 3 – optional+non-nullable: null default with JsonSetter FAIL to block explicit nulls")
+    @Test(description = "Scenario 3 – optional+non-nullable, no openApiNullable: @JsonSetter(SKIP) + @JsonInclude(NON_NULL)")
     public void requiredNullable_scenario3_optionalNonNullable() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 new HashMap<>());
 
         Path modelFile = files.get("TestModel.kt").toPath();
-        // Must have @field:JsonSetter(nulls = Nulls.FAIL) annotation
-        assertFileContains(modelFile, "@field:JsonSetter(nulls = Nulls.FAIL)");
-        // Must have JsonSetter and Nulls imports
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNonNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNonNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertTrue(context.contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
+                "optionalNonNullable must have @JsonInclude(NON_NULL) to omit null from serialized output");
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.SKIP)"),
+                "optionalNonNullable (no openApiNullable) should have @field:JsonSetter(nulls = Nulls.SKIP)");
+        Assert.assertFalse(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
+                "optionalNonNullable (no openApiNullable) must not have FAIL mode");
+        // Must have JsonSetter, Nulls, and JsonInclude imports
         assertFileContains(modelFile,
+                "import com.fasterxml.jackson.annotation.JsonInclude",
+                "import com.fasterxml.jackson.annotation.JsonSetter",
+                "import com.fasterxml.jackson.annotation.Nulls");
+        // Must still be nullable type with null default
+        assertFileContains(modelFile, "val optionalNonNullable: kotlin.String? = null");
+    }
+
+    /**
+     * Scenario 3 with openApiNullable=true: required=false, nullable=false, no default.
+     * Uses strict @JsonSetter(nulls = Nulls.FAIL) and always emits @JsonInclude(NON_NULL).
+     */
+    @Test(description = "Scenario 3 – optional+non-nullable with openApiNullable=true: @JsonSetter(FAIL) + @JsonInclude(NON_NULL)")
+    public void requiredNullable_scenario3_optionalNonNullable_withOpenApiNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNonNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNonNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertTrue(context.contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
+                "optionalNonNullable must have @JsonInclude(NON_NULL) to omit null from serialized output");
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
+                "optionalNonNullable should have @field:JsonSetter(FAIL) when openApiNullable=true");
+        // Must have all three imports
+        assertFileContains(modelFile,
+                "import com.fasterxml.jackson.annotation.JsonInclude",
                 "import com.fasterxml.jackson.annotation.JsonSetter",
                 "import com.fasterxml.jackson.annotation.Nulls");
         // Must be nullable type with null default
         assertFileContains(modelFile, "val optionalNonNullable: kotlin.String? = null");
-        // Must NOT be JsonNullable
-        assertFileNotContains(modelFile, "JsonNullable<kotlin.String>");
+    }
+
+    /**
+     * Scenario 3 with a defined default value: required=false, nullable=false, default="defaultValue", openApiNullable=false.
+     * Uses SKIP mode and @JsonInclude(NON_NULL) — null fields are omitted, protecting the default.
+     */
+    @Test(description = "Scenario 3 – optional+non-nullable with default value: @JsonSetter(SKIP) + @JsonInclude(NON_NULL)")
+    public void requiredNullable_scenario3_optionalNonNullable_withDefault() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNonNullableWithDefault:");
+        Assert.assertTrue(idx >= 0, "optionalNonNullableWithDefault property must exist");
+        String context = content.substring(Math.max(0, idx - 300), idx);
+        Assert.assertTrue(context.contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
+                "optionalNonNullableWithDefault must have @JsonInclude(NON_NULL)");
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.SKIP)"),
+                "optionalNonNullableWithDefault should have @field:JsonSetter(nulls = Nulls.SKIP) when openApiNullable=false");
+        Assert.assertFalse(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
+                "optionalNonNullableWithDefault must not have FAIL mode when openApiNullable=false");
+        assertFileContains(modelFile,
+                "import com.fasterxml.jackson.annotation.JsonInclude",
+                "import com.fasterxml.jackson.annotation.JsonSetter",
+                "import com.fasterxml.jackson.annotation.Nulls");
     }
 
     /**
@@ -6438,15 +6536,16 @@ public class KotlinSpringServerCodegenTest {
     }
 
     /**
-     * Scenario 3 with Jackson 3 (Spring Boot 4): optional + non-nullable.
+     * Scenario 3 with Jackson 3 (Spring Boot 4) + openApiNullable=true: optional + non-nullable.
      *
      * @JsonSetter / Nulls imports should come from com.fasterxml.jackson.annotation
      * (Jackson 3.x intentionally kept jackson-annotations at 2.x, same package).
      */
-    @Test(description = "Scenario 3 with Jackson 3: com.fasterxml.jackson.annotation.JsonSetter + Nulls imports")
+    @Test(description = "Scenario 3 with Jackson 3 + openApiNullable: com.fasterxml.jackson.annotation.JsonSetter + Nulls imports")
     public void requiredNullable_scenario3_optionalNonNullable_withJackson3() throws IOException {
         Map<String, Object> props = new HashMap<>();
         props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml", props);
@@ -6767,5 +6866,42 @@ public class KotlinSpringServerCodegenTest {
         File animalFile = files.get("AnimalDto.kt");
         assertThat(animalFile).isNotNull();
         assertFileContains(animalFile.toPath(), "defaultImpl = DogDto::class");
+    }
+
+
+    @Test(description = "nameMappings: @param:JsonProperty must use the original JSON field name for deserialization")
+    public void paramJsonPropertyAnnotationWithNameMappings() throws IOException {
+        // When a property is renamed via nameMappings, @param:JsonProperty must carry the
+        // original JSON field name so Jackson can deserialize from the correct JSON key.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/param-json-property.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.addNameMapping("snake_case_value", "mappedValue")
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+        assertFileContains(
+                itemFile.toPath(),
+                "@param:JsonProperty(\"snake_case_value\")\n    @get:JsonProperty(\"snake_case_value\", required = true) val mappedValue"
+        );
+    }
+
+    @Test(description = "auto-renamed digit-starting property: @param:JsonProperty must use the original JSON field name")
+    public void paramJsonPropertyAnnotationWithDigitStartingPropertyName() throws IOException {
+        // When a property name starts with a digit, the Kotlin codegen wraps it in backticks
+        // (e.g. "2nd_field" -> `2ndField`). @param:JsonProperty must still carry the original
+        // JSON field name so that Jackson can deserialize it correctly.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/param-json-property.yaml"
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+        assertFileContains(
+                itemFile.toPath(),
+                "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\") val `2ndField`"
+        );
     }
 }

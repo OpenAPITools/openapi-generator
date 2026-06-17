@@ -41,6 +41,39 @@ import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 public class CSharpClientCodegenTest {
 
     @Test
+    public void testGenericHostNullableEnumDeserializesPresentNull() throws IOException {
+        // For a required + nullable enum, the generated generichost JsonConverter must assign
+        // the backing Option even when the JSON value is null; otherwise the required-property
+        // check rejects a present-but-null value with "Property is required". Non-nullable enums
+        // keep the original non-null guard, so their generated output is unchanged.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/csharp/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File requiredClass = files.get(Paths.get(output.getAbsolutePath(),
+                "src", "Org.OpenAPITools", "Model", "RequiredClass.cs").toString());
+        assertNotNull(requiredClass);
+        // required + nullable enum: a null raw value still sets the Option (mapped to null)
+        assertFileContains(requiredClass.toPath(),
+                "requiredNullableEnumString = new Option<RequiredClass.RequiredNullableEnumStringEnum?>(requiredNullableEnumStringRawValue == null ? null :");
+        // required + non-nullable enum: keeps the original guard (unchanged behavior)
+        assertFileContains(requiredClass.toPath(),
+                "if (requiredNotnullableEnumStringRawValue != null)");
+    }
+
+    @Test
     public void testToEnumVarName() {
         final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setLibrary("restsharp");

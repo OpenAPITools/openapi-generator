@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
@@ -23,65 +24,94 @@ import jakarta.annotation.Generated;
  * XmlItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class XmlItem {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> attributeString = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<BigDecimal> attributeNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Integer> attributeInteger = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Boolean> attributeBoolean = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> wrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> nameString = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<BigDecimal> nameNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Integer> nameInteger = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Boolean> nameBoolean = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> nameArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> prefixString = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<BigDecimal> prefixNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Integer> prefixInteger = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Boolean> prefixBoolean = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> prefixArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> namespaceString = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<BigDecimal> namespaceNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Integer> namespaceInteger = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Boolean> namespaceBoolean = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> namespaceArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> prefixNsString = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<BigDecimal> prefixNsNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Integer> prefixNsInteger = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Boolean> prefixNsBoolean = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> prefixNsArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {

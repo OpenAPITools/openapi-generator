@@ -38,7 +38,7 @@ class UserApiController() {
         operationId = "createUser",
         description = """This can only be done by the logged in user.""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation") ],
+            ApiResponse(responseCode = "default", description = "successful operation") ],
         security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
@@ -58,7 +58,7 @@ class UserApiController() {
         operationId = "createUsersWithArrayInput",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation") ],
+            ApiResponse(responseCode = "default", description = "successful operation") ],
         security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
@@ -78,7 +78,7 @@ class UserApiController() {
         operationId = "createUsersWithListInput",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation") ],
+            ApiResponse(responseCode = "default", description = "successful operation") ],
         security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
@@ -160,7 +160,7 @@ class UserApiController() {
         operationId = "logoutUser",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation") ],
+            ApiResponse(responseCode = "default", description = "successful operation") ],
         security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(

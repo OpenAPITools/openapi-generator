@@ -1052,7 +1052,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("kotlin.Int".equals(datatype) || "kotlin.Long".equals(datatype)) {
+        if ("kotlin.Int".equals(datatype) || "kotlin.Long".equals(datatype)
+                || "kotlin.Boolean".equals(datatype)) {
             return value;
         } else if ("kotlin.Double".equals(datatype)) {
             if (value.contains(".")) {

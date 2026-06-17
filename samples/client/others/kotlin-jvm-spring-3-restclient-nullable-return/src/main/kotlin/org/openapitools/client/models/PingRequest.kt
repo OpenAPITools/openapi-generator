@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class PingRequest (
 
+    @param:JsonProperty("msg")
     @get:JsonProperty("msg")
     val msg: kotlin.String? = null
 

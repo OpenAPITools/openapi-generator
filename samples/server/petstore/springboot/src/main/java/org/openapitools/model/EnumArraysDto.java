@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -26,7 +27,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("EnumArrays")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class EnumArraysDto {
 
   /**
@@ -64,6 +65,7 @@ public class EnumArraysDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable JustSymbolEnum justSymbol;
 
   /**
@@ -101,6 +103,7 @@ public class EnumArraysDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArraysDto justSymbol(@Nullable JustSymbolEnum justSymbol) {

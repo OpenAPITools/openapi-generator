@@ -819,6 +819,36 @@ public class KotlinClientCodegenModelTest {
   }
 
   @Test
+  public void testBooleanConstEnumUsesBooleanLiteral() throws IOException {
+      File output = Files.createTempDirectory("test").toFile();
+      output.deleteOnExit();
+
+      final CodegenConfigurator configurator = new CodegenConfigurator()
+              .setGeneratorName("kotlin")
+              .setLibrary("jvm-ktor")
+              .setAdditionalProperties(new HashMap<>() {{
+                put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                put(CodegenConstants.MODEL_PACKAGE, "model");
+                put(ENUM_PROPERTY_NAMING, "original");
+              }})
+              .setInputSpec("src/test/resources/3_1/kotlin/issue23550-boolean-const.yaml")
+              .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+      final ClientOptInput clientOptInput = configurator.toClientOptInput();
+      DefaultGenerator generator = new DefaultGenerator();
+
+      generator.opts(clientOptInput).generate();
+
+      final Path modelKt = Paths.get(output + "/src/main/kotlin/model/ExceptionState.kt");
+
+      TestUtils.assertFileContains(modelKt,
+              "enum class ExceptionPeriodIsClosed(val value: kotlin.Boolean)",
+              "@JsonProperty(value = \"true\")",
+              "`true`(true);");
+      TestUtils.assertFileNotContains(modelKt, "`true`(\"true\")");
+  }
+
+  @Test
   public void testJacksonEnumsUseJsonCreator() throws IOException {
       File output = Files.createTempDirectory("test").toFile();
       output.deleteOnExit();
@@ -1005,6 +1035,53 @@ public class KotlinClientCodegenModelTest {
 
         Path petModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Pet.kt");
         TestUtils.assertFileContains(petModel, "companion object { }");
+    }
+
+    @Test(description = "nameMappings: @param:JsonProperty must use the original JSON field name for deserialization")
+    public void paramJsonPropertyAnnotationWithNameMappings() throws IOException {
+        // When a property is renamed via nameMappings, @param:JsonProperty must carry the
+        // original JSON field name so Jackson can deserialize from the correct JSON key.
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/kotlin/param-json-property.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addNameMapping("snake_case_value", "mappedValue");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path itemModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Item.kt");
+        // @param:JsonProperty must reference the original JSON key, not the mapped Kotlin name
+        TestUtils.assertFileContains(itemModel,
+                "@param:JsonProperty(\"snake_case_value\")\n    @get:JsonProperty(\"snake_case_value\")\n    val mappedValue");
+    }
+
+    @Test(description = "auto-renamed digit-starting property: @param:JsonProperty must use the original JSON field name")
+    public void paramJsonPropertyAnnotationWithDigitStartingPropertyName() throws IOException {
+        // When a property name starts with a digit, the Kotlin codegen wraps it in backticks
+        // (e.g. "2nd_field" -> `2ndField`). @param:JsonProperty must still carry the original
+        // JSON field name so that Jackson can deserialize it correctly.
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/kotlin/param-json-property.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path itemModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Item.kt");
+        // @param:JsonProperty must reference the original JSON key even when the property
+        // is auto-renamed to a backtick-escaped identifier
+        TestUtils.assertFileContains(itemModel,
+                "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\")\n    val `2ndField`");
     }
 
     private static class ModelNameTest {
