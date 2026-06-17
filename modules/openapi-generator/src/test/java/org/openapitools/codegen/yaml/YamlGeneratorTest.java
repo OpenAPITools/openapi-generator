@@ -208,32 +208,39 @@ public class YamlGeneratorTest {
         // Paths alphabetical: /animals, /mammals, /zebra
         int idxAnimals = yaml.indexOf("/animals:");
         int idxMammals = yaml.indexOf("/mammals:");
-        int idxZebra   = yaml.indexOf("/zebra:");
+        int idxZebra = yaml.indexOf("/zebra:");
+        Assert.assertTrue(idxAnimals != -1 && idxMammals != -1 && idxZebra != -1, "Expected schemas must be present in output");
         Assert.assertTrue(idxAnimals < idxMammals, "/animals must come before /mammals");
-        Assert.assertTrue(idxMammals < idxZebra,   "/mammals must come before /zebra");
+        Assert.assertTrue(idxMammals < idxZebra, "/mammals must come before /zebra");
 
         // Schemas alphabetical: AnimalModel, MammalModel, ZebraModel
         int idxAnimal = yaml.indexOf("AnimalModel:");
         int idxMammal = yaml.indexOf("MammalModel:");
         int idxZebraM = yaml.indexOf("ZebraModel:");
+        Assert.assertTrue(idxAnimal != -1 && idxMammal != -1 && idxZebraM != -1, "Expected schemas must be present in output");
         Assert.assertTrue(idxAnimal < idxMammal, "AnimalModel must come before MammalModel");
         Assert.assertTrue(idxMammal < idxZebraM, "MammalModel must come before ZebraModel");
 
         // Parameters alphabetical: aFilter, mPage, zLimit
         int idxAFilter = yaml.indexOf("aFilter:");
-        int idxMPage   = yaml.indexOf("mPage:");
-        int idxZLimit  = yaml.indexOf("zLimit:");
-        Assert.assertTrue(idxAFilter < idxMPage,  "aFilter must come before mPage");
-        Assert.assertTrue(idxMPage   < idxZLimit, "mPage must come before zLimit");
+        int idxMPage = yaml.indexOf("mPage:");
+        int idxZLimit = yaml.indexOf("zLimit:");
+        Assert.assertTrue(idxAFilter != -1 && idxMPage != -1 && idxZLimit != -1, "Expected parameters must be present in output");
+        Assert.assertTrue(idxAFilter < idxMPage, "aFilter must come before mPage");
+        Assert.assertTrue(idxMPage < idxZLimit, "mPage must come before zLimit");
 
         // HTTP method order — GET before POST in /zebra (spec has POST first)
         int zebraBlock = yaml.indexOf("/zebra:");
-        Assert.assertTrue(yaml.indexOf("get:", zebraBlock) < yaml.indexOf("post:", zebraBlock),
-                "GET must appear before POST within /zebra");
+        int zebraGet = yaml.indexOf("get:", zebraBlock);
+        int zebraPost = yaml.indexOf("post:", zebraBlock);
+        Assert.assertTrue(zebraGet != -1 && zebraPost != -1, "Expected HTTP methods must be present within /zebra");
+        Assert.assertTrue(zebraGet < zebraPost, "GET must appear before POST within /zebra");
 
         // HTTP method order — GET before DELETE in /mammals (spec has DELETE first)
         int mammalsBlock = yaml.indexOf("/mammals:");
-        Assert.assertTrue(yaml.indexOf("get:", mammalsBlock) < yaml.indexOf("delete:", mammalsBlock),
-                "GET must appear before DELETE within /mammals");
+        int mammalsGet = yaml.indexOf("get:", mammalsBlock);
+        int mammalsDelete = yaml.indexOf("delete:", mammalsBlock);
+        Assert.assertTrue(mammalsGet != -1 && mammalsDelete != -1, "Expected HTTP methods must be present within /mammals");
+        Assert.assertTrue(mammalsGet < mammalsDelete, "GET must appear before DELETE within /mammals");
     }
 }
