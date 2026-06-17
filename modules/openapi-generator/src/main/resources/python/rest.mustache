@@ -28,6 +28,15 @@ def is_socks_proxy_url(url):
         return split_section[0].lower() in SUPPORTED_SOCKS_PROXIES
 
 def contenttype_matches(contenttype, maintype, subtype):
+    """Matches the given contenttype against the given type and subtype
+
+    :param contenttype: the content type to match
+    :param maintype: the expected maintype
+    :param subtype: the expected subtype
+    :return: `true` when the given content type matches the given type and subtype,
+        regardless of the presence of mime type parameters, otherwise returns `false`.
+    :rtype: bool
+    """
     pattern = '{type}/(?:[^+;]+\\+)?{subtype}(?:[ \t]*;.*)?'.format(
         type = re.escape(maintype),
         subtype = re.escape(subtype),
