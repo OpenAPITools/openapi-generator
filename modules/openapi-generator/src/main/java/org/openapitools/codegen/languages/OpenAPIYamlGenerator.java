@@ -58,6 +58,8 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
 
         embeddedTemplateDir = templateDir = "openapi-yaml";
         outputFolder = "generated-code/openapi-yaml";
+
+        cliOptions.clear();
         cliOptions.add(CliOption.newString(OUTPUT_NAME, "Output filename").defaultValue(outputFile));
         cliOptions.add(CliOption.newBoolean(SORT_OUTPUT,
                 "Sort paths alphabetically, schemas/parameters by name, and HTTP methods in classical order "

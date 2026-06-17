@@ -57,6 +57,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
 
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
 
+        cliOptions.clear();
         cliOptions.add(CliOption.newString(OUTPUT_NAME, "Output file name").defaultValue(outputFileName));
         cliOptions.add(CliOption.newBoolean(SORT_OUTPUT,
                 "Sort paths alphabetically, schemas/parameters by name, and HTTP methods in classical order "
