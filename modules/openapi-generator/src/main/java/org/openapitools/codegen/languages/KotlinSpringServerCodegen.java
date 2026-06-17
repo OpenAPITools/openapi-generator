@@ -1344,7 +1344,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
         // and discriminator-based oneOf interfaces.
         for (CodegenModel cm : allModelsMap.values()) {
-            Object rawAnnotationExt = cm.vendorExtensions.get("x-jackson-default-impl");
+            Object rawAnnotationExt = cm.vendorExtensions.get(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName());
             String schemaAnnotation = rawAnnotationExt instanceof String ? (String) rawAnnotationExt : null;
             String configValue = typeInfoDefaultImpls.get(cm.schemaName);
             String rawValue;
@@ -1791,6 +1791,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_CONTENT_TYPE);
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         extensions.add(VendorExtension.X_SIZE_MESSAGE);

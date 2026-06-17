@@ -760,9 +760,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
         // and discriminator-based oneOf interfaces.
         if (!typeInfoDefaultImpls.isEmpty() || allModels.values().stream()
-                .anyMatch(cm -> cm.vendorExtensions.containsKey("x-jackson-default-impl"))) {
+                .anyMatch(cm -> cm.vendorExtensions.containsKey(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName()))) {
             for (CodegenModel cm : allModels.values()) {
-                Object rawAnnotationExt = cm.vendorExtensions.get("x-jackson-default-impl");
+                Object rawAnnotationExt = cm.vendorExtensions.get(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName());
                 String schemaAnnotation = rawAnnotationExt instanceof String ? (String) rawAnnotationExt : null;
                 String configValue = typeInfoDefaultImpls.get(cm.schemaName);
                 String rawValue;
@@ -2715,6 +2715,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         extensions.add(VendorExtension.X_CONTENT_TYPE);
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         return extensions;
     }
 
