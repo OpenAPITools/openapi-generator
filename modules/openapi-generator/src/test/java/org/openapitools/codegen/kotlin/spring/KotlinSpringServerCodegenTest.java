@@ -6798,9 +6798,7 @@ public class KotlinSpringServerCodegenTest {
     public void typeInfoDefaultImplsConfigOptionOnDeductionSchemaEmitsDefaultImpl() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
-        additionalProperties.put(TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
-
-        // Use a YAML without x-jackson-default-impl to verify config option alone works
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", additionalProperties);
 
@@ -6815,7 +6813,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
         // Override x-jackson-default-impl: Dog (set in YAML) with Cat via config option
-        additionalProperties.put(TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Cat"));
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Cat"));
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/jackson-default-impl.yaml", additionalProperties);
@@ -6857,7 +6855,7 @@ public class KotlinSpringServerCodegenTest {
     public void typeInfoDefaultImplsAppliesModelNameSuffix() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
-        additionalProperties.put(TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
         additionalProperties.put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
 
         Map<String, File> files = generateFromContract(

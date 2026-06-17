@@ -76,6 +76,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
+import static org.openapitools.codegen.CodegenConstants.TYPE_INFO_DEFAULT_IMPLS;
 import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.*;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
@@ -229,6 +230,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
 
+    private Map<String, String> typeInfoDefaultImpls = new HashMap<>();
+
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -346,6 +349,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC, this.isHideGenerationTimestamp()));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
         cliOptions.add(CliOption.newBoolean(USE_ONE_OF_INTERFACES, "whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface"));
+        cliOptions.add(new CliOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, CodegenConstants.TYPE_INFO_DEFAULT_IMPLS_DESC));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
@@ -612,6 +616,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
         convertPropertyToBooleanAndWriteBack(USE_JSPECIFY, this::setUseJspecify);
         convertPropertyToBooleanAndWriteBack(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
+        if (additionalProperties.containsKey(TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(TYPE_INFO_DEFAULT_IMPLS));
+        }
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
@@ -746,6 +753,40 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             for (String modelName : objs.keySet()) {
                 Map<String, Object> models = objs.get(modelName);
                 models.put(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, additionalEnumTypeAnnotations);
+            }
+        }
+
+        // Resolve x-jackson-default-impl and typeInfoDefaultImpls into x-jackson-resolved-default-impl
+        // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
+        // and discriminator-based oneOf interfaces.
+        if (!typeInfoDefaultImpls.isEmpty() || allModels.values().stream()
+                .anyMatch(cm -> cm.vendorExtensions.containsKey("x-jackson-default-impl"))) {
+            for (CodegenModel cm : allModels.values()) {
+                Object rawAnnotationExt = cm.vendorExtensions.get("x-jackson-default-impl");
+                String schemaAnnotation = rawAnnotationExt instanceof String ? (String) rawAnnotationExt : null;
+                String configValue = typeInfoDefaultImpls.get(cm.schemaName);
+                String rawValue;
+                if (configValue != null && !configValue.isBlank()) {
+                    if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
+                        LOGGER.warn("typeInfoDefaultImpls overrides x-jackson-default-impl on schema '{}': '{}' → '{}'",
+                                cm.schemaName, schemaAnnotation, configValue);
+                    }
+                    rawValue = configValue;
+                } else if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
+                    rawValue = schemaAnnotation;
+                } else {
+                    continue;
+                }
+                String resolved = toModelName(rawValue);
+                if (resolved != null && !resolved.isBlank()) {
+                    cm.vendorExtensions.put("x-jackson-resolved-default-impl", resolved);
+                    // When a discriminator is present, the typeInfoAnnotation partial is rendered
+                    // inside {{#discriminator}}, so the template engine resolves 'vendorExtensions'
+                    // against CodegenDiscriminator (not CodegenModel). Store there too.
+                    if (cm.discriminator != null) {
+                        cm.discriminator.getVendorExtensions().put("x-jackson-resolved-default-impl", resolved);
+                    }
+                }
             }
         }
 

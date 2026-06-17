@@ -123,7 +123,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
-    public static final String TYPE_INFO_DEFAULT_IMPLS = "typeInfoDefaultImpls";
 
     @Getter
     public enum RequestMappingMode {
@@ -202,7 +201,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String clientRegistrationId = null;
     @Setter protected boolean useEnumValueInterface = false;
     private String valuedEnumClassName = "ValuedEnum";
-    private Map<String, String> typeInfoDefaultImpls = new HashMap<>();
 
     // Map from schema name to detected paged-model info (populated when substituteGenericPagedModel=true)
     private Map<String, PagedModelScanUtils.DetectedPagedModel> pagedModelRegistry = new HashMap<>();
@@ -342,7 +340,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 optionalAcceptNullable));
 
         cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
-        cliOptions.add(new CliOption(TYPE_INFO_DEFAULT_IMPLS, "Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). Applies to both deduction-based and discriminator-based oneOf interfaces. Overrides x-jackson-default-impl when both are set for the same schema. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`"));
         cliOptions.add(CliOption.newString(SPRING_API_VERSION, "Value for 'version' attribute in @RequestMapping (for Spring 7 and above)."));
         cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR,
             "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.")
@@ -576,9 +573,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
 
-        if (additionalProperties.containsKey(TYPE_INFO_DEFAULT_IMPLS)) {
-            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(TYPE_INFO_DEFAULT_IMPLS));
-        }
         convertPropertyToStringAndWriteBack(CLIENT_REGISTRATION_ID, this::setClientRegistrationId);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
@@ -1444,37 +1438,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         objs = super.postProcessAllModels(objs);
 
         Map<String, CodegenModel> allModels = getAllModels(objs);
-
-        // Resolve x-jackson-default-impl and typeInfoDefaultImpls into x-jackson-resolved-default-impl
-        // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
-        // and discriminator-based oneOf interfaces.
-        for (CodegenModel cm : allModels.values()) {
-            Object rawAnnotationExt = cm.vendorExtensions.get("x-jackson-default-impl");
-            String schemaAnnotation = rawAnnotationExt != null ? rawAnnotationExt.toString() : null;
-            String configValue = typeInfoDefaultImpls.get(cm.schemaName);
-            String rawValue;
-            if (configValue != null && !configValue.isBlank()) {
-                if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
-                    LOGGER.warn("typeInfoDefaultImpls overrides x-jackson-default-impl on schema '{}': '{}' → '{}'",
-                            cm.schemaName, schemaAnnotation, configValue);
-                }
-                rawValue = configValue;
-            } else if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
-                rawValue = schemaAnnotation;
-            } else {
-                continue;
-            }
-            String resolved = toModelName(rawValue);
-            if (resolved != null && !resolved.isBlank()) {
-                cm.vendorExtensions.put("x-jackson-resolved-default-impl", resolved);
-                // When a discriminator is present, the typeInfoAnnotation partial is rendered
-                // inside {{#discriminator}}, so JMustache resolves 'vendorExtensions' against
-                // CodegenDiscriminator (not CodegenModel). Store there too.
-                if (cm.discriminator != null) {
-                    cm.discriminator.getVendorExtensions().put("x-jackson-resolved-default-impl", resolved);
-                }
-            }
-        }
 
         // conditionally force the generation of no args constructor
         for (CodegenModel cm : allModels.values()) {

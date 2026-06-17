@@ -110,7 +110,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
     public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
-    public static final String TYPE_INFO_DEFAULT_IMPLS = "typeInfoDefaultImpls";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -314,7 +313,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
-        addOption(TYPE_INFO_DEFAULT_IMPLS, "Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). Applies to both deduction-based and discriminator-based oneOf interfaces. Overrides x-jackson-default-impl when both are set for the same schema. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`", "empty map");
+        addOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, CodegenConstants.TYPE_INFO_DEFAULT_IMPLS_DESC, "empty map");
         addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
                 "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for strict null handling. "
@@ -595,8 +594,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
 
-        if (additionalProperties.containsKey(TYPE_INFO_DEFAULT_IMPLS)) {
-            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(TYPE_INFO_DEFAULT_IMPLS));
+        if (additionalProperties.containsKey(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS));
         }
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
@@ -1345,7 +1344,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
         // and discriminator-based oneOf interfaces.
         for (CodegenModel cm : allModelsMap.values()) {
-            String schemaAnnotation = (String) cm.vendorExtensions.get("x-jackson-default-impl");
+            Object rawAnnotationExt = cm.vendorExtensions.get("x-jackson-default-impl");
+            String schemaAnnotation = rawAnnotationExt instanceof String ? (String) rawAnnotationExt : null;
             String configValue = typeInfoDefaultImpls.get(cm.schemaName);
             String rawValue;
             if (configValue != null && !configValue.isBlank()) {
