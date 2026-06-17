@@ -203,7 +203,7 @@ public class YamlGeneratorTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        String yaml = new String(Files.readAllBytes(Path.of(output.getAbsolutePath(), "sorted.yaml")), StandardCharsets.UTF_8);
+        String yaml = Files.readString(Path.of(output.getAbsolutePath(), "sorted.yaml"));
 
         // Paths alphabetical: /animals, /mammals, /zebra
         int idxAnimals = yaml.indexOf("/animals:");

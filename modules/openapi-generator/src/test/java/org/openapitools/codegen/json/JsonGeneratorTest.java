@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -86,7 +87,7 @@ public class JsonGeneratorTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        String json = new String(Files.readAllBytes(Paths.get(output.getAbsolutePath(), "openapi.json")));
+        String json = Files.readString(Paths.get(output.getAbsolutePath(), "openapi.json"));
 
         // Paths alphabetical: /animals, /mammals, /zebra
         int idxAnimals = json.indexOf("\"/animals\"");
@@ -140,7 +141,7 @@ public class JsonGeneratorTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        String json = new String(Files.readAllBytes(Paths.get(output.getAbsolutePath(), "openapi.json")));
+        String json = new String(Files.readAllBytes(Paths.get(output.getAbsolutePath(), "openapi.json")), StandardCharsets.UTF_8);
 
         // Without sortOutput, paths are in spec order: /zebra first, then /mammals, then /animals
         int idxZebra = json.indexOf("\"/zebra\"");
