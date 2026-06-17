@@ -5382,15 +5382,16 @@ public class SpringCodegenTest {
                 )
         );
 
-        // Non-required, non-nullable fields: getter returns Optional, field and setter stay raw.
+        // Non-required, non-nullable fields: getter returns Optional without @Nullable, field and setter stay raw.
         JavaFileAssert.assertThat(files.get("SimpleObject.java"))
                 .fileContains(
-                        "public @Nullable java.util.Optional<String> getSimple() {",
+                        "public java.util.Optional<String> getSimple() {",
                         "return java.util.Optional.ofNullable(simple);",
                         "private @Nullable String simple;",
                         "public void setSimple(@Nullable String simple) {")
-                // The backing field and setter must remain the raw type, never Optional.
+                // @Nullable must NOT appear on the getter returning Optional (invalid with jspecify).
                 .fileDoesNotContain(
+                        "public @Nullable java.util.Optional<String> getSimple()",
                         "private @Nullable java.util.Optional<String> simple;",
                         "public void setSimple(java.util.Optional<String> simple)");
 

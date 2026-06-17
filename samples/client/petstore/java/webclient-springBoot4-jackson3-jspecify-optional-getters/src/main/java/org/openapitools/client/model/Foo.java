@@ -83,7 +83,7 @@ public class Foo {
   @JsonProperty(value = JSON_PROPERTY_DT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public java.util.Optional<java.time.@Nullable Instant> getDt() {
+  public java.util.Optional<java.time.Instant> getDt() {
     return java.util.Optional.ofNullable(dt);
   }
 
@@ -108,7 +108,7 @@ public class Foo {
   @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public java.util.Optional<@Nullable File> getBinary() {
+  public java.util.Optional<File> getBinary() {
     return java.util.Optional.ofNullable(binary);
   }
 
@@ -141,7 +141,7 @@ public class Foo {
   @JsonProperty(value = JSON_PROPERTY_LIST_OF_DT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public java.util.Optional<List<java.time.@Nullable Instant>> getListOfDt() {
+  public java.util.Optional<List<java.time.Instant>> getListOfDt() {
     return java.util.Optional.ofNullable(listOfDt);
   }
 
@@ -174,7 +174,7 @@ public class Foo {
   @JsonProperty(value = JSON_PROPERTY_LIST_MIN_INTEMS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public java.util.Optional<List<java.time.@Nullable Instant>> getListMinIntems() {
+  public java.util.Optional<List<java.time.Instant>> getListMinIntems() {
     return java.util.Optional.ofNullable(listMinIntems);
   }
 
@@ -224,7 +224,7 @@ public class Foo {
   @JsonProperty(value = JSON_PROPERTY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public java.util.Optional<java.math.@Nullable BigDecimal> getNumber() {
+  public java.util.Optional<java.math.BigDecimal> getNumber() {
     return java.util.Optional.ofNullable(number);
   }
 

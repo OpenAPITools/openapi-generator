@@ -806,6 +806,39 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // When optionalGettersForNullableFieldsOnly is enabled, propagate isDiscriminator=true
+        // to subtype models that redefine a discriminator property from a parent/interface.
+        // Without this, the template would generate Optional<T> for those fields, causing a
+        // return-type incompatibility with the abstract getter declared by the parent interface.
+        if (optionalGettersForNullableFieldsOnly) {
+            for (ModelsMap modelsAttrs : objs.values()) {
+                for (ModelMap mo : modelsAttrs.getModels()) {
+                    CodegenModel cm = mo.getModel();
+                    if (cm.discriminator != null) {
+                        String discPropName = cm.discriminator.getPropertyBaseName();
+                        // propagate to all known subtype models
+                        if (cm.discriminator.getMappedModels() != null) {
+                            for (CodegenDiscriminator.MappedModel mapped : cm.discriminator.getMappedModels()) {
+                                CodegenModel subModel = allModels.get(mapped.getModelName());
+                                if (subModel != null) {
+                                    for (CodegenProperty var : subModel.vars) {
+                                        if (discPropName.equals(var.baseName)) {
+                                            var.isDiscriminator = true;
+                                        }
+                                    }
+                                    for (CodegenProperty var : subModel.allVars) {
+                                        if (discPropName.equals(var.baseName)) {
+                                            var.isDiscriminator = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         if (isGenerateConstructorWithAllArgs()) {
             // conditionally force the generation of all args constructor.
             for (CodegenModel cm : allModels.values()) {
