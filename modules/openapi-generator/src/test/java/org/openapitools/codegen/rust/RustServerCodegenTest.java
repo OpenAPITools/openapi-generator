@@ -180,9 +180,24 @@ public class RustServerCodegenTest {
 
     private static String clientFeature(String cargoToml) {
         int clientStart = cargoToml.indexOf("client = [");
-        int clientEnd = cargoToml.indexOf("]\n# TLS support", clientStart);
         Assert.assertTrue(clientStart >= 0, "Generated Cargo.toml should contain a client feature");
-        Assert.assertTrue(clientEnd > clientStart, "Generated Cargo.toml should close the client feature before TLS support");
-        return cargoToml.substring(clientStart, clientEnd);
+        int featureStart = cargoToml.indexOf('[', clientStart);
+        Assert.assertTrue(featureStart > clientStart, "Generated Cargo.toml should open the client feature array");
+
+        int depth = 0;
+        for (int index = featureStart; index < cargoToml.length(); index++) {
+            char character = cargoToml.charAt(index);
+            if (character == '[') {
+                depth++;
+            } else if (character == ']') {
+                depth--;
+                if (depth == 0) {
+                    return cargoToml.substring(clientStart, index + 1);
+                }
+            }
+        }
+
+        Assert.fail("Generated Cargo.toml should close the client feature array");
+        return "";
     }
 }
