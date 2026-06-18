@@ -130,8 +130,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
-|x-jackson-default-impl|Specifies the default implementation class name for Jackson @JsonTypeInfo(defaultImpl=...) on a oneOf interface schema (deduction-based or discriminator-based). Can be overridden per-schema by the `typeInfoDefaultImpls` generator option.|MODEL|null
 |x-webclient-blocking|Specifies if method for specific operation should be blocking or non-blocking(ex: return `Mono<T>/Flux<T>` or `return T/List<T>/Set<T>` & execute `.block()` inside generated method)|OPERATION|false
+|x-jackson-default-impl|Specifies the default implementation class name for Jackson @JsonTypeInfo(defaultImpl=...) on a oneOf interface schema (deduction-based or discriminator-based). Can be overridden per-schema by the `typeInfoDefaultImpls` generator option.|MODEL|null
 
 
 ## IMPORT MAPPING

@@ -58,7 +58,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.lang.model.SourceVersion;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -76,7 +75,6 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
-import static org.openapitools.codegen.CodegenConstants.TYPE_INFO_DEFAULT_IMPLS;
 import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.*;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
@@ -230,7 +228,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
 
-    private Map<String, String> typeInfoDefaultImpls = new HashMap<>();
+    protected Map<String, String> typeInfoDefaultImpls = new HashMap<>();
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -349,7 +347,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC, this.isHideGenerationTimestamp()));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
         cliOptions.add(CliOption.newBoolean(USE_ONE_OF_INTERFACES, "whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface"));
-        cliOptions.add(new CliOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, CodegenConstants.TYPE_INFO_DEFAULT_IMPLS_DESC));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
@@ -616,9 +613,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
         convertPropertyToBooleanAndWriteBack(USE_JSPECIFY, this::setUseJspecify);
         convertPropertyToBooleanAndWriteBack(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
-        if (additionalProperties.containsKey(TYPE_INFO_DEFAULT_IMPLS)) {
-            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(TYPE_INFO_DEFAULT_IMPLS));
-        }
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
@@ -2719,7 +2713,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         extensions.add(VendorExtension.X_CONTENT_TYPE);
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
-        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         return extensions;
     }
 
