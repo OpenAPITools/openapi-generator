@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
             string exampleJson = null;
-            exampleJson = "[ {\r\n  \"id\" : 0,\r\n  \"category\" : {\r\n    \"id\" : 6,\r\n    \"name\" : \"name\"\r\n  },\r\n  \"name\" : \"doggie\",\r\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\r\n  \"tags\" : [ {\r\n    \"id\" : 1,\r\n    \"name\" : \"name\"\r\n  }, {\r\n    \"id\" : 1,\r\n    \"name\" : \"name\"\r\n  } ],\r\n  \"status\" : \"available\"\r\n}, {\r\n  \"id\" : 0,\r\n  \"category\" : {\r\n    \"id\" : 6,\r\n    \"name\" : \"name\"\r\n  },\r\n  \"name\" : \"doggie\",\r\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\r\n  \"tags\" : [ {\r\n    \"id\" : 1,\r\n    \"name\" : \"name\"\r\n  }, {\r\n    \"id\" : 1,\r\n    \"name\" : \"name\"\r\n  } ],\r\n  \"status\" : \"available\"\r\n} ]";
+            exampleJson = "[ {\n  \"id\" : 0,\n  \"category\" : {\n    \"id\" : 6,\n    \"name\" : \"name\"\n  },\n  \"name\" : \"doggie\",\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"tags\" : [ {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  }, {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  } ],\n  \"status\" : \"available\"\n}, {\n  \"id\" : 0,\n  \"category\" : {\n    \"id\" : 6,\n    \"name\" : \"name\"\n  },\n  \"name\" : \"doggie\",\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"tags\" : [ {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  }, {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  } ],\n  \"status\" : \"available\"\n} ]";
             exampleJson = "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
             
             var example = exampleJson != null
@@ -117,7 +117,7 @@ namespace Org.OpenAPITools.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
             string exampleJson = null;
-            exampleJson = "[ {\r\n  \"id\" : 0,\r\n  \"category\" : {\r\n    \"id\" : 6,\r\n    \"name\" : \"name\"\r\n  },\r\n  \"name\" : \"doggie\",\r\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\r\n  \"tags\" : [ {\r\n    \"id\" : 1,\r\n    \"name\" : \"name\"\r\n  }, {\r\n    \"id\" : 1,\r\n    \"name\" : \"name\"\r\n  } ],\r\n  \"status\" : \"available\"\r\n}, {\r\n  \"id\" : 0,\r\n  \"category\" : {\r\n    \"id\" : 6,\r\n    \"name\" : \"name\"\r\n  },\r\n  \"name\" : \"doggie\",\r\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\r\n  \"tags\" : [ {\r\n    \"id\" : 1,\r\n    \"name\" : \"name\"\r\n  }, {\r\n    \"id\" : 1,\r\n    \"name\" : \"name\"\r\n  } ],\r\n  \"status\" : \"available\"\r\n} ]";
+            exampleJson = "[ {\n  \"id\" : 0,\n  \"category\" : {\n    \"id\" : 6,\n    \"name\" : \"name\"\n  },\n  \"name\" : \"doggie\",\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"tags\" : [ {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  }, {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  } ],\n  \"status\" : \"available\"\n}, {\n  \"id\" : 0,\n  \"category\" : {\n    \"id\" : 6,\n    \"name\" : \"name\"\n  },\n  \"name\" : \"doggie\",\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"tags\" : [ {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  }, {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  } ],\n  \"status\" : \"available\"\n} ]";
             exampleJson = "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
             
             var example = exampleJson != null
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
             string exampleJson = null;
-            exampleJson = "{\r\n  \"id\" : 0,\r\n  \"category\" : {\r\n    \"id\" : 6,\r\n    \"name\" : \"name\"\r\n  },\r\n  \"name\" : \"doggie\",\r\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\r\n  \"tags\" : [ {\r\n    \"id\" : 1,\r\n    \"name\" : \"name\"\r\n  }, {\r\n    \"id\" : 1,\r\n    \"name\" : \"name\"\r\n  } ],\r\n  \"status\" : \"available\"\r\n}";
+            exampleJson = "{\n  \"id\" : 0,\n  \"category\" : {\n    \"id\" : 6,\n    \"name\" : \"name\"\n  },\n  \"name\" : \"doggie\",\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"tags\" : [ {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  }, {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  } ],\n  \"status\" : \"available\"\n}";
             exampleJson = "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
             
             var example = exampleJson != null
@@ -226,7 +226,7 @@ namespace Org.OpenAPITools.Controllers
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default);
             string exampleJson = null;
-            exampleJson = "{\r\n  \"code\" : 0,\r\n  \"type\" : \"type\",\r\n  \"message\" : \"message\"\r\n}";
+            exampleJson = "{\n  \"code\" : 0,\n  \"type\" : \"type\",\n  \"message\" : \"message\"\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<ApiResponse>(exampleJson)
