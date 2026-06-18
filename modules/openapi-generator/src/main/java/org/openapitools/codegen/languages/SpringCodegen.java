@@ -30,6 +30,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.http.HttpHeaders;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.*;
 import org.openapitools.codegen.meta.features.*;
@@ -123,6 +124,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
+    public static final String HEADER_AUTH_PARAM = "headerAuthParam";
 
     @Getter
     public enum RequestMappingMode {
@@ -200,6 +202,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Getter @Setter
     protected String clientRegistrationId = null;
     @Setter protected boolean useEnumValueInterface = false;
+    @Setter protected boolean useHeaderAuthParam = false;
     private String valuedEnumClassName = "ValuedEnum";
 
     // Map from schema name to detected paged-model info (populated when substituteGenericPagedModel=true)
@@ -347,6 +350,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         );
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks", useJspecify));
         cliOptions.add(CliOption.newString(CLIENT_REGISTRATION_ID, "Client registration ID for OAuth2 in Spring HTTP Interface (@ClientRegistrationId annotation). Requires library=spring-http-interface and useSpringBoot4=true (Spring Security 7)."));
+        cliOptions.add(CliOption.newString(HEADER_AUTH_PARAM, "Create parameter to pass authorisation header to request"));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -616,6 +620,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
+
+        convertPropertyToBooleanAndWriteBack(HEADER_AUTH_PARAM, this::setUseHeaderAuthParam);
 
         if (SPRING_BOOT.equals(library)) {
             convertPropertyToBooleanAndWriteBack(AUTO_X_SPRING_PAGINATED, this::setAutoXSpringPaginated);
@@ -981,6 +987,19 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (operations != null) {
             final List<CodegenOperation> ops = operations.getOperation();
             for (final CodegenOperation operation : ops) {
+                if (useHeaderAuthParam && operation.authMethods != null && operation.authMethods.stream()
+                        .anyMatch(cs -> cs.isBasic)) {
+                    CodegenParameter parameter = new CodegenParameter();
+                    parameter.isString = true;
+                    parameter.isHeaderParam = true;
+                    parameter.required = true;
+                    parameter.dataType = "String";
+                    parameter.paramName = "auth";
+                    parameter.baseName = HttpHeaders.AUTHORIZATION;
+                    parameter.description = "authorization";
+                    operation.headerParams.add(parameter);
+                    operation.allParams.add(parameter);
+                }
                 final List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     for (final CodegenResponse resp : responses) {

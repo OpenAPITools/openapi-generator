@@ -8132,4 +8132,18 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("MyObject.java"))
                 .assertProperty("optionalRef").withType("JsonNullable<com.example.ExternalModel>");
     }
+
+    @Test
+    void shouldUseHeaderAuthParam() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/2_0/foo.yaml",
+                SPRING_CLOUD_LIBRARY,
+                Map.of(HEADER_AUTH_PARAM, "true"));
+
+        JavaFileAssert.assertThat(files.get("SomethingApi.java"))
+                .assertMethod("somethingGet", "String")
+                .assertParameter("auth")
+                .assertParameterAnnotations()
+                .containsWithName("RequestHeader");
+    }
 }

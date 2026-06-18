@@ -1,0 +1,26 @@
+swagger: '2.0'
+info:
+  version: ''
+  title: fooTODO
+  contact: {}
+host: www.example.com
+basePath: /
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  basicAuth:
+    type: basic
+
+paths:
+  /something:
+    get:
+      # To apply Basic auth to an individual operation:
+      security:
+        - basicAuth: []
+      responses:
+        200:
+          description: OK (successfully authenticated)
