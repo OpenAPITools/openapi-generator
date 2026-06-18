@@ -385,7 +385,6 @@
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-core</artifactId>
             <version>3.24.9</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.googlecode.java-diff-utils</groupId>

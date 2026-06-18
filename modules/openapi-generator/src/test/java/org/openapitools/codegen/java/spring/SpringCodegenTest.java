@@ -38,6 +38,8 @@ import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -8274,6 +8276,308 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("MyObject.java"))
                 .assertProperty("optionalRef").withType("JsonNullable<com.example.ExternalModel>");
+    }
+
+    @Test
+    public void shouldPassXSpringProvideArgsToOverridableMethodWithApiInterfaceRequestMapping() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/spring/x-spring-provide-args-api-interface.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, SpringCodegen.RequestMappingMode.api_interface.name());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        generator.opts(input).generate();
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/FooApi.java"))
+                .fileContains("default ResponseEntity<Void> _foo(")
+                .fileContains("@Parameter(hidden = true) @Size(max = 64) String providedArg")
+                .fileContains("return foo(providedArg);")
+                .fileContains("default  ResponseEntity<Void> foo(String providedArg)");
+    }
+
+    @Test
+    public void shouldIncludeXSpringProvideArgsInDelegateWithApiInterfaceRequestMapping() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/spring/x-spring-provide-args-api-interface.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, SpringCodegen.RequestMappingMode.api_interface.name());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        generator.opts(input).generate();
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/FooApi.java"))
+                .fileContains("@Parameter(hidden = true) @Size(max = 64) String providedArg")
+                .fileContains("return getDelegate().foo(providedArg);");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/FooApiDelegate.java"))
+                .fileContains("default ResponseEntity<Void> foo(String providedArg)");
+    }
+
+    @Test
+    public void shouldPassXSpringProvideArgsFromControllerToDelegate() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/spring/x-spring-provide-args-api-interface.yaml");
+        final SpringCodegen codegen = new SpringCodegen() {
+            @Override
+            public void processOpts() {
+                super.processOpts();
+                additionalProperties().put("_api_controller_impl_", true);
+            }
+
+            @Override
+            public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+                OperationsMap operations = super.postProcessOperationsWithModels(objs, allModels);
+                operations.put("_api_controller_impl_", true);
+                return operations;
+            }
+        };
+        codegen.setOpenAPI(openAPI);
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        generator.opts(input).generate();
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/FooApiController.java"))
+                .fileContains("@Parameter(hidden = true) @Size(max = 64) String providedArg")
+                .fileContains("return delegate.foo(providedArg);");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/FooApiDelegate.java"))
+                .fileContains("default ResponseEntity<Void> foo(String providedArg)");
+    }
+
+    @Test
+    public void shouldIncludeXSpringProvideArgsWithInterfaceOnlyWithoutDelegatePattern() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/spring/x-spring-provide-args-api-interface.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "false");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, SpringCodegen.RequestMappingMode.api_interface.name());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        generator.opts(input).generate();
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/FooApi.java"))
+                .fileContains("default ResponseEntity<Void> foo(")
+                .fileContains("@Parameter(hidden = true) @Size(max = 64) String providedArg")
+                .fileDoesNotContain("default ResponseEntity<Void> _foo(")
+                .fileDoesNotContain("return foo(providedArg);");
+    }
+
+    @DataProvider(name = "reactiveWithoutPageableWithAndWithoutProvidedArgs")
+    public Object[][] reactiveWithoutPageableWithAndWithoutProvidedArgs() {
+        return new Object[][]{
+                {"src/test/resources/3_0/spring/x-spring-provide-args-api-interface.yaml", true, true,
+                        "return getDelegate().foo(exchange, providedArg);",
+                        "default Mono<ResponseEntity<Void>> foo(ServerWebExchange exchange, String providedArg)"},
+                {"src/test/resources/3_0/spring/x-spring-no-provide-args-api-interface.yaml", false, true,
+                        "return getDelegate().foo(exchange);",
+                        "default Mono<ResponseEntity<Void>> foo(ServerWebExchange exchange)"},
+                {"src/test/resources/3_0/spring/x-spring-provide-args-api-interface.yaml", true, false,
+                        "return getDelegate().foo(providedArg);",
+                        "default Mono<ResponseEntity<Void>> foo(String providedArg)"},
+                {"src/test/resources/3_0/spring/x-spring-no-provide-args-api-interface.yaml", false, false,
+                        "return getDelegate().foo();",
+                        "default Mono<ResponseEntity<Void>> foo()"}
+        };
+    }
+
+    @Test(dataProvider = "reactiveWithoutPageableWithAndWithoutProvidedArgs")
+    public void shouldGenerateReactiveWithoutPageableWithAndWithoutXSpringProvidedArgs(
+            String spec,
+            boolean hasProvidedArgs,
+            boolean includeHttpRequestContext,
+            String expectedDelegateCall,
+            String expectedApiDelegateMethodSignature) throws IOException {
+        Map<String, File> files = generateFromContract(
+                spec,
+                SPRING_BOOT,
+                Map.of(DELEGATE_PATTERN, "true",
+                        REACTIVE, "true",
+                        INCLUDE_HTTP_REQUEST_CONTEXT, Boolean.toString(includeHttpRequestContext)));
+
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                .fileContains(expectedDelegateCall)
+                .fileDoesNotContain("foo(,", "exchangenull", "exchangeprovidedArg", "exchange, );");
+        JavaFileAssert.assertThat(files.get("FooApiDelegate.java"))
+                .fileContains(expectedApiDelegateMethodSignature)
+                .fileDoesNotContain("foo(,", "exchangeprovidedArg");
+        if (hasProvidedArgs) {
+            JavaFileAssert.assertThat(files.get("FooApi.java"))
+                    .fileContains("@Parameter(hidden = true) @Size(max = 64) String providedArg");
+        } else {
+            JavaFileAssert.assertThat(files.get("FooApi.java"))
+                    .fileDoesNotContain("providedArg");
+        }
+    }
+
+    @DataProvider(name = "requestContextReactiveAndDelegateArgs")
+    public Object[][] requestContextReactiveAndDelegateArgs() {
+        return new Object[][]{
+                {false, false, "return getDelegate().findFoo(pageable, providedArg);"},
+                {false, true, "return getDelegate().findFoo(servletRequest, pageable, providedArg);"},
+                {true, false, "return getDelegate().findFoo(pageable, providedArg);"},
+                {true, true, "return getDelegate().findFoo(exchange, pageable, providedArg);"}
+        };
+    }
+
+    @Test(dataProvider = "requestContextReactiveAndDelegateArgs")
+    public void shouldSeparatePageableAndXSpringProvideArgsForRequestContextAndReactiveCombinations(
+            boolean reactive,
+            boolean includeHttpRequestContext,
+            String expectedDelegateCall) throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/x-spring-provide-args-pageable.yaml",
+                SPRING_BOOT,
+                Map.of(DELEGATE_PATTERN, "true",
+                        REACTIVE, Boolean.toString(reactive),
+                        INCLUDE_HTTP_REQUEST_CONTEXT, Boolean.toString(includeHttpRequestContext)));
+
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                .fileContains(expectedDelegateCall)
+                .fileDoesNotContain("findFoo(,", "servletRequestpageable", "exchangepageable");
+        JavaFileAssert.assertThat(files.get("FooApiDelegate.java"))
+                .fileContains(expectedApiDelegateMethodSignature(reactive, includeHttpRequestContext))
+                .fileDoesNotContain("findFoo(,", "servletRequestpageable", "exchangepageable");
+    }
+
+    private String expectedApiDelegateMethodSignature(boolean reactive, boolean includeHttpRequestContext) {
+        String returnType = reactive ? "Mono<ResponseEntity<Void>>" : "ResponseEntity<Void>";
+        String contextParameter = "";
+        if (includeHttpRequestContext) {
+            contextParameter = reactive ? "ServerWebExchange exchange, " : "HttpServletRequest servletRequest, ";
+        }
+        return "default " + returnType + " findFoo(" + contextParameter + "final Pageable pageable, String providedArg)";
+    }
+
+    @Test(dataProvider = "requestContextReactiveAndDelegateArgs")
+    public void shouldSeparatePageableAndXSpringProvideArgsForApiInterfaceDelegateMethodCombinations(
+            boolean reactive,
+            boolean includeHttpRequestContext,
+            String expectedDelegateCall) throws IOException {
+        String expectedOverrideCall = expectedDelegateCall.replace("getDelegate().findFoo", "findFoo");
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/x-spring-provide-args-pageable.yaml",
+                SPRING_BOOT,
+                Map.of(INTERFACE_ONLY, "true",
+                        DELEGATE_PATTERN, "true",
+                        REQUEST_MAPPING_OPTION, SpringCodegen.RequestMappingMode.api_interface.name(),
+                        REACTIVE, Boolean.toString(reactive),
+                        INCLUDE_HTTP_REQUEST_CONTEXT, Boolean.toString(includeHttpRequestContext)));
+
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                .fileContains(expectedOverrideCall)
+                .fileDoesNotContain("findFoo(,", "servletRequestpageable", "exchangepageable");
+    }
+
+    @Test
+    public void shouldSeparatePageableAndXSpringProvideArgsInReactiveControllerImplementation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/spring/x-spring-provide-args-pageable.yaml");
+        final SpringCodegen codegen = new SpringCodegen() {
+            @Override
+            public void processOpts() {
+                super.processOpts();
+                additionalProperties().put("_api_controller_impl_", true);
+            }
+
+            @Override
+            public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+                OperationsMap operations = super.postProcessOperationsWithModels(objs, allModels);
+                operations.put("_api_controller_impl_", true);
+                return operations;
+            }
+        };
+        codegen.setOpenAPI(openAPI);
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(REACTIVE, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        generator.opts(input).generate();
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/FooApiController.java"))
+                .fileContains("return delegate.findFoo(pageable, providedArg);")
+                .fileDoesNotContain("findFoo(,", "delegate.findFoo(,");
     }
 
     @Test

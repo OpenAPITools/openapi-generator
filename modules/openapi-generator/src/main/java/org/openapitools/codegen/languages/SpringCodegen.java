@@ -17,6 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.Type;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -50,7 +57,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -1292,9 +1298,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         }
 
-        Set<String> provideArgsClassSet = reformatProvideArgsParams(operation);
+        ProvideArgsParams provideArgsParams = reformatProvideArgsParams(operation);
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+        if (!provideArgsParams.names.isEmpty()) {
+            codegenOperation.vendorExtensions.put("springProvideArgsNames", provideArgsParams.names);
+        }
+        if (!provideArgsParams.delegateArgs.isEmpty()) {
+            codegenOperation.vendorExtensions.put("springProvideArgsDelegate", provideArgsParams.delegateArgs);
+        }
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
@@ -1323,8 +1335,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     generatePageableConstraintValidation, useBeanValidation,
                     generateSortValidation, SpringPageableScanUtils.AnnotationSyntax.JAVA);
         }
-        if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsClassSet.isEmpty()) {
-            codegenOperation.imports.addAll(provideArgsClassSet);
+        if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsParams.imports.isEmpty()) {
+            codegenOperation.imports.addAll(provideArgsParams.imports);
         }
 
         if (isSpringCodegen()) {
@@ -1408,41 +1420,82 @@ public class SpringCodegen extends AbstractJavaCodegen
         return codegenOperation;
     }
 
-    private Set<String> reformatProvideArgsParams(Operation operation) {
-        Set<String> provideArgsClassSet = new HashSet<>();
+    private ProvideArgsParams reformatProvideArgsParams(Operation operation) {
+        ProvideArgsParams provideArgsParams = new ProvideArgsParams();
         Object argObj = operation.getExtensions().get("x-spring-provide-args");
         if (argObj instanceof List) {
             List<String> provideArgs = (List<String>) argObj;
             if (!provideArgs.isEmpty()) {
                 List<String> formattedArgs = new ArrayList<>();
+                List<String> formattedArgNames = new ArrayList<>();
+                List<String> formattedDelegateArgs = new ArrayList<>();
                 for (String oneArg : provideArgs) {
                     if (StringUtils.isNotEmpty(oneArg)) {
-                        String regexp = "(?<AnnotationTag>@)?(?<ClassPath>(?<PackageName>(\\w+\\.)*)(?<ClassName>\\w+))(?<Params>\\(.*?\\))?\\s?";
-                        Matcher matcher = Pattern.compile(regexp).matcher(oneArg);
-                        List<String> newArgs = new ArrayList<>();
-                        while (matcher.find()) {
-                            String className = matcher.group("ClassName");
-                            String classPath = matcher.group("ClassPath");
-                            String packageName = matcher.group("PackageName");
-                            String params = matcher.group("Params");
-                            String annoTag = matcher.group("AnnotationTag");
-                            String shortPhrase = StringUtils.join(annoTag, className, params);
-                            newArgs.add(shortPhrase);
-                            if (StringUtils.isNotEmpty(packageName)) {
-                                importMapping.put(className, classPath);
-                                provideArgsClassSet.add(className);
-                                LOGGER.trace("put import mapping {} {}", className, classPath);
-                            }
-                        }
-                        String newArg = String.join(" ", newArgs);
+                        Parameter parameter = parseProvideArgParameter(oneArg);
+                        collectImportsAndSimplify(parameter, provideArgsParams);
+
+                        String newArg = parameter.toString();
                         LOGGER.trace("new arg {} {}", newArg);
                         formattedArgs.add(newArg);
+
+                        Parameter delegateParameter = parameter.clone();
+                        delegateParameter.getAnnotations().clear();
+                        formattedDelegateArgs.add(delegateParameter.toString());
+                        formattedArgNames.add(parameter.getNameAsString());
                     }
                 }
                 operation.getExtensions().put("x-spring-provide-args", formattedArgs);
+                provideArgsParams.names.addAll(formattedArgNames);
+                provideArgsParams.delegateArgs.addAll(formattedDelegateArgs);
             }
         }
-        return provideArgsClassSet;
+        return provideArgsParams;
+    }
+
+    private Parameter parseProvideArgParameter(String oneArg) {
+        CompilationUnit compilationUnit = StaticJavaParser.parse(String.format(Locale.ROOT, "class Dummy { void method(%s) {} }", oneArg));
+        return compilationUnit.findFirst(MethodDeclaration.class)
+                .orElseThrow(() -> new IllegalArgumentException("Unable to parse x-spring-provide-args parameter: " + oneArg))
+                .getParameter(0);
+    }
+
+    private void collectImportsAndSimplify(Parameter parameter, ProvideArgsParams provideArgsParams) {
+        parameter.findAll(AnnotationExpr.class).forEach(annotation -> {
+            String annotationName = annotation.getNameAsString();
+            if (annotationName.contains(".")) {
+                String simpleName = annotation.getName().getIdentifier();
+                importMapping.put(simpleName, annotationName);
+                provideArgsParams.imports.add(simpleName);
+                annotation.setName(simpleName);
+                LOGGER.trace("put import mapping {} {}", simpleName, annotationName);
+            }
+        });
+
+        parameter.getType().toClassOrInterfaceType().ifPresent(type -> simplifyClassOrInterfaceType(type, provideArgsParams));
+    }
+
+    private void simplifyClassOrInterfaceType(ClassOrInterfaceType type, ProvideArgsParams provideArgsParams) {
+        type.getTypeArguments().stream()
+                .flatMap(Collection::stream)
+                .map(Type::toClassOrInterfaceType)
+                .flatMap(Optional::stream)
+                .forEach(classOrInterfaceType -> simplifyClassOrInterfaceType(classOrInterfaceType, provideArgsParams));
+        if (type.getScope().isPresent()) {
+            String typeName = type.getNameWithScope();
+            if (typeName.contains(".")) {
+                String simpleName = type.getNameAsString();
+                importMapping.put(simpleName, typeName);
+                provideArgsParams.imports.add(simpleName);
+                type.setScope(null);
+                LOGGER.trace("put import mapping {} {}", simpleName, typeName);
+            }
+        }
+    }
+
+    private static final class ProvideArgsParams {
+        private final Set<String> imports = new HashSet<>();
+        private final List<String> names = new ArrayList<>();
+        private final List<String> delegateArgs = new ArrayList<>();
     }
 
     @Override
