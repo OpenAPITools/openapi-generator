@@ -124,6 +124,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
 
+    private static final Pattern X_SPRING_PROVIDE_ARG_PATTERN = Pattern.compile("(?<AnnotationTag>@)?(?<ClassPath>(?<PackageName>(\\w+\\.)*)(?<ClassName>\\w+))(?<Params>\\(.*?\\))?\\s?");
+    private static final Pattern X_SPRING_PROVIDE_ARG_NAME_PATTERN = Pattern.compile("([A-Za-z_$][A-Za-z\\d_$]*)\\s*$");
+    private static final Pattern X_SPRING_PROVIDE_ARG_ANNOTATION_PATTERN = Pattern.compile("@[A-Za-z_$][A-Za-z\\d_$]*(\\(.*?\\))?\\s*");
+
     @Getter
     public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
@@ -1279,9 +1283,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         }
 
-        Set<String> provideArgsClassSet = reformatProvideArgsParams(operation);
+        ProvideArgsParams provideArgsParams = reformatProvideArgsParams(operation);
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+        if (!provideArgsParams.names.isEmpty()) {
+            codegenOperation.vendorExtensions.put("springProvideArgsNames", provideArgsParams.names);
+        }
+        if (!provideArgsParams.delegateArgs.isEmpty()) {
+            codegenOperation.vendorExtensions.put("springProvideArgsDelegate", provideArgsParams.delegateArgs);
+        }
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
@@ -1310,8 +1320,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     generatePageableConstraintValidation, useBeanValidation,
                     generateSortValidation, SpringPageableScanUtils.AnnotationSyntax.JAVA);
         }
-        if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsClassSet.isEmpty()) {
-            codegenOperation.imports.addAll(provideArgsClassSet);
+        if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsParams.imports.isEmpty()) {
+            codegenOperation.imports.addAll(provideArgsParams.imports);
         }
 
         if (isSpringCodegen()) {
@@ -1395,17 +1405,18 @@ public class SpringCodegen extends AbstractJavaCodegen
         return codegenOperation;
     }
 
-    private Set<String> reformatProvideArgsParams(Operation operation) {
-        Set<String> provideArgsClassSet = new HashSet<>();
+    private ProvideArgsParams reformatProvideArgsParams(Operation operation) {
+        ProvideArgsParams provideArgsParams = new ProvideArgsParams();
         Object argObj = operation.getExtensions().get("x-spring-provide-args");
         if (argObj instanceof List) {
             List<String> provideArgs = (List<String>) argObj;
             if (!provideArgs.isEmpty()) {
                 List<String> formattedArgs = new ArrayList<>();
+                List<String> formattedArgNames = new ArrayList<>();
+                List<String> formattedDelegateArgs = new ArrayList<>();
                 for (String oneArg : provideArgs) {
                     if (StringUtils.isNotEmpty(oneArg)) {
-                        String regexp = "(?<AnnotationTag>@)?(?<ClassPath>(?<PackageName>(\\w+\\.)*)(?<ClassName>\\w+))(?<Params>\\(.*?\\))?\\s?";
-                        Matcher matcher = Pattern.compile(regexp).matcher(oneArg);
+                        Matcher matcher = X_SPRING_PROVIDE_ARG_PATTERN.matcher(oneArg);
                         List<String> newArgs = new ArrayList<>();
                         while (matcher.find()) {
                             String className = matcher.group("ClassName");
@@ -1417,19 +1428,32 @@ public class SpringCodegen extends AbstractJavaCodegen
                             newArgs.add(shortPhrase);
                             if (StringUtils.isNotEmpty(packageName)) {
                                 importMapping.put(className, classPath);
-                                provideArgsClassSet.add(className);
+                                provideArgsParams.imports.add(className);
                                 LOGGER.trace("put import mapping {} {}", className, classPath);
                             }
                         }
                         String newArg = String.join(" ", newArgs);
                         LOGGER.trace("new arg {} {}", newArg);
                         formattedArgs.add(newArg);
+                        formattedDelegateArgs.add(X_SPRING_PROVIDE_ARG_ANNOTATION_PATTERN.matcher(newArg).replaceAll(""));
+                        Matcher argNameMatcher = X_SPRING_PROVIDE_ARG_NAME_PATTERN.matcher(newArg);
+                        if (argNameMatcher.find()) {
+                            formattedArgNames.add(argNameMatcher.group(1));
+                        }
                     }
                 }
                 operation.getExtensions().put("x-spring-provide-args", formattedArgs);
+                provideArgsParams.names.addAll(formattedArgNames);
+                provideArgsParams.delegateArgs.addAll(formattedDelegateArgs);
             }
         }
-        return provideArgsClassSet;
+        return provideArgsParams;
+    }
+
+    private static final class ProvideArgsParams {
+        private final Set<String> imports = new HashSet<>();
+        private final List<String> names = new ArrayList<>();
+        private final List<String> delegateArgs = new ArrayList<>();
     }
 
     @Override
