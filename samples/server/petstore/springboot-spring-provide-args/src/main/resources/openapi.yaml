@@ -74,7 +74,7 @@ paths:
       - user
       x-spring-provide-args:
       - "@Value(\"${server.port}\") String someValue"
-      - "@RequestHeader(value=\"x-project-id\", required = false) String someHeaderValue"
+      - "@RequestHeader(value = \"x-project-id\", required = false) String someHeaderValue"
       - '@RequestHeader final HttpHeaders headers'
       - Principal principal
       - '@Qualifier("jacksonObjectMapper") ObjectMapper mapper'
@@ -94,7 +94,7 @@ paths:
       - user
       x-spring-provide-args:
       - "@Value(\"${server.port}\") String somePropertyValue"
-      - "@RequestHeader(value=\"x-project-id\", required = false) String someHeaderValue"
+      - "@RequestHeader(value = \"x-project-id\", required = false) String someHeaderValue"
       - '@RequestHeader final HttpHeaders headers'
       - Principal principal
       - '@Qualifier("jacksonObjectMapper") ObjectMapper mapper'
