@@ -76,6 +76,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |supportAsync|Support Async operations| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|server title name or client service name| |openapi-java-playframework|
+|typeInfoDefaultImpls|Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). Applies to both deduction-based and discriminator-based oneOf interfaces. Overrides x-jackson-default-impl when both are set for the same schema. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`| |null|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useInterfaces|Makes the controllerImp implements an interface to facilitate automatic completion when updating from version x to y of your spec| |true|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
@@ -96,6 +97,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
+|x-jackson-default-impl|Specifies the default implementation class name for Jackson @JsonTypeInfo(defaultImpl=...) on a oneOf interface schema (deduction-based or discriminator-based). Can be overridden per-schema by the `typeInfoDefaultImpls` generator option.|MODEL|null
 
 
 ## IMPORT MAPPING
