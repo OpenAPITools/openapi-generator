@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Controllers
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default);
             string exampleJson = null;
-            exampleJson = "{\n  \"name\" : \"name\",\n  \"nullableName\" : \"nullableName\"\n}";
+            exampleJson = "{\r\n  \"name\" : \"name\",\r\n  \"nullableName\" : \"nullableName\"\r\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<TestNullable>(exampleJson)

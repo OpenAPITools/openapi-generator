@@ -127,7 +127,7 @@ namespace Org.OpenAPITools.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
             string exampleJson = null;
-            exampleJson = "{\n  \"id\" : 0,\n  \"username\" : \"username\",\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"email\" : \"email\",\n  \"password\" : \"password\",\n  \"phone\" : \"phone\",\n  \"userStatus\" : 6\n}";
+            exampleJson = "{\r\n  \"id\" : 0,\r\n  \"username\" : \"username\",\r\n  \"firstName\" : \"firstName\",\r\n  \"lastName\" : \"lastName\",\r\n  \"email\" : \"email\",\r\n  \"password\" : \"password\",\r\n  \"phone\" : \"phone\",\r\n  \"userStatus\" : 6\r\n}";
             exampleJson = "<User>\n  <id>123456789</id>\n  <username>aeiou</username>\n  <firstName>aeiou</firstName>\n  <lastName>aeiou</lastName>\n  <email>aeiou</email>\n  <password>aeiou</password>\n  <phone>aeiou</phone>\n  <userStatus>123</userStatus>\n</User>";
             
             var example = exampleJson != null
