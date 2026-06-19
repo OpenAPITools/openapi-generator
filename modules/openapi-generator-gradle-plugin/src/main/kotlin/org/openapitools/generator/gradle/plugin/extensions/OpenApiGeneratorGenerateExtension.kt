@@ -470,6 +470,23 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val dryRun = project.objects.property<Boolean>()
 
     /**
+     * Whether to enforce strict spec validation. When not set, any value from a config file is used.
+     */
+    val strictSpec = project.objects.property<Boolean>()
+
+    /**
+     * Whether to only write output files whose content has changed (minimal update).
+     * When not set, any value from a config file is used.
+     */
+    val minimalUpdate = project.objects.property<Boolean>()
+
+    /**
+     * Whether to generate models for recursively referenced dependent schemas.
+     * When not set, any value from a config file is used.
+     */
+    val generateRecursiveDependentModels = project.objects.property<Boolean>()
+
+    /**
      * Controls how the code generation worker is isolated from the Gradle daemon.
      *
      * - "classloader" (default): runs inside the Gradle daemon JVM with a separate ClassLoader. No process
