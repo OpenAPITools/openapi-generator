@@ -831,6 +831,13 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
+                // Retained for backwards-compatibility with configOptions -> forced-generate-schemas
+                if (forcedGenerateSchemas == null && configOptions.containsKey("forced-generate-schemas")) {
+                    applyForcedGenerateSchemasKvpList(
+                            Arrays.asList(configOptions.get("forced-generate-schemas").toString().split(",")),
+                            configurator);
+                }
+
                 // Retained for backwards-compatibility with configOptions -> inline-schema-name-mappings
                 if (inlineSchemaNameMappings == null && configOptions.containsKey("inline-schema-name-mappings")) {
                     applyInlineSchemaNameMappingsKvp(configOptions.get("inline-schema-name-mappings").toString(),
