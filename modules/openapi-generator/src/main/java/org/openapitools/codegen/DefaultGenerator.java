@@ -404,6 +404,17 @@ public class DefaultGenerator implements Generator {
         }
     }
 
+    /**
+     * Returns {@code true} if the named schema should be generated even when it appears in
+     * schemaMappings or importMappings. This is the case when the schema name is explicitly
+     * listed in {@code forcedGenerateSchemas} or when the wildcard
+     * {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS} ({@code "*"}) is present.
+     */
+    private boolean isForcedGenerate(String schemaName) {
+        return config.forcedGenerateSchemas().contains(CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS)
+                || config.forcedGenerateSchemas().contains(schemaName);
+    }
+
     private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelDocTemplateFiles().keySet()) {
             String docExtension = config.getDocExtension();
@@ -468,7 +479,7 @@ public class DefaultGenerator implements Generator {
             processedModels.add(name);
             try {
                 //don't generate models that have an import mapping or are in the list of schemas to always generate
-                if (config.schemaMapping().containsKey(name) && !config.forcedGenerateSchemas().contains(name)) {
+                if (config.schemaMapping().containsKey(name) && !isForcedGenerate(name)) {
                     LOGGER.info("Model {} not generated due to schema mapping", name);
                     continue;
                 }
@@ -550,7 +561,7 @@ public class DefaultGenerator implements Generator {
             models.put("modelPackage", config.modelPackage());
             try {
                 //don't generate models that have a schema mapping or are in the list of schemas to always generate
-                if (config.schemaMapping().containsKey(modelName) && !config.forcedGenerateSchemas().contains(modelName)) {
+                if (config.schemaMapping().containsKey(modelName) && !isForcedGenerate(modelName)) {
                     continue;
                 }
 

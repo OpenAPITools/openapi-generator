@@ -424,6 +424,48 @@ public class DefaultGeneratorTest {
         } finally {
             target2.toFile().deleteOnExit();
         }
+
+        // --- Part 3: wildcard "*" must force-generate ALL schemas suppressed by schemaMappings ---
+        // Two schemas are mapped (Category->ExternalCategory, Tag->ExternalTag).
+        // Adding only "*" (FORCE_GENERATE_ALL_SCHEMAS) to forcedGenerateSchemas must cause both to be generated.
+        Path target3 = Files.createTempDirectory("test-forced-gen-wildcard");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target3.toAbsolutePath().toString())
+                    .addSchemaMapping("Category", "ExternalCategory")
+                    .addSchemaMapping("Tag", "ExternalTag")
+                    .addForcedGenerateSchema(CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS);
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            final String externalCategoryRelPath = "src/main/java/org/openapitools/client/model/ExternalCategory.java";
+            final String externalTagRelPath = "src/main/java/org/openapitools/client/model/ExternalTag.java";
+
+            Assert.assertTrue(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(externalCategoryRelPath)),
+                    "ExternalCategory.java MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
+            Assert.assertTrue(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(externalTagRelPath)),
+                    "ExternalTag.java MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
+            Assert.assertTrue(
+                    new File(target3.toFile(), externalCategoryRelPath).exists(),
+                    "ExternalCategory.java MUST exist on disk when wildcard \"*\" is used");
+            Assert.assertTrue(
+                    new File(target3.toFile(), externalTagRelPath).exists(),
+                    "ExternalTag.java MUST exist on disk when wildcard \"*\" is used");
+        } finally {
+            target3.toFile().deleteOnExit();
+        }
     }
 
     @Test

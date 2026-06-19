@@ -186,6 +186,7 @@ public class Generate extends OpenApiGeneratorCommand {
             title = "forced generate schemas",
             description = "comma-separated list of schema names that must be generated even when listed "
                     + "in schemaMappings or importMappings. Example: MyEnum,OtherSchema."
+                    + " Use the wildcard '*' to force-generate all mapped schemas at once."
                     + " You can also have multiple occurrences of this option.")
     private List<String> forcedGenerateSchemas = new ArrayList<>();
 

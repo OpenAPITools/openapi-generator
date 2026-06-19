@@ -256,6 +256,7 @@ public final class GeneratorSettings implements Serializable {
 
     /**
      * Gets the set of schema names that must be generated even when listed in schemaMappings or importMappings.
+     * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
      *
      * @return the forced generate schemas
      */
@@ -956,7 +957,8 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Sets the {@code forcedGenerateSchemas} (schemas to generate even when listed in schemaMappings or importMappings)
+         * Sets the {@code forcedGenerateSchemas} (schemas to generate even when listed in schemaMappings or importMappings).
+         * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
          * and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param schemas the {@code forcedGenerateSchemas} to set
@@ -968,8 +970,9 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Adds a single schema name to {@code forcedGenerateSchemas} (schemas to generate even when listed in schemaMappings or importMappings)
-         * and returns a reference to this Builder so that the methods can be chained together.
+         * Adds a single schema name to {@code forcedGenerateSchemas} (schemas to generate even when listed in schemaMappings or importMappings).
+         * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
+         * Returns a reference to this Builder so that the methods can be chained together.
          *
          * @param schema the schema name to add
          * @return a reference to this Builder

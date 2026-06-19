@@ -352,7 +352,8 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> schemaMappings;
 
     /**
-     * A list of schema names that must be generated even when listed in schemaMappings or importMappings
+     * A list of schema names that must be generated even when listed in schemaMappings or importMappings.
+     * Use {@code <param>*</param>} as a wildcard to force-generate all mapped schemas at once.
      */
     @Parameter(name = "forcedGenerateSchemas", property = "openapi.generator.maven.plugin.forcedGenerateSchemas")
     private List<String> forcedGenerateSchemas;
