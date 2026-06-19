@@ -875,7 +875,7 @@ abstract class GenerateTask : DefaultTask() {
 
     /**
      * When `true`, applies strict validation against the OpenAPI specification, failing on any deviation.
-     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     * Defaults to `false`.
      */
     @get:Optional
     @get:Input
@@ -883,8 +883,7 @@ abstract class GenerateTask : DefaultTask() {
 
     /**
      * When `true`, only writes output files that have changed relative to an existing generated output.
-     * Reduces unnecessary file churn in version control.
-     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     * Reduces unnecessary file churn in version control. Defaults to `false`.
      */
     @get:Optional
     @get:Input
@@ -893,8 +892,7 @@ abstract class GenerateTask : DefaultTask() {
     /**
      * When `true`, recursively generates all models that the selected models depend on,
      * even if those dependent models were not explicitly listed for generation.
-     * Only relevant when [modelFilesConstrainedTo] is configured.
-     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     * Only relevant when [modelFilesConstrainedTo] is configured. Defaults to `false`.
      */
     @get:Optional
     @get:Input
@@ -930,10 +928,9 @@ abstract class GenerateTask : DefaultTask() {
         mergedFileInfoName.convention("merged spec")
         mergedFileInfoDescription.convention("merged spec")
         mergedFileInfoVersion.convention("1.0.0")
-        // No convention for strictSpec/minimalUpdate/generateRecursiveDependentModels:
-        // the worker uses orNull?.let to skip calling the configurator when these are unset,
-        // allowing config-file values to win. A convention(false) would make orNull always
-        // return false and unconditionally override any config-file setting.
+        minimalUpdate.convention(false)
+        generateRecursiveDependentModels.convention(false)
+        strictSpec.convention(false)
     }
 
     @Suppress("unused")
