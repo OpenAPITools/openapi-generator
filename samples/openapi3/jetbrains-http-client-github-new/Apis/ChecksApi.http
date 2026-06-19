@@ -1,0 +1,127 @@
+## ChecksApi
+
+### Create a check run
+## Create a check run
+POST https://api.github.com/repos/{{owner}}/{{repo}}/check-runs
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "mighty_readme",
+  "head_sha" : "ce587453ced02b1526dfb4cb910479d431683101",
+  "status" : "in_progress",
+  "external_id" : "42",
+  "started_at" : "2018-05-04T01:14:52Z",
+  "output" : {
+    "title" : "Mighty Readme report",
+    "summary" : "",
+    "text" : ""
+  }
+}
+
+
+### Create a check suite
+## Create a check suite
+POST https://api.github.com/repos/{{owner}}/{{repo}}/check-suites
+Content-Type: application/json
+Accept: application/json
+
+{
+  "head_sha" : "d6fde92930d4715a2b49857d24b940956b26d2d3"
+}
+
+
+### Get a check run
+## Get a check run
+GET https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}
+Accept: application/json
+
+### Get a check suite
+## Get a check suite
+GET https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_id}}
+Accept: application/json
+
+### List check run annotations
+## List check run annotations
+GET https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}/annotations?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List check runs for a Git reference
+## List check runs for a Git reference
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/check-runs?checkName={{checkName}}&status={{status}}&filter={{filter}}&perPage={{perPage}}&page={{page}}&appId={{appId}}
+Accept: application/json
+
+### List check runs in a check suite
+## List check runs in a check suite
+GET https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_id}}/check-runs?checkName={{checkName}}&status={{status}}&filter={{filter}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List check suites for a Git reference
+## List check suites for a Git reference
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/check-suites?appId={{appId}}&checkName={{checkName}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Rerequest a check run
+## Rerequest a check run
+POST https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}/rerequest
+Accept: application/json
+
+### Rerequest a check suite
+## Rerequest a check suite
+POST https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_id}}/rerequest
+Accept: application/json
+
+### Update repository preferences for check suites
+## Update repository preferences for check suites
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/preferences
+Content-Type: application/json
+Accept: application/json
+
+{
+  "auto_trigger_checks" : [ {
+    "app_id" : 4,
+    "setting" : false
+  } ]
+}
+
+
+### Update a check run
+## Update a check run
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "mighty_readme",
+  "started_at" : "2018-05-04T01:14:52Z",
+  "status" : "completed",
+  "conclusion" : "success",
+  "completed_at" : "2018-05-04T01:14:52Z",
+  "output" : {
+    "title" : "Mighty Readme report",
+    "summary" : "There are 0 failures, 2 warnings, and 1 notices.",
+    "text" : "You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.",
+    "annotations" : [ {
+      "path" : "README.md",
+      "annotation_level" : "warning",
+      "title" : "Spell Checker",
+      "message" : "Check your spelling for 'banaas'.",
+      "raw_details" : "Do you mean 'bananas' or 'banana'?",
+      "start_line" : 2,
+      "end_line" : 2
+    }, {
+      "path" : "README.md",
+      "annotation_level" : "warning",
+      "title" : "Spell Checker",
+      "message" : "Check your spelling for 'aples'",
+      "raw_details" : "Do you mean 'apples' or 'Naples'",
+      "start_line" : 4,
+      "end_line" : 4
+    } ],
+    "images" : [ {
+      "alt" : "Super bananas",
+      "image_url" : "http://example.com/images/42"
+    } ]
+  }
+}
+

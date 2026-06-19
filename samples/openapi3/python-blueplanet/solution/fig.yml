@@ -1,0 +1,51 @@
+
+#
+#                         Ciena
+#
+#             Copyright(c) 2016, Ciena, Inc. All rights reserved.
+#
+
+# REFERENCES:
+# ===========================================================
+#
+#  "Fig file format for solutions":
+#  https://confluence.ciena.com/display/blueplanet/Fig+file+format+for+solutions
+#
+
+__version__: 1
+
+# Docker registry must be specified in this file.
+# if only passed as the --registry argument to solmaker,
+# solman will not find the images at deployment time.
+# MAKE SURE it is aligned with the value in the Makefile
+docker_registry: registry.blueplanet.com
+
+# this name is read by the Makefile and used to build various paths
+solution_name: openapi_server
+
+# version is not read from this file, but coded in the Makefile
+# the vendor and tag are provided by the Makefile as arguments to solmaker
+solution_version: 1.0.0
+
+# ============ NOTE ===============================================================================
+# The app image versions listed below are hard coded of course.
+# Verify GIT commits against the respective image versions housed in bpdr.io ... to ensure
+# you're getting what you want! bpdr.io repo for each app is listed.
+# =================================================================================================
+
+apps:
+  tapi-swagger:
+    # https://..../openapi_server
+    image: registry.blueplanet.com/blueplanet/openapi_server:1.0.0
+    volumes:
+      - /dev/log:/dev/log
+    environment:
+      - NBI_openapi_server_type=http
+      - NBI_openapi_server_port=8080
+app_bar:
+  System:
+    Documentation:
+      'openapi_server Swagger':
+        description: 'openapi_server Swagger UI'
+        icon: 'orchestrate'
+        url: '/openapi_server/ui/#'

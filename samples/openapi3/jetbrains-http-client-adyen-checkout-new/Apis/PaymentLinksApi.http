@@ -1,0 +1,60 @@
+## PaymentLinksApi
+
+### Get a payment link
+## Get a payment link
+GET https://checkout-test.adyen.com/v71/paymentLinks/{{linkId}}
+Accept: application/json
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+### Update the status of a payment link
+## Update the status of a payment link
+PATCH https://checkout-test.adyen.com/v71/paymentLinks/{{linkId}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "status": "expired"
+}
+
+
+### Create a payment link
+## Create a payment link
+POST https://checkout-test.adyen.com/v71/paymentLinks
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "reference": "YOUR_ORDER_NUMBER",
+ "amount": {
+ "value": 1250,
+ "currency": "BRL"
+},
+ "countryCode": "BR",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "shopperEmail": "test@email.com",
+ "shopperLocale": "pt-BR",
+ "billingAddress": {
+ "street": "Roque Petroni Jr",
+ "postalCode": "59000060",
+ "city": "São Paulo",
+ "houseNumberOrName": "999",
+ "country": "BR",
+ "stateOrProvince": "SP"
+},
+ "deliveryAddress": {
+ "street": "Roque Petroni Jr",
+ "postalCode": "59000060",
+ "city": "São Paulo",
+ "houseNumberOrName": "999",
+ "country": "BR",
+ "stateOrProvince": "SP"
+}
+}
+

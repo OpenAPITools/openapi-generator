@@ -1,0 +1,16 @@
+## ScenariosApi
+
+### GET /scenarios/itemTimings
+## GET /scenarios/itemTimings
+GET https://api.opendota.com/api/scenarios/itemTimings?item={{item}}&heroId={{heroId}}
+Accept: application/json; charset=utf-8
+
+### GET /scenarios/laneRoles
+## GET /scenarios/laneRoles
+GET https://api.opendota.com/api/scenarios/laneRoles?laneRole={{laneRole}}&heroId={{heroId}}
+Accept: application/json; charset=utf-8
+
+### GET /scenarios/misc
+## GET /scenarios/misc
+GET https://api.opendota.com/api/scenarios/misc?scenario={{scenario}}
+Accept: application/json; charset=utf-8

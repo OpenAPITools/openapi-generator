@@ -1,0 +1,40 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server Tag"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a Tag"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  Tag {
+    title = Tag
+    description = Tag
+    derivedFrom = Root
+    properties {
+        id {
+          type =  integer
+          description = ""
+          optional = false
+        }
+        name {
+          type =  string
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  Tag {
+    title = Tag
+    description = Tag
+    implements = openapi_server.resourceTypes.Tag
+
+  }
+}

@@ -1,0 +1,13 @@
+*.dll
+*.exe
+*.exe~
+*.dylib
+*.so
+*.test
+*.out
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfvars
+*.tfvars.json
+terraform-provider-oneof

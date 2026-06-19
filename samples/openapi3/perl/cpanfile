@@ -1,0 +1,11 @@
+requires 'Class::Accessor';
+requires 'Test::Exception';
+requires 'Test::More';
+requires 'Log::Any';
+requires 'LWP::UserAgent';
+requires 'URI::Query';
+requires 'Module::Runtime';
+requires 'DateTime';
+requires 'Module::Find';
+requires 'Moose::Role';
+requires 'JSON', '>= 2.00, < 2.80';

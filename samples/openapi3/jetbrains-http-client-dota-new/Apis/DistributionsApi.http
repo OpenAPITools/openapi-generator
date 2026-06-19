@@ -1,0 +1,6 @@
+## DistributionsApi
+
+### GET /distributions
+## GET /distributions
+GET https://api.opendota.com/api/distributions
+Accept: application/json; charset=utf-8

@@ -1,0 +1,31 @@
+## HeroesApi
+
+### GET /heroes
+## GET /heroes
+GET https://api.opendota.com/api/heroes
+Accept: application/json; charset=utf-8
+
+### GET /heroes/{hero_id}/durations
+## GET /heroes/{hero_id}/durations
+GET https://api.opendota.com/api/heroes/{{hero_id}}/durations
+Accept: application/json; charset=utf-8
+
+### GET /heroes/{hero_id}/itemPopularity
+## GET /heroes/{hero_id}/itemPopularity
+GET https://api.opendota.com/api/heroes/{{hero_id}}/itemPopularity
+Accept: application/json; charset=utf-8
+
+### GET /heroes/{hero_id}/matches
+## GET /heroes/{hero_id}/matches
+GET https://api.opendota.com/api/heroes/{{hero_id}}/matches
+Accept: application/json; charset=utf-8
+
+### GET /heroes/{hero_id}/matchups
+## GET /heroes/{hero_id}/matchups
+GET https://api.opendota.com/api/heroes/{{hero_id}}/matchups
+Accept: application/json; charset=utf-8
+
+### GET /heroes/{hero_id}/players
+## GET /heroes/{hero_id}/players
+GET https://api.opendota.com/api/heroes/{{hero_id}}/players
+Accept: application/json; charset=utf-8

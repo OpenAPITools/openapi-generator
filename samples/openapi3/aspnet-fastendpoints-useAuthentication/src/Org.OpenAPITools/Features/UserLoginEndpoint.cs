@@ -1,0 +1,45 @@
+﻿
+using FastEndpoints;
+using FastEndpoints.Security;
+
+namespace Org.OpenAPITools.Features;
+
+//TODO: This is a placeholder for the actual login request endpoint
+//      For more information : https://fast-endpoints.com/docs/security
+public class UserLoginEndpoint : Endpoint<LoginRequest>
+{
+    public override void Configure()
+    {
+        Post("/api/login");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync(LoginRequest req, CancellationToken ct)
+    {
+        bool credentialsAreValid = true; //TODO call your authentication service
+
+        if (credentialsAreValid)
+        {
+            var jwtToken = JwtBearer.CreateToken(
+                o =>
+                {
+                    o.SigningKey = "A secret token signing key";
+                    o.ExpireAt = DateTime.UtcNow.AddDays(1);
+                    o.User.Roles.Add("Manager", "Auditor");
+                    o.User.Claims.Add(("UserName", req.Username));
+                    o.User["UserId"] = "001"; //indexer based claim setting
+                });
+
+            await SendAsync(
+                new
+                {
+                    req.Username,
+                    Token = jwtToken
+                });
+        }
+        else
+        {
+            ThrowError("The supplied credentials are invalid!");
+        }
+    }
+}

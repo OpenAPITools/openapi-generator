@@ -1,0 +1,14 @@
+name: PetstoreClient
+targets:
+  PetstoreClient:
+    type: framework
+    platform: iOS
+    deploymentTarget: "11.0"
+    sources: [Sources/CombineLibrary]
+    info:
+      path: ./Info.plist
+      version: 1.0.0
+    settings:
+      APPLICATION_EXTENSION_API_ONLY: true
+    scheme: {}
+    dependencies:

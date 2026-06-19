@@ -1,0 +1,6 @@
+## MatchesApi
+
+### GET /matches/{match_id}
+## GET /matches/{match_id}
+GET https://api.opendota.com/api/matches/{{match_id}}
+Accept: application/json; charset=utf-8

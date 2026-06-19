@@ -1,0 +1,786 @@
+## ActionsApi
+
+### Add custom labels to a self-hosted runner for an organization
+## Add custom labels to a self-hosted runner for an organization
+POST https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
+Content-Type: application/json
+Accept: application/json
+
+{
+  "labels" : [ "gpu", "accelerated" ]
+}
+
+
+### Add custom labels to a self-hosted runner for a repository
+## Add custom labels to a self-hosted runner for a repository
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
+Content-Type: application/json
+Accept: application/json
+
+{
+  "labels" : [ "gpu", "accelerated" ]
+}
+
+
+### Add selected repository to an organization secret
+## Add selected repository to an organization secret
+PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories/{{repository_id}}
+
+### Add selected repository to an organization variable
+## Add selected repository to an organization variable
+PUT https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories/{{repository_id}}
+
+### Approve a workflow run for a fork pull request
+## Approve a workflow run for a fork pull request
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/approve
+Accept: application/json
+
+### Cancel a workflow run
+## Cancel a workflow run
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/cancel
+Accept: application/json
+
+### Create an environment variable
+## Create an environment variable
+POST https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "USERNAME",
+  "value" : "octocat"
+}
+
+
+### Create or update an environment secret
+## Create or update an environment secret
+PUT https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets/{{secret_name}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "encrypted_value" : "c2VjcmV0",
+  "key_id" : "012345678912345678"
+}
+
+
+### Create or update an organization secret
+## Create or update an organization secret
+PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "encrypted_value" : "c2VjcmV0",
+  "key_id" : "012345678912345678",
+  "visibility" : "selected",
+  "selected_repository_ids" : [ 1296269, 1296280 ]
+}
+
+
+### Create or update a repository secret
+## Create or update a repository secret
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/{{secret_name}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "encrypted_value" : "c2VjcmV0",
+  "key_id" : "012345678912345678"
+}
+
+
+### Create an organization variable
+## Create an organization variable
+POST https://api.github.com/orgs/{{org}}/actions/variables
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "USERNAME",
+  "value" : "octocat",
+  "visibility" : "selected",
+  "selected_repository_ids" : [ 1296269, 1296280 ]
+}
+
+
+### Create a registration token for an organization
+## Create a registration token for an organization
+POST https://api.github.com/orgs/{{org}}/actions/runners/registration-token
+Accept: application/json
+
+### Create a registration token for a repository
+## Create a registration token for a repository
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/registration-token
+Accept: application/json
+
+### Create a remove token for an organization
+## Create a remove token for an organization
+POST https://api.github.com/orgs/{{org}}/actions/runners/remove-token
+Accept: application/json
+
+### Create a remove token for a repository
+## Create a remove token for a repository
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/remove-token
+Accept: application/json
+
+### Create a repository variable
+## Create a repository variable
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "USERNAME",
+  "value" : "octocat"
+}
+
+
+### Create a workflow dispatch event
+## Create a workflow dispatch event
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/dispatches
+Content-Type: application/json
+
+{
+  "ref" : "topic-branch",
+  "inputs" : {
+    "name" : "Mona the Octocat",
+    "home" : "San Francisco, CA"
+  }
+}
+
+
+### Delete a GitHub Actions cache for a repository (using a cache ID)
+## Delete a GitHub Actions cache for a repository (using a cache ID)
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches/{{cache_id}}
+
+### Delete GitHub Actions caches for a repository (using a cache key)
+## Delete GitHub Actions caches for a repository (using a cache key)
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches?key={{key}}&ref={{ref}}
+Accept: application/json
+
+### Delete an artifact
+## Delete an artifact
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts/{{artifact_id}}
+
+### Delete an environment secret
+## Delete an environment secret
+DELETE https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets/{{secret_name}}
+
+### Delete an environment variable
+## Delete an environment variable
+DELETE https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables/{{name}}
+
+### Delete an organization secret
+## Delete an organization secret
+DELETE https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}
+
+### Delete an organization variable
+## Delete an organization variable
+DELETE https://api.github.com/orgs/{{org}}/actions/variables/{{name}}
+
+### Delete a repository secret
+## Delete a repository secret
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/{{secret_name}}
+
+### Delete a repository variable
+## Delete a repository variable
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables/{{name}}
+
+### Delete a self-hosted runner from an organization
+## Delete a self-hosted runner from an organization
+DELETE https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}
+
+### Delete a self-hosted runner from a repository
+## Delete a self-hosted runner from a repository
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}
+
+### Delete a workflow run
+## Delete a workflow run
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}
+
+### Delete workflow run logs
+## Delete workflow run logs
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/logs
+Accept: application/json
+
+### Disable a selected repository for GitHub Actions in an organization
+## Disable a selected repository for GitHub Actions in an organization
+DELETE https://api.github.com/orgs/{{org}}/actions/permissions/repositories/{{repository_id}}
+
+### Disable a workflow
+## Disable a workflow
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/disable
+
+### Download an artifact
+## Download an artifact
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts/{{artifact_id}}/{{archive_format}}
+Accept: application/json
+
+### Download job logs for a workflow run
+## Download job logs for a workflow run
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/jobs/{{job_id}}/logs
+
+### Download workflow run attempt logs
+## Download workflow run attempt logs
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/attempts/{{attempt_number}}/logs
+
+### Download workflow run logs
+## Download workflow run logs
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/logs
+
+### Enable a selected repository for GitHub Actions in an organization
+## Enable a selected repository for GitHub Actions in an organization
+PUT https://api.github.com/orgs/{{org}}/actions/permissions/repositories/{{repository_id}}
+
+### Enable a workflow
+## Enable a workflow
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/enable
+
+### Force cancel a workflow run
+## Force cancel a workflow run
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/force-cancel
+Accept: application/json
+
+### Create configuration for a just-in-time runner for an organization
+## Create configuration for a just-in-time runner for an organization
+POST https://api.github.com/orgs/{{org}}/actions/runners/generate-jitconfig
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "New runner",
+  "runner_group_id" : 1,
+  "labels" : [ "self-hosted", "X64", "macOS", "no-gpu" ],
+  "work_folder" : "_work"
+}
+
+
+### Create configuration for a just-in-time runner for a repository
+## Create configuration for a just-in-time runner for a repository
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/generate-jitconfig
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "New runner",
+  "runner_group_id" : 1,
+  "labels" : [ "self-hosted", "X64", "macOS", "no-gpu" ],
+  "work_folder" : "_work"
+}
+
+
+### List GitHub Actions caches for a repository
+## List GitHub Actions caches for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches?perPage={{perPage}}&page={{page}}&ref={{ref}}&key={{key}}&sort={{sort}}&direction={{direction}}
+Accept: application/json
+
+### Get GitHub Actions cache usage for a repository
+## Get GitHub Actions cache usage for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/cache/usage
+Accept: application/json
+
+### List repositories with GitHub Actions cache usage for an organization
+## List repositories with GitHub Actions cache usage for an organization
+GET https://api.github.com/orgs/{{org}}/actions/cache/usage-by-repository?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Get GitHub Actions cache usage for an organization
+## Get GitHub Actions cache usage for an organization
+GET https://api.github.com/orgs/{{org}}/actions/cache/usage
+Accept: application/json
+
+### Get allowed actions and reusable workflows for an organization
+## Get allowed actions and reusable workflows for an organization
+GET https://api.github.com/orgs/{{org}}/actions/permissions/selected-actions
+Accept: application/json
+
+### Get allowed actions and reusable workflows for a repository
+## Get allowed actions and reusable workflows for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/selected-actions
+Accept: application/json
+
+### Get an artifact
+## Get an artifact
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts/{{artifact_id}}
+Accept: application/json
+
+### Get the customization template for an OIDC subject claim for a repository
+## Get the customization template for an OIDC subject claim for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/oidc/customization/sub
+Accept: application/json
+Accept: application/scim+json
+
+### Get an environment public key
+## Get an environment public key
+GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets/public-key
+Accept: application/json
+
+### Get an environment secret
+## Get an environment secret
+GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets/{{secret_name}}
+Accept: application/json
+
+### Get an environment variable
+## Get an environment variable
+GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables/{{name}}
+Accept: application/json
+
+### Get default workflow permissions for an organization
+## Get default workflow permissions for an organization
+GET https://api.github.com/orgs/{{org}}/actions/permissions/workflow
+Accept: application/json
+
+### Get default workflow permissions for a repository
+## Get default workflow permissions for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/workflow
+Accept: application/json
+
+### Get GitHub Actions permissions for an organization
+## Get GitHub Actions permissions for an organization
+GET https://api.github.com/orgs/{{org}}/actions/permissions
+Accept: application/json
+
+### Get GitHub Actions permissions for a repository
+## Get GitHub Actions permissions for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions
+Accept: application/json
+
+### Get a job for a workflow run
+## Get a job for a workflow run
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/jobs/{{job_id}}
+Accept: application/json
+
+### Get an organization public key
+## Get an organization public key
+GET https://api.github.com/orgs/{{org}}/actions/secrets/public-key
+Accept: application/json
+
+### Get an organization secret
+## Get an organization secret
+GET https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}
+Accept: application/json
+
+### Get an organization variable
+## Get an organization variable
+GET https://api.github.com/orgs/{{org}}/actions/variables/{{name}}
+Accept: application/json
+
+### Get pending deployments for a workflow run
+## Get pending deployments for a workflow run
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/pending_deployments
+Accept: application/json
+
+### Get a repository public key
+## Get a repository public key
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/public-key
+Accept: application/json
+
+### Get a repository secret
+## Get a repository secret
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/{{secret_name}}
+Accept: application/json
+
+### Get a repository variable
+## Get a repository variable
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables/{{name}}
+Accept: application/json
+
+### Get the review history for a workflow run
+## Get the review history for a workflow run
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/approvals
+Accept: application/json
+
+### Get a self-hosted runner for an organization
+## Get a self-hosted runner for an organization
+GET https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}
+Accept: application/json
+
+### Get a self-hosted runner for a repository
+## Get a self-hosted runner for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}
+Accept: application/json
+
+### Get a workflow
+## Get a workflow
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}
+Accept: application/json
+
+### Get the level of access for workflows outside of the repository
+## Get the level of access for workflows outside of the repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/access
+Accept: application/json
+
+### Get a workflow run
+## Get a workflow run
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}?excludePullRequests={{excludePullRequests}}
+Accept: application/json
+
+### Get a workflow run attempt
+## Get a workflow run attempt
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/attempts/{{attempt_number}}?excludePullRequests={{excludePullRequests}}
+Accept: application/json
+
+### Get workflow run usage
+## Get workflow run usage
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/timing
+Accept: application/json
+
+### Get workflow usage
+## Get workflow usage
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/timing
+Accept: application/json
+
+### List artifacts for a repository
+## List artifacts for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts?perPage={{perPage}}&page={{page}}&name={{name}}
+Accept: application/json
+
+### List environment secrets
+## List environment secrets
+GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List environment variables
+## List environment variables
+GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List jobs for a workflow run
+## List jobs for a workflow run
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/jobs?filter={{filter}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List jobs for a workflow run attempt
+## List jobs for a workflow run attempt
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/attempts/{{attempt_number}}/jobs?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List labels for a self-hosted runner for an organization
+## List labels for a self-hosted runner for an organization
+GET https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
+Accept: application/json
+
+### List labels for a self-hosted runner for a repository
+## List labels for a self-hosted runner for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
+Accept: application/json
+
+### List organization secrets
+## List organization secrets
+GET https://api.github.com/orgs/{{org}}/actions/secrets?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List organization variables
+## List organization variables
+GET https://api.github.com/orgs/{{org}}/actions/variables?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository organization secrets
+## List repository organization secrets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/organization-secrets?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository organization variables
+## List repository organization variables
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/organization-variables?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository secrets
+## List repository secrets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository variables
+## List repository variables
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository workflows
+## List repository workflows
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List runner applications for an organization
+## List runner applications for an organization
+GET https://api.github.com/orgs/{{org}}/actions/runners/downloads
+Accept: application/json
+
+### List runner applications for a repository
+## List runner applications for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/downloads
+Accept: application/json
+
+### List selected repositories for an organization secret
+## List selected repositories for an organization secret
+GET https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories?page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### List selected repositories for an organization variable
+## List selected repositories for an organization variable
+GET https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories?page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### List selected repositories enabled for GitHub Actions in an organization
+## List selected repositories enabled for GitHub Actions in an organization
+GET https://api.github.com/orgs/{{org}}/actions/permissions/repositories?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List self-hosted runners for an organization
+## List self-hosted runners for an organization
+GET https://api.github.com/orgs/{{org}}/actions/runners?name={{name}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List self-hosted runners for a repository
+## List self-hosted runners for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners?name={{name}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List workflow run artifacts
+## List workflow run artifacts
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/artifacts?perPage={{perPage}}&page={{page}}&name={{name}}
+Accept: application/json
+
+### List workflow runs for a workflow
+## List workflow runs for a workflow
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/runs?actor={{actor}}&branch={{branch}}&event={{event}}&status={{status}}&perPage={{perPage}}&page={{page}}&created={{created}}&excludePullRequests={{excludePullRequests}}&checkSuiteId={{checkSuiteId}}&headSha={{headSha}}
+Accept: application/json
+
+### List workflow runs for a repository
+## List workflow runs for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs?actor={{actor}}&branch={{branch}}&event={{event}}&status={{status}}&perPage={{perPage}}&page={{page}}&created={{created}}&excludePullRequests={{excludePullRequests}}&checkSuiteId={{checkSuiteId}}&headSha={{headSha}}
+Accept: application/json
+
+
+
+
+### Remove all custom labels from a self-hosted runner for an organization
+## Remove all custom labels from a self-hosted runner for an organization
+DELETE https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
+Accept: application/json
+
+### Remove all custom labels from a self-hosted runner for a repository
+## Remove all custom labels from a self-hosted runner for a repository
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
+Accept: application/json
+
+### Remove a custom label from a self-hosted runner for an organization
+## Remove a custom label from a self-hosted runner for an organization
+DELETE https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels/{{name}}
+Accept: application/json
+
+### Remove a custom label from a self-hosted runner for a repository
+## Remove a custom label from a self-hosted runner for a repository
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels/{{name}}
+Accept: application/json
+
+### Remove selected repository from an organization secret
+## Remove selected repository from an organization secret
+DELETE https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories/{{repository_id}}
+
+### Remove selected repository from an organization variable
+## Remove selected repository from an organization variable
+DELETE https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories/{{repository_id}}
+
+### Review custom deployment protection rules for a workflow run
+## Review custom deployment protection rules for a workflow run
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/deployment_protection_rule
+Content-Type: application/json
+
+{
+  "environment_name" : "prod-eus",
+  "state" : "approved",
+  "comment" : "All health checks passed."
+}
+
+
+### Review pending deployments for a workflow run
+## Review pending deployments for a workflow run
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/pending_deployments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "environment_ids" : [ 161171787 ],
+  "state" : "approved",
+  "comment" : "Ship it!"
+}
+
+
+### Set allowed actions and reusable workflows for an organization
+## 
+PUT https://api.github.com/orgs/{{org}}/actions/permissions/selected-actions
+Content-Type: application/json
+
+{
+  "github_owned_allowed" : true,
+  "verified_allowed" : false,
+  "patterns_allowed" : [ "monalisa/octocat@*", "docker/*" ]
+}
+
+
+### Set allowed actions and reusable workflows for a repository
+## 
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/selected-actions
+Content-Type: application/json
+
+{
+  "github_owned_allowed" : true,
+  "verified_allowed" : false,
+  "patterns_allowed" : [ "monalisa/octocat@*", "docker/*" ]
+}
+
+
+### Set custom labels for a self-hosted runner for an organization
+## Set custom labels for a self-hosted runner for an organization
+PUT https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
+Content-Type: application/json
+Accept: application/json
+
+{
+  "labels" : [ "gpu", "accelerated" ]
+}
+
+
+### Set custom labels for a self-hosted runner for a repository
+## Set custom labels for a self-hosted runner for a repository
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
+Content-Type: application/json
+Accept: application/json
+
+{
+  "labels" : [ "gpu", "accelerated" ]
+}
+
+
+### Set the customization template for an OIDC subject claim for a repository
+## Set the customization template for an OIDC subject claim for a repository
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/oidc/customization/sub
+Content-Type: application/json
+Accept: application/json
+Accept: application/scim+json
+
+{
+  "use_default" : false,
+  "include_claim_keys" : [ "repo", "context" ]
+}
+
+
+### Set default workflow permissions for an organization
+## Give read-only permission, and allow approving PRs.
+PUT https://api.github.com/orgs/{{org}}/actions/permissions/workflow
+Content-Type: application/json
+
+{
+  "default_workflow_permissions" : "read",
+  "can_approve_pull_request_reviews" : true
+}
+
+
+### Set default workflow permissions for a repository
+## Give read-only permission, and allow approving PRs.
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/workflow
+Content-Type: application/json
+
+{
+  "default_workflow_permissions" : "read",
+  "can_approve_pull_request_reviews" : true
+}
+
+
+### Set GitHub Actions permissions for an organization
+## Set GitHub Actions permissions for an organization
+PUT https://api.github.com/orgs/{{org}}/actions/permissions
+Content-Type: application/json
+
+{
+  "enabled_repositories" : "all",
+  "allowed_actions" : "selected"
+}
+
+
+### Set GitHub Actions permissions for a repository
+## Set GitHub Actions permissions for a repository
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions
+Content-Type: application/json
+
+{
+  "enabled" : true,
+  "allowed_actions" : "selected"
+}
+
+
+### Set selected repositories for an organization secret
+## Set selected repositories for an organization secret
+PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories
+Content-Type: application/json
+
+{
+  "selected_repository_ids" : [ 64780797 ]
+}
+
+
+### Set selected repositories for an organization variable
+## Set selected repositories for an organization variable
+PUT https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories
+Content-Type: application/json
+
+{
+  "selected_repository_ids" : [ 64780797 ]
+}
+
+
+### Set selected repositories enabled for GitHub Actions in an organization
+## Set selected repositories enabled for GitHub Actions in an organization
+PUT https://api.github.com/orgs/{{org}}/actions/permissions/repositories
+Content-Type: application/json
+
+{
+  "selected_repository_ids" : [ 32, 42 ]
+}
+
+
+### Set the level of access for workflows outside of the repository
+## 
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/access
+Content-Type: application/json
+
+{
+  "access_level" : "organization"
+}
+
+
+### Update an environment variable
+## Update an environment variable
+PATCH https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables/{{name}}
+Content-Type: application/json
+
+{
+  "name" : "USERNAME",
+  "value" : "octocat"
+}
+
+
+### Update an organization variable
+## Update an organization variable
+PATCH https://api.github.com/orgs/{{org}}/actions/variables/{{name}}
+Content-Type: application/json
+
+{
+  "name" : "USERNAME",
+  "value" : "octocat",
+  "visibility" : "selected",
+  "selected_repository_ids" : [ 1296269, 1296280 ]
+}
+
+
+### Update a repository variable
+## Update a repository variable
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables/{{name}}
+Content-Type: application/json
+
+{
+  "name" : "USERNAME",
+  "value" : "octocat"
+}
+

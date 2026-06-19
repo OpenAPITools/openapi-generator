@@ -1,0 +1,106 @@
+## SecurityAdvisoriesApi
+
+### Create a temporary private fork
+## Create a temporary private fork
+POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}/forks
+Accept: application/json
+Accept: application/scim+json
+
+### Privately report a security vulnerability
+## Privately report a security vulnerability
+POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/reports
+Content-Type: application/json
+Accept: application/json
+
+{
+  "summary" : "A newly discovered vulnerability",
+  "description" : "A more in-depth description of what the problem is.",
+  "severity" : "high",
+  "vulnerabilities" : [ {
+    "package" : {
+      "name" : "a-package",
+      "ecosystem" : "npm"
+    },
+    "vulnerable_version_range" : "< 1.0.0",
+    "patched_versions" : "1.0.0",
+    "vulnerable_functions" : [ "important_function" ]
+  } ],
+  "cwe_ids" : [ "CWE-123" ]
+}
+
+
+### Create a repository security advisory
+## Create a repository security advisory
+POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories
+Content-Type: application/json
+Accept: application/json
+
+{
+  "summary" : "A new important advisory",
+  "description" : "A more in-depth description of what the problem is.",
+  "severity" : "high",
+  "cve_id" : null,
+  "vulnerabilities" : [ {
+    "package" : {
+      "name" : "a-package",
+      "ecosystem" : "npm"
+    },
+    "vulnerable_version_range" : "< 1.0.0",
+    "patched_versions" : "1.0.0",
+    "vulnerable_functions" : [ "important_function" ]
+  } ],
+  "cwe_ids" : [ "CWE-1101", "CWE-20" ],
+  "credits" : [ {
+    "login" : "monalisa",
+    "type" : "reporter"
+  }, {
+    "login" : "octocat",
+    "type" : "analyst"
+  } ]
+}
+
+
+### Request a CVE for a repository security advisory
+## Request a CVE for a repository security advisory
+POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}/cve
+Accept: application/json
+Accept: application/scim+json
+
+### Get a global security advisory
+## Get a global security advisory
+GET https://api.github.com/advisories/{{ghsa_id}}
+Accept: application/json
+
+### Get a repository security advisory
+## Get a repository security advisory
+GET https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}
+Accept: application/json
+
+### List global security advisories
+## List global security advisories
+GET https://api.github.com/advisories?ghsaId={{ghsaId}}&type={{type}}&cveId={{cveId}}&ecosystem={{ecosystem}}&severity={{severity}}&cwes={{cwes}}&isWithdrawn={{isWithdrawn}}&affects={{affects}}&published={{published}}&updated={{updated}}&modified={{modified}}&before={{before}}&after={{after}}&direction={{direction}}&perPage={{perPage}}&sort={{sort}}
+Accept: application/json
+
+### List repository security advisories for an organization
+## List repository security advisories for an organization
+GET https://api.github.com/orgs/{{org}}/security-advisories?direction={{direction}}&sort={{sort}}&before={{before}}&after={{after}}&perPage={{perPage}}&state={{state}}
+Accept: application/json
+Accept: application/scim+json
+
+### List repository security advisories
+## List repository security advisories
+GET https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories?direction={{direction}}&sort={{sort}}&before={{before}}&after={{after}}&perPage={{perPage}}&state={{state}}
+Accept: application/json
+Accept: application/scim+json
+
+### Update a repository security advisory
+## Update a repository security advisory
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "severity" : "critical",
+  "state" : "published"
+}
+

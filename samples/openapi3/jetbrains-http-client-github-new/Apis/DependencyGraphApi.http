@@ -1,0 +1,55 @@
+## DependencyGraphApi
+
+### Create a snapshot of dependencies for a repository
+## 
+POST https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/snapshots
+Content-Type: application/json
+Accept: application/json
+
+{
+  "version" : 0,
+  "sha" : "ce587453ced02b1526dfb4cb910479d431683101",
+  "ref" : "refs/heads/main",
+  "job" : {
+    "correlator" : "yourworkflowname_youractionname",
+    "id" : "yourrunid"
+  },
+  "detector" : {
+    "name" : "octo-detector",
+    "version" : "0.0.1",
+    "url" : "https://github.com/octo-org/octo-repo"
+  },
+  "scanned" : "2022-06-14T20:25:00Z",
+  "manifests" : {
+    "package-lock.json" : {
+      "name" : "package-lock.json",
+      "file" : {
+        "source_location" : "src/package-lock.json"
+      },
+      "resolved" : {
+        "@actions/core" : {
+          "package_url" : "pkg:/npm/%40actions/core@1.1.9",
+          "dependencies" : [ "@actions/http-client" ]
+        },
+        "@actions/http-client" : {
+          "package_url" : "pkg:/npm/%40actions/http-client@1.0.7",
+          "dependencies" : [ "tunnel" ]
+        },
+        "tunnel" : {
+          "package_url" : "pkg:/npm/tunnel@0.0.6"
+        }
+      }
+    }
+  }
+}
+
+
+### Get a diff of the dependencies between commits
+## Get a diff of the dependencies between commits
+GET https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/compare/{{basehead}}?name={{name}}
+Accept: application/json
+
+### Export a software bill of materials (SBOM) for a repository.
+## Export a software bill of materials (SBOM) for a repository.
+GET https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/sbom
+Accept: application/json

@@ -1,0 +1,12 @@
+language: php
+# Jammy Jellyfish environment has preinstalled PHP 8.1
+# Focal Fossa doesn't fit since it contains preinstalled PHP 7.4 only
+# https://docs.travis-ci.com/user/reference/jammy/#php-support
+dist: jammy
+os:
+  - linux
+php:
+  - 8.1
+  - 8.2
+before_install: "composer install"
+script: "vendor/bin/phpunit"

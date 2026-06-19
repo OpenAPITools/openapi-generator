@@ -1,0 +1,9 @@
+# https://docs.travis-ci.com/user/languages/perl/
+#
+
+language: perl
+
+perl:
+  - "5.28"
+
+sudo: false

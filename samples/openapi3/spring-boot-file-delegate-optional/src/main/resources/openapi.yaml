@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  description: ""
+  title: Issue 18345
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /dummy:
+    post:
+      description: ""
+      operationId: uploadFile
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+      responses:
+        "200":
+          description: successful operation
+      x-content-type: application/octet-stream
+      x-accepts:
+      - application/json
+components:
+  schemas: {}

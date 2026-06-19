@@ -1,0 +1,262 @@
+package org.openapitools.model;
+
+import java.net.URI;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
+import java.time.OffsetDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
+
+/**
+ * Order
+ */
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+public class Order {
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Long id;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Long petId;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable Integer quantity;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private @Nullable OffsetDateTime shipDate;
+
+  /**
+   * Order Status
+   */
+  public enum StatusEnum {
+    PLACED("placed"),
+    
+    APPROVED("approved"),
+    
+    DELIVERED("delivered");
+
+    private final String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StatusEnum fromValue(String value) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable StatusEnum status;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Boolean complete = false;
+
+  public Order id(@Nullable Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+   */
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
+  public @Nullable Long getId() {
+    return id;
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP)
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
+    this.id = id;
+  }
+
+  public Order petId(@Nullable Long petId) {
+    this.petId = petId;
+    return this;
+  }
+
+  /**
+   * Get petId
+   * @return petId
+   */
+  
+  @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("petId")
+  public @Nullable Long getPetId() {
+    return petId;
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP)
+  @JsonProperty("petId")
+  public void setPetId(@Nullable Long petId) {
+    this.petId = petId;
+  }
+
+  public Order quantity(@Nullable Integer quantity) {
+    this.quantity = quantity;
+    return this;
+  }
+
+  /**
+   * Get quantity
+   * @return quantity
+   */
+  
+  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("quantity")
+  public @Nullable Integer getQuantity() {
+    return quantity;
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP)
+  @JsonProperty("quantity")
+  public void setQuantity(@Nullable Integer quantity) {
+    this.quantity = quantity;
+  }
+
+  public Order shipDate(@Nullable OffsetDateTime shipDate) {
+    this.shipDate = shipDate;
+    return this;
+  }
+
+  /**
+   * Get shipDate
+   * @return shipDate
+   */
+  @Valid 
+  @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("shipDate")
+  public @Nullable OffsetDateTime getShipDate() {
+    return shipDate;
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP)
+  @JsonProperty("shipDate")
+  public void setShipDate(@Nullable OffsetDateTime shipDate) {
+    this.shipDate = shipDate;
+  }
+
+  public Order status(@Nullable StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Order Status
+   * @return status
+   */
+  
+  @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("status")
+  public @Nullable StatusEnum getStatus() {
+    return status;
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP)
+  @JsonProperty("status")
+  public void setStatus(@Nullable StatusEnum status) {
+    this.status = status;
+  }
+
+  public Order complete(Boolean complete) {
+    this.complete = complete;
+    return this;
+  }
+
+  /**
+   * Get complete
+   * @return complete
+   */
+  
+  @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("complete")
+  public Boolean getComplete() {
+    return complete;
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP)
+  @JsonProperty("complete")
+  public void setComplete(Boolean complete) {
+    this.complete = complete;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Order order = (Order) o;
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Order {\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
+    sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+    sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
+  }
+}
+

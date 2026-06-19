@@ -1,0 +1,115 @@
+package org.openapitools.model;
+
+import java.net.URI;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
+import org.springframework.lang.Nullable;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
+
+/**
+ * HasOnlyReadOnly
+ */
+
+@JsonTypeName("hasOnlyReadOnly")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+public class HasOnlyReadOnly {
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String bar;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String foo;
+
+  public HasOnlyReadOnly bar(@Nullable String bar) {
+    this.bar = bar;
+    return this;
+  }
+
+  /**
+   * Get bar
+   * @return bar
+   */
+  
+  @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("bar")
+  public @Nullable String getBar() {
+    return bar;
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP)
+  @JsonProperty("bar")
+  public void setBar(@Nullable String bar) {
+    this.bar = bar;
+  }
+
+  public HasOnlyReadOnly foo(@Nullable String foo) {
+    this.foo = foo;
+    return this;
+  }
+
+  /**
+   * Get foo
+   * @return foo
+   */
+  
+  @Schema(name = "foo", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("foo")
+  public @Nullable String getFoo() {
+    return foo;
+  }
+
+  @JsonSetter(nulls = Nulls.SKIP)
+  @JsonProperty("foo")
+  public void setFoo(@Nullable String foo) {
+    this.foo = foo;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
+    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(this.foo, hasOnlyReadOnly.foo);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(bar, foo);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class HasOnlyReadOnly {\n");
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
+  }
+}
+

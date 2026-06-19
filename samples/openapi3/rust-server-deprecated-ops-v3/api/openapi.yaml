@@ -1,0 +1,195 @@
+openapi: 3.0.1
+info:
+  title: Regression test for large number of operations
+  version: 0.0.1
+servers:
+- url: /
+paths:
+  /op1:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op2:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op3:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op4:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op5:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op6:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op7:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op8:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op9:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op10:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op11:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op12:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op13:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op14:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op15:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op16:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op17:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op18:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op19:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op20:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op21:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op22:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op23:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op24:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op25:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op26:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op27:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op28:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op29:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op30:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op31:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op32:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op33:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op34:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op35:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op36:
+    get:
+      responses:
+        "200":
+          description: OK
+  /op37:
+    get:
+      responses:
+        "200":
+          description: OK
+components:
+  schemas: {}
+
