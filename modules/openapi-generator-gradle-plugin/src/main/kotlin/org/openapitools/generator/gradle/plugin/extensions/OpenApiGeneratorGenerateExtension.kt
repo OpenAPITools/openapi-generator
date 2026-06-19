@@ -38,6 +38,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
 
     /**
      * Whether an input specification should be validated upon generation.
+     * Defaults to `true`.
      */
     val validateSpec = project.objects.property<Boolean>()
 
@@ -339,6 +340,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      *
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
+     * Defaults to `true`.
      */
     val generateModelTests = project.objects.property<Boolean>()
 
@@ -349,6 +351,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      *
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
+     * Defaults to `true`.
      */
     val generateModelDocumentation = project.objects.property<Boolean>()
 
@@ -359,6 +362,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      *
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
+     * Defaults to `true`.
      */
     val generateApiTests = project.objects.property<Boolean>()
 
@@ -369,11 +373,12 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      *
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
+     * Defaults to `true`.
      */
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
-     * To write all log messages (not just errors) to STDOUT
+     * To write all log messages (not just errors) to STDOUT. Defaults to `false`.
      */
     val logToStderr = project.objects.property<Boolean>()
 
@@ -382,11 +387,13 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      * This only enables the post-processor. To define the post-processing command, define an environment variable such as
      * LANG_POST_PROCESS_FILE (e.g. GO_POST_PROCESS_FILE, SCALA_POST_PROCESS_FILE). Please open an issue if your target
      * generator does not support this functionality.
+     * Defaults to `false`.
      */
     val enablePostProcessFile = project.objects.property<Boolean>()
 
     /**
      * To skip spec validation. When true, we will skip the default behavior of validating a spec before generation.
+     * Defaults to `false`.
      */
     val skipValidateSpec = project.objects.property<Boolean>()
 
@@ -394,6 +401,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      * To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those
      * definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions.
      * When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
+     * Defaults to `false`.
      */
     val generateAliasAsModel = project.objects.property<Boolean>()
 
@@ -409,11 +417,13 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
 
     /**
      * Defines whether the output dir should be cleaned up before generating the output.
+     * Defaults to `false`.
      */
     val cleanupOutput = project.objects.property<Boolean>()
 
     /**
      * Defines whether the generator should run in dry-run mode.
+     * Defaults to `false`.
      */
     val dryRun = project.objects.property<Boolean>()
 

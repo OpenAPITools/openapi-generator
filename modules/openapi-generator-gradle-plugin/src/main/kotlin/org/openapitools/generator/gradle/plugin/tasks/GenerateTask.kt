@@ -385,14 +385,14 @@ abstract class GenerateTask : DefaultTask() {
     abstract val inputSpecRootDirectory: DirectoryProperty
 
     /**
-     * Skip bundling all spec files into a merged spec file, if true.
+     * Skip bundling all spec files into a merged spec file, if true. Defaults to `false`.
      */
     @get:Input
     @get:Optional
     abstract val inputSpecRootDirectorySkipMerge: Property<Boolean>
 
     /**
-     * Name of the file that will contain all merged specs
+     * Name of the file that will contain all merged specs. Defaults to `"merged"`.
      */
     @get:Input
     @get:Optional
