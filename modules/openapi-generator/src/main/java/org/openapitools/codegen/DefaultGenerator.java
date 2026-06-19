@@ -467,8 +467,8 @@ public class DefaultGenerator implements Generator {
         for (String name : modelKeys) {
             processedModels.add(name);
             try {
-                //don't generate models that have an import mapping
-                if (config.schemaMapping().containsKey(name)) {
+                //don't generate models that have an import mapping or are in the list of schemas to always generate
+                if (config.schemaMapping().containsKey(name) && !config.forcedGenerateSchemas().contains(name)) {
                     LOGGER.info("Model {} not generated due to schema mapping", name);
                     continue;
                 }
@@ -549,8 +549,8 @@ public class DefaultGenerator implements Generator {
             ModelsMap models = allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             try {
-                //don't generate models that have a schema mapping
-                if (config.schemaMapping().containsKey(modelName)) {
+                //don't generate models that have a schema mapping or are in the list of schemas to always generate
+                if (config.schemaMapping().containsKey(modelName) && !config.forcedGenerateSchemas().contains(modelName)) {
                     continue;
                 }
 

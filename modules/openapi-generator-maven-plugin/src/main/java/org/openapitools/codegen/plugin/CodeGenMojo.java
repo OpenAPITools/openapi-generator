@@ -352,6 +352,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> schemaMappings;
 
     /**
+     * A list of schema names that must be generated even when listed in schemaMappings or importMappings
+     */
+    @Parameter(name = "forcedGenerateSchemas", property = "openapi.generator.maven.plugin.forcedGenerateSchemas")
+    private List<String> forcedGenerateSchemas;
+
+    /**
      * A map of inline scheme names and the new names
      */
     @Parameter(name = "inlineSchemaNameMappings", property = "openapi.generator.maven.plugin.inlineSchemaNameMappings")
@@ -889,6 +895,11 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Schema Mappings
             if (schemaMappings != null && (configOptions == null || !configOptions.containsKey("schema-mappings"))) {
                 applySchemaMappingsKvpList(schemaMappings, configurator);
+            }
+
+            // Apply Forced Generate Schemas
+            if (forcedGenerateSchemas != null && (configOptions == null || !configOptions.containsKey("forced-generate-schemas"))) {
+                applyForcedGenerateSchemasKvpList(forcedGenerateSchemas, configurator);
             }
 
             // Apply Inline Schema Name Mappings

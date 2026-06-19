@@ -69,6 +69,7 @@ public class CodegenConfigurator {
     private Map<String, Object> additionalProperties = new HashMap<>();
     private Map<String, String> importMappings = new HashMap<>();
     private Map<String, String> schemaMappings = new HashMap<>();
+    private Set<String> forcedGenerateSchemas = new HashSet<>();
     private Map<String, String> inlineSchemaNameMappings = new HashMap<>();
     private Map<String, String> inlineSchemaOptions = new HashMap<>();
     private Map<String, String> nameMappings = new HashMap<>();
@@ -123,6 +124,9 @@ public class CodegenConfigurator {
             }
             if (generatorSettings.getSchemaMappings() != null) {
                 configurator.schemaMappings.putAll(generatorSettings.getSchemaMappings());
+            }
+            if (generatorSettings.getForcedGenerateSchemas() != null) {
+                configurator.forcedGenerateSchemas.addAll(generatorSettings.getForcedGenerateSchemas());
             }
             if (generatorSettings.getInlineSchemaNameMappings() != null) {
                 configurator.inlineSchemaNameMappings.putAll(generatorSettings.getInlineSchemaNameMappings());
@@ -223,6 +227,18 @@ public class CodegenConfigurator {
     public CodegenConfigurator addSchemaMapping(String key, String value) {
         this.schemaMappings.put(key, value);
         generatorSettingsBuilder.withSchemaMapping(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addForcedGenerateSchema(String schema) {
+        this.forcedGenerateSchemas.add(schema);
+        generatorSettingsBuilder.withForcedGenerateSchema(schema);
+        return this;
+    }
+
+    public CodegenConfigurator setForcedGenerateSchemas(Set<String> schemas) {
+        this.forcedGenerateSchemas = schemas;
+        generatorSettingsBuilder.withForcedGenerateSchemas(schemas);
         return this;
     }
 
@@ -773,6 +789,7 @@ public class CodegenConfigurator {
         config.typeMapping().putAll(generatorSettings.getTypeMappings());
         config.importMapping().putAll(generatorSettings.getImportMappings());
         config.schemaMapping().putAll(generatorSettings.getSchemaMappings());
+        config.forcedGenerateSchemas().addAll(generatorSettings.getForcedGenerateSchemas());
         config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
         config.inlineSchemaOption().putAll(generatorSettings.getInlineSchemaOptions());
         config.nameMapping().putAll(generatorSettings.getNameMappings());

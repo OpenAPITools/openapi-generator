@@ -182,6 +182,14 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> schemaMappings = new ArrayList<>();
 
     @Option(
+            name = {"--forced-generate-schemas"},
+            title = "forced generate schemas",
+            description = "comma-separated list of schema names that must be generated even when listed "
+                    + "in schemaMappings or importMappings. Example: MyEnum,OtherSchema."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> forcedGenerateSchemas = new ArrayList<>();
+
+    @Option(
             name = {"--inline-schema-name-mappings"},
             title = "inline schema name mappings",
             description = "specifies mappings between the inline schema name and the new name in the format of inline_object_2=Cat,inline_object_5=Bird."
@@ -508,6 +516,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);
         applySchemaMappingsKvpList(schemaMappings, configurator);
+        applyForcedGenerateSchemasKvpList(forcedGenerateSchemas, configurator);
         applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
         applyInlineSchemaOptionsKvpList(inlineSchemaOptions, configurator);
         applyNameMappingsKvpList(nameMappings, configurator);

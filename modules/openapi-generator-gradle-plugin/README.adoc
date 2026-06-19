@@ -245,6 +245,11 @@ apply plugin: 'org.openapi.generator'
 |None
 |specifies mappings between the schema and the new name in the format of schema_a=Cat,schema_b=Bird. https://openapi-generator.tech/docs/customization/#schema-mapping
 
+|forcedGenerateSchemas
+|List / Provider<List>
+|None
+|Forces generation of the named schemas even when they are listed in `schemaMappings` or `importMappings` (which would normally suppress their generation). The primary use case is producing a *reference copy* of a hand-written class — for example, a custom enum that replaces a generated one — so you can assert in a test that the hand-written version has not diverged from what the generator would produce. List of schema names, e.g. `["MyEnum", "OtherSchema"]`.
+
 |nameMappings
 |Map / Provider<Map>
 |None

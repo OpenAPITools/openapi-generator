@@ -146,6 +146,8 @@ public interface CodegenConfig {
 
     Map<String, String> schemaMapping();
 
+    Set<String> forcedGenerateSchemas();
+
     Map<String, String> inlineSchemaNameMapping();
 
     Map<String, String> inlineSchemaOption();
