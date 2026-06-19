@@ -79,6 +79,9 @@ interface OpenApiWorkParameters : WorkParameters {
     val enablePostProcessFile: Property<Boolean>
     val skipValidateSpec: Property<Boolean>
     val generateAliasAsModel: Property<Boolean>
+    val strictSpec: Property<Boolean>
+    val minimalUpdate: Property<Boolean>
+    val generateRecursiveDependentModels: Property<Boolean>
     val engine: Property<String>
     val dryRun: Property<Boolean>
 
@@ -154,6 +157,7 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
             params.generateModelDocumentation.orNull?.let { GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, it.toString()) }
             params.generateModelTests.orNull?.let { GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, it.toString()) }
             params.generateApiTests.orNull?.let { GlobalSettings.setProperty(CodegenConstants.API_TESTS, it.toString()) }
+            params.generateRecursiveDependentModels.orNull?.let { GlobalSettings.setProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, it.toString()) }
 
             // Apply Configurator Settings
             params.resolvedInputSpec.orNull?.let { configurator.setInputSpec(it) }
@@ -192,6 +196,8 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
             params.logToStderr.orNull?.let { configurator.setLogToStderr(it) }
             params.enablePostProcessFile.orNull?.let { configurator.setEnablePostProcessFile(it) }
             params.skipValidateSpec.orNull?.let { configurator.setValidateSpec(!it) }
+            params.strictSpec.orNull?.let { configurator.setStrictSpecBehavior(it) }
+            params.minimalUpdate.orNull?.let { configurator.setEnableMinimalUpdate(it) }
             params.generateAliasAsModel.orNull?.let { configurator.setGenerateAliasAsModel(it) }
 
             params.engine.orNull?.let {
@@ -867,9 +873,64 @@ abstract class GenerateTask : DefaultTask() {
     @get:Input
     abstract val dryRun: Property<Boolean>
 
+    /**
+     * When `true`, applies strict validation against the OpenAPI specification, failing on any deviation.
+     * Defaults to `false`.
+     */
+    @get:Optional
+    @get:Input
+    abstract val strictSpec: Property<Boolean>
+
+    /**
+     * When `true`, only writes output files that have changed relative to an existing generated output.
+     * Reduces unnecessary file churn in version control. Defaults to `false`.
+     */
+    @get:Optional
+    @get:Input
+    abstract val minimalUpdate: Property<Boolean>
+
+    /**
+     * When `true`, recursively generates all models that the selected models depend on,
+     * even if those dependent models were not explicitly listed for generation.
+     * Only relevant when [modelFilesConstrainedTo] is configured. Defaults to `false`.
+     */
+    @get:Optional
+    @get:Input
+    abstract val generateRecursiveDependentModels: Property<Boolean>
+
+    /**
+     * Title placed in the `info.title` field of the merged spec. Defaults to `"merged spec"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    @get:Optional
+    @get:Input
+    abstract val mergedFileInfoName: Property<String>
+
+    /**
+     * Description placed in the `info.description` field of the merged spec. Defaults to `"merged spec"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    @get:Optional
+    @get:Input
+    abstract val mergedFileInfoDescription: Property<String>
+
+    /**
+     * Version placed in the `info.version` field of the merged spec. Defaults to `"1.0.0"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    @get:Optional
+    @get:Input
+    abstract val mergedFileInfoVersion: Property<String>
+
     init {
         inputSpecRootDirectorySkipMerge.convention(false)
         mergedFileName.convention("merged")
+        mergedFileInfoName.convention("merged spec")
+        mergedFileInfoDescription.convention("merged spec")
+        mergedFileInfoVersion.convention("1.0.0")
+        minimalUpdate.convention(false)
+        generateRecursiveDependentModels.convention(false)
+        strictSpec.convention(false)
     }
 
     @Suppress("unused")
@@ -892,7 +953,11 @@ abstract class GenerateTask : DefaultTask() {
             if (!inputSpecRootDirectorySkipMerge.get()) {
                 finalResolvedInputSpec = MergedSpecBuilder(
                     inputDir.asFile.absolutePath,
-                    mergedFileName.get()
+                    mergedFileName.get(),
+                    mergedFileInfoName.get(),
+                    mergedFileInfoDescription.get(),
+                    mergedFileInfoVersion.get(),
+                    auth.orNull
                 ).buildMergedSpec()
                 logger.info("Merge input spec used: {}", finalResolvedInputSpec)
             }
@@ -972,6 +1037,9 @@ abstract class GenerateTask : DefaultTask() {
                 parameters.enablePostProcessFile.set(enablePostProcessFile)
                 parameters.skipValidateSpec.set(skipValidateSpec)
                 parameters.generateAliasAsModel.set(generateAliasAsModel)
+                parameters.strictSpec.set(strictSpec)
+                parameters.minimalUpdate.set(minimalUpdate)
+                parameters.generateRecursiveDependentModels.set(generateRecursiveDependentModels)
                 parameters.engine.set(engine)
                 parameters.dryRun.set(dryRun)
 

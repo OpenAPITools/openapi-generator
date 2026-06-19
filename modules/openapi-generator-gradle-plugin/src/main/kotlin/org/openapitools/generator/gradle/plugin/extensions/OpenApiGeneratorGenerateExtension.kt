@@ -77,6 +77,30 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val inputSpecRootDirectorySkipMerge = project.objects.property<Boolean>()
 
     /**
+     * The name of the merged spec file produced when [inputSpecRootDirectory] is used.
+     * Defaults to `"merged"`.
+     */
+    val mergedFileName = project.objects.property<String>()
+
+    /**
+     * Title placed in the `info.title` field of the merged spec. Defaults to `"merged spec"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    val mergedFileInfoName = project.objects.property<String>()
+
+    /**
+     * Description placed in the `info.description` field of the merged spec. Defaults to `"merged spec"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    val mergedFileInfoDescription = project.objects.property<String>()
+
+    /**
+     * Version placed in the `info.version` field of the merged spec. Defaults to `"1.0.0"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    val mergedFileInfoVersion = project.objects.property<String>()
+
+    /**
      * The remote Open API 2.0/3.x specification URL location.
      */
     val remoteInputSpec = project.objects.property<String>()
@@ -398,6 +422,25 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val skipValidateSpec = project.objects.property<Boolean>()
 
     /**
+     * When `true`, applies strict validation against the OpenAPI specification, failing on any deviation.
+     * Defaults to `false`.
+     */
+    val strictSpec = project.objects.property<Boolean>()
+
+    /**
+     * When `true`, only writes output files that have changed relative to an existing generated output.
+     * Reduces unnecessary file churn in version control. Defaults to `false`.
+     */
+    val minimalUpdate = project.objects.property<Boolean>()
+
+    /**
+     * When `true`, recursively generates all models that the selected models depend on,
+     * even if those dependent models were not explicitly listed for generation.
+     * Only relevant when [modelFilesConstrainedTo] is configured. Defaults to `false`.
+     */
+    val generateRecursiveDependentModels = project.objects.property<Boolean>()
+
+    /**
      * To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those
      * definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions.
      * When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
@@ -457,6 +500,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     fun applyDefaults() {
         releaseNote.convention("Minor update")
         inputSpecRootDirectorySkipMerge.convention(false)
+        mergedFileName.convention("merged")
         modelNamePrefix.convention("")
         modelNameSuffix.convention("")
         apiNameSuffix.convention("")
@@ -472,6 +516,12 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
         generateAliasAsModel.convention(false)
         cleanupOutput.convention(false)
         dryRun.convention(false)
+        mergedFileInfoName.convention("merged spec")
+        mergedFileInfoDescription.convention("merged spec")
+        mergedFileInfoVersion.convention("1.0.0")
+        strictSpec.convention(false)
+        minimalUpdate.convention(false)
+        generateRecursiveDependentModels.convention(false)
     }
 
     // ========================================================================
