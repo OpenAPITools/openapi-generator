@@ -116,19 +116,34 @@ class ParameterWiringRegressionTest : TestBase() {
     fun `enumNameMappings is wired from extension to task`() {
         // Before the fix the plugin wiring was missing enumNameMappings, so any value set
         // in the extension block was silently dropped and never reached the configurator.
+        // We use a spec with a real enum (ItemStatus with values active/inactive/pending) and
+        // map the "active" value to "activated", then verify the generated Kotlin source
+        // actually uses the mapped constant name.
         val result = runOpenApiGenerate("""
             plugins { id 'org.openapi.generator' }
             openApiGenerate {
                 generatorName = "kotlin"
                 inputSpec = file("spec.yaml").absolutePath
                 outputDir = file("build/kotlin").absolutePath
-                enumNameMappings = ["Error": "ApiError"]
+                enumNameMappings = ["active": "activated"]
             }
-        """.trimIndent(), "spec.yaml" to "specs/petstore-v3.0.yaml")
+        """.trimIndent(), "spec.yaml" to "specs/enum-api.yaml")
 
         assertEquals(
             TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
             "Generation failed after wiring enumNameMappings — check plugin wiring"
+        )
+
+        // Verify the mapping was applied: the generated source tree must contain a file
+        // or type reference for activated (our mapping of the "active" enum value).
+        val generatedSrcRoot = File(temp, "build/kotlin/src/main/kotlin")
+        val allKtSources = generatedSrcRoot.walkTopDown().filter { it.extension == "kt" }.toList()
+        assertTrue(allKtSources.isNotEmpty(), "No Kotlin source files were generated")
+
+        val allSourceText = allKtSources.joinToString("\n") { it.readText() }
+        assertTrue(
+            allSourceText.contains("activated"),
+            "Expected mapped enum value name 'activated' not found in generated sources — enumNameMappings may not be wired"
         )
     }
 
