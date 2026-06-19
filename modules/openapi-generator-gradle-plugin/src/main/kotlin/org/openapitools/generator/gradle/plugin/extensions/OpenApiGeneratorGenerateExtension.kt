@@ -189,7 +189,11 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies options for inline schemas
+     * Key/value options controlling how inline schemas are handled during generation.
+     *
+     * Common keys: `RESOLVE_INLINE_ENUMS` (promote inline enums to top-level models),
+     * `ARRAY_ITEMS_SUFFIX`, `MAP_ITEMS_SUFFIX`. Run `config-help -g {generatorName}` for the
+     * full list of supported options.
      */
     val inlineSchemaOptions = project.objects.mapProperty<String, String>()
 
@@ -219,7 +223,12 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val operationIdNameMappings = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies mappings (rules) in OpenAPI normalizer
+     * Key/value rules passed to the OpenAPI normalizer, which pre-processes the parsed spec
+     * before code generation begins.
+     *
+     * Example rules: `REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true`,
+     * `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true`. See the OpenAPI Generator docs for
+     * the full list of normalizer rules.
      */
     val openapiNormalizer = project.objects.mapProperty<String, String>()
 
@@ -400,7 +409,6 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
 
     /**
      * Defines whether the output dir should be cleaned up before generating the output.
-     *
      */
     val cleanupOutput = project.objects.property<Boolean>()
 

@@ -331,8 +331,11 @@ abstract class GenerateTask : DefaultTask() {
     abstract val generatorName: Property<String>
 
     /**
-     * This is the configuration for reference paths where schemas for openapi generation are stored
-     * The directory which contains the additional schema files
+     * Optional directory containing additional schema files referenced via `$ref` in the input specification.
+     *
+     * Declaring this directory tells Gradle to track all files inside it for up-to-date checks.
+     * Without it, changes to `$ref`-referenced schemas will not trigger re-generation because
+     * Gradle only watches [inputSpec] by default.
      */
     @get:Optional
     @get:InputDirectory
@@ -411,7 +414,10 @@ abstract class GenerateTask : DefaultTask() {
     abstract val templateDir: DirectoryProperty
 
     /**
-     * Resource path containing template files.
+     * A classpath resource path (or file-system directory path) holding custom Mustache templates.
+     *
+     * Takes precedence over [templateDir] when both are configured. Use this when templates are
+     * packaged inside a JAR on the classpath rather than as loose files on disk.
      */
     @get:Optional
     @get:Input
@@ -557,7 +563,11 @@ abstract class GenerateTask : DefaultTask() {
     abstract val inlineSchemaNameMappings: MapProperty<String, String>
 
     /**
-     * Specifies options for inline schemas
+     * Key/value options controlling how inline schemas are handled during generation.
+     *
+     * Common keys: `RESOLVE_INLINE_ENUMS` (promote inline enums to top-level models),
+     * `ARRAY_ITEMS_SUFFIX`, `MAP_ITEMS_SUFFIX`. Run `config-help -g {generatorName}` for the
+     * full list of supported options.
      */
     @get:Optional
     @get:Input
@@ -599,7 +609,12 @@ abstract class GenerateTask : DefaultTask() {
     abstract val operationIdNameMappings: MapProperty<String, String>
 
     /**
-     * Specifies mappings (rules) in OpenAPI normalizer
+     * Key/value rules passed to the OpenAPI normalizer, which pre-processes the parsed spec
+     * before code generation begins.
+     *
+     * Example rules: `REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true`,
+     * `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true`. See the OpenAPI Generator docs for
+     * the full list of normalizer rules.
      */
     @get:Optional
     @get:Input
@@ -698,7 +713,7 @@ abstract class GenerateTask : DefaultTask() {
     abstract val removeOperationIdPrefix: Property<Boolean>
 
     /**
-     * Remove examples defined in the operation
+     * Skip examples defined in the operation
      */
     @get:Optional
     @get:Input
