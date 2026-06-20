@@ -26,7 +26,6 @@ specifications as part of your build. Other tasks are available as command line 
 
 java {
     withSourcesJar()
-    withJavadocJar()
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
@@ -74,9 +73,12 @@ tasks.withType(Javadoc).configureEach {
     }
 }
 
-// Use Dokka to generate KDoc-based Javadoc so IntelliJ shows tooltips for plugin properties.
-tasks.named("javadocJar") {
-    from(tasks.named("dokkaJavadoc"))
+// Generate a KDoc-based javadoc jar using Dokka so IntelliJ shows rich documentation
+// tooltips without requiring the -sources.jar to be downloaded.
+tasks.register("javadocJar", Jar) {
+    dependsOn("dokkaJavadoc")
+    from(tasks.named("dokkaJavadoc").flatMap { it.outputDirectory })
+    archiveClassifier = "javadoc"
 }
 
 tasks.withType(CloseNexusStagingRepository).configureEach {
@@ -137,6 +139,7 @@ afterEvaluate {
     publishing {
         publications {
             pluginMaven {
+                artifact(tasks.named("javadocJar"))
                 pom {
                     name = "OpenAPI-Generator Contributors"
                     description = project.description
