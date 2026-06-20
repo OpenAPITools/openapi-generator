@@ -74,10 +74,9 @@ tasks.withType(Javadoc).configureEach {
     }
 }
 
-// Use Dokka to generate KDoc-based Javadoc so IntelliJ shows tooltips for plugin properties
+// Use Dokka to generate KDoc-based Javadoc so IntelliJ shows tooltips for plugin properties.
 tasks.named("javadocJar") {
-    dependsOn(tasks.named("dokkaJavadoc"))
-    from(tasks.named("dokkaJavadoc").map { it.outputs })
+    from(tasks.named("dokkaJavadoc"))
 }
 
 tasks.withType(CloseNexusStagingRepository).configureEach {
