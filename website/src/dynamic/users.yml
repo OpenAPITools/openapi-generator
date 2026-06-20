@@ -688,3 +688,8 @@
   image: "img/companies/outscale.png"
   infoLink: "https://www.outscale.com/"
   pinned: false
+-
+  caption: Carmatec
+  image: "img/companies/carmatec logo.png"
+  infoLink: "https://www.carmatec.com/"
+  pinned: false
