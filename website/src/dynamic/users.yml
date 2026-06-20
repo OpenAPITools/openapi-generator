@@ -128,6 +128,11 @@
   image: "img/companies/carlsberggroup.png"
   infoLink: "https://www.carlsberggroup.com/"
   pinned: false
+- 
+  caption: Carmatec
+  image: "img/companies/carmatec.png"
+  infoLink: "https://www.carlsberggroup.com/"
+  pinned: false
 -
   caption: Cisco 
   image: "img/companies/cisco.png"
