@@ -905,7 +905,7 @@ abstract class GenerateTask : DefaultTask() {
      * Only used when [inputSpecRootDirectory] is set.
      */
     @get:Optional
-    @get:Input
+    @get:Internal
     abstract val mergedFileInfoName: Property<String>
 
     /**
@@ -913,7 +913,7 @@ abstract class GenerateTask : DefaultTask() {
      * Only used when [inputSpecRootDirectory] is set.
      */
     @get:Optional
-    @get:Input
+    @get:Internal
     abstract val mergedFileInfoDescription: Property<String>
 
     /**
@@ -921,8 +921,24 @@ abstract class GenerateTask : DefaultTask() {
      * Only used when [inputSpecRootDirectory] is set.
      */
     @get:Optional
-    @get:Input
+    @get:Internal
     abstract val mergedFileInfoVersion: Property<String>
+
+    /**
+     * Combines [mergedFileInfoName], [mergedFileInfoDescription], and [mergedFileInfoVersion] into a
+     * single fingerprint value that is only visible to Gradle's up-to-date/caching logic when merge
+     * mode is actually active (i.e. [inputSpecRootDirectory] is set and [inputSpecRootDirectorySkipMerge]
+     * is false). Returns `null` — and is therefore skipped by `@Optional` — when merge is inactive,
+     * preventing unnecessary cache invalidation for tasks that never use the merge feature.
+     */
+    @get:Input
+    @get:Optional
+    val effectiveMergedSpecInfo: String?
+        get() {
+            if (!inputSpecRootDirectory.isPresent) return null
+            if (inputSpecRootDirectorySkipMerge.getOrElse(false)) return null
+            return "${mergedFileInfoName.orNull}|${mergedFileInfoDescription.orNull}|${mergedFileInfoVersion.orNull}"
+        }
 
     init {
         inputSpecRootDirectorySkipMerge.convention(false)

@@ -422,24 +422,6 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val skipValidateSpec = project.objects.property<Boolean>()
 
     /**
-     * When `true`, applies strict validation against the OpenAPI specification, failing on any deviation.
-     * When not set, any value from [configFile] is used; the generator's own default is `false`.
-     */
-
-    /**
-     * When `true`, only writes output files that have changed relative to an existing generated output.
-     * Reduces unnecessary file churn in version control.
-     * When not set, any value from [configFile] is used; the generator's own default is `false`.
-     */
-
-    /**
-     * When `true`, recursively generates all models that the selected models depend on,
-     * even if those dependent models were not explicitly listed for generation.
-     * Only relevant when [modelFilesConstrainedTo] is configured.
-     * When not set, any value from [configFile] is used; the generator's own default is `false`.
-     */
-
-    /**
      * To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those
      * definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions.
      * When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
@@ -470,19 +452,23 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val dryRun = project.objects.property<Boolean>()
 
     /**
-     * Whether to enforce strict spec validation. When not set, any value from a config file is used.
+     * When `true`, applies strict validation against the OpenAPI specification, failing on any deviation.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
      */
     val strictSpec = project.objects.property<Boolean>()
 
     /**
-     * Whether to only write output files whose content has changed (minimal update).
-     * When not set, any value from a config file is used.
+     * When `true`, only writes output files that have changed relative to an existing generated output.
+     * Reduces unnecessary file churn in version control.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
      */
     val minimalUpdate = project.objects.property<Boolean>()
 
     /**
-     * Whether to generate models for recursively referenced dependent schemas.
-     * When not set, any value from a config file is used.
+     * When `true`, recursively generates all models that the selected models depend on,
+     * even if those dependent models were not explicitly listed for generation.
+     * Only relevant when [modelFilesConstrainedTo] is configured.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
      */
     val generateRecursiveDependentModels = project.objects.property<Boolean>()
 
