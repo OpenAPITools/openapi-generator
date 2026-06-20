@@ -99,17 +99,27 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="NowGet200Response" />
     /// </summary>
-    public class NowGet200ResponseJsonConverter : JsonConverter<NowGet200Response>
+    public partial class NowGet200ResponseJsonConverter : JsonConverter<NowGet200Response>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NowGet200ResponseJsonConverter" /> class.
+        /// </summary>
+        public NowGet200ResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize Now
         /// </summary>
-        public static string NowFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string NowFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// The format to use to serialize Today
         /// </summary>
-        public static string TodayFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string TodayFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// Deserializes json to <see cref="NowGet200Response" />

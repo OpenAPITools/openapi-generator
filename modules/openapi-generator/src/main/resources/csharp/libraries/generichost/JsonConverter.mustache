@@ -1,21 +1,31 @@
     /// <summary>
     /// A Json converter for type <see cref="{{classname}}" />
     /// </summary>
-    {{>visibility}} class {{classname}}JsonConverter : JsonConverter<{{classname}}>
+    {{>visibility}} partial class {{classname}}JsonConverter : JsonConverter<{{classname}}>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}JsonConverter" /> class.
+        /// </summary>
+        public {{classname}}JsonConverter()
+        {
+            OnCreated();
+        }
+
         {{#allVars}}
         {{#isDateTime}}
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public static string {{name}}Format { get; set; } = "{{{dateTimeFormat}}}";
+        public string {{name}}Format { get; private set; } = "{{{dateTimeFormat}}}";
 
         {{/isDateTime}}
         {{#isDate}}
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public static string {{name}}Format { get; set; } = "{{{dateFormat}}}";
+        public string {{name}}Format { get; private set; } = "{{{dateFormat}}}";
 
         {{/isDate}}
         {{/allVars}}

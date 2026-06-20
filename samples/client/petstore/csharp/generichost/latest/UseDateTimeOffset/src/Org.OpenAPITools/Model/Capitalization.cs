@@ -164,8 +164,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Capitalization" />
     /// </summary>
-    public class CapitalizationJsonConverter : JsonConverter<Capitalization>
+    public partial class CapitalizationJsonConverter : JsonConverter<Capitalization>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CapitalizationJsonConverter" /> class.
+        /// </summary>
+        public CapitalizationJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Capitalization" />
         /// </summary>

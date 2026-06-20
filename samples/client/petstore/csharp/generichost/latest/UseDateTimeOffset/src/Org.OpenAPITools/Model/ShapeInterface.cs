@@ -76,8 +76,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ShapeInterface" />
     /// </summary>
-    public class ShapeInterfaceJsonConverter : JsonConverter<ShapeInterface>
+    public partial class ShapeInterfaceJsonConverter : JsonConverter<ShapeInterface>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShapeInterfaceJsonConverter" /> class.
+        /// </summary>
+        public ShapeInterfaceJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ShapeInterface" />
         /// </summary>
