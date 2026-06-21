@@ -8132,4 +8132,27 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("MyObject.java"))
                 .assertProperty("optionalRef").withType("JsonNullable<com.example.ExternalModel>");
     }
+
+    @Test
+    void shouldUseHeaderAuthParam() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/2_0/minimalBasicAuth.yaml",
+                SPRING_CLOUD_LIBRARY,
+                Map.of(USE_PARAM_FOR_AUTHORIZATION, "true"));
+
+        JavaFileAssert.assertThat(files.get("SomethingApi.java"))
+                .assertMethod("somethingGet", "String")
+                .assertParameter("auth")
+                .assertParameterAnnotations()
+                .containsWithName("RequestHeader");
+    }
+
+    @Test(expectedExceptions = {IllegalArgumentException.class},
+            expectedExceptionsMessageRegExp = "useParamForAuthorization is only available with Spring Cloud")
+    void useHeaderAuthParamShouldRequireSpringCloud() throws IOException {
+        generateFromContract(
+                "src/test/resources/2_0/minimalBasicAuth.yaml",
+                SPRING_BOOT,
+                Map.of(USE_PARAM_FOR_AUTHORIZATION, "true"));
+    }
 }
