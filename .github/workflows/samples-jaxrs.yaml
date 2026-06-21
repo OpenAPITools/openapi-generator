@@ -2,42 +2,60 @@ name: Samples JAX-RS
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - 'samples/server/petstore/jaxrs*/**'
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - 'samples/server/petstore/jaxrs*/**'
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/server/petstore/jaxrs/jersey2
+            samples/server/petstore/jaxrs/jersey2-useTags
+            samples/server/petstore/jaxrs-jersey
+            samples/server/petstore/jaxrs-spec
+            samples/server/petstore/jaxrs-spec-withxml
+            samples/server/petstore/jaxrs-spec-interface
+            samples/server/petstore/jaxrs-spec-interface-response
+            samples/server/petstore/jaxrs-datelib-j8
+            samples/server/petstore/jaxrs-resteasy/default
+            samples/server/petstore/jaxrs-resteasy/eap
+            samples/server/petstore/jaxrs-resteasy/eap-joda
+            samples/server/petstore/jaxrs-resteasy/eap-java8
+            samples/server/petstore/jaxrs-resteasy/joda
+            samples/server/petstore/jaxrs-cxf
+            samples/server/petstore/jaxrs-cxf-annotated-base-path
+            samples/server/petstore/jaxrs-cxf-cdi
+            samples/server/petstore/jaxrs-cxf-non-spring-app
+            samples/server/petstore/jaxrs-spec-microprofile-openapi-annotations
+            samples/server/petstore/jaxrs-spec-swagger-annotations
+            samples/server/petstore/jaxrs-spec-swagger-v3-annotations-jakarta
+            samples/server/petstore/jaxrs-spec-swagger-v3-annotations
+            samples/server/petstore/jaxrs-spec/quarkus-security
+
   build:
     name: Build JAX-RS
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # servers
-          - samples/server/petstore/jaxrs/jersey2
-          - samples/server/petstore/jaxrs/jersey2-useTags
-          - samples/server/petstore/jaxrs-jersey
-          - samples/server/petstore/jaxrs-spec
-          - samples/server/petstore/jaxrs-spec-withxml
-          - samples/server/petstore/jaxrs-spec-interface
-          - samples/server/petstore/jaxrs-spec-interface-response
-          - samples/server/petstore/jaxrs-datelib-j8
-          - samples/server/petstore/jaxrs-resteasy/default
-          - samples/server/petstore/jaxrs-resteasy/eap
-          - samples/server/petstore/jaxrs-resteasy/eap-joda
-          - samples/server/petstore/jaxrs-resteasy/eap-java8
-          - samples/server/petstore/jaxrs-resteasy/joda
-          - samples/server/petstore/jaxrs-cxf
-          - samples/server/petstore/jaxrs-cxf-annotated-base-path
-          - samples/server/petstore/jaxrs-cxf-cdi
-          - samples/server/petstore/jaxrs-cxf-non-spring-app
-          - samples/server/petstore/jaxrs-spec-microprofile-openapi-annotations
-          - samples/server/petstore/jaxrs-spec-swagger-annotations
-          - samples/server/petstore/jaxrs-spec-swagger-v3-annotations-jakarta
-          - samples/server/petstore/jaxrs-spec-swagger-v3-annotations
-          - samples/server/petstore/jaxrs-spec/quarkus-security
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5

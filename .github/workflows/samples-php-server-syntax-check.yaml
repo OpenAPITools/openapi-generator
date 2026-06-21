@@ -2,6 +2,7 @@ name: Samples PHP (Server) Syntax Checker
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
       #- samples/server/petstore/php-laravel/**
@@ -10,6 +11,7 @@ on:
       - samples/server/petstore/php-mezzio-ph/**
       - samples/server/petstore/php-slim4/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
       #- samples/server/petstore/php-laravel/**
@@ -18,8 +20,34 @@ on:
       - samples/server/petstore/php-mezzio-ph/**
       - samples/server/petstore/php-slim4/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      samples: ${{ steps.filter.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/server/petstore/php-symfony/SymfonyBundle-php/
+            samples/server/petstore/php-flight/
+            samples/server/petstore/php-mezzio-ph-modern/
+            samples/server/petstore/php-mezzio-ph/
+            samples/server/petstore/php-slim4/
+            # Commented-out samples from original matrix:
+            # servers
+            #- samples/server/petstore/php-laravel/
+
   build:
     name: Build PHP projects
+    needs: setup
+    if: ${{ needs.setup.outputs.samples != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -29,14 +57,7 @@ jobs:
           - "8.2"
           - "8.3"
           - "8.4"
-        sample:
-          # servers
-          - samples/server/petstore/php-symfony/SymfonyBundle-php/
-          #- samples/server/petstore/php-laravel/
-          - samples/server/petstore/php-flight/
-          - samples/server/petstore/php-mezzio-ph-modern/
-          - samples/server/petstore/php-mezzio-ph/
-          - samples/server/petstore/php-slim4/
+        sample: ${{ fromJson(needs.setup.outputs.samples) }}
     steps:
       - uses: actions/checkout@v5
       - name: Setup PHP with tools

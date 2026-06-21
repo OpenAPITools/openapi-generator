@@ -2,6 +2,7 @@ name: Samples Go Clients
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
       - 'samples/openapi3/client/petstore/go-petstore-withXml/**'
@@ -10,6 +11,7 @@ on:
       - samples/client/others/go/oneof-anyof-required/**
       - samples/client/others/go/oneof-discriminator-lookup/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
       - 'samples/openapi3/client/petstore/go-petstore-withXml/**'
@@ -18,19 +20,36 @@ on:
       - samples/client/others/go/oneof-anyof-required/**
       - samples/client/others/go/oneof-discriminator-lookup/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/openapi3/client/petstore/go/go-petstore-aws-signature
+            samples/openapi3/client/petstore/go-petstore-withXml
+            samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/
+            samples/client/others/go/allof_multiple_ref_and_discriminator/
+            samples/client/others/go/oneof-anyof-required/
+            samples/client/others/go/oneof-discriminator-lookup/
+
   build:
     name: Build Go
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: windows-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/'
-          - 'samples/openapi3/client/petstore/go-petstore-withXml/'
-          - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/
-          - samples/client/others/go/allof_multiple_ref_and_discriminator/
-          - samples/client/others/go/oneof-anyof-required/
-          - samples/client/others/go/oneof-discriminator-lookup/
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v6

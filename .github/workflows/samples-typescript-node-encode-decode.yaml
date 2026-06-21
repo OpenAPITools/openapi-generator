@@ -2,23 +2,41 @@ name: TypeScript Node Client (Encoding / Decoding Test)
 
 on:
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/others/typescript-node/encode-decode/**
       - .github/workflows/samples-typescript-node-encode-decode.yaml
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      samples: ${{ steps.filter.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/others/typescript-node/encode-decode/test
+
   build:
     name: Test TypeScript Node Encoding / Decoding
+    needs: setup
+    if: ${{ needs.setup.outputs.samples != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        sample:
-          # clients
-          - samples/client/others/typescript-node/encode-decode/test
         node-version:
           - 16
           - 18
           - 20
+        sample: ${{ fromJson(needs.setup.outputs.samples) }}
     steps:
       - uses: actions/checkout@v5
 

@@ -2,12 +2,14 @@ name: Samples Terraform
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - 'samples/client/petstore/terraform/**'
       - 'samples/client/petstore/terraform-addpet/**'
       - 'samples/client/petstore/terraform-server/**'
       - 'samples/client/others/terraform/**'
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - 'samples/client/petstore/terraform/**'
       - 'samples/client/petstore/terraform-addpet/**'
@@ -15,19 +17,36 @@ on:
       - 'samples/client/others/terraform/**'
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/terraform/
+            samples/client/petstore/terraform-addpet/
+            samples/client/petstore/terraform-server/
+            samples/client/others/terraform/allof-discriminator/
+            samples/client/others/terraform/oneof-anyof-required/
+            samples/client/others/terraform/oneof-discriminator-lookup/
+
   build:
     name: Build Terraform Provider
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - samples/client/petstore/terraform/
-          - samples/client/petstore/terraform-addpet/
-          - samples/client/petstore/terraform-server/
-          - samples/client/others/terraform/allof-discriminator/
-          - samples/client/others/terraform/oneof-anyof-required/
-          - samples/client/others/terraform/oneof-discriminator-lookup/
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v6

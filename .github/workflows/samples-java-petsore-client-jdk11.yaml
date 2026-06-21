@@ -3,6 +3,7 @@ name: Samples Java Petsore Client JDK11
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/java/jersey2-java8/**
       - samples/openapi3/client/petstore/java/jersey2-java8/**
@@ -12,6 +13,7 @@ on:
       - samples/client/petstore/java/okhttp-gson-dynamicOperations/**
       - samples/client/petstore/java-micronaut-client/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/java/jersey2-java8/**
       - samples/openapi3/client/petstore/java/jersey2-java8/**
@@ -21,20 +23,37 @@ on:
       - samples/client/petstore/java/okhttp-gson-dynamicOperations/**
       - samples/client/petstore/java-micronaut-client/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/java/jersey2-java8
+            samples/openapi3/client/petstore/java/jersey2-java8
+            samples/client/petstore/java/jersey3
+            samples/client/petstore/java/okhttp-gson
+            samples/client/petstore/java/okhttp-gson-3.1
+            samples/client/petstore/java/okhttp-gson-dynamicOperations
+            samples/client/petstore/java-micronaut-client
+
   build:
     name: Build Java Client JDK11
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - samples/client/petstore/java/jersey2-java8
-          - samples/openapi3/client/petstore/java/jersey2-java8
-          - samples/client/petstore/java/jersey3
-          - samples/client/petstore/java/okhttp-gson
-          - samples/client/petstore/java/okhttp-gson-3.1
-          - samples/client/petstore/java/okhttp-gson-dynamicOperations
-          - samples/client/petstore/java-micronaut-client
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     services:
       petstore-api:
         image: swaggerapi/petstore

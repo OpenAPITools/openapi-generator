@@ -2,6 +2,7 @@ name: Samples Java Client JDK17
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/resttemplate-springBoot4-*/**
@@ -20,6 +21,7 @@ on:
       - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/petstore/java/jersey3-jackson3/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/resttemplate-springBoot4-*/**
@@ -38,38 +40,54 @@ on:
       - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/petstore/java/jersey3-jackson3/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/java/resttemplate-jakarta
+            samples/client/petstore/java/resttemplate-springBoot4-jackson2
+            samples/client/petstore/java/resttemplate-springBoot4-jackson3
+            samples/client/petstore/java/webclient-jakarta
+            samples/client/petstore/java/restclient
+            samples/client/petstore/java/restclient-nullable-arrays
+            samples/client/petstore/java/restclient-springBoot4-jackson2
+            samples/client/petstore/java/restclient-springBoot4-jackson3
+            samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify
+            samples/client/petstore/java/native-jackson3-jspecify
+            samples/client/petstore/java/restclient-swagger2
+            samples/client/petstore/java/restclient-useSingleRequestParameter
+            samples/client/petstore/java/restclient-useSingleRequestParameter-static
+            samples/client/petstore/java/native-jackson3
+            samples/client/petstore/java/apache-httpclient-jackson3
+            samples/client/others/java/webclient-sealedInterface
+            samples/client/others/java/webclient-sealedInterface_3_1
+            samples/client/petstore/java/webclient-springBoot4-jackson3
+            samples/client/petstore/java/webclient-useSingleRequestParameter
+            samples/client/others/java/restclient-enum-in-multipart
+            samples/client/others/java/restclient-sealedInterface
+            samples/client/others/java/restclient-useAbstractionForFiles
+            samples/client/petstore/java/jersey3-oneOf
+            samples/client/petstore/java/jersey3-jackson3
+
   build:
     name: Build Java Client JDK17
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # clients
-          - samples/client/petstore/java/resttemplate-jakarta
-          - samples/client/petstore/java/resttemplate-springBoot4-jackson2
-          - samples/client/petstore/java/resttemplate-springBoot4-jackson3
-          - samples/client/petstore/java/webclient-jakarta
-          - samples/client/petstore/java/restclient
-          - samples/client/petstore/java/restclient-nullable-arrays
-          - samples/client/petstore/java/restclient-springBoot4-jackson2
-          - samples/client/petstore/java/restclient-springBoot4-jackson3
-          - samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify
-          - samples/client/petstore/java/native-jackson3-jspecify
-          - samples/client/petstore/java/restclient-swagger2
-          - samples/client/petstore/java/restclient-useSingleRequestParameter
-          - samples/client/petstore/java/restclient-useSingleRequestParameter-static
-          - samples/client/petstore/java/native-jackson3
-          - samples/client/petstore/java/apache-httpclient-jackson3
-          - samples/client/others/java/webclient-sealedInterface
-          - samples/client/others/java/webclient-sealedInterface_3_1
-          - samples/client/petstore/java/webclient-springBoot4-jackson3
-          - samples/client/petstore/java/webclient-useSingleRequestParameter
-          - samples/client/others/java/restclient-enum-in-multipart
-          - samples/client/others/java/restclient-sealedInterface
-          - samples/client/others/java/restclient-useAbstractionForFiles
-          - samples/client/petstore/java/jersey3-oneOf
-          - samples/client/petstore/java/jersey3-jackson3
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5

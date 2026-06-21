@@ -11,6 +11,40 @@ on:
       - '[5-9]+.[0-9]+.x'
 
 jobs:
+  # Detect whether source files (modules/, pom.xml) changed.
+  # When only samples/ or bin/configs/ changed, the unit tests and doc checks are skipped —
+  # they are not affected by sample or config-only changes. The samples job still runs to
+  # verify freshness. Nothing in bin/ affects mvn test; those scripts are used by the
+  # documentation and samples jobs which run unconditionally.
+  setup:
+    name: Detect source changes
+    runs-on: ubuntu-latest
+    outputs:
+      source-changed: ${{ steps.check.outputs.source-changed }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: check
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          if [[ "$BASE_SHA" == "0000000000000000000000000000000000000000" ]] || [[ -z "$BASE_SHA" ]]; then
+            BASE_SHA=$(git rev-parse HEAD~1 2>/dev/null || echo "")
+          fi
+          if [[ -n "$BASE_SHA" ]]; then
+            CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" 2>/dev/null || git diff --name-only HEAD~1 HEAD)
+          else
+            CHANGED=$(git diff --name-only HEAD~1 HEAD)
+          fi
+          if echo "$CHANGED" | grep -qE '^(modules/|pom\.xml|\.mvn/)'; then
+            echo "source-changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "source-changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -52,7 +86,10 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-latest
     needs:
+      - setup
       - build
+    # Unit tests are not affected by sample-only changes — skip to save CI time.
+    if: needs.setup.outputs.source-changed == 'true'
     steps:
       - uses: actions/checkout@v5
       - name: Set up JDK 11
@@ -90,7 +127,10 @@ jobs:
     name: Docs up-to-date
     runs-on: ubuntu-latest
     needs:
+      - setup
       - build
+    # Docs are generated from codegen metadata — skipped when only samples changed.
+    if: needs.setup.outputs.source-changed == 'true'
     steps:
       - uses: actions/checkout@v5
       - name: Set up JDK 11

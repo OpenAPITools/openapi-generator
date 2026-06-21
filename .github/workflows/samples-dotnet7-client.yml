@@ -2,6 +2,7 @@ name: Samples C# .Net 7 Client
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       # the .NET Core 3.0 runtime is no longer supported as it reached its end-of-life on March 3, 2020
       #- samples/client/petstore/csharp/httpclient/standard2.0/Petstore/**
@@ -14,6 +15,7 @@ on:
       - samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/**
       - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       #- samples/client/petstore/csharp/httpclient/standard2.0/Petstore/**
       - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/**
@@ -25,22 +27,40 @@ on:
       - samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/**
       - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/
+            samples/client/petstore/csharp/restsharp/net4.7/Petstore/
+            samples/client/petstore/csharp/restsharp/net4.8/Petstore/
+            samples/client/petstore/csharp/restsharp/net8/ParameterMappings/
+            samples/client/petstore/csharp/restsharp/net8/EnumMappings/
+            samples/client/petstore/csharp/restsharp/net8/Petstore/
+            samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/
+            samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/
+            # Commented-out samples from original matrix:
+            #- samples/client/petstore/csharp/httpclient/standard2.0/Petstore/
+
   build:
     name: Build clients
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: windows-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          #- samples/client/petstore/csharp/httpclient/standard2.0/Petstore/
-          - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/
-          - samples/client/petstore/csharp/restsharp/net4.7/Petstore/
-          - samples/client/petstore/csharp/restsharp/net4.8/Petstore/
-          - samples/client/petstore/csharp/restsharp/net8/ParameterMappings/
-          - samples/client/petstore/csharp/restsharp/net8/EnumMappings/
-          - samples/client/petstore/csharp/restsharp/net8/Petstore/
-          - samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/
-          - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v5.3.0

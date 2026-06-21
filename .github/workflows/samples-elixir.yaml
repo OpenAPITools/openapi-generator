@@ -2,21 +2,41 @@ name: Samples Elixir
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/elixir/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/elixir/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      samples: ${{ steps.filter.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/elixir/
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.samples != '[]' }}
     runs-on: ubuntu-latest
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       matrix:
         otp: ['25.3.2', '26.2.5', '27.3.3']
         elixir: ['1.18.3']
-        sample:
-          - samples/client/petstore/elixir/
+        sample: ${{ fromJson(needs.setup.outputs.samples) }}
     services:
       petstore-api:
         image: swaggerapi/petstore

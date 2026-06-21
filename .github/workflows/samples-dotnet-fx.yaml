@@ -2,36 +2,55 @@ name: Samples C# .Net Framework Clients
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/csharp/generichost/net4.7/**
       - samples/client/petstore/csharp/generichost/net4.8/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/csharp/generichost/net4.7/**
       - samples/client/petstore/csharp/generichost/net4.8/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      samples: ${{ steps.filter.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/csharp/generichost/net4.7/AllOf
+            samples/client/petstore/csharp/generichost/net4.7/AnyOf
+            samples/client/petstore/csharp/generichost/net4.7/AnyOfNoCompare
+            samples/client/petstore/csharp/generichost/net4.7/FormModels
+            samples/client/petstore/csharp/generichost/net4.7/OneOf
+            samples/client/petstore/csharp/generichost/net4.7/Petstore
+            samples/client/petstore/csharp/generichost/net4.7/UseDateTimeForDate
+            samples/client/petstore/csharp/generichost/net4.8/AllOf
+            samples/client/petstore/csharp/generichost/net4.8/AnyOf
+            samples/client/petstore/csharp/generichost/net4.8/AnyOfNoCompare
+            samples/client/petstore/csharp/generichost/net4.8/FormModels
+            samples/client/petstore/csharp/generichost/net4.8/OneOf
+            samples/client/petstore/csharp/generichost/net4.8/Petstore
+            samples/client/petstore/csharp/generichost/net4.8/UseDateTimeForDate
+
   build:
     name: Build .Net Framework projects
+    needs: setup
+    if: ${{ needs.setup.outputs.samples != '[]' }}
     runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
-        sample:
-          - samples/client/petstore/csharp/generichost/net4.7/AllOf
-          - samples/client/petstore/csharp/generichost/net4.7/AnyOf
-          - samples/client/petstore/csharp/generichost/net4.7/AnyOfNoCompare
-          - samples/client/petstore/csharp/generichost/net4.7/FormModels
-          - samples/client/petstore/csharp/generichost/net4.7/OneOf
-          - samples/client/petstore/csharp/generichost/net4.7/Petstore
-          - samples/client/petstore/csharp/generichost/net4.7/UseDateTimeForDate
-
-          - samples/client/petstore/csharp/generichost/net4.8/AllOf
-          - samples/client/petstore/csharp/generichost/net4.8/AnyOf
-          - samples/client/petstore/csharp/generichost/net4.8/AnyOfNoCompare
-          - samples/client/petstore/csharp/generichost/net4.8/FormModels
-          - samples/client/petstore/csharp/generichost/net4.8/OneOf
-          - samples/client/petstore/csharp/generichost/net4.8/Petstore
-          - samples/client/petstore/csharp/generichost/net4.8/UseDateTimeForDate
+        sample: ${{ fromJson(needs.setup.outputs.samples) }}
     steps:
       - uses: actions/checkout@v5
       - name: Build

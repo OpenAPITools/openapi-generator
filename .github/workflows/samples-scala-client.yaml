@@ -2,6 +2,7 @@ name: Samples Scala/sbt client
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/scalaz/**
       - samples/client/petstore/scala-pekko/**
@@ -13,6 +14,7 @@ on:
       - samples/client/petstore/scala-sttp4/**
       - samples/client/petstore/scala-sttp4-circe/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/scalaz/**
       - samples/client/petstore/scala-pekko/**
@@ -24,23 +26,39 @@ on:
       - samples/client/petstore/scala-sttp4/**
       - samples/client/petstore/scala-sttp4-circe/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/scalaz
+            samples/client/petstore/scala-pekko
+            samples/client/petstore/scala-http4s
+            samples/client/petstore/scala-sttp4-jsoniter
+            samples/client/petstore/scala-akka
+            samples/client/petstore/scala-sttp
+            samples/client/petstore/scala-sttp-circe
+            samples/client/petstore/scala-sttp4
+            samples/client/petstore/scala-sttp4-circe
+
   build:
     name: Build sbt/Scala
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # clients
-          - samples/client/petstore/scalaz
-          - samples/client/petstore/scala-pekko
-          - samples/client/petstore/scala-http4s
-          - samples/client/petstore/scala-sttp4-jsoniter
-          - samples/client/petstore/scala-akka
-          - samples/client/petstore/scala-sttp
-          - samples/client/petstore/scala-sttp-circe
-          - samples/client/petstore/scala-sttp4
-          - samples/client/petstore/scala-sttp4-circe
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     services:
       petstore-api:
         image: swaggerapi/petstore
