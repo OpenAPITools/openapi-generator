@@ -117,8 +117,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Return" />
     /// </summary>
-    public class ReturnJsonConverter : JsonConverter<Return>
+    public partial class ReturnJsonConverter : JsonConverter<Return>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReturnJsonConverter" /> class.
+        /// </summary>
+        public ReturnJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Return" />
         /// </summary>

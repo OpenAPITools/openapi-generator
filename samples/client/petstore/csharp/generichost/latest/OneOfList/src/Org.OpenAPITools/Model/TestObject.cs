@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestObject" />
     /// </summary>
-    public class TestObjectJsonConverter : JsonConverter<TestObject>
+    public partial class TestObjectJsonConverter : JsonConverter<TestObject>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestObjectJsonConverter" /> class.
+        /// </summary>
+        public TestObjectJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestObject" />
         /// </summary>

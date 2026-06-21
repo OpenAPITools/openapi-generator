@@ -118,8 +118,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="PolymorphicProperty" />
     /// </summary>
-    public class PolymorphicPropertyJsonConverter : JsonConverter<PolymorphicProperty>
+    public partial class PolymorphicPropertyJsonConverter : JsonConverter<PolymorphicProperty>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolymorphicPropertyJsonConverter" /> class.
+        /// </summary>
+        public PolymorphicPropertyJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="PolymorphicProperty" />
         /// </summary>
