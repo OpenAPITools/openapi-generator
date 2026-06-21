@@ -113,8 +113,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useJspecify|Use Jspecify for null checks| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |true|
-|useParamForAuthorization| Pass authorization token in a method param. Available only with Spring Cloud.| |false|
 |useOptional|Use Optional container for optional parameters| |false|
+|useParamForAuthorization|Use method parameter instead of interceptor to pass authorization token to request. Requires library=spring-cloud.| |false|
 |useResponseEntity|Use the `ResponseEntity` type to wrap return values of generated API methods. If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition| |true|
 |useSealed|Whether to generate sealed model interfaces and classes| |false|
 |useSpringBoot3|Generate code and provide dependencies for use with Spring Boot &ge; 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |true|

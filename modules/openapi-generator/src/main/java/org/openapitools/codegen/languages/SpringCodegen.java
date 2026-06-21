@@ -350,7 +350,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         );
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks", useJspecify));
         cliOptions.add(CliOption.newString(CLIENT_REGISTRATION_ID, "Client registration ID for OAuth2 in Spring HTTP Interface (@ClientRegistrationId annotation). Requires library=spring-http-interface and useSpringBoot4=true (Spring Security 7)."));
-        cliOptions.add(CliOption.newString(USE_PARAM_FOR_AUTHORIZATION, "Create parameter to pass authorisation header to request"));
+        cliOptions.add(CliOption.newBoolean(USE_PARAM_FOR_AUTHORIZATION, "Use method parameter instead of interceptor to pass authorization token to request. Requires library=spring-cloud.", false));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
