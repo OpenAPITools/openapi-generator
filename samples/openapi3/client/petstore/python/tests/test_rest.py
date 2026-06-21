@@ -1,8 +1,53 @@
+import json
 import os
 import unittest
 from unittest.mock import Mock, patch
 
 import petstore_api
+from petstore_api.rest import RESTClientObject
+
+
+class TestYamlRequestBodies(unittest.TestCase):
+    def setUp(self):
+        self.rest_client = RESTClientObject(
+            petstore_api.Configuration(proxy="")
+        )
+        self.request_mock = Mock(
+            return_value=Mock(status=200, reason="OK")
+        )
+        self.rest_client.pool_manager = Mock(request=self.request_mock)
+
+    def test_structured_yaml_body_is_json_encoded(self):
+        body = {"apiVersion": "example.com/v1", "kind": "Example"}
+        for content_type in (
+            "application/yaml",
+            "application/apply-patch+yaml; charset=utf-8",
+        ):
+            with self.subTest(content_type=content_type):
+                self.request_mock.reset_mock()
+                self.rest_client.request(
+                    "PATCH",
+                    "https://api.example",
+                    headers={"Content-Type": content_type},
+                    body=body,
+                )
+
+                self.request_mock.assert_called_once()
+                request_body = self.request_mock.call_args.kwargs["body"]
+                self.assertEqual(json.loads(request_body), body)
+
+    def test_serialized_yaml_body_is_passed_through(self):
+        body = "apiVersion: example.com/v1\nkind: Example\n"
+        self.rest_client.request(
+            "PATCH",
+            "https://api.example",
+            headers={"Content-Type": "application/yaml"},
+            body=body,
+        )
+
+        self.request_mock.assert_called_once()
+        request_body = self.request_mock.call_args.kwargs["body"]
+        self.assertEqual(request_body, body)
 
 
 class TestMultipleResponseTypes(unittest.TestCase):

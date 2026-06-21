@@ -176,12 +176,20 @@ class RESTClientObject:
             # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
             if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
 
-                # no content type provided or payload is json
                 content_type = headers.get('Content-Type')
-                if (
+                is_json = (
                     not content_type
                     or re.search('json', content_type, re.IGNORECASE)
-                ):
+                )
+                # JSON is valid YAML 1.2, so structured YAML bodies can use
+                # the existing JSON serializer:
+                # https://yaml.org/spec/1.2.2/#13-relation-to-json
+                is_structured_yaml = (
+                    content_type
+                    and re.search('yaml', content_type, re.IGNORECASE)
+                    and not isinstance(body, (str, bytes))
+                )
+                if is_json or is_structured_yaml:
                     request_body = None
                     if body is not None:
                         request_body = json.dumps(body)
