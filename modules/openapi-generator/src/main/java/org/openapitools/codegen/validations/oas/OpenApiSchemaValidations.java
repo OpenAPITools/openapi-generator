@@ -1,6 +1,7 @@
 package org.openapitools.codegen.validations.oas;
 
 import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.openapitools.codegen.validation.GenericValidator;
@@ -120,7 +121,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
         if (schemaWrapper.getOpenAPI() != null) {
             SemVer version = new SemVer(schemaWrapper.getOpenAPI().getOpenapi());
             if (version.atLeast("3.1")) {
-                if (ModelUtils.isNullable(schema)) {
+                if (usesNullableAttribute(schema)) {
                     result = new ValidationRule.Fail();
                     result.setDetails(String.format(Locale.ROOT,
                             "OAS document is version '%s'. Schema '%s' uses 'nullable' attribute, which has been deprecated in OAS 3.1.",
@@ -130,6 +131,29 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             }
         }
         return result;
+    }
+
+    /**
+     * Return true if the schema explicitly uses the deprecated nullable markers.
+     * <p>
+     * This intentionally excludes JSON Schema nullability forms such as type arrays containing
+     * {@code null} or oneOf schemas with a null type, which are valid OAS 3.1 nullability forms.
+     *
+     * @param schema the OAS schema.
+     * @return true if the schema uses the {@code nullable} attribute or {@code x-nullable} extension.
+     */
+    private static boolean usesNullableAttribute(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+        if (Boolean.TRUE.equals(schema.getNullable())) {
+            return true;
+        }
+        if (ModelUtils.hasExtension(schema, CodegenConstants.X_NULLABLE)) {
+            Object nullable = schema.getExtensions().get(CodegenConstants.X_NULLABLE);
+            return nullable != null && Boolean.parseBoolean(nullable.toString());
+        }
+        return false;
     }
 
     private static String nameOf(Schema schema) {

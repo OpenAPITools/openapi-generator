@@ -930,13 +930,10 @@ public class InlineModelResolver {
                 Schema model = modelFromProperty(openAPI, op, modelName);
                 String existing = matchGenerated(model);
                 if (existing != null) {
-                    Schema schema = new Schema().$ref(existing);
-                    schema.setRequired(op.getRequired());
-                    propsToUpdate.put(key, schema);
+                    propsToUpdate.put(key, makeSchema(existing, op));
                 } else {
                     modelName = addSchemas(modelName, model);
-                    Schema schema = new Schema().$ref(modelName);
-                    schema.setRequired(op.getRequired());
+                    Schema schema = makeSchema(modelName, op);
                     propsToUpdate.put(key, schema);
                     modelsToAdd.put(modelName, model);
                 }
@@ -950,23 +947,17 @@ public class InlineModelResolver {
                         Schema innerModel = modelFromProperty(openAPI, op, modelName);
                         String existing = matchGenerated(innerModel);
                         if (existing != null) {
-                            Schema schema = new Schema().$ref(existing);
-                            schema.setRequired(op.getRequired());
-                            property.setItems(schema);
+                            property.setItems(makeSchema(existing, op));
                         } else {
                             modelName = addSchemas(modelName, innerModel);
-                            Schema schema = new Schema().$ref(modelName);
-                            schema.setRequired(op.getRequired());
-                            property.setItems(schema);
+                            property.setItems(makeSchema(modelName, op));
                         }
                     }
                 } else if (ModelUtils.isComposedSchema(inner)) {
                     String innerModelName = resolveModelName(inner.getTitle(), path + "_" + key);
                     gatherInlineModels(inner, innerModelName);
                     innerModelName = addSchemas(innerModelName, inner);
-                    Schema schema = new Schema().$ref(innerModelName);
-                    schema.setRequired(inner.getRequired());
-                    property.setItems(schema);
+                    property.setItems(makeSchema(innerModelName, inner));
                 } else {
                     LOGGER.debug("Schema not yet handled in model resolver: {}", inner);
                 }
@@ -980,23 +971,17 @@ public class InlineModelResolver {
                         Schema innerModel = modelFromProperty(openAPI, op, modelName);
                         String existing = matchGenerated(innerModel);
                         if (existing != null) {
-                            Schema schema = new Schema().$ref(existing);
-                            schema.setRequired(op.getRequired());
-                            property.setAdditionalProperties(schema);
+                            property.setAdditionalProperties(makeSchema(existing, op));
                         } else {
                             modelName = addSchemas(modelName, innerModel);
-                            Schema schema = new Schema().$ref(modelName);
-                            schema.setRequired(op.getRequired());
-                            property.setAdditionalProperties(schema);
+                            property.setAdditionalProperties(makeSchema(modelName, op));
                         }
                     }
                 } else if (ModelUtils.isComposedSchema(inner)) {
                     String innerModelName = resolveModelName(inner.getTitle(), path + "_" + key);
                     gatherInlineModels(inner, innerModelName);
                     innerModelName = addSchemas(innerModelName, inner);
-                    Schema schema = new Schema().$ref(innerModelName);
-                    schema.setRequired(inner.getRequired());
-                    property.setAdditionalProperties(schema);
+                    property.setAdditionalProperties(makeSchema(innerModelName, inner));
                 } else {
                     LOGGER.debug("Schema not yet handled in model resolver: {}", inner);
                 }
@@ -1011,9 +996,7 @@ public class InlineModelResolver {
                     String propertyModelName = resolveModelName(property.getTitle(), path + "_" + key);
                     gatherInlineModels(property, propertyModelName);
                     propertyModelName = addSchemas(propertyModelName, property);
-                    Schema schema = new Schema().$ref(propertyModelName);
-                    schema.setRequired(property.getRequired());
-                    propsToUpdate.put(key, schema);
+                    propsToUpdate.put(key, makeSchema(propertyModelName, property));
                 }
             } else {
                 LOGGER.debug("Schema not yet handled in model resolver: {}", property);
@@ -1111,6 +1094,9 @@ public class InlineModelResolver {
             refSchema = new Schema().$ref(name);
         }
         this.copyVendorExtensions(schema, refSchema);
+        if (ModelUtils.isNullable(schema)) {
+            refSchema.setNullable(true);
+        }
 
         return refSchema;
     }
@@ -1124,6 +1110,10 @@ public class InlineModelResolver {
      */
     private Schema makeSchema(String ref, Schema property) {
         Schema newProperty = new Schema().$ref(ref);
+        newProperty.setRequired(property.getRequired());
+        if (ModelUtils.isNullable(property)) {
+            newProperty.setNullable(true);
+        }
         this.copyVendorExtensions(property, newProperty);
         return newProperty;
     }

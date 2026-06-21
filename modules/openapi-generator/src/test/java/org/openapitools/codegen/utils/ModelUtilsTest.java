@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -613,6 +614,36 @@ public class ModelUtilsTest {
                 anyOfParentWithChildDescription,
                 anyOfParentWithChildDescription.getAnyOf());
         assertEquals(anyOfSchemaWithChildDescription.getDescription(), "Child description");
+    }
+
+    @Test
+    public void isNullableWithTypeArrayNull() {
+        Schema<?> schema = new Schema<>();
+        schema.setTypes(new LinkedHashSet<>(Arrays.asList("object", "null")));
+
+        assertTrue(ModelUtils.isNullable(schema));
+    }
+
+    @Test
+    public void hasTypeChecksSchemaTypes() {
+        Schema<?> schema = new Schema<>();
+        schema.setTypes(new LinkedHashSet<>(Arrays.asList("object", "null")));
+
+        assertTrue(ModelUtils.hasType(schema, "null"));
+        assertFalse(ModelUtils.hasType(schema, "string"));
+        assertFalse(ModelUtils.hasType(new Schema<>(), "null"));
+        assertFalse(ModelUtils.hasType(null, "null"));
+    }
+
+    @Test
+    public void hasExtensionChecksSchemaExtensions() {
+        Schema<?> schema = new Schema<>();
+        schema.addExtension("x-nullable", Boolean.TRUE);
+
+        assertTrue(ModelUtils.hasExtension(schema, "x-nullable"));
+        assertFalse(ModelUtils.hasExtension(schema, "x-other"));
+        assertFalse(ModelUtils.hasExtension(new Schema<>(), "x-nullable"));
+        assertFalse(ModelUtils.hasExtension(null, "x-nullable"));
     }
 
     @Test
