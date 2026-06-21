@@ -577,6 +577,11 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setQuiet(boolean quiet) {
+        workflowSettingsBuilder.withQuiet(quiet);
+        return this;
+    }
+
     public CodegenConfigurator setReleaseNote(String releaseNote) {
         if (StringUtils.isNotEmpty(releaseNote)) {
             addAdditionalProperty(CodegenConstants.RELEASE_NOTE, releaseNote);
@@ -671,6 +676,8 @@ public class CodegenConfigurator {
         } else {
             GlobalSettings.setProperty("verbose", "false");
         }
+
+        GlobalSettings.setProperty("quiet", Boolean.toString(workflowSettings.isQuiet()));
 
         for (Map.Entry<String, String> entry : workflowSettings.getGlobalProperties().entrySet()) {
             GlobalSettings.setProperty(entry.getKey(), entry.getValue());

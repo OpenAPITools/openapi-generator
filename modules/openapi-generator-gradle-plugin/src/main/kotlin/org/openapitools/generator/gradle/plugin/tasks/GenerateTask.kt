@@ -50,6 +50,7 @@ interface OpenApiWorkParameters : WorkParameters {
     val outputDir: DirectoryProperty
     val configFile: RegularFileProperty
     val verbose: Property<Boolean>
+    val quiet: Property<Boolean>
     val validateSpec: Property<Boolean>
     val generatorName: Property<String>
     val auth: Property<String>
@@ -159,6 +160,7 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
             params.resolvedInputSpec.orNull?.let { configurator.setInputSpec(it) }
             params.outputDir.orNull?.let { configurator.setOutputDir(it.asFile.absolutePath) }
             params.verbose.orNull?.let { configurator.setVerbose(it) }
+            params.quiet.orNull?.let { configurator.setQuiet(it) }
             params.validateSpec.orNull?.let { configurator.setValidateSpec(it) }
             params.skipOverwrite.orNull?.let { configurator.setSkipOverwrite(it) }
             params.generatorName.orNull?.let { configurator.setGeneratorName(it) }
@@ -315,6 +317,13 @@ abstract class GenerateTask : DefaultTask() {
     @get:Optional
     @get:Input
     abstract val verbose: Property<Boolean>
+
+    /**
+     * Whether generation should run in quiet mode.
+     */
+    @get:Optional
+    @get:Input
+    abstract val quiet: Property<Boolean>
 
     /**
      * Whether an input specification should be validated upon generation.
@@ -928,6 +937,7 @@ abstract class GenerateTask : DefaultTask() {
                 parameters.outputDir.set(outputDir)
                 parameters.configFile.set(configFile)
                 parameters.verbose.set(verbose)
+                parameters.quiet.set(quiet)
                 parameters.validateSpec.set(validateSpec)
                 parameters.generatorName.set(generatorName)
                 parameters.auth.set(auth)

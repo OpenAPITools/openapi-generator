@@ -83,6 +83,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "verbose", defaultValue = "false")
     private boolean verbose;
 
+    @Parameter(name = "quiet", property = "openapi.generator.maven.plugin.quiet", defaultValue = "false")
+    private boolean quiet;
+
     /**
      * The name of the generator to use.
      */
@@ -647,6 +650,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             configurator.setVerbose(verbose);
+            configurator.setQuiet(quiet);
 
             if (skipOverwrite != null) {
                 configurator.setSkipOverwrite(skipOverwrite);

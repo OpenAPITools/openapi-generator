@@ -37,6 +37,11 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val verbose = project.objects.property<Boolean>()
 
     /**
+     * Whether generation should run in quiet mode.
+     */
+    val quiet = project.objects.property<Boolean>()
+
+    /**
      * Whether an input specification should be validated upon generation.
      */
     val validateSpec = project.objects.property<Boolean>()
@@ -448,6 +453,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
         generateApiDocumentation.convention(true)
         configOptions.convention(mapOf())
         validateSpec.convention(true)
+        quiet.convention(false)
         logToStderr.convention(false)
         enablePostProcessFile.convention(false)
         skipValidateSpec.convention(false)
