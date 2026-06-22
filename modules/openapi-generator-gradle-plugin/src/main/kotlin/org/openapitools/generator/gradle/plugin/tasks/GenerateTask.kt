@@ -87,6 +87,7 @@ interface OpenApiWorkParameters : WorkParameters {
     val instantiationTypes: MapProperty<String, String>
     val importMappings: MapProperty<String, String>
     val schemaMappings: MapProperty<String, String>
+    val forcedGenerateSchemas: ListProperty<String>
     val inlineSchemaNameMappings: MapProperty<String, String>
     val inlineSchemaOptions: MapProperty<String, String>
     val nameMappings: MapProperty<String, String>
@@ -206,6 +207,7 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
             params.instantiationTypes.orNull?.forEach { (k, v) -> configurator.addInstantiationType(k, v) }
             params.importMappings.orNull?.forEach { (k, v) -> configurator.addImportMapping(k, v) }
             params.schemaMappings.orNull?.forEach { (k, v) -> configurator.addSchemaMapping(k, v) }
+            params.forcedGenerateSchemas.orNull?.forEach { configurator.addForcedGenerateSchema(it) }
             params.inlineSchemaNameMappings.orNull?.forEach { (k, v) -> configurator.addInlineSchemaNameMapping(k, v) }
             params.inlineSchemaOptions.orNull?.forEach { (k, v) -> configurator.addInlineSchemaOption(k, v) }
             params.nameMappings.orNull?.forEach { (k, v) -> configurator.addNameMapping(k, v) }
@@ -557,6 +559,13 @@ abstract class GenerateTask : DefaultTask() {
     @get:Optional
     @get:Input
     abstract val schemaMappings: MapProperty<String, String>
+
+    /**
+     * Specifies schema names that must be generated even when listed in schemaMappings or importMappings.
+     */
+    @get:Optional
+    @get:Input
+    abstract val forcedGenerateSchemas: ListProperty<String>
 
     /**
      * Specifies mappings between the inline scheme name and the new name
@@ -974,6 +983,7 @@ abstract class GenerateTask : DefaultTask() {
                 parameters.instantiationTypes.set(instantiationTypes)
                 parameters.importMappings.set(importMappings)
                 parameters.schemaMappings.set(schemaMappings)
+                parameters.forcedGenerateSchemas.set(forcedGenerateSchemas)
                 parameters.inlineSchemaNameMappings.set(inlineSchemaNameMappings)
                 parameters.inlineSchemaOptions.set(inlineSchemaOptions)
                 parameters.nameMappings.set(nameMappings)
