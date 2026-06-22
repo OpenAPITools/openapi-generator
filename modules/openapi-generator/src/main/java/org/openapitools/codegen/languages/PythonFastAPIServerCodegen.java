@@ -237,16 +237,36 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         return super.getTypeDeclaration(p);
     }
 
-    /**
-     * Path/query/header parameters arrive on the wire as strings and rely on Pydantic's automatic
-     * coercion (e.g. {@code "3" -> 3}). Pydantic strict typing disables that coercion, making FastAPI
-     * reject otherwise-valid requests with a 422 ({@code int_type: Input should be a valid integer}).
-     * So relax strict typing for those parameters. Body parameters keep strict typing, since JSON
-     * request bodies carry real types and strict validation is desirable there. See issue #21905.
-     */
     @Override
-    protected boolean shouldRelaxStrictParameterTyping(CodegenParameter parameter) {
-        return parameter.isQueryParam || parameter.isPathParam || parameter.isHeaderParam;
+    protected PydanticType getPydanticParameterType(CodegenParameter parameter,
+                                                    Set<String> modelImports,
+                                                    Set<String> exampleImports,
+                                                    Set<String> postponedModelImports,
+                                                    Set<String> postponedExampleImports,
+                                                    PythonImports moduleImports,
+                                                    String classname) {
+        // Path/query/header values always arrive as strings on the wire and rely on Pydantic
+        // coercion, so they must not use strict types. Body params keep the strict default.
+        if (parameter.isQueryParam || parameter.isPathParam || parameter.isHeaderParam) {
+            return new PydanticCoercibleType(
+                    modelImports,
+                    exampleImports,
+                    postponedModelImports,
+                    postponedExampleImports,
+                    moduleImports,
+                    classname
+            );
+        }
+
+        return super.getPydanticParameterType(
+                parameter,
+                modelImports,
+                exampleImports,
+                postponedModelImports,
+                postponedExampleImports,
+                moduleImports,
+                classname
+        );
     }
 
     @Override
