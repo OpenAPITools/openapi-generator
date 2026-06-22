@@ -8145,4 +8145,12 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("MyObject.java"))
                 .assertProperty("optionalRef").withType("JsonNullable<com.example.ExternalModel>");
     }
+
+    @Test
+    void issue_23918() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue_23918.yaml", SPRING_BOOT,
+                Map.of(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, "true", USE_OPTIONAL, "true"));
+        JavaFileAssert.assertThat(files.get("PartyRoleSpecification.java"))
+                .fileContains("name(name);", "PartyRoleSpecification(String atType, String name)");
+    }
 }

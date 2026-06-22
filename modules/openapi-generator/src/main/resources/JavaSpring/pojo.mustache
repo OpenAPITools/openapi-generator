@@ -122,6 +122,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
     {{/openApiNullable}}
     {{/required}}
     {{/vars}}
+    {{#requiredVarsOptionalInParent}}
+    {{name}}({{name}});
+    {{/requiredVarsOptionalInParent}}
   }
   {{/hasRequired}}
   {{/generatedConstructorWithRequiredArgs}}

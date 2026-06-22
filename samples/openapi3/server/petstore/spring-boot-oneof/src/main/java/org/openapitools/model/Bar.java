@@ -50,6 +50,7 @@ public class Bar extends Entity implements BarRefOrValue {
   public Bar(String id, String atType) {
     super(atType);
     this.id = id;
+    id(id);
   }
 
   public Bar id(String id) {
