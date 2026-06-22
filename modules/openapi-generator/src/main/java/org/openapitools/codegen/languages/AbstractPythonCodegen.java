@@ -1378,6 +1378,24 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
     }
 
+    /**
+     * Whether the given request parameter should be typed with coercible types
+     * ({@code int}/{@code str}/{@code float}) instead of Pydantic strict types
+     * ({@code StrictInt}/{@code StrictStr}/{@code StrictFloat}, {@code strict=True}).
+     *
+     * <p>The default is {@code false}, preserving strict typing for all generators
+     * (notably the Python client, which builds JSON request bodies where strict
+     * validation is desirable). Server generators that parse path/query/header values
+     * from the wire — where everything arrives as a string and relies on Pydantic
+     * coercion — should override this for non-body parameters. See issue #21905.
+     *
+     * @param parameter the request parameter being typed
+     * @return {@code true} to relax strict typing for this parameter
+     */
+    protected boolean shouldRelaxStrictParameterTyping(CodegenParameter parameter) {
+        return false;
+    }
+
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         hasModelsToImport = false;
@@ -1401,7 +1419,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         postponedModelImports,
                         postponedExampleImports,
                         moduleImports,
-                        null
+                        null,
+                        shouldRelaxStrictParameterTyping(cp)
                 );
                 String typing = pydantic.generatePythonType(cp);
                 cp.vendorExtensions.put(X_PY_TYPING, typing);
@@ -1919,6 +1938,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         private Set<String> postponedExampleImports;
         private PythonImports moduleImports;
         private String classname;
+        // When true, emit coercible types (int/str/float) instead of Pydantic strict
+        // types (StrictInt/StrictStr/StrictFloat) and omit the strict=True constraint.
+        // Used for non-body request parameters, whose values always arrive as strings
+        // on the wire and rely on Pydantic's automatic coercion. See issue #21905.
+        private boolean relaxStrict;
 
         public PydanticType(
                 Set<String> modelImports,
@@ -1928,12 +1952,25 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 PythonImports moduleImports,
                 String classname
         ) {
+            this(modelImports, exampleImports, postponedModelImports, postponedExampleImports, moduleImports, classname, false);
+        }
+
+        public PydanticType(
+                Set<String> modelImports,
+                Set<String> exampleImports,
+                Set<String> postponedModelImports,
+                Set<String> postponedExampleImports,
+                PythonImports moduleImports,
+                String classname,
+                boolean relaxStrict
+        ) {
             this.modelImports = modelImports;
             this.exampleImports = exampleImports;
             this.postponedModelImports = postponedModelImports;
             this.postponedExampleImports = postponedExampleImports;
             this.moduleImports = moduleImports;
             this.classname = classname;
+            this.relaxStrict = relaxStrict;
         }
 
         private PythonType arrayType(IJsonSchemaValidationProperties cp) {
@@ -1975,7 +2012,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 PythonType pt = new PythonType("str");
 
                 // e.g. constr(regex=r'/[a-z]/i', strict=True)
-                pt.constrain("strict", true);
+                if (!relaxStrict) {
+                    pt.constrain("strict", true);
+                }
                 ConstraintApplier.applyConstraints(cp, pt, ConstraintType.STRING);
 
                 if (cp.getPattern() != null) {
@@ -1988,6 +2027,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if ("password".equals(cp.getFormat())) { // TODO avoid using format, use `is` boolean flag instead
                     moduleImports.add(PYDANTIC, "SecretStr");
                     return new PythonType("SecretStr");
+                } else if (relaxStrict) {
+                    return new PythonType("str");
                 } else {
                     moduleImports.add(PYDANTIC, "StrictStr");
                     return new PythonType("StrictStr");
@@ -2012,8 +2053,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 ConstraintApplier.applyConstraints(cp, intt, ConstraintType.ROUNDED_NUMBER);
 
                 if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
-                    floatt.constrain("strict", true);
-                    intt.constrain("strict", true);
+                    if (!relaxStrict) {
+                        floatt.constrain("strict", true);
+                        intt.constrain("strict", true);
+                    }
 
                     moduleImports.add(TYPING, "Union");
                     PythonType pt = new PythonType("Union");
@@ -2021,7 +2064,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     pt.addTypeParam(intt);
                     return pt;
                 } else if ("StrictFloat".equals(mapNumberTo)) {
-                    floatt.constrain("strict", true);
+                    if (!relaxStrict) {
+                        floatt.constrain("strict", true);
+                    }
                     return floatt;
                 } else if (DECIMAL.equals(mapNumberTo)) {
                     return decimalType(cp);
@@ -2031,6 +2076,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             } else {
                 if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
                     moduleImports.add(TYPING, "Union");
+                    if (relaxStrict) {
+                        PythonType pt = new PythonType("Union");
+                        pt.addTypeParam(new PythonType("float"));
+                        pt.addTypeParam(new PythonType("int"));
+                        return pt;
+                    }
                     moduleImports.add(PYDANTIC, "StrictFloat");
                     moduleImports.add(PYDANTIC, "StrictInt");
                     PythonType pt = new PythonType("Union");
@@ -2038,6 +2089,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     pt.addTypeParam(new PythonType("StrictInt"));
                     return pt;
                 } else if ("StrictFloat".equals(mapNumberTo)) {
+                    if (relaxStrict) {
+                        return new PythonType("float");
+                    }
                     moduleImports.add(PYDANTIC, "StrictFloat");
                     return new PythonType("StrictFloat");
                 } else if (DECIMAL.equals(mapNumberTo)) {
@@ -2053,10 +2107,15 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (cp.getHasValidation()) {
                 PythonType pt = new PythonType("int");
                 // e.g. conint(ge=10, le=100, strict=True)
-                pt.constrain("strict", true);
+                if (!relaxStrict) {
+                    pt.constrain("strict", true);
+                }
                 ConstraintApplier.applyConstraints(cp, pt, ConstraintType.NUMBER);
                 return pt;
             } else {
+                if (relaxStrict) {
+                    return new PythonType("int");
+                }
                 moduleImports.add(PYDANTIC, "StrictInt");
                 return new PythonType("StrictInt");
             }
