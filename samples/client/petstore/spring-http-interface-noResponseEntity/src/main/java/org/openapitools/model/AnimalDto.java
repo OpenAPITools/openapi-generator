@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -32,11 +33,12 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = DogDto.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class AnimalDto {
 
   private String className;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String color = "red";
 
   public AnimalDto() {
@@ -58,6 +60,7 @@ public class AnimalDto {
     return className;
   }
 
+  @JsonProperty("className")
   public void setClassName(String className) {
     this.className = className;
   }
@@ -77,6 +80,7 @@ public class AnimalDto {
     return color;
   }
 
+  @JsonProperty("color")
   public void setColor(String color) {
     this.color = color;
   }
@@ -114,10 +118,7 @@ public class AnimalDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

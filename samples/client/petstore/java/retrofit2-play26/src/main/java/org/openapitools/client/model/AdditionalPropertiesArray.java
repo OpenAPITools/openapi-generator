@@ -40,7 +40,7 @@ import jakarta.validation.Valid;
   AdditionalPropertiesArray.JSON_PROPERTY_NAME
 })
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class AdditionalPropertiesArray extends HashMap<String, List> {
   public static final String JSON_PROPERTY_NAME = "name";
   @jakarta.annotation.Nullable
@@ -140,10 +140,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

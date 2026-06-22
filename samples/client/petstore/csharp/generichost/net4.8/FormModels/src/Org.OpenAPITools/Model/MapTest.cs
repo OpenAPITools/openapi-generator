@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DirectMap
         /// </summary>
         [JsonPropertyName("direct_map")]
-        public Dictionary<string, bool> DirectMap { get { return this.DirectMapOption; } set { this.DirectMapOption = new Option<Dictionary<string, bool>>(value); } }
+        public Dictionary<string, bool> DirectMap { get { return this.DirectMapOption.Value; } set { this.DirectMapOption = new Option<Dictionary<string, bool>>(value); } }
 
         /// <summary>
         /// Used to track the state of IndirectMap
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IndirectMap
         /// </summary>
         [JsonPropertyName("indirect_map")]
-        public Dictionary<string, bool> IndirectMap { get { return this.IndirectMapOption; } set { this.IndirectMapOption = new Option<Dictionary<string, bool>>(value); } }
+        public Dictionary<string, bool> IndirectMap { get { return this.IndirectMapOption.Value; } set { this.IndirectMapOption = new Option<Dictionary<string, bool>>(value); } }
 
         /// <summary>
         /// Used to track the state of MapMapOfString
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapMapOfString
         /// </summary>
         [JsonPropertyName("map_map_of_string")]
-        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get { return this.MapMapOfStringOption; } set { this.MapMapOfStringOption = new Option<Dictionary<string, Dictionary<string, string>>>(value); } }
+        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get { return this.MapMapOfStringOption.Value; } set { this.MapMapOfStringOption = new Option<Dictionary<string, Dictionary<string, string>>>(value); } }
 
         /// <summary>
         /// Used to track the state of MapOfEnumString
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapOfEnumString
         /// </summary>
         [JsonPropertyName("map_of_enum_string")]
-        public Dictionary<string, MapTestMapOfEnumStringValue> MapOfEnumString { get { return this.MapOfEnumStringOption; } set { this.MapOfEnumStringOption = new Option<Dictionary<string, MapTestMapOfEnumStringValue>>(value); } }
+        public Dictionary<string, MapTestMapOfEnumStringValue> MapOfEnumString { get { return this.MapOfEnumStringOption.Value; } set { this.MapOfEnumStringOption = new Option<Dictionary<string, MapTestMapOfEnumStringValue>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -137,8 +137,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MapTest" />
     /// </summary>
-    public class MapTestJsonConverter : JsonConverter<MapTest>
+    public partial class MapTestJsonConverter : JsonConverter<MapTest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapTestJsonConverter" /> class.
+        /// </summary>
+        public MapTestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="MapTest" />
         /// </summary>

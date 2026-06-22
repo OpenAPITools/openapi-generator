@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.OffsetDateTime;
@@ -23,15 +24,17 @@ import jakarta.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable UUID uuid;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dateTime;
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(@Nullable UUID uuid) {
@@ -49,6 +52,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return uuid;
   }
 
+  @JsonProperty("uuid")
   public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
@@ -68,6 +72,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return dateTime;
   }
 
+  @JsonProperty("dateTime")
   public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -95,6 +100,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return map;
   }
 
+  @JsonProperty("map")
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
@@ -134,10 +140,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

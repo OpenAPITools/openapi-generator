@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableMessage
         /// </summary>
         [JsonPropertyName("NullableMessage")]
-        public string NullableMessage { get { return this.NullableMessageOption; } set { this.NullableMessageOption = new(value); } }
+        public string NullableMessage { get { return this.NullableMessageOption.Value; } set { this.NullableMessageOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="HealthCheckResult" />
     /// </summary>
-    public class HealthCheckResultJsonConverter : JsonConverter<HealthCheckResult>
+    public partial class HealthCheckResultJsonConverter : JsonConverter<HealthCheckResult>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HealthCheckResultJsonConverter" /> class.
+        /// </summary>
+        public HealthCheckResultJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="HealthCheckResult" />
         /// </summary>

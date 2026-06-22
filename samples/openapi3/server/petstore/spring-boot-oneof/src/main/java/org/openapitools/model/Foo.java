@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -11,24 +12,26 @@ import org.openapitools.model.Entity;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Foo
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Foo extends Entity implements FooRefOrValue {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String fooPropA;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String fooPropB;
 
   public Foo() {
@@ -58,6 +61,7 @@ public class Foo extends Entity implements FooRefOrValue {
     return fooPropA;
   }
 
+  @JsonProperty("fooPropA")
   public void setFooPropA(@Nullable String fooPropA) {
     this.fooPropA = fooPropA;
   }
@@ -78,6 +82,7 @@ public class Foo extends Entity implements FooRefOrValue {
     return fooPropB;
   }
 
+  @JsonProperty("fooPropB")
   public void setFooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
   }
@@ -142,10 +147,7 @@ public class Foo extends Entity implements FooRefOrValue {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder extends Entity.Builder {

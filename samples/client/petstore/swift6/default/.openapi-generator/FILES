@@ -18,6 +18,7 @@ Sources/PetstoreClient/Infrastructure/JSONDataEncoding.swift
 Sources/PetstoreClient/Infrastructure/JSONEncodingHelper.swift
 Sources/PetstoreClient/Infrastructure/JSONValue.swift
 Sources/PetstoreClient/Infrastructure/Models.swift
+Sources/PetstoreClient/Infrastructure/OpenAPIMutex.swift
 Sources/PetstoreClient/Infrastructure/OpenISO8601DateFormatter.swift
 Sources/PetstoreClient/Infrastructure/SynchronizedDictionary.swift
 Sources/PetstoreClient/Infrastructure/URLSessionImplementations.swift

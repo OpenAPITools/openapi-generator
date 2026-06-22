@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayNumber
         /// </summary>
         [JsonPropertyName("ArrayNumber")]
-        public List<decimal> ArrayNumber { get { return this.ArrayNumberOption; } set { this.ArrayNumberOption = new(value); } }
+        public List<decimal> ArrayNumber { get { return this.ArrayNumberOption.Value; } set { this.ArrayNumberOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ArrayOfNumberOnly" />
     /// </summary>
-    public class ArrayOfNumberOnlyJsonConverter : JsonConverter<ArrayOfNumberOnly>
+    public partial class ArrayOfNumberOnlyJsonConverter : JsonConverter<ArrayOfNumberOnly>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayOfNumberOnlyJsonConverter" /> class.
+        /// </summary>
+        public ArrayOfNumberOnlyJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ArrayOfNumberOnly" />
         /// </summary>

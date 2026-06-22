@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Content
         /// </summary>
         [JsonPropertyName("content")]
-        public MixedOneOfContent? Content { get { return this.ContentOption; } set { this.ContentOption = new(value); } }
+        public MixedOneOfContent? Content { get { return this.ContentOption.Value; } set { this.ContentOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -92,8 +92,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MixedOneOf" />
     /// </summary>
-    public class MixedOneOfJsonConverter : JsonConverter<MixedOneOf>
+    public partial class MixedOneOfJsonConverter : JsonConverter<MixedOneOf>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixedOneOfJsonConverter" /> class.
+        /// </summary>
+        public MixedOneOfJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="MixedOneOf" />
         /// </summary>

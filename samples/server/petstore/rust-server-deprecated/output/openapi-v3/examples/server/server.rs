@@ -116,6 +116,7 @@ use openapi_v3::{
     OneOfGetResponse,
     OverrideServerGetResponse,
     ParamgetGetResponse,
+    QueryExampleGetResponse,
     ReadonlyAuthSchemeGetResponse,
     RegisterCallbackPostResponse,
     RequiredOctetStreamPutResponse,
@@ -253,6 +254,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<ParamgetGetResponse, ApiError>
     {
         info!("paramget_get({:?}, {:?}, {:?}) - X-Span-ID: {:?}", uuid, some_object, some_list, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+    /// Test required query params with and without examples
+    async fn query_example_get(
+        &self,
+        required_no_example: String,
+        required_with_example: i32,
+        context: &C) -> Result<QueryExampleGetResponse, ApiError>
+    {
+        info!("query_example_get(\"{}\", {}) - X-Span-ID: {:?}", required_no_example, required_with_example, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
     async fn readonly_auth_scheme_get(

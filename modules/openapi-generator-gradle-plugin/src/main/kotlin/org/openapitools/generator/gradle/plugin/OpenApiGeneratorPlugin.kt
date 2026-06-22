@@ -60,7 +60,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                 project
             )
 
-            generate.outputDir.set("$buildDir/generate-resources/main")
+            generate.outputDir.convention(layout.buildDirectory.dir("generate-resources/main"))
 
             tasks.apply {
                 register("openApiGenerators", GeneratorsTask::class.java).configure {
@@ -84,6 +84,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     description = "Validates an Open API 2.0 or 3.x specification document."
 
                     inputSpec.set(validate.inputSpec)
+                    remoteInputSpec.set(validate.remoteInputSpec)
                     recommend.set(validate.recommend)
                     treatWarningsAsErrors.set(validate.treatWarningsAsErrors)
                 }
@@ -94,6 +95,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                         "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
 
                     verbose.set(generate.verbose)
+                    quiet.set(generate.quiet)
                     validateSpec.set(generate.validateSpec)
                     generatorName.set(generate.generatorName)
                     outputDir.set(generate.outputDir)
@@ -121,6 +123,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     openapiGeneratorIgnoreList.set(generate.openapiGeneratorIgnoreList)
                     importMappings.set(generate.importMappings)
                     schemaMappings.set(generate.schemaMappings)
+                    forcedGenerateSchemas.set(generate.forcedGenerateSchemas)
                     inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
                     inlineSchemaOptions.set(generate.inlineSchemaOptions)
                     nameMappings.set(generate.nameMappings)
@@ -156,6 +159,8 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     engine.set(generate.engine)
                     cleanupOutput.set(generate.cleanupOutput)
                     dryRun.set(generate.dryRun)
+                    workerIsolation.set(generate.workerIsolation)
+                    maxWorkerHeapSize.set(generate.maxWorkerHeapSize)
                 }
             }
         }

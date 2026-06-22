@@ -83,7 +83,7 @@ No authorization required
 
 ## deleteOrderWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> deleteOrder deleteOrderWithHttpInfo(orderId)
+> CompletableFuture<ApiResponse<Void>> deleteOrderWithHttpInfo(orderId)
 
 Delete purchase order by ID
 
@@ -229,7 +229,7 @@ CompletableFuture<**Map&lt;String, Integer&gt;**>
 
 ## getInventoryWithHttpInfo
 
-> CompletableFuture<ApiResponse<Map<String, Integer>>> getInventory getInventoryWithHttpInfo()
+> CompletableFuture<ApiResponse<Map<String, Integer>>> getInventoryWithHttpInfo()
 
 Returns pet inventories by status
 
@@ -377,7 +377,7 @@ No authorization required
 
 ## getOrderByIdWithHttpInfo
 
-> CompletableFuture<ApiResponse<Order>> getOrderById getOrderByIdWithHttpInfo(orderId)
+> CompletableFuture<ApiResponse<Order>> getOrderByIdWithHttpInfo(orderId)
 
 Find purchase order by ID
 
@@ -523,7 +523,7 @@ No authorization required
 
 ## placeOrderWithHttpInfo
 
-> CompletableFuture<ApiResponse<Order>> placeOrder placeOrderWithHttpInfo(order)
+> CompletableFuture<ApiResponse<Order>> placeOrderWithHttpInfo(order)
 
 Place an order for a pet
 

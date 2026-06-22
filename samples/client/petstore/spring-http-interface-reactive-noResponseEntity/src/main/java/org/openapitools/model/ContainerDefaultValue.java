@@ -22,19 +22,15 @@ import jakarta.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
-  
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
-  
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
-  
   private List<String> requiredArray = new ArrayList<>();
 
-  
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValue() {
@@ -99,6 +95,7 @@ public class ContainerDefaultValue {
     return nullableRequiredArray;
   }
 
+  @JsonProperty("nullable_required_array")
   public void setNullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
     this.nullableRequiredArray = nullableRequiredArray;
   }
@@ -126,6 +123,7 @@ public class ContainerDefaultValue {
     return requiredArray;
   }
 
+  @JsonProperty("required_array")
   public void setRequiredArray(List<String> requiredArray) {
     this.requiredArray = requiredArray;
   }
@@ -205,10 +203,7 @@ public class ContainerDefaultValue {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

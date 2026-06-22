@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TestCollectionEndingWithWordList
         /// </summary>
         [JsonPropertyName("TestCollectionEndingWithWordList")]
-        public List<TestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get { return this.TestCollectionEndingWithWordListOption; } set { this.TestCollectionEndingWithWordListOption = new(value); } }
+        public List<TestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get { return this.TestCollectionEndingWithWordListOption.Value; } set { this.TestCollectionEndingWithWordListOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestCollectionEndingWithWordListObject" />
     /// </summary>
-    public class TestCollectionEndingWithWordListObjectJsonConverter : JsonConverter<TestCollectionEndingWithWordListObject>
+    public partial class TestCollectionEndingWithWordListObjectJsonConverter : JsonConverter<TestCollectionEndingWithWordListObject>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordListObjectJsonConverter" /> class.
+        /// </summary>
+        public TestCollectionEndingWithWordListObjectJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestCollectionEndingWithWordListObject" />
         /// </summary>

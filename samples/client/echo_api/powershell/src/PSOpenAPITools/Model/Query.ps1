@@ -42,8 +42,8 @@ function Initialize-Query {
 
 
         $PSO = [PSCustomObject]@{
-            "id" = ${Id}
-            "outcomes" = ${Outcomes}
+            'id' = ${Id}
+            'outcomes' = ${Outcomes}
         }
 
 
@@ -81,28 +81,28 @@ function ConvertFrom-JsonToQuery {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in Query
-        $AllProperties = ("id", "outcomes")
+        $AllProperties = ('id', 'outcomes')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'id'))) { #optional property not found
             $Id = $null
         } else {
-            $Id = $JsonParameters.PSobject.Properties["id"].value
+            $Id = $JsonParameters.PSobject.Properties['id'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "outcomes"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'outcomes'))) { #optional property not found
             $Outcomes = $null
         } else {
-            $Outcomes = $JsonParameters.PSobject.Properties["outcomes"].value
+            $Outcomes = $JsonParameters.PSobject.Properties['outcomes'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "id" = ${Id}
-            "outcomes" = ${Outcomes}
+            'id' = ${Id}
+            'outcomes' = ${Outcomes}
         }
 
         return $PSO

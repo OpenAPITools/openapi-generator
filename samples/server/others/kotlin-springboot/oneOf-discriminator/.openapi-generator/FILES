@@ -1,0 +1,15 @@
+README.md
+build.gradle.kts
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
+pom.xml
+settings.gradle
+src/main/kotlin/org/openapitools/api/ApiUtil.kt
+src/main/kotlin/org/openapitools/api/Exceptions.kt
+src/main/kotlin/org/openapitools/api/V1Api.kt
+src/main/kotlin/org/openapitools/model/Animal.kt
+src/main/kotlin/org/openapitools/model/AnotherAnimal.kt
+src/main/kotlin/org/openapitools/model/Bird.kt
+src/main/kotlin/org/openapitools/model/Robobird.kt

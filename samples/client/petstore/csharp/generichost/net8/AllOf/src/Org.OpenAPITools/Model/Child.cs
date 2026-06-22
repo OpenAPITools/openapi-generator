@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Age
         /// </summary>
         [JsonPropertyName("age")]
-        public int? Age { get { return this.AgeOption; } set { this.AgeOption = new(value); } }
+        public int? Age { get { return this.AgeOption.Value; } set { this.AgeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of BoosterSeat
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets BoosterSeat
         /// </summary>
         [JsonPropertyName("boosterSeat")]
-        public bool? BoosterSeat { get { return this.BoosterSeatOption; } set { this.BoosterSeatOption = new(value); } }
+        public bool? BoosterSeat { get { return this.BoosterSeatOption.Value; } set { this.BoosterSeatOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -93,8 +93,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Child" />
     /// </summary>
-    public class ChildJsonConverter : JsonConverter<Child>
+    public partial class ChildJsonConverter : JsonConverter<Child>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChildJsonConverter" /> class.
+        /// </summary>
+        public ChildJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Child" />
         /// </summary>

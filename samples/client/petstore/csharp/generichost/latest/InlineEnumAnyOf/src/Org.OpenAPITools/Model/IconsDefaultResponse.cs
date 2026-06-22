@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo? String { get { return this.StringOption; } set { this.StringOption = new(value); } }
+        public Foo? String { get { return this.StringOption.Value; } set { this.StringOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="IconsDefaultResponse" />
     /// </summary>
-    public class IconsDefaultResponseJsonConverter : JsonConverter<IconsDefaultResponse>
+    public partial class IconsDefaultResponseJsonConverter : JsonConverter<IconsDefaultResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IconsDefaultResponseJsonConverter" /> class.
+        /// </summary>
+        public IconsDefaultResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="IconsDefaultResponse" />
         /// </summary>

@@ -19,6 +19,7 @@ use openapi_v3::{
     OneOfGetResponse,
     OverrideServerGetResponse,
     ParamgetGetResponse,
+    QueryExampleGetResponse,
     ReadonlyAuthSchemeGetResponse,
     RegisterCallbackPostResponse,
     RequiredOctetStreamPutResponse,
@@ -150,6 +151,11 @@ enum Operation {
         /// Some list to pass as query parameter
         #[structopt(parse(try_from_str = parse_json), long)]
         some_list: Option<Vec<models::MyId>>,
+    },
+    /// Test required query params with and without examples
+    QueryExampleGet {
+        required_no_example: String,
+        required_with_example: i32,
     },
     ReadonlyAuthSchemeGet {
     },
@@ -544,6 +550,24 @@ async fn main() -> Result<()> {
                 => "JSONRsp\n".to_string()
                    +
                     &serde_json::to_string_pretty(&body)?,
+            }
+        }
+        Operation::QueryExampleGet {
+            required_no_example,
+            required_with_example,
+        } => {
+            info!("Performing a QueryExampleGet request");
+
+            let result = client.query_example_get(
+                required_no_example,
+                required_with_example,
+            ).await?;
+            debug!("Result: {:?}", result);
+
+            match result {
+                QueryExampleGetResponse::OK
+                => "OK\n".to_string()
+                    ,
             }
         }
         Operation::ReadonlyAuthSchemeGet {

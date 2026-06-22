@@ -8,6 +8,16 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+pub type SSE = std::pin::Pin<
+    std::boxed::Box<
+        dyn futures_util::Stream<
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
+            > + std::marker::Send
+            + std::marker::Sync,
+    >,
+>;
+
+#[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
     let mut errs = validator::ValidationErrors::new();
     errs.add("na", e);
@@ -130,8 +140,8 @@ pub struct DeleteOrderPathParams {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetOrderByIdPathParams {
     /// ID of pet that needs to be fetched
-    #[validate(range(min = 1i64, max = 5i64))]
-    pub order_id: i64,
+    #[validate(range(min = 1u64, max = 5u64))]
+    pub order_id: u64,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]

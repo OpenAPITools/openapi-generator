@@ -3,10 +3,12 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -19,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Gets or Sets EnumClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
-public enum EnumClassDto {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+public enum EnumClassDto implements ValuedEnum<String> {
   
   _ABC("_abc"),
   

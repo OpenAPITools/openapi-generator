@@ -1,6 +1,6 @@
 # Org.OpenAPITools.Api.PetApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -12,11 +12,10 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**UpdatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet |
 | [**UpdatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data |
 | [**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image |
-| [**UploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 <a id="addpet"></a>
 # **AddPet**
-> void AddPet (Pet pet)
+> Pet AddPet (Pet pet)
 
 Add a new pet to the store
 
@@ -35,7 +34,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -45,7 +44,8 @@ namespace Example
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(pet);
+                Pet result = apiInstance.AddPet(pet);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -65,7 +65,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Add a new pet to the store
-    apiInstance.AddPetWithHttpInfo(pet);
+    ApiResponse<Pet> response = apiInstance.AddPetWithHttpInfo(pet);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -83,21 +86,22 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -123,7 +127,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -215,7 +219,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -271,7 +275,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -310,7 +314,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -366,7 +370,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -405,15 +409,11 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure API key authorization: api_key
             config.AddApiKey("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
             // config.AddApiKeyPrefix("api_key", "Bearer");
-            // Configure API key authorization: api_key_query
-            config.AddApiKey("api_key_query", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key_query", "Bearer");
 
             var apiInstance = new PetApi(config);
             var petId = 789L;  // long | ID of pet to return
@@ -467,7 +467,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[api_key](../README.md#api_key), [api_key_query](../README.md#api_key_query)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -486,7 +486,7 @@ catch (ApiException e)
 
 <a id="updatepet"></a>
 # **UpdatePet**
-> void UpdatePet (Pet pet)
+> Pet UpdatePet (Pet pet)
 
 Update an existing pet
 
@@ -505,7 +505,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -515,7 +515,8 @@ namespace Example
             try
             {
                 // Update an existing pet
-                apiInstance.UpdatePet(pet);
+                Pet result = apiInstance.UpdatePet(pet);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -535,7 +536,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Update an existing pet
-    apiInstance.UpdatePetWithHttpInfo(pet);
+    ApiResponse<Pet> response = apiInstance.UpdatePetWithHttpInfo(pet);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -553,21 +557,22 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
@@ -595,7 +600,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -687,7 +692,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -753,102 +758,6 @@ catch (ApiException e)
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | successful operation |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a id="uploadfilewithrequiredfile"></a>
-# **UploadFileWithRequiredFile**
-> ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string? additionalMetadata = null)
-
-uploads an image (required)
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class UploadFileWithRequiredFileExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure OAuth2 access token for authorization: petstore_auth
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | ID of pet to update
-            var requiredFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload
-            var additionalMetadata = "additionalMetadata_example";  // string? | Additional data to pass to server (optional) 
-
-            try
-            {
-                // uploads an image (required)
-                ApiResponse result = apiInstance.UploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFile: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the UploadFileWithRequiredFileWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // uploads an image (required)
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFileWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
-
-### Parameters
-
-| Name | Type | Description | Notes |
-|------|------|-------------|-------|
-| **petId** | **long** | ID of pet to update |  |
-| **requiredFile** | **System.IO.Stream****System.IO.Stream** | file to upload |  |
-| **additionalMetadata** | **string?** | Additional data to pass to server | [optional]  |
-
-### Return type
-
-[**ApiResponse**](ApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
 
 
 ### HTTP response details

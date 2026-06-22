@@ -33,10 +33,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_VARNAMES;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -405,7 +408,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             openAPIType = "UNKNOWN_OPENAPI_TYPE";
         }
 
-        if ((p.getAnyOf() != null && !p.getAnyOf().isEmpty()) || (p.getOneOf() != null && !p.getOneOf().isEmpty())) {
+        if (ModelUtils.hasAnyOf(p) || ModelUtils.hasOneOf(p)) {
             return openAPIType;
         }
 
@@ -636,6 +639,48 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             }
         }
 
+        // OAS 3.x: `default` may appear alongside `$ref` on the same schema (e.g. optional query param whose schema
+        // references an enum model). That wrapper is often not classified as string/number here, but still carries
+        // the default OpenAPI value — needed so Mustache can emit `query->get(..., <default>)` for php-symfony.
+        if (p.getDefault() != null) {
+            return defaultValueToPhpLiteral(p.getDefault());
+        }
+
+        return null;
+    }
+
+    /**
+     * Converts a JSON Schema {@code default} value to a PHP expression suitable for templates (e.g. second argument to
+     * {@code query->get}). Only safe scalar literals are supported; unknown types log a warning and yield {@code null}
+     * so we do not emit broken PHP from {@code Object#toString()}.
+     */
+    private String defaultValueToPhpLiteral(Object def) {
+        if (def == null) {
+            return null;
+        }
+        if (def instanceof String) {
+            return "'" + escapeTextInSingleQuotes((String) def) + "'";
+        }
+        if (def instanceof Boolean) {
+            return Boolean.TRUE.equals(def) ? "true" : "false";
+        }
+        if (def instanceof BigDecimal) {
+            return ((BigDecimal) def).toPlainString();
+        }
+        if (def instanceof Number) {
+            String s = def.toString();
+            if (s.contains("Infinity") || s.contains("NaN")) {
+                LOGGER.warn("Unsupported numeric default for PHP literal: {}", def);
+                return null;
+            }
+            return s;
+        }
+        if (def instanceof Character) {
+            return "'" + escapeTextInSingleQuotes(String.valueOf((Character) def)) + "'";
+        }
+        LOGGER.warn(
+                "Cannot convert OpenAPI default of type {} to a PHP literal; omitting defaultValue",
+                def.getClass().getName());
         return null;
     }
 
@@ -710,22 +755,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
-            if (vendorExtensions.containsKey("x-enum-varnames")) {
-                List<String> values = (List<String>) vendorExtensions.get("x-enum-varnames");
-                int size = Math.min(enumVars.size(), values.size());
-
-                for (int i = 0; i < size; i++) {
-                    enumVars.get(i).put("name", toEnumVarName(values.get(i), dataType));
-                }
-            }
-
-            if (vendorExtensions.containsKey("x-enum-descriptions")) {
-                List<String> values = (List<String>) vendorExtensions.get("x-enum-descriptions");
-                int size = Math.min(enumVars.size(), values.size());
-                for (int i = 0; i < size; i++) {
-                    enumVars.get(i).put("enumDescription", values.get(i));
-                }
-            }
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_VARNAMES, "name", dataType, this::toEnumVarName);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_DESCRIPTIONS, "enumDescription", dataType);
         }
     }
 
@@ -738,9 +769,46 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
     }
 
+    /**
+     * Builds the PHP expression for a backed enum case default (PHP 8.1+ {@code enum}).
+     * <p>
+     * The legacy {@code self::}{@code <datatype>_<CASE>} form came from class-constant style enums (#10273) and is
+     * invalid when {@code datatype} is a namespaced class: {@code self::} only resolves constants on the current
+     * class. Native enums must use {@code EnumType::CASE}.
+     * <p>
+     * Execution: {@code datatype} is produced upstream (e.g. {@link DefaultCodegen#updateCodegenPropertyEnum}) via
+     * {@link #getTypeDeclaration(Schema)} for the referenced enum schema; {@code value} is the sanitized case name
+     * from {@link #toEnumVarName}. When the enum class sits under {@link #modelPackage}, we emit only the short class
+     * name plus {@code ::} so it matches sibling model references in generated files ({@code namespace} is
+     * {@code modelPackage}; unqualified names resolve correctly). A fully qualified body without a leading
+     * {@code \} would be resolved relative to the file namespace and is invalid PHP for defaults.
+     *
+     * @param value    enum case name (e.g. {@code AVAILABLE})
+     * @param datatype enum class as produced by {@link #getTypeDeclaration(Schema)} (may include {@code modelPackage})
+     * @return PHP default expression for that case (e.g. {@code PetStatus::AVAILABLE})
+     */
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
-        return "self::" + datatype + "_" + value;
+        return unqualifiedEnumClassForModelDefault(datatype) + "::" + value;
+    }
+
+    /**
+     * Strips {@link #modelPackage} from a declared enum class name so defaults use the same unqualified form as
+     * property type hints in model templates.
+     *
+     * @param datatype enum class string from codegen (optional leading {@code \})
+     * @return short class name if under {@code modelPackage}, otherwise the original {@code datatype}
+     */
+    private String unqualifiedEnumClassForModelDefault(String datatype) {
+        if (StringUtils.isBlank(datatype) || StringUtils.isBlank(modelPackage)) {
+            return datatype;
+        }
+        String normalized = datatype.charAt(0) == '\\' ? datatype.substring(1) : datatype;
+        String prefix = modelPackage + "\\";
+        if (normalized.startsWith(prefix)) {
+            return normalized.substring(prefix.length());
+        }
+        return datatype;
     }
 
     @Override

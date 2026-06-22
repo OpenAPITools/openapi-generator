@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string Bar { get { return this.BarOption; } }
+        public string Bar { get { return this.BarOption.Value; } }
 
         /// <summary>
         /// Used to track the state of Baz
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Baz
         /// </summary>
         [JsonPropertyName("baz")]
-        public string Baz { get { return this.BazOption; } set { this.BazOption = new(value); } }
+        public string Baz { get { return this.BazOption.Value; } set { this.BazOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -143,8 +143,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ReadOnlyFirst" />
     /// </summary>
-    public class ReadOnlyFirstJsonConverter : JsonConverter<ReadOnlyFirst>
+    public partial class ReadOnlyFirstJsonConverter : JsonConverter<ReadOnlyFirst>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFirstJsonConverter" /> class.
+        /// </summary>
+        public ReadOnlyFirstJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ReadOnlyFirst" />
         /// </summary>

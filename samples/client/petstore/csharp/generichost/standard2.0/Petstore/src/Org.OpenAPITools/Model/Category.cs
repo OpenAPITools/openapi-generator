@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this.IdOption; } set { this.IdOption = new Option<long?>(value); } }
+        public long? Id { get { return this.IdOption.Value; } set { this.IdOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Gets or Sets Name
@@ -98,8 +98,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Category" />
     /// </summary>
-    public class CategoryJsonConverter : JsonConverter<Category>
+    public partial class CategoryJsonConverter : JsonConverter<Category>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoryJsonConverter" /> class.
+        /// </summary>
+        public CategoryJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Category" />
         /// </summary>

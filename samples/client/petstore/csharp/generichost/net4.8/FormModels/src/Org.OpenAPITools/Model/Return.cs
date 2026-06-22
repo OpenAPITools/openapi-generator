@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarReturn
         /// </summary>
         [JsonPropertyName("return")]
-        public int? VarReturn { get { return this.VarReturnOption; } set { this.VarReturnOption = new Option<int?>(value); } }
+        public int? VarReturn { get { return this.VarReturnOption.Value; } set { this.VarReturnOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Unsafe
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Unsafe
         /// </summary>
         [JsonPropertyName("unsafe")]
-        public string Unsafe { get { return this.UnsafeOption; } set { this.UnsafeOption = new Option<string>(value); } }
+        public string Unsafe { get { return this.UnsafeOption.Value; } set { this.UnsafeOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -123,8 +123,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Return" />
     /// </summary>
-    public class ReturnJsonConverter : JsonConverter<Return>
+    public partial class ReturnJsonConverter : JsonConverter<Return>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReturnJsonConverter" /> class.
+        /// </summary>
+        public ReturnJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Return" />
         /// </summary>

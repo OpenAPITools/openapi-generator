@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -21,15 +22,19 @@ import jakarta.annotation.Generated;
  * An order for a pets from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Order {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Long> id = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Long> petId = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Integer> quantity = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Optional<OffsetDateTime> shipDate = Optional.empty();
 
@@ -70,8 +75,10 @@ public class Order {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<StatusEnum> status = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Boolean> complete = Optional.of(false);
 
   public Order id(Long id) {
@@ -89,6 +96,7 @@ public class Order {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Optional<Long> id) {
     this.id = id;
   }
@@ -108,6 +116,7 @@ public class Order {
     return petId;
   }
 
+  @JsonProperty("petId")
   public void setPetId(Optional<Long> petId) {
     this.petId = petId;
   }
@@ -127,6 +136,7 @@ public class Order {
     return quantity;
   }
 
+  @JsonProperty("quantity")
   public void setQuantity(Optional<Integer> quantity) {
     this.quantity = quantity;
   }
@@ -146,6 +156,7 @@ public class Order {
     return shipDate;
   }
 
+  @JsonProperty("shipDate")
   public void setShipDate(Optional<OffsetDateTime> shipDate) {
     this.shipDate = shipDate;
   }
@@ -165,6 +176,7 @@ public class Order {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }
@@ -184,6 +196,7 @@ public class Order {
     return complete;
   }
 
+  @JsonProperty("complete")
   public void setComplete(Optional<Boolean> complete) {
     this.complete = complete;
   }
@@ -229,10 +242,7 @@ public class Order {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -38,10 +38,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -531,6 +528,24 @@ public class AbstractJavaCodegenTest {
 
         // dateLibrary <> java8
         Assert.assertEquals(defaultValue, "1984-12-19T03:39:57-09:00");
+
+        // Test default value for time-local format
+        StringSchema timeLocalSchema = new StringSchema();
+        timeLocalSchema.setFormat("time-local");
+        timeLocalSchema.setDefault(LocalTime.parse("10:15:30"));
+        defaultValue = codegen.toDefaultValue(timeLocalSchema);
+
+        // dateLibrary <> java8
+        Assert.assertEquals(defaultValue, "10:15:30");
+
+        // Test default value for date-time-local format
+        StringSchema dateTimeLocalSchema = new StringSchema();
+        dateTimeLocalSchema.setFormat("date-time-local");
+        dateTimeLocalSchema.setDefault(LocalDateTime.parse("2007-12-03T10:15:30"));
+        defaultValue = codegen.toDefaultValue(dateTimeLocalSchema);
+
+        // dateLibrary <> java8
+        Assert.assertEquals(defaultValue, "2007-12-03T10:15:30");
     }
 
     @Test
@@ -593,6 +608,20 @@ public class AbstractJavaCodegenTest {
         numberSchema.setFormat("double");
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), numberSchema);
         Assert.assertEquals(defaultValue, doubleValue + "d");
+
+        // Test default value for time-local format
+        StringSchema timeLocalSchema = new StringSchema();
+        timeLocalSchema.setFormat("time-local");
+        timeLocalSchema.setDefault("10:15:30");
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", timeLocalSchema), timeLocalSchema);
+        Assert.assertEquals(defaultValue, "LocalTime.parse(\"10:15:30\")");
+
+        // Test default value for date-time-local format
+        StringSchema dateTimeLocalSchema = new StringSchema();
+        dateTimeLocalSchema.setFormat("date-time-local");
+        dateTimeLocalSchema.setDefault("2007-12-03T10:15:30");
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", dateTimeLocalSchema), dateTimeLocalSchema);
+        Assert.assertEquals(defaultValue, "LocalDateTime.parse(\"2007-12-03T10:15:30\")");
     }
 
     @Test
@@ -967,6 +996,21 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema<>().type("integer").maximum(BigDecimal.TEN));
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Max(10)Integer>");
+    }
+
+    @Test
+    public void annotationsContainerPatternMessageTest() {
+        codegen.setUseBeanValidation(true);
+
+        Schema<?> itemSchema = new Schema<>()
+                .type("string")
+                .pattern("^[a-z]$");
+        itemSchema.addExtension("x-pattern-message", "Custom message for list");
+
+        Schema<?> schema = new ArraySchema().items(itemSchema);
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue,
+                "List<@Pattern(regexp = \"^[a-z]$\", message=\"Custom message for list\")String>");
     }
 
     @Test

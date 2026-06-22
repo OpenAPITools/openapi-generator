@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -19,9 +20,10 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("File")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class FileDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String sourceURI;
 
   public FileDto sourceURI(@Nullable String sourceURI) {
@@ -39,6 +41,7 @@ public class FileDto {
     return sourceURI;
   }
 
+  @JsonProperty("sourceURI")
   public void setSourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
@@ -74,10 +77,7 @@ public class FileDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

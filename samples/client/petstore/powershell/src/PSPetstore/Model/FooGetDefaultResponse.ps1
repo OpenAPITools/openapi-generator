@@ -35,7 +35,7 @@ function Initialize-PSFooGetDefaultResponse {
 
 
         $PSO = [PSCustomObject]@{
-            "string" = ${String}
+            'string' = ${String}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToFooGetDefaultResponse {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSFooGetDefaultResponse
-        $AllProperties = ("string")
+        $AllProperties = ('string')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "string"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'string'))) { #optional property not found
             $String = $null
         } else {
-            $String = $JsonParameters.PSobject.Properties["string"].value
+            $String = $JsonParameters.PSobject.Properties['string'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "string" = ${String}
+            'string' = ${String}
         }
 
         return $PSO

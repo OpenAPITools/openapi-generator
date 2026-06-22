@@ -36,7 +36,7 @@ import javax.json.bind.annotation.JsonbCreator;
 public class ArrayOfArrayOfNumberOnly  {
   
   @JsonbProperty("ArrayArrayNumber")
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  protected List<List<BigDecimal>> arrayArrayNumber = null;
 
 
   /**
@@ -102,10 +102,7 @@ public class ArrayOfArrayOfNumberOnly  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

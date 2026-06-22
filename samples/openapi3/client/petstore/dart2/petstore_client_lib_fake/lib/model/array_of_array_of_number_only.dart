@@ -47,17 +47,13 @@ class ArrayOfArrayOfNumberOnly {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "ArrayOfArrayOfNumberOnly[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "ArrayOfArrayOfNumberOnly[$key]" has a null value in JSON.');
-        });
         return true;
       }());
 
       return ArrayOfArrayOfNumberOnly(
         arrayArrayNumber: json[r'ArrayArrayNumber'] is List
           ? (json[r'ArrayArrayNumber'] as List).map((e) =>
-              e == null ? const  <num>[] : (e as List).cast<num>()
+              e == null ? const <num>[] : (e as List).map((value) => value as num).toList(growable: false)
             ).toList()
           :  const [],
       );

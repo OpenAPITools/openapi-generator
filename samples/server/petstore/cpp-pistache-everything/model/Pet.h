@@ -38,7 +38,7 @@ class  Pet
 {
 public:
     Pet();
-    virtual ~Pet() = default;
+    virtual ~Pet();
 
 
     /// <summary>

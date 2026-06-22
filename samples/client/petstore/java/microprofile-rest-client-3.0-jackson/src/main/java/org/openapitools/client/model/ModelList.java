@@ -35,7 +35,7 @@ public class ModelList  {
   
   public static final String JSON_PROPERTY_123LIST = "123-list";
   
-  private String _123list;
+  protected String _123list;
 
 
   /**
@@ -90,10 +90,7 @@ public class ModelList  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

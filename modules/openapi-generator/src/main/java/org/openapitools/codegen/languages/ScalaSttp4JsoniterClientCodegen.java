@@ -40,11 +40,14 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-sttp4-jsoniter/}.
+ */
 public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion",
             "The version of " +
                     "sttp client",
-            "4.0.0-RC1");
+            "4.0.23");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
@@ -53,7 +56,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     private static final StringProperty JSONITER_VERSION = new StringProperty("jsoniterVersion",
             "The version of jsoniter-scala " +
                     "library",
-            "2.31.1");
+            "2.38.12");
 
     public static final String DEFAULT_PACKAGE_NAME = "org.openapitools.client";
     private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();
@@ -187,6 +190,8 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         supportingFiles.add(new SupportingFile("helpers.mustache", invokerFolder,
                 "Helpers.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
+        supportingFiles.add(new SupportingFile("project/plugins.mustache", "project", "plugins.sbt"));
+        supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
     }
 
     @Override

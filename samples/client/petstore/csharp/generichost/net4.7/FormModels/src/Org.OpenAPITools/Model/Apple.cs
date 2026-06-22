@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ColorCode
         /// </summary>
         [JsonPropertyName("color_code")]
-        public string ColorCode { get { return this.ColorCodeOption; } set { this.ColorCodeOption = new Option<string>(value); } }
+        public string ColorCode { get { return this.ColorCodeOption.Value; } set { this.ColorCodeOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of Cultivar
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [JsonPropertyName("cultivar")]
-        public string Cultivar { get { return this.CultivarOption; } set { this.CultivarOption = new Option<string>(value); } }
+        public string Cultivar { get { return this.CultivarOption.Value; } set { this.CultivarOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of Origin
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Origin
         /// </summary>
         [JsonPropertyName("origin")]
-        public string Origin { get { return this.OriginOption; } set { this.OriginOption = new Option<string>(value); } }
+        public string Origin { get { return this.OriginOption.Value; } set { this.OriginOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -151,8 +151,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Apple" />
     /// </summary>
-    public class AppleJsonConverter : JsonConverter<Apple>
+    public partial class AppleJsonConverter : JsonConverter<Apple>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppleJsonConverter" /> class.
+        /// </summary>
+        public AppleJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Apple" />
         /// </summary>

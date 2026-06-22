@@ -3,6 +3,7 @@ package org.openapitools.virtualan.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -11,13 +12,13 @@ import org.openapitools.virtualan.model.Animal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Cat
@@ -32,9 +33,10 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Cat extends Animal {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Boolean declawed;
 
   public Cat() {
@@ -64,6 +66,7 @@ public class Cat extends Animal {
     return declawed;
   }
 
+  @JsonProperty("declawed")
   public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
   }
@@ -111,10 +114,7 @@ public class Cat extends Animal {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

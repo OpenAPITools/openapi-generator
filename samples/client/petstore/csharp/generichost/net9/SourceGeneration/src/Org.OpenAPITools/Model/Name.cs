@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Property
         /// </summary>
         [JsonPropertyName("property")]
-        public string? Property { get { return this.PropertyOption; } set { this.PropertyOption = new(value); } }
+        public string? Property { get { return this.PropertyOption.Value; } set { this.PropertyOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SnakeCase
@@ -81,7 +81,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SnakeCase
         /// </summary>
         [JsonPropertyName("snake_case")]
-        public int? SnakeCase { get { return this.SnakeCaseOption; } }
+        public int? SnakeCase { get { return this.SnakeCaseOption.Value; } }
 
         /// <summary>
         /// Used to track the state of Var123Number
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Var123Number
         /// </summary>
         [JsonPropertyName("123Number")]
-        public int? Var123Number { get { return this.Var123NumberOption; } }
+        public int? Var123Number { get { return this.Var123NumberOption.Value; } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -174,8 +174,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Name" />
     /// </summary>
-    public class NameJsonConverter : JsonConverter<Name>
+    public partial class NameJsonConverter : JsonConverter<Name>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NameJsonConverter" /> class.
+        /// </summary>
+        public NameJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Name" />
         /// </summary>

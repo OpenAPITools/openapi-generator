@@ -10,15 +10,13 @@
         <kotlinx-coroutines.version>1.6.1
         </kotlinx-coroutines.version>{{/reactive}}{{#springDocDocumentationProvider}}{{#useSwaggerUI}}
         <springdoc-openapi.version>2.2.0
-        </springdoc-openapi.version>{{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#springFoxDocumentationProvider}}
-        <springfox-swagger2.version>2.9.2
-        </springfox-swagger2.version>{{/springFoxDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
+        </springdoc-openapi.version>{{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
         <swagger-ui.version>5.3.1
-        </swagger-ui.version>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springFoxDocumentationProvider}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
+        </swagger-ui.version>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
         <swagger-annotations.version>1.6.6
         </swagger-annotations.version>{{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}
         <swagger-annotations.version>2.2.15
-        </swagger-annotations.version>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}{{/springFoxDocumentationProvider}}
+        </swagger-annotations.version>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <jakarta-annotation.version>2.1.0</jakarta-annotation.version>
         <kotlin-test-junit5.version>1.7.10</kotlin-test-junit5.version>
@@ -29,14 +27,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.3</version>
+        <version>3.3.13</version>
     </parent>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>2021.0.5</version>
+                <version>2023.0.6</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -161,13 +159,7 @@
                 <artifactId>springdoc-openapi-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-core
                 </artifactId>
                 <version>${springdoc-openapi.version}</version>
-            </dependency>{{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#springFoxDocumentationProvider}}
-        <!--SpringFox dependencies -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-swagger2.version}</version>
-        </dependency>{{/springFoxDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
+            </dependency>{{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
@@ -176,7 +168,7 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator-core</artifactId>
-        </dependency>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springFoxDocumentationProvider}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
+        </dependency>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
@@ -186,7 +178,7 @@
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations.version}</version>
-        </dependency>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}{{/springFoxDocumentationProvider}}
+        </dependency>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -200,11 +192,8 @@
         </dependency>
         {{#hasAuthMethods}}
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-            {{^parentOverridden}}
-                <version>2.2.5.RELEASE</version>
-            {{/parentOverridden}}
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
         {{/hasAuthMethods}}
         <dependency>
@@ -229,6 +218,12 @@
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>{{/useBeanValidation}}
+{{#openApiNullable}}
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.10</version>
+        </dependency>{{/openApiNullable}}
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -239,6 +234,11 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit5</artifactId>
             <version>${kotlin-test-junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

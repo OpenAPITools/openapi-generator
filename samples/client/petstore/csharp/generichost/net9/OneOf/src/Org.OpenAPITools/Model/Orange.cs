@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [JsonPropertyName("sweet")]
-        public bool? Sweet { get { return this.SweetOption; } set { this.SweetOption = new(value); } }
+        public bool? Sweet { get { return this.SweetOption.Value; } set { this.SweetOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Orange" />
     /// </summary>
-    public class OrangeJsonConverter : JsonConverter<Orange>
+    public partial class OrangeJsonConverter : JsonConverter<Orange>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrangeJsonConverter" /> class.
+        /// </summary>
+        public OrangeJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Orange" />
         /// </summary>

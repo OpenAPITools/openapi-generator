@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string? Name { get { return this.NameOption.Value; } set { this.NameOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="DeprecatedObject" />
     /// </summary>
-    public class DeprecatedObjectJsonConverter : JsonConverter<DeprecatedObject>
+    public partial class DeprecatedObjectJsonConverter : JsonConverter<DeprecatedObject>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeprecatedObjectJsonConverter" /> class.
+        /// </summary>
+        public DeprecatedObjectJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="DeprecatedObject" />
         /// </summary>

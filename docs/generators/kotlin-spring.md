@@ -21,24 +21,29 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd><dt>**swagger2**</dt><dd>Annotate Model and Api using the Swagger Annotations 2.x library.</dd></dl>|swagger2|
 |apiPackage|api package for generated code| |org.openapitools.api|
-|apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |openapi-spring|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
+|autoXSpringPaginated|Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.| |false|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |beanQualifiers|Whether to add fully-qualifier class names as bean qualifiers in @Component and @RestController annotations. May be used to prevent bean names clash if multiple generated libraries (contexts) added to single project.| |false|
+|companionObject|Whether to generate companion objects in data classes, enabling companion extensions.| |false|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
 |declarativeInterfaceReactiveMode|What type of reactive style to use in Spring Http declarative interface|<dl><dt>**coroutines**</dt><dd>Use kotlin-idiomatic 'suspend' functions</dd><dt>**reactor**</dt><dd>Use reactor return wrappers 'Mono' and 'Flux'</dd></dl>|coroutines|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
-|documentationProvider|Select the OpenAPI documentation provider.|<dl><dt>**none**</dt><dd>Do not publish an OpenAPI specification.</dd><dt>**source**</dt><dd>Publish the original input OpenAPI specification.</dd><dt>**springfox**</dt><dd>Generate an OpenAPI 2 (fka Swagger RESTful API Documentation Specification) specification using SpringFox 2.x. Deprecated (for removal); use springdoc instead.</dd><dt>**springdoc**</dt><dd>Generate an OpenAPI 3 specification using SpringDoc.</dd></dl>|springdoc|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
+|documentationProvider|Select the OpenAPI documentation provider.|<dl><dt>**none**</dt><dd>Do not publish an OpenAPI specification.</dd><dt>**source**</dt><dd>Publish the original input OpenAPI specification.</dd><dt>**springdoc**</dt><dd>Generate an OpenAPI 3 specification using SpringDoc.</dd></dl>|springdoc|
+|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', 'original', and 'bestEffortBacktick' (like 'original' but tries to wrap values in backticks before falling back to sanitizing, e.g. `name,asc` stays `name,asc` rather than becoming nameCommaAsc; useful for sort/order enums)| |original|
 |exceptionHandler|generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )| |true|
+|generatePageableConstraintValidation|Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library=spring-boot.| |false|
+|generateSortValidation|Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library=spring-boot.| |false|
 |gradleBuildFile|generate a gradle build file using the Kotlin DSL| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
+|implicitHeaders|Skip header parameters in the generated API methods.| |false|
 |includeHttpRequestContext|Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.| |false|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd><dt>**spring-declarative-http-interface**</dt><dd>Spring Declarative Interface client</dd></dl>|spring-boot|
 |modelMutable|Create mutable models| |false|
 |modelPackage|model package for generated code| |org.openapitools.model|
+|openApiNullable|Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for strict null handling. Controls how optional + non-nullable properties (required: false, nullable: false) handle explicit JSON null: when false (default), @JsonSetter(nulls = Nulls.SKIP) is used &mdash; explicit null is silently ignored (lenient, protects any default value from being overridden); when true, @JsonSetter(nulls = Nulls.FAIL) is used &mdash; explicit null causes deserialization to fail (strict, enforces the non-nullable contract, useful for PATCH semantics). Additionally, when true, optional + nullable properties (required: false, nullable: true) use JsonNullable&lt;T&gt; = JsonNullable.undefined() to distinguish between a missing key and an explicit null. Requires jackson-databind-nullable &gt;= 0.2.10 when used with useJackson3.| |false|
 |packageName|Generated artifact package name.| |org.openapitools|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |reactive|use coroutines for reactive behavior| |false|
@@ -53,12 +58,19 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
+|substituteGenericPagedModel|Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' pagination-metadata property) and replace their generated references with PagedModel&lt;T&gt;. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata schema are suppressed from code generation.| |false|
+|suspendFunctions|Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.| |false|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
+|useDeductionForOneOfInterfaces|Annotate discriminator-free oneOf interfaces with Jackson's @JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype is resolved from the JSON field set rather than a type-tag property. Has no effect when a discriminator is present (name-based resolution is used instead). Requires subtypes to have structurally distinct sets of properties.| |false|
+|useEnumValueInterface|Generate a ValuedEnum&lt;T&gt; interface in the config package and make all generated enums implement it, providing a common typed way to access the underlying enum value. Use `importMappings.ValuedEnum` to substitute a custom/library-provided interface instead of generating one.| |false|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useFlowForArrayReturnType|Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.| |true|
+|useJackson3|Use Jackson 3 dependencies (tools.jackson package). Only available with `useSpringBoot4`. Defaults to true when `useSpringBoot4` is enabled.| |false|
 |useResponseEntity|Whether (when false) to return actual type (e.g. List&lt;Fruit&gt;) and handle non-happy path responses via exceptions flow or (when true) return entire ResponseEntity (e.g. ResponseEntity&lt;List&lt;Fruit&gt;&gt;). If disabled, method are annotated using a @ResponseStatus annotation, which has the status of the first response declared in the Api definition| |true|
+|useSealedResponseInterfaces|Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)| |false|
 |useSpringBoot3|Generate code and provide dependencies for use with Spring Boot &ge; 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
+|useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x. Enabling this option will also enable `useJakartaEe`.| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|Whether to use tags for creating interface and controller class names| |false|
 |xKotlinImplementsFieldsSkip|A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema. Example: yaml `xKotlinImplementsFieldsSkip: Pet: [photoUrls]` skips `override` for `photoUrls` in schema `Pet`| |empty map|
@@ -73,12 +85,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
+|x-operation-extra-annotation|List of custom annotations to be added to operation|OPERATION|null
 |x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
 |x-size-message|Add this property whenever you need to customize the invalidation error message for the size or length of a variable|FIELD, OPERATION_PARAMETER|null
 |x-minimum-message|Add this property whenever you need to customize the invalidation error message for the minimum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-maximum-message|Add this property whenever you need to customize the invalidation error message for the maximum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-kotlin-implements|Ability to specify interfaces that model must implement|MODEL|empty array
 |x-kotlin-implements-fields|Specify attributes that are implemented by the interface(s) added via `x-kotlin-implements`|MODEL|empty array
+|x-spring-paginated|Add `org.springframework.data.domain.Pageable` to controller method. Can be used to handle `page`, `size` and `sort` query parameters. If these query parameters are also specified in the operation spec, they will be removed from the controller method as their values can be obtained from the `Pageable` object. Only applies when `library=spring-boot`; ignored for client libraries (spring-cloud, spring-declarative-http-interface).|OPERATION|false
 
 
 ## IMPORT MAPPING
@@ -302,7 +316,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Union|✗|OAS3
 |allOf|✗|OAS2,OAS3
 |anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature

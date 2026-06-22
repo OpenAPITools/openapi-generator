@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /* <example>Fri Jul 21 00:00:00 UTC 2017</example> */
         [JsonPropertyName("dateOnlyProperty")]
-        public DateOnly? DateOnlyProperty { get { return this.DateOnlyPropertyOption; } set { this.DateOnlyPropertyOption = new(value); } }
+        public DateOnly? DateOnlyProperty { get { return this.DateOnlyPropertyOption.Value; } set { this.DateOnlyPropertyOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -90,12 +90,22 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="DateOnlyClass" />
     /// </summary>
-    public class DateOnlyClassJsonConverter : JsonConverter<DateOnlyClass>
+    public partial class DateOnlyClassJsonConverter : JsonConverter<DateOnlyClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateOnlyClassJsonConverter" /> class.
+        /// </summary>
+        public DateOnlyClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize DateOnlyProperty
         /// </summary>
-        public static string DateOnlyPropertyFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string DateOnlyPropertyFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// Deserializes json to <see cref="DateOnlyClass" />

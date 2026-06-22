@@ -8,6 +8,16 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+pub type SSE = std::pin::Pin<
+    std::boxed::Box<
+        dyn futures_util::Stream<
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
+            > + std::marker::Send
+            + std::marker::Sync,
+    >,
+>;
+
+#[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
     let mut errs = validator::ValidationErrors::new();
     errs.add("na", e);
@@ -152,6 +162,15 @@ pub struct ParamgetGetQueryParams {
     #[serde(rename = "someList")]
     #[serde(default)]
     pub some_list: Vec<models::MyId>,
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct QueryExampleGetQueryParams {
+    #[serde(rename = "required_no_example")]
+    pub required_no_example: String,
+    #[serde(rename = "required_with_example")]
+    pub required_with_example: i32,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]

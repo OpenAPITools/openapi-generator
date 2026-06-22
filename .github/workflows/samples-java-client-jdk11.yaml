@@ -18,7 +18,6 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
-      - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/others/java/okhttp-gson-streaming/**
       - samples/client/others/java/resteasy/**
       - samples/client/others/java/apache-httpclient/**
@@ -41,7 +40,6 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
-      - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/others/java/okhttp-gson-streaming/**
       - samples/client/others/java/resteasy/**
       - samples/client/others/java/apache-httpclient/**
@@ -73,6 +71,8 @@ jobs:
           - samples/client/petstore/java/webclient-swagger2
           - samples/client/petstore/java/webclient-useSingleRequestParameter
           - samples/client/petstore/java/vertx
+          - samples/client/petstore/java/vertx5
+          - samples/client/petstore/java/vertx5-supportVertxFuture
           - samples/client/petstore/java/vertx-no-nullable
           - samples/client/petstore/java/vertx-supportVertxFuture
           - samples/client/petstore/java/jersey2-java8-localdatetime
@@ -109,7 +109,6 @@ jobs:
           - samples/client/others/java/jersey2-oneOf-Mixed/
           - samples/client/others/java/resttemplate-list-schema-validation/
           - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/
-          - samples/client/petstore/java/jersey3-oneOf/
           - samples/client/others/java/okhttp-gson-streaming/
           - samples/client/petstore/java/resteasy/
           - samples/client/petstore/java/apache-httpclient/

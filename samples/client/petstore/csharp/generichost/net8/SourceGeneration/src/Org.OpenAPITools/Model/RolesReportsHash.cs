@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Role
         /// </summary>
         [JsonPropertyName("role")]
-        public RolesReportsHashRole? Role { get { return this.RoleOption; } set { this.RoleOption = new(value); } }
+        public RolesReportsHashRole? Role { get { return this.RoleOption.Value; } set { this.RoleOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of RoleUuid
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets RoleUuid
         /// </summary>
         [JsonPropertyName("role_uuid")]
-        public Guid? RoleUuid { get { return this.RoleUuidOption; } set { this.RoleUuidOption = new(value); } }
+        public Guid? RoleUuid { get { return this.RoleUuidOption.Value; } set { this.RoleUuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -108,8 +108,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="RolesReportsHash" />
     /// </summary>
-    public class RolesReportsHashJsonConverter : JsonConverter<RolesReportsHash>
+    public partial class RolesReportsHashJsonConverter : JsonConverter<RolesReportsHash>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RolesReportsHashJsonConverter" /> class.
+        /// </summary>
+        public RolesReportsHashJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RolesReportsHash" />
         /// </summary>

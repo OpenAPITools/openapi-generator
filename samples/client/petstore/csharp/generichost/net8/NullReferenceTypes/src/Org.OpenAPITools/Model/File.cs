@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Test capitalization</value>
         [JsonPropertyName("sourceURI")]
-        public string? SourceURI { get { return this.SourceURIOption; } set { this.SourceURIOption = new(value); } }
+        public string? SourceURI { get { return this.SourceURIOption.Value; } set { this.SourceURIOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -92,8 +92,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="File" />
     /// </summary>
-    public class FileJsonConverter : JsonConverter<File>
+    public partial class FileJsonConverter : JsonConverter<File>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileJsonConverter" /> class.
+        /// </summary>
+        public FileJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="File" />
         /// </summary>

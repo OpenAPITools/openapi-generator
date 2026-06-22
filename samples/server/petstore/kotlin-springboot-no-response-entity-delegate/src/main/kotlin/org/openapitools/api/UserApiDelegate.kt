@@ -11,7 +11,7 @@ import java.util.Optional
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.24.0-SNAPSHOT")
 interface UserApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -59,7 +59,7 @@ interface UserApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"firstName\" : \"firstName\",  \"lastName\" : \"lastName\",  \"password\" : \"password\",  \"userStatus\" : 6,  \"phone\" : \"phone\",  \"id\" : 0,  \"email\" : \"email\",  \"username\" : \"username\"}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"id\" : 0,  \"username\" : \"username\",  \"firstName\" : \"firstName\",  \"lastName\" : \"lastName\",  \"email\" : \"email\",  \"password\" : \"password\",  \"phone\" : \"phone\",  \"userStatus\" : 6}")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {

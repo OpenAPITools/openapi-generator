@@ -39,6 +39,9 @@ import java.util.function.Consumer;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/xojo-client/}.
+ */
 public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CODEGEN_MODULE_NAME = "xojo-client";
     public static final String LIBRARY_HTTPSOCKET = "httpsocket";
@@ -387,13 +390,15 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# xojo-client contributed by Christopher Kobusch (https://github.com/Topheee). #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# xojo-client contributed by Christopher Kobusch (https://github.com/Topheee). #");
+            System.out.println("################################################################################");
+        }
     }
 
     // escape api key name

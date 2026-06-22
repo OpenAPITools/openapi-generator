@@ -22,6 +22,7 @@ from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.creature_info import CreatureInfo
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class UnnamedDictWithAdditionalModelListProperties(BaseModel):
     """
@@ -32,7 +33,8 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
     __properties: ClassVar[List[str]] = ["dictProperty"]
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -44,8 +46,7 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
@@ -98,14 +99,12 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "dictProperty": dict(
-                (_k,
-                        [CreatureInfo.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("dictProperty", {}).items()
-            )
+            "dictProperty": {
+                _k: [CreatureInfo.from_dict(_item) for _item in _v] if _v is not None else None
+                for _k, _v in obj["dictProperty"].items()
+            }
+            if obj.get("dictProperty") is not None
+            else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

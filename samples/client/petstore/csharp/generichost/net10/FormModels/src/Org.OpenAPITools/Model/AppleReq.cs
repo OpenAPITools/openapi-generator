@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Mealy
         /// </summary>
         [JsonPropertyName("mealy")]
-        public bool? Mealy { get { return this.MealyOption; } set { this.MealyOption = new(value); } }
+        public bool? Mealy { get { return this.MealyOption.Value; } set { this.MealyOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="AppleReq" />
     /// </summary>
-    public class AppleReqJsonConverter : JsonConverter<AppleReq>
+    public partial class AppleReqJsonConverter : JsonConverter<AppleReq>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppleReqJsonConverter" /> class.
+        /// </summary>
+        public AppleReqJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="AppleReq" />
         /// </summary>

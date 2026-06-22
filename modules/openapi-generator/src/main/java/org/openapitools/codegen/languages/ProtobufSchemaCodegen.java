@@ -49,6 +49,9 @@ import com.google.common.base.CaseFormat;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/protobuf-schema/}.
+ */
 public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final String IMPORT = "import";

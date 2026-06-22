@@ -1,4 +1,4 @@
-# # MixedPropertiesAndAdditionalPropertiesClass
+# MixedPropertiesAndAdditionalPropertiesClass
 
 ## Properties
 

@@ -142,8 +142,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                     <fork>true</fork>
                     <meminitial>128m</meminitial>
                     <maxmem>512m</maxmem>
@@ -167,7 +167,7 @@
                 </executions>
                 <configuration>
                     <doclint>none</doclint>
-                    <source>1.8</source>
+                    <source>17</source>
                     <tags>
                         <tag>
                             <name>http.response.details</name>
@@ -296,13 +296,16 @@
             <artifactId>jersey-media-multipart</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+        {{^useJackson3}}
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+        {{/useJackson3}}
 
         <!-- JSON processing: jackson -->
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -311,13 +314,37 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson-annotations-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind-version}</version>
         </dependency>
+        {{/useJackson3}}
+        {{#useJackson3}}
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-annotations-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        <!-- JAX-RS JSON provider for Jackson 3 (replaces jersey-media-json-jackson, which is Jackson 2 only) -->
+        <dependency>
+            <groupId>tools.jackson.jakarta.rs</groupId>
+            <artifactId>jackson-jakarta-rs-json-provider</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        {{/useJackson3}}
         {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -334,17 +361,29 @@
         </dependency>
         {{/withXml}}
         {{#joda}}
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        {{/useJackson3}}
+        {{#useJackson3}}
+        <dependency>
+            <groupId>tools.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        {{/useJackson3}}
         {{/joda}}
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        {{/useJackson3}}
+        <!-- Note: for useJackson3, jackson-datatype-jsr310 is included in jackson-databind -->
         {{#hasHttpSignatureMethods}}
         <dependency>
             <groupId>org.tomitribe</groupId>
@@ -405,12 +444,19 @@
         <swagger-annotations-version>2.2.15</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
         <jersey-version>3.1.11</jersey-version>
-        <jackson-version>2.19.2</jackson-version>
-        <jackson-databind-version>2.19.2</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
+        {{^useJackson3}}
+        <jackson-version>2.21.1</jackson-version>
+        <jackson-annotations-version>2.21</jackson-annotations-version>
+        <jackson-databind-version>2.21.1</jackson-databind-version>
+        {{/useJackson3}}
+        {{#useJackson3}}
+        <jackson3-version>3.1.0</jackson3-version>
+        <jackson-annotations-version>2.21</jackson-annotations-version>
+        {{/useJackson3}}
+        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         {{#useJakartaEe}}
-        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
-        <beanvalidation-version>3.0.2</beanvalidation-version>
+        <jakarta-annotation-version>3.0.0</jakarta-annotation-version>
+        <beanvalidation-version>3.1.1</beanvalidation-version>
         {{/useJakartaEe}}
         {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>

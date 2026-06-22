@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -10,22 +11,22 @@ import java.util.Map;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * MapTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class MapTest {
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -63,13 +64,13 @@ public class MapTest {
     }
   }
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Boolean> directMap = new HashMap<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -96,6 +97,7 @@ public class MapTest {
     return mapMapOfString;
   }
 
+  @JsonProperty("map_map_of_string")
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
@@ -124,6 +126,7 @@ public class MapTest {
     return mapOfEnumString;
   }
 
+  @JsonProperty("map_of_enum_string")
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
@@ -152,6 +155,7 @@ public class MapTest {
     return directMap;
   }
 
+  @JsonProperty("direct_map")
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
@@ -180,6 +184,7 @@ public class MapTest {
     return indirectMap;
   }
 
+  @JsonProperty("indirect_map")
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
@@ -221,10 +226,7 @@ public class MapTest {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

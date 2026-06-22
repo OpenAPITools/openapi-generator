@@ -51,6 +51,9 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/dart/libraries/dio/}.
+ */
 public class DartDioClientCodegen extends AbstractDartCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
@@ -219,6 +222,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/bearer_auth.mustache", authFolder, "bearer_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
+
+        if (useOptional) {
+            supportingFiles.add(new SupportingFile("optional.mustache", srcFolder, "optional.dart"));
+        }
 
         configureSerializationLibrary(srcFolder);
         configureEqualityCheckMethod(srcFolder);
@@ -613,6 +620,18 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 CodegenModel cm = mo.getModel();
                 cm.imports = rewriteImports(cm.imports, true);
                 cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
+
+                // Check if this model's classname has an import mapping.
+                // If so, mark it so that supporting file templates (serializers, barrel)
+                // can use the mapped import path instead of the default model/ path.
+                if (importMapping().containsKey(cm.classname)) {
+                    cm.vendorExtensions.put("x-is-import-mapped", true);
+                    cm.vendorExtensions.put("x-import-path", importMapping().get(cm.classname));
+                } else {
+                    cm.vendorExtensions.put("x-is-import-mapped", false);
+                    cm.vendorExtensions.put("x-import-path",
+                            "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + cm.classFilename + ".dart");
+                }
             }
         }
 

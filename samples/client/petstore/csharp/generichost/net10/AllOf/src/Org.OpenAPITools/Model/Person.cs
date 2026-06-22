@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("firstName")]
-        public string? FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new(value); } }
+        public string? FirstName { get { return this.FirstNameOption.Value; } set { this.FirstNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of LastName
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("lastName")]
-        public string? LastName { get { return this.LastNameOption; } set { this.LastNameOption = new(value); } }
+        public string? LastName { get { return this.LastNameOption.Value; } set { this.LastNameOption = new(value); } }
 
         /// <summary>
         /// The discriminator
@@ -125,8 +125,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Person" />
     /// </summary>
-    public class PersonJsonConverter : JsonConverter<Person>
+    public partial class PersonJsonConverter : JsonConverter<Person>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PersonJsonConverter" /> class.
+        /// </summary>
+        public PersonJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Person" />
         /// </summary>

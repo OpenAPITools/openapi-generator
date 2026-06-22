@@ -172,6 +172,8 @@ class RESTClientObject:
                     request_body = None
                     if body is not None:
                         request_body = json.dumps(body)
+                    if body is None and post_params:
+                        request_body = json.dumps(dict(post_params))
                     r = self.pool_manager.request(
                         method, url,
                         body=request_body,

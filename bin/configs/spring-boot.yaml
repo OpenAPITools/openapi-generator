@@ -3,9 +3,11 @@ outputDir: samples/server/petstore/springboot
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
-  documentationProvider: springfox
+  documentationProvider: springdoc
   artifactId: springboot
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"
   camelCaseDollarSign: "true"
   modelNameSuffix: 'Dto'
+  useEnumValueInterface: "true"
+  useSpringBoot3: "false"

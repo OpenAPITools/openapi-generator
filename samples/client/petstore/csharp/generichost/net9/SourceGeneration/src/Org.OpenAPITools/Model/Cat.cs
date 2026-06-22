@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [JsonPropertyName("declawed")]
-        public bool? Declawed { get { return this.DeclawedOption; } set { this.DeclawedOption = new(value); } }
+        public bool? Declawed { get { return this.DeclawedOption.Value; } set { this.DeclawedOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -77,8 +77,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Cat" />
     /// </summary>
-    public class CatJsonConverter : JsonConverter<Cat>
+    public partial class CatJsonConverter : JsonConverter<Cat>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CatJsonConverter" /> class.
+        /// </summary>
+        public CatJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Cat" />
         /// </summary>

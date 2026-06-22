@@ -15,7 +15,7 @@ dependencies = [
   "httpx (>=0.28.1)",
   "pem (>=19.3.0)",
   "pycryptodome (>=3.9.0)",
-  "pydantic (>=2)",
+  "pydantic (>=2.11)",
   "typing-extensions (>=4.7.1)",
 ]
 
@@ -35,8 +35,8 @@ mypy = ">= 1.5"
 
 
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"

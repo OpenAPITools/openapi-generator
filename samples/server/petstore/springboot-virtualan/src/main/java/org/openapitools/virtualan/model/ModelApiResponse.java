@@ -2,32 +2,36 @@ package org.openapitools.virtualan.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * ModelApiResponse
  */
 
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ModelApiResponse {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer code;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String type;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String message;
 
   public ModelApiResponse code(@Nullable Integer code) {
@@ -46,6 +50,7 @@ public class ModelApiResponse {
     return code;
   }
 
+  @JsonProperty("code")
   public void setCode(@Nullable Integer code) {
     this.code = code;
   }
@@ -66,6 +71,7 @@ public class ModelApiResponse {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(@Nullable String type) {
     this.type = type;
   }
@@ -86,6 +92,7 @@ public class ModelApiResponse {
     return message;
   }
 
+  @JsonProperty("message")
   public void setMessage(@Nullable String message) {
     this.message = message;
   }
@@ -125,10 +132,7 @@ public class ModelApiResponse {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

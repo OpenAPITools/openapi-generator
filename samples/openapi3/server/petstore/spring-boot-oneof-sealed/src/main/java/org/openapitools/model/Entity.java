@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -10,13 +11,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Entity
@@ -36,15 +37,19 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = PizzaSpeziale.class, name = "PizzaSpeziale")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String href;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atSchemaLocation;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atBaseType;
 
   private String atType;
@@ -76,6 +81,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
     return href;
   }
 
+  @JsonProperty("href")
   public void setHref(@Nullable String href) {
     this.href = href;
   }
@@ -96,6 +102,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable String id) {
     this.id = id;
   }
@@ -116,6 +123,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
     return atSchemaLocation;
   }
 
+  @JsonProperty("@schemaLocation")
   public void setAtSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
   }
@@ -136,6 +144,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
     return atBaseType;
   }
 
+  @JsonProperty("@baseType")
   public void setAtBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
   }
@@ -156,6 +165,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
     return atType;
   }
 
+  @JsonProperty("@type")
   public void setAtType(String atType) {
     this.atType = atType;
   }
@@ -199,10 +209,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder {

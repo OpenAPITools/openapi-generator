@@ -46,6 +46,7 @@ jobs:
           - samples/server/petstore/springboot
           - samples/server/petstore/springboot-byte-format-edge-cases
           - samples/server/petstore/springboot-byte-format-edge-cases-reactive
+          - samples/server/petstore/springboot-include-http-request-context
           - samples/server/petstore/springboot-beanvalidation
           - samples/server/petstore/springboot-builtin-validation
           - samples/server/petstore/springboot-delegate
@@ -68,7 +69,7 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 8
+          java-version: 17
       - name: Cache maven dependencies
         uses: actions/cache@v5
         env:

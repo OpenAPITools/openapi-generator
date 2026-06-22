@@ -2,11 +2,10 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +15,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -26,16 +26,16 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ArrayTest")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ArrayTestDto {
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> arrayOfString = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
@@ -56,12 +56,13 @@ public class ArrayTestDto {
    * @return arrayOfString
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "array_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
 
+  @JsonProperty("array_of_string")
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
@@ -84,12 +85,13 @@ public class ArrayTestDto {
    * @return arrayArrayOfInteger
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "array_array_of_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
+  @JsonProperty("array_array_of_integer")
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
@@ -112,12 +114,13 @@ public class ArrayTestDto {
    * @return arrayArrayOfModel
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "array_array_of_model", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_array_of_model")
   public List<List<@Valid ReadOnlyFirstDto>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
+  @JsonProperty("array_array_of_model")
   public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
@@ -157,10 +160,7 @@ public class ArrayTestDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

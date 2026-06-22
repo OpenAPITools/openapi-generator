@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -10,20 +11,20 @@ import org.openapitools.model.OuterEnum;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * EnumTest
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class EnumTest {
 
   /**
@@ -63,6 +64,7 @@ public class EnumTest {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumStringEnum enumString;
 
   /**
@@ -139,6 +141,7 @@ public class EnumTest {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumIntegerEnum enumInteger;
 
   /**
@@ -176,8 +179,10 @@ public class EnumTest {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumNumberEnum enumNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable OuterEnum outerEnum;
 
   public EnumTest() {
@@ -207,6 +212,7 @@ public class EnumTest {
     return enumString;
   }
 
+  @JsonProperty("enum_string")
   public void setEnumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
   }
@@ -227,6 +233,7 @@ public class EnumTest {
     return enumStringRequired;
   }
 
+  @JsonProperty("enum_string_required")
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
@@ -247,6 +254,7 @@ public class EnumTest {
     return enumInteger;
   }
 
+  @JsonProperty("enum_integer")
   public void setEnumInteger(@Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
@@ -267,6 +275,7 @@ public class EnumTest {
     return enumNumber;
   }
 
+  @JsonProperty("enum_number")
   public void setEnumNumber(@Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
@@ -287,6 +296,7 @@ public class EnumTest {
     return outerEnum;
   }
 
+  @JsonProperty("outerEnum")
   public void setOuterEnum(@Nullable OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
@@ -330,10 +340,7 @@ public class EnumTest {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

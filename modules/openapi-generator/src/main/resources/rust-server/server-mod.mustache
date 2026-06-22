@@ -30,6 +30,18 @@ pub mod callbacks;
 {{/pathSet}}
 {{>server-service-footer}}
 
+{{! Per-operation handler functions — extracted from the match arms in run() to
+    reduce per-function compilation-unit size and avoid rustc OOM on large APIs. }}
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{>server-operation-handler}}
+
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {

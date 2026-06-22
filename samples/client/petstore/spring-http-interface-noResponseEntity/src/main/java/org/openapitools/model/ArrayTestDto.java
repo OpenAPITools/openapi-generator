@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -23,16 +24,16 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ArrayTest")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ArrayTestDto {
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> arrayOfString = new ArrayList<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<List<ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
@@ -58,6 +59,7 @@ public class ArrayTestDto {
     return arrayOfString;
   }
 
+  @JsonProperty("array_of_string")
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
@@ -85,6 +87,7 @@ public class ArrayTestDto {
     return arrayArrayOfInteger;
   }
 
+  @JsonProperty("array_array_of_integer")
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
@@ -112,6 +115,7 @@ public class ArrayTestDto {
     return arrayArrayOfModel;
   }
 
+  @JsonProperty("array_array_of_model")
   public void setArrayArrayOfModel(List<List<ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
@@ -151,10 +155,7 @@ public class ArrayTestDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

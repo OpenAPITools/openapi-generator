@@ -12,10 +12,9 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
 import type {
-  User,
+    User,
 } from '../models/index';
 
 export interface CreateUserRequest {
@@ -210,7 +209,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,
@@ -256,7 +255,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,
@@ -409,7 +408,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,

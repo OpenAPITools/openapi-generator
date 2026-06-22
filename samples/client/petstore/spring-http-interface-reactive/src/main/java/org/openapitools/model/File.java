@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
@@ -17,9 +18,10 @@ import jakarta.annotation.Generated;
  * Must be named &#x60;File&#x60; for test.
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class File {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String sourceURI;
 
   public File sourceURI(@Nullable String sourceURI) {
@@ -37,6 +39,7 @@ public class File {
     return sourceURI;
   }
 
+  @JsonProperty("sourceURI")
   public void setSourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
@@ -72,10 +75,7 @@ public class File {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

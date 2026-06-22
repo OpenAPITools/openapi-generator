@@ -35,7 +35,7 @@ return CompletableFuture.supplyAsync(()-> {
 {{#reactive}}
 {{^vendorExtensions.x-sse}}
 Mono<Void> result = Mono.empty();
-    {{#examples}}
+{{#includeHttpRequestContext}}    {{#examples}}
         {{#-first}}
         exchange.getResponse().setStatusCode({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
@@ -48,14 +48,14 @@ Mono<Void> result = Mono.empty();
         {{#-last}}
         }
         {{/-last}}
-    {{/examples}}
-{{^examples}}
+    {{/examples}}{{/includeHttpRequestContext}}
+{{^examples}}{{#includeHttpRequestContext}}
         exchange.getResponse().setStatusCode({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
-{{/examples}}
+{{/includeHttpRequestContext}}{{/examples}}
         return result{{#allParams}}{{#isBodyParam}}{{^isArray}}{{#paramName}}.then({{.}}){{/paramName}}{{/isArray}}{{#isArray}}{{#paramName}}.thenMany({{.}}){{/paramName}}{{/isArray}}{{/isBodyParam}}{{/allParams}}{{#isArray}}{{#useResponseEntity}}.then(Mono.empty()){{/useResponseEntity}}{{^useResponseEntity}}.thenMany(Flux.empty()){{/useResponseEntity}}{{/isArray}}{{^isArray}}.then(Mono.empty()){{/isArray}};
 {{/vendorExtensions.x-sse}}
 {{#vendorExtensions.x-sse}}
-exchange.getResponse().setStatusCode({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
+{{#includeHttpRequestContext}}exchange.getResponse().setStatusCode({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});{{/includeHttpRequestContext}}
         return Flux.empty();
 {{/vendorExtensions.x-sse}}
 {{/reactive}}

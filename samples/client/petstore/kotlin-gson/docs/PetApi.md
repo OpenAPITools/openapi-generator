@@ -16,9 +16,11 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 <a id="addPet"></a>
 # **addPet**
-> addPet(body)
+> Pet addPet(pet)
 
 Add a new pet to the store
+
+
 
 ### Example
 ```kotlin
@@ -27,9 +29,10 @@ Add a new pet to the store
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val body : Pet =  // Pet | Pet object that needs to be added to the store
+val pet : Pet =  // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.addPet(body)
+    val result : Pet = apiInstance.addPet(pet)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#addPet")
     e.printStackTrace()
@@ -42,28 +45,36 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
-null (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
 
 Deletes a pet
+
+
 
 ### Example
 ```kotlin
@@ -98,8 +109,14 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -146,8 +163,14 @@ try {
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -194,8 +217,14 @@ try {
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -253,9 +282,11 @@ Configure api_key:
 
 <a id="updatePet"></a>
 # **updatePet**
-> updatePet(body)
+> Pet updatePet(pet)
 
 Update an existing pet
+
+
 
 ### Example
 ```kotlin
@@ -264,9 +295,10 @@ Update an existing pet
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val body : Pet =  // Pet | Pet object that needs to be added to the store
+val pet : Pet =  // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.updatePet(body)
+    val result : Pet = apiInstance.updatePet(pet)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#updatePet")
     e.printStackTrace()
@@ -279,28 +311,36 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
-null (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 ```kotlin
@@ -337,8 +377,14 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 
@@ -350,6 +396,8 @@ Configure petstore_auth:
 > ModelApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
+
+
 
 ### Example
 ```kotlin
@@ -387,8 +435,14 @@ try {
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
+Configure petstore_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure petstore_auth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 

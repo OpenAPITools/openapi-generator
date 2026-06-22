@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * TypeHolderDefault
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class TypeHolderDefault {
 
   private String stringItem = "what";
@@ -32,7 +32,6 @@ public class TypeHolderDefault {
 
   private Boolean boolItem = true;
 
-  
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefault() {
@@ -65,6 +64,7 @@ public class TypeHolderDefault {
     return stringItem;
   }
 
+  @JsonProperty("string_item")
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
@@ -84,6 +84,7 @@ public class TypeHolderDefault {
     return numberItem;
   }
 
+  @JsonProperty("number_item")
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
@@ -103,6 +104,7 @@ public class TypeHolderDefault {
     return integerItem;
   }
 
+  @JsonProperty("integer_item")
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
@@ -122,6 +124,7 @@ public class TypeHolderDefault {
     return boolItem;
   }
 
+  @JsonProperty("bool_item")
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
@@ -149,6 +152,7 @@ public class TypeHolderDefault {
     return arrayItem;
   }
 
+  @JsonProperty("array_item")
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
@@ -192,10 +196,7 @@ public class TypeHolderDefault {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

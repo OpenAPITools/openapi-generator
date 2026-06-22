@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>pet status in the store</value>
         [JsonPropertyName("status")]
-        public StatusEnum? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
+        public StatusEnum? Status { get { return this.StatusOption.Value; } set { this.StatusOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets Name
@@ -173,7 +173,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Category
         /// </summary>
         [JsonPropertyName("category")]
-        public Category? Category { get { return this.CategoryOption; } set { this.CategoryOption = new(value); } }
+        public Category? Category { get { return this.CategoryOption.Value; } set { this.CategoryOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -186,7 +186,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
+        public long? Id { get { return this.IdOption.Value; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Tags
@@ -199,7 +199,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<Tag>? Tags { get { return this.TagsOption; } set { this.TagsOption = new(value); } }
+        public List<Tag>? Tags { get { return this.TagsOption.Value; } set { this.TagsOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -240,8 +240,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Pet" />
     /// </summary>
-    public class PetJsonConverter : JsonConverter<Pet>
+    public partial class PetJsonConverter : JsonConverter<Pet>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PetJsonConverter" /> class.
+        /// </summary>
+        public PetJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Pet" />
         /// </summary>

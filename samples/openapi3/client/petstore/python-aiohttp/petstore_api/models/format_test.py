@@ -25,6 +25,7 @@ from typing_extensions import Annotated
 from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class FormatTest(BaseModel):
     """
@@ -43,7 +44,7 @@ class FormatTest(BaseModel):
     binary: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None
     var_date: date = Field(alias="date")
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
-    uuid: Optional[UUID] = None
+    uuid: Optional[UUID] = Field(default=None, json_schema_extra={"examples": ["72f98069-206d-4f12-9f12-3d1e525a8e84"]})
     password: Annotated[str, Field(min_length=10, strict=True, max_length=64)]
     pattern_with_digits: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string that is a 10 digit number. Can have leading zeros.")
     pattern_with_digits_and_delimiter: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
@@ -55,6 +56,9 @@ class FormatTest(BaseModel):
         if value is None:
             return value
 
+        if not isinstance(value, str):
+            value = str(value)
+
         if not re.match(r"[a-z]", value ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
         return value
@@ -64,6 +68,9 @@ class FormatTest(BaseModel):
         """Validates the regular expression"""
         if value is None:
             return value
+
+        if not isinstance(value, str):
+            value = str(value)
 
         if not re.match(r"this is \"something\"", value):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
@@ -75,6 +82,9 @@ class FormatTest(BaseModel):
         if value is None:
             return value
 
+        if not isinstance(value, str):
+            value = str(value)
+
         if not re.match(r"^\d{10}$", value):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
         return value
@@ -85,12 +95,16 @@ class FormatTest(BaseModel):
         if value is None:
             return value
 
+        if not isinstance(value, str):
+            value = str(value)
+
         if not re.match(r"^image_\d{1,3}$", value ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /^image_\d{1,3}$/i")
         return value
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -102,8 +116,7 @@ class FormatTest(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:

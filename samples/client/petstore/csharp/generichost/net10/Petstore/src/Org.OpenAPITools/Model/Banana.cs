@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [JsonPropertyName("lengthCm")]
-        public decimal? LengthCm { get { return this.LengthCmOption; } set { this.LengthCmOption = new(value); } }
+        public decimal? LengthCm { get { return this.LengthCmOption.Value; } set { this.LengthCmOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Banana" />
     /// </summary>
-    public class BananaJsonConverter : JsonConverter<Banana>
+    public partial class BananaJsonConverter : JsonConverter<Banana>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BananaJsonConverter" /> class.
+        /// </summary>
+        public BananaJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Banana" />
         /// </summary>

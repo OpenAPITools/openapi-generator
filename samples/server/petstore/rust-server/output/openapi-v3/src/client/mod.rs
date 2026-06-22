@@ -53,6 +53,7 @@ use crate::{Api,
      OneOfGetResponse,
      OverrideServerGetResponse,
      ParamgetGetResponse,
+     QueryExampleGetResponse,
      ReadonlyAuthSchemeGetResponse,
      RegisterCallbackPostResponse,
      RequiredOctetStreamPutResponse,
@@ -1707,6 +1708,80 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
                 Ok(ParamgetGetResponse::JSONRsp
                     (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                    }
+                )))
+            }
+        }
+    }
+
+    #[allow(clippy::vec_init_then_push)]
+    async fn query_example_get(
+        &self,
+        param_required_no_example: String,
+        param_required_with_example: i32,
+        context: &C) -> Result<QueryExampleGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/query-example",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+                query_string.append_pair("required_no_example",
+                    &param_required_no_example);
+                query_string.append_pair("required_with_example",
+                    &param_required_with_example.to_string());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(BoxBody::new(http_body_util::Empty::new())) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    QueryExampleGetResponse::OK
                 )
             }
             code => {

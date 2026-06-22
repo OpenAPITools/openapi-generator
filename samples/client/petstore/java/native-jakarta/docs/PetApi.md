@@ -96,7 +96,7 @@ public class Example {
 
 ## addPetWithHttpInfo
 
-> ApiResponse<Pet> addPet addPetWithHttpInfo(pet)
+> ApiResponse<Pet> addPetWithHttpInfo(pet)
 
 Add a new pet to the store
 
@@ -242,7 +242,7 @@ null (empty response body)
 
 ## deletePetWithHttpInfo
 
-> ApiResponse<Void> deletePet deletePetWithHttpInfo(petId, apiKey)
+> ApiResponse<Void> deletePetWithHttpInfo(petId, apiKey)
 
 Deletes a pet
 
@@ -388,7 +388,7 @@ public class Example {
 
 ## findPetsByStatusWithHttpInfo
 
-> ApiResponse<List<Pet>> findPetsByStatus findPetsByStatusWithHttpInfo(status)
+> ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(status)
 
 Finds Pets by status
 
@@ -534,7 +534,7 @@ public class Example {
 
 ## findPetsByTagsWithHttpInfo
 
-> ApiResponse<List<Pet>> findPetsByTags findPetsByTagsWithHttpInfo(tags)
+> ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(tags)
 
 Finds Pets by tags
 
@@ -683,7 +683,7 @@ public class Example {
 
 ## getPetByIdWithHttpInfo
 
-> ApiResponse<Pet> getPetById getPetByIdWithHttpInfo(petId)
+> ApiResponse<Pet> getPetByIdWithHttpInfo(petId)
 
 Find pet by ID
 
@@ -834,7 +834,7 @@ public class Example {
 
 ## updatePetWithHttpInfo
 
-> ApiResponse<Pet> updatePet updatePetWithHttpInfo(pet)
+> ApiResponse<Pet> updatePetWithHttpInfo(pet)
 
 Update an existing pet
 
@@ -984,7 +984,7 @@ null (empty response body)
 
 ## updatePetWithFormWithHttpInfo
 
-> ApiResponse<Void> updatePetWithForm updatePetWithFormWithHttpInfo(petId, name, status)
+> ApiResponse<Void> updatePetWithFormWithHttpInfo(petId, name, status)
 
 Updates a pet in the store with form data
 
@@ -1135,7 +1135,7 @@ public class Example {
 
 ## uploadFileWithHttpInfo
 
-> ApiResponse<ModelApiResponse> uploadFile uploadFileWithHttpInfo(petId, additionalMetadata, _file)
+> ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(petId, additionalMetadata, _file)
 
 uploads an image
 

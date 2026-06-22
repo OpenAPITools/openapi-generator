@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 @JsonTypeName("NullableClass")
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "NullableClass", propOrder =
     { "integerProp", "numberProp", "booleanProp", "stringProp", "dateProp", "datetimeProp", "arrayNullableProp", "arrayAndItemsNullableProp", "arrayItemsNullable", "objectNullableProp", "objectAndItemsNullableProp", "objectItemsNullable"
     })
@@ -485,12 +485,8 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
 }
-

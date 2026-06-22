@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustSymbol
         /// </summary>
         [JsonPropertyName("just_symbol")]
-        public EnumArraysJustSymbol? JustSymbol { get { return this.JustSymbolOption; } set { this.JustSymbolOption = new Option<EnumArraysJustSymbol?>(value); } }
+        public EnumArraysJustSymbol? JustSymbol { get { return this.JustSymbolOption.Value; } set { this.JustSymbolOption = new Option<EnumArraysJustSymbol?>(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayEnum
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
-        public List<EnumArraysArrayEnumInner> ArrayEnum { get { return this.ArrayEnumOption; } set { this.ArrayEnumOption = new Option<List<EnumArraysArrayEnumInner>>(value); } }
+        public List<EnumArraysArrayEnumInner> ArrayEnum { get { return this.ArrayEnumOption.Value; } set { this.ArrayEnumOption = new Option<List<EnumArraysArrayEnumInner>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -105,8 +105,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="EnumArrays" />
     /// </summary>
-    public class EnumArraysJsonConverter : JsonConverter<EnumArrays>
+    public partial class EnumArraysJsonConverter : JsonConverter<EnumArrays>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumArraysJsonConverter" /> class.
+        /// </summary>
+        public EnumArraysJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="EnumArrays" />
         /// </summary>

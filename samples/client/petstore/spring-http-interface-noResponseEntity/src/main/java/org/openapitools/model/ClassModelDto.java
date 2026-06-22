@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -19,9 +20,10 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ClassModel")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ClassModelDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String propertyClass;
 
   public ClassModelDto propertyClass(@Nullable String propertyClass) {
@@ -39,6 +41,7 @@ public class ClassModelDto {
     return propertyClass;
   }
 
+  @JsonProperty("_class")
   public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
@@ -74,10 +77,7 @@ public class ClassModelDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -9,6 +9,7 @@ use JMS\Serializer\Serializer;
 use JMS\Serializer\Visitor\Factory\XmlDeserializationVisitorFactory;
 use DateTime;
 use RuntimeException;
+use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
 
 class JmsSerializer implements SerializerInterface
 {
@@ -122,7 +123,7 @@ class JmsSerializer implements SerializerInterface
 
                 $enum = $type::tryFrom($data);
                 if (!$enum) {
-                    throw new RuntimeException(sprintf("Unknown %s value in %s enum", $data, $type));
+                    throw new SerializerRuntimeException(sprintf("Unknown %s value in %s enum", $data, $type));
                 }
 
                 return $enum;

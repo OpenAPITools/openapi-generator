@@ -196,7 +196,7 @@ namespace Org.OpenAPITools.Test.Api
             string patternWithoutDelimiter = default;
             byte[] varByte = default;
             double varDouble = default;
-            Client.Option<System.IO.Stream> binary = default;
+            Client.Option<Org.OpenAPITools.Client.FileParameter> binary = default;
             Client.Option<string> callback = default;
             Client.Option<DateTime> date = default;
             Client.Option<DateTime> dateTime = default;
@@ -217,11 +217,11 @@ namespace Org.OpenAPITools.Test.Api
         {
             Client.Option<TestEnumParametersRequestEnumFormString> enumFormString = default;
             Client.Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default;
-            Client.Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString = default;
+            Client.Option<TestEnumParametersRequestEnumFormString> enumHeaderString = default;
             Client.Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default;
             Client.Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default;
             Client.Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default;
-            Client.Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString = default;
+            Client.Option<TestEnumParametersRequestEnumFormString> enumQueryString = default;
             Client.Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default;
             await _instance.TestEnumParametersAsync(enumFormString, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryString, enumQueryStringArray);
         }

@@ -110,10 +110,10 @@ typedef struct {{classname}}_t {
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{name}}; //numeric
+    {{datatype}} *{{name}}; //numeric
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{name}}; //boolean
+    {{datatype}} *{{name}}; //boolean
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
@@ -191,10 +191,10 @@ __attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}

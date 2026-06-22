@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get { return this.NameOption; } set { this.NameOption = new Option<string>(value); } }
+        public string Name { get { return this.NameOption.Value; } set { this.NameOption = new Option<string>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -81,8 +81,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ChildCat" />
     /// </summary>
-    public class ChildCatJsonConverter : JsonConverter<ChildCat>
+    public partial class ChildCatJsonConverter : JsonConverter<ChildCat>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChildCatJsonConverter" /> class.
+        /// </summary>
+        public ChildCatJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ChildCat" />
         /// </summary>

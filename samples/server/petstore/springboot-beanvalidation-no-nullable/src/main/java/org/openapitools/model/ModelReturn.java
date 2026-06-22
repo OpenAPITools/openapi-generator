@@ -2,29 +2,32 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Model for testing reserved words
  */
 
-@ApiModel(description = "Model for testing reserved words")
+@Schema(name = "Return", description = "Model for testing reserved words")
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ModelReturn {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer _return;
 
   public ModelReturn _return(@Nullable Integer _return) {
@@ -37,12 +40,14 @@ public class ModelReturn {
    * @return _return
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "return", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("return")
   public @Nullable Integer getReturn() {
     return _return;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
+  @JsonProperty("return")
   public void setReturn(@Nullable Integer _return) {
     this._return = _return;
   }
@@ -78,10 +83,7 @@ public class ModelReturn {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

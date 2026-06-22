@@ -28,6 +28,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.EnumSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/fsharp-functions-server/}.
+ */
 public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
     public static final String PROJECT_NAME = "projectName";
 

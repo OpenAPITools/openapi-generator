@@ -61,6 +61,12 @@ import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 
 import static java.util.Collections.sort;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/kotlin-client/} (root templates shared across all libraries) and
+ * {@code src/main/resources/kotlin-client/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
@@ -106,6 +112,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String GENERATE_ONEOF_ANYOF_WRAPPERS = "generateOneOfAnyOfWrappers";
 
+    public static final String COMPANION_OBJECT = "companionObject";
+
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
 
@@ -123,6 +131,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Setter protected boolean mapFileBinaryToByteArray = false;
     @Setter protected boolean generateOneOfAnyOfWrappers = true;
     @Getter @Setter protected boolean failOnUnknownProperties = false;
+    @Setter protected boolean companionObject = false;
 
     protected String authFolder;
 
@@ -286,13 +295,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_BYTE_ARRAY, "Map File and Binary to ByteArray (default: false)").defaultValue(Boolean.FALSE.toString()));
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library), `gson`(serializationLibrary) support this option."));
+        cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option."));
+
+        cliOptions.add(CliOption.newBoolean(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", false));
 
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
 
         cliOptions.add(CliOption.newBoolean(USE_NON_ASCII_HEADERS, "Allow to use non-ascii headers with the okhttp library"));
         cliOptions.add(CliOption.newBoolean(USE_RESPONSE_AS_RETURN_TYPE, "When using retrofit2 and coroutines, use `Response`<`T`> as return type instead of `T`.", true));
+
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3,
+            "Use Jackson 3 dependencies (tools.jackson package). Not yet supported for kotlin-client; reserved for future use."));
     }
 
     @Override
@@ -320,6 +334,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public boolean getGenerateOneOfAnyOfWrappers() {
         return generateOneOfAnyOfWrappers;
+    }
+
+    public boolean getCompanionObject() {
+        return companionObject;
     }
 
     public void setGenerateRoomModels(Boolean generateRoomModels) {
@@ -457,6 +475,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3);
         }
 
+        if (isUseJackson3()) {
+            throw new IllegalArgumentException(
+                "useJackson3 is not yet supported for kotlin-client. Jackson 3 support for kotlin-client will be added in a future release.");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
             setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
             additionalProperties.put(this.serializationLibrary.name(), true);
@@ -482,6 +505,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         } else {
             additionalProperties.put(FAIL_ON_UNKNOWN_PROPERTIES, false);
             setFailOnUnknownProperties(false);
+        }
+
+        if (additionalProperties.containsKey(COMPANION_OBJECT)) {
+            setCompanionObject(convertPropertyToBooleanAndWriteBack(COMPANION_OBJECT));
+        } else {
+            additionalProperties.put(COMPANION_OBJECT, companionObject);
         }
 
         commonSupportingFiles();
@@ -567,6 +596,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         // We replace paths like `/v1/foo/*` with `/v1/foo/<*>` to avoid this
         additionalProperties.put("sanitizePathComment", new ReplaceAllLambda("\\/\\*", "/<*>"));
         additionalProperties.put("fnToOneOfWrapperName", new ToOneOfWrapperName());
+        additionalProperties.put("fnToValueClassName", new ToValueClassName());
     }
 
     private void processDateLibrary() {
@@ -935,7 +965,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         for (ModelMap mo : objects.getModels()) {
             CodegenModel cm = mo.getModel();
-            if (getGenerateRoomModels() || getGenerateOneOfAnyOfWrappers()) {
+            if (getGenerateRoomModels() || getGenerateOneOfAnyOfWrappers() || getCompanionObject()) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
             }
 
@@ -1131,6 +1161,24 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         adjustEnumRefDefault(parameter);
+        propagateParamBaseNameToVars(parameter);
+    }
+
+    /**
+     * For query parameters with `type: object, properties: ...`, expose the
+     * parameter's OAS baseName on each generated field via the
+     * `x-kotlin-param-base-name` vendor extension. Templates that iterate
+     * `vars` (e.g. jvm-ktor) need the outer baseName to build URL keys like
+     * `paramBaseName[fieldBaseName]` per the OAS deepObject style, and
+     * Mustache provides no access to the outer scope from inside `{{#vars}}`.
+     */
+    private void propagateParamBaseNameToVars(CodegenParameter param) {
+        if (!param.isQueryParam || !param.isModel || param.vars == null) {
+            return;
+        }
+        for (CodegenProperty v : param.vars) {
+            v.vendorExtensions.put("x-kotlin-param-base-name", param.baseName);
+        }
     }
 
     /**
@@ -1155,16 +1203,40 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
     }
 
+    private static class ToValueClassName extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            // Strip generic type parameters and extract simple class names
+            // e.g. "kotlin.collections.List<kotlin.String>" -> "ListStringValue"
+            // e.g. "kotlin.String" -> "StringValue"
+            // e.g. "User" -> "UserValue"
+            StringBuilder sb = new StringBuilder();
+            for (String part : fragment.split("[<>,]")) {
+                String trimmed = part.trim();
+                if (trimmed.isEmpty()) continue;
+                String simpleName = trimmed.contains(".")
+                    ? trimmed.substring(trimmed.lastIndexOf('.') + 1)
+                    : trimmed;
+                sb.append(Character.toUpperCase(simpleName.charAt(0)));
+                sb.append(simpleName.substring(1));
+            }
+            sb.append("Value");
+            return sb.toString();
+        }
+    }
+
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+            System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

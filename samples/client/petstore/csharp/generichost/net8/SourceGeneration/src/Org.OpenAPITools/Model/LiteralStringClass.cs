@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EscapedLiteralString
         /// </summary>
         [JsonPropertyName("escapedLiteralString")]
-        public string? EscapedLiteralString { get { return this.EscapedLiteralStringOption; } set { this.EscapedLiteralStringOption = new(value); } }
+        public string? EscapedLiteralString { get { return this.EscapedLiteralStringOption.Value; } set { this.EscapedLiteralStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UnescapedLiteralString
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UnescapedLiteralString
         /// </summary>
         [JsonPropertyName("unescapedLiteralString")]
-        public string? UnescapedLiteralString { get { return this.UnescapedLiteralStringOption; } set { this.UnescapedLiteralStringOption = new(value); } }
+        public string? UnescapedLiteralString { get { return this.UnescapedLiteralStringOption.Value; } set { this.UnescapedLiteralStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -108,8 +108,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="LiteralStringClass" />
     /// </summary>
-    public class LiteralStringClassJsonConverter : JsonConverter<LiteralStringClass>
+    public partial class LiteralStringClassJsonConverter : JsonConverter<LiteralStringClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LiteralStringClassJsonConverter" /> class.
+        /// </summary>
+        public LiteralStringClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="LiteralStringClass" />
         /// </summary>

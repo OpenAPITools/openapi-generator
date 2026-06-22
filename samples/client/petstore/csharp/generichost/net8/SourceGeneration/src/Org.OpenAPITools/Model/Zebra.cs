@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public TypeEnum? Type { get { return this.TypeOption.Value; } set { this.TypeOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets ClassName
@@ -181,8 +181,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Zebra" />
     /// </summary>
-    public class ZebraJsonConverter : JsonConverter<Zebra>
+    public partial class ZebraJsonConverter : JsonConverter<Zebra>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZebraJsonConverter" /> class.
+        /// </summary>
+        public ZebraJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Zebra" />
         /// </summary>

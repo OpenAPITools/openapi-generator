@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this.IdOption; } set { this.IdOption = new Option<long?>(value); } }
+        public long? Id { get { return this.IdOption.Value; } set { this.IdOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get { return this.NameOption; } set { this.NameOption = new Option<string>(value); } }
+        public string Name { get { return this.NameOption.Value; } set { this.NameOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -105,8 +105,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Tag" />
     /// </summary>
-    public class TagJsonConverter : JsonConverter<Tag>
+    public partial class TagJsonConverter : JsonConverter<Tag>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagJsonConverter" /> class.
+        /// </summary>
+        public TagJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Tag" />
         /// </summary>

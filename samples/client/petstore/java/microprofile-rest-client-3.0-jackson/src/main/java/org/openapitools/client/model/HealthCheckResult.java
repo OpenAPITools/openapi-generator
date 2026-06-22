@@ -37,7 +37,7 @@ public class HealthCheckResult  {
   
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   
-  private String nullableMessage;
+  protected String nullableMessage;
 
 
   /**
@@ -92,10 +92,7 @@ public class HealthCheckResult  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

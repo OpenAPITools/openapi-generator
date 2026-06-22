@@ -1426,9 +1426,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     async fn test_enum_parameters<'a>(
         &self,
         param_enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        param_enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        param_enum_header_string: Option<models::TestEnumParametersRequestEnumFormString>,
         param_enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        param_enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        param_enum_query_string: Option<models::TestEnumParametersRequestEnumFormString>,
         param_enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         param_enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
         param_enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
@@ -2476,6 +2476,15 @@ impl<S, C, B> Api<C> for Client<S, C> where
             use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
+                AuthData::ApiKey(ref api_key) => {
+                    let header = match HeaderValue::from_str(api_key.as_str()) {
+                        Ok(h) => h,
+                        Err(e) => return Err(ApiError(format!("Unable to create header: {e}")))
+                    };
+                    request.headers_mut().insert(
+                        HeaderName::from_static("api_key"),
+                        header);
+                },
                 _ => {}
             }
         }
@@ -2848,6 +2857,15 @@ impl<S, C, B> Api<C> for Client<S, C> where
             use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
+                AuthData::ApiKey(ref api_key) => {
+                    let header = match HeaderValue::from_str(api_key.as_str()) {
+                        Ok(h) => h,
+                        Err(e) => return Err(ApiError(format!("Unable to create header: {e}")))
+                    };
+                    request.headers_mut().insert(
+                        HeaderName::from_static("api_key"),
+                        header);
+                },
                 _ => {}
             }
         }

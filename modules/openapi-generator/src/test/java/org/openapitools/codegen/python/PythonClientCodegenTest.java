@@ -660,6 +660,57 @@ public class PythonClientCodegenTest {
         TestUtils.assertFileNotContains(pyprojectPath, "license = { text = \"Apache-2.0\" }");
     }
 
+    @Test(description = "UUID property with pattern should import field_validator")
+    public void testUuidWithPatternImportsFieldValidator() throws IOException {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_uuid_with_pattern.yaml");
+        final Path p = Paths.get(outputPath + "openapi_client/models/uuid_with_pattern.py");
+
+        assertFileExists(p);
+        assertFileContains(p, "from pydantic import BaseModel, ConfigDict, field_validator");
+    }
+
+    @Test(description = "Verify default buildSystem uses setuptools")
+    public void testDefaultBuildSystemSetuptools() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path pyprojectPath = Paths.get(output.getAbsolutePath(), "pyproject.toml");
+        TestUtils.assertFileExists(pyprojectPath);
+        TestUtils.assertFileContains(pyprojectPath, "requires = [\"setuptools\"]");
+        TestUtils.assertFileContains(pyprojectPath, "build-backend = \"setuptools.build_meta\"");
+    }
+
+    @Test(description = "Verify buildSystem=hatchling uses hatchling")
+    public void testBuildSystemHatchling() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
+            .setOutputDir(output.getAbsolutePath())
+            .addAdditionalProperty("buildSystem", "hatchling");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path pyprojectPath = Paths.get(output.getAbsolutePath(), "pyproject.toml");
+        TestUtils.assertFileExists(pyprojectPath);
+        TestUtils.assertFileContains(pyprojectPath, "requires = [\"hatchling\"]");
+        TestUtils.assertFileContains(pyprojectPath, "build-backend = \"hatchling.build\"");
+    }
+
     @Test(description = "Verify non-poetry1 mode uses object notation for license")
     public void testNonPoetry1LicenseFormat() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -684,5 +735,28 @@ public class PythonClientCodegenTest {
 
         // Verify it does NOT use the legacy string format
         TestUtils.assertFileNotContains(pyprojectPath, "license = \"BSD-3-Clause\"");
+    }
+
+    @Test
+    public void testConstraintMapping() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/unit_test_spec/format.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path filePath = Paths.get(output.getAbsolutePath(), "openapi_client/models/format_test.py");
+        TestUtils.assertFileExists(filePath);
+
+        TestUtils.assertFileContains(filePath, "integer: Optional[Annotated[int, Field(multiple_of=2, le=100, strict=True, ge=10)]]");
+        TestUtils.assertFileContains(filePath, "number: Union[Annotated[float, Field(multiple_of=32.5, le=543.2, strict=True, ge=32.1)], Annotated[int, Field(le=543, strict=True, ge=33)]]");
+        TestUtils.assertFileContains(filePath, "double: Optional[Union[Annotated[float, Field(le=123.4, strict=True, ge=67.8)], Annotated[int, Field(le=123, strict=True, ge=68)]]]");
+        TestUtils.assertFileContains(filePath, "decimal: Optional[Annotated[Decimal, Field(multiple_of=0.1, lt=123.4, strict=True, gt=67.8)]]");
     }
 }

@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Kind
         /// </summary>
         [JsonPropertyName("kind")]
-        public string Kind { get { return this.KindOption; } set { this.KindOption = new Option<string>(value); } }
+        public string Kind { get { return this.KindOption.Value; } set { this.KindOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Apple" />
     /// </summary>
-    public class AppleJsonConverter : JsonConverter<Apple>
+    public partial class AppleJsonConverter : JsonConverter<Apple>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppleJsonConverter" /> class.
+        /// </summary>
+        public AppleJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Apple" />
         /// </summary>

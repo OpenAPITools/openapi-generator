@@ -2,13 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -17,10 +16,12 @@ import java.util.Set;
 import org.openapitools.model.CategoryDto;
 import org.openapitools.model.TagDto;
 import org.springframework.lang.Nullable;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -31,25 +32,26 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class PetDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable CategoryDto category;
 
   private String name;
 
-  @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
    * pet status in the store
    */
-  public enum StatusEnum {
+  public enum StatusEnum implements ValuedEnum<String> {
     AVAILABLE("available"),
     
     PENDING("pending"),
@@ -83,6 +85,7 @@ public class PetDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private @Nullable StatusEnum status;
 
@@ -108,12 +111,13 @@ public class PetDto {
    * @return id
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -128,12 +132,13 @@ public class PetDto {
    * @return category
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
   public @Nullable CategoryDto getCategory() {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(@Nullable CategoryDto category) {
     this.category = category;
   }
@@ -148,12 +153,13 @@ public class PetDto {
    * @return name
    */
   @NotNull 
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -176,13 +182,14 @@ public class PetDto {
    * @return photoUrls
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -205,12 +212,13 @@ public class PetDto {
    * @return tags
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   public List<@Valid TagDto> getTags() {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<@Valid TagDto> tags) {
     this.tags = tags;
   }
@@ -226,9 +234,9 @@ public class PetDto {
    * @deprecated
    */
   
-  @ApiModelProperty(value = "pet status in the store")
-  @JsonProperty("status")
+  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @Deprecated
+  @JsonProperty("status")
   public @Nullable StatusEnum getStatus() {
     return status;
   }
@@ -237,6 +245,7 @@ public class PetDto {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
@@ -282,10 +291,7 @@ public class PetDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

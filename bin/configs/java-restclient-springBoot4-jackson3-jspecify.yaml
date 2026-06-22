@@ -1,0 +1,17 @@
+generatorName: java
+outputDir: samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify
+library: restclient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/jspecify.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+validateSpec: false
+additionalProperties:
+  artifactId: petstore-restclient
+  hideGenerationTimestamp: "true"
+  containerDefaultToNull: "true"
+  useSpringBoot4: true
+  useJackson3: true
+  openApiNullable: false
+  useJspecify: true
+typeMappings:
+  OffsetDateTime: java.time.Instant
+  BigDecimal: java.math.BigDecimal

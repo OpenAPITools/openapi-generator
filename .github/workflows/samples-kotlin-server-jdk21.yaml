@@ -4,16 +4,18 @@ on:
   push:
     paths:
       - 'samples/server/others/kotlin-server/**'
+      - 'samples/server/others/kotlin-springboot/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
   pull_request:
     paths:
       - 'samples/server/others/kotlin-server/**'
+      - 'samples/server/others/kotlin-springboot/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
 
 env:
-  GRADLE_VERSION: '8.10'
+  GRADLE_VERSION: '8.14'
 
 jobs:
   build:
@@ -23,6 +25,9 @@ jobs:
       fail-fast: false
       matrix:
         sample:
+          - samples/server/others/kotlin-springboot/oneOf-discriminator
+          - samples/server/others/kotlin-springboot/oneOf-discriminator-const
+          - samples/server/others/kotlin-springboot/oneOf-enum-discriminator
           - samples/server/others/kotlin-server/polymorphism-allof-and-discriminator
           - samples/server/others/kotlin-server/polymorphism-and-discriminator-disabled-jackson-fix
           - samples/server/others/kotlin-server/polymorphism-and-discriminator

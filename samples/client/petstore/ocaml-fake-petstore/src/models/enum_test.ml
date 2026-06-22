@@ -30,7 +30,7 @@
                     None
                   ]
                 ; [@key "enum_number"]
-                                                      outer_enum: Enums.order_status
+                                                      outer_enum: Enums.status
                   
                    option [@default None]
                 
@@ -42,7 +42,7 @@
                 
                 
                 ; [@key "outerEnumInteger"]
-                                              outer_enum_default_value: Enums.order_status
+                                              outer_enum_default_value: Enums.status
                   
                    option [@default None]
                 

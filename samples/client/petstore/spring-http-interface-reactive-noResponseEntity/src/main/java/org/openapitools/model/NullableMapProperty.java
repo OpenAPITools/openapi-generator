@@ -22,10 +22,9 @@ import jakarta.annotation.Generated;
  * NullableMapProperty
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class NullableMapProperty {
 
-  
   private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
 
   public NullableMapProperty languageValues(Map<String, String> languageValues) {
@@ -97,10 +96,7 @@ public class NullableMapProperty {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

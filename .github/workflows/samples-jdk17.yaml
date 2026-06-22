@@ -7,13 +7,17 @@ on:
       - samples/client/petstore/java-helidon-client/v3/mp/**
       - samples/client/petstore/java-helidon-client/v3/se/**
       - samples/client/petstore/spring-http-interface-reactive/**
+      - samples/client/petstore/spring-http-interface-reactive-bean-validation/**
+      - samples/client/petstore/spring-http-interface-bean-validation/**
       - samples/client/petstore/spring-http-interface/**
       - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
       - samples/client/petstore/spring-http-interface-noResponseEntity/**
+      - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
+      - samples/openapi3/server/petstore/springboot-3-include-http-request-context/**
       - samples/server/petstore/springboot-x-implements-skip/**
       - samples/server/petstore/java-camel/**
       - samples/server/petstore/java-helidon-server/v3/mp/**
@@ -25,13 +29,17 @@ on:
       - samples/client/petstore/java-helidon-client/v3/mp/**
       - samples/client/petstore/java-helidon-client/v3/se/**
       - samples/client/petstore/spring-http-interface-reactive/**
+      - samples/client/petstore/spring-http-interface-reactive-bean-validation/**
+      - samples/client/petstore/spring-http-interface-bean-validation/**
       - samples/client/petstore/spring-http-interface/**
       - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
       - samples/client/petstore/spring-http-interface-noResponseEntity/**
+      - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
+      - samples/openapi3/server/petstore/springboot-3-include-http-request-context/**
       - samples/server/petstore/springboot-x-implements-skip/**
       - samples/server/petstore/java-camel/**
       - samples/server/petstore/java-helidon-server/v3/mp/**
@@ -49,13 +57,17 @@ jobs:
           - samples/client/petstore/java-helidon-client/v3/mp/
           - samples/client/petstore/java-helidon-client/v3/se
           - samples/client/petstore/spring-http-interface-reactive
+          - samples/client/petstore/spring-http-interface-reactive-bean-validation
+          - samples/client/petstore/spring-http-interface-bean-validation
           - samples/client/petstore/spring-http-interface
           - samples/client/petstore/spring-http-interface-reactive-noResponseEntity
           - samples/client/petstore/spring-http-interface-noResponseEntity
+          - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator
           - samples/client/petstore/java/webclient-jakarta
           - samples/client/petstore/java/microprofile-rest-client-outer-enum
           # servers
           - samples/openapi3/server/petstore/springboot-3
+          - samples/openapi3/server/petstore/springboot-3-include-http-request-context
           - samples/server/petstore/springboot-x-implements-skip
           - samples/server/petstore/java-camel/
           - samples/server/petstore/java-helidon-server/v3/mp/

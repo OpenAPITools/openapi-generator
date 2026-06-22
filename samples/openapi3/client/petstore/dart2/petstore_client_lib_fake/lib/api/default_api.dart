@@ -17,7 +17,7 @@ class DefaultApi {
   final ApiClient apiClient;
 
   /// Performs an HTTP 'GET /foo' operation and returns the [Response].
-  Future<Response> fooGetWithHttpInfo() async {
+  Future<Response> fooGetWithHttpInfo({ Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/foo';
 
@@ -39,11 +39,12 @@ class DefaultApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
-  Future<FooGetDefaultResponse?> fooGet() async {
-    final response = await fooGetWithHttpInfo();
+  Future<FooGetDefaultResponse?> fooGet({ Future<void>? abortTrigger, }) async {
+    final response = await fooGetWithHttpInfo(abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

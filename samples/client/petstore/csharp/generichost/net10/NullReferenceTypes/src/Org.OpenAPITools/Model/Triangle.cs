@@ -121,8 +121,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Triangle" />
     /// </summary>
-    public class TriangleJsonConverter : JsonConverter<Triangle>
+    public partial class TriangleJsonConverter : JsonConverter<Triangle>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TriangleJsonConverter" /> class.
+        /// </summary>
+        public TriangleJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Triangle" />
         /// </summary>

@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -10,13 +11,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * EntityRef
@@ -32,21 +33,27 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = FooRef.class, name = "FooRef")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public sealed class EntityRef permits BarRef, FooRef {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String href;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atSchemaLocation;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atBaseType;
 
   private String atType;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String name;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atReferredType;
 
   public EntityRef() {
@@ -76,6 +83,7 @@ public sealed class EntityRef permits BarRef, FooRef {
     return href;
   }
 
+  @JsonProperty("href")
   public void setHref(@Nullable String href) {
     this.href = href;
   }
@@ -96,6 +104,7 @@ public sealed class EntityRef permits BarRef, FooRef {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable String id) {
     this.id = id;
   }
@@ -116,6 +125,7 @@ public sealed class EntityRef permits BarRef, FooRef {
     return atSchemaLocation;
   }
 
+  @JsonProperty("@schemaLocation")
   public void setAtSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
   }
@@ -136,6 +146,7 @@ public sealed class EntityRef permits BarRef, FooRef {
     return atBaseType;
   }
 
+  @JsonProperty("@baseType")
   public void setAtBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
   }
@@ -156,6 +167,7 @@ public sealed class EntityRef permits BarRef, FooRef {
     return atType;
   }
 
+  @JsonProperty("@type")
   public void setAtType(String atType) {
     this.atType = atType;
   }
@@ -176,6 +188,7 @@ public sealed class EntityRef permits BarRef, FooRef {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;
   }
@@ -196,6 +209,7 @@ public sealed class EntityRef permits BarRef, FooRef {
     return atReferredType;
   }
 
+  @JsonProperty("@referredType")
   public void setAtReferredType(@Nullable String atReferredType) {
     this.atReferredType = atReferredType;
   }
@@ -243,10 +257,7 @@ public sealed class EntityRef permits BarRef, FooRef {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder {

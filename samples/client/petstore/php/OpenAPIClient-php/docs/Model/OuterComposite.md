@@ -1,4 +1,4 @@
-# # OuterComposite
+# OuterComposite
 
 ## Properties
 

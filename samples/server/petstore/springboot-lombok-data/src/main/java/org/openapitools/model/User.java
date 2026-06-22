@@ -2,18 +2,19 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * A User who is purchasing from the pet store
@@ -24,47 +25,63 @@ import javax.annotation.Generated;
 @lombok.AllArgsConstructor
 
 @Schema(name = "User", description = "A User who is purchasing from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class User {
 
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
   
   @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("username")
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String username;
 
   
   @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("firstName")
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String firstName;
 
   
   @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastName")
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String lastName;
 
   
   @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String email;
 
   
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String password;
 
   
   @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phone")
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String phone;
 
   
   @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userStatus")
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer userStatus;
 
 }

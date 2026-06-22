@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Breed
         /// </summary>
         [JsonPropertyName("breed")]
-        public string Breed { get { return this.BreedOption; } set { this.BreedOption = new(value); } }
+        public string Breed { get { return this.BreedOption.Value; } set { this.BreedOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -74,8 +74,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Dog" />
     /// </summary>
-    public class DogJsonConverter : JsonConverter<Dog>
+    public partial class DogJsonConverter : JsonConverter<Dog>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DogJsonConverter" /> class.
+        /// </summary>
+        public DogJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Dog" />
         /// </summary>

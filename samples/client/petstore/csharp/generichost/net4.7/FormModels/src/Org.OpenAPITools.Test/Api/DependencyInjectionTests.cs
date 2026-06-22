@@ -45,6 +45,9 @@ namespace Org.OpenAPITools.Test.Api
 
                 OAuthToken oauthToken1 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken1);
+
+                OAuthToken oauthToken2 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken2);
             })
             .Build();
 
@@ -67,8 +70,11 @@ namespace Org.OpenAPITools.Test.Api
                 HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(httpSignatureToken1);
 
-                OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(oauthToken);
+                OAuthToken oauthToken1 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken1);
+
+                OAuthToken oauthToken2 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken2);
                 options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
             })
             .Build();
@@ -96,6 +102,9 @@ namespace Org.OpenAPITools.Test.Api
 
                     OAuthToken oauthToken1 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(oauthToken1);
+
+                    OAuthToken oauthToken2 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(oauthToken2);
                 });
             })
             .Build();
@@ -123,6 +132,9 @@ namespace Org.OpenAPITools.Test.Api
 
                     OAuthToken oauthToken1 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(oauthToken1);
+
+                    OAuthToken oauthToken2 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(oauthToken2);
                     options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
                 });
             })

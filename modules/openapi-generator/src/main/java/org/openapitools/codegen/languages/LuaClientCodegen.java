@@ -38,6 +38,9 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/lua/}.
+ */
 public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
 
@@ -593,14 +596,16 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator is contributed by daurnimator (https://github.com/daurnimator)#");
-        System.out.println("# Pls support his work directly via https://github.com/sponsors/daurnimator \uD83D\uDE4F #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator is contributed by daurnimator (https://github.com/daurnimator)#");
+            System.out.println("# Pls support his work directly via https://github.com/sponsors/daurnimator \uD83D\uDE4F #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

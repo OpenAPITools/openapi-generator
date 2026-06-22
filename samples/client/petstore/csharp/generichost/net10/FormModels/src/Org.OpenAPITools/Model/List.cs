@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string Var123List { get { return this.Var123ListOption; } set { this.Var123ListOption = new(value); } }
+        public string Var123List { get { return this.Var123ListOption.Value; } set { this.Var123ListOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="List" />
     /// </summary>
-    public class ListJsonConverter : JsonConverter<List>
+    public partial class ListJsonConverter : JsonConverter<List>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListJsonConverter" /> class.
+        /// </summary>
+        public ListJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="List" />
         /// </summary>

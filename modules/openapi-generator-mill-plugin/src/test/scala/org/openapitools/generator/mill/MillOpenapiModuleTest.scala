@@ -95,7 +95,7 @@ class MillOpenapiModuleTest extends Matchers {
       eval.apply(MillOpenapiModuleTestRoot.petstoreMicroprofile.compile)
     }
 
-    result shouldBe a[Right[_, _]]
+    result shouldBe a[Right[?, ?]]
   }
 
   @Test
@@ -104,6 +104,6 @@ class MillOpenapiModuleTest extends Matchers {
       // execute 'compile` task
       eval.apply(MillOpenapiModuleTestRoot.petstoreInvalid.compile)
     }
-    result shouldBe a[Left[_, _]]
+    result shouldBe a[Left[?, ?]]
   }
 }

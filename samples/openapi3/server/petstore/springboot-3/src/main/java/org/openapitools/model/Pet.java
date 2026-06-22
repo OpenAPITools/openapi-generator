@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -33,19 +34,20 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Pet")
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Pet {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Category category;
 
   private String name;
 
-  @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -85,6 +87,7 @@ public class Pet {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private @Nullable StatusEnum status;
 
@@ -130,6 +133,8 @@ public class Pet {
     return id;
   }
 
+  @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -152,6 +157,8 @@ public class Pet {
     return category;
   }
 
+  @JsonProperty("category")
+  @JacksonXmlProperty(localName = "Category")
   public void setCategory(@Nullable Category category) {
     this.category = category;
   }
@@ -174,6 +181,8 @@ public class Pet {
     return name;
   }
 
+  @JsonProperty("name")
+  @JacksonXmlProperty(localName = "name")
   public void setName(String name) {
     this.name = name;
   }
@@ -206,6 +215,9 @@ public class Pet {
     return photoUrls;
   }
 
+  @JsonProperty("photoUrls")
+  @JacksonXmlProperty(localName = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -238,6 +250,9 @@ public class Pet {
     return tags;
   }
 
+  @JsonProperty("tags")
+  @JacksonXmlProperty(localName = "Tag")
+  @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
   public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
@@ -254,10 +269,10 @@ public class Pet {
    */
   
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Deprecated
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
   @XmlElement(name = "status")
-  @Deprecated
   public @Nullable StatusEnum getStatus() {
     return status;
   }
@@ -266,6 +281,8 @@ public class Pet {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("status")
+  @JacksonXmlProperty(localName = "status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
@@ -311,10 +328,7 @@ public class Pet {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder {

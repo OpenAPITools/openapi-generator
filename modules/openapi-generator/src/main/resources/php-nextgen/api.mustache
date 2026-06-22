@@ -23,7 +23,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -32,7 +31,6 @@ use Psr\Http\Message\ResponseInterface;
 use {{invokerPackage}}\ApiException;
 use {{invokerPackage}}\Configuration;
 use {{invokerPackage}}\HeaderSelector;
-use {{invokerPackage}}\FormDataProcessor;
 use {{invokerPackage}}\ObjectSerializer;
 
 /**
@@ -64,7 +62,7 @@ use {{invokerPackage}}\ObjectSerializer;
      */
     protected int $hostIndex;
 
-    /** @var string[] $contentTypes **/
+    /** @var array<string,string[]> $contentTypes **/
     public const contentTypes = [{{#operation}}
         '{{{operationId}}}' => [{{#consumes}}
             '{{{mediaType}}}',{{/consumes}}
@@ -156,7 +154,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{paramName}}{{#description}} {{.}}{{/description}}{{^description}} {{paramName}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{{exts.x-php-param-doc-type}}} ${{paramName}}{{#description}} {{.}}{{/description}}{{^description}} {{paramName}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
 {{#servers}}
 {{#-first}}
@@ -231,7 +229,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{{exts.x-php-param-doc-type}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
 {{#servers}}
 {{#-first}}
@@ -243,7 +241,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: {{#returnType}}{{{exts.x-php-doc-return-type}}}{{/returnType}}{{^returnType}}null{{/returnType}}, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
@@ -307,14 +305,21 @@ use {{invokerPackage}}\ObjectSerializer;
             }
             {{/-last}}
             {{/responses}}
-            {{#responses}}{{#dataType}}{{#isRange}}{{^isWildcard}}
+            {{#responses}}
+            {{#dataType}}
+            {{#isRange}}
+            {{^isWildcard}}
             if ($this->responseWithinRangeCode('{{code}}', $statusCode)) {
                 return $this->handleResponseWithDataType(
                     '{{{dataType}}}',
                     $request,
                     $response,
                 );
-            }{{/isWildcard}}{{/isRange}}{{/dataType}}{{/responses}}
+            }
+            {{/isWildcard}}
+            {{/isRange}}
+            {{/dataType}}
+            {{/responses}}
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -404,7 +409,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{{exts.x-php-param-doc-type}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
 {{#servers}}
 {{#-first}}
@@ -482,7 +487,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{{exts.x-php-param-doc-type}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
 {{#servers}}
 {{#-first}}
@@ -569,15 +574,15 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/exts.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-    * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
-    * if needed, use the 'variables' parameter to pass variables to the host.
+     * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
+     * if needed, use the 'variables' parameter to pass variables to the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#variables}}
 {{#-first}}
      *  Variables:
 {{/-first}}
-    *    - {{{name}}}: {{{description}}}{{^description}} No description provided{{/description}}{{#enumValues}}
+     *    - {{{name}}}: {{{description}}}{{^description}} No description provided{{/description}}{{#enumValues}}
 {{#-first}}
      *      Allowed values:
 {{/-first}}
@@ -588,7 +593,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{{exts.x-php-param-doc-type}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
 {{#servers}}
 {{#-first}}
@@ -631,7 +636,8 @@ use {{invokerPackage}}\ObjectSerializer;
         $variables = array_key_exists('variables', $associative_array) ? $associative_array['variables'] : [];
 {{/servers.0}}
         $contentType = $associative_array['contentType'] ?? self::contentTypes['{{{operationId}}}'][0];
-        {{/exts.x-group-parameters}}{{#allParams}}
+        {{/exts.x-group-parameters}}
+        {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set
         if (${{paramName}} === null || (is_array(${{paramName}}) && count(${{paramName}}) === 0)) {
@@ -676,11 +682,16 @@ use {{invokerPackage}}\ObjectSerializer;
             throw new InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
         }
         {{/minItems}}
-        {{/hasValidation}}{{/allParams}}
+        {{/hasValidation}}
+        {{/allParams}}
 
         $resourcePath = '{{{path}}}';
+        {{#hasBodyOrFormParams}}
         $formParams = [];
+        {{/hasBodyOrFormParams}}
+        {{#hasQueryParams}}
         $queryParams = [];
+        {{/hasQueryParams}}
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -718,7 +729,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{/collectionFormat}}
         if (${{paramName}} !== null) {
             $resourcePath = str_replace(
-                '{' . '{{baseName}}' . '}',
+                {{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>,
                 ObjectSerializer::toPathValue(${{paramName}}{{#isEnumRef}}->value{{/isEnumRef}}),
                 $resourcePath
             );
@@ -728,11 +739,11 @@ use {{invokerPackage}}\ObjectSerializer;
         {{#formParams}}
         {{#-first}}
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \{{invokerPackage}}\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
         {{/-first}}
-            '{{paramName}}' => ${{paramName}},
+            '{{baseName}}' => ${{paramName}},
         {{#-last}}
         ]);
 
@@ -747,6 +758,7 @@ use {{invokerPackage}}\ObjectSerializer;
             $multipart
         );
 
+        {{#hasBodyOrFormParams}}
         // for model (json/xml)
         {{#bodyParams}}
         if (isset(${{paramName}})) {
@@ -773,7 +785,7 @@ use {{invokerPackage}}\ObjectSerializer;
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -783,6 +795,7 @@ use {{invokerPackage}}\ObjectSerializer;
                 $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
+        {{/hasBodyOrFormParams}}
 
         {{#authMethods}}
         {{#isApiKey}}

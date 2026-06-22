@@ -11,8 +11,11 @@ import {{invokerPackage}}.Pair;
 import {{import}};
 {{/imports}}
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+{{#useJackson3}}
+import tools.jackson.core.JacksonException;
+{{/useJackson3}}
+import {{jacksonPackage}}.core.type.TypeReference;
+import {{jacksonPackage}}.databind.ObjectMapper;
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.constraints.*;
@@ -262,7 +265,7 @@ public class {{classname}} {
   public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest, Map<String, String> headers) throws ApiException {
     {{#allParams}}
     {{>nullable_var_annotations}}{{! prevent indent}}
-    {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
+    {{>nullableDataType}} {{paramName}} = apiRequest.{{paramName}}();
     {{/allParams}}
     {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
   }
@@ -341,7 +344,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{>nullableArgument}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}null);
   }
 
@@ -372,7 +375,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{>nullableArgument}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
     {{^asyncNative}}
     {{#returnType}}ApiResponse<{{{.}}}> localVarResponse = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
     {{#returnType}}
@@ -409,7 +412,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{>nullableArgument}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}null);
   }
 
@@ -433,7 +436,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{>nullableArgument}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
     {{^asyncNative}}
     HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
     try {
@@ -524,7 +527,7 @@ public class {{classname}} {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException {{#returnType}}{{#useJackson3}}| JacksonException {{/useJackson3}}{{/returnType}}e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -611,7 +614,7 @@ public class {{classname}} {
                   localVarResponseBody.close();
                 }
               }
-            } catch (IOException e) {
+            } catch (IOException {{#returnType}}{{#useJackson3}}| JacksonException {{/useJackson3}}{{/returnType}}e) {
               return CompletableFuture.failedFuture(new ApiException(e));
             }
         }
@@ -623,7 +626,7 @@ public class {{classname}} {
     {{/asyncNative}}
   }
 
-  private HttpRequest.Builder {{operationId}}RequestBuilder({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder {{operationId}}RequestBuilder({{#allParams}}{{>nullableArgument}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
     {{#allParams}}
     {{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -742,7 +745,7 @@ public class {{classname}} {
       {{^useGzipFeature}}
       localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
       {{/useGzipFeature}}
-    } catch (IOException e) {
+    } catch ({{^useJackson3}}IOException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} e) {
       throw new ApiException(e);
     }
     {{/isString}}
@@ -904,11 +907,11 @@ public class {{classname}} {
   public static final class API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
     {{#requiredParams}}
     {{>nullable_var_annotations}}{{! prevent indent}}
-    private {{{dataType}}} {{paramName}}; // {{description}} (required)
+    private {{>nullableDataType}} {{paramName}}; // {{description}} (required)
     {{/requiredParams}}
     {{#optionalParams}}
     {{>nullable_var_annotations}}{{! prevent indent}}
-    private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
+    private {{>nullableDataType}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
     {{/optionalParams}}
 
     private API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request(Builder builder) {
@@ -921,7 +924,7 @@ public class {{classname}} {
     }
     {{#allParams}}
     {{>nullable_var_annotations}}{{! prevent indent}}
-    public {{{dataType}}} {{paramName}}() {
+    public {{>nullableDataType}} {{paramName}}() {
       return {{paramName}};
     }
     {{/allParams}}
@@ -938,7 +941,7 @@ public class {{classname}} {
       {{/optionalParams}}
 
       {{#allParams}}
-      public Builder {{paramName}}({{>nullable_var_annotations}} {{{dataType}}} {{paramName}}) {
+      public Builder {{paramName}}({{>nullableArgument}} {{paramName}}) {
         this.{{paramName}} = {{paramName}};
         return this;
       }

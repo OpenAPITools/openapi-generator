@@ -39,16 +39,16 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class Order  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("petId")
-  private Long petId;
+  protected Long petId;
 
   @JsonbProperty("quantity")
-  private Integer quantity;
+  protected Integer quantity;
 
   @JsonbProperty("shipDate")
-  private Date shipDate;
+  protected Date shipDate;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
@@ -96,10 +96,10 @@ public class Order  {
   * Order Status
   */
   @JsonbProperty("status")
-  private StatusEnum status;
+  protected StatusEnum status;
 
   @JsonbProperty("complete")
-  private Boolean complete = false;
+  protected Boolean complete = false;
 
 
   /**
@@ -267,10 +267,7 @@ public class Order  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

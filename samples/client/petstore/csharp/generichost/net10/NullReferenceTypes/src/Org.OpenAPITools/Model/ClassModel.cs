@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Class
         /// </summary>
         [JsonPropertyName("_class")]
-        public string? Class { get { return this.ClassOption; } set { this.ClassOption = new(value); } }
+        public string? Class { get { return this.ClassOption.Value; } set { this.ClassOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ClassModel" />
     /// </summary>
-    public class ClassModelJsonConverter : JsonConverter<ClassModel>
+    public partial class ClassModelJsonConverter : JsonConverter<ClassModel>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClassModelJsonConverter" /> class.
+        /// </summary>
+        public ClassModelJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ClassModel" />
         /// </summary>

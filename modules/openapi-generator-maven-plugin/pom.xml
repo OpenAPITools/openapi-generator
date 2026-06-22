@@ -5,7 +5,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>7.20.0-SNAPSHOT</version>
+        <version>7.24.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../../pom.xml</relativePath>
     </parent>
@@ -30,6 +30,11 @@
             <version>${maven.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+        <groupId>org.apache.maven.shared</groupId>
+        <artifactId>maven-shared-utils</artifactId>
+        <version>3.3.4</version>
+    </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-artifact</artifactId>
@@ -102,7 +107,12 @@
             <version>4.8.0</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <pluginManagement>
@@ -174,6 +184,10 @@
                             <failIfNoProjects>true</failIfNoProjects>
                             <postBuildHookScript>verify</postBuildHookScript>
                             <streamLogsOnFailures>true</streamLogsOnFailures>
+                            <pomIncludes>
+                                <pomInclude>*/pom.xml</pomInclude>
+                                <pomInclude>validate-harness/*/pom.xml</pomInclude>
+                            </pomIncludes>
                         </configuration>
                         <dependencies>
                             <dependency>

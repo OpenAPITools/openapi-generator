@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets File
         /// </summary>
         [JsonPropertyName("file")]
-        public File? File { get { return this.FileOption; } set { this.FileOption = new(value); } }
+        public File? File { get { return this.FileOption.Value; } set { this.FileOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Files
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Files
         /// </summary>
         [JsonPropertyName("files")]
-        public List<File>? Files { get { return this.FilesOption; } set { this.FilesOption = new(value); } }
+        public List<File>? Files { get { return this.FilesOption.Value; } set { this.FilesOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -107,8 +107,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="FileSchemaTestClass" />
     /// </summary>
-    public class FileSchemaTestClassJsonConverter : JsonConverter<FileSchemaTestClass>
+    public partial class FileSchemaTestClassJsonConverter : JsonConverter<FileSchemaTestClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileSchemaTestClassJsonConverter" /> class.
+        /// </summary>
+        public FileSchemaTestClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="FileSchemaTestClass" />
         /// </summary>

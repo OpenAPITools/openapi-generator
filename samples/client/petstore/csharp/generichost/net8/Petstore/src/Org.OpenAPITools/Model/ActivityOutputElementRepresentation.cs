@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Prop1
         /// </summary>
         [JsonPropertyName("prop1")]
-        public string Prop1 { get { return this.Prop1Option; } set { this.Prop1Option = new(value); } }
+        public string Prop1 { get { return this.Prop1Option.Value; } set { this.Prop1Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of Prop2
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Prop2
         /// </summary>
         [JsonPropertyName("prop2")]
-        public Object Prop2 { get { return this.Prop2Option; } set { this.Prop2Option = new(value); } }
+        public Object Prop2 { get { return this.Prop2Option.Value; } set { this.Prop2Option = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -105,8 +105,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ActivityOutputElementRepresentation" />
     /// </summary>
-    public class ActivityOutputElementRepresentationJsonConverter : JsonConverter<ActivityOutputElementRepresentation>
+    public partial class ActivityOutputElementRepresentationJsonConverter : JsonConverter<ActivityOutputElementRepresentation>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActivityOutputElementRepresentationJsonConverter" /> class.
+        /// </summary>
+        public ActivityOutputElementRepresentationJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ActivityOutputElementRepresentation" />
         /// </summary>

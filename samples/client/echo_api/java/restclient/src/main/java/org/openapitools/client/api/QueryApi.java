@@ -30,7 +30,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class QueryApi {
     private ApiClient apiClient;
 
@@ -64,13 +64,13 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_nonref_string_query", enumNonrefStringQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_ref_string_query", enumRefStringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_nonref_string_query", enumNonrefStringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_ref_string_query", enumRefStringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -82,7 +82,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/enum_ref_string", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/enum_ref_string", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -141,14 +141,14 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "datetime_query", datetimeQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "date_query", dateQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "datetime_query", datetimeQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "date_query", dateQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -160,7 +160,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/datetime/date/string", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/datetime/date/string", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -222,14 +222,14 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "integer_query", integerQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "boolean_query", booleanQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "integer_query", integerQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "boolean_query", booleanQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -241,7 +241,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/integer/boolean/string", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/integer/boolean/string", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -301,17 +301,19 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        if (queryObject != null) {
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -323,7 +325,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_deepObject/explode_true/object", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_deepObject/explode_true/object", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -377,12 +379,12 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -394,7 +396,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_deepObject/explode_true/object/allOf", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_deepObject/explode_true/object/allOf", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -448,12 +450,12 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -465,7 +467,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_form/explode_false/array_integer", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_form/explode_false/array_integer", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -519,12 +521,12 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -536,7 +538,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_form/explode_false/array_string", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_form/explode_false/array_string", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -590,12 +592,14 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "values", queryObject.getValues()));
+        if (queryObject != null) {
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "values", queryObject.getValues()));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -607,7 +611,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_form/explode_true/array_string", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_form/explode_true/array_string", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -661,17 +665,19 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        if (queryObject != null) {
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -683,7 +689,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_form/explode_true/object", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_form/explode_true/object", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -737,12 +743,12 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -754,7 +760,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_form/explode_true/object/allOf", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_form/explode_true/object/allOf", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -809,13 +815,13 @@ public class QueryApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMapJson(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -827,7 +833,7 @@ public class QueryApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/query/style_jsonSerialization/object", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/query/style_jsonSerialization/object", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

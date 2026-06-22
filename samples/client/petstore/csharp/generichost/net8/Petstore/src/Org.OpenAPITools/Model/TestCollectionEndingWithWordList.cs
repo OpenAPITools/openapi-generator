@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Value
         /// </summary>
         [JsonPropertyName("value")]
-        public string Value { get { return this.ValueOption; } set { this.ValueOption = new(value); } }
+        public string Value { get { return this.ValueOption.Value; } set { this.ValueOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestCollectionEndingWithWordList" />
     /// </summary>
-    public class TestCollectionEndingWithWordListJsonConverter : JsonConverter<TestCollectionEndingWithWordList>
+    public partial class TestCollectionEndingWithWordListJsonConverter : JsonConverter<TestCollectionEndingWithWordList>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordListJsonConverter" /> class.
+        /// </summary>
+        public TestCollectionEndingWithWordListJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestCollectionEndingWithWordList" />
         /// </summary>

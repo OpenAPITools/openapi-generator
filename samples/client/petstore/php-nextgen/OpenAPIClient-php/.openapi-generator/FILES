@@ -15,9 +15,11 @@ docs/Model/AdditionalPropertiesClass.md
 docs/Model/AllOfWithSingleRef.md
 docs/Model/Animal.md
 docs/Model/ApiResponse.md
+docs/Model/Apple.md
 docs/Model/ArrayOfArrayOfNumberOnly.md
 docs/Model/ArrayOfNumberOnly.md
 docs/Model/ArrayTest.md
+docs/Model/Banana.md
 docs/Model/Capitalization.md
 docs/Model/Cat.md
 docs/Model/Category.md
@@ -25,6 +27,8 @@ docs/Model/ChildWithNullable.md
 docs/Model/ClassModel.md
 docs/Model/Client.md
 docs/Model/DeprecatedObject.md
+docs/Model/DiscriminatorBase.md
+docs/Model/DiscriminatorChild.md
 docs/Model/Dog.md
 docs/Model/EnumArrays.md
 docs/Model/EnumClass.md
@@ -38,8 +42,10 @@ docs/Model/FileSchemaTestClass.md
 docs/Model/Foo.md
 docs/Model/FooGetDefaultResponse.md
 docs/Model/FormatTest.md
+docs/Model/Fruit.md
 docs/Model/HasOnlyReadOnly.md
 docs/Model/HealthCheckResult.md
+docs/Model/Mammal.md
 docs/Model/MapTest.md
 docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model/Model200Response.md
@@ -64,6 +70,9 @@ docs/Model/SpecialModelName.md
 docs/Model/Tag.md
 docs/Model/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Model/User.md
+docs/Model/Whale.md
+docs/Model/Zebra.md
+docs/Model/Zoo.md
 git_push.sh
 phpunit.xml.dist
 src/Api/AnotherFakeApi.php
@@ -81,9 +90,11 @@ src/Model/AdditionalPropertiesClass.php
 src/Model/AllOfWithSingleRef.php
 src/Model/Animal.php
 src/Model/ApiResponse.php
+src/Model/Apple.php
 src/Model/ArrayOfArrayOfNumberOnly.php
 src/Model/ArrayOfNumberOnly.php
 src/Model/ArrayTest.php
+src/Model/Banana.php
 src/Model/Capitalization.php
 src/Model/Cat.php
 src/Model/Category.php
@@ -91,6 +102,8 @@ src/Model/ChildWithNullable.php
 src/Model/ClassModel.php
 src/Model/Client.php
 src/Model/DeprecatedObject.php
+src/Model/DiscriminatorBase.php
+src/Model/DiscriminatorChild.php
 src/Model/Dog.php
 src/Model/EnumArrays.php
 src/Model/EnumClass.php
@@ -104,8 +117,10 @@ src/Model/FileSchemaTestClass.php
 src/Model/Foo.php
 src/Model/FooGetDefaultResponse.php
 src/Model/FormatTest.php
+src/Model/Fruit.php
 src/Model/HasOnlyReadOnly.php
 src/Model/HealthCheckResult.php
+src/Model/Mammal.php
 src/Model/MapTest.php
 src/Model/MixedPropertiesAndAdditionalPropertiesClass.php
 src/Model/Model200Response.php
@@ -116,6 +131,7 @@ src/Model/Name.php
 src/Model/NullableClass.php
 src/Model/NumberOnly.php
 src/Model/ObjectWithDeprecatedFields.php
+src/Model/OneOfInterface.php
 src/Model/Order.php
 src/Model/OuterComposite.php
 src/Model/OuterEnum.php
@@ -131,4 +147,7 @@ src/Model/SpecialModelName.php
 src/Model/Tag.php
 src/Model/TestInlineFreeformAdditionalPropertiesRequest.php
 src/Model/User.php
+src/Model/Whale.php
+src/Model/Zebra.php
+src/Model/Zoo.php
 src/ObjectSerializer.php

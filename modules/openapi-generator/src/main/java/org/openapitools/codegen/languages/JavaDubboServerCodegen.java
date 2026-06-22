@@ -45,6 +45,9 @@ import org.openapitools.codegen.utils.CamelizeOption;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/java-dubbo/}.
+ */
 public class JavaDubboServerCodegen extends AbstractJavaCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(JavaDubboServerCodegen.class);
 

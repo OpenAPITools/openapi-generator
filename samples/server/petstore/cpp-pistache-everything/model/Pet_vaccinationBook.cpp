@@ -24,6 +24,8 @@ Pet_vaccinationBook::Pet_vaccinationBook()
     
 }
 
+Pet_vaccinationBook::~Pet_vaccinationBook() = default;
+
 void Pet_vaccinationBook::validate() const
 {
     std::stringstream msg;

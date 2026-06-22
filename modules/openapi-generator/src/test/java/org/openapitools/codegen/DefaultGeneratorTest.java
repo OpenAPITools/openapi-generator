@@ -27,7 +27,57 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+
 public class DefaultGeneratorTest {
+
+    @Test
+    public void testQuietModeRunsPostProcess() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            ClientOptInput clientOptInput = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .setQuiet(true)
+                    .toClientOptInput();
+
+            CodegenConfig configSpy = spy(clientOptInput.getConfig());
+            clientOptInput.config(configSpy);
+
+            DefaultGenerator generator = new DefaultGenerator(true);
+            generator.opts(clientOptInput).generate();
+
+            verify(configSpy).postProcess();
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
+    @Test
+    public void testPostProcessRunsWhenQuietIsDisabled() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            ClientOptInput clientOptInput = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .toClientOptInput();
+
+            CodegenConfig configSpy = spy(clientOptInput.getConfig());
+            clientOptInput.config(configSpy);
+
+            DefaultGenerator generator = new DefaultGenerator(true);
+            generator.opts(clientOptInput).generate();
+
+            verify(configSpy).postProcess();
+        } finally {
+            output.deleteOnExit();
+        }
+    }
 
     @Test
     public void testIgnoreFileProcessing() throws IOException {
@@ -341,6 +391,130 @@ public class DefaultGeneratorTest {
                     "Success,200,0");
         } finally {
             output.deleteOnExit();
+        }
+    }
+
+    /**
+     * Verifies that a schema listed in schemaMappings is skipped by default, but is generated
+     * when it also appears in forcedGenerateSchemas.
+     *
+     * When a schema is in schemaMappings, the generator renames the model using the mapped value.
+     * For example, mapping "Category" -> "ExternalCategory" means the generated file is
+     * ExternalCategory.java. Part 2 verifies that this file IS written when forcedGenerateSchemas
+     * contains "Category", whereas Part 1 verifies that NO such file exists without it.
+     */
+    @Test
+    public void forcedGenerateSchemaOverridesSchemaMappingSkip() throws IOException {
+        // Using a simple (non-FQN) mapped name so the generated filename is predictable.
+        final String mappedModelRelPath = "src/main/java/org/openapitools/client/model/ExternalCategory.java";
+        final String originalModelRelPath = "src/main/java/org/openapitools/client/model/Category.java";
+
+        // --- Part 1: schemaMapping alone must suppress generation of Category entirely ---
+        Path target1 = Files.createTempDirectory("test-forced-gen-skip");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target1.toAbsolutePath().toString())
+                    .addSchemaMapping("Category", "ExternalCategory");
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertFalse(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(originalModelRelPath)),
+                    "Category.java must NOT be generated when it is in schemaMappings");
+            Assert.assertFalse(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(mappedModelRelPath)),
+                    "ExternalCategory.java must NOT be generated when Category is in schemaMappings");
+        } finally {
+            target1.toFile().deleteOnExit();
+        }
+
+        // --- Part 2: forcedGenerateSchemas must force generation despite schemaMapping ---
+        // The Java generator resolves the model name through schemaMapping (Category -> ExternalCategory),
+        // so the output file is ExternalCategory.java, not Category.java.
+        Path target2 = Files.createTempDirectory("test-forced-gen-force");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target2.toAbsolutePath().toString())
+                    .addSchemaMapping("Category", "ExternalCategory")
+                    .addForcedGenerateSchema("Category");
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+            Assert.assertTrue(
+                    clientOptInput.getConfig().forcedGenerateSchemas().contains("Category"),
+                    "forcedGenerateSchemas must be wired to the config by toClientOptInput()");
+
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertTrue(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(mappedModelRelPath)),
+                    "ExternalCategory.java MUST be generated when Category is in both schemaMappings and forcedGenerateSchemas");
+            Assert.assertTrue(
+                    new File(target2.toFile(), mappedModelRelPath).exists(),
+                    "ExternalCategory.java MUST exist on disk when forcedGenerateSchemas overrides schemaMappings");
+        } finally {
+            target2.toFile().deleteOnExit();
+        }
+
+        // --- Part 3: wildcard "*" must force-generate ALL schemas suppressed by schemaMappings ---
+        // Two schemas are mapped (Category->ExternalCategory, Tag->ExternalTag).
+        // Adding only "*" (FORCE_GENERATE_ALL_SCHEMAS) to forcedGenerateSchemas must cause both to be generated.
+        Path target3 = Files.createTempDirectory("test-forced-gen-wildcard");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target3.toAbsolutePath().toString())
+                    .addSchemaMapping("Category", "ExternalCategory")
+                    .addSchemaMapping("Tag", "ExternalTag")
+                    .addForcedGenerateSchema(CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS);
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            final String externalCategoryRelPath = "src/main/java/org/openapitools/client/model/ExternalCategory.java";
+            final String externalTagRelPath = "src/main/java/org/openapitools/client/model/ExternalTag.java";
+
+            Assert.assertTrue(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(externalCategoryRelPath)),
+                    "ExternalCategory.java MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
+            Assert.assertTrue(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(externalTagRelPath)),
+                    "ExternalTag.java MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
+            Assert.assertTrue(
+                    new File(target3.toFile(), externalCategoryRelPath).exists(),
+                    "ExternalCategory.java MUST exist on disk when wildcard \"*\" is used");
+            Assert.assertTrue(
+                    new File(target3.toFile(), externalTagRelPath).exists(),
+                    "ExternalTag.java MUST exist on disk when wildcard \"*\" is used");
+        } finally {
+            target3.toFile().deleteOnExit();
         }
     }
 

@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SomeProperty
         /// </summary>
         [JsonPropertyName("someProperty")]
-        public string? SomeProperty { get { return this.SomePropertyOption; } set { this.SomePropertyOption = new(value); } }
+        public string? SomeProperty { get { return this.SomePropertyOption.Value; } set { this.SomePropertyOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestInlineFreeformAdditionalPropertiesRequest" />
     /// </summary>
-    public class TestInlineFreeformAdditionalPropertiesRequestJsonConverter : JsonConverter<TestInlineFreeformAdditionalPropertiesRequest>
+    public partial class TestInlineFreeformAdditionalPropertiesRequestJsonConverter : JsonConverter<TestInlineFreeformAdditionalPropertiesRequest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestInlineFreeformAdditionalPropertiesRequestJsonConverter" /> class.
+        /// </summary>
+        public TestInlineFreeformAdditionalPropertiesRequestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestInlineFreeformAdditionalPropertiesRequest" />
         /// </summary>
