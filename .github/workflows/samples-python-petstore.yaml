@@ -6,6 +6,7 @@ on:
       - samples/openapi3/client/petstore/python-aiohttp/**
       - samples/openapi3/client/petstore/python-httpx/**
       - samples/openapi3/client/petstore/python/**
+      - samples/openapi3/client/petstore/python-lazyImports/**
       - .github/workflows/samples-python-petstore.yaml
 
 jobs:
