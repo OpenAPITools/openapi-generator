@@ -23,7 +23,7 @@ from fastapi import (  # noqa: F401
 )
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
-from pydantic import Field, StrictInt, StrictStr
+from pydantic import Field, StrictInt
 from typing import Any, Dict
 from typing_extensions import Annotated
 from openapi_server.models.order import Order
@@ -87,7 +87,7 @@ async def place_order(
     response_model_by_alias=True,
 )
 async def get_order_by_id(
-    orderId: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")] = Path(..., description="ID of pet that needs to be fetched", ge=1, le=5),
+    orderId: Annotated[int, Field(le=5, ge=1, description="ID of pet that needs to be fetched")] = Path(..., description="ID of pet that needs to be fetched", ge=1, le=5),
 ) -> Order:
     """For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions"""
     if not BaseStoreApi.subclasses:
@@ -106,7 +106,7 @@ async def get_order_by_id(
     response_model_by_alias=True,
 )
 async def delete_order(
-    orderId: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")] = Path(..., description="ID of the order that needs to be deleted"),
+    orderId: Annotated[str, Field(description="ID of the order that needs to be deleted")] = Path(..., description="ID of the order that needs to be deleted"),
 ) -> None:
     """For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors"""
     if not BaseStoreApi.subclasses:

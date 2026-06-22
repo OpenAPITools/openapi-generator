@@ -23,7 +23,7 @@ from fastapi import (  # noqa: F401
 )
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
-from pydantic import Field, StrictBytes, StrictInt, StrictStr, field_validator
+from pydantic import Field, StrictBytes, StrictStr, field_validator
 from typing import Any, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from openapi_server.models.api_response import ApiResponse
@@ -95,7 +95,7 @@ async def add_pet(
     response_model_by_alias=True,
 )
 async def find_pets_by_status(
-    status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")] = Query(None, description="Status values that need to be considered for filter", alias="status"),
+    status: Annotated[List[str], Field(description="Status values that need to be considered for filter")] = Query(None, description="Status values that need to be considered for filter", alias="status"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["read:pets"]
     ),
@@ -117,7 +117,7 @@ async def find_pets_by_status(
     response_model_by_alias=True,
 )
 async def find_pets_by_tags(
-    tags: Annotated[List[StrictStr], Field(description="Tags to filter by")] = Query(None, description="Tags to filter by", alias="tags"),
+    tags: Annotated[List[str], Field(description="Tags to filter by")] = Query(None, description="Tags to filter by", alias="tags"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["read:pets"]
     ),
@@ -140,7 +140,7 @@ async def find_pets_by_tags(
     response_model_by_alias=True,
 )
 async def get_pet_by_id(
-    petId: Annotated[StrictInt, Field(description="ID of pet to return")] = Path(..., description="ID of pet to return"),
+    petId: Annotated[int, Field(description="ID of pet to return")] = Path(..., description="ID of pet to return"),
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
@@ -161,7 +161,7 @@ async def get_pet_by_id(
     response_model_by_alias=True,
 )
 async def update_pet_with_form(
-    petId: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")] = Path(..., description="ID of pet that needs to be updated"),
+    petId: Annotated[int, Field(description="ID of pet that needs to be updated")] = Path(..., description="ID of pet that needs to be updated"),
     name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = Form(None, description="Updated name of the pet"),
     status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = Form(None, description="Updated status of the pet"),
     token_petstore_auth: TokenModel = Security(
@@ -184,8 +184,8 @@ async def update_pet_with_form(
     response_model_by_alias=True,
 )
 async def delete_pet(
-    petId: Annotated[StrictInt, Field(description="Pet id to delete")] = Path(..., description="Pet id to delete"),
-    api_key: Optional[StrictStr] = Header(None, description=""),
+    petId: Annotated[int, Field(description="Pet id to delete")] = Path(..., description="Pet id to delete"),
+    api_key: Optional[str] = Header(None, description=""),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
@@ -206,7 +206,7 @@ async def delete_pet(
     response_model_by_alias=True,
 )
 async def upload_file(
-    petId: Annotated[StrictInt, Field(description="ID of pet to update")] = Path(..., description="ID of pet to update"),
+    petId: Annotated[int, Field(description="ID of pet to update")] = Path(..., description="ID of pet to update"),
     additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = Form(None, description="Additional data to pass to server"),
     file: Optional[UploadFile] = File(None, description="file to upload"),
     token_petstore_auth: TokenModel = Security(
