@@ -904,7 +904,6 @@ abstract class GenerateTask : DefaultTask() {
      * Title placed in the `info.title` field of the merged spec. Defaults to `"merged spec"`.
      * Only used when [inputSpecRootDirectory] is set.
      */
-    @get:Optional
     @get:Internal
     abstract val mergedFileInfoName: Property<String>
 
@@ -912,7 +911,6 @@ abstract class GenerateTask : DefaultTask() {
      * Description placed in the `info.description` field of the merged spec. Defaults to `"merged spec"`.
      * Only used when [inputSpecRootDirectory] is set.
      */
-    @get:Optional
     @get:Internal
     abstract val mergedFileInfoDescription: Property<String>
 
@@ -920,7 +918,6 @@ abstract class GenerateTask : DefaultTask() {
      * Version placed in the `info.version` field of the merged spec. Defaults to `"1.0.0"`.
      * Only used when [inputSpecRootDirectory] is set.
      */
-    @get:Optional
     @get:Internal
     abstract val mergedFileInfoVersion: Property<String>
 
