@@ -1,31 +1,35 @@
 package org.openapitools.codegen.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.google.common.collect.ImmutableMap;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.apache.commons.lang3.ObjectUtils;
 import org.openapitools.codegen.auth.AuthParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MergedSpecBuilder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MergedSpecBuilder.class);
+
+    private static final Set<String> SPEC_EXTENSIONS = new HashSet<>(Arrays.asList(".yaml", ".yml", ".json"));
 
     private final String inputSpecRootDirectory;
     private final String mergeFileName;
@@ -56,11 +60,10 @@ public class MergedSpecBuilder {
         }
         LOGGER.info("In spec root directory {} found specs {}", inputSpecRootDirectory, specRelatedPaths);
 
-        String openapiVersion = null;
         boolean isJson = false;
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
-        List<SpecWithPaths> allPaths = new ArrayList<>();
+        List<OpenAPI> parsedSpecs = new ArrayList<>();
         List<Server> allServers = new ArrayList<>();
 
         for (String specRelatedPath : specRelatedPaths) {
@@ -72,26 +75,37 @@ public class MergedSpecBuilder {
                         .readLocation(specPath, AuthParser.parse(auth), options)
                         .getOpenAPI();
 
-                if (openapiVersion == null) {
-                    openapiVersion = result.getOpenapi();
-                    if (specRelatedPath.toLowerCase(Locale.ROOT).endsWith(".json")) {
-                        isJson = true;
-                    }
+                if (result == null) {
+                    LOGGER.error("Failed to read file: {}. It would be ignored", specPath);
+                    continue;
                 }
-                allServers.addAll(ObjectUtils.defaultIfNull(result.getServers(), Collections.emptyList()));
-                allPaths.add(new SpecWithPaths(specRelatedPath, result.getPaths().keySet()));
+
+                if (parsedSpecs.isEmpty() && specRelatedPath.toLowerCase(Locale.ROOT).endsWith(".json")) {
+                    isJson = true;
+                }
+                allServers.addAll(Optional.ofNullable(result.getServers()).orElse(Collections.emptyList()));
+                parsedSpecs.add(result);
             } catch (Exception e) {
                 LOGGER.error("Failed to read file: {}. It would be ignored", specPath);
             }
         }
 
-        Map<String, Object> mergedSpec = generatedMergedSpec(openapiVersion, allPaths, allServers);
+        if (parsedSpecs.isEmpty()) {
+            throw new RuntimeException("Spec directory doesn't contain any valid specification");
+        }
+
+        OpenAPI merged = mergeSpecs(parsedSpecs, allServers);
+
         String mergedFilename = this.mergeFileName + (isJson ? ".json" : ".yaml");
-        Path mergedFilePath = Paths.get(inputSpecRootDirectory, mergedFilename);
+        Path mergedFilePath = java.nio.file.Paths.get(inputSpecRootDirectory, mergedFilename);
 
         try {
-            ObjectMapper objectMapper = isJson ? new ObjectMapper() : new ObjectMapper(new YAMLFactory());
-            Files.write(mergedFilePath, objectMapper.writeValueAsBytes(mergedSpec), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+            String content = isJson
+                    ? Json.mapper().writerWithDefaultPrettyPrinter().writeValueAsString(merged)
+                    : Yaml.mapper().writerWithDefaultPrettyPrinter().writeValueAsString(merged);
+            Files.write(mergedFilePath, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize merged spec", e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -99,43 +113,113 @@ public class MergedSpecBuilder {
         return mergedFilePath.toString();
     }
 
-    private Map<String, Object> generatedMergedSpec(String openapiVersion, List<SpecWithPaths> allPaths, List<Server> allServers) {
-        Map<String, Object> spec = generateHeader(openapiVersion, mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, allServers);
-        Map<String, Object> paths = new HashMap<>();
-        spec.put("paths", paths);
+    /**
+     * Merges a list of parsed OpenAPI specs into a single spec.
+     *
+     * <p>Path items are merged by HTTP method: if two specs define the same URL path, their
+     * operations are combined (e.g. GET from one file + POST from another) rather than one
+     * overwriting the other. A warning is logged when the same path+method appears in multiple specs;
+     * the first occurrence is kept.</p>
+     *
+     * <p>Component maps (schemas, responses, requestBodies, parameters, headers, examples,
+     * links, callbacks, securitySchemes) are merged by name. Structurally identical duplicates
+     * are silently deduplicated. A warning is logged if the same component name appears with
+     * different definitions; the first definition is kept.</p>
+     */
+    OpenAPI mergeSpecs(List<OpenAPI> specs, List<Server> allServers) {
+        OpenAPI merged = new OpenAPI();
+        merged.openapi(specs.get(0).getOpenapi() != null ? specs.get(0).getOpenapi() : "3.0.3");
 
-        for (SpecWithPaths specWithPaths : allPaths) {
-            for (String path : specWithPaths.paths) {
-                String specRelatedPath = "./" + specWithPaths.specRelatedPath + "#/paths/" + path.replace("/", "~1");
-                paths.put(path, ImmutableMap.of(
-                        "$ref", specRelatedPath
-                ));
+        Info info = new Info()
+                .title(mergedFileInfoName)
+                .description(mergedFileInfoDescription)
+                .version(mergedFileInfoVersion);
+        merged.info(info);
+
+        List<String> distinctServerUrls = allServers.stream()
+                .map(Server::getUrl)
+                .filter(Objects::nonNull)
+                .distinct()
+                .collect(Collectors.toList());
+        if (distinctServerUrls.isEmpty()) {
+            merged.addServersItem(new Server().url("http://localhost:8080"));
+        } else {
+            distinctServerUrls.forEach(url -> merged.addServersItem(new Server().url(url)));
+        }
+
+        merged.setPaths(new Paths());
+        merged.setComponents(new Components());
+
+        for (OpenAPI spec : specs) {
+            if (spec.getPaths() != null) {
+                spec.getPaths().forEach((pathKey, incomingPathItem) -> {
+                    PathItem existing = merged.getPaths().get(pathKey);
+                    if (existing == null) {
+                        merged.getPaths().addPathItem(pathKey, incomingPathItem);
+                    } else {
+                        mergePathItem(existing, incomingPathItem, pathKey);
+                    }
+                });
+            }
+            if (spec.getComponents() != null) {
+                mergeComponents(merged.getComponents(), spec.getComponents());
             }
         }
 
-        return spec;
+        return merged;
     }
 
-    private static Map<String, Object> generateHeader(String openapiVersion, String title, String description, String version, List<Server> allServers) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("openapi", openapiVersion);
-        map.put("info", ImmutableMap.of(
-                "title", title,
-                "description", description,
-                "version", version
-        ));
+    /**
+     * Merges HTTP method operations from {@code incoming} into {@code existing} for the same path URL.
+     * Path-level metadata (summary, description, servers, parameters, extensions) is kept from
+     * {@code existing} (i.e. the first spec that defined this path). A warning is logged for any
+     * path+method that already exists in {@code existing}.
+     */
+    private void mergePathItem(PathItem existing, PathItem incoming, String pathKey) {
+        if (incoming.readOperationsMap() == null) {
+            return;
+        }
+        incoming.readOperationsMap().forEach((method, operation) -> {
+            if (existing.readOperationsMap() != null && existing.readOperationsMap().containsKey(method)) {
+                LOGGER.warn("Path+method collision during spec merge: {} {} is defined in multiple specs. Keeping the first occurrence.", method, pathKey);
+            } else {
+                existing.operation(method, operation);
+            }
+        });
+    }
 
-        Set<ImmutableMap<String, String>> servers = allServers.stream()
-                .map(Server::getUrl)
-                .distinct()
-                .map(url -> ImmutableMap.of("url", url))
-                .collect(Collectors.collectingAndThen(Collectors.toSet(), Optional::of))
-                .filter(Predicate.not(Set::isEmpty))
-                .orElseGet(() -> Collections.singleton(ImmutableMap.of("url", "http://localhost:8080")));
+    /**
+     * Merges all component maps from {@code source} into {@code target}.
+     * Identical definitions are silently deduplicated. Conflicting definitions (same name, different
+     * structure) generate a warning and keep the first definition.
+     */
+    private void mergeComponents(Components target, Components source) {
+        mergeComponentMap(target.getSchemas(), source.getSchemas(), "schema", target::addSchemas);
+        mergeComponentMap(target.getResponses(), source.getResponses(), "response", target::addResponses);
+        mergeComponentMap(target.getRequestBodies(), source.getRequestBodies(), "requestBody", target::addRequestBodies);
+        mergeComponentMap(target.getParameters(), source.getParameters(), "parameter", target::addParameters);
+        mergeComponentMap(target.getHeaders(), source.getHeaders(), "header", target::addHeaders);
+        mergeComponentMap(target.getExamples(), source.getExamples(), "example", target::addExamples);
+        mergeComponentMap(target.getLinks(), source.getLinks(), "link", target::addLinks);
+        mergeComponentMap(target.getCallbacks(), source.getCallbacks(), "callback", target::addCallbacks);
+        mergeComponentMap(target.getSecuritySchemes(), source.getSecuritySchemes(), "securityScheme", target::addSecuritySchemes);
+    }
 
-        map.put("servers", servers);
-
-        return map;
+    private <T> void mergeComponentMap(Map<String, T> existing, Map<String, T> incoming,
+                                       String typeName, java.util.function.BiConsumer<String, T> adder) {
+        if (incoming == null) {
+            return;
+        }
+        incoming.forEach((name, value) -> {
+            if (existing != null && existing.containsKey(name)) {
+                if (!Objects.equals(existing.get(name), value)) {
+                    LOGGER.warn("Component {} name conflict during spec merge: '{}' is defined in multiple specs with different definitions. Keeping the first definition.", typeName, name);
+                }
+                // identical or keeping first — either way, skip
+            } else {
+                adder.accept(name, value);
+            }
+        });
     }
 
     private List<String> getAllSpecFilesInDirectory() {
@@ -143,7 +227,12 @@ public class MergedSpecBuilder {
         try (Stream<Path> pathStream = Files.walk(rootDirectory)) {
             return pathStream
                     .filter(path -> !Files.isDirectory(path))
+                    .filter(path -> {
+                        String name = path.getFileName().toString().toLowerCase(Locale.ROOT);
+                        return SPEC_EXTENSIONS.stream().anyMatch(name::endsWith);
+                    })
                     .map(path -> rootDirectory.relativize(path).toString())
+                    .sorted()
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException("Exception while listing files in spec root directory: " + inputSpecRootDirectory, e);
@@ -152,22 +241,12 @@ public class MergedSpecBuilder {
 
     private void deleteMergedFileFromPreviousRun() {
         try {
-            Files.deleteIfExists(Paths.get(inputSpecRootDirectory + File.separator + mergeFileName + ".json"));
-        } catch (IOException e) {
+            Files.deleteIfExists(java.nio.file.Paths.get(inputSpecRootDirectory + File.separator + mergeFileName + ".json"));
+        } catch (IOException ignored) {
         }
         try {
-            Files.deleteIfExists(Paths.get(inputSpecRootDirectory + File.separator + mergeFileName + ".yaml"));
-        } catch (IOException e) {
-        }
-    }
-
-    private static class SpecWithPaths {
-        private final String specRelatedPath;
-        private final Set<String> paths;
-
-        private SpecWithPaths(final String specRelatedPath, final Set<String> paths) {
-            this.specRelatedPath = specRelatedPath;
-            this.paths = paths;
+            Files.deleteIfExists(java.nio.file.Paths.get(inputSpecRootDirectory + File.separator + mergeFileName + ".yaml"));
+        } catch (IOException ignored) {
         }
     }
 }
