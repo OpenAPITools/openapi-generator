@@ -211,7 +211,7 @@ public interface FakeApi {
          @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
          @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
          @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-         @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
+         @Valid @RequestParam(value = "byte", required = true) String _byte /* base64 encoded binary */,
          @Min(value = 10) @Max(value = 100) @Valid @RequestParam(value = "integer", required = false) Integer integer,
          @Min(value = 20) @Max(value = 200) @Valid @RequestParam(value = "int32", required = false) Integer int32,
          @Valid @RequestParam(value = "int64", required = false) Long int64,
@@ -253,7 +253,7 @@ public interface FakeApi {
          @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
          @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
          @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
-         @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+         @Valid @RequestParam(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
          @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     );
 

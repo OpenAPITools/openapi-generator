@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -9,24 +10,26 @@ import java.util.Arrays;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * FormParamsRequest
  */
 
 @JsonTypeName("formParams_request")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class FormParamsRequest {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String plain;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable byte[] bytes;
 
   public FormParamsRequest plain(@Nullable String plain) {
@@ -45,6 +48,7 @@ public class FormParamsRequest {
     return plain;
   }
 
+  @JsonProperty("plain")
   public void setPlain(@Nullable String plain) {
     this.plain = plain;
   }
@@ -65,6 +69,7 @@ public class FormParamsRequest {
     return bytes;
   }
 
+  @JsonProperty("bytes")
   public void setBytes(@Nullable byte[] bytes) {
     this.bytes = bytes;
   }
@@ -102,10 +107,7 @@ public class FormParamsRequest {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 
