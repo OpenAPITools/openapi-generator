@@ -139,7 +139,6 @@ afterEvaluate {
     publishing {
         publications {
             pluginMaven {
-                artifact(tasks.named("javadocJar"))
                 pom {
                     name = "OpenAPI-Generator Contributors"
                     description = project.description
