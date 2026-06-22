@@ -6,7 +6,7 @@
 {{#isArray}}
 {{! array handle reactive - reactor with/without ResponseEntity wrapper}}
 {{#reactiveModeReactor}}
-Mono<{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{{returnContainer}}}<{{#useSealedResponseInterfaces}}{{#vendorExtensions.x-sealed-response-interface}}{{vendorExtensions.x-sealed-response-interface}}{{/vendorExtensions.x-sealed-response-interface}}{{^vendorExtensions.x-sealed-response-interface}}{{{returnType}}}{{/vendorExtensions.x-sealed-response-interface}}{{/useSealedResponseInterfaces}}{{^useSealedResponseInterfaces}}{{{returnType}}}{{/useSealedResponseInterfaces}}>{{#useResponseEntity}}>{{/useResponseEntity}}>
+{{#useResponseEntity}}Mono<ResponseEntity<{{/useResponseEntity}}Flux<{{#useSealedResponseInterfaces}}{{#vendorExtensions.x-sealed-response-interface}}{{vendorExtensions.x-sealed-response-interface}}{{/vendorExtensions.x-sealed-response-interface}}{{^vendorExtensions.x-sealed-response-interface}}{{{returnType}}}{{/vendorExtensions.x-sealed-response-interface}}{{/useSealedResponseInterfaces}}{{^useSealedResponseInterfaces}}{{{returnType}}}{{/useSealedResponseInterfaces}}>{{#useResponseEntity}}>>{{/useResponseEntity}}
 {{/reactiveModeReactor}}
 {{! array handle reactive - coroutines with/without ResponseEntity wrapper}}
 {{#reactiveModeCoroutines}}
