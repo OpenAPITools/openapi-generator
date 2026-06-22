@@ -53,7 +53,7 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.function.Supplier;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.time.OffsetDateTime;
 
