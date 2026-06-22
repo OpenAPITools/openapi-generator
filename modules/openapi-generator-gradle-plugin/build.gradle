@@ -8,7 +8,7 @@ plugins {
     id("java-gradle-plugin")
     id("maven-publish")
     id("org.gradle.kotlin.kotlin-dsl") version "5.2.0"
-    id("org.jetbrains.dokka") version "1.9.20"
+    id("org.jetbrains.dokka-javadoc") version "2.2.0"
     id("org.jetbrains.kotlin.jvm") version "2.0.21"
     id("signing")
 }
@@ -76,8 +76,8 @@ tasks.withType(Javadoc).configureEach {
 // Generate a KDoc-based javadoc jar using Dokka so IntelliJ shows rich documentation
 // tooltips without requiring the -sources.jar to be downloaded.
 tasks.register("javadocJar", Jar) {
-    dependsOn("dokkaJavadoc")
-    from(tasks.named("dokkaJavadoc").flatMap { it.outputDirectory })
+    dependsOn("dokkaGeneratePublicationJavadoc")
+    from(tasks.named("dokkaGeneratePublicationJavadoc").flatMap { it.outputDirectory })
     archiveClassifier = "javadoc"
 }
 
