@@ -518,6 +518,11 @@
   image: "img/companies/searchapi.png"
   infoLink: "https://www.searchapi.io/"
   pinned: false
+  -
+  caption: "Service Cost"
+  image: "img/companies/servicecost.png"
+  infoLink: "https://servicecost.in"
+  pinned: false
 -
   caption: "Shotstack"
   image: "img/companies/shotstack.svg"
