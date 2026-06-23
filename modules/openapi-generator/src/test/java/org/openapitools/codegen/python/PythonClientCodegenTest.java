@@ -54,6 +54,10 @@ public class PythonClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(
+                        PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS),
+                Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
     }
 
@@ -800,5 +804,131 @@ public class PythonClientCodegenTest {
                 { "StrictFloat", "StrictFloat" },
                 { "Union[StrictFloat, StrictInt]", "Union[StrictFloat, StrictInt]" }
         };
+    }
+
+    @Test
+    public void testIndependentImplicitClientLifecycleOperationNames()
+            throws IOException {
+        final PythonClientCodegen disabled = new PythonClientCodegen();
+        disabled.processOpts();
+        Assert.assertEquals(disabled.toOperationId("close"), "close");
+
+        final PythonClientCodegen httpxSync = new PythonClientCodegen();
+        httpxSync.setLibrary("httpx");
+        httpxSync.additionalProperties().put(
+                PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS, true);
+        httpxSync.additionalProperties().put(PythonClientCodegen.SUPPORT_HTTPX_SYNC, true);
+        final String outputPath = generateFiles(httpxSync,
+                "src/test/resources/3_0/python/independent-client-operation-names.yaml");
+        final Path api = Paths.get(outputPath + "openapi_client/api/default_api.py");
+
+        assertFileContains(api,
+                "async def call_close_2(",
+                "async def call_close_sync_2(");
+        List<String> methodNames = Files.readAllLines(api).stream()
+                .filter(line -> line.startsWith("    def ")
+                        || line.startsWith("    async def "))
+                .map(line -> line.substring(
+                        line.indexOf("def ") + 4, line.indexOf('(')))
+                .collect(Collectors.toList());
+        Assert.assertEquals(
+                methodNames.stream().distinct().count(),
+                methodNames.size(),
+                "generated API method names must be unique");
+    }
+
+    @Test
+    public void testIndependentImplicitClients() throws IOException {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(
+                PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS, true);
+        final String outputPath = generateFiles(codegen,
+                "src/test/resources/3_0/generic.yaml");
+        final Path configuration = Paths.get(outputPath + "openapi_client/configuration.py");
+        final Path apiClient = Paths.get(outputPath + "openapi_client/api_client.py");
+        final Path api = Paths.get(outputPath + "openapi_client/api/default_api.py");
+        final Path rest = Paths.get(outputPath + "openapi_client/rest.py");
+
+        assertFileContains(configuration,
+                "cls._default = copy.deepcopy(default)",
+                "if cls._default is not None:",
+                "return copy.deepcopy(cls._default)",
+                "return cls()",
+                "if k == 'proxy_headers':",
+                "copy_method = getattr(v, 'copy', None)",
+                "if callable(copy_method):",
+                "result.logger_file_handler = self.logger_file_handler");
+        assertFileContains(apiClient,
+                "configuration = Configuration.get_default_copy()",
+                "def _get_default_or_new(cls):",
+                "if cls._default is not None:",
+                "return cls._default, False",
+                "return cls(), True",
+                "self.rest_client.close()");
+        assertFileContains(api,
+                "api_client, owns_api_client = ApiClient._get_default_or_new()",
+                "owns_api_client = False",
+                "self._owned_api_client: Optional[ApiClient] = (",
+                "api_client if owns_api_client else None",
+                "def close(self) -> None:",
+                "owned_api_client = self._owned_api_client",
+                "self._owned_api_client = None",
+                "if owned_api_client is not None:",
+                "owned_api_client.close()",
+                "def __enter__(self):",
+                "def __exit__(self, exc_type, exc_value, traceback):");
+        assertFileContains(rest,
+                "def close(self) -> None:",
+                "self.pool_manager.clear()");
+
+        final PythonClientCodegen asyncioCodegen = new PythonClientCodegen();
+        asyncioCodegen.setLibrary("asyncio");
+        asyncioCodegen.additionalProperties().put(
+                PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS, true);
+        final String asyncioOutputPath = generateFiles(asyncioCodegen,
+                "src/test/resources/3_0/generic.yaml");
+        assertFileContains(
+                Paths.get(asyncioOutputPath + "openapi_client/rest.py"),
+                "if extra is not None and \"connector\" in extra",
+                "if extra.get(\"connector\") is not None:",
+                "kwargs[\"connector_owner\"] = False",
+                "kwargs[\"connector_owner\"] = True");
+
+        final PythonClientCodegen tornadoCodegen = new PythonClientCodegen();
+        tornadoCodegen.setLibrary("tornado");
+        tornadoCodegen.additionalProperties().put(
+                PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS, true);
+        final String tornadoOutputPath = generateFiles(tornadoCodegen,
+                "src/test/resources/3_0/generic.yaml");
+        assertFileContains(
+                Paths.get(tornadoOutputPath + "openapi_client/rest.py"),
+                "httpclient.AsyncHTTPClient(force_instance=True)",
+                "def close(self) -> None:",
+                "self.pool_manager.close()");
+    }
+
+    @Test
+    public void testIndependentImplicitClientsPreserveDefaultsWhenDisabled() throws IOException {
+        final String outputPath = generateFiles(new PythonClientCodegen(),
+                "src/test/resources/3_0/generic.yaml");
+        final Path configuration = Paths.get(outputPath + "openapi_client/configuration.py");
+        final Path apiClient = Paths.get(outputPath + "openapi_client/api_client.py");
+        final Path api = Paths.get(outputPath + "openapi_client/api/default_api.py");
+        final Path rest = Paths.get(outputPath + "openapi_client/rest.py");
+
+        assertFileContains(configuration,
+                "if k not in ('logger', 'logger_file_handler'):",
+                "result.logger_file = self.logger_file");
+        TestUtils.assertFileNotContains(configuration,
+                "if k == 'proxy_headers':",
+                "result.logger_file_handler = self.logger_file_handler");
+        TestUtils.assertFileNotContains(apiClient,
+                "configuration = Configuration.get_default_copy()",
+                "def _get_default_or_new(cls):",
+                "self.rest_client.close()");
+        TestUtils.assertFileNotContains(api,
+                "_owned_api_client",
+                "def close(self) -> None:");
+        TestUtils.assertFileNotContains(rest, "def close(self) -> None:");
     }
 }
