@@ -56,10 +56,8 @@ class FormatTest(BaseModel):
         if value is None:
             return value
 
-        if not isinstance(value, str):
-            value = str(value)
-
-        if not re.match(r"[a-z]", value ,re.IGNORECASE):
+        s = value if isinstance(value, str) else value.isoformat() if hasattr(value, "isoformat") else str(value)
+        if not re.match(r"[a-z]", s ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
         return value
 
@@ -69,10 +67,8 @@ class FormatTest(BaseModel):
         if value is None:
             return value
 
-        if not isinstance(value, str):
-            value = str(value)
-
-        if not re.match(r"this is \"something\"", value):
+        s = value if isinstance(value, str) else value.isoformat() if hasattr(value, "isoformat") else str(value)
+        if not re.match(r"this is \"something\"", s):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
         return value
 
@@ -82,10 +78,8 @@ class FormatTest(BaseModel):
         if value is None:
             return value
 
-        if not isinstance(value, str):
-            value = str(value)
-
-        if not re.match(r"^\d{10}$", value):
+        s = value if isinstance(value, str) else value.isoformat() if hasattr(value, "isoformat") else str(value)
+        if not re.match(r"^\d{10}$", s):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
         return value
 
@@ -95,10 +89,8 @@ class FormatTest(BaseModel):
         if value is None:
             return value
 
-        if not isinstance(value, str):
-            value = str(value)
-
-        if not re.match(r"^image_\d{1,3}$", value ,re.IGNORECASE):
+        s = value if isinstance(value, str) else value.isoformat() if hasattr(value, "isoformat") else str(value)
+        if not re.match(r"^image_\d{1,3}$", s ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /^image_\d{1,3}$/i")
         return value
 
