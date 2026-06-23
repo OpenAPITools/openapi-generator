@@ -23,7 +23,6 @@ from petstore_api.models.order import Order
 from petstore_api.api_client import ApiClient, RequestSerialized
 from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
-from petstore_api.sync_helper import run_sync
 
 
 class StoreApi:
@@ -256,21 +255,55 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Delete purchase order by ID (synchronous)
+        """Delete purchase order by ID
 
-        Synchronous variant of :meth:`delete_order`. It calls the asynchronous
-        method and blocks until it completes.
+        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
+        :param order_id: ID of the order that needs to be deleted (required)
+        :type order_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.delete_order(
-                order_id=order_id,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._delete_order_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -290,20 +323,54 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Delete purchase order by ID (synchronous)
+        """Delete purchase order by ID
 
-        Synchronous variant of :meth:`delete_order_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
+        :param order_id: ID of the order that needs to be deleted (required)
+        :type order_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.delete_order_with_http_info(
-                order_id=order_id,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._delete_order_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -324,21 +391,51 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Delete purchase order by ID (synchronous)
+        """Delete purchase order by ID
 
-        Synchronous variant of :meth:`delete_order_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
+        :param order_id: ID of the order that needs to be deleted (required)
+        :type order_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.delete_order_without_preload_content(
-                order_id=order_id,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._delete_order_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _delete_order_serialize(
@@ -598,20 +695,51 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Dict[str, int]:
-        """Returns pet inventories by status (synchronous)
+        """Returns pet inventories by status
 
-        Synchronous variant of :meth:`get_inventory`. It calls the asynchronous
-        method and blocks until it completes.
+        Returns a map of status codes to quantities
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.get_inventory(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._get_inventory_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Dict[str, int]",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -630,19 +758,50 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Dict[str, int]]:
-        """Returns pet inventories by status (synchronous)
+        """Returns pet inventories by status
 
-        Synchronous variant of :meth:`get_inventory_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Returns a map of status codes to quantities
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.get_inventory_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._get_inventory_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Dict[str, int]",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -662,20 +821,47 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns pet inventories by status (synchronous)
+        """Returns pet inventories by status
 
-        Synchronous variant of :meth:`get_inventory_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Returns a map of status codes to quantities
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.get_inventory_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._get_inventory_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Dict[str, int]",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _get_inventory_serialize(
@@ -959,21 +1145,56 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Order:
-        """Find purchase order by ID (synchronous)
+        """Find purchase order by ID
 
-        Synchronous variant of :meth:`get_order_by_id`. It calls the asynchronous
-        method and blocks until it completes.
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+
+        :param order_id: ID of pet that needs to be fetched (required)
+        :type order_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.get_order_by_id(
-                order_id=order_id,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._get_order_by_id_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -993,20 +1214,55 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Order]:
-        """Find purchase order by ID (synchronous)
+        """Find purchase order by ID
 
-        Synchronous variant of :meth:`get_order_by_id_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+
+        :param order_id: ID of pet that needs to be fetched (required)
+        :type order_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.get_order_by_id_with_http_info(
-                order_id=order_id,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._get_order_by_id_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -1027,21 +1283,52 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Find purchase order by ID (synchronous)
+        """Find purchase order by ID
 
-        Synchronous variant of :meth:`get_order_by_id_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+
+        :param order_id: ID of pet that needs to be fetched (required)
+        :type order_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.get_order_by_id_without_preload_content(
-                order_id=order_id,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._get_order_by_id_serialize(
+            order_id=order_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _get_order_by_id_serialize(
@@ -1325,21 +1612,55 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Order:
-        """Place an order for a pet (synchronous)
+        """Place an order for a pet
 
-        Synchronous variant of :meth:`place_order`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param order: order placed for purchasing the pet (required)
+        :type order: Order
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.place_order(
-                order=order,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._place_order_serialize(
+            order=order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -1359,20 +1680,54 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Order]:
-        """Place an order for a pet (synchronous)
+        """Place an order for a pet
 
-        Synchronous variant of :meth:`place_order_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param order: order placed for purchasing the pet (required)
+        :type order: Order
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.place_order_with_http_info(
-                order=order,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._place_order_serialize(
+            order=order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -1393,21 +1748,51 @@ class StoreApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Place an order for a pet (synchronous)
+        """Place an order for a pet
 
-        Synchronous variant of :meth:`place_order_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param order: order placed for purchasing the pet (required)
+        :type order: Order
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.place_order_without_preload_content(
-                order=order,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._place_order_serialize(
+            order=order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Order",
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _place_order_serialize(

@@ -357,9 +357,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             additionalProperties.put("async", "true");
             additionalProperties.put("httpx", "true");
             if (Boolean.parseBoolean(String.valueOf(additionalProperties.get(SUPPORT_HTTPX_SYNC)))) {
-                // generate synchronous '_sync' method variants alongside the async ones
+                // also generate synchronous '_sync' method variants alongside the async ones
                 additionalProperties.put(SUPPORT_HTTPX_SYNC, true);
-                supportingFiles.add(new SupportingFile("httpx/sync_helper.mustache", packagePath(), "sync_helper.py"));
             } else {
                 additionalProperties.remove(SUPPORT_HTTPX_SYNC);
             }

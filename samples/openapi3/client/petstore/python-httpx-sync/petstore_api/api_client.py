@@ -102,6 +102,14 @@ class ApiClient:
 
     async def close(self):
         await self.rest_client.close()
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close_sync()
+
+    def close_sync(self):
+        self.rest_client.close_sync()
 
     @property
     def user_agent(self):
@@ -275,6 +283,34 @@ class ApiClient:
         try:
             # perform request and return response
             response_data = await self.rest_client.request(
+                method, url,
+                headers=header_params,
+                body=body, post_params=post_params,
+                _request_timeout=_request_timeout
+            )
+
+        except ApiException as e:
+            raise e
+
+        return response_data
+
+    def call_api_sync(
+        self,
+        method,
+        url,
+        header_params=None,
+        body=None,
+        post_params=None,
+        _request_timeout=None
+    ) -> rest.RESTResponse:
+        """Makes the synchronous HTTP request.
+
+        Synchronous counterpart of :meth:`call_api`.
+        """
+
+        try:
+            # perform request and return response
+            response_data = self.rest_client.request_sync(
                 method, url,
                 headers=header_params,
                 body=body, post_params=post_params,

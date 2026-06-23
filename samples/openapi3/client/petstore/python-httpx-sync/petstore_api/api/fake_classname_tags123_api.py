@@ -22,7 +22,6 @@ from petstore_api.models.client import Client
 from petstore_api.api_client import ApiClient, RequestSerialized
 from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
-from petstore_api.sync_helper import run_sync
 
 
 class FakeClassnameTags123Api:
@@ -252,21 +251,54 @@ class FakeClassnameTags123Api:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Client:
-        """To test class name in snake case (synchronous)
+        """To test class name in snake case
 
-        Synchronous variant of :meth:`test_classname`. It calls the asynchronous
-        method and blocks until it completes.
+        To test class name in snake case
+
+        :param client: client model (required)
+        :type client: Client
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_classname(
-                client=client,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_classname_serialize(
+            client=client,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Client",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -286,20 +318,53 @@ class FakeClassnameTags123Api:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Client]:
-        """To test class name in snake case (synchronous)
+        """To test class name in snake case
 
-        Synchronous variant of :meth:`test_classname_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        To test class name in snake case
+
+        :param client: client model (required)
+        :type client: Client
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_classname_with_http_info(
-                client=client,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_classname_serialize(
+            client=client,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Client",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -320,21 +385,50 @@ class FakeClassnameTags123Api:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """To test class name in snake case (synchronous)
+        """To test class name in snake case
 
-        Synchronous variant of :meth:`test_classname_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        To test class name in snake case
+
+        :param client: client model (required)
+        :type client: Client
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_classname_without_preload_content(
-                client=client,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_classname_serialize(
+            client=client,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Client",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_classname_serialize(

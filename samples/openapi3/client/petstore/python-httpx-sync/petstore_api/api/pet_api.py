@@ -24,7 +24,6 @@ from petstore_api.models.pet import Pet
 from petstore_api.api_client import ApiClient, RequestSerialized
 from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
-from petstore_api.sync_helper import run_sync
 
 
 class PetApi:
@@ -257,21 +256,55 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Add a new pet to the store (synchronous)
+        """Add a new pet to the store
 
-        Synchronous variant of :meth:`add_pet`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.add_pet(
-                pet=pet,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._add_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -291,20 +324,54 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Add a new pet to the store (synchronous)
+        """Add a new pet to the store
 
-        Synchronous variant of :meth:`add_pet_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.add_pet_with_http_info(
-                pet=pet,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._add_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -325,21 +392,51 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Add a new pet to the store (synchronous)
+        """Add a new pet to the store
 
-        Synchronous variant of :meth:`add_pet_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.add_pet_without_preload_content(
-                pet=pet,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._add_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _add_pet_serialize(
@@ -644,22 +741,58 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Deletes a pet (synchronous)
+        """Deletes a pet
 
-        Synchronous variant of :meth:`delete_pet`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param pet_id: Pet id to delete (required)
+        :type pet_id: int
+        :param api_key:
+        :type api_key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.delete_pet(
-                pet_id=pet_id,
-                api_key=api_key,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._delete_pet_serialize(
+            pet_id=pet_id,
+            api_key=api_key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -680,21 +813,57 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Deletes a pet (synchronous)
+        """Deletes a pet
 
-        Synchronous variant of :meth:`delete_pet_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param pet_id: Pet id to delete (required)
+        :type pet_id: int
+        :param api_key:
+        :type api_key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.delete_pet_with_http_info(
-                pet_id=pet_id,
-                api_key=api_key,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._delete_pet_serialize(
+            pet_id=pet_id,
+            api_key=api_key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -716,22 +885,54 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Deletes a pet (synchronous)
+        """Deletes a pet
 
-        Synchronous variant of :meth:`delete_pet_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param pet_id: Pet id to delete (required)
+        :type pet_id: int
+        :param api_key:
+        :type api_key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.delete_pet_without_preload_content(
-                pet_id=pet_id,
-                api_key=api_key,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._delete_pet_serialize(
+            pet_id=pet_id,
+            api_key=api_key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _delete_pet_serialize(
@@ -1011,21 +1212,55 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[Pet]:
-        """Finds Pets by status (synchronous)
+        """Finds Pets by status
 
-        Synchronous variant of :meth:`find_pets_by_status`. It calls the asynchronous
-        method and blocks until it completes.
+        Multiple status values can be provided with comma separated strings
+
+        :param status: Status values that need to be considered for filter (required)
+        :type status: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.find_pets_by_status(
-                status=status,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._find_pets_by_status_serialize(
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -1045,20 +1280,54 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[Pet]]:
-        """Finds Pets by status (synchronous)
+        """Finds Pets by status
 
-        Synchronous variant of :meth:`find_pets_by_status_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Multiple status values can be provided with comma separated strings
+
+        :param status: Status values that need to be considered for filter (required)
+        :type status: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.find_pets_by_status_with_http_info(
-                status=status,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._find_pets_by_status_serialize(
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -1079,21 +1348,51 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Finds Pets by status (synchronous)
+        """Finds Pets by status
 
-        Synchronous variant of :meth:`find_pets_by_status_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Multiple status values can be provided with comma separated strings
+
+        :param status: Status values that need to be considered for filter (required)
+        :type status: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.find_pets_by_status_without_preload_content(
-                status=status,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._find_pets_by_status_serialize(
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _find_pets_by_status_serialize(
@@ -1385,21 +1684,56 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[Pet]:
-        """(Deprecated) Finds Pets by tags (synchronous)
+        """(Deprecated) Finds Pets by tags
 
-        Synchronous variant of :meth:`find_pets_by_tags`. It calls the asynchronous
-        method and blocks until it completes.
+        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
+        :param tags: Tags to filter by (required)
+        :type tags: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.find_pets_by_tags(
-                tags=tags,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+        warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
+
+        _param = self._find_pets_by_tags_serialize(
+            tags=tags,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -1419,20 +1753,55 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[Pet]]:
-        """(Deprecated) Finds Pets by tags (synchronous)
+        """(Deprecated) Finds Pets by tags
 
-        Synchronous variant of :meth:`find_pets_by_tags_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
+        :param tags: Tags to filter by (required)
+        :type tags: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.find_pets_by_tags_with_http_info(
-                tags=tags,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+        warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
+
+        _param = self._find_pets_by_tags_serialize(
+            tags=tags,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -1453,21 +1822,52 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """(Deprecated) Finds Pets by tags (synchronous)
+        """(Deprecated) Finds Pets by tags
 
-        Synchronous variant of :meth:`find_pets_by_tags_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
+        :param tags: Tags to filter by (required)
+        :type tags: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.find_pets_by_tags_without_preload_content(
-                tags=tags,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+        warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
+
+        _param = self._find_pets_by_tags_serialize(
+            tags=tags,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Pet]",
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _find_pets_by_tags_serialize(
@@ -1759,21 +2159,56 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Pet:
-        """Find pet by ID (synchronous)
+        """Find pet by ID
 
-        Synchronous variant of :meth:`get_pet_by_id`. It calls the asynchronous
-        method and blocks until it completes.
+        Returns a single pet
+
+        :param pet_id: ID of pet to return (required)
+        :type pet_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.get_pet_by_id(
-                pet_id=pet_id,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._get_pet_by_id_serialize(
+            pet_id=pet_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pet",
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -1793,20 +2228,55 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Pet]:
-        """Find pet by ID (synchronous)
+        """Find pet by ID
 
-        Synchronous variant of :meth:`get_pet_by_id_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Returns a single pet
+
+        :param pet_id: ID of pet to return (required)
+        :type pet_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.get_pet_by_id_with_http_info(
-                pet_id=pet_id,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._get_pet_by_id_serialize(
+            pet_id=pet_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pet",
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -1827,21 +2297,52 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Find pet by ID (synchronous)
+        """Find pet by ID
 
-        Synchronous variant of :meth:`get_pet_by_id_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Returns a single pet
+
+        :param pet_id: ID of pet to return (required)
+        :type pet_id: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.get_pet_by_id_without_preload_content(
-                pet_id=pet_id,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._get_pet_by_id_serialize(
+            pet_id=pet_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pet",
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _get_pet_by_id_serialize(
@@ -2132,21 +2633,57 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Update an existing pet (synchronous)
+        """Update an existing pet
 
-        Synchronous variant of :meth:`update_pet`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.update_pet(
-                pet=pet,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._update_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '404': None,
+            '405': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -2166,20 +2703,56 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Update an existing pet (synchronous)
+        """Update an existing pet
 
-        Synchronous variant of :meth:`update_pet_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.update_pet_with_http_info(
-                pet=pet,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._update_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '404': None,
+            '405': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -2200,21 +2773,53 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Update an existing pet (synchronous)
+        """Update an existing pet
 
-        Synchronous variant of :meth:`update_pet_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.update_pet_without_preload_content(
-                pet=pet,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._update_pet_serialize(
+            pet=pet,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '404': None,
+            '405': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _update_pet_serialize(
@@ -2532,23 +3137,61 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Updates a pet in the store with form data (synchronous)
+        """Updates a pet in the store with form data
 
-        Synchronous variant of :meth:`update_pet_with_form`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param pet_id: ID of pet that needs to be updated (required)
+        :type pet_id: int
+        :param name: Updated name of the pet
+        :type name: str
+        :param status: Updated status of the pet
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.update_pet_with_form(
-                pet_id=pet_id,
-                name=name,
-                status=status,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._update_pet_with_form_serialize(
+            pet_id=pet_id,
+            name=name,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -2570,22 +3213,60 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Updates a pet in the store with form data (synchronous)
+        """Updates a pet in the store with form data
 
-        Synchronous variant of :meth:`update_pet_with_form_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param pet_id: ID of pet that needs to be updated (required)
+        :type pet_id: int
+        :param name: Updated name of the pet
+        :type name: str
+        :param status: Updated status of the pet
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.update_pet_with_form_with_http_info(
-                pet_id=pet_id,
-                name=name,
-                status=status,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._update_pet_with_form_serialize(
+            pet_id=pet_id,
+            name=name,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -2608,23 +3289,57 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Updates a pet in the store with form data (synchronous)
+        """Updates a pet in the store with form data
 
-        Synchronous variant of :meth:`update_pet_with_form_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param pet_id: ID of pet that needs to be updated (required)
+        :type pet_id: int
+        :param name: Updated name of the pet
+        :type name: str
+        :param status: Updated status of the pet
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.update_pet_with_form_without_preload_content(
-                pet_id=pet_id,
-                name=name,
-                status=status,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._update_pet_with_form_serialize(
+            pet_id=pet_id,
+            name=name,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _update_pet_with_form_serialize(
@@ -2943,23 +3658,60 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ModelApiResponse:
-        """uploads an image (synchronous)
+        """uploads an image
 
-        Synchronous variant of :meth:`upload_file`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param file: file to upload
+        :type file: bytes
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.upload_file(
-                pet_id=pet_id,
-                additional_metadata=additional_metadata,
-                file=file,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._upload_file_serialize(
+            pet_id=pet_id,
+            additional_metadata=additional_metadata,
+            file=file,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ModelApiResponse",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -2981,22 +3733,59 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ModelApiResponse]:
-        """uploads an image (synchronous)
+        """uploads an image
 
-        Synchronous variant of :meth:`upload_file_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param file: file to upload
+        :type file: bytes
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.upload_file_with_http_info(
-                pet_id=pet_id,
-                additional_metadata=additional_metadata,
-                file=file,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._upload_file_serialize(
+            pet_id=pet_id,
+            additional_metadata=additional_metadata,
+            file=file,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ModelApiResponse",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -3019,23 +3808,56 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """uploads an image (synchronous)
+        """uploads an image
 
-        Synchronous variant of :meth:`upload_file_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param file: file to upload
+        :type file: bytes
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.upload_file_without_preload_content(
-                pet_id=pet_id,
-                additional_metadata=additional_metadata,
-                file=file,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._upload_file_serialize(
+            pet_id=pet_id,
+            additional_metadata=additional_metadata,
+            file=file,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ModelApiResponse",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _upload_file_serialize(
@@ -3361,23 +4183,60 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ModelApiResponse:
-        """uploads an image (required) (synchronous)
+        """uploads an image (required)
 
-        Synchronous variant of :meth:`upload_file_with_required_file`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param required_file: file to upload (required)
+        :type required_file: bytes
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.upload_file_with_required_file(
-                pet_id=pet_id,
-                required_file=required_file,
-                additional_metadata=additional_metadata,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._upload_file_with_required_file_serialize(
+            pet_id=pet_id,
+            required_file=required_file,
+            additional_metadata=additional_metadata,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ModelApiResponse",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -3399,22 +4258,59 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ModelApiResponse]:
-        """uploads an image (required) (synchronous)
+        """uploads an image (required)
 
-        Synchronous variant of :meth:`upload_file_with_required_file_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param required_file: file to upload (required)
+        :type required_file: bytes
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.upload_file_with_required_file_with_http_info(
-                pet_id=pet_id,
-                required_file=required_file,
-                additional_metadata=additional_metadata,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._upload_file_with_required_file_serialize(
+            pet_id=pet_id,
+            required_file=required_file,
+            additional_metadata=additional_metadata,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ModelApiResponse",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -3437,23 +4333,56 @@ class PetApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """uploads an image (required) (synchronous)
+        """uploads an image (required)
 
-        Synchronous variant of :meth:`upload_file_with_required_file_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param pet_id: ID of pet to update (required)
+        :type pet_id: int
+        :param required_file: file to upload (required)
+        :type required_file: bytes
+        :param additional_metadata: Additional data to pass to server
+        :type additional_metadata: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.upload_file_with_required_file_without_preload_content(
-                pet_id=pet_id,
-                required_file=required_file,
-                additional_metadata=additional_metadata,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._upload_file_with_required_file_serialize(
+            pet_id=pet_id,
+            required_file=required_file,
+            additional_metadata=additional_metadata,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ModelApiResponse",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _upload_file_with_required_file_serialize(

@@ -37,6 +37,11 @@ class RESTResponse(io.IOBase):
             self.data = await self.response.aread()
         return self.data
 
+    def read_sync(self):
+        if self.data is None:
+            self.data = self.response.read()
+        return self.data
+
     @property
     def headers(self):
         """Returns a CIMultiDictProxy of response headers."""
@@ -75,10 +80,15 @@ class RESTClientObject:
         self.proxy_headers = configuration.proxy_headers
 
         self.pool_manager: Optional[httpx.AsyncClient] = None
+        self.sync_pool_manager: Optional[httpx.Client] = None
 
     async def close(self):
         if self.pool_manager is not None:
             await self.pool_manager.aclose()
+
+    def close_sync(self):
+        if self.sync_pool_manager is not None:
+            self.sync_pool_manager.close()
 
     async def request(
             self,
@@ -102,6 +112,53 @@ class RESTClientObject:
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
         """
+        args = self._prepare_request_args(
+            method, url, headers, body, post_params, _request_timeout
+        )
+
+        if self.pool_manager is None:
+            self.pool_manager = self._create_pool_manager()
+
+        r = await self.pool_manager.request(**args)
+        return RESTResponse(r)
+
+    def _create_pool_manager(self) -> httpx.AsyncClient:
+        return self._build_pool_manager(httpx.AsyncClient)
+
+    def request_sync(
+            self,
+            method,
+            url,
+            headers=None,
+            body=None,
+            post_params=None,
+            _request_timeout=None):
+        """Execute a synchronous request.
+
+        Synchronous counterpart of :meth:`request`; see it for the parameters.
+        """
+        args = self._prepare_request_args(
+            method, url, headers, body, post_params, _request_timeout
+        )
+
+        if self.sync_pool_manager is None:
+            self.sync_pool_manager = self._create_sync_pool_manager()
+
+        r = self.sync_pool_manager.request(**args)
+        return RESTResponse(r)
+
+    def _create_sync_pool_manager(self) -> httpx.Client:
+        return self._build_pool_manager(httpx.Client)
+
+    def _prepare_request_args(
+            self,
+            method,
+            url,
+            headers=None,
+            body=None,
+            post_params=None,
+            _request_timeout=None):
+        """Build the keyword arguments passed to the underlying httpx client."""
         method = method.upper()
         assert method in [
             'GET',
@@ -177,13 +234,9 @@ class RESTClientObject:
                          declared content type."""
                 raise ApiException(status=0, reason=msg)
 
-        if self.pool_manager is None:
-            self.pool_manager = self._create_pool_manager()
+        return args
 
-        r = await self.pool_manager.request(**args)
-        return RESTResponse(r)
-
-    def _create_pool_manager(self) -> httpx.AsyncClient:
+    def _build_pool_manager(self, client_cls):
         limits = httpx.Limits(max_connections=self.maxsize)
 
         proxy = None
@@ -193,7 +246,7 @@ class RESTClientObject:
                 headers=self.proxy_headers
             )
 
-        return httpx.AsyncClient(
+        return client_cls(
             limits=limits,
             proxy=proxy,
             verify=self.ssl_context,

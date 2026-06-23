@@ -37,7 +37,6 @@ from petstore_api.models.user import User
 from petstore_api.api_client import ApiClient, RequestSerialized
 from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
-from petstore_api.sync_helper import run_sync
 
 
 class FakeApi:
@@ -264,21 +263,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test any type request body (synchronous)
+        """test any type request body
 
-        Synchronous variant of :meth:`fake_any_type_request_body`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param body:
+        :type body: object
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_any_type_request_body(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_any_type_request_body_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -298,20 +329,52 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test any type request body (synchronous)
+        """test any type request body
 
-        Synchronous variant of :meth:`fake_any_type_request_body_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param body:
+        :type body: object
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_any_type_request_body_with_http_info(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_any_type_request_body_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -332,21 +395,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test any type request body (synchronous)
+        """test any type request body
 
-        Synchronous variant of :meth:`fake_any_type_request_body_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param body:
+        :type body: object
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_any_type_request_body_without_preload_content(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_any_type_request_body_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_any_type_request_body_serialize(
@@ -629,21 +720,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test enum reference query parameter (synchronous)
+        """test enum reference query parameter
 
-        Synchronous variant of :meth:`fake_enum_ref_query_parameter`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param enum_ref: enum reference
+        :type enum_ref: EnumClass
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_enum_ref_query_parameter(
-                enum_ref=enum_ref,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_enum_ref_query_parameter_serialize(
+            enum_ref=enum_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -663,20 +786,52 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test enum reference query parameter (synchronous)
+        """test enum reference query parameter
 
-        Synchronous variant of :meth:`fake_enum_ref_query_parameter_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param enum_ref: enum reference
+        :type enum_ref: EnumClass
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_enum_ref_query_parameter_with_http_info(
-                enum_ref=enum_ref,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_enum_ref_query_parameter_serialize(
+            enum_ref=enum_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -697,21 +852,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test enum reference query parameter (synchronous)
+        """test enum reference query parameter
 
-        Synchronous variant of :meth:`fake_enum_ref_query_parameter_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param enum_ref: enum reference
+        :type enum_ref: EnumClass
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_enum_ref_query_parameter_without_preload_content(
-                enum_ref=enum_ref,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_enum_ref_query_parameter_serialize(
+            enum_ref=enum_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_enum_ref_query_parameter_serialize(
@@ -970,20 +1153,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> HealthCheckResult:
-        """Health check endpoint (synchronous)
+        """Health check endpoint
 
-        Synchronous variant of :meth:`fake_health_get`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_health_get(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_health_get_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "HealthCheckResult",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -1002,19 +1215,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[HealthCheckResult]:
-        """Health check endpoint (synchronous)
+        """Health check endpoint
 
-        Synchronous variant of :meth:`fake_health_get_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_health_get_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_health_get_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "HealthCheckResult",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -1034,20 +1277,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Health check endpoint (synchronous)
+        """Health check endpoint
 
-        Synchronous variant of :meth:`fake_health_get_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_health_get_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_health_get_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "HealthCheckResult",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_health_get_serialize(
@@ -1347,23 +1616,59 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test http signature authentication (synchronous)
+        """test http signature authentication
 
-        Synchronous variant of :meth:`fake_http_signature_test`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param query_1: query parameter
+        :type query_1: str
+        :param header_1: header parameter
+        :type header_1: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_http_signature_test(
-                pet=pet,
-                query_1=query_1,
-                header_1=header_1,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_http_signature_test_serialize(
+            pet=pet,
+            query_1=query_1,
+            header_1=header_1,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -1385,22 +1690,58 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test http signature authentication (synchronous)
+        """test http signature authentication
 
-        Synchronous variant of :meth:`fake_http_signature_test_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param query_1: query parameter
+        :type query_1: str
+        :param header_1: header parameter
+        :type header_1: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_http_signature_test_with_http_info(
-                pet=pet,
-                query_1=query_1,
-                header_1=header_1,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_http_signature_test_serialize(
+            pet=pet,
+            query_1=query_1,
+            header_1=header_1,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -1423,23 +1764,55 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test http signature authentication (synchronous)
+        """test http signature authentication
 
-        Synchronous variant of :meth:`fake_http_signature_test_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param pet: Pet object that needs to be added to the store (required)
+        :type pet: Pet
+        :param query_1: query parameter
+        :type query_1: str
+        :param header_1: header parameter
+        :type header_1: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_http_signature_test_without_preload_content(
-                pet=pet,
-                query_1=query_1,
-                header_1=header_1,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_http_signature_test_serialize(
+            pet=pet,
+            query_1=query_1,
+            header_1=header_1,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_http_signature_test_serialize(
@@ -1735,21 +2108,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bool:
-        """fake_outer_boolean_serialize (synchronous)
+        """fake_outer_boolean_serialize
 
-        Synchronous variant of :meth:`fake_outer_boolean_serialize`. It calls the asynchronous
-        method and blocks until it completes.
+        Test serialization of outer boolean types
+
+        :param body: Input boolean as post body
+        :type body: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_boolean_serialize(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_boolean_serialize_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bool",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -1769,20 +2175,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bool]:
-        """fake_outer_boolean_serialize (synchronous)
+        """fake_outer_boolean_serialize
 
-        Synchronous variant of :meth:`fake_outer_boolean_serialize_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Test serialization of outer boolean types
+
+        :param body: Input boolean as post body
+        :type body: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_boolean_serialize_with_http_info(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_boolean_serialize_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bool",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -1803,21 +2242,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """fake_outer_boolean_serialize (synchronous)
+        """fake_outer_boolean_serialize
 
-        Synchronous variant of :meth:`fake_outer_boolean_serialize_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Test serialization of outer boolean types
+
+        :param body: Input boolean as post body
+        :type body: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_boolean_serialize_without_preload_content(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_boolean_serialize_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bool",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_outer_boolean_serialize_serialize(
@@ -2110,21 +2578,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> OuterComposite:
-        """fake_outer_composite_serialize (synchronous)
+        """fake_outer_composite_serialize
 
-        Synchronous variant of :meth:`fake_outer_composite_serialize`. It calls the asynchronous
-        method and blocks until it completes.
+        Test serialization of object with outer number type
+
+        :param outer_composite: Input composite as post body
+        :type outer_composite: OuterComposite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_composite_serialize(
-                outer_composite=outer_composite,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_composite_serialize_serialize(
+            outer_composite=outer_composite,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OuterComposite",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -2144,20 +2645,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[OuterComposite]:
-        """fake_outer_composite_serialize (synchronous)
+        """fake_outer_composite_serialize
 
-        Synchronous variant of :meth:`fake_outer_composite_serialize_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Test serialization of object with outer number type
+
+        :param outer_composite: Input composite as post body
+        :type outer_composite: OuterComposite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_composite_serialize_with_http_info(
-                outer_composite=outer_composite,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_composite_serialize_serialize(
+            outer_composite=outer_composite,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OuterComposite",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -2178,21 +2712,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """fake_outer_composite_serialize (synchronous)
+        """fake_outer_composite_serialize
 
-        Synchronous variant of :meth:`fake_outer_composite_serialize_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Test serialization of object with outer number type
+
+        :param outer_composite: Input composite as post body
+        :type outer_composite: OuterComposite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_composite_serialize_without_preload_content(
-                outer_composite=outer_composite,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_composite_serialize_serialize(
+            outer_composite=outer_composite,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OuterComposite",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_outer_composite_serialize_serialize(
@@ -2485,21 +3048,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> float:
-        """fake_outer_number_serialize (synchronous)
+        """fake_outer_number_serialize
 
-        Synchronous variant of :meth:`fake_outer_number_serialize`. It calls the asynchronous
-        method and blocks until it completes.
+        Test serialization of outer number types
+
+        :param body: Input number as post body
+        :type body: float
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_number_serialize(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_number_serialize_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "float",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -2519,20 +3115,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[float]:
-        """fake_outer_number_serialize (synchronous)
+        """fake_outer_number_serialize
 
-        Synchronous variant of :meth:`fake_outer_number_serialize_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Test serialization of outer number types
+
+        :param body: Input number as post body
+        :type body: float
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_number_serialize_with_http_info(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_number_serialize_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "float",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -2553,21 +3182,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """fake_outer_number_serialize (synchronous)
+        """fake_outer_number_serialize
 
-        Synchronous variant of :meth:`fake_outer_number_serialize_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Test serialization of outer number types
+
+        :param body: Input number as post body
+        :type body: float
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_number_serialize_without_preload_content(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_number_serialize_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "float",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_outer_number_serialize_serialize(
@@ -2860,21 +3518,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
-        """fake_outer_string_serialize (synchronous)
+        """fake_outer_string_serialize
 
-        Synchronous variant of :meth:`fake_outer_string_serialize`. It calls the asynchronous
-        method and blocks until it completes.
+        Test serialization of outer string types
+
+        :param body: Input string as post body
+        :type body: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_string_serialize(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_string_serialize_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -2894,20 +3585,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
-        """fake_outer_string_serialize (synchronous)
+        """fake_outer_string_serialize
 
-        Synchronous variant of :meth:`fake_outer_string_serialize_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Test serialization of outer string types
+
+        :param body: Input string as post body
+        :type body: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_string_serialize_with_http_info(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_string_serialize_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -2928,21 +3652,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """fake_outer_string_serialize (synchronous)
+        """fake_outer_string_serialize
 
-        Synchronous variant of :meth:`fake_outer_string_serialize_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Test serialization of outer string types
+
+        :param body: Input string as post body
+        :type body: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_outer_string_serialize_without_preload_content(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_outer_string_serialize_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_outer_string_serialize_serialize(
@@ -3248,22 +4001,57 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> OuterObjectWithEnumProperty:
-        """fake_property_enum_integer_serialize (synchronous)
+        """fake_property_enum_integer_serialize
 
-        Synchronous variant of :meth:`fake_property_enum_integer_serialize`. It calls the asynchronous
-        method and blocks until it completes.
+        Test serialization of enum (int) properties with examples
+
+        :param outer_object_with_enum_property: Input enum (int) as post body (required)
+        :type outer_object_with_enum_property: OuterObjectWithEnumProperty
+        :param param:
+        :type param: List[OuterEnumInteger]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_property_enum_integer_serialize(
-                outer_object_with_enum_property=outer_object_with_enum_property,
-                param=param,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_property_enum_integer_serialize_serialize(
+            outer_object_with_enum_property=outer_object_with_enum_property,
+            param=param,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OuterObjectWithEnumProperty",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -3284,21 +4072,56 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[OuterObjectWithEnumProperty]:
-        """fake_property_enum_integer_serialize (synchronous)
+        """fake_property_enum_integer_serialize
 
-        Synchronous variant of :meth:`fake_property_enum_integer_serialize_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Test serialization of enum (int) properties with examples
+
+        :param outer_object_with_enum_property: Input enum (int) as post body (required)
+        :type outer_object_with_enum_property: OuterObjectWithEnumProperty
+        :param param:
+        :type param: List[OuterEnumInteger]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_property_enum_integer_serialize_with_http_info(
-                outer_object_with_enum_property=outer_object_with_enum_property,
-                param=param,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_property_enum_integer_serialize_serialize(
+            outer_object_with_enum_property=outer_object_with_enum_property,
+            param=param,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OuterObjectWithEnumProperty",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -3320,22 +4143,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """fake_property_enum_integer_serialize (synchronous)
+        """fake_property_enum_integer_serialize
 
-        Synchronous variant of :meth:`fake_property_enum_integer_serialize_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Test serialization of enum (int) properties with examples
+
+        :param outer_object_with_enum_property: Input enum (int) as post body (required)
+        :type outer_object_with_enum_property: OuterObjectWithEnumProperty
+        :param param:
+        :type param: List[OuterEnumInteger]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_property_enum_integer_serialize_without_preload_content(
-                outer_object_with_enum_property=outer_object_with_enum_property,
-                param=param,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_property_enum_integer_serialize_serialize(
+            outer_object_with_enum_property=outer_object_with_enum_property,
+            param=param,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OuterObjectWithEnumProperty",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_property_enum_integer_serialize_serialize(
@@ -3618,20 +4472,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EnumClass:
-        """test ref to enum string (synchronous)
+        """test ref to enum string
 
-        Synchronous variant of :meth:`fake_ref_enum_string`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_ref_enum_string(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_ref_enum_string_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EnumClass",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -3650,19 +4534,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EnumClass]:
-        """test ref to enum string (synchronous)
+        """test ref to enum string
 
-        Synchronous variant of :meth:`fake_ref_enum_string_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_ref_enum_string_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_ref_enum_string_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EnumClass",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -3682,20 +4596,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test ref to enum string (synchronous)
+        """test ref to enum string
 
-        Synchronous variant of :meth:`fake_ref_enum_string_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_ref_enum_string_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_ref_enum_string_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EnumClass",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_ref_enum_string_serialize(
@@ -3956,20 +4896,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bool:
-        """test returning boolean (synchronous)
+        """test returning boolean
 
-        Synchronous variant of :meth:`fake_return_boolean`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_boolean(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_boolean_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bool",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -3988,19 +4958,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bool]:
-        """test returning boolean (synchronous)
+        """test returning boolean
 
-        Synchronous variant of :meth:`fake_return_boolean_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_boolean_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_boolean_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bool",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -4020,20 +5020,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test returning boolean (synchronous)
+        """test returning boolean
 
-        Synchronous variant of :meth:`fake_return_boolean_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_boolean_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_boolean_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bool",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_return_boolean_serialize(
@@ -4294,20 +5320,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bytes:
-        """test byte like json (synchronous)
+        """test byte like json
 
-        Synchronous variant of :meth:`fake_return_byte_like_json`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_byte_like_json(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_byte_like_json_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytes",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -4326,19 +5382,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bytes]:
-        """test byte like json (synchronous)
+        """test byte like json
 
-        Synchronous variant of :meth:`fake_return_byte_like_json_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_byte_like_json_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_byte_like_json_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytes",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -4358,20 +5444,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test byte like json (synchronous)
+        """test byte like json
 
-        Synchronous variant of :meth:`fake_return_byte_like_json_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_byte_like_json_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_byte_like_json_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytes",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_return_byte_like_json_serialize(
@@ -4632,20 +5744,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
-        """test returning enum (synchronous)
+        """test returning enum
 
-        Synchronous variant of :meth:`fake_return_enum`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_enum(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_enum_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -4664,19 +5806,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
-        """test returning enum (synchronous)
+        """test returning enum
 
-        Synchronous variant of :meth:`fake_return_enum_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_enum_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_enum_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -4696,20 +5868,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test returning enum (synchronous)
+        """test returning enum
 
-        Synchronous variant of :meth:`fake_return_enum_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_enum_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_enum_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_return_enum_serialize(
@@ -4970,20 +6168,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
-        """test enum like json (synchronous)
+        """test enum like json
 
-        Synchronous variant of :meth:`fake_return_enum_like_json`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_enum_like_json(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_enum_like_json_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -5002,19 +6230,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
-        """test enum like json (synchronous)
+        """test enum like json
 
-        Synchronous variant of :meth:`fake_return_enum_like_json_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_enum_like_json_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_enum_like_json_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -5034,20 +6292,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test enum like json (synchronous)
+        """test enum like json
 
-        Synchronous variant of :meth:`fake_return_enum_like_json_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_enum_like_json_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_enum_like_json_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_return_enum_like_json_serialize(
@@ -5308,20 +6592,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> float:
-        """test returning float (synchronous)
+        """test returning float
 
-        Synchronous variant of :meth:`fake_return_float`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_float(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_float_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "float",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -5340,19 +6654,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[float]:
-        """test returning float (synchronous)
+        """test returning float
 
-        Synchronous variant of :meth:`fake_return_float_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_float_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_float_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "float",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -5372,20 +6716,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test returning float (synchronous)
+        """test returning float
 
-        Synchronous variant of :meth:`fake_return_float_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_float_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_float_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "float",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_return_float_serialize(
@@ -5646,20 +7016,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> int:
-        """test returning int (synchronous)
+        """test returning int
 
-        Synchronous variant of :meth:`fake_return_int`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_int(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_int_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "int",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -5678,19 +7078,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[int]:
-        """test returning int (synchronous)
+        """test returning int
 
-        Synchronous variant of :meth:`fake_return_int_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_int_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_int_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "int",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -5710,20 +7140,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test returning int (synchronous)
+        """test returning int
 
-        Synchronous variant of :meth:`fake_return_int_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_int_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_int_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "int",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_return_int_serialize(
@@ -5984,20 +7440,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[List[Tag]]:
-        """test returning list of objects (synchronous)
+        """test returning list of objects
 
-        Synchronous variant of :meth:`fake_return_list_of_objects`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_list_of_objects(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_list_of_objects_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[List[Tag]]",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -6016,19 +7502,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[List[Tag]]]:
-        """test returning list of objects (synchronous)
+        """test returning list of objects
 
-        Synchronous variant of :meth:`fake_return_list_of_objects_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_list_of_objects_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_list_of_objects_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[List[Tag]]",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -6048,20 +7564,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test returning list of objects (synchronous)
+        """test returning list of objects
 
-        Synchronous variant of :meth:`fake_return_list_of_objects_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_list_of_objects_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_list_of_objects_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[List[Tag]]",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_return_list_of_objects_serialize(
@@ -6322,20 +7864,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
-        """test str like json (synchronous)
+        """test str like json
 
-        Synchronous variant of :meth:`fake_return_str_like_json`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_str_like_json(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_str_like_json_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -6354,19 +7926,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
-        """test str like json (synchronous)
+        """test str like json
 
-        Synchronous variant of :meth:`fake_return_str_like_json_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_str_like_json_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_str_like_json_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -6386,20 +7988,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test str like json (synchronous)
+        """test str like json
 
-        Synchronous variant of :meth:`fake_return_str_like_json_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_str_like_json_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_str_like_json_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_return_str_like_json_serialize(
@@ -6660,20 +8288,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
-        """test returning string (synchronous)
+        """test returning string
 
-        Synchronous variant of :meth:`fake_return_string`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_string(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_string_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -6692,19 +8350,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
-        """test returning string (synchronous)
+        """test returning string
 
-        Synchronous variant of :meth:`fake_return_string_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_string_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_string_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -6724,20 +8412,46 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test returning string (synchronous)
+        """test returning string
 
-        Synchronous variant of :meth:`fake_return_string_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_return_string_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_return_string_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_return_string_serialize(
@@ -7011,21 +8725,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test uuid example (synchronous)
+        """test uuid example
 
-        Synchronous variant of :meth:`fake_uuid_example`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param uuid_example: uuid example (required)
+        :type uuid_example: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_uuid_example(
-                uuid_example=uuid_example,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_uuid_example_serialize(
+            uuid_example=uuid_example,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -7045,20 +8791,52 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test uuid example (synchronous)
+        """test uuid example
 
-        Synchronous variant of :meth:`fake_uuid_example_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param uuid_example: uuid example (required)
+        :type uuid_example: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_uuid_example_with_http_info(
-                uuid_example=uuid_example,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_uuid_example_serialize(
+            uuid_example=uuid_example,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -7079,21 +8857,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test uuid example (synchronous)
+        """test uuid example
 
-        Synchronous variant of :meth:`fake_uuid_example_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param uuid_example: uuid example (required)
+        :type uuid_example: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.fake_uuid_example_without_preload_content(
-                uuid_example=uuid_example,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._fake_uuid_example_serialize(
+            uuid_example=uuid_example,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _fake_uuid_example_serialize(
@@ -7368,21 +9174,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test referenced additionalProperties (synchronous)
+        """test referenced additionalProperties
 
-        Synchronous variant of :meth:`test_additional_properties_reference`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param request_body: request body (required)
+        :type request_body: Dict[str, object]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_additional_properties_reference(
-                request_body=request_body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_additional_properties_reference_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -7402,20 +9241,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test referenced additionalProperties (synchronous)
+        """test referenced additionalProperties
 
-        Synchronous variant of :meth:`test_additional_properties_reference_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param request_body: request body (required)
+        :type request_body: Dict[str, object]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_additional_properties_reference_with_http_info(
-                request_body=request_body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_additional_properties_reference_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -7436,21 +9308,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test referenced additionalProperties (synchronous)
+        """test referenced additionalProperties
 
-        Synchronous variant of :meth:`test_additional_properties_reference_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param request_body: request body (required)
+        :type request_body: Dict[str, object]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_additional_properties_reference_without_preload_content(
-                request_body=request_body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_additional_properties_reference_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_additional_properties_reference_serialize(
@@ -7736,21 +9637,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test_body_with_binary (synchronous)
+        """test_body_with_binary
 
-        Synchronous variant of :meth:`test_body_with_binary`. It calls the asynchronous
-        method and blocks until it completes.
+        For this test, the body has to be a binary file.
+
+        :param body: image to upload (required)
+        :type body: bytes
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_body_with_binary(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_body_with_binary_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -7770,20 +9704,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test_body_with_binary (synchronous)
+        """test_body_with_binary
 
-        Synchronous variant of :meth:`test_body_with_binary_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        For this test, the body has to be a binary file.
+
+        :param body: image to upload (required)
+        :type body: bytes
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_body_with_binary_with_http_info(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_body_with_binary_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -7804,21 +9771,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test_body_with_binary (synchronous)
+        """test_body_with_binary
 
-        Synchronous variant of :meth:`test_body_with_binary_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        For this test, the body has to be a binary file.
+
+        :param body: image to upload (required)
+        :type body: bytes
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_body_with_binary_without_preload_content(
-                body=body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_body_with_binary_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_body_with_binary_serialize(
@@ -8112,21 +10108,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test_body_with_file_schema (synchronous)
+        """test_body_with_file_schema
 
-        Synchronous variant of :meth:`test_body_with_file_schema`. It calls the asynchronous
-        method and blocks until it completes.
+        For this test, the body for this request must reference a schema named `File`.
+
+        :param file_schema_test_class: (required)
+        :type file_schema_test_class: FileSchemaTestClass
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_body_with_file_schema(
-                file_schema_test_class=file_schema_test_class,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_body_with_file_schema_serialize(
+            file_schema_test_class=file_schema_test_class,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -8146,20 +10175,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test_body_with_file_schema (synchronous)
+        """test_body_with_file_schema
 
-        Synchronous variant of :meth:`test_body_with_file_schema_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        For this test, the body for this request must reference a schema named `File`.
+
+        :param file_schema_test_class: (required)
+        :type file_schema_test_class: FileSchemaTestClass
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_body_with_file_schema_with_http_info(
-                file_schema_test_class=file_schema_test_class,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_body_with_file_schema_serialize(
+            file_schema_test_class=file_schema_test_class,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -8180,21 +10242,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test_body_with_file_schema (synchronous)
+        """test_body_with_file_schema
 
-        Synchronous variant of :meth:`test_body_with_file_schema_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        For this test, the body for this request must reference a schema named `File`.
+
+        :param file_schema_test_class: (required)
+        :type file_schema_test_class: FileSchemaTestClass
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_body_with_file_schema_without_preload_content(
-                file_schema_test_class=file_schema_test_class,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_body_with_file_schema_serialize(
+            file_schema_test_class=file_schema_test_class,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_body_with_file_schema_serialize(
@@ -8490,22 +10581,56 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test_body_with_query_params (synchronous)
+        """test_body_with_query_params
 
-        Synchronous variant of :meth:`test_body_with_query_params`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param query: (required)
+        :type query: str
+        :param user: (required)
+        :type user: User
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_body_with_query_params(
-                query=query,
-                user=user,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_body_with_query_params_serialize(
+            query=query,
+            user=user,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -8526,21 +10651,55 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test_body_with_query_params (synchronous)
+        """test_body_with_query_params
 
-        Synchronous variant of :meth:`test_body_with_query_params_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param query: (required)
+        :type query: str
+        :param user: (required)
+        :type user: User
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_body_with_query_params_with_http_info(
-                query=query,
-                user=user,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_body_with_query_params_serialize(
+            query=query,
+            user=user,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -8562,22 +10721,52 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test_body_with_query_params (synchronous)
+        """test_body_with_query_params
 
-        Synchronous variant of :meth:`test_body_with_query_params_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param query: (required)
+        :type query: str
+        :param user: (required)
+        :type user: User
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_body_with_query_params_without_preload_content(
-                query=query,
-                user=user,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_body_with_query_params_serialize(
+            query=query,
+            user=user,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_body_with_query_params_serialize(
@@ -8868,21 +11057,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Client:
-        """To test \"client\" model (synchronous)
+        """To test \"client\" model
 
-        Synchronous variant of :meth:`test_client_model`. It calls the asynchronous
-        method and blocks until it completes.
+        To test \"client\" model
+
+        :param client: client model (required)
+        :type client: Client
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_client_model(
-                client=client,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_client_model_serialize(
+            client=client,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Client",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -8902,20 +11124,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Client]:
-        """To test \"client\" model (synchronous)
+        """To test \"client\" model
 
-        Synchronous variant of :meth:`test_client_model_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        To test \"client\" model
+
+        :param client: client model (required)
+        :type client: Client
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_client_model_with_http_info(
-                client=client,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_client_model_serialize(
+            client=client,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Client",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -8936,21 +11191,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """To test \"client\" model (synchronous)
+        """To test \"client\" model
 
-        Synchronous variant of :meth:`test_client_model_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        To test \"client\" model
+
+        :param client: client model (required)
+        :type client: Client
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_client_model_without_preload_content(
-                client=client,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_client_model_serialize(
+            client=client,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Client",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_client_model_serialize(
@@ -9253,22 +11537,56 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test_date_time_query_parameter (synchronous)
+        """test_date_time_query_parameter
 
-        Synchronous variant of :meth:`test_date_time_query_parameter`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param date_time_query: (required)
+        :type date_time_query: datetime
+        :param str_query: (required)
+        :type str_query: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_date_time_query_parameter(
-                date_time_query=date_time_query,
-                str_query=str_query,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_date_time_query_parameter_serialize(
+            date_time_query=date_time_query,
+            str_query=str_query,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -9289,21 +11607,55 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test_date_time_query_parameter (synchronous)
+        """test_date_time_query_parameter
 
-        Synchronous variant of :meth:`test_date_time_query_parameter_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param date_time_query: (required)
+        :type date_time_query: datetime
+        :param str_query: (required)
+        :type str_query: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_date_time_query_parameter_with_http_info(
-                date_time_query=date_time_query,
-                str_query=str_query,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_date_time_query_parameter_serialize(
+            date_time_query=date_time_query,
+            str_query=str_query,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -9325,22 +11677,52 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test_date_time_query_parameter (synchronous)
+        """test_date_time_query_parameter
 
-        Synchronous variant of :meth:`test_date_time_query_parameter_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param date_time_query: (required)
+        :type date_time_query: datetime
+        :param str_query: (required)
+        :type str_query: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_date_time_query_parameter_without_preload_content(
-                date_time_query=date_time_query,
-                str_query=str_query,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_date_time_query_parameter_serialize(
+            date_time_query=date_time_query,
+            str_query=str_query,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_date_time_query_parameter_serialize(
@@ -9619,20 +12001,52 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test empty and non-empty responses (synchronous)
+        """test empty and non-empty responses
 
-        Synchronous variant of :meth:`test_empty_and_non_empty_responses`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_empty_and_non_empty_responses(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_empty_and_non_empty_responses_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '206': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -9651,19 +12065,51 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test empty and non-empty responses (synchronous)
+        """test empty and non-empty responses
 
-        Synchronous variant of :meth:`test_empty_and_non_empty_responses_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_empty_and_non_empty_responses_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_empty_and_non_empty_responses_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '206': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -9683,20 +12129,48 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test empty and non-empty responses (synchronous)
+        """test empty and non-empty responses
 
-        Synchronous variant of :meth:`test_empty_and_non_empty_responses_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_empty_and_non_empty_responses_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_empty_and_non_empty_responses_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '206': "str",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_empty_and_non_empty_responses_serialize(
@@ -10158,35 +12632,97 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  (synchronous)
+        """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-        Synchronous variant of :meth:`test_endpoint_parameters`. It calls the asynchronous
-        method and blocks until it completes.
+        Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
+        :param number: None (required)
+        :type number: float
+        :param double: None (required)
+        :type double: float
+        :param pattern_without_delimiter: None (required)
+        :type pattern_without_delimiter: str
+        :param byte: None (required)
+        :type byte: bytes
+        :param integer: None
+        :type integer: int
+        :param int32: None
+        :type int32: int
+        :param int64: None
+        :type int64: int
+        :param var_float: None
+        :type var_float: float
+        :param string: None
+        :type string: str
+        :param binary: None
+        :type binary: bytes
+        :param byte_with_max_length: None
+        :type byte_with_max_length: bytes
+        :param var_date: None
+        :type var_date: date
+        :param date_time: None
+        :type date_time: datetime
+        :param password: None
+        :type password: str
+        :param param_callback: None
+        :type param_callback: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_endpoint_parameters(
-                number=number,
-                double=double,
-                pattern_without_delimiter=pattern_without_delimiter,
-                byte=byte,
-                integer=integer,
-                int32=int32,
-                int64=int64,
-                var_float=var_float,
-                string=string,
-                binary=binary,
-                byte_with_max_length=byte_with_max_length,
-                var_date=var_date,
-                date_time=date_time,
-                password=password,
-                param_callback=param_callback,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_endpoint_parameters_serialize(
+            number=number,
+            double=double,
+            pattern_without_delimiter=pattern_without_delimiter,
+            byte=byte,
+            integer=integer,
+            int32=int32,
+            int64=int64,
+            var_float=var_float,
+            string=string,
+            binary=binary,
+            byte_with_max_length=byte_with_max_length,
+            var_date=var_date,
+            date_time=date_time,
+            password=password,
+            param_callback=param_callback,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -10220,34 +12756,96 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  (synchronous)
+        """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-        Synchronous variant of :meth:`test_endpoint_parameters_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
+        :param number: None (required)
+        :type number: float
+        :param double: None (required)
+        :type double: float
+        :param pattern_without_delimiter: None (required)
+        :type pattern_without_delimiter: str
+        :param byte: None (required)
+        :type byte: bytes
+        :param integer: None
+        :type integer: int
+        :param int32: None
+        :type int32: int
+        :param int64: None
+        :type int64: int
+        :param var_float: None
+        :type var_float: float
+        :param string: None
+        :type string: str
+        :param binary: None
+        :type binary: bytes
+        :param byte_with_max_length: None
+        :type byte_with_max_length: bytes
+        :param var_date: None
+        :type var_date: date
+        :param date_time: None
+        :type date_time: datetime
+        :param password: None
+        :type password: str
+        :param param_callback: None
+        :type param_callback: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_endpoint_parameters_with_http_info(
-                number=number,
-                double=double,
-                pattern_without_delimiter=pattern_without_delimiter,
-                byte=byte,
-                integer=integer,
-                int32=int32,
-                int64=int64,
-                var_float=var_float,
-                string=string,
-                binary=binary,
-                byte_with_max_length=byte_with_max_length,
-                var_date=var_date,
-                date_time=date_time,
-                password=password,
-                param_callback=param_callback,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_endpoint_parameters_serialize(
+            number=number,
+            double=double,
+            pattern_without_delimiter=pattern_without_delimiter,
+            byte=byte,
+            integer=integer,
+            int32=int32,
+            int64=int64,
+            var_float=var_float,
+            string=string,
+            binary=binary,
+            byte_with_max_length=byte_with_max_length,
+            var_date=var_date,
+            date_time=date_time,
+            password=password,
+            param_callback=param_callback,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -10282,35 +12880,93 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  (synchronous)
+        """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-        Synchronous variant of :meth:`test_endpoint_parameters_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
+        :param number: None (required)
+        :type number: float
+        :param double: None (required)
+        :type double: float
+        :param pattern_without_delimiter: None (required)
+        :type pattern_without_delimiter: str
+        :param byte: None (required)
+        :type byte: bytes
+        :param integer: None
+        :type integer: int
+        :param int32: None
+        :type int32: int
+        :param int64: None
+        :type int64: int
+        :param var_float: None
+        :type var_float: float
+        :param string: None
+        :type string: str
+        :param binary: None
+        :type binary: bytes
+        :param byte_with_max_length: None
+        :type byte_with_max_length: bytes
+        :param var_date: None
+        :type var_date: date
+        :param date_time: None
+        :type date_time: datetime
+        :param password: None
+        :type password: str
+        :param param_callback: None
+        :type param_callback: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_endpoint_parameters_without_preload_content(
-                number=number,
-                double=double,
-                pattern_without_delimiter=pattern_without_delimiter,
-                byte=byte,
-                integer=integer,
-                int32=int32,
-                int64=int64,
-                var_float=var_float,
-                string=string,
-                binary=binary,
-                byte_with_max_length=byte_with_max_length,
-                var_date=var_date,
-                date_time=date_time,
-                password=password,
-                param_callback=param_callback,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_endpoint_parameters_serialize(
+            number=number,
+            double=double,
+            pattern_without_delimiter=pattern_without_delimiter,
+            byte=byte,
+            integer=integer,
+            int32=int32,
+            int64=int64,
+            var_float=var_float,
+            string=string,
+            binary=binary,
+            byte_with_max_length=byte_with_max_length,
+            var_date=var_date,
+            date_time=date_time,
+            password=password,
+            param_callback=param_callback,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_endpoint_parameters_serialize(
@@ -10629,20 +13285,52 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test error responses with model (synchronous)
+        """test error responses with model
 
-        Synchronous variant of :meth:`test_error_responses_with_model`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_error_responses_with_model(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_error_responses_with_model_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '400': "TestErrorResponsesWithModel400Response",
+            '404': "TestErrorResponsesWithModel404Response",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -10661,19 +13349,51 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test error responses with model (synchronous)
+        """test error responses with model
 
-        Synchronous variant of :meth:`test_error_responses_with_model_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_error_responses_with_model_with_http_info(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_error_responses_with_model_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '400': "TestErrorResponsesWithModel400Response",
+            '404': "TestErrorResponsesWithModel404Response",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -10693,20 +13413,48 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test error responses with model (synchronous)
+        """test error responses with model
 
-        Synchronous variant of :meth:`test_error_responses_with_model_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_error_responses_with_model_without_preload_content(
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_error_responses_with_model_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '400': "TestErrorResponsesWithModel400Response",
+            '404': "TestErrorResponsesWithModel404Response",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_error_responses_with_model_serialize(
@@ -11048,26 +13796,69 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Fake endpoint to test group parameters (optional) (synchronous)
+        """Fake endpoint to test group parameters (optional)
 
-        Synchronous variant of :meth:`test_group_parameters`. It calls the asynchronous
-        method and blocks until it completes.
+        Fake endpoint to test group parameters (optional)
+
+        :param required_string_group: Required String in group parameters (required)
+        :type required_string_group: int
+        :param required_boolean_group: Required Boolean in group parameters (required)
+        :type required_boolean_group: bool
+        :param required_int64_group: Required Integer in group parameters (required)
+        :type required_int64_group: int
+        :param string_group: String in group parameters
+        :type string_group: int
+        :param boolean_group: Boolean in group parameters
+        :type boolean_group: bool
+        :param int64_group: Integer in group parameters
+        :type int64_group: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_group_parameters(
-                required_string_group=required_string_group,
-                required_boolean_group=required_boolean_group,
-                required_int64_group=required_int64_group,
-                string_group=string_group,
-                boolean_group=boolean_group,
-                int64_group=int64_group,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_group_parameters_serialize(
+            required_string_group=required_string_group,
+            required_boolean_group=required_boolean_group,
+            required_int64_group=required_int64_group,
+            string_group=string_group,
+            boolean_group=boolean_group,
+            int64_group=int64_group,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -11092,25 +13883,68 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Fake endpoint to test group parameters (optional) (synchronous)
+        """Fake endpoint to test group parameters (optional)
 
-        Synchronous variant of :meth:`test_group_parameters_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        Fake endpoint to test group parameters (optional)
+
+        :param required_string_group: Required String in group parameters (required)
+        :type required_string_group: int
+        :param required_boolean_group: Required Boolean in group parameters (required)
+        :type required_boolean_group: bool
+        :param required_int64_group: Required Integer in group parameters (required)
+        :type required_int64_group: int
+        :param string_group: String in group parameters
+        :type string_group: int
+        :param boolean_group: Boolean in group parameters
+        :type boolean_group: bool
+        :param int64_group: Integer in group parameters
+        :type int64_group: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_group_parameters_with_http_info(
-                required_string_group=required_string_group,
-                required_boolean_group=required_boolean_group,
-                required_int64_group=required_int64_group,
-                string_group=string_group,
-                boolean_group=boolean_group,
-                int64_group=int64_group,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_group_parameters_serialize(
+            required_string_group=required_string_group,
+            required_boolean_group=required_boolean_group,
+            required_int64_group=required_int64_group,
+            string_group=string_group,
+            boolean_group=boolean_group,
+            int64_group=int64_group,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -11136,26 +13970,65 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Fake endpoint to test group parameters (optional) (synchronous)
+        """Fake endpoint to test group parameters (optional)
 
-        Synchronous variant of :meth:`test_group_parameters_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        Fake endpoint to test group parameters (optional)
+
+        :param required_string_group: Required String in group parameters (required)
+        :type required_string_group: int
+        :param required_boolean_group: Required Boolean in group parameters (required)
+        :type required_boolean_group: bool
+        :param required_int64_group: Required Integer in group parameters (required)
+        :type required_int64_group: int
+        :param string_group: String in group parameters
+        :type string_group: int
+        :param boolean_group: Boolean in group parameters
+        :type boolean_group: bool
+        :param int64_group: Integer in group parameters
+        :type int64_group: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_group_parameters_without_preload_content(
-                required_string_group=required_string_group,
-                required_boolean_group=required_boolean_group,
-                required_int64_group=required_int64_group,
-                string_group=string_group,
-                boolean_group=boolean_group,
-                int64_group=int64_group,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_group_parameters_serialize(
+            required_string_group=required_string_group,
+            required_boolean_group=required_boolean_group,
+            required_int64_group=required_int64_group,
+            string_group=string_group,
+            boolean_group=boolean_group,
+            int64_group=int64_group,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_group_parameters_serialize(
@@ -11452,21 +14325,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test inline additionalProperties (synchronous)
+        """test inline additionalProperties
 
-        Synchronous variant of :meth:`test_inline_additional_properties`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param request_body: request body (required)
+        :type request_body: Dict[str, str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_inline_additional_properties(
-                request_body=request_body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_inline_additional_properties_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -11486,20 +14392,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test inline additionalProperties (synchronous)
+        """test inline additionalProperties
 
-        Synchronous variant of :meth:`test_inline_additional_properties_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param request_body: request body (required)
+        :type request_body: Dict[str, str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_inline_additional_properties_with_http_info(
-                request_body=request_body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_inline_additional_properties_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -11520,21 +14459,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test inline additionalProperties (synchronous)
+        """test inline additionalProperties
 
-        Synchronous variant of :meth:`test_inline_additional_properties_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param request_body: request body (required)
+        :type request_body: Dict[str, str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_inline_additional_properties_without_preload_content(
-                request_body=request_body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_inline_additional_properties_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_inline_additional_properties_serialize(
@@ -11820,21 +14788,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test inline free-form additionalProperties (synchronous)
+        """test inline free-form additionalProperties
 
-        Synchronous variant of :meth:`test_inline_freeform_additional_properties`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param test_inline_freeform_additional_properties_request: request body (required)
+        :type test_inline_freeform_additional_properties_request: TestInlineFreeformAdditionalPropertiesRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_inline_freeform_additional_properties(
-                test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_inline_freeform_additional_properties_serialize(
+            test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -11854,20 +14855,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test inline free-form additionalProperties (synchronous)
+        """test inline free-form additionalProperties
 
-        Synchronous variant of :meth:`test_inline_freeform_additional_properties_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param test_inline_freeform_additional_properties_request: request body (required)
+        :type test_inline_freeform_additional_properties_request: TestInlineFreeformAdditionalPropertiesRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_inline_freeform_additional_properties_with_http_info(
-                test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_inline_freeform_additional_properties_serialize(
+            test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -11888,21 +14922,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test inline free-form additionalProperties (synchronous)
+        """test inline free-form additionalProperties
 
-        Synchronous variant of :meth:`test_inline_freeform_additional_properties_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param test_inline_freeform_additional_properties_request: request body (required)
+        :type test_inline_freeform_additional_properties_request: TestInlineFreeformAdditionalPropertiesRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_inline_freeform_additional_properties_without_preload_content(
-                test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_inline_freeform_additional_properties_serialize(
+            test_inline_freeform_additional_properties_request=test_inline_freeform_additional_properties_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_inline_freeform_additional_properties_serialize(
@@ -12201,22 +15264,57 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test json serialization of form data (synchronous)
+        """test json serialization of form data
 
-        Synchronous variant of :meth:`test_json_form_data`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param param: field1 (required)
+        :type param: str
+        :param param2: field2 (required)
+        :type param2: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_json_form_data(
-                param=param,
-                param2=param2,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_json_form_data_serialize(
+            param=param,
+            param2=param2,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -12237,21 +15335,56 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test json serialization of form data (synchronous)
+        """test json serialization of form data
 
-        Synchronous variant of :meth:`test_json_form_data_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param param: field1 (required)
+        :type param: str
+        :param param2: field2 (required)
+        :type param2: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_json_form_data_with_http_info(
-                param=param,
-                param2=param2,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_json_form_data_serialize(
+            param=param,
+            param2=param2,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -12273,22 +15406,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test json serialization of form data (synchronous)
+        """test json serialization of form data
 
-        Synchronous variant of :meth:`test_json_form_data_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param param: field1 (required)
+        :type param: str
+        :param param2: field2 (required)
+        :type param2: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_json_form_data_without_preload_content(
-                param=param,
-                param2=param2,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_json_form_data_serialize(
+            param=param,
+            param2=param2,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_json_form_data_serialize(
@@ -12574,21 +15738,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test_object_for_multipart_requests (synchronous)
+        """test_object_for_multipart_requests
 
-        Synchronous variant of :meth:`test_object_for_multipart_requests`. It calls the asynchronous
-        method and blocks until it completes.
+
+        :param marker: (required)
+        :type marker: TestObjectForMultipartRequestsRequestMarker
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_object_for_multipart_requests(
-                marker=marker,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_object_for_multipart_requests_serialize(
+            marker=marker,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -12608,20 +15804,52 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test_object_for_multipart_requests (synchronous)
+        """test_object_for_multipart_requests
 
-        Synchronous variant of :meth:`test_object_for_multipart_requests_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+
+        :param marker: (required)
+        :type marker: TestObjectForMultipartRequestsRequestMarker
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_object_for_multipart_requests_with_http_info(
-                marker=marker,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_object_for_multipart_requests_serialize(
+            marker=marker,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -12642,21 +15870,49 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test_object_for_multipart_requests (synchronous)
+        """test_object_for_multipart_requests
 
-        Synchronous variant of :meth:`test_object_for_multipart_requests_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+
+        :param marker: (required)
+        :type marker: TestObjectForMultipartRequestsRequestMarker
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_object_for_multipart_requests_without_preload_content(
-                marker=marker,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_object_for_multipart_requests_serialize(
+            marker=marker,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_object_for_multipart_requests_serialize(
@@ -13020,27 +16276,72 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test_query_parameter_collection_format (synchronous)
+        """test_query_parameter_collection_format
 
-        Synchronous variant of :meth:`test_query_parameter_collection_format`. It calls the asynchronous
-        method and blocks until it completes.
+        To test the collection format in query parameters
+
+        :param pipe: (required)
+        :type pipe: List[str]
+        :param ioutil: (required)
+        :type ioutil: List[str]
+        :param http: (required)
+        :type http: List[str]
+        :param url: (required)
+        :type url: List[str]
+        :param context: (required)
+        :type context: List[str]
+        :param allow_empty: (required)
+        :type allow_empty: str
+        :param language:
+        :type language: Dict[str, str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_query_parameter_collection_format(
-                pipe=pipe,
-                ioutil=ioutil,
-                http=http,
-                url=url,
-                context=context,
-                allow_empty=allow_empty,
-                language=language,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_query_parameter_collection_format_serialize(
+            pipe=pipe,
+            ioutil=ioutil,
+            http=http,
+            url=url,
+            context=context,
+            allow_empty=allow_empty,
+            language=language,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -13066,26 +16367,71 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test_query_parameter_collection_format (synchronous)
+        """test_query_parameter_collection_format
 
-        Synchronous variant of :meth:`test_query_parameter_collection_format_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        To test the collection format in query parameters
+
+        :param pipe: (required)
+        :type pipe: List[str]
+        :param ioutil: (required)
+        :type ioutil: List[str]
+        :param http: (required)
+        :type http: List[str]
+        :param url: (required)
+        :type url: List[str]
+        :param context: (required)
+        :type context: List[str]
+        :param allow_empty: (required)
+        :type allow_empty: str
+        :param language:
+        :type language: Dict[str, str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_query_parameter_collection_format_with_http_info(
-                pipe=pipe,
-                ioutil=ioutil,
-                http=http,
-                url=url,
-                context=context,
-                allow_empty=allow_empty,
-                language=language,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_query_parameter_collection_format_serialize(
+            pipe=pipe,
+            ioutil=ioutil,
+            http=http,
+            url=url,
+            context=context,
+            allow_empty=allow_empty,
+            language=language,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -13112,27 +16458,68 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test_query_parameter_collection_format (synchronous)
+        """test_query_parameter_collection_format
 
-        Synchronous variant of :meth:`test_query_parameter_collection_format_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        To test the collection format in query parameters
+
+        :param pipe: (required)
+        :type pipe: List[str]
+        :param ioutil: (required)
+        :type ioutil: List[str]
+        :param http: (required)
+        :type http: List[str]
+        :param url: (required)
+        :type url: List[str]
+        :param context: (required)
+        :type context: List[str]
+        :param allow_empty: (required)
+        :type allow_empty: str
+        :param language:
+        :type language: Dict[str, str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_query_parameter_collection_format_without_preload_content(
-                pipe=pipe,
-                ioutil=ioutil,
-                http=http,
-                url=url,
-                context=context,
-                allow_empty=allow_empty,
-                language=language,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_query_parameter_collection_format_serialize(
+            pipe=pipe,
+            ioutil=ioutil,
+            http=http,
+            url=url,
+            context=context,
+            allow_empty=allow_empty,
+            language=language,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_query_parameter_collection_format_serialize(
@@ -13442,21 +16829,54 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """test referenced string map (synchronous)
+        """test referenced string map
 
-        Synchronous variant of :meth:`test_string_map_reference`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param request_body: request body (required)
+        :type request_body: Dict[str, str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_string_map_reference(
-                request_body=request_body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_string_map_reference_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -13476,20 +16896,53 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """test referenced string map (synchronous)
+        """test referenced string map
 
-        Synchronous variant of :meth:`test_string_map_reference_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param request_body: request body (required)
+        :type request_body: Dict[str, str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_string_map_reference_with_http_info(
-                request_body=request_body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_string_map_reference_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -13510,21 +16963,50 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """test referenced string map (synchronous)
+        """test referenced string map
 
-        Synchronous variant of :meth:`test_string_map_reference_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param request_body: request body (required)
+        :type request_body: Dict[str, str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.test_string_map_reference_without_preload_content(
-                request_body=request_body,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._test_string_map_reference_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _test_string_map_reference_serialize(
@@ -13836,23 +17318,60 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ModelApiResponse:
-        """uploads a file and additional properties using multipart/form-data (synchronous)
+        """uploads a file and additional properties using multipart/form-data
 
-        Synchronous variant of :meth:`upload_file_with_additional_properties`. It calls the asynchronous
-        method and blocks until it completes.
+        
+
+        :param file: file to upload (required)
+        :type file: bytes
+        :param object:
+        :type object: TestObjectForMultipartRequestsRequestMarker
+        :param count: Integer count
+        :type count: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.upload_file_with_additional_properties(
-                file=file,
-                object=object,
-                count=count,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._upload_file_with_additional_properties_serialize(
+            file=file,
+            object=object,
+            count=count,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ModelApiResponse",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
 
 
     @validate_call
@@ -13874,22 +17393,59 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ModelApiResponse]:
-        """uploads a file and additional properties using multipart/form-data (synchronous)
+        """uploads a file and additional properties using multipart/form-data
 
-        Synchronous variant of :meth:`upload_file_with_additional_properties_with_http_info`. It calls the
-        asynchronous method and blocks until it completes.
+        
+
+        :param file: file to upload (required)
+        :type file: bytes
+        :param object:
+        :type object: TestObjectForMultipartRequestsRequestMarker
+        :param count: Integer count
+        :type count: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.upload_file_with_additional_properties_with_http_info(
-                file=file,
-                object=object,
-                count=count,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._upload_file_with_additional_properties_serialize(
+            file=file,
+            object=object,
+            count=count,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ModelApiResponse",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read_sync()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
         )
 
 
@@ -13912,23 +17468,56 @@ class FakeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """uploads a file and additional properties using multipart/form-data (synchronous)
+        """uploads a file and additional properties using multipart/form-data
 
-        Synchronous variant of :meth:`upload_file_with_additional_properties_without_preload_content`. It calls
-        the asynchronous method and blocks until it completes.
+        
+
+        :param file: file to upload (required)
+        :type file: bytes
+        :param object:
+        :type object: TestObjectForMultipartRequestsRequestMarker
+        :param count: Integer count
+        :type count: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
         """ # noqa: E501
-        return run_sync(
-            self.upload_file_with_additional_properties_without_preload_content(
-                file=file,
-                object=object,
-                count=count,
-                _request_timeout=_request_timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+
+        _param = self._upload_file_with_additional_properties_serialize(
+            file=file,
+            object=object,
+            count=count,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
         )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ModelApiResponse",
+        }
+        response_data = self.api_client.call_api_sync(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
 
 
     def _upload_file_with_additional_properties_serialize(
