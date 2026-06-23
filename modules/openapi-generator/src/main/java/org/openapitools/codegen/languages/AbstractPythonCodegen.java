@@ -17,6 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
@@ -731,11 +733,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     protected String toPythonStringLiteral(String value) {
-        try {
-            return Json.mapper().writeValueAsString(value);
-        } catch (Exception e) {
-            return "\"" + escapeUnsafeCharacters(value) + "\"";
-        }
+        return PythonStringUtils.toPythonStringLiteral(value);
     }
 
     @Override
@@ -918,6 +916,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.PYTHON;
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        return PythonStringUtils.addMustacheLambdas(super.addMustacheLambdas());
     }
 
     @Override
@@ -1422,6 +1425,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        property.vendorExtensions.put(
+                X_PY_WIRE_NAME_LITERAL,
+                toPythonStringLiteral(property.baseName));
         postProcessPattern(property.pattern, property.vendorExtensions);
 
         if (property.isArray) {
@@ -2238,7 +2244,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             // field
             if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
-                pt.annotate("alias", cp.baseName);
+                pt.annotate("alias", toPythonStringLiteral(cp.baseName), false);
             }
 
             String example = toPythonExample(cp);
