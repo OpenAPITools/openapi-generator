@@ -4321,6 +4321,13 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getTitle() != null) {
                 property.setTitle(original.getTitle());
             }
+            // the example was computed above against the inner (allOf/$ref) schema, which does
+            // not carry the example declared as a sibling of the allOf/$ref. Restore it here so
+            // that e.g. `allOf: [ $ref ]` with a sibling `example` keeps the declared example
+            // instead of falling back to the literal "null".
+            if (original.getExample() != null) {
+                property.example = toExampleValue(original);
+            }
         }
 
         // override defaultValue if it's not set and defaultToEmptyContainer is set
