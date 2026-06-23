@@ -1,0 +1,28 @@
+openapi: 3.0.1
+info:
+  title: Auth Hyphen Test
+  version: 1.0.0
+servers:
+  - url: https://example.com
+paths:
+  /ping:
+    get:
+      tags: [health]
+      operationId: ping
+      security:
+        - api-key: []
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  securitySchemes:
+    # Deliberately hyphenated scheme/param name: must produce a quoted Crystal symbol
+    # (:"api-key"), not a bare one (:api-key) which fails to compile.
+    api-key:
+      type: apiKey
+      name: api-key
+      in: header
