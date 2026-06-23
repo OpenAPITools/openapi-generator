@@ -82,7 +82,7 @@ class ApiClient:
     ) -> None:
         # use default configuration if none is provided
         if configuration is None:
-            configuration = Configuration.get_default()
+            configuration = Configuration.get_default_copy()
         self.configuration = configuration
 
         self.rest_client = rest.RESTClientObject(configuration)
@@ -119,18 +119,15 @@ class ApiClient:
     _default = None
 
     @classmethod
+    def _get_default_or_new(cls):
+        if cls._default is not None:
+            return cls._default, False
+        return cls(), True
+
+    @classmethod
     def get_default(cls):
-        """Return new instance of ApiClient.
-
-        This method returns newly created, based on default constructor,
-        object of ApiClient class or returns a copy of default
-        ApiClient.
-
-        :return: The ApiClient object.
-        """
-        if cls._default is None:
-            cls._default = ApiClient()
-        return cls._default
+        """Return the registered default ApiClient, or a new client."""
+        return cls._get_default_or_new()[0]
 
     @classmethod
     def set_default(cls, default):

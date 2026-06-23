@@ -112,3 +112,81 @@ class TestConfiguration(unittest.IsolatedAsyncioTestCase):
             self.assertFalse(default_session.closed)
         finally:
             await default_client.close()
+
+    async def testSuppliedConnectorRemainsCallerOwned(self):
+        connector = aiohttp.TCPConnector()
+        configuration = petstore_api.Configuration(
+            client_session_kwargs={
+                "connector": connector,
+                "connector_owner": True,
+            },
+        )
+        petstore_api.Configuration.set_default(configuration)
+        first_api = petstore_api.PetApi()
+        second_api = petstore_api.PetApi()
+        first_rest_client = first_api.api_client.rest_client
+        second_rest_client = second_api.api_client.rest_client
+        first_session = first_rest_client._create_pool_manager()
+        second_session = second_rest_client._create_pool_manager()
+        first_rest_client.pool_manager = first_session
+        second_rest_client.pool_manager = second_session
+
+        try:
+            self.assertIs(first_session.connector, connector)
+            self.assertIs(second_session.connector, connector)
+            self.assertFalse(first_session.connector_owner)
+            self.assertFalse(second_session.connector_owner)
+
+            await first_api.close()
+            self.assertTrue(first_session.closed)
+            self.assertFalse(second_session.closed)
+            self.assertFalse(connector.closed)
+            await second_api.close()
+            self.assertTrue(second_session.closed)
+            self.assertFalse(connector.closed)
+        finally:
+            await first_api.close()
+            await second_api.close()
+            await connector.close()
+
+    async def testNoneConnectorRemainsSessionOwned(self):
+        configuration = petstore_api.Configuration(
+            client_session_kwargs={
+                "connector": None,
+                "connector_owner": False,
+            },
+        )
+        petstore_api.Configuration.set_default(configuration)
+        api = petstore_api.PetApi()
+        rest_client = api.api_client.rest_client
+        session = rest_client._create_pool_manager()
+        rest_client.pool_manager = session
+        connector = session.connector
+
+        try:
+            self.assertTrue(session.connector_owner)
+            self.assertIsNotNone(connector)
+            await api.close()
+            self.assertTrue(session.closed)
+            self.assertTrue(connector.closed)
+        finally:
+            await api.close()
+
+    async def testImplicitApiClientClosesOwnedClientAfterReassignment(self):
+        implicit_api = petstore_api.PetApi()
+        owned_rest_client = implicit_api.api_client.rest_client
+        owned_session = owned_rest_client._create_pool_manager()
+        owned_rest_client.pool_manager = owned_session
+        replacement_client = petstore_api.ApiClient()
+        replacement_rest_client = replacement_client.rest_client
+        replacement_session = replacement_rest_client._create_pool_manager()
+        replacement_rest_client.pool_manager = replacement_session
+        implicit_api.api_client = replacement_client
+
+        try:
+            await implicit_api.close()
+
+            self.assertTrue(owned_session.closed)
+            self.assertFalse(replacement_session.closed)
+        finally:
+            await replacement_client.close()

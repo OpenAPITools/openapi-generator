@@ -110,6 +110,24 @@ class TestConfiguration(unittest.TestCase):
         finally:
             explicit_client.close()
 
+    def testImplicitApiClientClosesOwnedClientAfterReassignment(self):
+        implicit_api = petstore_api.PetApi()
+        owned_client = implicit_api.api_client
+        owned_pool = owned_client.rest_client.pool_manager
+        owned_pool.connection_from_url("http://example.com")
+        replacement_client = petstore_api.ApiClient()
+        replacement_pool = replacement_client.rest_client.pool_manager
+        replacement_pool.connection_from_url("http://example.com")
+        implicit_api.api_client = replacement_client
+
+        try:
+            implicit_api.close()
+
+            self.assertEqual(len(owned_pool.pools), 0)
+            self.assertGreater(len(replacement_pool.pools), 0)
+        finally:
+            replacement_client.close()
+
     def testConfigurationCopiesReuseLoggerHandlers(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             configuration = petstore_api.Configuration()

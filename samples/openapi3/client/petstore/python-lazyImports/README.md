@@ -79,6 +79,29 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ```
 
+An API instance constructed without an explicit or registered default
+`ApiClient` owns its client. Use the API as a context manager:
+
+```python
+with petstore_api.AnotherFakeApi() as api_instance:
+    # Call API methods through api_instance.
+    pass
+
+```
+
+Direct construction requires
+`api_instance.close()`. Closing an API constructed
+with an explicit or registered default client is a no-op; the caller remains
+responsible for that client. Configuration-owned values are copied for an
+implicit client. Logging resources retain their identity. Configuration
+containers and proxy-header mappings are copied; other stateful transport
+extension objects remain caller-owned.
+
+`Configuration.set_default()` stores a copy, so later changes to the supplied
+object do not affect new implicit clients. `Configuration.get_default()`
+returns that stored baseline, while `Configuration.get_default_copy()` returns
+a copy.
+
 ## Documentation for API Endpoints
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
