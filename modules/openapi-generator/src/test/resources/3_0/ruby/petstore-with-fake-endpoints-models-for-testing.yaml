@@ -31,6 +31,7 @@ paths:
                     $ref: '#/components/schemas/Foo'
   /pet:
     servers:
+    - url: 'http://127.0.0.1/v2'
     - url: 'http://petstore.swagger.io/v2'
     - url: 'http://path-server-test.petstore.local/v2'
     - url: 'http://{server}.swagger.io:{port}/v2'
@@ -188,6 +189,7 @@ paths:
       deprecated: true
   '/pet/{petId}':
     servers:
+    - url: 'http://127.0.0.1/v2'
     - url: 'http://petstore.swagger.io/v2'
     - url: 'http://path-server-test.petstore.local/v2'
     - url: 'http://{server}.swagger.io:{port}/v2'
@@ -1358,6 +1360,8 @@ paths:
         200:
           description: OK
 servers:
+  - url: https://127.0.0.1/v2
+    description: The local server without variables
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
     variables:
@@ -1380,8 +1384,6 @@ servers:
           - 'v1'
           - 'v2'
         default: 'v2'
-  - url: https://127.0.0.1/no_varaible
-    description: The local server without variables
   - url: http://server.{version}.openapi-generator.tech
     description: The openapi-generator test server
     variables:

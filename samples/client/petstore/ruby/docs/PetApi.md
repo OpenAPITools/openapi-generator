@@ -1,6 +1,6 @@
 # Petstore::PetApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *https://127.0.0.1/v2*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
