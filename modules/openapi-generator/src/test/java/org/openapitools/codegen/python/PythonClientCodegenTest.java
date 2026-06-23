@@ -670,6 +670,17 @@ public class PythonClientCodegenTest {
         assertFileContains(p, "from pydantic import BaseModel, ConfigDict, field_validator");
     }
 
+    @Test(description = "date-time property with pattern should coerce via isoformat() before regex match")
+    public void testDatetimeWithPatternUsesIsoformat() throws IOException {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_datetime_with_pattern.yaml");
+        final Path p = Paths.get(outputPath + "openapi_client/models/datetime_with_pattern.py");
+
+        assertFileExists(p);
+        assertFileContains(p, "s = value if isinstance(value, str) else value.isoformat() if hasattr(value, \"isoformat\") else str(value)");
+        TestUtils.assertFileNotContains(p, "return s");
+    }
+
     @Test(description = "Verify default buildSystem uses setuptools")
     public void testDefaultBuildSystemSetuptools() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

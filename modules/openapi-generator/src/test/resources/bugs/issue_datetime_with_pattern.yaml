@@ -1,0 +1,14 @@
+openapi: 3.0.0
+info:
+  title: Test date-time with pattern
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    DatetimeWithPattern:
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$"
