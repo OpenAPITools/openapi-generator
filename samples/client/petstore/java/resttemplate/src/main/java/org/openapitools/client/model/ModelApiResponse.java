@@ -53,7 +53,7 @@ public class ModelApiResponse {
   /**
    * Constructor with all args parameters
    */
-  public ModelApiResponse(@JsonProperty(JSON_PROPERTY_CODE) Integer code, @JsonProperty(JSON_PROPERTY_TYPE) String type, @JsonProperty(JSON_PROPERTY_MESSAGE) String message) {
+  public ModelApiResponse(@JsonProperty(JSON_PROPERTY_CODE) @javax.annotation.Nullable Integer code, @JsonProperty(JSON_PROPERTY_TYPE) @javax.annotation.Nullable String type, @JsonProperty(JSON_PROPERTY_MESSAGE) @javax.annotation.Nullable String message) {
     this.code = code;
     this.type = type;
     this.message = message;

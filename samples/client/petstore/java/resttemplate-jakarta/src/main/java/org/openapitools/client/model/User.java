@@ -77,7 +77,7 @@ public class User {
   /**
    * Constructor with all args parameters
    */
-  public User(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_USERNAME) String username, @JsonProperty(JSON_PROPERTY_FIRST_NAME) String firstName, @JsonProperty(JSON_PROPERTY_LAST_NAME) String lastName, @JsonProperty(JSON_PROPERTY_EMAIL) String email, @JsonProperty(JSON_PROPERTY_PASSWORD) String password, @JsonProperty(JSON_PROPERTY_PHONE) String phone, @JsonProperty(JSON_PROPERTY_USER_STATUS) Integer userStatus) {
+  public User(@JsonProperty(JSON_PROPERTY_ID) @jakarta.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_USERNAME) @jakarta.annotation.Nullable String username, @JsonProperty(JSON_PROPERTY_FIRST_NAME) @jakarta.annotation.Nullable String firstName, @JsonProperty(JSON_PROPERTY_LAST_NAME) @jakarta.annotation.Nullable String lastName, @JsonProperty(JSON_PROPERTY_EMAIL) @jakarta.annotation.Nullable String email, @JsonProperty(JSON_PROPERTY_PASSWORD) @jakarta.annotation.Nullable String password, @JsonProperty(JSON_PROPERTY_PHONE) @jakarta.annotation.Nullable String phone, @JsonProperty(JSON_PROPERTY_USER_STATUS) @jakarta.annotation.Nullable Integer userStatus) {
     this.id = id;
     this.username = username;
     this.firstName = firstName;

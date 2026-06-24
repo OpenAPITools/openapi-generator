@@ -47,7 +47,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   /**
    * Constructor with all args parameters
    */
-  public TestInlineFreeformAdditionalPropertiesRequest(@JsonProperty(JSON_PROPERTY_SOME_PROPERTY) String someProperty) {
+  public TestInlineFreeformAdditionalPropertiesRequest(@JsonProperty(JSON_PROPERTY_SOME_PROPERTY) @javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
   }
 

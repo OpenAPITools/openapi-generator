@@ -112,7 +112,7 @@ public class Pet {
   /**
    * Constructor with all args parameters
    */
-  public Pet(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_CATEGORY) Category category, @JsonProperty(JSON_PROPERTY_NAME) String name, @JsonProperty(JSON_PROPERTY_PHOTO_URLS) Set<String> photoUrls, @JsonProperty(JSON_PROPERTY_TAGS) List<Tag> tags, @JsonProperty(JSON_PROPERTY_STATUS) StatusEnum status) {
+  public Pet(@JsonProperty(JSON_PROPERTY_ID) @javax.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_CATEGORY) @javax.annotation.Nullable Category category, @JsonProperty(JSON_PROPERTY_NAME) @javax.annotation.Nonnull String name, @JsonProperty(JSON_PROPERTY_PHOTO_URLS) @javax.annotation.Nonnull Set<String> photoUrls, @JsonProperty(JSON_PROPERTY_TAGS) @javax.annotation.Nullable List<Tag> tags, @JsonProperty(JSON_PROPERTY_STATUS) @javax.annotation.Nullable StatusEnum status) {
     this.id = id;
     this.category = category;
     this.name = name;

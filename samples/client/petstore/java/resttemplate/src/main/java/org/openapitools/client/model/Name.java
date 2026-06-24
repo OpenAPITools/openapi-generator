@@ -69,7 +69,7 @@ public class Name {
   /**
    * Constructor with all args parameters
    */
-  public Name(@JsonProperty(JSON_PROPERTY_NAME) Integer name, @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, @JsonProperty(JSON_PROPERTY_PROPERTY) String property, @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number) {
+  public Name(@JsonProperty(JSON_PROPERTY_NAME) @javax.annotation.Nonnull Integer name, @JsonProperty(JSON_PROPERTY_SNAKE_CASE) @javax.annotation.Nullable Integer snakeCase, @JsonProperty(JSON_PROPERTY_PROPERTY) @javax.annotation.Nullable String property, @JsonProperty(JSON_PROPERTY_123NUMBER) @javax.annotation.Nullable Integer _123number) {
     this.name = name;
     this.snakeCase = snakeCase;
     this.property = property;

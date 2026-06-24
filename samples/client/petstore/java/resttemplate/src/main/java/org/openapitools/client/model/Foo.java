@@ -42,7 +42,7 @@ public class Foo {
   /**
    * Constructor with all args parameters
    */
-  public Foo(@JsonProperty(JSON_PROPERTY_BAR) String bar) {
+  public Foo(@JsonProperty(JSON_PROPERTY_BAR) @javax.annotation.Nullable String bar) {
     this.bar = bar;
   }
 

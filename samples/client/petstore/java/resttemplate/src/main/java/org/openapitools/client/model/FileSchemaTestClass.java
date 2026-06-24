@@ -51,7 +51,7 @@ public class FileSchemaTestClass {
   /**
    * Constructor with all args parameters
    */
-  public FileSchemaTestClass(@JsonProperty(JSON_PROPERTY_FILE) ModelFile _file, @JsonProperty(JSON_PROPERTY_FILES) List<ModelFile> files) {
+  public FileSchemaTestClass(@JsonProperty(JSON_PROPERTY_FILE) @javax.annotation.Nullable ModelFile _file, @JsonProperty(JSON_PROPERTY_FILES) @javax.annotation.Nullable List<ModelFile> files) {
     this._file = _file;
     this.files = files;
   }

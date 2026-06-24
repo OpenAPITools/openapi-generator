@@ -51,7 +51,7 @@ public class FakeBigDecimalMap200Response {
   /**
    * Constructor with all args parameters
    */
-  public FakeBigDecimalMap200Response(@JsonProperty(JSON_PROPERTY_SOME_ID) BigDecimal someId, @JsonProperty(JSON_PROPERTY_SOME_MAP) Map<String, BigDecimal> someMap) {
+  public FakeBigDecimalMap200Response(@JsonProperty(JSON_PROPERTY_SOME_ID) @javax.annotation.Nullable BigDecimal someId, @JsonProperty(JSON_PROPERTY_SOME_MAP) @javax.annotation.Nullable Map<String, BigDecimal> someMap) {
     this.someId = someId;
     this.someMap = someMap;
   }

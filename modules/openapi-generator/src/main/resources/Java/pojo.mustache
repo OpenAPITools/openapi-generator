@@ -133,7 +133,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   /**
    * Constructor with all args parameters
    */
-  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nullable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}, required = {{#isNullable}}false{{/isNullable}}{{^isNullable}}{{required}}{{/isNullable}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
+  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nullable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}, required = {{#isNullable}}false{{/isNullable}}{{^isNullable}}{{required}}{{/isNullable}}){{/jackson}} {{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
 {{#parent}}
     super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
 {{/parent}}

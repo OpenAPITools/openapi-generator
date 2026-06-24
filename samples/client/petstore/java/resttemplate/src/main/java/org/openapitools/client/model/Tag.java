@@ -47,7 +47,7 @@ public class Tag {
   /**
    * Constructor with all args parameters
    */
-  public Tag(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_NAME) String name) {
+  public Tag(@JsonProperty(JSON_PROPERTY_ID) @javax.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_NAME) @javax.annotation.Nullable String name) {
     this.id = id;
     this.name = name;
   }

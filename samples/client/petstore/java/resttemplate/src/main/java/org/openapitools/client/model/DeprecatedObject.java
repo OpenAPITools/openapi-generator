@@ -44,7 +44,7 @@ public class DeprecatedObject {
   /**
    * Constructor with all args parameters
    */
-  public DeprecatedObject(@JsonProperty(JSON_PROPERTY_NAME) String name) {
+  public DeprecatedObject(@JsonProperty(JSON_PROPERTY_NAME) @javax.annotation.Nullable String name) {
     this.name = name;
   }
 
