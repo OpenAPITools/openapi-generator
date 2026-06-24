@@ -22,7 +22,6 @@ jobs:
         sample:
           # these folders contain sub-projects of rust clients, servers
           - samples/server/petstore/rust-server/
-          - samples/server/petstore/rust-server-deprecated/
           - samples/server/petstore/rust-axum/
           - samples/server/petstore/rust-salvo/
     steps:
