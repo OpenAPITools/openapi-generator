@@ -34,7 +34,9 @@ Model/EnumArraysJustSymbol.php
 Model/EnumClass.php
 Model/EnumTest.php
 Model/EnumTestEnumInteger.php
+Model/EnumTestEnumNumber.php
 Model/EnumTestEnumString.php
+Model/EnumTestEnumStringRequired.php
 Model/FakeBigDecimalMap200Response.php
 Model/File.php
 Model/FileSchemaTestClass.php
@@ -75,8 +77,12 @@ Model/ReadOnlyFirst.php
 Model/SingleRefType.php
 Model/SpecialModelName.php
 Model/Tag.php
+Model/TestEnumParametersEnumHeaderStringArrayParameterInner.php
+Model/TestEnumParametersEnumHeaderStringParameter.php
 Model/TestEnumParametersEnumQueryDoubleParameter.php
 Model/TestEnumParametersEnumQueryIntegerParameter.php
+Model/TestEnumParametersEnumQueryStringArrayParameterInner.php
+Model/TestEnumParametersEnumQueryStringParameter.php
 Model/TestEnumParametersRequestEnumFormString.php
 Model/TestEnumParametersRequestEnumFormStringArrayInner.php
 Model/TestInlineFreeformAdditionalPropertiesRequest.php

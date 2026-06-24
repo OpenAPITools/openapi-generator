@@ -2478,7 +2478,7 @@ uploads a file and additional properties using multipart/form-data
 ```python
 import petstore_api
 from petstore_api.models.model_api_response import ModelApiResponse
-from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker
+from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
 from petstore_api.rest import ApiException
 from pprint import pprint
 
@@ -2494,7 +2494,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     file = None # bytes | file to upload
-    object = petstore_api.TestObjectForMultipartRequestsRequestMarker() # TestObjectForMultipartRequestsRequestMarker |  (optional)
+    object = petstore_api.UploadFileWithAdditionalPropertiesRequestObject() # UploadFileWithAdditionalPropertiesRequestObject |  (optional)
     count = 56 # int | Integer count (optional)
 
     try:
@@ -2514,7 +2514,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **file** | **bytes**| file to upload | 
- **object** | [**TestObjectForMultipartRequestsRequestMarker**](TestObjectForMultipartRequestsRequestMarker.md)|  | [optional] 
+ **object** | [**UploadFileWithAdditionalPropertiesRequestObject**](UploadFileWithAdditionalPropertiesRequestObject.md)|  | [optional] 
  **count** | **int**| Integer count | [optional] 
 
 ### Return type

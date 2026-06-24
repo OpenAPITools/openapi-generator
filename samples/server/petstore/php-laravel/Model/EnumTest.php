@@ -38,13 +38,13 @@ class EnumTest
     * @param \OpenAPI\Server\Model\EnumTestEnumString $enumString
     *
     * 
-    * @param \OpenAPI\Server\Model\EnumTestEnumString $enumStringRequired
+    * @param \OpenAPI\Server\Model\EnumTestEnumStringRequired $enumStringRequired
     *
     * 
     * @param \OpenAPI\Server\Model\EnumTestEnumInteger $enumInteger
     *
     * 
-    * @param \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumNumber
+    * @param \OpenAPI\Server\Model\EnumTestEnumNumber $enumNumber
     *
     * 
     * @param null | \OpenAPI\Server\Model\OuterEnum $outerEnum
@@ -61,9 +61,9 @@ class EnumTest
 
     public function __construct(
         public \OpenAPI\Server\Model\EnumTestEnumString $enumString,
-        public \OpenAPI\Server\Model\EnumTestEnumString $enumStringRequired,
+        public \OpenAPI\Server\Model\EnumTestEnumStringRequired $enumStringRequired,
         public \OpenAPI\Server\Model\EnumTestEnumInteger $enumInteger,
-        public \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumNumber,
+        public \OpenAPI\Server\Model\EnumTestEnumNumber $enumNumber,
         public \OpenAPI\Server\Model\OuterEnumInteger $outerEnumInteger,
         public \OpenAPI\Server\Model\OuterEnumDefaultValue $outerEnumDefaultValue,
         public \OpenAPI\Server\Model\OuterEnumIntegerDefaultValue $outerEnumIntegerDefaultValue,

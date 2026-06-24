@@ -12,7 +12,7 @@ use crate::header;
 pub struct MultipartRelatedRequest {
     #[serde(rename = "object_field")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub object_field: Option<models::MultipartRequestObjectField>,
+    pub object_field: Option<models::MultipartRelatedRequestObjectField>,
 
     #[serde(rename = "optional_binary_field")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -61,7 +61,7 @@ impl std::str::FromStr for MultipartRelatedRequest {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub object_field: Vec<models::MultipartRequestObjectField>,
+            pub object_field: Vec<models::MultipartRelatedRequestObjectField>,
             pub optional_binary_field: Vec<swagger::ByteArray>,
             pub required_binary_field: Vec<swagger::ByteArray>,
         }
@@ -82,7 +82,7 @@ impl std::str::FromStr for MultipartRelatedRequest {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "object_field" => intermediate_rep.object_field.push(<models::MultipartRequestObjectField as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "object_field" => intermediate_rep.object_field.push(<models::MultipartRelatedRequestObjectField as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "optional_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
                     "required_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultipartRelatedRequest".to_string())
@@ -169,6 +169,176 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
                                 format!("Unable to convert header value '{hdr_value}' into MultipartRelatedRequest - {err}"))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct MultipartRelatedRequestObjectField {
+    #[serde(rename = "field_a")]
+    pub field_a: String,
+
+    #[serde(rename = "field_b")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub field_b: Option<Vec<String>>,
+
+}
+
+
+impl MultipartRelatedRequestObjectField {
+    #[allow(clippy::new_without_default)]
+    pub fn new(field_a: String, ) -> MultipartRelatedRequestObjectField {
+        MultipartRelatedRequestObjectField {
+            field_a,
+            field_b: None,
+        }
+    }
+}
+
+/// Converts the MultipartRelatedRequestObjectField value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for MultipartRelatedRequestObjectField {
+    fn to_string(&self) -> String {
+        let params: Vec<Option<String>> = vec![
+            Some("field_a".to_string()),
+            Some(self.field_a.to_string()),
+            self.field_b.as_ref().map(|field_b| {
+                [
+                    "field_b".to_string(),
+                    field_b.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a MultipartRelatedRequestObjectField value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for MultipartRelatedRequestObjectField {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub field_a: Vec<String>,
+            pub field_b: Vec<Vec<String>>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing MultipartRelatedRequestObjectField".to_string())
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "field_a" => intermediate_rep.field_a.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "field_b" => return std::result::Result::Err("Parsing a container in this style is not supported in MultipartRelatedRequestObjectField".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing MultipartRelatedRequestObjectField".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(MultipartRelatedRequestObjectField {
+            field_a: intermediate_rep.field_a.into_iter().next().ok_or_else(|| "field_a missing in MultipartRelatedRequestObjectField".to_string())?,
+            field_b: intermediate_rep.field_b.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<MultipartRelatedRequestObjectField> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRelatedRequestObjectField>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<MultipartRelatedRequestObjectField>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for MultipartRelatedRequestObjectField - value: {hdr_value} is invalid {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRelatedRequestObjectField> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <MultipartRelatedRequestObjectField as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{value}' into MultipartRelatedRequestObjectField - {err}"))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRelatedRequestObjectField>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<MultipartRelatedRequestObjectField>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MultipartRelatedRequestObjectField>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<MultipartRelatedRequestObjectField> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <MultipartRelatedRequestObjectField as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{hdr_value}' into MultipartRelatedRequestObjectField - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;

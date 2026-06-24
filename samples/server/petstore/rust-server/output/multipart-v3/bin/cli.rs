@@ -62,8 +62,8 @@ enum Operation {
     MultipartRelatedRequestPost {
         #[clap(value_parser = parse_json::<swagger::ByteArray>)]
         required_binary_field: swagger::ByteArray,
-        #[clap(value_parser = parse_json::<models::MultipartRequestObjectField>)]
-        object_field: Option<models::MultipartRequestObjectField>,
+        #[clap(value_parser = parse_json::<models::MultipartRelatedRequestObjectField>)]
+        object_field: Option<models::MultipartRelatedRequestObjectField>,
         #[clap(value_parser = parse_json::<swagger::ByteArray>)]
         optional_binary_field: Option<swagger::ByteArray>,
     },

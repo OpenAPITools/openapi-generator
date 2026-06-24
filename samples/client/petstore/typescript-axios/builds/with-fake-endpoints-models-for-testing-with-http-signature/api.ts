@@ -166,6 +166,12 @@ export interface FileSchemaTestClass {
 export interface Foo {
     'bar'?: string;
 }
+export interface FooGet404Response {
+    'string'?: Foo;
+}
+export interface FooGet4XXResponse {
+    'string'?: Foo;
+}
 export interface FooGetDefaultResponse {
     'string'?: Foo;
 }

@@ -3538,22 +3538,24 @@ public class DefaultCodegenTest {
         assertEquals(co.bodyParams.get(0).vars, vars);
         assertEquals(co.bodyParams.get(0).requiredVars, requiredVars);
 
-        // CodegenOperation puts the inline schema into schemas and refs it
+        // CodegenOperation puts the inline schema into schemas and refs it; the response gets its
+        // own named model since request and response are anonymous schemas in different contexts
         assertTrue(co.responses.get(0).isModel);
-        assertEquals("objectWithOptionalAndRequiredProps_request", co.responses.get(0).baseType);
-        modelName = "objectWithOptionalAndRequiredProps_request";
+        assertEquals("objectWithOptionalAndRequiredProps_200_response", co.responses.get(0).baseType);
+        modelName = "objectWithOptionalAndRequiredProps_200_response";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.vars, vars);
         assertEquals(cm.requiredVars, requiredVars);
 
-        // CodegenProperty puts the inline schema into schemas and refs it
+        // CodegenProperty puts the inline schema into schemas and refs it; anonymous component
+        // inline property gets its own named model derived from parent schema and property name
         modelName = "ObjectPropContainsProps";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         CodegenProperty cp = cm.getVars().get(0);
         assertTrue(cp.isModel);
-        assertEquals("objectWithOptionalAndRequiredProps_request", cp.complexType);
+        assertEquals("ObjectPropContainsProps_a", cp.complexType);
     }
 
     @Test

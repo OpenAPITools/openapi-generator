@@ -16,5 +16,6 @@ go/helpers.go
 go/impl.go
 go/logger.go
 go/model_body_request.go
+go/model_both_request.go
 go/routers.go
 main.go

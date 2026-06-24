@@ -323,7 +323,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**models::TestEnumParametersEnumHeaderStringArrayParameterInner**](models::TestEnumParametersEnumHeaderStringArrayParameterInner.md)| Header parameter enum test (string array) | 
  **enum_header_string** | [****](.md)| Header parameter enum test (string) | 
- **enum_query_string_array** | [**models::TestEnumParametersEnumHeaderStringArrayParameterInner**](models::TestEnumParametersEnumHeaderStringArrayParameterInner.md)| Query parameter enum test (string array) | 
+ **enum_query_string_array** | [**models::TestEnumParametersEnumQueryStringArrayParameterInner**](models::TestEnumParametersEnumQueryStringArrayParameterInner.md)| Query parameter enum test (string array) | 
  **enum_query_string** | [****](.md)| Query parameter enum test (string) | 
  **enum_query_integer** | [****](.md)| Query parameter enum test (double) | 
  **enum_query_double** | [****](.md)| Query parameter enum test (double) | 

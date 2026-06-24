@@ -154,6 +154,8 @@ Class | Method | HTTP request | Description
  - [FilterTypeRange](docs/FilterTypeRange.md)
  - [FilterTypeRegex](docs/FilterTypeRegex.md)
  - [Foo](docs/Foo.md)
+ - [FooGet404Response](docs/FooGet404Response.md)
+ - [FooGet4XXResponse](docs/FooGet4XXResponse.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [Fruit](docs/Fruit.md)

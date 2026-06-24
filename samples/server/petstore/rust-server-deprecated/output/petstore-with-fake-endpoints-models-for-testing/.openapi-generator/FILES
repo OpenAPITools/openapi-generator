@@ -11,6 +11,7 @@ docs/ApiResponse.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
+docs/ArrayTestArrayOfEnumInner.md
 docs/Capitalization.md
 docs/Cat.md
 docs/Category.md
@@ -25,13 +26,16 @@ docs/EnumArraysJustSymbol.md
 docs/EnumClass.md
 docs/EnumTest.md
 docs/EnumTestEnumInteger.md
+docs/EnumTestEnumNumber.md
 docs/EnumTestEnumString.md
+docs/EnumTestEnumStringRequired.md
 docs/FindPetsByStatusStatusParameterInner.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/List.md
 docs/MapTest.md
 docs/MapTestMapMapOfEnumValueValue.md
+docs/MapTestMapOfEnumStringValue.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/Name.md
@@ -51,8 +55,11 @@ docs/ReadOnlyFirst.md
 docs/Return.md
 docs/Tag.md
 docs/TestEnumParametersEnumHeaderStringArrayParameterInner.md
+docs/TestEnumParametersEnumHeaderStringParameter.md
 docs/TestEnumParametersEnumQueryDoubleParameter.md
 docs/TestEnumParametersEnumQueryIntegerParameter.md
+docs/TestEnumParametersEnumQueryStringArrayParameterInner.md
+docs/TestEnumParametersEnumQueryStringParameter.md
 docs/TestEnumParametersRequestEnumFormString.md
 docs/User.md
 docs/another_fake_api.md

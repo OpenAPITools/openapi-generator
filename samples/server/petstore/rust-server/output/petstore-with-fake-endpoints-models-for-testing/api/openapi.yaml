@@ -599,21 +599,21 @@ paths:
         in: header
         name: enum_header_string
         schema:
-          $ref: "#/components/schemas/testEnumParameters_request_enum_form_string"
+          $ref: "#/components/schemas/testEnumParameters_enum_header_string_parameter"
       - description: Query parameter enum test (string array)
         explode: false
         in: query
         name: enum_query_string_array
         schema:
           items:
-            $ref: "#/components/schemas/testEnumParameters_enum_header_string_array_parameter_inner"
+            $ref: "#/components/schemas/testEnumParameters_enum_query_string_array_parameter_inner"
           type: array
         style: form
       - description: Query parameter enum test (string)
         in: query
         name: enum_query_string
         schema:
-          $ref: "#/components/schemas/testEnumParameters_request_enum_form_string"
+          $ref: "#/components/schemas/testEnumParameters_enum_query_string_parameter"
       - description: Query parameter enum test (double)
         in: query
         name: enum_query_integer
@@ -1195,11 +1195,11 @@ components:
         enum_string:
           $ref: "#/components/schemas/Enum_Test_enum_string"
         enum_string_required:
-          $ref: "#/components/schemas/Enum_Test_enum_string"
+          $ref: "#/components/schemas/Enum_Test_enum_string_required"
         enum_integer:
           $ref: "#/components/schemas/Enum_Test_enum_integer"
         enum_number:
-          $ref: "#/components/schemas/testEnumParameters_enum_query_double_parameter"
+          $ref: "#/components/schemas/Enum_Test_enum_number"
         outerEnum:
           $ref: "#/components/schemas/OuterEnum"
       required:
@@ -1302,7 +1302,7 @@ components:
           type: object
         map_of_enum_string:
           additionalProperties:
-            $ref: "#/components/schemas/MapTest_map_map_of_enum_value_value"
+            $ref: "#/components/schemas/MapTest_map_of_enum_string_value"
           type: object
       type: object
     ArrayTest:
@@ -1326,7 +1326,7 @@ components:
           type: array
         array_of_enum:
           items:
-            $ref: "#/components/schemas/MapTest_map_map_of_enum_value_value"
+            $ref: "#/components/schemas/ArrayTest_array_of_enum_inner"
           type: array
       type: object
     NumberOnly:
@@ -1436,6 +1436,26 @@ components:
       enum:
       - '>'
       - $
+      type: string
+    testEnumParameters_enum_header_string_parameter:
+      default: -efg
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
+      type: string
+    testEnumParameters_enum_query_string_array_parameter_inner:
+      default: $
+      enum:
+      - '>'
+      - $
+      type: string
+    testEnumParameters_enum_query_string_parameter:
+      default: -efg
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
       type: string
     testEnumParameters_enum_query_integer_parameter:
       enum:
@@ -1554,13 +1574,35 @@ components:
       - lower
       - ""
       type: string
+    Enum_Test_enum_string_required:
+      enum:
+      - UPPER
+      - lower
+      - ""
+      type: string
     Enum_Test_enum_integer:
       enum:
       - 1
       - -1
       format: int32
       type: integer
+    Enum_Test_enum_number:
+      enum:
+      - 1.1
+      - -1.2
+      format: double
+      type: number
     MapTest_map_map_of_enum_value_value:
+      enum:
+      - UPPER
+      - lower
+      type: string
+    MapTest_map_of_enum_string_value:
+      enum:
+      - UPPER
+      - lower
+      type: string
+    ArrayTest_array_of_enum_inner:
       enum:
       - UPPER
       - lower

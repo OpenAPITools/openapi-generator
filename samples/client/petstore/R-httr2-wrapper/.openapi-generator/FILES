@@ -5,6 +5,7 @@
 .travis.yml
 DESCRIPTION
 NAMESPACE
+R/add_pet_optional_request.R
 R/allof_tag_api_response.R
 R/animal.R
 R/any_of_pig.R
@@ -40,6 +41,7 @@ R/user_api.R
 R/whale.R
 R/zebra.R
 README.md
+docs/AddPetOptionalRequest.md
 docs/AllofTagApiResponse.md
 docs/Animal.md
 docs/AnyOfPig.md
@@ -72,3 +74,4 @@ docs/Whale.md
 docs/Zebra.md
 git_push.sh
 tests/testthat.R
+tests/testthat/test_add_pet_optional_request.R

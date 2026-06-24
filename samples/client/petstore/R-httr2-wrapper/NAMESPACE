@@ -16,6 +16,7 @@ export(ApiResponse)
 export(ApiException)
 
 # Models
+export(AddPetOptionalRequest)
 export(AllofTagApiResponse)
 export(Animal)
 export(AnyOfPig)

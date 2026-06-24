@@ -532,6 +532,8 @@ Another useful option is `inlineSchemaOptions`, which allows you to customize ho
 - `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schemas by default)
 - `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref. This must be activated to allow the renaming of inline enum definitions using `inlineSchemaNameMappings`.
 
+Note: anonymous (untitled) inline schemas are **not** reused across different parent schemas by default (issue #18963). When two parent schemas define structurally identical inline objects without a `title`, each parent gets its own named model (e.g. `Item_user` and `Issue_user`). To have an inline schema reused wherever it appears, add an explicit `title` field — only titled inline schemas are eligible for reuse.
+
 ## OpenAPI Normalizer
 
 OpenAPI Normalizer transforms the input OpenAPI doc/spec (which may not perfectly conform to the specification) to make it workable with OpenAPI Generator. A few rules are switched on by default since 7.0.0 release:

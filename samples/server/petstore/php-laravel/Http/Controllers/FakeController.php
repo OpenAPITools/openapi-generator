@@ -678,11 +678,11 @@ class FakeController extends Controller
 
         $enumHeaderStringArray = $request->get('enumHeaderStringArray');
 
-        $enumHeaderString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString::class);
+        $enumHeaderString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter::class);
 
         $enumQueryStringArray = $request->get('enumQueryStringArray');
 
-        $enumQueryString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString::class);
+        $enumQueryString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersEnumQueryStringParameter::class);
 
         $enumQueryInteger = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter::class);
 

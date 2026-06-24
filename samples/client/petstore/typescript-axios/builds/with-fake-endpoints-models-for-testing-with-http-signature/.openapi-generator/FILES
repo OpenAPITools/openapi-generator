@@ -31,6 +31,8 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGet404Response.md
+docs/FooGet4XXResponse.md
 docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/Fruit.md

@@ -853,6 +853,15 @@ public class InlineModelResolver {
         if (skipSchemaReuse) { // skip reusing schema
             return null;
         }
+        // Only titled schemas represent intentionally shared named types eligible for reuse.
+        // Schemas without a meaningful title have context-derived names (e.g. Item_user) that are
+        // arbitrary — reusing one parent's model for a different parent's structurally-identical
+        // inline schema forces a misleading name onto the other context. "Meaningful title" mirrors
+        // the same check in resolveModelName: non-null and not empty after sanitization.
+        String title = model.getTitle();
+        if (title == null || "".equals(sanitizeName(title).replace("_", ""))) {
+            return null;
+        }
 
         try {
             // Exact content match.

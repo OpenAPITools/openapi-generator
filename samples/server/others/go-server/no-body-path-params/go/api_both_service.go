@@ -28,7 +28,7 @@ func NewBothAPIService() *BothAPIService {
 }
 
 // Both - summary
-func (s *BothAPIService) Both(ctx context.Context, pathParam string, bodyRequest BodyRequest) (ImplResponse, error) {
+func (s *BothAPIService) Both(ctx context.Context, pathParam string, bothRequest BothRequest) (ImplResponse, error) {
 	// TODO - update Both with the required logic for this service method.
 	// Add api_both_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

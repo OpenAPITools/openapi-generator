@@ -346,15 +346,15 @@ where
                                             Some("application/json") if param_object_field.is_none() => {
                                                 // Extract JSON part.
                                                 let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
-                                                let json_data: models::MultipartRequestObjectField = match serde_ignored::deserialize(deserializer, |path| {
+                                                let json_data: models::MultipartRelatedRequestObjectField = match serde_ignored::deserialize(deserializer, |path| {
                                                     warn!("Ignoring unknown field in JSON part: {path}");
                                                     unused_elements.push(path.to_string());
                                                 }) {
                                                     Ok(json_data) => json_data,
                                                     Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(BoxBody::new(format!("Couldn't parse body parameter models::MultipartRequestObjectField - doesn't match schema: {e}")))
-                                                        .expect("Unable to create Bad Request response for invalid body parameter models::MultipartRequestObjectField due to schema"))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter models::MultipartRelatedRequestObjectField - doesn't match schema: {e}")))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter models::MultipartRelatedRequestObjectField due to schema"))
                                                 };
                                                 // Push JSON part to return object.
                                                 param_object_field.get_or_insert(json_data);

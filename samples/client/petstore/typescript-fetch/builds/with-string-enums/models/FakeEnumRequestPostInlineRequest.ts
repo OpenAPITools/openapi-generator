@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -21,25 +21,25 @@ import { exists, mapValues } from '../runtime';
 export interface FakeEnumRequestPostInlineRequest {
     /**
      * 
-     * @type {string}
+     * @type {FakeEnumRequestPostInlineRequestStringEnumEnum}
      * @memberof FakeEnumRequestPostInlineRequest
      */
     stringEnum?: FakeEnumRequestPostInlineRequestStringEnumEnum;
     /**
      * 
-     * @type {string}
+     * @type {FakeEnumRequestPostInlineRequestNullableStringEnumEnum}
      * @memberof FakeEnumRequestPostInlineRequest
      */
     nullableStringEnum?: FakeEnumRequestPostInlineRequestNullableStringEnumEnum;
     /**
      * 
-     * @type {number}
+     * @type {FakeEnumRequestPostInlineRequestNumberEnumEnum}
      * @memberof FakeEnumRequestPostInlineRequest
      */
     numberEnum?: FakeEnumRequestPostInlineRequestNumberEnumEnum;
     /**
      * 
-     * @type {number}
+     * @type {FakeEnumRequestPostInlineRequestNullableNumberEnumEnum}
      * @memberof FakeEnumRequestPostInlineRequest
      */
     nullableNumberEnum?: FakeEnumRequestPostInlineRequestNullableNumberEnumEnum;
@@ -83,36 +83,45 @@ export enum FakeEnumRequestPostInlineRequestNullableNumberEnumEnum {
 }
 
 
+/**
+ * Check if a given object implements the FakeEnumRequestPostInlineRequest interface.
+ */
+export function instanceOfFakeEnumRequestPostInlineRequest(value: object): value is FakeEnumRequestPostInlineRequest {
+    return true;
+}
+
 export function FakeEnumRequestPostInlineRequestFromJSON(json: any): FakeEnumRequestPostInlineRequest {
     return FakeEnumRequestPostInlineRequestFromJSONTyped(json, false);
 }
 
 export function FakeEnumRequestPostInlineRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): FakeEnumRequestPostInlineRequest {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'stringEnum': !exists(json, 'string-enum') ? undefined : json['string-enum'],
-        'nullableStringEnum': !exists(json, 'nullable-string-enum') ? undefined : json['nullable-string-enum'],
-        'numberEnum': !exists(json, 'number-enum') ? undefined : json['number-enum'],
-        'nullableNumberEnum': !exists(json, 'nullable-number-enum') ? undefined : json['nullable-number-enum'],
+        'stringEnum': json['string-enum'] == null ? undefined : json['string-enum'],
+        'nullableStringEnum': json['nullable-string-enum'] == null ? undefined : json['nullable-string-enum'],
+        'numberEnum': json['number-enum'] == null ? undefined : json['number-enum'],
+        'nullableNumberEnum': json['nullable-number-enum'] == null ? undefined : json['nullable-number-enum'],
     };
 }
 
-export function FakeEnumRequestPostInlineRequestToJSON(value?: FakeEnumRequestPostInlineRequest | null): any {
-    if (value === undefined) {
-        return undefined;
+export function FakeEnumRequestPostInlineRequestToJSON(json: any): FakeEnumRequestPostInlineRequest {
+    return FakeEnumRequestPostInlineRequestToJSONTyped(json, false);
+}
+
+export function FakeEnumRequestPostInlineRequestToJSONTyped(value?: FakeEnumRequestPostInlineRequest | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'string-enum': value.stringEnum,
-        'nullable-string-enum': value.nullableStringEnum,
-        'number-enum': value.numberEnum,
-        'nullable-number-enum': value.nullableNumberEnum,
+        'string-enum': value['stringEnum'],
+        'nullable-string-enum': value['nullableStringEnum'],
+        'number-enum': value['numberEnum'],
+        'nullable-number-enum': value['nullableNumberEnum'],
     };
 }
 

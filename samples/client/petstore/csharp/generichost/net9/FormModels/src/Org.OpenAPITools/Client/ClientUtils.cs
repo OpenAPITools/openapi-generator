@@ -170,8 +170,12 @@ namespace Org.OpenAPITools.Client
                 return EnumTestEnumIntegerValueConverter.ToJsonValue(enumTestEnumInteger).ToString();
             if (obj is EnumTestEnumIntegerOnly enumTestEnumIntegerOnly)
                 return EnumTestEnumIntegerOnlyValueConverter.ToJsonValue(enumTestEnumIntegerOnly).ToString();
+            if (obj is EnumTestEnumNumber enumTestEnumNumber)
+                return EnumTestEnumNumberValueConverter.ToJsonValue(enumTestEnumNumber).ToString();
             if (obj is EnumTestEnumString enumTestEnumString)
                 return EnumTestEnumStringValueConverter.ToJsonValue(enumTestEnumString);
+            if (obj is EnumTestEnumStringRequired enumTestEnumStringRequired)
+                return EnumTestEnumStringRequiredValueConverter.ToJsonValue(enumTestEnumStringRequired);
             if (obj is FindPetsByStatusStatusParameterInner findPetsByStatusStatusParameterInner)
                 return FindPetsByStatusStatusParameterInnerValueConverter.ToJsonValue(findPetsByStatusStatusParameterInner);
             if (obj is MapTestMapOfEnumStringValue mapTestMapOfEnumStringValue)
@@ -190,6 +194,18 @@ namespace Org.OpenAPITools.Client
                 return OuterEnumTestValueConverter.ToJsonValue(outerEnumTest);
             if (obj is PetStatus petStatus)
                 return PetStatusValueConverter.ToJsonValue(petStatus);
+            if (obj is RequiredClassNotrequiredNotnullableEnumInteger requiredClassNotrequiredNotnullableEnumInteger)
+                return RequiredClassNotrequiredNotnullableEnumIntegerValueConverter.ToJsonValue(requiredClassNotrequiredNotnullableEnumInteger).ToString();
+            if (obj is RequiredClassNotrequiredNotnullableEnumIntegerOnly requiredClassNotrequiredNotnullableEnumIntegerOnly)
+                return RequiredClassNotrequiredNotnullableEnumIntegerOnlyValueConverter.ToJsonValue(requiredClassNotrequiredNotnullableEnumIntegerOnly).ToString();
+            if (obj is RequiredClassNotrequiredNotnullableEnumString requiredClassNotrequiredNotnullableEnumString)
+                return RequiredClassNotrequiredNotnullableEnumStringValueConverter.ToJsonValue(requiredClassNotrequiredNotnullableEnumString);
+            if (obj is RequiredClassNotrequiredNullableEnumInteger requiredClassNotrequiredNullableEnumInteger)
+                return RequiredClassNotrequiredNullableEnumIntegerValueConverter.ToJsonValue(requiredClassNotrequiredNullableEnumInteger).ToString();
+            if (obj is RequiredClassNotrequiredNullableEnumIntegerOnly requiredClassNotrequiredNullableEnumIntegerOnly)
+                return RequiredClassNotrequiredNullableEnumIntegerOnlyValueConverter.ToJsonValue(requiredClassNotrequiredNullableEnumIntegerOnly).ToString();
+            if (obj is RequiredClassNotrequiredNullableEnumString requiredClassNotrequiredNullableEnumString)
+                return RequiredClassNotrequiredNullableEnumStringValueConverter.ToJsonValue(requiredClassNotrequiredNullableEnumString);
             if (obj is RequiredClassRequiredNotnullableEnumInteger requiredClassRequiredNotnullableEnumInteger)
                 return RequiredClassRequiredNotnullableEnumIntegerValueConverter.ToJsonValue(requiredClassRequiredNotnullableEnumInteger).ToString();
             if (obj is RequiredClassRequiredNotnullableEnumIntegerOnly requiredClassRequiredNotnullableEnumIntegerOnly)
@@ -204,10 +220,18 @@ namespace Org.OpenAPITools.Client
                 return RequiredClassRequiredNullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNullableEnumString);
             if (obj is TestDescendantsObjectType testDescendantsObjectType)
                 return TestDescendantsObjectTypeValueConverter.ToJsonValue(testDescendantsObjectType);
+            if (obj is TestEnumParametersEnumHeaderStringArrayParameterInner testEnumParametersEnumHeaderStringArrayParameterInner)
+                return TestEnumParametersEnumHeaderStringArrayParameterInnerValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringArrayParameterInner);
+            if (obj is TestEnumParametersEnumHeaderStringParameter testEnumParametersEnumHeaderStringParameter)
+                return TestEnumParametersEnumHeaderStringParameterValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringParameter);
             if (obj is TestEnumParametersEnumQueryDoubleParameter testEnumParametersEnumQueryDoubleParameter)
                 return TestEnumParametersEnumQueryDoubleParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryDoubleParameter).ToString();
             if (obj is TestEnumParametersEnumQueryIntegerParameter testEnumParametersEnumQueryIntegerParameter)
                 return TestEnumParametersEnumQueryIntegerParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryIntegerParameter).ToString();
+            if (obj is TestEnumParametersEnumQueryStringArrayParameterInner testEnumParametersEnumQueryStringArrayParameterInner)
+                return TestEnumParametersEnumQueryStringArrayParameterInnerValueConverter.ToJsonValue(testEnumParametersEnumQueryStringArrayParameterInner);
+            if (obj is TestEnumParametersEnumQueryStringParameter testEnumParametersEnumQueryStringParameter)
+                return TestEnumParametersEnumQueryStringParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryStringParameter);
             if (obj is TestEnumParametersRequestEnumFormString testEnumParametersRequestEnumFormString)
                 return TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString);
             if (obj is TestEnumParametersRequestEnumFormStringArrayInner testEnumParametersRequestEnumFormStringArrayInner)

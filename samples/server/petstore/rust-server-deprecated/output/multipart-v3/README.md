@@ -132,6 +132,7 @@ Method | HTTP request | Description
 ## Documentation For Models
 
  - [MultipartRelatedRequest](docs/MultipartRelatedRequest.md)
+ - [MultipartRelatedRequestObjectField](docs/MultipartRelatedRequestObjectField.md)
  - [MultipartRequestObjectField](docs/MultipartRequestObjectField.md)
  - [MultipleIdenticalMimeTypesPostRequest](docs/MultipleIdenticalMimeTypesPostRequest.md)
 

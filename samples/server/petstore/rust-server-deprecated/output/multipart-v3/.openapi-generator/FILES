@@ -5,6 +5,7 @@ README.md
 api/openapi.yaml
 bin/cli.rs
 docs/MultipartRelatedRequest.md
+docs/MultipartRelatedRequestObjectField.md
 docs/MultipartRequestObjectField.md
 docs/MultipleIdenticalMimeTypesPostRequest.md
 docs/default_api.md
