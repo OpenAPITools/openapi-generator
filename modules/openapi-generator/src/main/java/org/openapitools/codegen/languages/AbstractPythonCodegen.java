@@ -2231,6 +2231,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             String publicName = (String) cp.vendorExtensions.get(X_PY_PUBLIC_NAME);
             if (publicName != null) {
                 String aliasName = cp.vendorExtensions.containsKey(X_PY_EXPLICIT_PUBLIC_NAME)
+                        || cp.vendorExtensions.containsKey(X_PY_LEGACY_PUBLIC_NAME)
                         ? publicName
                         : cp.baseName;
                 if (!aliasName.equals(cp.name)) {

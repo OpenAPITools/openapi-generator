@@ -71,6 +71,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             Set.of("close_sync", "__enter__", "__exit__");
     private static final Set<String> INDEPENDENT_API_MEMBER_NAMES =
             Set.of("_owned_api_client");
+    public static final String COMPATIBLE_WITH_PYTHON_LEGACY = "compatibleWithPythonLegacy";
     // Snapshot of BaseModel's public API in the minimum supported Pydantic 2.11.
     // https://github.com/pydantic/pydantic/blob/v2.11.0/pydantic/main.py
     private static final Set<String> PYDANTIC_BASE_MODEL_MEMBER_NAMES = Set.of(
@@ -112,6 +113,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Setter protected String dateFormat = "%Y-%m-%d";
     @Setter protected boolean setEnsureAsciiToFalse = false;
     @Setter protected boolean useIndependentImplicitClients = false;
+    @Setter protected boolean compatibleWithPythonLegacy = false;
 
     private String testFolder;
 
@@ -215,6 +217,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(CliOption.newBoolean(USE_INDEPENDENT_IMPLICIT_CLIENTS,
                 "Give API instances without an explicit or registered default ApiClient " +
                 "an owned client with a copied Configuration.")
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(COMPATIBLE_WITH_PYTHON_LEGACY,
+                "Enable compatibility with python-legacy. Currently, generated model field aliases preserve normalized Python constructor names while " +
+                        "accepting wire names, and to_dict() emits every declared field, using None for missing attributes, " +
+                        "under public names by default and wire names with serialize=True. Container conversion is limited to immediate list elements and " +
+                        "dictionary values, matching python-legacy. JSON and request serialization remain unchanged.")
                 .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
@@ -332,6 +340,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (additionalProperties.containsKey(LAZY_IMPORTS)) {
             additionalProperties.put(LAZY_IMPORTS, Boolean.valueOf(additionalProperties.get(LAZY_IMPORTS).toString()));
+        }
+
+        if (additionalProperties.containsKey(COMPATIBLE_WITH_PYTHON_LEGACY)) {
+            setCompatibleWithPythonLegacy(convertPropertyToBooleanAndWriteBack(COMPATIBLE_WITH_PYTHON_LEGACY));
+        } else {
+            additionalProperties.put(COMPATIBLE_WITH_PYTHON_LEGACY, compatibleWithPythonLegacy);
         }
 
         if (additionalProperties.containsKey(BUILD_SYSTEM)) {
@@ -933,13 +947,20 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!model.oneOf.isEmpty()
-                || !model.anyOf.isEmpty()
-                || !nameMapping.containsKey(property.baseName)) {
+        if (!model.oneOf.isEmpty() || !model.anyOf.isEmpty()) {
             return;
         }
+
         String publicName = nameMapping.get(property.baseName);
-        property.vendorExtensions.put(CodegenConstants.X_PY_EXPLICIT_PUBLIC_NAME, true);
+        if (publicName == null) {
+            if (!compatibleWithPythonLegacy) {
+                return;
+            }
+            publicName = property.name;
+            property.vendorExtensions.put(CodegenConstants.X_PY_LEGACY_PUBLIC_NAME, true);
+        } else {
+            property.vendorExtensions.put(CodegenConstants.X_PY_EXPLICIT_PUBLIC_NAME, true);
+        }
         property.vendorExtensions.put(CodegenConstants.X_PY_PUBLIC_NAME, publicName);
         property.vendorExtensions.put(
                 CodegenConstants.X_PY_PUBLIC_NAME_LITERAL,

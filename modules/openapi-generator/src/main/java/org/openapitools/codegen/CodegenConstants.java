@@ -521,6 +521,7 @@ public class CodegenConstants {
     public static final String X_PY_FASTAPI_EXAMPLE = "x-py-fastapi-example";
     public static final String X_PY_NAME = "x-py-name";
     public static final String X_PY_EXPLICIT_PUBLIC_NAME = "x-py-explicit-public-name";
+    public static final String X_PY_LEGACY_PUBLIC_NAME = "x-py-legacy-public-name";
     public static final String X_PY_HAS_PUBLIC_NAME_PROPERTIES = "x-py-has-public-name-properties";
     public static final String X_PY_HIDDEN_STORAGE_NAMES = "x-py-hidden-storage-names";
     public static final String X_PY_INPUT_NAME_PROPERTIES = "x-py-input-name-properties";

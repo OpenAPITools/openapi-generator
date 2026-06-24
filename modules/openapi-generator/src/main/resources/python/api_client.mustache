@@ -13,7 +13,7 @@ import tempfile
 import uuid
 
 from urllib.parse import quote
-from typing import Tuple, Optional, List, Dict, Union
+from typing import Tuple, Optional, List, Dict, Union{{#compatibleWithPythonLegacy}}, Any{{/compatibleWithPythonLegacy}}
 from pydantic import SecretStr
 {{#tornado}}
 import tornado.gen
@@ -33,6 +33,12 @@ from {{packageName}}.exceptions import (
     ServiceException
 )
 
+{{#compatibleWithPythonLegacy}}
+
+{{>_legacy_model_identity}}
+
+
+{{/compatibleWithPythonLegacy}}
 RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
 
 class ApiClient:
@@ -419,8 +425,18 @@ class ApiClient:
         # and attributes which value is not None.
         # Convert attribute name to json key in
         # model definition for request.
+{{#compatibleWithPythonLegacy}}
+        to_dict = getattr(obj, 'to_dict', None)
+        to_openapi_dict = _get_openapi_to_dict(obj)
+        if to_openapi_dict is not None:
+            obj_dict = to_openapi_dict(obj)
+        elif callable(to_dict):
+            obj_dict = to_dict()
+{{/compatibleWithPythonLegacy}}
+{{^compatibleWithPythonLegacy}}
         if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):
             obj_dict = obj.to_dict()
+{{/compatibleWithPythonLegacy}}
         else:
             obj_dict = obj.__dict__
 
