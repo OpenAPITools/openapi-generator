@@ -967,9 +967,10 @@ public class PythonClientCodegenTest {
         assertFileContains(nestedModel,
                 "camel_case: Optional[StrictStr]",
                 "validation_alias=AliasChoices(\"camelCase\", \"camel_case\")",
-                "serialization_alias=\"camelCase\"");
+                "serialization_alias=\"camelCase\"",
+                "def __preprocess_input_names(");
         TestUtils.assertFileNotContains(nestedModel,
-                "_ModelWrapValidatorHandler", "__preprocess_input_names");
+                "_ModelWrapValidatorHandler", "def __validate_input_names(");
 
         for (String wrapper : Arrays.asList("one_of_model.py", "any_of_model.py")) {
             final Path wrapperModel = Paths.get(outputPath + "openapi_client/models/" + wrapper);

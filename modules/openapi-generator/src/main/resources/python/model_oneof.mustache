@@ -11,6 +11,7 @@ from pydantic import StrictStr, Field
 from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 {{#compatibleWithPythonLegacy}}
+from pydantic_core import to_jsonable_python
 
 
 {{>_legacy_model_dict_helpers}}
@@ -189,8 +190,17 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
             return self.actual_instance.to_json()
+{{#compatibleWithPythonLegacy}}
+        return json.dumps(
+            to_jsonable_python(
+                _to_openapi_value(self.actual_instance)
+            )
+        )
+{{/compatibleWithPythonLegacy}}
+{{^compatibleWithPythonLegacy}}
         else:
             return json.dumps(self.actual_instance)
+{{/compatibleWithPythonLegacy}}
 
 {{#compatibleWithPythonLegacy}}
     def to_dict(self, serialize: bool = False) -> Any:
