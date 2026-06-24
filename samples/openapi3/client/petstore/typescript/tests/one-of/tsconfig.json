@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "Node16",
+        "target": "es6",
+        "noImplicitAny": true,
+        "sourceMap": false,
+        "esModuleInterop": true,
+        "outDir": "dist",
+        "moduleResolution": "node16",
+        "types": [
+            "mocha",
+            "node"
+        ],
+        "lib": [
+            "es6",
+            "dom"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

@@ -246,24 +246,35 @@ export class ObjectSerializer {
 
             // Check the discriminator
             let discriminatorProperty = typeMap[expectedType].discriminator;
-            if (discriminatorProperty == null) {
-                return expectedType; // the type does not have a discriminator. use it.
-            } else {
-                if (data[discriminatorProperty]) {
-                    var discriminatorType = data[discriminatorProperty];
-                    let mapping = typeMap[expectedType].mapping;
-                    if (mapping != undefined && mapping[discriminatorType]) {
-                        return mapping[discriminatorType]; // use the type given in the discriminator
-                    } else if(typeMap[discriminatorType]) {
-                        return discriminatorType;
-                    } else {
-                        return expectedType; // discriminator did not map to a type
+            if (discriminatorProperty == null || !data[discriminatorProperty]) {
+                if (this.hasFindMatchingTypeMethod(typeMap[expectedType])) {
+                    const foundType = typeMap[expectedType].findMatchingType(data);
+                    if (foundType == undefined) {
+                        throw new Error("Unable to determine a unique type for the provided object: oneOf type resolution failed. The object does not match exactly one schema. Consider adding a discriminator or making schemas mutually exclusive.");
                     }
+
+                    return foundType;
+                }
+                return expectedType; // the type does not have a discriminator and findMatchingType method. use it.
+            } else {
+                let discriminatorType = data[discriminatorProperty];
+                let mapping = typeMap[expectedType].mapping;
+                if (mapping != undefined && mapping[discriminatorType]) {
+                    return mapping[discriminatorType]; // use the type given in the discriminator
+                } else if(typeMap[discriminatorType]) {
+                    return discriminatorType;
                 } else {
-                    return expectedType; // discriminator was not present (or an empty string)
+                    throw new Error(`Discriminator property '${discriminatorProperty}' has value '${discriminatorType}' which does not map to any known type in '${expectedType}'.`);
                 }
             }
         }
+    }
+
+    private static hasFindMatchingTypeMethod(klass: any): boolean {
+        if (typeof klass.findMatchingType === 'function') {
+            return true;
+        }
+        return false;
     }
 
     public static serialize(data: any, type: string, format: string): any {

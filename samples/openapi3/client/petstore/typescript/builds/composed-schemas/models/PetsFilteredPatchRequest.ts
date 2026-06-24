@@ -12,6 +12,7 @@
 
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class PetsFilteredPatchRequest {
@@ -24,30 +25,34 @@ export class PetsFilteredPatchRequest {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "age",
             "baseName": "age",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "nickname",
             "baseName": "nickname",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "petType",
             "baseName": "pet_type",
             "type": "PetsFilteredPatchRequestPetTypeEnum",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "hunts",
             "baseName": "hunts",
             "type": "boolean",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

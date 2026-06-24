@@ -12,7 +12,7 @@
 
 import { Cat } from '../models/Cat';
 import { Dog } from '../models/Dog';
-import { HttpFile } from '../http/http';
+import { findMatchingType } from '../models/TypeMatcher';
 
 /**
  * @type PetsPatchRequest
@@ -29,6 +29,18 @@ export class PetsPatchRequestClass {
     static readonly discriminator: string | undefined = "petType";
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
+
+    private static readonly arrayOfTypes: Array<typeof Cat | typeof Dog> = [Cat, Dog];
+
+    /**
+     * Determines which oneOf schema matches the provided data.
+     *
+     * @param data - The data object to match against oneOf schemas
+     * @returns The name of the matching type, or undefined if no unique match is found
+     */
+    public static findMatchingType(data: any): string | undefined {
+        return findMatchingType(data, this.arrayOfTypes);
+    }
 }
 
 
