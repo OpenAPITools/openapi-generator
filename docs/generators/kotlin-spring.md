@@ -71,6 +71,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSealedResponseInterfaces|Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)| |false|
 |useSpringBoot3|Generate code and provide dependencies for use with Spring Boot &ge; 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x. Enabling this option will also enable `useJakartaEe`.| |false|
+|useSpringBuiltInValidation|Disable `@Validated` at the class level when using built-in validation.| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|Whether to use tags for creating interface and controller class names| |false|
 |xKotlinImplementsFieldsSkip|A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema. Example: yaml `xKotlinImplementsFieldsSkip: Pet: [photoUrls]` skips `override` for `photoUrls` in schema `Pet`| |empty map|
