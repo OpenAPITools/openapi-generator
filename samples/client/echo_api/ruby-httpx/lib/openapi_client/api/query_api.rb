@@ -664,7 +664,7 @@ module OpenapiClient
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'json_serialized_object_ref_string_query'] = opts[:'json_serialized_object_ref_string_query'].to_json if !opts[:'json_serialized_object_ref_string_query'].nil?
+      query_params[:'json_serialized_object_ref_string_query'] = @api_client.object_to_hash(opts[:'json_serialized_object_ref_string_query']).to_json if !opts[:'json_serialized_object_ref_string_query'].nil?
       query_params[:'json_serialized_object_array_ref_string_query'] = opts[:'json_serialized_object_array_ref_string_query'].to_json if !opts[:'json_serialized_object_array_ref_string_query'].nil?
 
       # header parameters
