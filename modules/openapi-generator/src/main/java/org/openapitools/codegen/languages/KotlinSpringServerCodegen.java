@@ -532,6 +532,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
         if (additionalProperties.containsKey(USE_SPRING_BUILT_IN_VALIDATION)) {
             this.setUseSpringBuiltInValidation(convertPropertyToBoolean(USE_SPRING_BUILT_IN_VALIDATION));
+            writePropertyBack(USE_SPRING_BUILT_IN_VALIDATION, useSpringBuiltInValidation);
         }
         if (additionalProperties.containsKey(INCLUDE_HTTP_REQUEST_CONTEXT)) {
             this.setIncludeHttpRequestContext(convertPropertyToBoolean(INCLUDE_HTTP_REQUEST_CONTEXT));
