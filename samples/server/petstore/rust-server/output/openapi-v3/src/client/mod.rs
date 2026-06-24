@@ -56,6 +56,7 @@ use crate::{Api,
      QueryExampleGetResponse,
      ReadonlyAuthSchemeGetResponse,
      RegisterCallbackPostResponse,
+     RequiredBinaryStreamPutResponse,
      RequiredOctetStreamPutResponse,
      ResponsesWithHeadersGetResponse,
      Rfc7807GetResponse,
@@ -457,6 +458,11 @@ impl Error for ClientInitError {
 #[allow(dead_code)]
 fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
     BoxBody::new(Full::new(Bytes::from(s)))
+}
+
+#[allow(dead_code)]
+fn body_from_bytes(b: Vec<u8>) -> BoxBody<Bytes, Infallible> {
+    BoxBody::new(Full::new(Bytes::from(b)))
 }
 
 #[async_trait]
@@ -1960,6 +1966,83 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
+    async fn required_binary_stream_put(
+        &self,
+        param_body: swagger::ByteArray,
+        context: &C) -> Result<RequiredBinaryStreamPutResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/required_binary_stream",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("PUT")
+            .uri(uri)
+            .body(BoxBody::new(http_body_util::Empty::new())) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+
+        // Consumes basic body
+        // Body parameter
+        // Raw binary body - pass the bytes through without coercing to UTF-8.
+        *request.body_mut() = body_from_bytes(param_body.0);
+
+        let header = "application/octet-stream";
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    RequiredBinaryStreamPutResponse::OK
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                    }
+                )))
+            }
+        }
+    }
+
+    #[allow(clippy::vec_init_then_push)]
     async fn required_octet_stream_put(
         &self,
         param_body: swagger::ByteArray,
@@ -1997,8 +2080,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         // Consumes basic body
         // Body parameter
-        let body = String::from_utf8(param_body.0).expect("Body was not valid UTF8");
-        *request.body_mut() = body_from_string(body);
+        // Raw binary body - pass the bytes through without coercing to UTF-8.
+        *request.body_mut() = body_from_bytes(param_body.0);
 
         let header = "application/octet-stream";
         request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));

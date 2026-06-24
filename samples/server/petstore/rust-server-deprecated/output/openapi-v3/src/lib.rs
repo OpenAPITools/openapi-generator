@@ -3,15 +3,12 @@
 
 use async_trait::async_trait;
 use futures::Stream;
-#[cfg(feature = "mock")]
-use mockall::automock;
 use std::error::Error;
 use std::collections::BTreeSet;
 use std::task::{Poll, Context};
 use swagger::{ApiError, ContextWrapper, auth::Authorization};
 use serde::{Serialize, Deserialize};
 
-#[cfg(any(feature = "client", feature = "server"))]
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &str = "";
@@ -36,57 +33,48 @@ pub enum AnyOfGetResponse {
     AnyOfSuccess
     (models::AnyOfGet202Response)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CallbackWithHeaderPostResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ComplexQueryParamGetResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ExamplesTestResponse {
     /// OK
     OK
     (models::AdditionalPropertiesReferencedAnyOfObject)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum FormTestResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum GetWithBooleanParameterResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum JsonComplexQueryParamGetResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MandatoryRequestHeaderGetResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MergePatchJsonGetResponse {
     /// merge-patch+json-encoded response
     Merge
     (models::AnotherXmlObject)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum MultigetGetResponse {
@@ -118,63 +106,53 @@ pub enum MultigetGetResponse {
     DuplicateResponseLongText_3
     (models::AnotherXmlObject)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultipleAuthSchemeGetResponse {
     /// Check that limiting to multiple required auth schemes works
     CheckThatLimitingToMultipleRequiredAuthSchemesWorks
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum OneOfGetResponse {
     /// Success
     Success
     (models::OneOfGet200Response)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum OverrideServerGetResponse {
     /// Success.
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ParamgetGetResponse {
     /// JSON rsp
     JSONRsp
     (models::AnotherXmlObject)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum QueryExampleGetResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ReadonlyAuthSchemeGetResponse {
     /// Check that limiting to a single required auth scheme works
     CheckThatLimitingToASingleRequiredAuthSchemeWorks
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RegisterCallbackPostResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RequiredBinaryStreamPutResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RequiredOctetStreamPutResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum ResponsesWithHeadersGetResponse {
@@ -210,7 +188,6 @@ pub enum ResponsesWithHeadersGetResponse {
         >
     }
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum Rfc7807GetResponse {
@@ -226,26 +203,22 @@ pub enum Rfc7807GetResponse {
     NotAcceptable
     (models::ObjectWithArrayOfObjects)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum TwoFirstLetterHeadersResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UntypedPropertyGetResponse {
     /// Check that untyped properties works
     CheckThatUntypedPropertiesWorks
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UuidGetResponse {
     /// Duplicate Response long text. One.
     DuplicateResponseLongText
     (uuid::Uuid)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlExtraPostResponse {
@@ -255,7 +228,6 @@ pub enum XmlExtraPostResponse {
     /// Bad Request
     BadRequest
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlOtherPostResponse {
@@ -266,7 +238,6 @@ pub enum XmlOtherPostResponse {
     /// Bad Request
     BadRequest
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlOtherPutResponse {
@@ -276,7 +247,6 @@ pub enum XmlOtherPutResponse {
     /// Bad Request
     BadRequest
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlPostResponse {
@@ -286,7 +256,6 @@ pub enum XmlPostResponse {
     /// Bad Request
     BadRequest
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlPutResponse {
@@ -296,40 +265,38 @@ pub enum XmlPutResponse {
     /// Bad Request
     BadRequest
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum EnumInPathPathParamGetResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CreateRepoResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum GetRepoInfoResponse {
     /// OK
     OK
     (String)
 }
-
 /// API
-#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait Api<C: Send + Sync> {
-    async fn any_of_get<'a>(
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
+        Poll::Ready(Ok(()))
+    }
+
+    async fn any_of_get(
         &self,
-        any_of: Option<&'a Vec<models::AnyOfObject>>,
+        any_of: Option<&Vec<models::AnyOfObject>>,
         context: &C) -> Result<AnyOfGetResponse, ApiError>;
 
     async fn callback_with_header_post(
@@ -337,21 +304,21 @@ pub trait Api<C: Send + Sync> {
         url: String,
         context: &C) -> Result<CallbackWithHeaderPostResponse, ApiError>;
 
-    async fn complex_query_param_get<'a>(
+    async fn complex_query_param_get(
         &self,
-        list_of_strings: Option<&'a Vec<models::StringObject>>,
+        list_of_strings: Option<&Vec<models::StringObject>>,
         context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>;
 
     /// Test examples
-    async fn examples_test<'a>(
+    async fn examples_test(
         &self,
-        ids: Option<&'a Vec<String>>,
+        ids: Option<&Vec<String>>,
         context: &C) -> Result<ExamplesTestResponse, ApiError>;
 
     /// Test a Form Post
-    async fn form_test<'a>(
+    async fn form_test(
         &self,
-        required_array: &'a Vec<String>,
+        required_array: &Vec<String>,
         enum_field: models::FormTestRequestEnumField,
         context: &C) -> Result<FormTestResponse, ApiError>;
 
@@ -360,9 +327,9 @@ pub trait Api<C: Send + Sync> {
         iambool: bool,
         context: &C) -> Result<GetWithBooleanParameterResponse, ApiError>;
 
-    async fn json_complex_query_param_get<'a>(
+    async fn json_complex_query_param_get(
         &self,
-        list_of_strings: Option<&'a Vec<models::StringObject>>,
+        list_of_strings: Option<&Vec<models::StringObject>>,
         context: &C) -> Result<JsonComplexQueryParamGetResponse, ApiError>;
 
     async fn mandatory_request_header_get(
@@ -395,8 +362,8 @@ pub trait Api<C: Send + Sync> {
     async fn paramget_get(
         &self,
         uuid: Option<uuid::Uuid>,
-        some_object: Option<models::ObjectParam>,
-        some_list: Option<models::MyIdList>,
+        some_object: Option<serde_json::Value>,
+        some_list: Option<&Vec<models::MyId>>,
         context: &C) -> Result<ParamgetGetResponse, ApiError>;
 
     /// Test required query params with and without examples
@@ -498,20 +465,17 @@ pub trait Api<C: Send + Sync> {
 }
 
 /// API where `Context` isn't passed on every API call
-#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait ApiNoContext<C: Send + Sync> {
-    // The std::task::Context struct houses a reference to std::task::Waker with the lifetime <'a>.
-    // Adding an anonymous lifetime `'a` to allow mockall to create a mock object with the right lifetimes.
-    // This is needed because the compiler is unable to determine the lifetimes on F's trait bound
-    // where F is the closure created by mockall. We use higher-rank trait bounds here to get around this.
+
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
 
     fn context(&self) -> &C;
 
-    async fn any_of_get<'a>(
+    async fn any_of_get(
         &self,
-        any_of: Option<&'a Vec<models::AnyOfObject>>,
+        any_of: Option<&Vec<models::AnyOfObject>>,
         ) -> Result<AnyOfGetResponse, ApiError>;
 
     async fn callback_with_header_post(
@@ -519,21 +483,21 @@ pub trait ApiNoContext<C: Send + Sync> {
         url: String,
         ) -> Result<CallbackWithHeaderPostResponse, ApiError>;
 
-    async fn complex_query_param_get<'a>(
+    async fn complex_query_param_get(
         &self,
-        list_of_strings: Option<&'a Vec<models::StringObject>>,
+        list_of_strings: Option<&Vec<models::StringObject>>,
         ) -> Result<ComplexQueryParamGetResponse, ApiError>;
 
     /// Test examples
-    async fn examples_test<'a>(
+    async fn examples_test(
         &self,
-        ids: Option<&'a Vec<String>>,
+        ids: Option<&Vec<String>>,
         ) -> Result<ExamplesTestResponse, ApiError>;
 
     /// Test a Form Post
-    async fn form_test<'a>(
+    async fn form_test(
         &self,
-        required_array: &'a Vec<String>,
+        required_array: &Vec<String>,
         enum_field: models::FormTestRequestEnumField,
         ) -> Result<FormTestResponse, ApiError>;
 
@@ -542,9 +506,9 @@ pub trait ApiNoContext<C: Send + Sync> {
         iambool: bool,
         ) -> Result<GetWithBooleanParameterResponse, ApiError>;
 
-    async fn json_complex_query_param_get<'a>(
+    async fn json_complex_query_param_get(
         &self,
-        list_of_strings: Option<&'a Vec<models::StringObject>>,
+        list_of_strings: Option<&Vec<models::StringObject>>,
         ) -> Result<JsonComplexQueryParamGetResponse, ApiError>;
 
     async fn mandatory_request_header_get(
@@ -577,8 +541,8 @@ pub trait ApiNoContext<C: Send + Sync> {
     async fn paramget_get(
         &self,
         uuid: Option<uuid::Uuid>,
-        some_object: Option<models::ObjectParam>,
-        some_list: Option<models::MyIdList>,
+        some_object: Option<serde_json::Value>,
+        some_list: Option<&Vec<models::MyId>>,
         ) -> Result<ParamgetGetResponse, ApiError>;
 
     /// Test required query params with and without examples
@@ -694,13 +658,17 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T
 
 #[async_trait]
 impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for ContextWrapper<T, C> {
+    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
+        self.api().poll_ready(cx)
+    }
+
     fn context(&self) -> &C {
         ContextWrapper::context(self)
     }
 
-    async fn any_of_get<'a>(
+    async fn any_of_get(
         &self,
-        any_of: Option<&'a Vec<models::AnyOfObject>>,
+        any_of: Option<&Vec<models::AnyOfObject>>,
         ) -> Result<AnyOfGetResponse, ApiError>
     {
         let context = self.context().clone();
@@ -716,9 +684,9 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().callback_with_header_post(url, &context).await
     }
 
-    async fn complex_query_param_get<'a>(
+    async fn complex_query_param_get(
         &self,
-        list_of_strings: Option<&'a Vec<models::StringObject>>,
+        list_of_strings: Option<&Vec<models::StringObject>>,
         ) -> Result<ComplexQueryParamGetResponse, ApiError>
     {
         let context = self.context().clone();
@@ -726,9 +694,9 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     }
 
     /// Test examples
-    async fn examples_test<'a>(
+    async fn examples_test(
         &self,
-        ids: Option<&'a Vec<String>>,
+        ids: Option<&Vec<String>>,
         ) -> Result<ExamplesTestResponse, ApiError>
     {
         let context = self.context().clone();
@@ -736,9 +704,9 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     }
 
     /// Test a Form Post
-    async fn form_test<'a>(
+    async fn form_test(
         &self,
-        required_array: &'a Vec<String>,
+        required_array: &Vec<String>,
         enum_field: models::FormTestRequestEnumField,
         ) -> Result<FormTestResponse, ApiError>
     {
@@ -755,9 +723,9 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().get_with_boolean_parameter(iambool, &context).await
     }
 
-    async fn json_complex_query_param_get<'a>(
+    async fn json_complex_query_param_get(
         &self,
-        list_of_strings: Option<&'a Vec<models::StringObject>>,
+        list_of_strings: Option<&Vec<models::StringObject>>,
         ) -> Result<JsonComplexQueryParamGetResponse, ApiError>
     {
         let context = self.context().clone();
@@ -818,8 +786,8 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     async fn paramget_get(
         &self,
         uuid: Option<uuid::Uuid>,
-        some_object: Option<models::ObjectParam>,
-        some_list: Option<models::MyIdList>,
+        some_object: Option<serde_json::Value>,
+        some_list: Option<&Vec<models::MyId>>,
         ) -> Result<ParamgetGetResponse, ApiError>
     {
         let context = self.context().clone();
@@ -1006,18 +974,18 @@ pub enum CallbackCallbackWithHeaderPostResponse {
     /// OK
     OK
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CallbackCallbackPostResponse {
     /// OK
     OK
 }
 
-
 /// Callback API
-#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 pub trait CallbackApi<C: Send + Sync> {
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
+        Poll::Ready(Ok(()))
+    }
 
     async fn callback_callback_with_header_post(
         &self,
@@ -1033,9 +1001,9 @@ pub trait CallbackApi<C: Send + Sync> {
 }
 
 /// Callback API without a `Context`
-#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 pub trait CallbackApiNoContext<C: Send + Sync> {
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
 
     fn context(&self) -> &C;
 
@@ -1066,6 +1034,9 @@ impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackContextWra
 
 #[async_trait]
 impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoContext<C> for ContextWrapper<T, C> {
+    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
+        self.api().poll_ready(cx)
+    }
 
     fn context(&self) -> &C {
         ContextWrapper::context(self)

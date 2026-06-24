@@ -397,7 +397,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **uuid** | [****](.md)| The stuff to get | 
  **some_object** | [****](.md)| Some object to pass as query parameter | 
- **some_list** | [****](.md)| Some list to pass as query parameter | 
+ **some_list** | [**i32**](i32.md)| Some list to pass as query parameter | 
 
 ### Return type
 

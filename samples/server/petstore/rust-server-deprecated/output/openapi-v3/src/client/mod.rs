@@ -1,12 +1,12 @@
+#![allow(clippy::clone_on_copy)]
+#![allow(clippy::vec_init_then_push)]
 use async_trait::async_trait;
-use bytes::Bytes;
 use futures::{Stream, future, future::BoxFuture, stream, future::TryFutureExt, future::FutureExt, stream::StreamExt};
-use http_body_util::{combinators::BoxBody, Full};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use hyper::{body::{Body, Incoming}, Request, Response, service::Service, Uri};
+use hyper::{Body, Request, Response, service::Service, Uri};
 use percent_encoding::{utf8_percent_encode, AsciiSet};
 use std::borrow::Cow;
-use std::convert::{TryInto, Infallible};
+use std::convert::TryInto;
 use std::io::{ErrorKind, Read};
 use std::error::Error;
 use std::future::Future;
@@ -20,11 +20,7 @@ use std::string::ToString;
 use std::task::{Context, Poll};
 use swagger::{ApiError, AuthData, BodyExt, Connector, DropContextService, Has, XSpanIdString};
 use url::form_urlencoded;
-use tower_service::Service as _;
 
-use mime::Mime;
-use std::io::Cursor;
-use multipart::client::lazy::Multipart;
 
 use crate::models;
 use crate::header;
@@ -42,42 +38,42 @@ const FRAGMENT_ENCODE_SET: &AsciiSet = &percent_encoding::CONTROLS
 const ID_ENCODE_SET: &AsciiSet = &FRAGMENT_ENCODE_SET.add(b'|');
 
 use crate::{Api,
-     TestSpecialTagsResponse,
-     Call123exampleResponse,
-     FakeOuterBooleanSerializeResponse,
-     FakeOuterCompositeSerializeResponse,
-     FakeOuterNumberSerializeResponse,
-     FakeOuterStringSerializeResponse,
-     FakeResponseWithNumericalDescriptionResponse,
-     TestBodyWithQueryParamsResponse,
-     TestClientModelResponse,
-     TestEndpointParametersResponse,
-     TestEnumParametersResponse,
-     TestInlineAdditionalPropertiesResponse,
-     TestJsonFormDataResponse,
-     HyphenParamResponse,
-     TestClassnameResponse,
-     AddPetResponse,
-     FindPetsByStatusResponse,
-     FindPetsByTagsResponse,
-     UpdatePetResponse,
-     DeletePetResponse,
-     GetPetByIdResponse,
-     UpdatePetWithFormResponse,
-     UploadFileResponse,
-     GetInventoryResponse,
-     PlaceOrderResponse,
-     DeleteOrderResponse,
-     GetOrderByIdResponse,
-     CreateUserResponse,
-     CreateUsersWithArrayInputResponse,
-     CreateUsersWithListInputResponse,
-     LoginUserResponse,
-     LogoutUserResponse,
-     DeleteUserResponse,
-     GetUserByNameResponse,
-     UpdateUserResponse
+     AnyOfGetResponse,
+     CallbackWithHeaderPostResponse,
+     ComplexQueryParamGetResponse,
+     ExamplesTestResponse,
+     FormTestResponse,
+     GetWithBooleanParameterResponse,
+     JsonComplexQueryParamGetResponse,
+     MandatoryRequestHeaderGetResponse,
+     MergePatchJsonGetResponse,
+     MultigetGetResponse,
+     MultipleAuthSchemeGetResponse,
+     OneOfGetResponse,
+     OverrideServerGetResponse,
+     ParamgetGetResponse,
+     QueryExampleGetResponse,
+     ReadonlyAuthSchemeGetResponse,
+     RegisterCallbackPostResponse,
+     RequiredBinaryStreamPutResponse,
+     RequiredOctetStreamPutResponse,
+     ResponsesWithHeadersGetResponse,
+     Rfc7807GetResponse,
+     TwoFirstLetterHeadersResponse,
+     UntypedPropertyGetResponse,
+     UuidGetResponse,
+     XmlExtraPostResponse,
+     XmlOtherPostResponse,
+     XmlOtherPutResponse,
+     XmlPostResponse,
+     XmlPutResponse,
+     EnumInPathPathParamGetResponse,
+     MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse,
+     CreateRepoResponse,
+     GetRepoInfoResponse
      };
+
+pub mod callbacks;
 
 /// Convert input into a base path, e.g. "http://example:123". Also checks the scheme as it goes.
 fn into_base_path(input: impl TryInto<Uri, Error=hyper::http::uri::InvalidUri>, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
@@ -101,7 +97,8 @@ fn into_base_path(input: impl TryInto<Uri, Error=hyper::http::uri::InvalidUri>, 
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
+           (Request<Body>, C),
+           Response=Response<Body>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -118,7 +115,8 @@ pub struct Client<S, C> where
 
 impl<S, C> fmt::Debug for Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
+           (Request<Body>, C),
+           Response=Response<Body>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -130,7 +128,8 @@ impl<S, C> fmt::Debug for Client<S, C> where
 
 impl<S, C> Clone for Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
+           (Request<Body>, C),
+           Response=Response<Body>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -144,19 +143,8 @@ impl<S, C> Clone for Client<S, C> where
     }
 }
 
-impl<Connector, C> Client<
-    DropContextService<
-        hyper_util::service::TowerToHyperService<
-            hyper_util::client::legacy::Client<
-                Connector,
-                BoxBody<Bytes, Infallible>
-            >
-        >,
-        C
-    >,
-    C
-> where
-    Connector: hyper_util::client::legacy::connect::Connect + Clone + Send + Sync + 'static,
+impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Body>, C>, C> where
+    Connector: hyper::client::connect::Connect + Clone + Send + Sync + 'static,
     C: Clone + Send + Sync + 'static,
 {
     /// Create a client with a custom implementation of hyper::client::Connect.
@@ -170,7 +158,7 @@ impl<Connector, C> Client<
     ///
     /// # Arguments
     ///
-    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
+    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
     /// * `protocol` - Which protocol to use when constructing the request url, e.g. `Some("http")`
     /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
     pub fn try_new_with_connector(
@@ -179,8 +167,8 @@ impl<Connector, C> Client<
         connector: Connector,
     ) -> Result<Self, ClientInitError>
     {
-        let client_service = hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector);
-        let client_service = DropContextService::new(hyper_util::service::TowerToHyperService::new(client_service));
+        let client_service = hyper::client::Client::builder().build(connector);
+        let client_service = DropContextService::new(client_service);
 
         Ok(Self {
             client_service,
@@ -190,29 +178,28 @@ impl<Connector, C> Client<
     }
 }
 
-#[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-type HyperHttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
-
-#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
-type HyperHttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
-
 #[derive(Debug, Clone)]
 pub enum HyperClient {
-    Http(hyper_util::client::legacy::Client<hyper_util::client::legacy::connect::HttpConnector, BoxBody<Bytes, Infallible>>),
-    #[cfg(feature = "client-tls")]
-    Https(hyper_util::client::legacy::Client<HyperHttpsConnector, BoxBody<Bytes, Infallible>>),
+    Http(hyper::client::Client<hyper::client::HttpConnector, Body>),
+    Https(hyper::client::Client<HttpsConnector, Body>),
 }
 
-impl Service<Request<BoxBody<Bytes, Infallible>>> for HyperClient {
-    type Response = Response<Incoming>;
-    type Error = hyper_util::client::legacy::Error;
-    type Future = hyper_util::client::legacy::ResponseFuture;
+impl Service<Request<Body>> for HyperClient {
+    type Response = Response<Body>;
+    type Error = hyper::Error;
+    type Future = hyper::client::ResponseFuture;
 
-    fn call(&self, req: Request<BoxBody<Bytes, Infallible>>) -> Self::Future {
+    fn poll_ready(&mut self, cx: &mut Context) -> Poll<Result<(), Self::Error>> {
        match self {
-          HyperClient::Http(client) => client.request(req),
-          #[cfg(feature = "client-tls")]
-          HyperClient::Https(client) => client.request(req),
+          HyperClient::Http(client) => client.poll_ready(cx),
+          HyperClient::Https(client) => client.poll_ready(cx),
+       }
+    }
+
+    fn call(&mut self, req: Request<Body>) -> Self::Future {
+       match self {
+          HyperClient::Http(client) => client.call(req),
+          HyperClient::Https(client) => client.call(req)
        }
     }
 }
@@ -223,7 +210,7 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
     /// Create an HTTP client.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
+    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
     pub fn try_new(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
@@ -236,19 +223,13 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
 
         let client_service = match scheme.as_str() {
             "http" => {
-                HyperClient::Http(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector.build()))
+                HyperClient::Http(hyper::client::Client::builder().build(connector.build()))
             },
-            #[cfg(feature = "client-tls")]
             "https" => {
-                let https_connector = connector
-                    .https()
-                    .build()
-                    .map_err(ClientInitError::SslError)?;
-                HyperClient::Https(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(https_connector))
-            },
-            #[cfg(not(feature = "client-tls"))]
-            "https" => {
-                return Err(ClientInitError::TlsNotEnabled);
+                let connector = connector.https()
+                   .build()
+                   .map_err(ClientInitError::SslError)?;
+                HyperClient::Https(hyper::client::Client::builder().build(connector))
             },
             _ => {
                 return Err(ClientInitError::InvalidScheme);
@@ -265,24 +246,13 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
     }
 }
 
-impl<C> Client<
-    DropContextService<
-        hyper_util::service::TowerToHyperService<
-            hyper_util::client::legacy::Client<
-                hyper_util::client::legacy::connect::HttpConnector,
-                BoxBody<Bytes, Infallible>
-            >
-        >,
-        C
-    >,
-    C
-> where
+impl<C> Client<DropContextService<hyper::client::Client<hyper::client::HttpConnector, Body>, C>, C> where
     C: Clone + Send + Sync + 'static
 {
     /// Create an HTTP client.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
+    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
     pub fn try_new_http(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
@@ -292,32 +262,19 @@ impl<C> Client<
     }
 }
 
-#[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-type HttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
+#[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
 
-#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
-type HttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
 
-#[cfg(feature = "client-tls")]
-impl<C> Client<
-    DropContextService<
-        hyper_util::service::TowerToHyperService<
-            hyper_util::client::legacy::Client<
-                HttpsConnector,
-                BoxBody<Bytes, Infallible>
-            >
-        >,
-        C
-    >,
-    C
-> where
+impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C>, C> where
     C: Clone + Send + Sync + 'static
 {
-    /// Create a client with a TLS connection to the server.
+    /// Create a client with a TLS connection to the server
     ///
     /// # Arguments
     /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
-    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
     pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
     {
         let https_connector = Connector::builder()
@@ -327,21 +284,7 @@ impl<C> Client<
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
-    /// Create a client with a TLS connection to the server using OpenSSL via swagger.
-    ///
-    /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-    pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
-    {
-        let https_connector = Connector::builder()
-            .https()
-            .build()
-            .map_err(ClientInitError::SslError)?;
-        Self::try_new_with_connector(base_path, Some("https"), https_connector)
-    }
-
-    /// Create a client with a TLS connection to the server using a pinned certificate.
+    /// Create a client with a TLS connection to the server using a pinned certificate
     ///
     /// # Arguments
     /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
@@ -393,7 +336,8 @@ impl<C> Client<
 
 impl<S, C> Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
+           (Request<Body>, C),
+           Response=Response<Body>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -427,15 +371,12 @@ pub enum ClientInitError {
     /// Missing Hostname
     MissingHost,
 
-    /// HTTPS requested but TLS features not enabled
-    TlsNotEnabled,
-
     /// SSL Connection Error
-    #[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
     SslError(native_tls::Error),
 
     /// SSL Connection Error
-    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     SslError(openssl::error::ErrorStack),
 }
 
@@ -458,39 +399,361 @@ impl Error for ClientInitError {
     }
 }
 
-#[allow(dead_code)]
-fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
-    BoxBody::new(Full::new(Bytes::from(s)))
-}
-
-#[allow(dead_code)]
-fn body_from_bytes(b: Vec<u8>) -> BoxBody<Bytes, Infallible> {
-    BoxBody::new(Full::new(Bytes::from(b)))
-}
-
 #[async_trait]
-impl<S, C, B> Api<C> for Client<S, C> where
+impl<S, C> Api<C> for Client<S, C> where
     S: Service<
-       (Request<BoxBody<Bytes, Infallible>>, C),
-       Response=Response<B>> + Clone + Sync + Send + 'static,
+       (Request<Body>, C),
+       Response=Response<Body>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Has<XSpanIdString> + Has<Option<AuthData>> + Clone + Send + Sync + 'static,
-    B: hyper::body::Body + Send + 'static + Unpin,
-    B::Data: Send,
-    B::Error: Into<Box<dyn Error + Send + Sync>>,
 {
+    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), crate::ServiceError>> {
+        match self.client_service.clone().poll_ready(cx) {
+            Poll::Ready(Err(e)) => Poll::Ready(Err(e.into())),
+            Poll::Ready(Ok(o)) => Poll::Ready(Ok(o)),
+            Poll::Pending => Poll::Pending,
+        }
+    }
 
-    #[allow(clippy::vec_init_then_push)]
-    async fn test_special_tags(
+    async fn any_of_get(
         &self,
-        param_body: models::Client,
-        context: &C) -> Result<TestSpecialTagsResponse, ApiError>
+        param_any_of: Option<&Vec<models::AnyOfObject>>,
+        context: &C) -> Result<AnyOfGetResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
         #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
-            "{}/v2/another-fake/dummy",
+            "{}/any-of",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            if let Some(param_any_of) = param_any_of {
+                query_string.append_pair("any-of",
+                    &param_any_of.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+            }
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::AnyOfObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(AnyOfGetResponse::Success
+                    (body)
+                )
+            }
+            201 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::Model12345AnyOfObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(AnyOfGetResponse::AlternateSuccess
+                    (body)
+                )
+            }
+            202 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::AnyOfGet202Response>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(AnyOfGetResponse::AnyOfSuccess
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn callback_with_header_post(
+        &self,
+        param_url: String,
+        context: &C) -> Result<CallbackWithHeaderPostResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/callback-with-header",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+                query_string.append_pair("url",
+                    &param_url);
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            204 => {
+                Ok(
+                    CallbackWithHeaderPostResponse::OK
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn complex_query_param_get(
+        &self,
+        param_list_of_strings: Option<&Vec<models::StringObject>>,
+        context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/complex-query-param",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            if let Some(param_list_of_strings) = param_list_of_strings {
+                query_string.append_pair("list-of-strings",
+                    &param_list_of_strings.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+            }
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    ComplexQueryParamGetResponse::Success
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn examples_test(
+        &self,
+        param_ids: Option<&Vec<String>>,
+        context: &C) -> Result<ExamplesTestResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/examples-test",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            if let Some(param_ids) = param_ids {
+                query_string.append_pair("ids",
+                    &param_ids.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+            }
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::AdditionalPropertiesReferencedAnyOfObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(ExamplesTestResponse::OK
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn form_test(
+        &self,
+        param_required_array: &Vec<String>,
+        param_enum_field: models::FormTestRequestEnumField,
+        context: &C) -> Result<FormTestResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/form-test",
             self.base_path
         );
 
@@ -510,21 +773,33 @@ impl<S, C, B> Api<C> for Client<S, C> where
         };
 
         let mut request = match Request::builder()
-            .method("PATCH")
+            .method("POST")
             .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
+            .body(Body::empty()) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
 
-        // Consumes basic body
-        // Body parameter
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
+        // Consumes form body
+        let mut params = vec![];
+        // style=form,explode=true
+        for param_required_array in param_required_array {
+        #[allow(clippy::uninlined_format_args)]
+        params.push(("requiredArray",
+            format!("{:?}", param_required_array)
+        ));
+        }
+        #[allow(clippy::uninlined_format_args)]
+        params.push(("enum_field",
+            format!("{:?}", param_enum_field)
+        ));
 
-        let header = "application/json";
+        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
+
+        *request.body_mut() = Body::from(body.into_bytes());
+
+        let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -536,49 +811,177 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                let body = serde_json::from_str::<models::Client>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(TestSpecialTagsResponse::SuccessfulOperation
-                    (body)
+                Ok(
+                    FormTestResponse::OK
                 )
             }
             code => {
                 let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                        Err(e) => format!("<Failed to read body: {e}>"),
                     }
                 )))
             }
         }
     }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn call123example(
+    async fn get_with_boolean_parameter(
         &self,
-        context: &C) -> Result<Call123exampleResponse, ApiError>
+        param_iambool: bool,
+        context: &C) -> Result<GetWithBooleanParameterResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
         #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
-            "{}/v2/fake/operation-with-numeric-id",
+            "{}/get-with-bool",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+                query_string.append_pair("iambool",
+                    &param_iambool.to_string());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    GetWithBooleanParameterResponse::OK
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn json_complex_query_param_get(
+        &self,
+        param_list_of_strings: Option<&Vec<models::StringObject>>,
+        context: &C) -> Result<JsonComplexQueryParamGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/json-complex-query-param",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            if let Some(param_list_of_strings) = param_list_of_strings {
+                query_string.append_pair("list-of-strings",
+                    &match serde_json::to_string(&param_list_of_strings) {
+                        Ok(str) => str,
+                        Err(e) => return Err(ApiError(format!("Unable to serialize list_of_strings to string: {e}"))),
+                    });
+            }
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    JsonComplexQueryParamGetResponse::Success
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn mandatory_request_header_get(
+        &self,
+        param_x_header: String,
+        context: &C) -> Result<MandatoryRequestHeaderGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/mandatory-request-header",
             self.base_path
         );
 
@@ -600,11 +1003,644 @@ impl<S, C, B> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
+            .body(Body::empty()) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
 
+        // Header parameters
+        request.headers_mut().append(
+            HeaderName::from_static("x-header"),
+            #[allow(clippy::redundant_clone)]
+            match header::IntoHeaderValue(param_x_header.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Err(ApiError(format!(
+                        "Invalid header x_header - {e}")));
+                },
+            });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    MandatoryRequestHeaderGetResponse::Success
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn merge_patch_json_get(
+        &self,
+        context: &C) -> Result<MergePatchJsonGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/merge-patch-json",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::AnotherXmlObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(MergePatchJsonGetResponse::Merge
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn multiget_get(
+        &self,
+        context: &C) -> Result<MultigetGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/multiget",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::AnotherXmlObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(MultigetGetResponse::JSONRsp
+                    (body)
+                )
+            }
+            201 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                let body = serde_xml_rs::from_str::<models::MultigetGet201Response>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(MultigetGetResponse::XMLRsp
+                    (body)
+                )
+            }
+            202 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = swagger::ByteArray(body.to_vec());
+
+                Ok(MultigetGetResponse::OctetRsp
+                    (body)
+                )
+            }
+            203 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = body.to_string();
+
+                Ok(MultigetGetResponse::StringRsp
+                    (body)
+                )
+            }
+            204 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::AnotherXmlObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(MultigetGetResponse::DuplicateResponseLongText
+                    (body)
+                )
+            }
+            205 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::AnotherXmlObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(MultigetGetResponse::DuplicateResponseLongText_2
+                    (body)
+                )
+            }
+            206 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::AnotherXmlObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(MultigetGetResponse::DuplicateResponseLongText_3
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn multiple_auth_scheme_get(
+        &self,
+        context: &C) -> Result<MultipleAuthSchemeGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/multiple_auth_scheme",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        #[allow(clippy::collapsible_match)]
+        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            #[allow(clippy::single_match, clippy::match_single_binding)]
+            match auth_data {
+                AuthData::Bearer(bearer_header) => {
+                    let auth = swagger::auth::Header(bearer_header.clone());
+                    let header = match HeaderValue::from_str(&format!("{auth}")) {
+                        Ok(h) => h,
+                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
+                    };
+                    request.headers_mut().insert(
+                        hyper::header::AUTHORIZATION,
+                        header);
+                },
+                _ => {}
+            }
+        }
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    MultipleAuthSchemeGetResponse::CheckThatLimitingToMultipleRequiredAuthSchemesWorks
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn one_of_get(
+        &self,
+        context: &C) -> Result<OneOfGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/one-of",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::OneOfGet200Response>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(OneOfGetResponse::Success
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn override_server_get(
+        &self,
+        context: &C) -> Result<OverrideServerGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/override/override-server",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            204 => {
+                Ok(
+                    OverrideServerGetResponse::Success
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn paramget_get(
+        &self,
+        param_uuid: Option<uuid::Uuid>,
+        param_some_object: Option<serde_json::Value>,
+        param_some_list: Option<&Vec<models::MyId>>,
+        context: &C) -> Result<ParamgetGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/paramget",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            if let Some(param_uuid) = param_uuid {
+                query_string.append_pair("uuid",
+                    &param_uuid.to_string());
+            }
+            if let Some(param_some_object) = param_some_object {
+                query_string.append_pair("someObject",
+                    &param_some_object.to_string());
+            }
+            if let Some(param_some_list) = param_some_list {
+                query_string.append_pair("someList",
+                    &param_some_list.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+            }
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::AnotherXmlObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(ParamgetGetResponse::JSONRsp
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn query_example_get(
+        &self,
+        param_required_no_example: String,
+        param_required_with_example: i32,
+        context: &C) -> Result<QueryExampleGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/query-example",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+                query_string.append_pair("required_no_example",
+                    &param_required_no_example);
+                query_string.append_pair("required_with_example",
+                    &param_required_with_example.to_string());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -617,37 +1653,34 @@ impl<S, C, B> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             200 => {
                 Ok(
-                    Call123exampleResponse::Success
+                    QueryExampleGetResponse::OK
                 )
             }
             code => {
                 let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                        Err(e) => format!("<Failed to read body: {e}>"),
                     }
                 )))
             }
         }
     }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn fake_outer_boolean_serialize(
+    async fn readonly_auth_scheme_get(
         &self,
-        param_body: Option<models::OuterBoolean>,
-        context: &C) -> Result<FakeOuterBooleanSerializeResponse, ApiError>
+        context: &C) -> Result<ReadonlyAuthSchemeGetResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
         #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
-            "{}/v2/fake/outer/boolean",
+            "{}/readonly_auth_scheme",
             self.base_path
         );
 
@@ -667,23 +1700,98 @@ impl<S, C, B> Api<C> for Client<S, C> where
         };
 
         let mut request = match Request::builder()
-            .method("POST")
+            .method("GET")
             .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
+            .body(Body::empty()) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
 
-        // Consumes basic body
-        // Body parameter
-        if let Some(param_body) = param_body {
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
+        #[allow(clippy::collapsible_match)]
+        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            #[allow(clippy::single_match, clippy::match_single_binding)]
+            match auth_data {
+                AuthData::Bearer(bearer_header) => {
+                    let auth = swagger::auth::Header(bearer_header.clone());
+                    let header = match HeaderValue::from_str(&format!("{auth}")) {
+                        Ok(h) => h,
+                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
+                    };
+                    request.headers_mut().insert(
+                        hyper::header::AUTHORIZATION,
+                        header);
+                },
+                _ => {}
+            }
         }
 
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
 
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    ReadonlyAuthSchemeGetResponse::CheckThatLimitingToASingleRequiredAuthSchemeWorks
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn register_callback_post(
+        &self,
+        param_url: String,
+        context: &C) -> Result<RegisterCallbackPostResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/register-callback",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+                query_string.append_pair("url",
+                    &param_url);
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -694,51 +1802,37 @@ impl<S, C, B> Api<C> for Client<S, C> where
             .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
 
         match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                let body = serde_json::from_str::<bool>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(FakeOuterBooleanSerializeResponse::OutputBoolean
-                    (body)
+            204 => {
+                Ok(
+                    RegisterCallbackPostResponse::OK
                 )
             }
             code => {
                 let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                        Err(e) => format!("<Failed to read body: {e}>"),
                     }
                 )))
             }
         }
     }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn fake_outer_composite_serialize(
+    async fn required_binary_stream_put(
         &self,
-        param_body: Option<models::OuterComposite>,
-        context: &C) -> Result<FakeOuterCompositeSerializeResponse, ApiError>
+        param_body: swagger::ByteArray,
+        context: &C) -> Result<RequiredBinaryStreamPutResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
         #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
-            "{}/v2/fake/outer/composite",
+            "{}/required_binary_stream",
             self.base_path
         );
 
@@ -758,23 +1852,20 @@ impl<S, C, B> Api<C> for Client<S, C> where
         };
 
         let mut request = match Request::builder()
-            .method("POST")
+            .method("PUT")
             .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
+            .body(Body::empty()) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
 
         // Consumes basic body
         // Body parameter
-        if let Some(param_body) = param_body {
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-        }
+        let body = param_body;
+        *request.body_mut() = Body::from(body);
 
-        let header = "application/json";
+        let header = "application/octet-stream";
         request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -786,50 +1877,36 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                let body = serde_json::from_str::<models::OuterComposite>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(FakeOuterCompositeSerializeResponse::OutputComposite
-                    (body)
+                Ok(
+                    RequiredBinaryStreamPutResponse::OK
                 )
             }
             code => {
                 let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                        Err(e) => format!("<Failed to read body: {e}>"),
                     }
                 )))
             }
         }
     }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn fake_outer_number_serialize(
+    async fn required_octet_stream_put(
         &self,
-        param_body: Option<models::OuterNumber>,
-        context: &C) -> Result<FakeOuterNumberSerializeResponse, ApiError>
+        param_body: swagger::ByteArray,
+        context: &C) -> Result<RequiredOctetStreamPutResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
         #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
-            "{}/v2/fake/outer/number",
+            "{}/required_octet_stream",
             self.base_path
         );
 
@@ -849,23 +1926,20 @@ impl<S, C, B> Api<C> for Client<S, C> where
         };
 
         let mut request = match Request::builder()
-            .method("POST")
+            .method("PUT")
             .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
+            .body(Body::empty()) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
 
         // Consumes basic body
         // Body parameter
-        if let Some(param_body) = param_body {
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-        }
+        let body = param_body.0;
+        *request.body_mut() = Body::from(body);
 
-        let header = "application/json";
+        let header = "application/octet-stream";
         request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -877,50 +1951,35 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                let body = serde_json::from_str::<f64>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(FakeOuterNumberSerializeResponse::OutputNumber
-                    (body)
+                Ok(
+                    RequiredOctetStreamPutResponse::OK
                 )
             }
             code => {
                 let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                        Err(e) => format!("<Failed to read body: {e}>"),
                     }
                 )))
             }
         }
     }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn fake_outer_string_serialize(
+    async fn responses_with_headers_get(
         &self,
-        param_body: Option<models::OuterString>,
-        context: &C) -> Result<FakeOuterStringSerializeResponse, ApiError>
+        context: &C) -> Result<ResponsesWithHeadersGetResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
         #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
-            "{}/v2/fake/outer/string",
+            "{}/responses_with_headers",
             self.base_path
         );
 
@@ -940,23 +1999,12 @@ impl<S, C, B> Api<C> for Client<S, C> where
         };
 
         let mut request = match Request::builder()
-            .method("POST")
+            .method("GET")
             .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
+            .body(Body::empty()) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
-        // Consumes basic body
-        // Body parameter
-        if let Some(param_body) = param_body {
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-        }
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -968,2582 +2016,129 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
+                let response_success_info = match response.headers().get(HeaderName::from_static("success-info")) {
+                    Some(response_success_info) => {
+                        let response_success_info = response_success_info.clone();
+                        let response_success_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_success_info) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header Success-Info for response 200 - {e}")));
+                            },
+                        };
+                        response_success_info.0
+                        },
+                    None => return Err(ApiError(String::from("Required response header Success-Info for response 200 was not found."))),
+                };
+
+                let response_bool_header = match response.headers().get(HeaderName::from_static("bool-header")) {
+                    Some(response_bool_header) => {
+                        let response_bool_header = response_bool_header.clone();
+                        let response_bool_header = match TryInto::<header::IntoHeaderValue<bool>>::try_into(response_bool_header) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header Bool-Header for response 200 - {e}")));
+                            },
+                        };
+                        Some(response_bool_header.0)
+                        },
+                    None => None,
+                };
+
+                let response_object_header = match response.headers().get(HeaderName::from_static("object-header")) {
+                    Some(response_object_header) => {
+                        let response_object_header = response_object_header.clone();
+                        let response_object_header = match TryInto::<header::IntoHeaderValue<models::ObjectHeader>>::try_into(response_object_header) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header Object-Header for response 200 - {e}")));
+                            },
+                        };
+                        Some(response_object_header.0)
+                        },
+                    None => None,
+                };
+
                 let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<String>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
-                Ok(FakeOuterStringSerializeResponse::OutputString
-                    (body)
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn fake_response_with_numerical_description(
-        &self,
-        context: &C) -> Result<FakeResponseWithNumericalDescriptionResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/fake/response-with-numerical-description",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("GET")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                Ok(
-                    FakeResponseWithNumericalDescriptionResponse::Status200
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn test_body_with_query_params(
-        &self,
-        param_query: String,
-        param_body: models::User,
-        context: &C) -> Result<TestBodyWithQueryParamsResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/fake/body-with-query-params",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("query",
-                    &param_query);
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("PUT")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes basic body
-        // Body parameter
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                Ok(
-                    TestBodyWithQueryParamsResponse::Success
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn test_client_model(
-        &self,
-        param_body: models::Client,
-        context: &C) -> Result<TestClientModelResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/fake",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("PATCH")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes basic body
-        // Body parameter
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                let body = serde_json::from_str::<models::Client>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(TestClientModelResponse::SuccessfulOperation
-                    (body)
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn test_endpoint_parameters(
-        &self,
-        param_number: f64,
-        param_double: f64,
-        param_pattern_without_delimiter: String,
-        param_byte: swagger::ByteArray,
-        param_integer: Option<u32>,
-        param_int32: Option<u32>,
-        param_int64: Option<i64>,
-        param_float: Option<f32>,
-        param_string: Option<String>,
-        param_binary: Option<swagger::ByteArray>,
-        param_date: Option<chrono::naive::NaiveDate>,
-        param_date_time: Option<chrono::DateTime::<chrono::Utc>>,
-        param_password: Option<String>,
-        param_callback: Option<String>,
-        context: &C) -> Result<TestEndpointParametersResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/fake",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("POST")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes form body
-        let mut params = vec![];
-        if let Some(param_integer) = param_integer {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("integer",
-            format!("{:?}", param_integer)
-        ));
-        }
-        if let Some(param_int32) = param_int32 {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("int32",
-            format!("{:?}", param_int32)
-        ));
-        }
-        if let Some(param_int64) = param_int64 {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("int64",
-            format!("{:?}", param_int64)
-        ));
-        }
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("number",
-            format!("{}", param_number)
-        ));
-        if let Some(param_float) = param_float {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("float",
-            format!("{:?}", param_float)
-        ));
-        }
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("double",
-            format!("{}", param_double)
-        ));
-        if let Some(param_string) = param_string {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("string",
-            param_string
-        ));
-        }
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("pattern_without_delimiter",
-            param_pattern_without_delimiter
-        ));
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("byte",
-            format!("{:?}", param_byte)
-        ));
-        if let Some(param_binary) = param_binary {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("binary",
-            format!("{:?}", param_binary)
-        ));
-        }
-        if let Some(param_date) = param_date {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("date",
-            format!("{:?}", param_date)
-        ));
-        }
-        if let Some(param_date_time) = param_date_time {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("dateTime",
-            format!("{:?}", param_date_time)
-        ));
-        }
-        if let Some(param_password) = param_password {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("password",
-            param_password
-        ));
-        }
-        if let Some(param_callback) = param_callback {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("callback",
-            param_callback
-        ));
-        }
-
-        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
-
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/x-www-form-urlencoded";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                AuthData::Basic(ref basic_user, ref basic_password) => {
-                    let auth = headers::Authorization::basic(basic_user.as_str(), basic_password.as_str());
-                    request.headers_mut().insert(
-                        hyper::header::AUTHORIZATION,
-                        auth.0.encode());
-                },
-                _ => {}
-            }
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            400 => {
-                Ok(
-                    TestEndpointParametersResponse::InvalidUsernameSupplied
-                )
-            }
-            404 => {
-                Ok(
-                    TestEndpointParametersResponse::UserNotFound
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn test_enum_parameters<'a>(
-        &self,
-        param_enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        param_enum_header_string: Option<models::TestEnumParametersRequestEnumFormString>,
-        param_enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        param_enum_query_string: Option<models::TestEnumParametersRequestEnumFormString>,
-        param_enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
-        param_enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
-        param_enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
-        context: &C) -> Result<TestEnumParametersResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/fake",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            if let Some(param_enum_query_string_array) = param_enum_query_string_array {
-                query_string.append_pair("enum_query_string_array",
-                    &param_enum_query_string_array.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
-            }
-            if let Some(param_enum_query_string) = param_enum_query_string {
-                query_string.append_pair("enum_query_string",
-                    &param_enum_query_string.to_string());
-            }
-            if let Some(param_enum_query_integer) = param_enum_query_integer {
-                query_string.append_pair("enum_query_integer",
-                    &param_enum_query_integer.to_string());
-            }
-            if let Some(param_enum_query_double) = param_enum_query_double {
-                query_string.append_pair("enum_query_double",
-                    &param_enum_query_double.to_string());
-            }
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("GET")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes form body
-        let mut params = vec![];
-        if let Some(param_enum_form_string) = param_enum_form_string {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("enum_form_string",
-            format!("{:?}", param_enum_form_string)
-        ));
-        }
-
-        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
-
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/x-www-form-urlencoded";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        // Header parameters
-        #[allow(clippy::single_match)]
-        match param_enum_header_string_array {
-            Some(param_enum_header_string_array) => {
-        request.headers_mut().append(
-            HeaderName::from_static("enum_header_string_array"),
-            #[allow(clippy::redundant_clone, clippy::clone_on_copy)]
-            match header::IntoHeaderValue(param_enum_header_string_array.clone()).try_into() {
-                Ok(header) => header,
-                Err(e) => {
-                    return Err(ApiError(format!(
-                        "Invalid header enum_header_string_array - {e}")));
-                },
-            });
-            },
-            None => {}
-        }
-
-        #[allow(clippy::single_match)]
-        match param_enum_header_string {
-            Some(param_enum_header_string) => {
-        request.headers_mut().append(
-            HeaderName::from_static("enum_header_string"),
-            #[allow(clippy::redundant_clone, clippy::clone_on_copy)]
-            match header::IntoHeaderValue(param_enum_header_string.clone()).try_into() {
-                Ok(header) => header,
-                Err(e) => {
-                    return Err(ApiError(format!(
-                        "Invalid header enum_header_string - {e}")));
-                },
-            });
-            },
-            None => {}
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            400 => {
-                Ok(
-                    TestEnumParametersResponse::InvalidRequest
-                )
-            }
-            404 => {
-                Ok(
-                    TestEnumParametersResponse::NotFound
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn test_inline_additional_properties(
-        &self,
-        param_param: std::collections::HashMap<String, String>,
-        context: &C) -> Result<TestInlineAdditionalPropertiesResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/fake/inline-additionalProperties",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("POST")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes basic body
-        // Body parameter
-        let body = serde_json::to_string(&param_param).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                Ok(
-                    TestInlineAdditionalPropertiesResponse::SuccessfulOperation
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn test_json_form_data(
-        &self,
-        param_param: String,
-        param_param2: String,
-        context: &C) -> Result<TestJsonFormDataResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/fake/jsonFormData",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("GET")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes form body
-        let mut params = vec![];
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("param",
-            param_param
-        ));
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("param2",
-            param_param2
-        ));
-
-        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
-
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/x-www-form-urlencoded";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                Ok(
-                    TestJsonFormDataResponse::SuccessfulOperation
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn hyphen_param(
-        &self,
-        param_hyphen_param: String,
-        context: &C) -> Result<HyphenParamResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/fake/hyphenParam/{hyphen_param}",
-            self.base_path
-            ,hyphen_param=utf8_percent_encode(&param_hyphen_param.to_string(), ID_ENCODE_SET)
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("GET")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                Ok(
-                    HyphenParamResponse::Success
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn test_classname(
-        &self,
-        param_body: models::Client,
-        context: &C) -> Result<TestClassnameResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/fake_classname_test",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            if let Some(AuthData::ApiKey(ref api_key)) = (context as &dyn Has<Option<AuthData>>).get().as_ref() {
-                query_string.append_pair("api_key_query", api_key);
-            }
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("PATCH")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes basic body
-        // Body parameter
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                _ => {}
-            }
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                let body = serde_json::from_str::<models::Client>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(TestClassnameResponse::SuccessfulOperation
-                    (body)
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn add_pet(
-        &self,
-        param_body: models::Pet,
-        context: &C) -> Result<AddPetResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/pet",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("POST")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes basic body
-        // Body parameter
-        let body = param_body.as_xml();
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                AuthData::Bearer(ref bearer_header) => {
-                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
-                    };
-                    request.headers_mut().insert(
-                        hyper::header::AUTHORIZATION,
-                        header.0.encode());
-                },
-                _ => {}
-            }
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            405 => {
-                Ok(
-                    AddPetResponse::InvalidInput
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn find_pets_by_status<'a>(
-        &self,
-        param_status: &'a Vec<models::FindPetsByStatusStatusParameterInner>,
-        context: &C) -> Result<FindPetsByStatusResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/pet/findByStatus",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("status",
-                    &param_status.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("GET")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                AuthData::Bearer(ref bearer_header) => {
-                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
-                    };
-                    request.headers_mut().insert(
-                        hyper::header::AUTHORIZATION,
-                        header.0.encode());
-                },
-                _ => {}
-            }
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(FindPetsByStatusResponse::SuccessfulOperation
-                    (body)
-                )
-            }
-            400 => {
-                Ok(
-                    FindPetsByStatusResponse::InvalidStatusValue
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn find_pets_by_tags<'a>(
-        &self,
-        param_tags: &'a Vec<String>,
-        context: &C) -> Result<FindPetsByTagsResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/pet/findByTags",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("tags",
-                    &param_tags.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("GET")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                AuthData::Bearer(ref bearer_header) => {
-                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
-                    };
-                    request.headers_mut().insert(
-                        hyper::header::AUTHORIZATION,
-                        header.0.encode());
-                },
-                _ => {}
-            }
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(FindPetsByTagsResponse::SuccessfulOperation
-                    (body)
-                )
-            }
-            400 => {
-                Ok(
-                    FindPetsByTagsResponse::InvalidTagValue
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn update_pet(
-        &self,
-        param_body: models::Pet,
-        context: &C) -> Result<UpdatePetResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/pet",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("PUT")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes basic body
-        // Body parameter
-        let body = param_body.as_xml();
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                AuthData::Bearer(ref bearer_header) => {
-                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
-                    };
-                    request.headers_mut().insert(
-                        hyper::header::AUTHORIZATION,
-                        header.0.encode());
-                },
-                _ => {}
-            }
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            400 => {
-                Ok(
-                    UpdatePetResponse::InvalidIDSupplied
-                )
-            }
-            404 => {
-                Ok(
-                    UpdatePetResponse::PetNotFound
-                )
-            }
-            405 => {
-                Ok(
-                    UpdatePetResponse::ValidationException
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn delete_pet(
-        &self,
-        param_pet_id: i64,
-        param_api_key: Option<String>,
-        context: &C) -> Result<DeletePetResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/pet/{pet_id}",
-            self.base_path
-            ,pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("DELETE")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                AuthData::Bearer(ref bearer_header) => {
-                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
-                    };
-                    request.headers_mut().insert(
-                        hyper::header::AUTHORIZATION,
-                        header.0.encode());
-                },
-                _ => {}
-            }
-        }
-
-        // Header parameters
-        #[allow(clippy::single_match)]
-        match param_api_key {
-            Some(param_api_key) => {
-        request.headers_mut().append(
-            HeaderName::from_static("api_key"),
-            #[allow(clippy::redundant_clone, clippy::clone_on_copy)]
-            match header::IntoHeaderValue(param_api_key.clone()).try_into() {
-                Ok(header) => header,
-                Err(e) => {
-                    return Err(ApiError(format!(
-                        "Invalid header api_key - {e}")));
-                },
-            });
-            },
-            None => {}
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            400 => {
-                Ok(
-                    DeletePetResponse::InvalidPetValue
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn get_pet_by_id(
-        &self,
-        param_pet_id: i64,
-        context: &C) -> Result<GetPetByIdResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/pet/{pet_id}",
-            self.base_path
-            ,pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("GET")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                AuthData::ApiKey(ref api_key) => {
-                    let header = match HeaderValue::from_str(api_key.as_str()) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create header: {e}")))
-                    };
-                    request.headers_mut().insert(
-                        HeaderName::from_static("api_key"),
-                        header);
-                },
-                _ => {}
-            }
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<models::Pet>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(GetPetByIdResponse::SuccessfulOperation
-                    (body)
-                )
-            }
-            400 => {
-                Ok(
-                    GetPetByIdResponse::InvalidIDSupplied
-                )
-            }
-            404 => {
-                Ok(
-                    GetPetByIdResponse::PetNotFound
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn update_pet_with_form(
-        &self,
-        param_pet_id: i64,
-        param_name: Option<String>,
-        param_status: Option<String>,
-        context: &C) -> Result<UpdatePetWithFormResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/pet/{pet_id}",
-            self.base_path
-            ,pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("POST")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes form body
-        let mut params = vec![];
-        if let Some(param_name) = param_name {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("name",
-            param_name
-        ));
-        }
-        if let Some(param_status) = param_status {
-        #[allow(clippy::uninlined_format_args)]
-        params.push(("status",
-            param_status
-        ));
-        }
-
-        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
-
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/x-www-form-urlencoded";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                AuthData::Bearer(ref bearer_header) => {
-                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
-                    };
-                    request.headers_mut().insert(
-                        hyper::header::AUTHORIZATION,
-                        header.0.encode());
-                },
-                _ => {}
-            }
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            405 => {
-                Ok(
-                    UpdatePetWithFormResponse::InvalidInput
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn upload_file(
-        &self,
-        param_pet_id: i64,
-        param_additional_metadata: Option<String>,
-        param_file: Option<swagger::ByteArray>,
-        context: &C) -> Result<UploadFileResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/pet/{pet_id}/uploadImage",
-            self.base_path
-            ,pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("POST")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes multipart/form body
-        let (body_bytes, multipart_header) = {
-            let mut multipart = Multipart::new();
-
-            // For each parameter, encode as appropriate and add to the multipart body as a stream.
-
-            let additional_metadata_str = match serde_json::to_string(&param_additional_metadata) {
-                Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to serialize additional_metadata to string: {e}"))),
-            };
-
-            let additional_metadata_vec = additional_metadata_str.as_bytes().to_vec();
-            let additional_metadata_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
-            let additional_metadata_cursor = Cursor::new(additional_metadata_vec);
-
-            multipart.add_stream("additional_metadata",  additional_metadata_cursor,  None as Option<&str>, Some(additional_metadata_mime));
-
-
-            let file_str = match serde_json::to_string(&param_file) {
-                Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to serialize file to string: {e}"))),
-            };
-
-            let file_vec = file_str.as_bytes().to_vec();
-            let file_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
-            let file_cursor = Cursor::new(file_vec);
-
-            multipart.add_stream("file",  file_cursor,  None as Option<&str>, Some(file_mime));
-
-
-            let mut fields = match multipart.prepare() {
-                Ok(fields) => fields,
-                Err(err) => return Err(ApiError(format!("Unable to build request: {err}"))),
-            };
-
-            let mut body_bytes = Vec::new();
-
-            match fields.read_to_end(&mut body_bytes) {
-                Ok(_) => (),
-                Err(err) => return Err(ApiError(format!("Unable to build body: {err}"))),
-            }
-
-            let boundary = fields.boundary();
-
-            let multipart_header = format!("multipart/form-data;boundary={boundary}");
-
-            (body_bytes, multipart_header)
-          };
-
-        *request.body_mut() = BoxBody::new(Full::new(Bytes::from(body_bytes)));
-
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(&multipart_header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {multipart_header} - {e}")))
-        });
-
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                AuthData::Bearer(ref bearer_header) => {
-                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
-                    };
-                    request.headers_mut().insert(
-                        hyper::header::AUTHORIZATION,
-                        header.0.encode());
-                },
-                _ => {}
-            }
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                let body = serde_json::from_str::<models::ApiResponse>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(UploadFileResponse::SuccessfulOperation
-                    (body)
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn get_inventory(
-        &self,
-        context: &C) -> Result<GetInventoryResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/store/inventory",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("GET")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        #[allow(clippy::collapsible_match)]
-        if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
-            use headers::authorization::Credentials;
-            #[allow(clippy::single_match, clippy::match_single_binding)]
-            match auth_data {
-                AuthData::ApiKey(ref api_key) => {
-                    let header = match HeaderValue::from_str(api_key.as_str()) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create header: {e}")))
-                    };
-                    request.headers_mut().insert(
-                        HeaderName::from_static("api_key"),
-                        header);
-                },
-                _ => {}
-            }
-        }
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                let body = serde_json::from_str::<std::collections::HashMap<String, i32>>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(GetInventoryResponse::SuccessfulOperation
-                    (body)
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn place_order(
-        &self,
-        param_body: models::Order,
-        context: &C) -> Result<PlaceOrderResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/store/order",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("POST")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes basic body
-        // Body parameter
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<models::Order>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(PlaceOrderResponse::SuccessfulOperation
-                    (body)
-                )
-            }
-            400 => {
-                Ok(
-                    PlaceOrderResponse::InvalidOrder
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn delete_order(
-        &self,
-        param_order_id: String,
-        context: &C) -> Result<DeleteOrderResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/store/order/{order_id}",
-            self.base_path
-            ,order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("DELETE")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            400 => {
-                Ok(
-                    DeleteOrderResponse::InvalidIDSupplied
-                )
-            }
-            404 => {
-                Ok(
-                    DeleteOrderResponse::OrderNotFound
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn get_order_by_id(
-        &self,
-        param_order_id: u64,
-        context: &C) -> Result<GetOrderByIdResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/store/order/{order_id}",
-            self.base_path
-            ,order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("GET")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<models::Order>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(GetOrderByIdResponse::SuccessfulOperation
-                    (body)
-                )
-            }
-            400 => {
-                Ok(
-                    GetOrderByIdResponse::InvalidIDSupplied
-                )
-            }
-            404 => {
-                Ok(
-                    GetOrderByIdResponse::OrderNotFound
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn create_user(
-        &self,
-        param_body: models::User,
-        context: &C) -> Result<CreateUserResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/user",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("POST")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes basic body
-        // Body parameter
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            0 => {
-                Ok(
-                    CreateUserResponse::SuccessfulOperation
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn create_users_with_array_input<'a>(
-        &self,
-        param_body: &'a Vec<models::User>,
-        context: &C) -> Result<CreateUsersWithArrayInputResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/user/createWithArray",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("POST")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes basic body
-        // Body parameter
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            0 => {
-                Ok(
-                    CreateUsersWithArrayInputResponse::SuccessfulOperation
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn create_users_with_list_input<'a>(
-        &self,
-        param_body: &'a Vec<models::User>,
-        context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/user/createWithList",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("POST")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        // Consumes basic body
-        // Body parameter
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
-
-        let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            0 => {
-                Ok(
-                    CreateUsersWithListInputResponse::SuccessfulOperation
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn login_user(
-        &self,
-        param_username: String,
-        param_password: String,
-        context: &C) -> Result<LoginUserResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/user/login",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("username",
-                    &param_username);
-                query_string.append_pair("password",
-                    &param_password);
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("GET")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let response_x_rate_limit = match response.headers().get(HeaderName::from_static("x-rate-limit")) {
-                    Some(response_x_rate_limit) => {
-                        let response_x_rate_limit = response_x_rate_limit.clone();
-                        let response_x_rate_limit = match TryInto::<header::IntoHeaderValue<i32>>::try_into(response_x_rate_limit) {
-                            Ok(value) => value,
-                            Err(e) => {
-                                return Err(ApiError(format!("Invalid response header X-Rate-Limit for response 200 - {e}")));
-                            },
-                        };
-                        Some(response_x_rate_limit.0)
-                        },
-                    None => None,
-                };
-
-                let response_x_expires_after = match response.headers().get(HeaderName::from_static("x-expires-after")) {
-                    Some(response_x_expires_after) => {
-                        let response_x_expires_after = response_x_expires_after.clone();
-                        let response_x_expires_after = match TryInto::<header::IntoHeaderValue<chrono::DateTime::<chrono::Utc>>>::try_into(response_x_expires_after) {
-                            Ok(value) => value,
-                            Err(e) => {
-                                return Err(ApiError(format!("Invalid response header X-Expires-After for response 200 - {e}")));
-                            },
-                        };
-                        Some(response_x_expires_after.0)
-                        },
-                    None => None,
-                };
-
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
-
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<String>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
-
-                Ok(LoginUserResponse::SuccessfulOperation
+                Ok(ResponsesWithHeadersGetResponse::Success
                     {
                         body,
-                        x_rate_limit: response_x_rate_limit,
-                        x_expires_after: response_x_expires_after,
+                        success_info: response_success_info,
+                        bool_header: response_bool_header,
+                        object_header: response_object_header,
                     }
                 )
             }
-            400 => {
+            412 => {
+                let response_further_info = match response.headers().get(HeaderName::from_static("further-info")) {
+                    Some(response_further_info) => {
+                        let response_further_info = response_further_info.clone();
+                        let response_further_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_further_info) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header Further-Info for response 412 - {e}")));
+                            },
+                        };
+                        Some(response_further_info.0)
+                        },
+                    None => None,
+                };
+
+                let response_failure_info = match response.headers().get(HeaderName::from_static("failure-info")) {
+                    Some(response_failure_info) => {
+                        let response_failure_info = response_failure_info.clone();
+                        let response_failure_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_failure_info) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header Failure-Info for response 412 - {e}")));
+                            },
+                        };
+                        Some(response_failure_info.0)
+                        },
+                    None => None,
+                };
+
                 Ok(
-                    LoginUserResponse::InvalidUsername
+                    ResponsesWithHeadersGetResponse::PreconditionFailed
+                    {
+                        further_info: response_further_info,
+                        failure_info: response_failure_info,
+                    }
                 )
             }
             code => {
                 let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                        Err(e) => format!("<Failed to read body: {e}>"),
                     }
                 )))
             }
         }
     }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn logout_user(
+    async fn rfc7807_get(
         &self,
-        context: &C) -> Result<LogoutUserResponse, ApiError>
+        context: &C) -> Result<Rfc7807GetResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
         #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
-            "{}/v2/user/logout",
+            "{}/rfc7807",
             self.base_path
         );
 
@@ -3565,11 +2160,10 @@ impl<S, C, B> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
+            .body(Body::empty()) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3580,116 +2174,182 @@ impl<S, C, B> Api<C> for Client<S, C> where
             .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
 
         match response.status().as_u16() {
-            0 => {
-                Ok(
-                    LogoutUserResponse::SuccessfulOperation
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
-                    }
-                )))
-            }
-        }
-    }
+            204 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
 
-    #[allow(clippy::vec_init_then_push)]
-    async fn delete_user(
-        &self,
-        param_username: String,
-        context: &C) -> Result<DeleteUserResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        #[allow(clippy::uninlined_format_args)]
-        let mut uri = format!(
-            "{}/v2/user/{username}",
-            self.base_path
-            ,username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
-        );
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::ObjectWithArrayOfObjects>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
-        };
-
-        let mut request = match Request::builder()
-            .method("DELETE")
-            .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
-        });
-
-        let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
-
-        match response.status().as_u16() {
-            400 => {
-                Ok(
-                    DeleteUserResponse::InvalidUsernameSupplied
+                Ok(Rfc7807GetResponse::OK
+                    (body)
                 )
             }
             404 => {
-                Ok(
-                    DeleteUserResponse::UserNotFound
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::ObjectWithArrayOfObjects>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(Rfc7807GetResponse::NotFound
+                    (body)
+                )
+            }
+            406 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                let body = serde_xml_rs::from_str::<models::ObjectWithArrayOfObjects>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(Rfc7807GetResponse::NotAcceptable
+                    (body)
                 )
             }
             code => {
                 let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                        Err(e) => format!("<Failed to read body: {e}>"),
                     }
                 )))
             }
         }
     }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn get_user_by_name(
+    async fn two_first_letter_headers(
         &self,
-        param_username: String,
-        context: &C) -> Result<GetUserByNameResponse, ApiError>
+        param_x_header_one: Option<bool>,
+        param_x_header_two: Option<bool>,
+        context: &C) -> Result<TwoFirstLetterHeadersResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
         #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
-            "{}/v2/user/{username}",
+            "{}/operation-two-first-letter-headers",
             self.base_path
-            ,username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        // Header parameters
+        #[allow(clippy::single_match)]
+        match param_x_header_one {
+            Some(param_x_header_one) => {
+        request.headers_mut().append(
+            HeaderName::from_static("x-header-one"),
+            #[allow(clippy::redundant_clone)]
+            match header::IntoHeaderValue(param_x_header_one.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Err(ApiError(format!(
+                        "Invalid header x_header_one - {e}")));
+                },
+            });
+            },
+            None => {}
+        }
+
+        #[allow(clippy::single_match)]
+        match param_x_header_two {
+            Some(param_x_header_two) => {
+        request.headers_mut().append(
+            HeaderName::from_static("x-header-two"),
+            #[allow(clippy::redundant_clone)]
+            match header::IntoHeaderValue(param_x_header_two.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Err(ApiError(format!(
+                        "Invalid header x_header_two - {e}")));
+                },
+            });
+            },
+            None => {}
+        }
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    TwoFirstLetterHeadersResponse::OK
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn untyped_property_get(
+        &self,
+        param_object_untyped_props: Option<models::ObjectUntypedProps>,
+        context: &C) -> Result<UntypedPropertyGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/untyped_property",
+            self.base_path
         );
 
         // Query parameters
@@ -3710,11 +2370,85 @@ impl<S, C, B> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
+            .body(Body::empty()) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
 
+        // Consumes basic body
+        // Body parameter
+        if let Some(param_object_untyped_props) = param_object_untyped_props {
+        let body = serde_json::to_string(&param_object_untyped_props).expect("impossible to fail to serialize");
+        *request.body_mut() = Body::from(body);
+        }
+
+        let header = "application/json";
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    UntypedPropertyGetResponse::CheckThatUntypedPropertiesWorks
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn uuid_get(
+        &self,
+        context: &C) -> Result<UuidGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/uuid",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3727,64 +2461,220 @@ impl<S, C, B> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
-                        .await
-                        .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<models::User>(body)
+                let body = serde_json::from_str::<uuid::Uuid>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
-                Ok(GetUserByNameResponse::SuccessfulOperation
+                Ok(UuidGetResponse::DuplicateResponseLongText
                     (body)
-                )
-            }
-            400 => {
-                Ok(
-                    GetUserByNameResponse::InvalidUsernameSupplied
-                )
-            }
-            404 => {
-                Ok(
-                    GetUserByNameResponse::UserNotFound
                 )
             }
             code => {
                 let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                        Err(e) => format!("<Failed to read body: {e}>"),
                     }
                 )))
             }
         }
     }
-
-    #[allow(clippy::vec_init_then_push)]
-    async fn update_user(
+    async fn xml_extra_post(
         &self,
-        param_username: String,
-        param_body: models::User,
-        context: &C) -> Result<UpdateUserResponse, ApiError>
+        param_duplicate_xml_object: Option<models::DuplicateXmlObject>,
+        context: &C) -> Result<XmlExtraPostResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
         #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
-            "{}/v2/user/{username}",
+            "{}/xml_extra",
             self.base_path
-            ,username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+
+        // Consumes basic body
+        // Body parameter
+        if let Some(param_duplicate_xml_object) = param_duplicate_xml_object {
+        let body = param_duplicate_xml_object.as_xml();
+        *request.body_mut() = Body::from(body);
+        }
+
+        let header = "application/xml";
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            201 => {
+                Ok(
+                    XmlExtraPostResponse::OK
+                )
+            }
+            400 => {
+                Ok(
+                    XmlExtraPostResponse::BadRequest
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn xml_other_post(
+        &self,
+        param_another_xml_object: Option<models::AnotherXmlObject>,
+        context: &C) -> Result<XmlOtherPostResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/xml_other",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+
+        // Consumes basic body
+        // Body parameter
+        if let Some(param_another_xml_object) = param_another_xml_object {
+        let body = param_another_xml_object.as_xml();
+        *request.body_mut() = Body::from(body);
+        }
+
+        let header = "text/xml";
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            201 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                let body = serde_xml_rs::from_str::<models::AnotherXmlObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(XmlOtherPostResponse::OK
+                    (body)
+                )
+            }
+            400 => {
+                Ok(
+                    XmlOtherPostResponse::BadRequest
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn xml_other_put(
+        &self,
+        param_another_xml_array: Option<models::AnotherXmlArray>,
+        context: &C) -> Result<XmlOtherPutResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/xml_other",
+            self.base_path
         );
 
         // Query parameters
@@ -3805,19 +2695,20 @@ impl<S, C, B> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("PUT")
             .uri(uri)
-            .body(BoxBody::new(http_body_util::Empty::new())) {
+            .body(Body::empty()) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
 
         // Consumes basic body
         // Body parameter
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-        *request.body_mut() = body_from_string(body);
+        if let Some(param_another_xml_array) = param_another_xml_array {
+        let body = param_another_xml_array.as_xml();
+        *request.body_mut() = Body::from(body);
+        }
 
-        let header = "application/json";
+        let header = "application/xml";
         request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3828,32 +2719,480 @@ impl<S, C, B> Api<C> for Client<S, C> where
             .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
 
         match response.status().as_u16() {
-            400 => {
+            201 => {
                 Ok(
-                    UpdateUserResponse::InvalidUserSupplied
+                    XmlOtherPutResponse::OK
                 )
             }
-            404 => {
+            400 => {
                 Ok(
-                    UpdateUserResponse::UserNotFound
+                    XmlOtherPutResponse::BadRequest
                 )
             }
             code => {
                 let headers = response.headers().clone();
-                let body = http_body_util::BodyExt::collect(response.into_body())
-                        .await
-                        .map(|f| f.to_bytes().to_vec());
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                        Err(e) => format!("<Failed to read body: {e}>"),
                     }
                 )))
             }
         }
     }
+    async fn xml_post(
+        &self,
+        param_xml_array: Option<models::XmlArray>,
+        context: &C) -> Result<XmlPostResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/xml",
+            self.base_path
+        );
 
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+
+        // Consumes basic body
+        // Body parameter
+        if let Some(param_xml_array) = param_xml_array {
+        let body = param_xml_array.as_xml();
+        *request.body_mut() = Body::from(body);
+        }
+
+        let header = "application/xml";
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            201 => {
+                Ok(
+                    XmlPostResponse::OK
+                )
+            }
+            400 => {
+                Ok(
+                    XmlPostResponse::BadRequest
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn xml_put(
+        &self,
+        param_xml_object: Option<models::XmlObject>,
+        context: &C) -> Result<XmlPutResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/xml",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("PUT")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+
+        // Consumes basic body
+        // Body parameter
+        if let Some(param_xml_object) = param_xml_object {
+        let body = param_xml_object.as_xml();
+        *request.body_mut() = Body::from(body);
+        }
+
+        let header = "application/xml";
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            201 => {
+                Ok(
+                    XmlPutResponse::OK
+                )
+            }
+            400 => {
+                Ok(
+                    XmlPutResponse::BadRequest
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn enum_in_path_path_param_get(
+        &self,
+        param_path_param: models::StringEnum,
+        context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/enum_in_path/{path_param}",
+            self.base_path
+            ,path_param=utf8_percent_encode(&param_path_param.to_string(), ID_ENCODE_SET)
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    EnumInPathPathParamGetResponse::Success
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+        &self,
+        param_path_param_a: String,
+        param_path_param_b: String,
+        context: &C) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}",
+            self.base_path
+            ,path_param_a=utf8_percent_encode(&param_path_param_a.to_string(), ID_ENCODE_SET)
+            ,path_param_b=utf8_percent_encode(&param_path_param_b.to_string(), ID_ENCODE_SET)
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse::Success
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn create_repo(
+        &self,
+        param_object_param: models::ObjectParam,
+        context: &C) -> Result<CreateRepoResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/repos",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+
+        // Consumes basic body
+        // Body parameter
+        let body = serde_json::to_string(&param_object_param).expect("impossible to fail to serialize");
+        *request.body_mut() = Body::from(body);
+
+        let header = "application/json";
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                Ok(
+                    CreateRepoResponse::Success
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
+    async fn get_repo_info(
+        &self,
+        param_repo_id: String,
+        context: &C) -> Result<GetRepoInfoResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/repos/{repo_id}",
+            self.base_path
+            ,repo_id=utf8_percent_encode(&param_repo_id.to_string(), ID_ENCODE_SET)
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .into_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {e}"))).await?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<String>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(GetRepoInfoResponse::OK
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .into_raw().await;
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {e}>"),
+                    }
+                )))
+            }
+        }
+    }
 }
