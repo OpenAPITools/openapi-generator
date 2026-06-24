@@ -7998,6 +7998,19 @@ public class SpringCodegenTest {
     }
 
     @Test
+    void oneOf_issue_23577_userDefinedXImplements() throws IOException {
+        // Default oneOf-interface generation (without REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING):
+        // a member schema that already declares its own x-implements must still be able to
+        // receive the oneOf interface, i.e. the user-supplied x-implements value must remain mutable.
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_issue_23577.yaml", SPRING_BOOT,
+                Map.of(GENERATE_MODEL_DOCS, false, GENERATE_APIS, false, INTERFACE_ONLY, true));
+        JavaFileAssert.assertThat(files.get("CreatedEvent.java"))
+                .implementsInterfaces("com.example.Notification", "Event");
+        JavaFileAssert.assertThat(files.get("UpdatedEvent.java"))
+                .implementsInterfaces("Event");
+    }
+
+    @Test
     void oneof_polymorphism_and_inheritance() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", SPRING_BOOT,
                 Map.of(MODEL_NAME_SUFFIX, "Dto",
@@ -8285,4 +8298,19 @@ public class SpringCodegenTest {
                 .fileDoesNotContain("return foo(providedArg);");
     }
 
+    void issue24003() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24003.yaml", SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true, MODEL_NAME_SUFFIX, "DTO", INTERFACE_ONLY, "true"));
+        JavaFileAssert.assertThat(files.get("BrLockDTO.java")).isInterface()
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("use", "JsonTypeInfo.Id.NAME", "include", "JsonTypeInfo.As.PROPERTY", "property", "\"lockType\"", "visible", "true"))
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "ComponentBrLockDTO.class", "name", "\"COMPONENT\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "UserBrLockDTO.class", "name", "\"USER\""));
+        JavaFileAssert.assertThat(files.get("ComponentBrLockDTO.java")).implementsInterfaces("BrLockDTO")
+                .fileDoesNotContain("@JsonTypeName");
+        JavaFileAssert.assertThat(files.get("UserBrLockDTO.java")).implementsInterfaces("BrLockDTO")
+                .fileDoesNotContain("@JsonTypeName");
+    }
 }

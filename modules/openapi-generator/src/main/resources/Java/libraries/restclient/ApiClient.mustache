@@ -79,7 +79,12 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.function.Supplier;
 
+{{#useJspecify}}
+import org.jspecify.annotations.Nullable;
+{{/useJspecify}}
+{{^useJspecify}}
 import {{javaxPackage}}.annotation.Nullable;
+{{/useJspecify}}
 
 {{#jsr310}}
 import java.time.OffsetDateTime;

@@ -84,8 +84,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="NullableGuidClass" />
     /// </summary>
-    public class NullableGuidClassJsonConverter : JsonConverter<NullableGuidClass>
+    public partial class NullableGuidClassJsonConverter : JsonConverter<NullableGuidClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullableGuidClassJsonConverter" /> class.
+        /// </summary>
+        public NullableGuidClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="NullableGuidClass" />
         /// </summary>

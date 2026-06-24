@@ -36,6 +36,12 @@ public class CodegenConstants {
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
+    /**
+     * Wildcard token for {@code forcedGenerateSchemas}: when this value is present in the set,
+     * all schemas are generated even if they appear in schemaMappings or importMappings.
+     */
+    public static final String FORCE_GENERATE_ALL_SCHEMAS = "*";
+
     public static final String API_NAME = "apiName";
 
     public static final String API_PACKAGE = "apiPackage";

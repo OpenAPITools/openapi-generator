@@ -22,6 +22,7 @@ use openapi_v3::{
     QueryExampleGetResponse,
     ReadonlyAuthSchemeGetResponse,
     RegisterCallbackPostResponse,
+    RequiredBinaryStreamPutResponse,
     RequiredOctetStreamPutResponse,
     ResponsesWithHeadersGetResponse,
     Rfc7807GetResponse,
@@ -161,6 +162,10 @@ enum Operation {
     },
     RegisterCallbackPost {
         url: String,
+    },
+    RequiredBinaryStreamPut {
+        #[structopt(parse(try_from_str = parse_json))]
+        body: swagger::ByteArray,
     },
     RequiredOctetStreamPut {
         #[structopt(parse(try_from_str = parse_json))]
@@ -596,6 +601,22 @@ async fn main() -> Result<()> {
 
             match result {
                 RegisterCallbackPostResponse::OK
+                => "OK\n".to_string()
+                    ,
+            }
+        }
+        Operation::RequiredBinaryStreamPut {
+            body,
+        } => {
+            info!("Performing a RequiredBinaryStreamPut request");
+
+            let result = client.required_binary_stream_put(
+                body,
+            ).await?;
+            debug!("Result: {:?}", result);
+
+            match result {
+                RequiredBinaryStreamPutResponse::OK
                 => "OK\n".to_string()
                     ,
             }
