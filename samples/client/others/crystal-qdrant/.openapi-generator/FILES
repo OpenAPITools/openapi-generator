@@ -2,10 +2,6 @@
 README.md
 git_push.sh
 shard.yml
-spec/models/filter_must_not_spec.cr
-spec/models/filter_must_spec.cr
-spec/models/prefetch_prefetch_spec.cr
-spec/models/tracker_status_one_of1_spec.cr
 spec/spec_helper.cr
 src/qdrant-api.cr
 src/qdrant-api/api/aliases.cr
