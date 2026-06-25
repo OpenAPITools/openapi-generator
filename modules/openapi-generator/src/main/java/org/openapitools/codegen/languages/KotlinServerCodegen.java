@@ -24,6 +24,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -287,7 +288,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         if (additionalProperties.containsKey(Constants.INHERITANCE_MODE)) {
             String configuredInheritanceMode = String.valueOf(additionalProperties.get(Constants.INHERITANCE_MODE));
             if (!isValidInheritanceMode(configuredInheritanceMode)) {
-                throw new IllegalArgumentException(String.format(
+                throw new IllegalArgumentException(String.format(Locale.ROOT,
                         "Invalid %s value '%s'. Supported values are: %s, %s, %s, %s",
                         Constants.INHERITANCE_MODE,
                         configuredInheritanceMode,
@@ -300,7 +301,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         }
 
         if (Constants.JAXRS_SPEC.equals(library) && Constants.INHERITANCE_MODE_SEALED.equals(inheritanceMode)) {
-            throw new IllegalArgumentException(String.format(
+            throw new IllegalArgumentException(String.format(Locale.ROOT,
                     "Library '%s' does not support inheritanceMode '%s'. Use '%s', '%s', or '%s'.",
                     Constants.JAXRS_SPEC,
                     Constants.INHERITANCE_MODE_SEALED,
