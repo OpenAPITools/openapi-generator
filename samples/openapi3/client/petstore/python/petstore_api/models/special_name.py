@@ -17,19 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from collections.abc import Mapping as _Mapping
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictInt, StrictStr, field_validator, model_validator as _model_validator
+from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
 from petstore_api.models.category import Category
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
+from typing import TYPE_CHECKING
 
 class SpecialName(BaseModel):
     """
     SpecialName
     """ # noqa: E501
-    var_property: Optional[StrictInt] = Field(default=None, alias="property")
-    var_async: Optional[Category] = Field(default=None, alias="async")
+    var_property: Optional[StrictInt] = Field(default=None, validation_alias=AliasChoices("property", "var_property"), serialization_alias="property", alias="property")
+    var_async: Optional[Category] = Field(default=None, validation_alias=AliasChoices("async", "var_async"), serialization_alias="async", alias="async")
     var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["property", "async", "schema"]
@@ -43,6 +45,40 @@ class SpecialName(BaseModel):
         if value not in set(['available', 'pending', 'sold']):
             raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
         return value
+
+    @classmethod
+    def __preprocess_input_names(
+        cls,
+        obj: Any,
+        remove_hidden_storage_names: bool = True,
+    ) -> Any:
+        if not isinstance(obj, _Mapping):
+            return obj
+        obj = dict(obj)
+        if "property" not in obj and "var_property" in obj:
+            obj["property"] = obj["var_property"]
+        obj.pop("var_property", None)
+        if "async" not in obj and "var_async" in obj:
+            obj["async"] = obj["var_async"]
+        obj.pop("var_async", None)
+        if remove_hidden_storage_names:
+            obj.pop("var_schema", None)
+        return obj
+
+    # Pydantic passes the model instance to wrap validators during assignment:
+    # https://docs.pydantic.dev/2.11/migration/#changes-to-validators
+    # Private names also keep inherited model validators distinct:
+    # https://docs.pydantic.dev/2.11/concepts/validators/#on-inheritance
+    @_model_validator(mode="wrap")
+    @classmethod
+    def __validate_input_names(
+        cls,
+        obj: Any,
+        handler: _ModelWrapValidatorHandler[Self],
+    ) -> Self:
+        if not isinstance(obj, cls):
+            obj = cls.__preprocess_input_names(obj)
+        return handler(obj)
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -104,6 +140,14 @@ class SpecialName(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        obj = _cast(
+            Dict[str, Any],
+            cls.__preprocess_input_names(
+                obj,
+                remove_hidden_storage_names=True,
+            ),
+        )
+
         _obj = cls.model_validate({
             "property": obj.get("property"),
             "async": Category.from_dict(obj["async"]) if obj.get("async") is not None else None,
@@ -116,4 +160,32 @@ class SpecialName(BaseModel):
 
         return _obj
 
+    if TYPE_CHECKING:
+
+        @property  # type: ignore[override]
+        def schema(self) -> _SpecialName_var_schema_public_type:
+            return self.var_schema
+
+        @schema.setter
+        def schema(self, value: _SpecialName_var_schema_public_type) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
+            self.var_schema = value
+
+
+if TYPE_CHECKING:
+    _SpecialName_var_schema_public_type = Optional[StrictStr]
+
+# Install forwarding properties after Pydantic has consumed the class
+# namespace and resolved any postponed model annotations.
+setattr(
+    SpecialName,
+    "schema",
+    property(
+        lambda self: self.var_schema,
+        lambda self, value: setattr(
+            self,
+            "var_schema",
+            value,
+        ),
+    ),
+)
 
