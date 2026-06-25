@@ -160,7 +160,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(LAZY_IMPORTS, "Enable lazy imports.").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BUILD_SYSTEM, "Build system to use in pyproject.toml (setuptools, hatchling).").defaultValue("setuptools"));
         cliOptions.add(CliOption.newBoolean(SUPPORT_HTTPX_SYNC, "Generate synchronous '_sync' variants of each API method (httpx library only). " +
-                "Each '_sync' method simply calls the corresponding async method and waits for its completion, " +
+                "Each '_sync' method shares the same code as its async counterpart but performs the HTTP request synchronously (without coroutines), " +
                 "so both synchronous and asynchronous methods are available from the same API class.").defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
