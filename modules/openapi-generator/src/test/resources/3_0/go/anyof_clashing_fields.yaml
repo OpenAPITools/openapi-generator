@@ -1,0 +1,28 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: anyOf clashing fields test
+paths: {}
+components:
+  schemas:
+    SpecX:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    SpecY:
+      type: object
+      properties:
+        id:
+          type: string
+        value:
+          type: number
+    # Contact uses anyOf with two schemas that share the "id" field but with different types.
+    # When useAnyOfAllMatches=true and both match, MarshalJSON should detect the conflict
+    # and return an error rather than silently overwriting the "id" key.
+    Contact:
+      anyOf:
+        - $ref: '#/components/schemas/SpecX'
+        - $ref: '#/components/schemas/SpecY'

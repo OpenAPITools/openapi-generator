@@ -1,0 +1,23 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: anyOf multiple matches test
+paths: {}
+components:
+  schemas:
+    SpecA:
+      type: object
+      properties:
+        name:
+          type: string
+    SpecB:
+      type: object
+      properties:
+        value:
+          type: integer
+    # Contact uses anyOf with two schemas that can BOTH match simultaneously:
+    # a payload like {"name":"test","value":42} satisfies both SpecA and SpecB.
+    Contact:
+      anyOf:
+        - $ref: '#/components/schemas/SpecA'
+        - $ref: '#/components/schemas/SpecB'
