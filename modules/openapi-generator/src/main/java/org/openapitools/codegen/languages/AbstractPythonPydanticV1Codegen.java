@@ -17,6 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -780,6 +782,11 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     }
 
     @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        return PythonStringUtils.addMustacheLambdas(super.addMustacheLambdas());
+    }
+
+    @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.PYTHON;
     }
@@ -911,7 +918,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
                 // field
                 if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
-                    fields.add(String.format(Locale.ROOT, "alias=\"%s\"", cp.baseName));
+                    fields.add("alias=" + PythonStringUtils.toPythonStringLiteral(cp.baseName));
                 }
 
                 if (!StringUtils.isEmpty(cp.description)) { // has description
@@ -1884,6 +1891,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        property.vendorExtensions.put(
+                X_PY_WIRE_NAME_LITERAL,
+                PythonStringUtils.toPythonStringLiteral(property.baseName));
         postProcessPattern(property.pattern, property.vendorExtensions);
     }
 
