@@ -443,6 +443,33 @@ public class PythonClientCodegenTest {
         return outputPath + "/";
     }
 
+    private static void addModelAttributeNameMappings(DefaultCodegen codegen) {
+        codegen.nameMapping().put("continue", "_continue");
+        codegen.nameMapping().put("schema", "schema");
+        codegen.nameMapping().put("ordinary", "renamed");
+        codegen.nameMapping().put("underscore", "_value");
+        codegen.nameMapping().put("importCollision", "AliasChoices");
+        codegen.nameMapping().put("dateTimeCollision", "datetime");
+        codegen.nameMapping().put("kind", "_kind");
+        codegen.nameMapping().put("model_dump", "var_model_dump");
+        codegen.nameMapping().put("to_dict", "var_to_dict");
+    }
+
+    private static Throwable rootCause(Throwable throwable) {
+        while (throwable.getCause() != null) {
+            throwable = throwable.getCause();
+        }
+        return throwable;
+    }
+
+    private static Throwable expectModelNameMappingFailure(DefaultCodegen codegen) {
+        RuntimeException exception = Assert.expectThrows(
+                RuntimeException.class,
+                () -> generateFiles(codegen,
+                        "src/test/resources/3_0/python/model-attribute-alias.yaml"));
+        return rootCause(exception);
+    }
+
     @Test(description = "test containerType in parameters")
     public void testContainerType() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
@@ -760,6 +787,270 @@ public class PythonClientCodegenTest {
         TestUtils.assertFileContains(filePath, "number: Union[Annotated[float, Field(multiple_of=32.5, le=543.2, strict=True, ge=32.1)], Annotated[int, Field(le=543, strict=True, ge=33)]]");
         TestUtils.assertFileContains(filePath, "double: Optional[Union[Annotated[float, Field(le=123.4, strict=True, ge=67.8)], Annotated[int, Field(le=123, strict=True, ge=68)]]]");
         TestUtils.assertFileContains(filePath, "decimal: Optional[Annotated[Decimal, Field(multiple_of=0.1, lt=123.4, strict=True, gt=67.8)]]");
+    }
+
+    @Test
+    public void testModelAttributeAlias() throws IOException {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        addModelAttributeNameMappings(codegen);
+        final String outputPath = generateFiles(codegen,
+                "src/test/resources/3_0/python/model-attribute-alias.yaml");
+        final Path model = Paths.get(outputPath + "openapi_client/models/alias_model.py");
+        final Path modelDoc = Paths.get(outputPath + "docs/AliasModel.md");
+        final Path modelTest = Paths.get(outputPath + "test/test_alias_model.py");
+        final Path validatorCollisionModel = Paths.get(
+                outputPath + "openapi_client/models/validator_collision_model.py");
+        final Path discriminatorBase = Paths.get(
+                outputPath + "openapi_client/models/discriminator_alias_base.py");
+        final Path discriminatorChild = Paths.get(
+                outputPath + "openapi_client/models/discriminator_alias_child.py");
+        final Path unmappedModel = Paths.get(
+                outputPath + "openapi_client/models/base_alias_model.py");
+
+        assertFileExists(model);
+        assertFileContains(model,
+                "alias=\"_continue\"",
+                "validation_alias=AliasChoices(\"continue\", \"_continue\")",
+                "serialization_alias=\"continue\"",
+                "def _continue(self) -> _AliasModel_var_continue_public_type:",
+                "def _continue(self, value: _AliasModel_var_continue_public_type) -> None:",
+                "return self.var_continue",
+                "@property  # type: ignore[override]",
+                "def schema(self) -> _AliasModel_var_schema_public_type:",
+                "@schema.setter",
+                "def schema(self, value: _AliasModel_var_schema_public_type) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]",
+                "return self.var_schema",
+                "renamed: Optional[StrictStr]",
+                "validation_alias=AliasChoices(\"ordinary\", \"renamed\")",
+                "serialization_alias=\"ordinary\"",
+                "alias_choices: Optional[StrictStr]",
+                "alias=\"AliasChoices\"",
+                "validation_alias=AliasChoices(\"importCollision\", \"AliasChoices\")",
+                "serialization_alias=\"importCollision\"",
+                "def AliasChoices(self) -> _AliasModel_alias_choices_public_type:",
+                "var_datetime: Optional[datetime]",
+                "validation_alias=AliasChoices(\"dateTimeCollision\", \"datetime\")",
+                "serialization_alias=\"dateTimeCollision\"",
+                "def datetime(self) -> _AliasModel_var_datetime_public_type:",
+                "camel_case: Optional[StrictStr]",
+                "alias=\"camelCase\"",
+                "validation_alias=AliasChoices(\"camelCase\", \"camel_case\")",
+                "serialization_alias=\"camelCase\"",
+                "value: Optional[StrictStr]",
+                "def _value(self) -> _AliasModel_value_public_type:",
+                "return self.value",
+                "var_model_dump: Optional[StrictStr]",
+                "validation_alias=AliasChoices(\"model_dump\", \"var_model_dump\")",
+                "var_to_dict: Optional[StrictStr]",
+                "validation_alias=AliasChoices(\"to_dict\", \"var_to_dict\")",
+                "validate_by_name=True",
+                "from collections.abc import Mapping as _Mapping",
+                "ModelWrapValidatorHandler as _ModelWrapValidatorHandler",
+                "model_validator as _model_validator",
+                "cast as _cast",
+                "def __preprocess_input_names(",
+                "remove_hidden_storage_names: bool = True,",
+                "@_model_validator(mode=\"wrap\")",
+                "def __validate_input_names(",
+                "handler: _ModelWrapValidatorHandler[Self]",
+                "if not isinstance(obj, cls):",
+                "obj = cls.__preprocess_input_names(obj)",
+                "return handler(obj)",
+                "if not isinstance(obj, _Mapping):",
+                "\"continue\" in obj",
+                "and \"_continue\" in obj",
+                "cls.__name__,",
+                "obj = cls.__preprocess_input_names(",
+                "if \"continue\" not in obj and \"_continue\" in obj:",
+                "obj[\"continue\"] = obj[\"_continue\"]",
+                "obj.pop(\"_continue\", None)",
+                "if \"camelCase\" not in obj and \"camel_case\" in obj:",
+                "obj.pop(\"camel_case\", None)",
+                "obj.pop(\"var_continue\", None)");
+        TestUtils.assertFileNotContains(model,
+                "    _continue: Optional[StrictStr]",
+                "\"camelCase\" in obj\n            and \"camel_case\" in obj");
+        assertFileContains(modelDoc, "**_continue**");
+        assertFileContains(modelTest, "_continue =");
+        TestUtils.assertFileNotContains(modelTest, "var_continue =");
+
+        for (String wrapper : Arrays.asList("one_of_alias_model.py", "any_of_alias_model.py")) {
+            final Path wrapperModel = Paths.get(outputPath + "openapi_client/models/" + wrapper);
+            TestUtils.assertFileNotContains(
+                    wrapperModel, "AliasChoices", "validation_alias", "serialization_alias",
+                    "__preprocess_input_names", "_model_validator");
+        }
+        assertFileContains(validatorCollisionModel,
+                "    status:",
+                "def status_validate_enum(cls, value):",
+                "    pattern:",
+                "def pattern_validate_regular_expression(cls, value):",
+                "    get_discriminator_value:");
+        assertFileContains(discriminatorBase,
+                "validation_alias=AliasChoices(\"kind\", \"_kind\")",
+                "def _kind(self) -> _DiscriminatorAliasBase_kind_public_type:",
+                "remove_hidden_storage_names=False");
+        assertFileContains(discriminatorChild,
+                "validation_alias=AliasChoices(\"childValue\", \"child_value\")",
+                "if \"childValue\" not in obj and \"child_value\" in obj:",
+                "obj.pop(\"child_value\", None)",
+                "def __validate_input_names(",
+                "validate_by_name=True");
+        TestUtils.assertFileNotContains(discriminatorChild,
+                "\"childValue\" in obj\n            and \"child_value\" in obj",
+                "def _kind(");
+        assertFileContains(unmappedModel, "validate_by_name=True");
+        TestUtils.assertFileNotContains(unmappedModel,
+                "AliasChoices", "_ModelWrapValidatorHandler", "__preprocess_input_names");
+    }
+
+    @Test
+    public void testModelPublicNameRejectsInvalidPythonNames() {
+        for (String publicName : Arrays.asList(
+                "class", "__private", "_iter", "model_dump", "property", "to_dict")) {
+            final DefaultCodegen codegen = new PythonClientCodegen();
+            codegen.nameMapping().put("value", publicName);
+
+            Throwable cause = expectModelNameMappingFailure(codegen);
+
+            Assert.assertTrue(cause.getMessage().contains(publicName), cause.toString());
+        }
+    }
+
+    @Test
+    public void testModelPublicNameRejectsConditionalGeneratedMemberNames() {
+        for (Map.Entry<String, String> mapping : Map.of(
+                "additionalValue", "additional_properties",
+                "discriminatorHelper", "get_discriminator_value").entrySet()) {
+            final DefaultCodegen codegen = new PythonClientCodegen();
+            codegen.nameMapping().put(mapping.getKey(), mapping.getValue());
+
+            Throwable cause = expectModelNameMappingFailure(codegen);
+
+            Assert.assertTrue(cause.getMessage().contains(mapping.getValue()), cause.toString());
+        }
+    }
+
+    @Test
+    public void testModelPublicNameRejectsFieldCollisions() {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put("a", "_b");
+
+        Throwable cause = expectModelNameMappingFailure(codegen);
+
+        Assert.assertTrue(cause.getMessage().contains("_b"), cause.toString());
+    }
+
+    @Test
+    public void testModelFieldRejectsGeneratedValidatorMemberCollision() {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put(
+                "getDiscriminatorValue", "status_validate_enum");
+
+        Throwable cause = expectModelNameMappingFailure(codegen);
+
+        Assert.assertTrue(cause.getMessage().contains(
+                "status_validate_enum"), cause.toString());
+    }
+
+    @Test
+    public void testUnmappedModelFieldRejectsMappedValidatorMemberCollision() {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put("status", "mapped_status");
+
+        Throwable cause = expectModelNameMappingFailure(codegen);
+
+        Assert.assertTrue(cause.getMessage().contains(
+                "mapped_status_validate_enum"), cause.toString());
+    }
+
+    @Test
+    public void testUnmappedMemberCollisionsRemainOutsideNameMappingValidation()
+            throws IOException {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put("ordinary", "renamed");
+
+        final String outputPath = generateFiles(codegen,
+                "src/test/resources/3_0/python/model-attribute-alias.yaml");
+        final Path model = Paths.get(outputPath + "openapi_client/models/alias_model.py");
+
+        assertFileContains(model,
+                "    model_dump: Optional[StrictStr]",
+                "    to_dict: Optional[StrictStr]");
+    }
+
+    @Test
+    public void testModelPublicNameRejectsStorageInputOverlap() {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put("crossFirst", "_cross_storage");
+        codegen.nameMapping().put("cross_storage", "other_public");
+
+        Throwable cause = expectModelNameMappingFailure(codegen);
+
+        Assert.assertTrue(cause.getMessage().contains("cross_storage"), cause.toString());
+    }
+
+    @Test
+    public void testModelPublicNameAllowsOwnWireStorageOverlap() throws IOException {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put("ordinary", "_ordinary");
+
+        final String outputPath = generateFiles(codegen,
+                "src/test/resources/3_0/python/model-attribute-alias.yaml");
+        final Path model = Paths.get(outputPath + "openapi_client/models/alias_model.py");
+
+        assertFileContains(model,
+                "validation_alias=AliasChoices(\"ordinary\", \"_ordinary\")");
+        TestUtils.assertFileNotContains(model, "obj.pop(\"ordinary\", None)");
+    }
+
+    @Test
+    public void testModelPublicNameRejectsInheritedFieldCollisions() {
+        for (Map.Entry<String, String> mapping : Map.of(
+                "childValue", "parent_value",
+                "parentValue", "child_value").entrySet()) {
+            final DefaultCodegen codegen = new PythonClientCodegen();
+            codegen.nameMapping().put(mapping.getKey(), mapping.getValue());
+
+            Throwable cause = expectModelNameMappingFailure(codegen);
+
+            Assert.assertTrue(cause.getMessage().contains(mapping.getValue()), cause.toString());
+        }
+    }
+
+    @Test
+    public void testModelPublicNameRejectsInheritedStorageInputOverlap() {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put("parentValue", "_child_value");
+
+        Throwable cause = expectModelNameMappingFailure(codegen);
+
+        Assert.assertTrue(cause.getMessage().contains("child_value"), cause.toString());
+    }
+
+    @Test
+    public void testModelPublicNameRejectsMangledPrivateNames() {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put(
+                "getDiscriminatorValue",
+                "_ValidatorCollisionModel__properties");
+
+        Throwable cause = expectModelNameMappingFailure(codegen);
+
+        Assert.assertTrue(cause.getMessage().contains(
+                "_ValidatorCollisionModel__properties"), cause.toString());
+    }
+
+    @Test
+    public void testModelPublicNameRejectsTransitiveMangledPrivateNames() {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put(
+                "value", "_MangledBase__properties");
+
+        Throwable cause = expectModelNameMappingFailure(codegen);
+
+        Assert.assertTrue(cause.getMessage().contains(
+                "_MangledBase__properties"), cause.toString());
     }
 
     @Test

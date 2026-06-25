@@ -12,11 +12,20 @@ import json
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
+{{#vendorExtensions.x-py-has-public-name-properties}}
+from typing import TYPE_CHECKING
+{{/vendorExtensions.x-py-has-public-name-properties}}
 
+{{^vendorExtensions.x-py-has-public-name-properties}}
+{{#hasChildren}}
+{{#discriminator}}
+from typing import TYPE_CHECKING
+{{/discriminator}}
+{{/hasChildren}}
+{{/vendorExtensions.x-py-has-public-name-properties}}
 {{#hasChildren}}
 {{#discriminator}}
 {{! If this model is a super class, importlib is used. So import the necessary modules for the type here. }}
-from typing import TYPE_CHECKING
 if TYPE_CHECKING:
 {{#mappedModels}}
     from {{packageName}}.models.{{model.classFilename}} import {{modelName}}
@@ -94,6 +103,63 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{/isEnum}}
 {{/vars}}
 
+{{#vendorExtensions.x-py-preprocesses-input-names}}
+    @classmethod
+    def __preprocess_input_names(
+        cls,
+        obj: Any,
+        remove_hidden_storage_names: bool = True,
+    ) -> Any:
+        if not isinstance(obj, _Mapping):
+            return obj
+        obj = dict(obj)
+{{#vendorExtensions.x-py-input-name-properties}}
+{{#vendorExtensions.x-py-public-name-differs-from-wire}}
+{{#vendorExtensions.x-py-explicit-public-name}}
+        if (
+            {{{vendorExtensions.x-py-wire-name-literal}}} in obj
+            and {{{vendorExtensions.x-py-public-name-literal}}} in obj
+        ):
+            raise ValueError(
+                "%s received both %r and %r"
+                % (
+                    cls.__name__,
+                    {{{vendorExtensions.x-py-wire-name-literal}}},
+                    {{{vendorExtensions.x-py-public-name-literal}}},
+                )
+            )
+{{/vendorExtensions.x-py-explicit-public-name}}
+        if {{{vendorExtensions.x-py-wire-name-literal}}} not in obj and {{{vendorExtensions.x-py-public-name-literal}}} in obj:
+            obj[{{{vendorExtensions.x-py-wire-name-literal}}}] = obj[{{{vendorExtensions.x-py-public-name-literal}}}]
+        obj.pop({{{vendorExtensions.x-py-public-name-literal}}}, None)
+{{/vendorExtensions.x-py-public-name-differs-from-wire}}
+{{/vendorExtensions.x-py-input-name-properties}}
+{{#vendorExtensions.x-py-hidden-storage-names.size}}
+        if remove_hidden_storage_names:
+{{#vendorExtensions.x-py-hidden-storage-names}}
+            obj.pop({{#lambda.pythonStringLiteral}}{{{.}}}{{/lambda.pythonStringLiteral}}, None)
+{{/vendorExtensions.x-py-hidden-storage-names}}
+{{/vendorExtensions.x-py-hidden-storage-names.size}}
+        return obj
+
+{{/vendorExtensions.x-py-preprocesses-input-names}}
+{{#vendorExtensions.x-py-validates-input-names}}
+    # Pydantic passes the model instance to wrap validators during assignment:
+    # https://docs.pydantic.dev/2.11/migration/#changes-to-validators
+    # Private names also keep inherited model validators distinct:
+    # https://docs.pydantic.dev/2.11/concepts/validators/#on-inheritance
+    @_model_validator(mode="wrap")
+    @classmethod
+    def __validate_input_names(
+        cls,
+        obj: Any,
+        handler: _ModelWrapValidatorHandler[Self],
+    ) -> Self:
+        if not isinstance(obj, cls):
+            obj = cls.__preprocess_input_names(obj)
+        return handler(obj)
+
+{{/vendorExtensions.x-py-validates-input-names}}
     model_config = ConfigDict(
         validate_by_name=True,
         validate_by_alias=True,
@@ -287,6 +353,29 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Optional[{{#discriminator}}Union[{{#mappedModels}}{{{modelName}}}{{^-last}}, {{/-last}}{{/mappedModels}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}]:
         """Create an instance of {{{classname}}} from a dict"""
+    {{/hasChildren}}
+    {{^hasChildren}}
+    @classmethod
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of {{{classname}}} from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    {{/hasChildren}}
+{{#vendorExtensions.x-py-preprocesses-input-names}}
+
+        obj = _cast(
+            Dict[str, Any],
+            cls.__preprocess_input_names(
+                obj,
+                remove_hidden_storage_names={{#hasChildren}}{{#discriminator}}False{{/discriminator}}{{^discriminator}}True{{/discriminator}}{{/hasChildren}}{{^hasChildren}}True{{/hasChildren}},
+            ),
+        )
+
+{{/vendorExtensions.x-py-preprocesses-input-names}}
+    {{#hasChildren}}
         {{#discriminator}}
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
@@ -301,15 +390,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/discriminator}}
     {{/hasChildren}}
     {{^hasChildren}}
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of {{{classname}}} from a dict"""
-        if obj is None:
-            return None
+{{^vendorExtensions.x-py-preprocesses-input-names}}
 
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
+{{/vendorExtensions.x-py-preprocesses-input-names}}
         {{#disallowAdditionalPropertiesIfNotPresent}}
         {{^isAdditionalPropertiesTrue}}
         # raise errors for additional fields in the input
@@ -435,6 +518,22 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/isAdditionalPropertiesTrue}}
         return _obj
     {{/hasChildren}}
+{{#vendorExtensions.x-py-has-public-name-properties}}
+
+    if TYPE_CHECKING:
+{{#vars}}
+    {{#vendorExtensions.x-py-public-name-differs-from-storage}}
+
+        @property{{#vendorExtensions.x-py-public-name-overrides-base-model}}  # type: ignore[override]{{/vendorExtensions.x-py-public-name-overrides-base-model}}
+        def {{{vendorExtensions.x-py-public-name}}}(self) -> _{{classname}}_{{name}}_public_type:
+            return self.{{{name}}}
+
+        @{{{vendorExtensions.x-py-public-name}}}.setter
+        def {{{vendorExtensions.x-py-public-name}}}(self, value: _{{classname}}_{{name}}_public_type) -> None:{{#vendorExtensions.x-py-public-name-overrides-base-model}}  # pyright: ignore[reportIncompatibleMethodOverride]{{/vendorExtensions.x-py-public-name-overrides-base-model}}
+            self.{{{name}}} = value
+    {{/vendorExtensions.x-py-public-name-differs-from-storage}}
+{{/vars}}
+{{/vendorExtensions.x-py-has-public-name-properties}}
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
@@ -443,3 +542,31 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 # TODO: Rewrite to not use raise_errors
 {{classname}}.model_rebuild(raise_errors=False)
 {{/vendorExtensions.x-py-postponed-model-imports.size}}
+{{#vendorExtensions.x-py-has-public-name-properties}}
+
+if TYPE_CHECKING:
+{{#vars}}
+{{#vendorExtensions.x-py-public-name-differs-from-storage}}
+    _{{classname}}_{{name}}_public_type = {{{vendorExtensions.x-py-public-name-typing}}}
+{{/vendorExtensions.x-py-public-name-differs-from-storage}}
+{{/vars}}
+
+# Install forwarding properties after Pydantic has consumed the class
+# namespace and resolved any postponed model annotations.
+{{#vars}}
+{{#vendorExtensions.x-py-public-name-differs-from-storage}}
+setattr(
+    {{classname}},
+    {{{vendorExtensions.x-py-public-name-literal}}},
+    property(
+        lambda self: self.{{{name}}},
+        lambda self, value: setattr(
+            self,
+            {{#lambda.pythonStringLiteral}}{{{name}}}{{/lambda.pythonStringLiteral}},
+            value,
+        ),
+    ),
+)
+{{/vendorExtensions.x-py-public-name-differs-from-storage}}
+{{/vars}}
+{{/vendorExtensions.x-py-has-public-name-properties}}
