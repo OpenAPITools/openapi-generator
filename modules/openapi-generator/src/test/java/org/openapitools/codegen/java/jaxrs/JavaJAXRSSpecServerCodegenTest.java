@@ -1332,6 +1332,45 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .fileDoesNotContain("@JsonIgnoreProperties");
     }
 
+    /**
+     * With {@code legacyDiscriminatorBehavior=false} the discriminator is propagated from the
+     * parent onto every child reachable through the discriminator mapping, so each child also
+     * emits {@code @JsonTypeInfo}. The {@code @JsonIgnoreProperties} fix must therefore apply to
+     * the children too, otherwise they would serialize the discriminator property twice.
+     */
+    @Test
+    public void testDiscriminatorJsonIgnorePropertiesPropagatesToChildren_whenLegacyBehaviorDisabled() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("legacyDiscriminatorBehavior", "false");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/discriminator-mapping-children.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // The parent and every mapped child must ignore the manually declared discriminator
+        // property during serialization (it is written once by @JsonTypeInfo) while still
+        // allowing it to be set during deserialization. The discriminator property is "petType".
+        for (String modelFile : new String[]{"PetResponse.java", "CatResponse.java", "DogResponse.java"}) {
+            JavaFileAssert.assertThat(files.get(modelFile))
+                    .hasImports("com.fasterxml.jackson.annotation.JsonIgnoreProperties")
+                    .fileContains(
+                            "@JsonIgnoreProperties(",
+                            "value = \"petType\"",
+                            "allowSetters = true")
+                    // @JsonIgnoreProperties must precede @JsonTypeInfo on the class declaration.
+                    .fileContainsPattern("@JsonIgnoreProperties\\([\\s\\S]*?@JsonTypeInfo");
+        }
+    }
+
     @Test
     public void testGenerateJsonNullableListFieldsHelperMethodReferences_issue23251() throws Exception {
         Map<String, Object> properties = new HashMap<>();
