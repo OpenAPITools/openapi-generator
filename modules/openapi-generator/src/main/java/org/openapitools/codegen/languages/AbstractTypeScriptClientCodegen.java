@@ -1053,6 +1053,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
     }
 
+    protected static boolean isBinaryFormArray(CodegenParameter parameter) {
+        if (!parameter.isFormParam || !parameter.isArray) {
+            return false;
+        }
+        if ("binary".equals(parameter.dataFormat)) {
+            return true;
+        }
+
+        CodegenProperty items = parameter.items;
+        return items != null && (items.isFile || items.isBinary || "binary".equals(items.dataFormat));
+    }
+
     /**
      * Override to fix the inner enum naming issue for maps/arrays of enums.
      * <p>
