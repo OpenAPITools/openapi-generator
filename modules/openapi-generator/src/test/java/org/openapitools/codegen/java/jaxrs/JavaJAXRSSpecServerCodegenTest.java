@@ -1289,6 +1289,49 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .fileDoesNotContain("@JsonTypeName(\"DogRequest\")");
     }
 
+    /**
+     * A model with a discriminator must emit {@code @JsonIgnoreProperties} on the discriminator
+     * property so Jackson does not serialize that property twice (once for the manually declared
+     * field and once for the {@code @JsonTypeInfo} type id), which produces a duplicate key in the
+     * response body. {@code allowSetters = true} preserves the field during deserialization.
+     */
+    @Test
+    public void testDiscriminatorEmitsJsonIgnorePropertiesToAvoidDuplicateKey() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/jaxrs/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // The parent model (which carries the discriminator) must ignore the manually declared
+        // discriminator property during serialization while still allowing it to be set during
+        // deserialization. The discriminator property in this spec is "petType".
+        JavaFileAssert.assertThat(files.get("PetRequest.java"))
+                .hasImports("com.fasterxml.jackson.annotation.JsonIgnoreProperties")
+                .fileContains(
+                        "@JsonIgnoreProperties(",
+                        "value = \"petType\"",
+                        "allowSetters = true")
+                // @JsonIgnoreProperties must precede @JsonTypeInfo on the class declaration.
+                .fileContainsPattern("@JsonIgnoreProperties\\([\\s\\S]*?@JsonTypeInfo");
+
+        // Child models do not carry the discriminator, so they must not receive the annotation.
+        JavaFileAssert.assertThat(files.get("CatRequest.java"))
+                .fileDoesNotContain("@JsonIgnoreProperties");
+        JavaFileAssert.assertThat(files.get("DogRequest.java"))
+                .fileDoesNotContain("@JsonIgnoreProperties");
+    }
+
     @Test
     public void testGenerateJsonNullableListFieldsHelperMethodReferences_issue23251() throws Exception {
         Map<String, Object> properties = new HashMap<>();
