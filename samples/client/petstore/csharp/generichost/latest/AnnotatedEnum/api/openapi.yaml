@@ -1,0 +1,138 @@
+openapi: 3.1.0
+info:
+  license:
+    name: MIT
+  title: Example
+  version: 1.0.0
+servers:
+- url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      operationId: list
+      parameters:
+      - description: The id of the person to retrieve
+        explode: false
+        in: path
+        name: personId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfTest"
+          description: OK
+components:
+  schemas:
+    AnyOfTest:
+      description: to test anyOf
+      nullable: true
+      type: string
+    OneOfTest:
+      description: to test oneOf
+      nullable: true
+      type: integer
+    OneOfTest2:
+      description: to test oneOf
+      nullable: true
+      type: string
+    OneOfNullableTest:
+      description: to test oneOf nullable
+      nullable: true
+      oneOf:
+      - type: integer
+      - description: to test oneOf
+        nullable: true
+        type: string
+    SingleAnyOfTest:
+      description: to test anyOf (enum string only)
+      enum:
+      - A
+      - B
+      type: string
+    Parent:
+      properties:
+        number:
+          $ref: "#/components/schemas/Number"
+    ParentWithOneOfProperty:
+      properties:
+        number:
+          $ref: "#/components/schemas/Number"
+    ParentWithPluralOneOfProperty:
+      properties:
+        number:
+          $ref: "#/components/schemas/ParentWithPluralOneOfProperty_number"
+    PropertiesWithAnyOf:
+      additionalProperties: {}
+      properties:
+        anyof_nullable_string:
+          description: to test oneOf
+          nullable: true
+          type: string
+        anyof_nullable_number:
+          nullable: true
+          type: number
+    Number:
+      enum:
+      - one
+      - two
+      - three
+      type: string
+    Number2:
+      enum:
+      - one
+      - two
+      type: string
+    AnyOfStringArrayOfString:
+      anyOf:
+      - description: to test oneOf
+        nullable: true
+        type: string
+      - items:
+          description: to test oneOf
+          nullable: true
+          type: string
+        type: array
+        default: null
+    AnyOfAnyType:
+      example: null
+      default: null
+    OneOfAnyType:
+      example: null
+      default: null
+    TypeIntegerWithOneOf:
+      enum:
+      - 1
+      - 2
+      - 4
+      format: int32
+      type: integer
+      x-enum-descriptions:
+      - ITEM A - This permission is for item A.
+      - ITEM B - This permission is for item B.
+      - ITEM C - This permission is for item C.
+      x-enum-deprecated:
+      - true
+      - false
+      - false
+    OneOfNullAndRef:
+      allOf:
+      - $ref: "#/components/schemas/Parent"
+      nullable: true
+    OneOfNullAndRef2:
+      allOf:
+      - $ref: "#/components/schemas/Parent"
+      nullable: true
+    OneOfNullAndRef3:
+      allOf:
+      - $ref: "#/components/schemas/Parent"
+      nullable: true
+    ParentWithPluralOneOfProperty_number:
+      oneOf:
+      - $ref: "#/components/schemas/Number"
+      - $ref: "#/components/schemas/Number2"
+
