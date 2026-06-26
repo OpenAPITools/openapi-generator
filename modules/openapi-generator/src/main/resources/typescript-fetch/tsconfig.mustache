@@ -2,6 +2,9 @@
   "compilerOptions": {
     "declaration": true,
     "target": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}es5{{/supportsES6}}",
+    {{#ignoreDeprecations}}
+    "ignoreDeprecations": "{{{.}}}",
+    {{/ignoreDeprecations}}
 {{#sagasAndRecords}}
     "strict": true,
 {{/sagasAndRecords}}
