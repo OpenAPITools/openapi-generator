@@ -422,7 +422,18 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             parameter.isFile = true;
             parameter.isCollectionFormatMulti = true;
         }
-        setApiExampleValue(parameter);
+    }
+
+    private void addMultipartFileArrayApiExampleValues(OperationsMap operations) {
+        for (CodegenOperation operation : operations.getOperations().getOperation()) {
+            if (operation.allParams == null || operation.allParams.stream().noneMatch(TypeScriptFetchClientCodegen::isBinaryFormArray)) {
+                continue;
+            }
+
+            for (CodegenParameter parameter : operation.allParams) {
+                setApiExampleValue(parameter);
+            }
+        }
     }
 
     private void setApiExampleValue(CodegenParameter parameter) {
@@ -772,6 +783,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
+        this.addMultipartFileArrayApiExampleValues(operations);
 
         return operations;
     }
