@@ -6875,6 +6875,7 @@ public class KotlinSpringServerCodegenTest {
 
         assertThat(content).doesNotContain("unknown_default_open_api(\"unknown_default_open_api\")");
         assertThat(content).doesNotContain("?: unknown_default_open_api");
+        
     @Test(description = "nameMappings: @param:JsonProperty must use the original JSON field name for deserialization")
     public void paramJsonPropertyAnnotationWithNameMappings() throws IOException {
         // When a property is renamed via nameMappings, @param:JsonProperty must carry the
