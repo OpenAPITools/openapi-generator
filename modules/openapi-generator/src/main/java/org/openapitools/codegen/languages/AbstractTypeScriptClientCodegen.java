@@ -1053,6 +1053,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
     }
 
+    /**
+     * Returns true for multipart form arrays whose array or item schema is binary.
+     *
+     * @param parameter Codegen parameter
+     */
     protected static boolean isBinaryFormArray(CodegenParameter parameter) {
         if (!parameter.isFormParam || !parameter.isArray) {
             return false;
