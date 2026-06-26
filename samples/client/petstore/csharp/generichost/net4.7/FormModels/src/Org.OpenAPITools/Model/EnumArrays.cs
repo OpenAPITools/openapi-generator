@@ -105,8 +105,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="EnumArrays" />
     /// </summary>
-    public class EnumArraysJsonConverter : JsonConverter<EnumArrays>
+    public partial class EnumArraysJsonConverter : JsonConverter<EnumArrays>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumArraysJsonConverter" /> class.
+        /// </summary>
+        public EnumArraysJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="EnumArrays" />
         /// </summary>

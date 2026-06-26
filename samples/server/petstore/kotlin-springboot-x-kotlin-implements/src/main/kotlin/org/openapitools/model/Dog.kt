@@ -2,6 +2,7 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
@@ -37,40 +38,54 @@ import io.swagger.annotations.ApiModelProperty
 data class Dog(
 
     @ApiModelProperty(example = "null", required = true, value = "")
+    @param:JsonProperty("bark")
     @get:JsonProperty("bark", required = true) override val bark: kotlin.Boolean,
 
     @ApiModelProperty(example = "null", required = true, value = "")
+    @param:JsonProperty("breed")
     @get:JsonProperty("breed", required = true) override val breed: Dog.Breed,
 
     @ApiModelProperty(example = "null", required = true, value = "Whether the dog enjoys fetching")
+    @param:JsonProperty("likesFetch")
     @get:JsonProperty("likesFetch", required = true) override val likesFetch: kotlin.Boolean,
 
     @ApiModelProperty(example = "null", required = true, value = "")
+    @param:JsonProperty("name")
     @get:JsonProperty("name", required = true) override val name: kotlin.String,
 
     @ApiModelProperty(example = "null", required = true, value = "")
+    @param:JsonProperty("photoUrls")
     @get:JsonProperty("photoUrls", required = true) override val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(example = "null", required = true, value = "")
+    @param:JsonProperty("petType")
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") override val id: kotlin.Long? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("category")
     @get:JsonProperty("category") override val category: Category? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("tags")
     @get:JsonProperty("tags") override val tags: kotlin.collections.List<Tag>? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("color")
     @get:JsonProperty("color") override val color: Color? = null
 ) : Pet, com.some.pack.Canine, com.some.pack.Fetchable, java.io.Serializable {
 

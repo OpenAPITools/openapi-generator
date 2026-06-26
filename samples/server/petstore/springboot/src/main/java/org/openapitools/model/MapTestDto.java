@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -24,9 +25,10 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("MapTest")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class MapTestDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -64,10 +66,13 @@ public class MapTestDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Boolean> directMap = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTestDto mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

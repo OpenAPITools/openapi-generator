@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -21,23 +22,31 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("User")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class UserDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String username;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String firstName;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String lastName;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String email;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String password;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String phone;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer userStatus;
 
   public UserDto id(@Nullable Long id) {

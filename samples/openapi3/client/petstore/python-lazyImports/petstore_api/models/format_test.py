@@ -51,55 +51,43 @@ class FormatTest(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
 
-    @field_validator('string')
+    @field_validator('string', mode="before")
     def string_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not isinstance(value, str):
-            value = str(value)
-
-        if not re.match(r"[a-z]", value ,re.IGNORECASE):
+        if isinstance(value, str) and not re.match(r"[a-z]", value ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
         return value
 
-    @field_validator('string_with_double_quote_pattern')
+    @field_validator('string_with_double_quote_pattern', mode="before")
     def string_with_double_quote_pattern_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not isinstance(value, str):
-            value = str(value)
-
-        if not re.match(r"this is \"something\"", value):
+        if isinstance(value, str) and not re.match(r"this is \"something\"", value):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
         return value
 
-    @field_validator('pattern_with_digits')
+    @field_validator('pattern_with_digits', mode="before")
     def pattern_with_digits_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not isinstance(value, str):
-            value = str(value)
-
-        if not re.match(r"^\d{10}$", value):
+        if isinstance(value, str) and not re.match(r"^\d{10}$", value):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
         return value
 
-    @field_validator('pattern_with_digits_and_delimiter')
+    @field_validator('pattern_with_digits_and_delimiter', mode="before")
     def pattern_with_digits_and_delimiter_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not isinstance(value, str):
-            value = str(value)
-
-        if not re.match(r"^image_\d{1,3}$", value ,re.IGNORECASE):
+        if isinstance(value, str) and not re.match(r"^image_\d{1,3}$", value ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /^image_\d{1,3}$/i")
         return value
 

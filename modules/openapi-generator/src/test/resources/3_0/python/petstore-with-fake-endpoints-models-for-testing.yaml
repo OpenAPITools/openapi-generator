@@ -1833,11 +1833,13 @@ components:
     DiscriminatorAllOfSuper:
       type: object
       required:
-        - elementType
+        - 'element''"\Type'
       discriminator:
-        propertyName: elementType
+        propertyName: 'element''"\Type'
+        mapping:
+          "sub'\"\\kind\nvalue": '#/components/schemas/DiscriminatorAllOfSub'
       properties:
-        elementType:
+        'element''"\Type':
           type: string
     DiscriminatorAllOfSub:
       allOf:
@@ -2540,26 +2542,29 @@ components:
         - $ref: '#/components/schemas/BasquePig'
         - $ref: '#/components/schemas/DanishPig'
       discriminator:
-        propertyName: className
+        propertyName: 'class''"\Name'
+        mapping:
+          "basque'\"\\pig\nkind": '#/components/schemas/BasquePig'
+          danish: '#/components/schemas/DanishPig'
     BasquePig:
       type: object
       properties:
-        className:
+        'class''"\Name':
           type: string
         color:
           type: string
       required:
-        - className
+        - 'class''"\Name'
         - color
     DanishPig:
       type: object
       properties:
-        className:
+        'class''"\Name':
           type: string
         size:
           type: integer
       required:
-        - className
+        - 'class''"\Name'
         - size
     AnyOfPig:
       anyOf:
@@ -2570,7 +2575,7 @@ components:
       properties:
         size:
           type: integer
-        nested_pig:
+        "nested_\npig":
           $ref: '#/components/schemas/Pig'
         nested_oneof_enum_string:
           $ref: '#/components/schemas/OneOfEnumString'

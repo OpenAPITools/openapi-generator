@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
@@ -19,15 +20,17 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Pet implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
   private String name;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String status;
 
   public Pet() {

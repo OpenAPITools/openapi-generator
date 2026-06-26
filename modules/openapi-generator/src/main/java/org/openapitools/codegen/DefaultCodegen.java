@@ -179,6 +179,9 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> importMapping = new HashMap<>();
     // a map to store the mapping between a schema and the new one
     protected Map<String, String> schemaMapping = new HashMap<>();
+    // a set of schema names that must be generated even when listed in schemaMappings or importMappings.
+    // Use CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS ("*") to force-generate all mapped schemas.
+    protected Set<String> forcedGenerateSchemas = new HashSet<>();
     // a map to store the mapping between inline schema and the name provided by the user
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
@@ -574,6 +577,14 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                         // if this is oneOf interface, make sure we include the necessary imports for it
                         addImportsToOneOfInterface(modelsImports);
+                        //
+                        // ensure that no JsonTypeName is created when the parent interface has a discriminator mapping
+                        if (cm.discriminator != null && cm.discriminator.getMappedModels() != null && !cm.discriminator.getMappedModels().isEmpty()) {
+                            cm.discriminator.getMappedModels().stream()
+                                    .map(MappedModel::getModel)
+                                    .filter(Objects::nonNull)
+                                    .forEach(model -> model.setHasDiscriminatorWithNonEmptyMapping(true));
+                        }
                     }
                 }
             }
@@ -1011,11 +1022,17 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("static-method")
     public void postProcess() {
-        System.out.println("############################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                                      #");
-        System.out.println("# We appreciate your support! Please consider donation to help us maintain this project.   #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                                      #");
-        System.out.println("############################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("############################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                                      #");
+            System.out.println("# We appreciate your support! Please consider donation to help us maintain this project.   #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                                      #");
+            System.out.println("############################################################################################");
+        }
+    }
+
+    protected boolean isQuietMode() {
+        return Boolean.parseBoolean(GlobalSettings.getProperty("quiet", "false"));
     }
 
     // override with any special post-processing
@@ -1300,6 +1317,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> schemaMapping() {
         return schemaMapping;
+    }
+
+    @Override
+    public Set<String> forcedGenerateSchemas() {
+        return forcedGenerateSchemas;
     }
 
     @Override
@@ -4306,6 +4328,13 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (original.getTitle() != null) {
                 property.setTitle(original.getTitle());
+            }
+            // the example was computed above against the inner (allOf/$ref) schema, which does
+            // not carry the example declared as a sibling of the allOf/$ref. Restore it here so
+            // that e.g. `allOf: [ $ref ]` with a sibling `example` keeps the declared example
+            // instead of falling back to the literal "null".
+            if (original.getExample() != null) {
+                property.example = toExampleValue(original);
             }
         }
 

@@ -72,11 +72,10 @@ where
         .endpoint_get(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::EndpointGetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }

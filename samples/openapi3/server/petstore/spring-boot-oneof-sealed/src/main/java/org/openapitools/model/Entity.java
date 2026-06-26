@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -36,15 +37,19 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = PizzaSpeziale.class, name = "PizzaSpeziale")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String href;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atSchemaLocation;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atBaseType;
 
   private String atType;

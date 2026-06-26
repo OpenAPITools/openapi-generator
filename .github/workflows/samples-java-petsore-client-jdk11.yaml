@@ -44,7 +44,7 @@ jobs:
           SWAGGER_HOST: http://petstore.swagger.io
           SWAGGER_BASE_PATH: /v2
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Add hosts to /etc/hosts
         run: |
             sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
@@ -53,7 +53,7 @@ jobs:
           distribution: 'temurin'
           java-version: 11
       - name: Cache maven dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         env:
           cache-name: maven-repository
         with:

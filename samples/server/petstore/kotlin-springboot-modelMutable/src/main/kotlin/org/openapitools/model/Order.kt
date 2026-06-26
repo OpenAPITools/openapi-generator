@@ -2,6 +2,7 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
@@ -29,27 +30,39 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Order(
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") var id: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("petId")
     @get:JsonProperty("petId") var petId: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("quantity")
     @get:JsonProperty("quantity") var quantity: kotlin.Int? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("shipDate")
     @get:JsonProperty("shipDate") var shipDate: java.time.OffsetDateTime? = null,
 
     @Schema(example = "null", description = "Order Status")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("status")
     @get:JsonProperty("status") var status: Order.Status? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("complete")
     @get:JsonProperty("complete") var complete: kotlin.Boolean? = false
 ) : java.io.Serializable {
 

@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Activity" />
     /// </summary>
-    public class ActivityJsonConverter : JsonConverter<Activity>
+    public partial class ActivityJsonConverter : JsonConverter<Activity>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActivityJsonConverter" /> class.
+        /// </summary>
+        public ActivityJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Activity" />
         /// </summary>

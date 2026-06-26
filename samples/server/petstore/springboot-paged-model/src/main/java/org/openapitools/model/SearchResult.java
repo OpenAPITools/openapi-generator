@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.openapitools.model.PageMeta;
@@ -20,15 +21,18 @@ import jakarta.annotation.Generated;
  * Search result with metadata — no &#39;content&#39; array at all
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class SearchResult implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String query;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer totalHits;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable PageMeta page;
 
   public SearchResult query(@Nullable String query) {

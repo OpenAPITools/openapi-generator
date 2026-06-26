@@ -21,6 +21,7 @@
 
 namespace {{modelPackage}};
 {{^isEnum}}
+{{^oneOf}}
 
 {{^parentSchema}}
 use ArrayAccess;
@@ -29,6 +30,7 @@ use JsonSerializable;
 use InvalidArgumentException;
 use ReturnTypeWillChange;
 use {{invokerPackage}}\ObjectSerializer;
+{{/oneOf}}
 {{/isEnum}}
 
 /**
@@ -42,9 +44,11 @@ use {{invokerPackage}}\ObjectSerializer;
  * @link     https://openapi-generator.tech
 {{^parentSchema}}
 {{^isEnum}}
+{{^oneOf}}
  * @implements ArrayAccess<string, mixed>
+{{/oneOf}}
 {{/isEnum}}
 {{/parentSchema}}
  */
-{{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}
+{{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>model_generic}}{{/oneOf}}{{/isEnum}}
 {{/model}}{{/models}}

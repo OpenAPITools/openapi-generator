@@ -51,6 +51,7 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, Object> additionalProperties;
     private final Map<String, String> importMappings;
     private final Map<String, String> schemaMappings;
+    private final Set<String> forcedGenerateSchemas;
     private final Map<String, String> inlineSchemaNameMappings;
     private final Map<String, String> inlineSchemaOptions;
     private final Map<String, String> nameMappings;
@@ -254,6 +255,16 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
+     * Gets the set of schema names that must be generated even when listed in schemaMappings or importMappings.
+     * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
+     *
+     * @return the forced generate schemas
+     */
+    public Set<String> getForcedGenerateSchemas() {
+        return forcedGenerateSchemas;
+    }
+
+    /**
      * Gets inline schema name mappings between an inline schema name and the new name.
      *
      * @return the inline schema name mappings
@@ -450,6 +461,7 @@ public final class GeneratorSettings implements Serializable {
         typeMappings = Collections.unmodifiableMap(builder.typeMappings);
         importMappings = Collections.unmodifiableMap(builder.importMappings);
         schemaMappings = Collections.unmodifiableMap(builder.schemaMappings);
+        forcedGenerateSchemas = Collections.unmodifiableSet(builder.forcedGenerateSchemas);
         inlineSchemaNameMappings = Collections.unmodifiableMap(builder.inlineSchemaNameMappings);
         inlineSchemaOptions = Collections.unmodifiableMap(builder.inlineSchemaOptions);
         nameMappings = Collections.unmodifiableMap(builder.nameMappings);
@@ -530,6 +542,7 @@ public final class GeneratorSettings implements Serializable {
         additionalProperties = Collections.unmodifiableMap(new HashMap<>(0));
         importMappings = Collections.unmodifiableMap(new HashMap<>(0));
         schemaMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        forcedGenerateSchemas = Collections.unmodifiableSet(new HashSet<>(0));
         inlineSchemaNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         inlineSchemaOptions = Collections.unmodifiableMap(new HashMap<>(0));
         nameMappings = Collections.unmodifiableMap(new HashMap<>(0));
@@ -592,6 +605,9 @@ public final class GeneratorSettings implements Serializable {
         }
         if (copy.getSchemaMappings() != null) {
             builder.schemaMappings.putAll(copy.getSchemaMappings());
+        }
+        if (copy.getForcedGenerateSchemas() != null) {
+            builder.forcedGenerateSchemas.addAll(copy.getForcedGenerateSchemas());
         }
         if (copy.getInlineSchemaNameMappings() != null) {
             builder.inlineSchemaNameMappings.putAll(copy.getInlineSchemaNameMappings());
@@ -660,6 +676,7 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, Object> additionalProperties;
         private Map<String, String> importMappings;
         private Map<String, String> schemaMappings;
+        private Set<String> forcedGenerateSchemas;
         private Map<String, String> inlineSchemaNameMappings;
         private Map<String, String> inlineSchemaOptions;
         private Map<String, String> nameMappings;
@@ -687,6 +704,7 @@ public final class GeneratorSettings implements Serializable {
             additionalProperties = new HashMap<>();
             importMappings = new HashMap<>();
             schemaMappings = new HashMap<>();
+            forcedGenerateSchemas = new HashSet<>();
             inlineSchemaNameMappings = new HashMap<>();
             inlineSchemaOptions = new HashMap<>();
             nameMappings = new HashMap<>();
@@ -935,6 +953,35 @@ public final class GeneratorSettings implements Serializable {
                 this.schemaMappings = new HashMap<>();
             }
             this.schemaMappings.put(key, value);
+            return this;
+        }
+
+        /**
+         * Sets the {@code forcedGenerateSchemas} (schemas to generate even when listed in schemaMappings or importMappings).
+         * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
+         * and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param schemas the {@code forcedGenerateSchemas} to set
+         * @return a reference to this Builder
+         */
+        public Builder withForcedGenerateSchemas(Set<String> schemas) {
+            this.forcedGenerateSchemas = schemas;
+            return this;
+        }
+
+        /**
+         * Adds a single schema name to {@code forcedGenerateSchemas} (schemas to generate even when listed in schemaMappings or importMappings).
+         * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
+         * Returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param schema the schema name to add
+         * @return a reference to this Builder
+         */
+        public Builder withForcedGenerateSchema(String schema) {
+            if (this.forcedGenerateSchemas == null) {
+                this.forcedGenerateSchemas = new HashSet<>();
+            }
+            this.forcedGenerateSchemas.add(schema);
             return this;
         }
 
@@ -1350,6 +1397,7 @@ public final class GeneratorSettings implements Serializable {
                 ", typeMappings=" + typeMappings +
                 ", additionalProperties=" + additionalProperties +
                 ", importMappings=" + importMappings +
+                ", forcedGenerateSchemas=" + forcedGenerateSchemas +
                 ", languageSpecificPrimitives=" + languageSpecificPrimitives +
                 ", openapiGeneratorIgnoreList=" + openapiGeneratorIgnoreList +
                 ", reservedWordsMappings=" + reservedWordsMappings +
@@ -1383,6 +1431,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getAdditionalProperties(), that.getAdditionalProperties()) &&
                 Objects.equals(getImportMappings(), that.getImportMappings()) &&
                 Objects.equals(getSchemaMappings(), that.getSchemaMappings()) &&
+                Objects.equals(getForcedGenerateSchemas(), that.getForcedGenerateSchemas()) &&
                 Objects.equals(getInlineSchemaNameMappings(), that.getInlineSchemaNameMappings()) &&
                 Objects.equals(getInlineSchemaOptions(), that.getInlineSchemaOptions()) &&
                 Objects.equals(getNameMappings(), that.getNameMappings()) &&
@@ -1421,6 +1470,7 @@ public final class GeneratorSettings implements Serializable {
                 getAdditionalProperties(),
                 getImportMappings(),
                 getSchemaMappings(),
+                getForcedGenerateSchemas(),
                 getInlineSchemaNameMappings(),
                 getInlineSchemaOptions(),
                 getNameMappings(),

@@ -24,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class AnotherFakeApi {
     private ApiClient apiClient;
 
@@ -61,7 +61,7 @@ public class AnotherFakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -78,7 +78,7 @@ public class AnotherFakeApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/another-fake/dummy", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/another-fake/dummy", HttpMethod.PATCH, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

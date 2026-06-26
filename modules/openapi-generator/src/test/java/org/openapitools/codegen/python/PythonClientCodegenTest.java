@@ -759,4 +759,16 @@ public class PythonClientCodegenTest {
         TestUtils.assertFileContains(filePath, "double: Optional[Union[Annotated[float, Field(le=123.4, strict=True, ge=67.8)], Annotated[int, Field(le=123, strict=True, ge=68)]]]");
         TestUtils.assertFileContains(filePath, "decimal: Optional[Annotated[Decimal, Field(multiple_of=0.1, lt=123.4, strict=True, gt=67.8)]]");
     }
+
+    @Test
+    public void testModelNameMappingDoesNotRenameParameters() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put("some-value", "model_value");
+
+        Assert.assertEquals(codegen.toVarName("some-value"), "model_value");
+        Assert.assertEquals(codegen.toParamName("some-value"), "some_value");
+
+        codegen.parameterNameMapping().put("some-value", "parameter_value");
+        Assert.assertEquals(codegen.toParamName("some-value"), "parameter_value");
+    }
 }

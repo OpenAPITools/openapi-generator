@@ -52,7 +52,7 @@ import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toMap;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
 
     protected static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
@@ -664,7 +664,14 @@ public class ApiClient extends JavaTimeFormatter {
             config.put("userAgent", "OpenAPI-Generator/1.0.0/java");
         }
 
-        return WebClient.create(vertx, new WebClientOptions(config), new PoolOptions(poolConfig));
+        // PoolOptions(JsonObject) does not initialize defaults first (unlike its
+        // no-arg constructor and unlike WebClientOptions(JsonObject)), so building
+        // it directly from an empty or partial poolConfig leaves fields such as
+        // maxLifetimeUnit null and triggers a NullPointerException when the
+        // WebClient is created. Overlay poolConfig on the serialized defaults so
+        // absent keys keep their documented values.
+        PoolOptions poolOptions = new PoolOptions(new PoolOptions().toJson().mergeIn(poolConfig));
+        return WebClient.create(vertx, new WebClientOptions(config), poolOptions);
     }
 
 

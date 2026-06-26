@@ -35,7 +35,9 @@ import org.springframework.http.ResponseEntity
 
 import org.springframework.web.bind.annotation.*
 {{#useBeanValidation}}
+{{^useSpringBuiltInValidation}}
 import org.springframework.validation.annotation.Validated
+{{/useSpringBuiltInValidation}}
 {{/useBeanValidation}}
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
@@ -62,7 +64,9 @@ import kotlin.collections.Map
 @RestController
 {{/useFeignClient}}
 {{#useBeanValidation}}
+{{^useSpringBuiltInValidation}}
 @Validated
+{{/useSpringBuiltInValidation}}
 {{/useBeanValidation}}
 {{#swagger1AnnotationLibrary}}
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
@@ -88,7 +92,7 @@ interface {{classname}} {
         operationId = "{{{operationId}}}",
         description = """{{{unescapedNotes}}}""",
         responses = [{{#responses}}
-            ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}}
+            ApiResponse(responseCode = "{{#isDefault}}default{{/isDefault}}{{^isDefault}}{{{code}}}{{/isDefault}}", description = "{{{message}}}"{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}}
         ]{{#hasAuthMethods}},
         security = [ {{#authMethods}}SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = [ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} ]{{/isOAuth}}){{^-last}},{{/-last}}{{/authMethods}} ]{{/hasAuthMethods}}
     ){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}

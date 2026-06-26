@@ -1,0 +1,28 @@
+openapi: "3.0.0"
+info:
+  title: Test API for @param:JsonProperty annotation
+  version: "1.0.0"
+paths:
+  /items:
+    get:
+      operationId: listItems
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+components:
+  schemas:
+    Item:
+      type: object
+      required:
+        - snake_case_value
+      properties:
+        snake_case_value:
+          type: string
+          description: A required property to be renamed via nameMappings
+        2nd_field:
+          type: string
+          description: An optional property whose name starts with a digit and is auto-renamed

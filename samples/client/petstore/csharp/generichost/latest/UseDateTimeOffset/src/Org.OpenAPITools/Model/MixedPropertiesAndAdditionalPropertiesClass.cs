@@ -138,12 +138,22 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
     /// </summary>
-    public class MixedPropertiesAndAdditionalPropertiesClassJsonConverter : JsonConverter<MixedPropertiesAndAdditionalPropertiesClass>
+    public partial class MixedPropertiesAndAdditionalPropertiesClassJsonConverter : JsonConverter<MixedPropertiesAndAdditionalPropertiesClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClassJsonConverter" /> class.
+        /// </summary>
+        public MixedPropertiesAndAdditionalPropertiesClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize DateTime
         /// </summary>
-        public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string DateTimeFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
