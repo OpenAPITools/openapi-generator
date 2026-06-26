@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Discriminator mapping with allOf children
+  description: >
+    Minimal spec reproducing a discriminated polymorphic response where the
+    discriminator declares an explicit mapping to child schemas. With
+    legacyDiscriminatorBehavior=false the discriminator is propagated onto the
+    mapped children, so the @JsonIgnoreProperties / @JsonTypeInfo annotations
+    must be emitted on both the parent and the children.
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      operationId: getPet
+      responses:
+        '200':
+          description: A pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetResponse'
+components:
+  schemas:
+    PetResponse:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatResponse'
+          DOG: '#/components/schemas/DogResponse'
+    CatResponse:
+      description: Response payload for a cat resource
+      allOf:
+        - $ref: '#/components/schemas/PetResponse'
+        - type: object
+          properties:
+            declawed:
+              type: boolean
+    DogResponse:
+      description: Response payload for a dog resource
+      allOf:
+        - $ref: '#/components/schemas/PetResponse'
+        - type: object
+          properties:
+            bark:
+              type: boolean
