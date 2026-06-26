@@ -1,7 +1,0 @@
-{
-    "name": "Org.OpenAPITools",
-    "overrideReferences": true,
-    "precompiledReferences": [
-        "Newtonsoft.Json.dll"
-    ]
-}

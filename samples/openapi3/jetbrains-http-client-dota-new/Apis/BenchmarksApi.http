@@ -1,6 +1,0 @@
-## BenchmarksApi
-
-### GET /benchmarks
-## GET /benchmarks
-GET https://api.opendota.com/api/benchmarks?heroId={{heroId}}
-Accept: application/json; charset=utf-8

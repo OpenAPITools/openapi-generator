@@ -1,8 +1,0 @@
-.openapi-generator-ignore
-README.md
-pom.xml
-src/main/java/org/openapitools/api/PetApi.java
-src/main/java/org/openapitools/configuration/HttpInterfacesAbstractConfigurator.java
-src/main/java/org/openapitools/model/CategoryDto.java
-src/main/java/org/openapitools/model/PetDto.java
-src/main/java/org/openapitools/model/TagDto.java

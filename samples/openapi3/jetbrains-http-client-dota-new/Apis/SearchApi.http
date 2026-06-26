@@ -1,6 +1,0 @@
-## SearchApi
-
-### GET /search
-## GET /search
-GET https://api.opendota.com/api/search?q={{q}}
-Accept: application/json; charset=utf-8

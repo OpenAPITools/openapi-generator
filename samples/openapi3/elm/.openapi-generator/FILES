@@ -1,9 +1,0 @@
-.gitignore
-.openapi-generator-ignore
-README.md
-elm.json
-src/Api.elm
-src/Api/Data.elm
-src/Api/Request/Default.elm
-src/Api/Request/Primitive.elm
-src/Api/Time.elm

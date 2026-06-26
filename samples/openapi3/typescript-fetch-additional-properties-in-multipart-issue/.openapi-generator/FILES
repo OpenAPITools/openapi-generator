@@ -1,9 +1,0 @@
-.openapi-generator-ignore
-apis/FileApi.ts
-apis/index.ts
-docs/FileApi.md
-docs/StructuredType.md
-index.ts
-models/StructuredType.ts
-models/index.ts
-runtime.ts
