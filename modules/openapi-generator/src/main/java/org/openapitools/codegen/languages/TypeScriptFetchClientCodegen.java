@@ -92,6 +92,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_ENTITY_ID = "x-entityId";
     private static final String X_OPERATION_RETURN_PASSTHROUGH = "x-operationReturnPassthrough";
     private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
+    private static final String X_TYPESCRIPT_FETCH_API_EXAMPLE = "x-typescriptFetchApiExample";
+    private static final String BLOB_API_EXAMPLE = "new Blob(['example file content'], { type: 'application/octet-stream' })";
 
     protected boolean sagasAndRecords = false;
     @Getter @Setter
@@ -420,6 +422,29 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             parameter.isFile = true;
             parameter.isCollectionFormatMulti = true;
         }
+        setApiExampleValue(parameter);
+    }
+
+    private void setApiExampleValue(CodegenParameter parameter) {
+        String example = toApiExampleValue(parameter);
+        if (example != null) {
+            parameter.vendorExtensions.put(X_TYPESCRIPT_FETCH_API_EXAMPLE, example);
+        }
+    }
+
+    private String toApiExampleValue(CodegenParameter parameter) {
+        if (isBinaryFormArray(parameter)) {
+            return "[" + BLOB_API_EXAMPLE + "]";
+        } else if (parameter.isFile || parameter.isBinary) {
+            return BLOB_API_EXAMPLE;
+        } else if (parameter.isString) {
+            String example = parameter.example;
+            if (example == null) {
+                example = parameter.paramName + "_example";
+            }
+            return "'" + escapeText(example) + "'";
+        }
+        return null;
     }
 
     @Override
