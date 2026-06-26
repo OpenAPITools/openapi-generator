@@ -1,0 +1,31 @@
+openapi: 3.1.1
+info:
+  title: Test issue 24139
+  version: 1.0.0
+
+components:
+  schemas:
+    NestedNullable:
+      type: [ object, "null" ]
+      properties:
+        value:
+          type: [ number, "null" ]
+    Nested:
+      type: object
+      properties:
+        value:
+          type: [ number, "null" ]
+
+    Item:
+      type: object
+      properties:
+        nestedNullable:
+          $ref: '#/components/schemas/NestedNullable'
+
+        nestedNullable2:
+          anyOf:
+            - $ref: '#/components/schemas/Nested'
+            - type: 'null'
+
+        nested:
+          $ref: '#/components/schemas/Nested'

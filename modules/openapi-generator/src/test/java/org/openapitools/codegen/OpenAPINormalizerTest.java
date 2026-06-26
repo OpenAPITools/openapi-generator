@@ -1896,4 +1896,33 @@ public class OpenAPINormalizerTest {
         ModelUtils.looseNullDefinitions = false;
     }
 
+    /**
+     * Verify that a schema defined as type:[object,"null"] WITH properties (OAS 3.1 style)
+     * is correctly normalized so that nullable:true is set on the schema itself.
+     * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
+     */
+    @Test
+    public void testIssue24139NullableObjectWithPropertiesGetsNullableTrue() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24139.yaml");
+
+        // Before normalization: NestedNullable has types=[object,null], nullable is not yet set
+        Schema<?> nestedNullableBefore = openAPI.getComponents().getSchemas().get("NestedNullable");
+        assertNotNull(nestedNullableBefore);
+        assertNotNull(nestedNullableBefore.getProperties());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        // After normalization: nullable must be true and type must be "object"
+        Schema<?> nestedNullableAfter = openAPI.getComponents().getSchemas().get("NestedNullable");
+        assertNotNull(nestedNullableAfter);
+        assertEquals(nestedNullableAfter.getNullable(), Boolean.TRUE,
+                "NestedNullable with type:[object,\"null\"] should have nullable:true after normalization");
+        assertEquals(nestedNullableAfter.getType(), "object");
+        assertNotNull(nestedNullableAfter.getProperties());
+    }
+
 }
+
