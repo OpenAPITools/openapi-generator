@@ -33,7 +33,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     discriminator_value_class_map: Dict[str, str] = {
 {{#children}}
-        '{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': '{{{classname}}}'{{^-last}},{{/-last}}
+        {{#lambda.pythonSingleQuotedStringLiteral}}{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}{{/lambda.pythonSingleQuotedStringLiteral}}: '{{{classname}}}'{{^-last}},{{/-last}}
 {{/children}}
     }
 {{/discriminator}}
@@ -118,13 +118,14 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#mappedModels}}
         {{#-first}}
         # use oneOf discriminator to lookup the data type
-        _data_type = json.loads(json_str).get("{{{propertyBaseName}}}")
+        _discriminator_property = {{#lambda.pythonStringLiteral}}{{{propertyBaseName}}}{{/lambda.pythonStringLiteral}}
+        _data_type = json.loads(json_str).get(_discriminator_property)
         if not _data_type:
-            raise ValueError("Failed to lookup data type from the field `{{{propertyBaseName}}}` in the input.")
+            raise ValueError(f"Failed to lookup data type from the field `{_discriminator_property}` in the input.")
 
         {{/-first}}
         # check if data type is `{{{modelName}}}`
-        if _data_type == "{{{mappingName}}}":
+        if _data_type == {{#lambda.pythonStringLiteral}}{{{mappingName}}}{{/lambda.pythonStringLiteral}}:
             instance.actual_instance = {{{modelName}}}.from_json(json_str)
             return instance
 

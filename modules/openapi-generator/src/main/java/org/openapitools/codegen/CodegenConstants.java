@@ -520,6 +520,7 @@ public class CodegenConstants {
     public static final String X_PY_EXAMPLE_IMPORT = "x-py-example-import";
     public static final String X_PY_FASTAPI_EXAMPLE = "x-py-fastapi-example";
     public static final String X_PY_NAME = "x-py-name";
+    public static final String X_PY_WIRE_NAME_LITERAL = "x-py-wire-name-literal";
     public static final String X_PY_ENUM_TYPE = "x-py-enum-type";
     public static final String X_PY_READONLY = "x-py-readonly";
     public static final String X_PY_MODEL_IMPORTS = "x-py-model-imports";
