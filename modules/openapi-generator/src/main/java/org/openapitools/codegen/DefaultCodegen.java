@@ -3690,8 +3690,18 @@ public class DefaultCodegen implements CodegenConfig {
      * @param discriminatorPropertyName The name of the discriminator property.
      */
     protected String getDiscriminatorPropertyType(Schema schema, String discriminatorPropertyName) {
-        return DiscriminatorUtils.getDiscriminatorPropertyType(schema, discriminatorPropertyName)
-                .map(this::toModelName)
+        return DiscriminatorUtils.recursiveGetDiscriminatorPropertySchema(openAPI, getLegacyDiscriminatorBehavior(), schema, discriminatorPropertyName)
+                .map(discSchema -> {
+                    if (discSchema.get$ref() != null) {
+                        // $ref to a named model (e.g. a top-level enum): use the model name.
+                        return toModelName(ModelUtils.getSimpleRef(discSchema.get$ref()));
+                    }
+                    // Inline schema (inline enum, uri, ...): resolve via the same pipeline the
+                    // concrete model classes use so the oneOf interface getter type matches.
+                    // Keep String for typeless const (isAnyType) to avoid resolving to Object.
+                    CodegenProperty cp = fromProperty(discriminatorPropertyName, discSchema);
+                    return (cp.isAnyType || cp.datatypeWithEnum == null) ? typeMapping.get("string") : cp.datatypeWithEnum;
+                })
                 .orElseGet(() -> typeMapping.get("string"));
     }
 

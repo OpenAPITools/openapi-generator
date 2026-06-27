@@ -298,3 +298,61 @@ components:
         - $ref: '#/components/schemas/FruitType'
       discriminator:
         propertyName: fruitType
+    # oneOf interface whose discriminator property is an inline enum inherited from a shared base
+    # schema (PetEnumDisc) via allOf. The interface getter must use the same enum type the
+    # concrete classes generate, not String. Ref: issue #22541.
+    PetResponseEnumDisc:
+      oneOf:
+        - $ref: '#/components/schemas/DogEnumDisc'
+        - $ref: '#/components/schemas/CatEnumDisc'
+    PetEnumDisc:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+          enum:
+            - dog
+            - cat
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: DogEnumDisc
+          cat: CatEnumDisc
+    DogEnumDisc:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetEnumDisc'
+    CatEnumDisc:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetEnumDisc'
+    # oneOf interface whose discriminator property is an inline string with a non-string format
+    # (uri) inherited from a shared base schema (PetUriDisc) via allOf. The interface getter must
+    # use URI, matching the concrete classes, not String. Ref: issue #18693.
+    PetResponseUriDisc:
+      oneOf:
+        - $ref: '#/components/schemas/DogUriDisc'
+        - $ref: '#/components/schemas/CatUriDisc'
+    PetUriDisc:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+          format: uri
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: DogUriDisc
+          cat: CatUriDisc
+    DogUriDisc:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetUriDisc'
+    CatUriDisc:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetUriDisc'

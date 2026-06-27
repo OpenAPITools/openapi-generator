@@ -50,6 +50,67 @@ public class DiscriminatorUtils {
     }
 
     /**
+     * Recursively resolve the schema of the discriminator property, descending into composed
+     * (allOf/oneOf/anyOf) schemas and following $refs. Mirrors the traversal of
+     * {@link #recursiveGetDiscriminator} but returns the property {@link Schema} rather than the
+     * {@link Discriminator} object, so the two recursive lookups share a single pass through the
+     * schema hierarchy.
+     *
+     * @param openAPI                     The OpenAPI specification (used to dereference $refs).
+     * @param legacyDiscriminatorBehavior Whether legacy discriminator behaviour is enabled.
+     * @param schema                      The schema that may (transitively) declare the discriminator property.
+     * @param discPropName                The name of the discriminator property.
+     * @param visitedSchemas              Schemas already visited, to guard against cycles.
+     * @return the discriminator property schema, or {@code null} if it cannot be resolved.
+     */
+    public static Optional<Schema> recursiveGetDiscriminatorPropertySchema(OpenAPI openAPI, boolean legacyDiscriminatorBehavior, Schema schema, String discPropName) {
+        return Optional.ofNullable(recursiveGetDiscriminatorPropertySchema(openAPI, legacyDiscriminatorBehavior, schema, discPropName, new ArrayList<>()));
+    }
+
+    private static Schema recursiveGetDiscriminatorPropertySchema(
+            OpenAPI openAPI,
+            boolean legacyDiscriminatorBehavior,
+            Schema schema,
+            String discPropName,
+            ArrayList<Schema> visitedSchemas) {
+        Schema refSchema = ModelUtils.getReferencedSchema(openAPI, schema);
+        Schema propSchema = getDiscriminatorSchema(refSchema, discPropName);
+        if (propSchema != null) {
+            return propSchema;
+        }
+        if (legacyDiscriminatorBehavior) {
+            return null;
+        }
+        for (Schema s : visitedSchemas) {
+            if (s == refSchema) {
+                return null;
+            }
+        }
+        visitedSchemas.add(refSchema);
+        if (ModelUtils.isComposedSchema(refSchema)) {
+            if (refSchema.getAllOf() != null) {
+                for (Object allOf : refSchema.getAllOf()) {
+                    Schema found = recursiveGetDiscriminatorPropertySchema(openAPI, legacyDiscriminatorBehavior, (Schema) allOf, discPropName, visitedSchemas);
+                    if (found != null) return found;
+                }
+            }
+            if (ModelUtils.hasOneOf(refSchema)) {
+                for (Object oneOf : refSchema.getOneOf()) {
+                    Schema found = recursiveGetDiscriminatorPropertySchema(openAPI, legacyDiscriminatorBehavior, (Schema) oneOf, discPropName, visitedSchemas);
+                    if (found != null) return found;
+                }
+            }
+            if (ModelUtils.hasAnyOf(refSchema)) {
+                for (Object anyOf : refSchema.getAnyOf()) {
+                    Schema found = recursiveGetDiscriminatorPropertySchema(openAPI, legacyDiscriminatorBehavior, (Schema) anyOf, discPropName, visitedSchemas);
+                    if (found != null) return found;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * Recursively look in Schema sc for the discriminator and return it
      *
      * @param openAPI                     the openAPI specification
