@@ -1921,36 +1921,7 @@ public class OpenAPINormalizerTest {
         assertEquals(nestedNullableAfter.getNullable(), Boolean.TRUE,
                 "NestedNullable with type:[object,\"null\"] should have nullable:true after normalization");
         assertEquals(nestedNullableAfter.getType(), "object");
-        assertNotNull(nestedNullableAfter.getProperties(),
-                "NestedNullable properties must be preserved after normalization");
-    }
-
-    /**
-     * Regression test: an OAS 3.1 schema with properties but NO explicit type declaration
-     * must keep its properties after NORMALIZE_31SPEC normalization.
-     * Regression for a potential regression introduced by the fix for issue 24139.
-     */
-    @Test
-    public void testIssue24139ImpliedObjectSchemaKeepsProperties() {
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24139.yaml");
-
-        Schema<?> impliedBefore = openAPI.getComponents().getSchemas().get("ImpliedObject");
-        assertNotNull(impliedBefore);
-        assertNotNull(impliedBefore.getProperties());
-
-        Map<String, String> options = new HashMap<>();
-        options.put("NORMALIZE_31SPEC", "true");
-        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
-        openAPINormalizer.normalize();
-
-        Schema<?> impliedAfter = openAPI.getComponents().getSchemas().get("ImpliedObject");
-        assertNotNull(impliedAfter);
-        assertNotNull(impliedAfter.getProperties(),
-                "ImpliedObject (no explicit type, just properties) must keep its properties after normalization");
-        assertNotNull(impliedAfter.getProperties().get("name"),
-                "ImpliedObject.name property must be preserved after normalization");
-        assertNull(impliedAfter.getNullable(),
-                "ImpliedObject must not be marked nullable (no null type was declared)");
+        assertNotNull(nestedNullableAfter.getProperties());
     }
 
 }

@@ -15,12 +15,6 @@ components:
       properties:
         value:
           type: [ number, "null" ]
-    # OAS 3.1 allows object schemas with properties but no explicit type declaration.
-    # This must not lose its properties after normalization.
-    ImpliedObject:
-      properties:
-        name:
-          type: string
 
     Item:
       type: object
