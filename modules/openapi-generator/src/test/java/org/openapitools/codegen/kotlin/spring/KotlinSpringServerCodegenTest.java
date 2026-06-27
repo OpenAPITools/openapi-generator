@@ -6814,7 +6814,6 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
-
     /**
      * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
      * A property that $ref's an OAS 3.1 schema with type:[object,"null"] is nullable and must
