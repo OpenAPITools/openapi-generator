@@ -122,6 +122,39 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void testOneOfInterfaceInheritedEnumDiscriminator() throws IOException {
+        // Cross-generator check for the DefaultCodegen discriminator-type fix: the kotlin-spring
+        // oneof_interface template emits the discriminator getter type too. Issue #22541: the
+        // inline-enum discriminator is inherited from a base schema via allOf, so the sealed
+        // interface must use the enum type rather than String.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        generator.opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/oneOfDiscriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/model/PetResponseEnumDisc.kt"),
+                "val petType: PetType"
+        );
+    }
+
+    @Test
     public void testNoRequestMappingAnnotationNone() throws IOException {
         File output = generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode.none);
 
