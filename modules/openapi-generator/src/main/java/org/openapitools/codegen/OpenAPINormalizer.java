@@ -980,7 +980,11 @@ public class OpenAPINormalizer {
 
             return schema;
         } else if (ModelUtils.hasProperties(schema)) {
-            normalizeProperties(schema, visitedSchemas);
+            // Normalize OAS 3.1 type arrays (e.g. type:[object,"null"]) on the parent schema
+            // before processing its properties, so that nullable:true is set correctly.
+            Schema result = processNormalize31Spec(schema, visitedSchemas);
+            normalizeProperties(result, visitedSchemas);
+            return result;
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
