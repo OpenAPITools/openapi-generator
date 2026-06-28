@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Files;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -28,7 +29,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class GenApiServiceTest {
 
-    private static final String OPENAPI_URL = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/v4.3.1/modules/openapi-generator/src/test/resources/petstore.json";
+    private static final String OPENAPI_URL = localPetstoreUrl();
+
+    private static String localPetstoreUrl() {
+        URL resource = GenApiServiceTest.class.getClassLoader().getResource("petstore.json");
+        if (resource == null) {
+            throw new IllegalStateException("petstore.json not found in test resources");
+        }
+        return resource.toExternalForm();
+    }
 
     @Autowired
     private MockMvc mockMvc;
@@ -60,37 +69,39 @@ public class GenApiServiceTest {
     public void cleanExpiredFilesRetainsEntryWhenDeletionFails() throws Exception {
         // Point filename at a path whose "parent" is a regular file — deleteDirectory will fail
         File fakeParent = Files.createTempFile("codegen-not-a-dir", ".tmp").toFile();
+        try {
+            Generated entry = new Generated();
+            entry.setFilename(new File(fakeParent, "bundle.zip").getAbsolutePath());
+            entry.setFriendlyName("test");
+            entry.setCreatedAt(Instant.now().minusSeconds(25 * 3600));
+            genApiService.putFileEntry("test-deletion-fail-key", entry);
 
-        Generated entry = new Generated();
-        entry.setFilename(new File(fakeParent, "bundle.zip").getAbsolutePath());
-        entry.setFriendlyName("test");
-        entry.setCreatedAt(Instant.now().minusSeconds(25 * 3600));
-        genApiService.putFileEntry("test-deletion-fail-key", entry);
+            genApiService.cleanExpiredFiles();
 
-        genApiService.cleanExpiredFiles();
-
-        assertNotNull(genApiService.getFileEntry("test-deletion-fail-key"), "Entry should be retained when deletion fails");
-
-        // cleanup
-        fakeParent.delete();
-        genApiService.removeFileEntry("test-deletion-fail-key");
+            assertNotNull(genApiService.getFileEntry("test-deletion-fail-key"), "Entry should be retained when deletion fails");
+        } finally {
+            fakeParent.delete();
+            genApiService.removeFileEntry("test-deletion-fail-key");
+        }
     }
 
     // Fix #1: recent entry is not evicted by cleanup
     @Test
     public void cleanExpiredFilesKeepsRecentEntry() throws Exception {
         File tempDir = Files.createTempDirectory("codegen-test").toFile();
+        try {
+            Generated entry = new Generated();
+            entry.setFilename(new File(tempDir, "bundle.zip").getAbsolutePath());
+            entry.setFriendlyName("test");
+            genApiService.putFileEntry("test-recent-key", entry);
 
-        Generated entry = new Generated();
-        entry.setFilename(new File(tempDir, "bundle.zip").getAbsolutePath());
-        entry.setFriendlyName("test");
-        genApiService.putFileEntry("test-recent-key", entry);
+            genApiService.cleanExpiredFiles();
 
-        genApiService.cleanExpiredFiles();
-
-        assertNotNull(genApiService.getFileEntry("test-recent-key"), "Recent entry should not be evicted");
-        genApiService.removeFileEntry("test-recent-key");
-        tempDir.delete();
+            assertNotNull(genApiService.getFileEntry("test-recent-key"), "Recent entry should not be evicted");
+        } finally {
+            genApiService.removeFileEntry("test-recent-key");
+            tempDir.delete();
+        }
     }
 
     // Fix #1: missing fileId returns 404
