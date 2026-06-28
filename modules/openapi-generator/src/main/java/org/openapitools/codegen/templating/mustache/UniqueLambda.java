@@ -22,7 +22,8 @@ import com.samskivert.mustache.Template;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +40,8 @@ import java.util.stream.Collectors;
  * </pre>
  */
 public class UniqueLambda implements Mustache.Lambda {
+    private static final String REGEX_META_CHARS = "\\.[]{}()*+-?^$|";
+
     private final String delimiter;
     private final boolean withNewLine;
 
@@ -50,14 +53,73 @@ public class UniqueLambda implements Mustache.Lambda {
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
 
-        String[] parts = fragment.execute().split(this.delimiter, -1);
-
-        List<String> uniqueLines = Arrays.stream(parts).distinct().collect(Collectors.toList());
-
-        writer.write(String.join(delimiter, uniqueLines));
+        if (isPlainDelimiter()) {
+            UniqueWriter uniqueWriter = new UniqueWriter(writer);
+            fragment.execute(uniqueWriter);
+            uniqueWriter.finish();
+        } else {
+            writer.write(Arrays.stream(fragment.execute().split(this.delimiter, -1))
+                    .distinct()
+                    .collect(Collectors.joining(delimiter)));
+        }
 
         if (withNewLine) {
             writer.write("\n");
+        }
+    }
+
+    private boolean isPlainDelimiter() {
+        return !delimiter.isEmpty() && delimiter.chars().noneMatch(ch -> REGEX_META_CHARS.indexOf(ch) >= 0);
+    }
+
+    private class UniqueWriter extends ForwardingWriter {
+        private final Set<String> values = new LinkedHashSet<>();
+        private final StringBuilder buffer = new StringBuilder();
+        private boolean first = true;
+        private boolean finished = false;
+
+        private UniqueWriter(Writer writer) {
+            super(writer);
+        }
+
+        @Override
+        public void write(char[] cbuf, int off, int len) throws IOException {
+            buffer.append(cbuf, off, len);
+            finished = false;
+            writeCompleteValues();
+        }
+
+        @Override
+        public void close() throws IOException {
+            finish();
+        }
+
+        private void writeCompleteValues() throws IOException {
+            int delimiterIndex = buffer.indexOf(delimiter);
+            while (delimiterIndex >= 0) {
+                writeUniqueValue(buffer.substring(0, delimiterIndex));
+                buffer.delete(0, delimiterIndex + delimiter.length());
+                delimiterIndex = buffer.indexOf(delimiter);
+            }
+        }
+
+        private void finish() throws IOException {
+            if (finished) {
+                return;
+            }
+            writeUniqueValue(buffer.toString());
+            buffer.setLength(0);
+            finished = true;
+        }
+
+        private void writeUniqueValue(String value) throws IOException {
+            if (values.add(value)) {
+                if (!first) {
+                    writer.write(delimiter);
+                }
+                writer.write(value);
+                first = false;
+            }
         }
     }
 }

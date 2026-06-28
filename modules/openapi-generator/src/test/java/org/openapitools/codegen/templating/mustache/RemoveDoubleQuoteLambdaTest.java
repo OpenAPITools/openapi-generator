@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +19,6 @@ package org.openapitools.codegen.templating.mustache;
 import com.samskivert.mustache.Template;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
@@ -29,47 +27,35 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
-public class TrimWhitespaceLambdaTest {
+public class RemoveDoubleQuoteLambdaTest {
 
     @Test
-    public void testTrimWhitespace() throws IOException {
+    public void removesDoubleQuotesAsFragmentStreams() throws Exception {
         Template.Fragment fragment = mock(Template.Fragment.class);
         doAnswer(invocation -> {
-            invocation.<Writer>getArgument(0).write("\t a  b\t\tc \t");
+            invocation.<Writer>getArgument(0).write("\"alpha");
+            invocation.<Writer>getArgument(0).write("\"be\"ta");
+            invocation.<Writer>getArgument(0).write("gamma\"");
             return null;
         }).when(fragment).execute(any(Writer.class));
 
         StringWriter output = new StringWriter();
-        new TrimWhitespaceLambda().execute(fragment, output);
-        assertEquals(output.toString(), " a b c ");
+        new RemoveDoubleQuoteLambda().execute(fragment, output);
+
+        assertEquals(output.toString(), "alphabetagamma");
     }
 
     @Test
-    public void trimsWhitespaceAcrossFragmentWrites() throws IOException {
+    public void preservesTextWithoutDoubleQuotes() throws Exception {
         Template.Fragment fragment = mock(Template.Fragment.class);
         doAnswer(invocation -> {
-            invocation.<Writer>getArgument(0).write("alpha\t");
-            invocation.<Writer>getArgument(0).write("\n\r");
-            invocation.<Writer>getArgument(0).write("beta");
+            invocation.<Writer>getArgument(0).write("alpha beta");
             return null;
         }).when(fragment).execute(any(Writer.class));
 
         StringWriter output = new StringWriter();
-        new TrimWhitespaceLambda().execute(fragment, output);
+        new RemoveDoubleQuoteLambda().execute(fragment, output);
+
         assertEquals(output.toString(), "alpha beta");
     }
-
-    @Test
-    public void preservesNonRegexWhitespaceCharacters() throws IOException {
-        Template.Fragment fragment = mock(Template.Fragment.class);
-        doAnswer(invocation -> {
-            invocation.<Writer>getArgument(0).write("alpha\u001Cbeta");
-            return null;
-        }).when(fragment).execute(any(Writer.class));
-
-        StringWriter output = new StringWriter();
-        new TrimWhitespaceLambda().execute(fragment, output);
-        assertEquals(output.toString(), "alpha\u001Cbeta");
-    }
-
 }

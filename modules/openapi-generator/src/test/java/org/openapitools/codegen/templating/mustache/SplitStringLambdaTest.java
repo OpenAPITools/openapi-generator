@@ -27,11 +27,12 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.testng.Assert.assertEquals;
 
 public class SplitStringLambdaTest {
@@ -42,22 +43,14 @@ public class SplitStringLambdaTest {
     static {
         EXPECTED_OUTPUTS = new HashMap<>();
         EXPECTED_OUTPUTS.put(2,
-                String.format(
-                        Locale.ROOT,
-                        "new StringBuilder(%d).append(\"11\").append(\"12\").append(\"22\").append(\"33\").append(\"34\").toString()",
-                        INPUT_STRING.length()));
+                "new StringBuilder().append(\"11\").append(\"12\").append(\"22\").append(\"33\").append(\"34\").toString()");
         EXPECTED_OUTPUTS.put(3,
-                String.format(
-                        Locale.ROOT,
-                        "new StringBuilder(%d).append(\"111\").append(\"222\").append(\"333\").append(\"4\").toString()",
-                        INPUT_STRING.length()));
+                "new StringBuilder().append(\"111\").append(\"222\").append(\"333\").append(\"4\").toString()");
     }
 
     private static final String INPUT_QUOTED_STRING = "1\\\"11\\\"2223\\\"334";
-    private static final String INPUT_QUOTED_OUTPUT = String.format(
-            Locale.ROOT,
-            "new StringBuilder(%d).append(\"1\\\"\").append(\"11\").append(\"\\\"2\").append(\"223\").append(\"\\\"3\").append(\"34\").toString()",
-            INPUT_QUOTED_STRING.length());
+    private static final String INPUT_QUOTED_OUTPUT =
+            "new StringBuilder().append(\"1\\\"\").append(\"11\").append(\"\\\"2\").append(\"223\").append(\"\\\"3\").append(\"34\").toString()";
 
     @Mock
     private Fragment fragment;
@@ -73,7 +66,10 @@ public class SplitStringLambdaTest {
     }
 
     private void testString(String input, int maxLength, String expected) throws IOException {
-        when(fragment.execute()).thenReturn(input);
+        doAnswer(invocation -> {
+            invocation.<Writer>getArgument(0).write(input);
+            return null;
+        }).when(fragment).execute(any(Writer.class));
 
         StringWriter output = new StringWriter();
         new SplitStringLambda(maxLength).execute(fragment, output);
@@ -100,7 +96,21 @@ public class SplitStringLambdaTest {
 
     @Test
     public void testShortString() throws IOException {
-        testString(INPUT_STRING, INPUT_STRING.length(), String.format(Locale.ROOT, "\"%s\"", INPUT_STRING));
+        testString(INPUT_STRING, INPUT_STRING.length(), "\"" + INPUT_STRING + "\"");
+    }
+
+    @Test
+    public void testSplitAcrossFragmentWrites() throws IOException {
+        doAnswer(invocation -> {
+            invocation.<Writer>getArgument(0).write("111");
+            invocation.<Writer>getArgument(0).write("222");
+            invocation.<Writer>getArgument(0).write("3334");
+            return null;
+        }).when(fragment).execute(any(Writer.class));
+
+        StringWriter output = new StringWriter();
+        new SplitStringLambda(3).execute(fragment, output);
+        assertEquals(output.toString(), EXPECTED_OUTPUTS.get(3));
     }
 
 }

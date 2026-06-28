@@ -17,7 +17,7 @@
 package org.openapitools.codegen.templating.mustache;
 
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template.Fragment;
+import com.samskivert.mustache.Template;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -36,12 +36,42 @@ import java.io.Writer;
  * </pre>
  */
 public class TrimLineBreaksLambda implements Mustache.Lambda {
-    private static final String SINGLE_LINE_BREAK = "\n\n";
-
-    private static final String LINE_BREAK_REGEX = "\n\n+";
+    private static final int MAX_CONSECUTIVE_LINE_BREAKS = 2;
 
     @Override
-    public void execute(Fragment fragment, Writer writer) throws IOException {
-        writer.write(fragment.execute().replaceAll(LINE_BREAK_REGEX, SINGLE_LINE_BREAK));
+    public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+        fragment.execute(new TrimLineBreaksWriter(writer));
+    }
+
+    private static class TrimLineBreaksWriter extends ForwardingWriter {
+        private int lineBreaks = 0;
+
+        private TrimLineBreaksWriter(Writer writer) {
+            super(writer);
+        }
+
+        @Override
+        public void write(char[] cbuf, int off, int len) throws IOException {
+            int end = off + len;
+            int writeStart = off;
+            for (int i = off; i < end; i++) {
+                if (cbuf[i] == '\n') {
+                    if (writeStart < i) {
+                        writer.write(cbuf, writeStart, i - writeStart);
+                    }
+                    if (lineBreaks < MAX_CONSECUTIVE_LINE_BREAKS) {
+                        writer.write(cbuf, i, 1);
+                    }
+                    lineBreaks++;
+                    writeStart = i + 1;
+                } else if (lineBreaks > 0) {
+                    lineBreaks = 0;
+                }
+            }
+            if (writeStart < end) {
+                writer.write(cbuf, writeStart, end - writeStart);
+            }
+        }
+
     }
 }

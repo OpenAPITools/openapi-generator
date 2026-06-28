@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,37 +23,26 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * Replaces duplicate whitespace characters in a fragment with single space.
+ * Escapes double quote characters in a fragment.
  * <p>
  * Register:
  * <pre>
- * additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
+ * additionalProperties.put("lambdaEscapeDoubleQuote", new EscapeDoubleQuoteLambda());
  * </pre>
  * <p>
  * Use:
  * <pre>
- * {{#lambdaTrimWhitespace}}{{name}}{{/lambdaTrimWhitespace}}
+ * {{#lambdaEscapeDoubleQuote}}{{name}}{{/lambdaEscapeDoubleQuote}}
  * </pre>
  */
-public class TrimWhitespaceLambda implements Mustache.Lambda {
-    private static final char SINGLE_SPACE = ' ';
-
-    /**
-     * Preserve the default Java regex \s character class: [ \t\n\x0B\f\r].
-     */
-    private static boolean isRegexWhitespace(char ch) {
-        return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\u000B' || ch == '\f' || ch == '\r';
-    }
-
+public class EscapeDoubleQuoteLambda implements Mustache.Lambda {
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        fragment.execute(new TrimWhitespaceWriter(writer));
+        fragment.execute(new EscapeDoubleQuoteWriter(writer));
     }
 
-    private static class TrimWhitespaceWriter extends ForwardingWriter {
-        private boolean inWhitespace = false;
-
-        private TrimWhitespaceWriter(Writer writer) {
+    private static class EscapeDoubleQuoteWriter extends ForwardingWriter {
+        private EscapeDoubleQuoteWriter(Writer writer) {
             super(writer);
         }
 
@@ -63,24 +51,17 @@ public class TrimWhitespaceLambda implements Mustache.Lambda {
             int end = off + len;
             int writeStart = off;
             for (int i = off; i < end; i++) {
-                if (isRegexWhitespace(cbuf[i])) {
+                if (cbuf[i] == '"') {
                     if (writeStart < i) {
                         writer.write(cbuf, writeStart, i - writeStart);
                     }
-                    if (!inWhitespace) {
-                        writer.write(SINGLE_SPACE);
-                    }
-                    inWhitespace = true;
+                    writer.write("\\\"");
                     writeStart = i + 1;
-                } else {
-                    inWhitespace = false;
                 }
             }
             if (writeStart < end) {
                 writer.write(cbuf, writeStart, end - writeStart);
             }
         }
-
     }
-
 }

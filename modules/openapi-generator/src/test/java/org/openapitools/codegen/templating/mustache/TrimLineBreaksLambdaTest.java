@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +19,6 @@ package org.openapitools.codegen.templating.mustache;
 import com.samskivert.mustache.Template;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
@@ -29,47 +27,51 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
-public class TrimWhitespaceLambdaTest {
+public class TrimLineBreaksLambdaTest {
 
     @Test
-    public void testTrimWhitespace() throws IOException {
+    public void trimsLineBreaksAsFragmentStreams() throws Exception {
         Template.Fragment fragment = mock(Template.Fragment.class);
         doAnswer(invocation -> {
-            invocation.<Writer>getArgument(0).write("\t a  b\t\tc \t");
+            invocation.<Writer>getArgument(0).write("alpha\n\n");
+            invocation.<Writer>getArgument(0).write("\n\nbeta\n");
+            invocation.<Writer>getArgument(0).write("\n\ngamma");
             return null;
         }).when(fragment).execute(any(Writer.class));
 
         StringWriter output = new StringWriter();
-        new TrimWhitespaceLambda().execute(fragment, output);
-        assertEquals(output.toString(), " a b c ");
+        new TrimLineBreaksLambda().execute(fragment, output);
+
+        assertEquals(output.toString(), "alpha\n\nbeta\n\ngamma");
     }
 
     @Test
-    public void trimsWhitespaceAcrossFragmentWrites() throws IOException {
+    public void preservesSingleLineBreaks() throws Exception {
         Template.Fragment fragment = mock(Template.Fragment.class);
         doAnswer(invocation -> {
-            invocation.<Writer>getArgument(0).write("alpha\t");
-            invocation.<Writer>getArgument(0).write("\n\r");
-            invocation.<Writer>getArgument(0).write("beta");
+            invocation.<Writer>getArgument(0).write("alpha\nbeta");
             return null;
         }).when(fragment).execute(any(Writer.class));
 
         StringWriter output = new StringWriter();
-        new TrimWhitespaceLambda().execute(fragment, output);
-        assertEquals(output.toString(), "alpha beta");
+        new TrimLineBreaksLambda().execute(fragment, output);
+
+        assertEquals(output.toString(), "alpha\nbeta");
     }
 
     @Test
-    public void preservesNonRegexWhitespaceCharacters() throws IOException {
+    public void trimsLineBreaksAcrossSingleCharacterWrites() throws Exception {
         Template.Fragment fragment = mock(Template.Fragment.class);
         doAnswer(invocation -> {
-            invocation.<Writer>getArgument(0).write("alpha\u001Cbeta");
+            invocation.<Writer>getArgument(0).write("\n");
+            invocation.<Writer>getArgument(0).write("\n");
+            invocation.<Writer>getArgument(0).write("\n");
             return null;
         }).when(fragment).execute(any(Writer.class));
 
         StringWriter output = new StringWriter();
-        new TrimWhitespaceLambda().execute(fragment, output);
-        assertEquals(output.toString(), "alpha\u001Cbeta");
-    }
+        new TrimLineBreaksLambda().execute(fragment, output);
 
+        assertEquals(output.toString(), "\n\n");
+    }
 }

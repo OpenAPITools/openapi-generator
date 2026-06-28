@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,56 +19,71 @@ package org.openapitools.codegen.templating.mustache;
 import com.samskivert.mustache.Template;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
-public class TrimWhitespaceLambdaTest {
+public class UniqueLambdaTest {
 
     @Test
-    public void testTrimWhitespace() throws IOException {
+    public void uniqueValuesAreWrittenAsFragmentStreams() throws Exception {
         Template.Fragment fragment = mock(Template.Fragment.class);
         doAnswer(invocation -> {
-            invocation.<Writer>getArgument(0).write("\t a  b\t\tc \t");
+            invocation.<Writer>getArgument(0).write("alpha\nbe");
+            invocation.<Writer>getArgument(0).write("ta\nalpha\n");
+            invocation.<Writer>getArgument(0).write("gamma");
+            invocation.<Writer>getArgument(0).write("\nbeta");
             return null;
         }).when(fragment).execute(any(Writer.class));
 
         StringWriter output = new StringWriter();
-        new TrimWhitespaceLambda().execute(fragment, output);
-        assertEquals(output.toString(), " a b c ");
+        new UniqueLambda("\n", false).execute(fragment, output);
+
+        assertEquals(output.toString(), "alpha\nbeta\ngamma");
     }
 
     @Test
-    public void trimsWhitespaceAcrossFragmentWrites() throws IOException {
+    public void uniqueValuesPreserveTrailingEmptyValue() throws Exception {
         Template.Fragment fragment = mock(Template.Fragment.class);
         doAnswer(invocation -> {
-            invocation.<Writer>getArgument(0).write("alpha\t");
-            invocation.<Writer>getArgument(0).write("\n\r");
-            invocation.<Writer>getArgument(0).write("beta");
+            invocation.<Writer>getArgument(0).write("alpha\nbeta\n");
+            invocation.<Writer>getArgument(0).write("beta\n");
             return null;
         }).when(fragment).execute(any(Writer.class));
 
         StringWriter output = new StringWriter();
-        new TrimWhitespaceLambda().execute(fragment, output);
-        assertEquals(output.toString(), "alpha beta");
+        new UniqueLambda("\n", false).execute(fragment, output);
+
+        assertEquals(output.toString(), "alpha\nbeta\n");
     }
 
     @Test
-    public void preservesNonRegexWhitespaceCharacters() throws IOException {
+    public void uniqueValuesCanAppendNewLine() throws Exception {
         Template.Fragment fragment = mock(Template.Fragment.class);
         doAnswer(invocation -> {
-            invocation.<Writer>getArgument(0).write("alpha\u001Cbeta");
+            invocation.<Writer>getArgument(0).write("alpha\nalpha");
             return null;
         }).when(fragment).execute(any(Writer.class));
 
         StringWriter output = new StringWriter();
-        new TrimWhitespaceLambda().execute(fragment, output);
-        assertEquals(output.toString(), "alpha\u001Cbeta");
+        new UniqueLambda("\n", true).execute(fragment, output);
+
+        assertEquals(output.toString(), "alpha\n");
     }
 
+    @Test
+    public void uniqueValuesPreserveRegexDelimiterBehavior() throws Exception {
+        Template.Fragment fragment = mock(Template.Fragment.class);
+        when(fragment.execute()).thenReturn("alpha beta\talpha");
+
+        StringWriter output = new StringWriter();
+        new UniqueLambda("\\s+", false).execute(fragment, output);
+
+        assertEquals(output.toString(), "alpha\\s+beta");
+    }
 }
