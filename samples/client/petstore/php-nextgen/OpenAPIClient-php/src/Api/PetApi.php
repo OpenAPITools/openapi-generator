@@ -414,6 +414,7 @@ class PetApi
 
         $resourcePath = '/pet';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -711,6 +712,7 @@ class PetApi
         }
 
         $resourcePath = '/pet/{petId}';
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1489,6 +1491,7 @@ class PetApi
         }
 
         $resourcePath = '/pet/{petId}';
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1804,6 +1807,7 @@ class PetApi
 
         $resourcePath = '/pet';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2112,6 +2116,7 @@ class PetApi
 
         $resourcePath = '/pet/{petId}';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2422,6 +2427,7 @@ class PetApi
 
         $resourcePath = '/pet/{petId}/uploadImage';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2738,6 +2744,7 @@ class PetApi
 
         $resourcePath = '/fake/{petId}/uploadImageWithRequiredFile';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
