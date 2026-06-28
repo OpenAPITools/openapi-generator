@@ -1,5 +1,0 @@
-is_global = true
-build_property.RootNamespace = Org.OpenAPITools.Test
-build_property.ProjectDir = C:\Users\nsiddaia\Documents\openapi-generator\samples\openapi3\csharp-generichost-net4.7-anyOfNoCompare\src\Org.OpenAPITools.Test\
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
