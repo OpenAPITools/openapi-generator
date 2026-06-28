@@ -54,7 +54,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     public static final String MAP_NUMBER_TO = "mapNumberTo";
     public static final String PYDANTIC = "pydantic";
     public static final Set<String> SUPPORTED_NUMBER_MAPPINGS =
-            Set.of("Union[StrictFloat, StrictInt]", "StrictFloat", "float");
+            Set.of("Union[StrictFloat, StrictInt]", "StrictFloat", "float", "Decimal");
 
     protected String packageName = "openapi_client";
     @Setter protected String packageVersion = "1.0.0";
@@ -1953,6 +1953,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 } else if ("StrictFloat".equals(mapNumberTo)) {
                     floatt.constrain("strict", true);
                     return floatt;
+                } else if (DECIMAL.equals(mapNumberTo)) {
+                    return decimalType(cp);
                 } else { // float
                     return floatt;
                 }
@@ -1968,6 +1970,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 } else if ("StrictFloat".equals(mapNumberTo)) {
                     moduleImports.add(PYDANTIC, "StrictFloat");
                     return new PythonType("StrictFloat");
+                } else if (DECIMAL.equals(mapNumberTo)) {
+                    moduleImports.add("decimal", DECIMAL);
+                    return new PythonType(DECIMAL);
                 } else {
                     return new PythonType("float");
                 }
@@ -2277,7 +2282,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         private String finalizeType(CodegenParameter cp, PythonType pt) {
             if (!cp.required || cp.isNullable) {
-                moduleImports.add("typing", "Optional");
+                moduleImports.add(TYPING, "Optional");
                 PythonType opt = new PythonType("Optional");
                 opt.addTypeParam(pt);
                 pt = opt;

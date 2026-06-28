@@ -27,7 +27,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |lazyImports|Enable lazy imports.| |false|
 |library|library template (sub-template) to use: asyncio, tornado (deprecated), urllib3, httpx| |urllib3|
-|mapNumberTo|Map number to Union[StrictFloat, StrictInt], StrictStr or float.| |Union[StrictFloat, StrictInt]|
+|mapNumberTo|Map number to Union[StrictFloat, StrictInt], StrictFloat, float or Decimal.| |Union[StrictFloat, StrictInt]|
 |packageName|python package name (convention: snake_case).| |openapi_client|
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
