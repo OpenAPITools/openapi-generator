@@ -22,7 +22,7 @@ elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test cpp-restsdk"
 
   # install cpprestsdk and C++ build tools via apt (avoids setup-cpp's PPA/GPG key fetch)
-  sudo apt-get install -y libcpprest-dev clang cmake ninja-build
+  sudo apt-get install -y libcpprest-dev clang cmake
 
   (cd samples/client/petstore/cpp-restsdk/client && mvn integration-test)
 
