@@ -330,6 +330,7 @@ class FakeClassnameTags123Api
 
         $resourcePath = '/fake_classname_test';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
