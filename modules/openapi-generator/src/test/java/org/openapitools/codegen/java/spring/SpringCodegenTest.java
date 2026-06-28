@@ -8147,6 +8147,31 @@ public class SpringCodegenTest {
     }
 
     @Test
+    void issue23849() throws IOException {
+        File output = Files.createTempDirectory("issue23849").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setInputSpec("src/test/resources/3_0/spring/issue_23849.json")
+                .setOutputDir(output.getAbsolutePath())
+                .setValidateSpec(false);
+
+        ClientOptInput input = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(API_TESTS, "false");
+        generator.setGeneratorPropertyDefault(MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(API_DOCS, "false");
+        generator.setGeneratorPropertyDefault(MODEL_DOCS, "false");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(this::getUniqueName, Function.identity()));
+
+        assertThat(files).containsKeys("ActivityApi.java", "Activity.java");
+    }
+
+    @Test
     void issue24003() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24003.yaml", SPRING_BOOT,
