@@ -19,6 +19,8 @@ on:
       - samples/client/others/java/restclient-useAbstractionForFiles/**
       - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/petstore/java/jersey3-jackson3/**
+      - samples/client/others/java/restclient-additonal-properties-in-multipart-request-issue/**
+      - samples/client/others/java/webclient-additonal-properties-in-multipart-request-issue/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
@@ -37,6 +39,8 @@ on:
       - samples/client/others/java/restclient-useAbstractionForFiles/**
       - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/petstore/java/jersey3-jackson3/**
+      - samples/client/others/java/restclient-additonal-properties-in-multipart-request-issue/**
+      - samples/client/others/java/webclient-additonal-properties-in-multipart-request-issue/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -70,6 +74,8 @@ jobs:
           - samples/client/others/java/restclient-useAbstractionForFiles
           - samples/client/petstore/java/jersey3-oneOf
           - samples/client/petstore/java/jersey3-jackson3
+          - samples/client/others/java/restclient-additonal-properties-in-multipart-request-issue
+          - samples/client/others/java/webclient-additonal-properties-in-multipart-request-issue
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v5
