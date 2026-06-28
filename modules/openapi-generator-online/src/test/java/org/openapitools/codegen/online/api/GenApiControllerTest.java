@@ -10,11 +10,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.Assert;
 
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.text.MatchesPattern.matchesPattern;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -93,7 +92,7 @@ public class GenApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.code").value(matchesPattern(UUID_REGEX)))
-                .andExpect(jsonPath("$.link").value(matchesPattern("http\\:\\/\\/test.com\\:1234\\/api\\/gen\\/download\\/" + UUID_REGEX)))
+                .andExpect(jsonPath("$.link").value(matchesPattern("http://test.com:1234/api/gen/download/" + UUID_REGEX)))
                 .andReturn().getResponse().getContentAsString();
 
         String code = new ObjectMapper().readValue(result, ResponseCode.class).getCode();
@@ -115,7 +114,7 @@ public class GenApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.code").value(matchesPattern(UUID_REGEX)))
-                .andExpect(jsonPath("$.link").value(matchesPattern("https\\:\\/\\/forwarded.com\\:5678\\/api\\/gen\\/download\\/" + UUID_REGEX)))
+                .andExpect(jsonPath("$.link").value(matchesPattern("https://forwarded.com:5678/api/gen/download/" + UUID_REGEX)))
                 .andReturn().getResponse().getContentAsString();
 
         String code = new ObjectMapper().readValue(result, ResponseCode.class).getCode();
@@ -159,7 +158,7 @@ public class GenApiControllerTest {
                 .andExpect(content().contentType("application/zip"))
                 .andExpect(status().isOk()).andReturn().getResponse().getHeader("Content-Length"));
 
-        Assert.isTrue(lengthOfNormalized <= lengthOfNotNormalized, "Using the normalizer should result in a smaller or equal file size");
+        assertTrue(lengthOfNormalized <= lengthOfNotNormalized, "Using the normalizer should result in a smaller or equal file size");
 
     }
 }
