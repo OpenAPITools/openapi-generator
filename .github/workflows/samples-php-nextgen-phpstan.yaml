@@ -1,20 +1,18 @@
-name: Samples PHP Syntax Checker
+name: Samples php-nextgen (phpstan)
 
 on:
   push:
     paths:
-      - samples/client/petstore/php/OpenAPIClient-php/**
       - samples/client/petstore/php-nextgen/OpenAPIClient-php/**
   pull_request:
     paths:
-      - samples/client/petstore/php/OpenAPIClient-php/**
       - samples/client/petstore/php-nextgen/OpenAPIClient-php/**
 jobs:
   build:
-    name: Build PHP projects
+    name: Build 
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         php:
           - "8.1"
@@ -23,7 +21,6 @@ jobs:
           - "8.4"
         sample:
           # clients
-          - samples/client/petstore/php/OpenAPIClient-php/
           - samples/client/petstore/php-nextgen/OpenAPIClient-php/
     steps:
       - uses: actions/checkout@v7
@@ -31,6 +28,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "${{ matrix.php }}"
-      - name: php -l
+      - name: phpstan
         working-directory: ${{ matrix.sample }}
-        run: find . -name "*.php" -exec php -l {} +
+        run: |
+          composer require --dev phpstan/phpstan
+          vendor/bin/phpstan analyse src
