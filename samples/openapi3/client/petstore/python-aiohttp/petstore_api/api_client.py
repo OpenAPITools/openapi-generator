@@ -679,7 +679,9 @@ class ApiClient:
                 headers['Cookie'] = ""
             else:
                 headers['Cookie'] += "; "
-            headers['Cookie'] += f"{auth_setting['key']}={auth_setting['value']}"
+            # Account for cookie value containing spaces or being non-string value
+            cookie_value = quote(str(auth_setting['value']), safe='')
+            headers['Cookie'] += f"{auth_setting['key']}={cookie_value}"
         elif auth_setting['in'] == 'header':
             if auth_setting['type'] != 'http-signature':
                 headers[auth_setting['key']] = auth_setting['value']
