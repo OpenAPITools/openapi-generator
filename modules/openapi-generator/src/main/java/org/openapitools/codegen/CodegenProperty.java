@@ -611,6 +611,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     public Mustache.Lambda getLambdaExample() {
         if (exampleJsonNode != null) {
+            if (exampleJsonNode.isValueNode()) {
+                return new JsonOutputLambda(exampleJsonNode.asText());
+            }
             return new JsonOutputLambda(exampleJsonNode);
         }
         if (example != null) {

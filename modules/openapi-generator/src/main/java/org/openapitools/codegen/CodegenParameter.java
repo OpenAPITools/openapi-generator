@@ -552,6 +552,9 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     public Mustache.Lambda getLambdaExample() {
         if (exampleJsonNode != null) {
+            if (exampleJsonNode.isValueNode()) {
+                return new JsonOutputLambda(exampleJsonNode.asText());
+            }
             return new JsonOutputLambda(exampleJsonNode);
         }
         if (example != null) {

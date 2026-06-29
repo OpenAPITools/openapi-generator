@@ -16,8 +16,10 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.annotations.Test;
 
+import java.io.StringWriter;
 import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
@@ -36,5 +38,27 @@ public class CodegenParameterTest {
 
         assertNotEquals(codegenParameter, codegenParameter2);
         assertEquals(codegenParameter.hashCode(), codegenParameter2.hashCode());
+    }
+
+    @Test
+    public void lambdaExampleUsesLegacyTextForJsonValueNodes() throws Exception {
+        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        codegenParameter.setExample(new ObjectMapper().readTree("\"doggie\""));
+
+        StringWriter writer = new StringWriter();
+        codegenParameter.getLambdaExample().execute(null, writer);
+
+        assertEquals(writer.toString(), "doggie");
+    }
+
+    @Test
+    public void lambdaExampleStreamsJsonForObjectNodes() throws Exception {
+        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        codegenParameter.setExample(new ObjectMapper().readTree("{\"value\":\"doggie\"}"));
+
+        StringWriter writer = new StringWriter();
+        codegenParameter.getLambdaExample().execute(null, writer);
+
+        assertEquals(writer.toString(), "{\n  \"value\" : \"doggie\"\n}");
     }
 }

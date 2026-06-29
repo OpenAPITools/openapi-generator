@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.io.StringWriter;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
@@ -37,5 +38,27 @@ public class CodegenPropertyTest {
 
         assertNotEquals(property, property2);
         assertEquals(property.hashCode(), property2.hashCode());
+    }
+
+    @Test
+    public void lambdaExampleUsesLegacyTextForJsonValueNodes() throws Exception {
+        CodegenProperty property = new CodegenProperty();
+        property.setExample(new ObjectMapper().readTree("\"doggie\""));
+
+        StringWriter writer = new StringWriter();
+        property.getLambdaExample().execute(null, writer);
+
+        assertEquals(writer.toString(), "doggie");
+    }
+
+    @Test
+    public void lambdaExampleStreamsJsonForObjectNodes() throws Exception {
+        CodegenProperty property = new CodegenProperty();
+        property.setExample(new ObjectMapper().readTree("{\"value\":\"doggie\"}"));
+
+        StringWriter writer = new StringWriter();
+        property.getLambdaExample().execute(null, writer);
+
+        assertEquals(writer.toString(), "{\n  \"value\" : \"doggie\"\n}");
     }
 }
