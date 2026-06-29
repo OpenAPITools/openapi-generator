@@ -15,7 +15,6 @@ Accept: application/json
   "base" : "master"
 }
 
-
 ### Create a reply for a review comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/comments/{{comment_id}}/replies
 Content-Type: application/json
@@ -24,7 +23,6 @@ Accept: application/json
 {
   "body" : "Great stuff!"
 }
-
 
 ### Create a review for a pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews
@@ -42,7 +40,6 @@ Accept: application/json
   } ]
 }
 
-
 ### Create a review comment for a pull request
 ## Example for a multi-line comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/comments
@@ -58,7 +55,6 @@ Accept: application/json
   "line" : 2,
   "side" : "RIGHT"
 }
-
 
 ### Delete a pending review for a pull request
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}
@@ -77,7 +73,6 @@ Accept: application/json
   "message" : "You are dismissed",
   "event" : "DISMISS"
 }
-
 
 ### Get a pull request
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}
@@ -133,7 +128,6 @@ Accept: application/json
   "commit_message" : "Add a new value to the merge_method enum"
 }
 
-
 ### Remove requested reviewers from a pull request
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/requested_reviewers
 Content-Type: application/json
@@ -143,7 +137,6 @@ Accept: application/json
   "reviewers" : [ "octocat", "hubot", "other_user" ],
   "team_reviewers" : [ "justice-league" ]
 }
-
 
 ### Request reviewers for a pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/requested_reviewers
@@ -155,7 +148,6 @@ Accept: application/json
   "team_reviewers" : [ "justice-league" ]
 }
 
-
 ### Submit a review for a pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}/events
 Content-Type: application/json
@@ -165,7 +157,6 @@ Accept: application/json
   "body" : "Here is the body for the review.",
   "event" : "REQUEST_CHANGES"
 }
-
 
 ### Update a pull request
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}
@@ -179,7 +170,6 @@ Accept: application/json
   "base" : "master"
 }
 
-
 ### Update a pull request branch
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/update-branch
 Content-Type: application/json
@@ -189,7 +179,6 @@ Accept: application/json
   "expected_head_sha" : "6dcb09b5b57875f334f61aebed695e2e4193db5e"
 }
 
-
 ### Update a review for a pull request
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}
 Content-Type: application/json
@@ -198,7 +187,6 @@ Accept: application/json
 {
   "body" : "This is close to perfect! Please address the suggested inline change. And add more about this."
 }
-
 
 ### Update a review comment for a pull request
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}

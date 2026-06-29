@@ -9,7 +9,6 @@ Accept: application/json
   "labels" : [ "gpu", "accelerated" ]
 }
 
-
 ### Add custom labels to a self-hosted runner for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
@@ -18,7 +17,6 @@ Accept: application/json
 {
   "labels" : [ "gpu", "accelerated" ]
 }
-
 
 ### Add selected repository to an organization secret
 PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories/{{repository_id}}
@@ -44,7 +42,6 @@ Accept: application/json
   "value" : "octocat"
 }
 
-
 ### Create or update an environment secret
 PUT https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets/{{secret_name}}
 Content-Type: application/json
@@ -54,7 +51,6 @@ Accept: application/json
   "encrypted_value" : "c2VjcmV0",
   "key_id" : "012345678912345678"
 }
-
 
 ### Create or update an organization secret
 PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}
@@ -68,7 +64,6 @@ Accept: application/json
   "selected_repository_ids" : [ 1296269, 1296280 ]
 }
 
-
 ### Create or update a repository secret
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/{{secret_name}}
 Content-Type: application/json
@@ -78,7 +73,6 @@ Accept: application/json
   "encrypted_value" : "c2VjcmV0",
   "key_id" : "012345678912345678"
 }
-
 
 ### Create an organization variable
 POST https://api.github.com/orgs/{{org}}/actions/variables
@@ -91,7 +85,6 @@ Accept: application/json
   "visibility" : "selected",
   "selected_repository_ids" : [ 1296269, 1296280 ]
 }
-
 
 ### Create a registration token for an organization
 POST https://api.github.com/orgs/{{org}}/actions/runners/registration-token
@@ -119,7 +112,6 @@ Accept: application/json
   "value" : "octocat"
 }
 
-
 ### Create a workflow dispatch event
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/dispatches
 Content-Type: application/json
@@ -131,7 +123,6 @@ Content-Type: application/json
     "home" : "San Francisco, CA"
   }
 }
-
 
 ### Delete a GitHub Actions cache for a repository (using a cache ID)
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches/{{cache_id}}
@@ -215,7 +206,6 @@ Accept: application/json
   "work_folder" : "_work"
 }
 
-
 ### Create configuration for a just-in-time runner for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/generate-jitconfig
 Content-Type: application/json
@@ -227,7 +217,6 @@ Accept: application/json
   "labels" : [ "self-hosted", "X64", "macOS", "no-gpu" ],
   "work_folder" : "_work"
 }
-
 
 ### List GitHub Actions caches for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches?perPage={{perPage}}&page={{page}}&ref={{ref}}&key={{key}}&sort={{sort}}&direction={{direction}}
@@ -463,7 +452,6 @@ Accept: application/json
  "enable_debug_logging": "<string>"
 }
 
-
 ### Re-run a workflow
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/rerun
 Content-Type: application/json
@@ -473,7 +461,6 @@ Accept: application/json
  "enable_debug_logging": "<string>"
 }
 
-
 ### Re-run failed jobs from a workflow run
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/rerun-failed-jobs
 Content-Type: application/json
@@ -482,7 +469,6 @@ Accept: application/json
 {
  "enable_debug_logging": "<string>"
 }
-
 
 ### Remove all custom labels from a self-hosted runner for an organization
 DELETE https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
@@ -516,7 +502,6 @@ Content-Type: application/json
   "comment" : "All health checks passed."
 }
 
-
 ### Review pending deployments for a workflow run
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/pending_deployments
 Content-Type: application/json
@@ -528,7 +513,6 @@ Accept: application/json
   "comment" : "Ship it!"
 }
 
-
 ### Set allowed actions and reusable workflows for an organization
 PUT https://api.github.com/orgs/{{org}}/actions/permissions/selected-actions
 Content-Type: application/json
@@ -538,7 +522,6 @@ Content-Type: application/json
   "verified_allowed" : false,
   "patterns_allowed" : [ "monalisa/octocat@*", "docker/*" ]
 }
-
 
 ### Set allowed actions and reusable workflows for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/selected-actions
@@ -550,7 +533,6 @@ Content-Type: application/json
   "patterns_allowed" : [ "monalisa/octocat@*", "docker/*" ]
 }
 
-
 ### Set custom labels for a self-hosted runner for an organization
 PUT https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
@@ -560,7 +542,6 @@ Accept: application/json
   "labels" : [ "gpu", "accelerated" ]
 }
 
-
 ### Set custom labels for a self-hosted runner for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
@@ -569,7 +550,6 @@ Accept: application/json
 {
   "labels" : [ "gpu", "accelerated" ]
 }
-
 
 ### Set the customization template for an OIDC subject claim for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/oidc/customization/sub
@@ -582,7 +562,6 @@ Accept: application/scim+json
   "include_claim_keys" : [ "repo", "context" ]
 }
 
-
 ### Set default workflow permissions for an organization
 ## Give read-only permission, and allow approving PRs.
 PUT https://api.github.com/orgs/{{org}}/actions/permissions/workflow
@@ -592,7 +571,6 @@ Content-Type: application/json
   "default_workflow_permissions" : "read",
   "can_approve_pull_request_reviews" : true
 }
-
 
 ### Set default workflow permissions for a repository
 ## Give read-only permission, and allow approving PRs.
@@ -604,7 +582,6 @@ Content-Type: application/json
   "can_approve_pull_request_reviews" : true
 }
 
-
 ### Set GitHub Actions permissions for an organization
 PUT https://api.github.com/orgs/{{org}}/actions/permissions
 Content-Type: application/json
@@ -613,7 +590,6 @@ Content-Type: application/json
   "enabled_repositories" : "all",
   "allowed_actions" : "selected"
 }
-
 
 ### Set GitHub Actions permissions for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions
@@ -624,7 +600,6 @@ Content-Type: application/json
   "allowed_actions" : "selected"
 }
 
-
 ### Set selected repositories for an organization secret
 PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories
 Content-Type: application/json
@@ -632,7 +607,6 @@ Content-Type: application/json
 {
   "selected_repository_ids" : [ 64780797 ]
 }
-
 
 ### Set selected repositories for an organization variable
 PUT https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories
@@ -642,7 +616,6 @@ Content-Type: application/json
   "selected_repository_ids" : [ 64780797 ]
 }
 
-
 ### Set selected repositories enabled for GitHub Actions in an organization
 PUT https://api.github.com/orgs/{{org}}/actions/permissions/repositories
 Content-Type: application/json
@@ -650,7 +623,6 @@ Content-Type: application/json
 {
   "selected_repository_ids" : [ 32, 42 ]
 }
-
 
 ### Set the level of access for workflows outside of the repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/access
@@ -660,7 +632,6 @@ Content-Type: application/json
   "access_level" : "organization"
 }
 
-
 ### Update an environment variable
 PATCH https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables/{{name}}
 Content-Type: application/json
@@ -669,7 +640,6 @@ Content-Type: application/json
   "name" : "USERNAME",
   "value" : "octocat"
 }
-
 
 ### Update an organization variable
 PATCH https://api.github.com/orgs/{{org}}/actions/variables/{{name}}
@@ -681,7 +651,6 @@ Content-Type: application/json
   "visibility" : "selected",
   "selected_repository_ids" : [ 1296269, 1296280 ]
 }
-
 
 ### Update a repository variable
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables/{{name}}

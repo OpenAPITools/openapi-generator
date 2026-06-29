@@ -19,6 +19,7 @@ Accept: application/json
   }
 }
 
+
 ### Create a check run
 ## Example of a completed conclusion
 POST https://api.github.com/repos/{{owner}}/{{repo}}/check-runs
@@ -65,7 +66,6 @@ Accept: application/json
   } ]
 }
 
-
 ### Create a check suite
 POST https://api.github.com/repos/{{owner}}/{{repo}}/check-suites
 Content-Type: application/json
@@ -74,7 +74,6 @@ Accept: application/json
 {
   "head_sha" : "d6fde92930d4715a2b49857d24b940956b26d2d3"
 }
-
 
 ### Get a check run
 GET https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}
@@ -119,7 +118,6 @@ Accept: application/json
     "setting" : false
   } ]
 }
-
 
 ### Update a check run
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}

@@ -16,7 +16,6 @@ api_key: {{apiKey}}
  "userStatus": "<number>"
 }
 
-
 ### Creates list of users with given input array
 POST http://petstore.swagger.io/v2/user/createWithArray
 Content-Type: application/json
@@ -26,7 +25,6 @@ api_key: {{apiKey}}
  
 }
 
-
 ### Creates list of users with given input array
 POST http://petstore.swagger.io/v2/user/createWithList
 Content-Type: application/json
@@ -35,7 +33,6 @@ api_key: {{apiKey}}
 {
  
 }
-
 
 ### Delete user
 DELETE http://petstore.swagger.io/v2/user/{{username}}

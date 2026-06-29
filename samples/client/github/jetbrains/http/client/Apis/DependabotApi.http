@@ -15,7 +15,6 @@ Accept: application/json
   "selected_repository_ids" : [ "1296269", "1296280" ]
 }
 
-
 ### Create or update a repository secret
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets/{{secret_name}}
 Content-Type: application/json
@@ -25,7 +24,6 @@ Accept: application/json
   "encrypted_value" : "c2VjcmV0",
   "key_id" : "012345678912345678"
 }
-
 
 ### Delete an organization secret
 DELETE https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}
@@ -89,7 +87,6 @@ Content-Type: application/json
 {
   "selected_repository_ids" : [ 64780797 ]
 }
-
 
 ### Update a Dependabot alert
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/alerts/{{alert_number}}

@@ -229,7 +229,11 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         });
 
         // Handling custom variables now
-        return handleCustomVariablesInRequests(items);
+        List<RequestItem> requests = handleCustomVariablesInRequests(items);
+        for (int i = 0; i < requests.size(); i++) {
+            requests.get(i).setHasMore(i < requests.size() - 1);
+        }
+        return requests;
     }
 
     private void addRequestForContentTypes(List<RequestItem> items, CodegenOperation codegenOperation, String name, String body) {
@@ -283,6 +287,9 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         }
 
         for (Map.Entry<String, CodegenMediaType> contentEntry : content.entrySet()) {
+            if (!isJsonContentType(contentEntry.getKey())) {
+                continue;
+            }
             CodegenMediaType mediaType = contentEntry.getValue();
             if (mediaType.getExamples() == null || mediaType.getExamples().isEmpty()) {
                 continue;
@@ -368,6 +375,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         private String body;
         private String contentType;
         private List<String> commentedContentTypes;
+        private boolean hasMore;
 
         public RequestItem(String name, String body) {
             this(name, body, null);

@@ -74,7 +74,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"date_with_example\" : \"2024-01-01\",%n  \"date_without_example\" : \"2000-01-23\"%n}")), mapper.readTree(renderExample(examples.get(0))));     
+        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"date_with_example\" : \"2024-01-01\",%n  \"date_without_example\" : \"2000-01-23\"%n}")), mapper.readTree(renderExample(examples.get(0))));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 

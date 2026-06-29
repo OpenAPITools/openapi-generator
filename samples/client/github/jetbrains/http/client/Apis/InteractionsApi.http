@@ -31,7 +31,6 @@ Accept: application/json
   "expiry" : "one_month"
 }
 
-
 ### Set interaction restrictions for an organization
 PUT https://api.github.com/orgs/{{org}}/interaction-limits
 Content-Type: application/json
@@ -41,7 +40,6 @@ Accept: application/json
   "limit" : "collaborators_only",
   "expiry" : "one_month"
 }
-
 
 ### Set interaction restrictions for a repository
 ## Example request body

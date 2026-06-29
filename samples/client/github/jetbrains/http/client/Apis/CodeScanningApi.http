@@ -57,7 +57,6 @@ Accept: application/json
   "dismissed_comment" : "This alert is not actually correct, because there's a sanitizer included in the library."
 }
 
-
 ### Update a code scanning default setup configuration
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/default-setup
 Content-Type: application/json
@@ -66,7 +65,6 @@ Accept: application/json
 {
   "state" : "configured"
 }
-
 
 ### Upload an analysis as SARIF data
 POST https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/sarifs

@@ -13,7 +13,6 @@ Accept: application/json
   "apps" : [ "octoapp" ]
 }
 
-
 ### Add a repository collaborator
 ## Add a collaborator with triage permissions
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}
@@ -23,7 +22,6 @@ Accept: application/json
 {
   "permission" : "triage"
 }
-
 
 ### Add status check contexts
 ## Example adding status checks to a branch protection rule
@@ -35,7 +33,6 @@ Accept: application/json
   "contexts" : [ "continuous-integration/travis-ci", "continuous-integration/jenkins" ]
 }
 
-
 ### Add team access restrictions
 ## Example adding a team in a branch protection rule
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
@@ -46,7 +43,6 @@ Accept: application/json
   "teams" : [ "justice-league" ]
 }
 
-
 ### Add user access restrictions
 ## Example adding a user in a branch protection rule
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
@@ -56,7 +52,6 @@ Accept: application/json
 {
   "users" : [ "octocat" ]
 }
-
 
 ### Cancel a GitHub Pages deployment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments/{{pages_deployment_id}}/cancel
@@ -91,7 +86,6 @@ Accept: application/json
   "is_alphanumeric" : true
 }
 
-
 ### Create a commit comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/comments
 Content-Type: application/json
@@ -103,7 +97,6 @@ Accept: application/json
   "position" : 4,
   "line" : 1
 }
-
 
 ### Create commit signature protection
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_signatures
@@ -121,7 +114,6 @@ Accept: application/json
   "context" : "continuous-integration/jenkins"
 }
 
-
 ### Create a deploy key
 POST https://api.github.com/repos/{{owner}}/{{repo}}/keys
 Content-Type: application/json
@@ -132,7 +124,6 @@ Accept: application/json
   "key" : "ssh-rsa AAA...",
   "read_only" : true
 }
-
 
 ### Create a deployment
 ## Simple example
@@ -145,6 +136,7 @@ Accept: application/json
   "payload" : "{ \"deploy\": \"migrate\" }",
   "description" : "Deploy request from hubot"
 }
+
 
 ### Create a deployment
 ## Advanced example
@@ -160,7 +152,6 @@ Accept: application/json
   "required_contexts" : [ "ci/janky", "security/brakeman" ]
 }
 
-
 ### Create a deployment branch policy
 ## Example of a wildcard name pattern
 POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies
@@ -170,6 +161,7 @@ Accept: application/json
 {
   "name" : "release/*"
 }
+
 
 ### Create a deployment branch policy
 ## Example of a single branch name pattern
@@ -182,6 +174,7 @@ Accept: application/json
   "type" : "branch"
 }
 
+
 ### Create a deployment branch policy
 ## Example of a single tag name pattern
 POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies
@@ -193,7 +186,6 @@ Accept: application/json
   "type" : "tag"
 }
 
-
 ### Create a custom deployment protection rule on an environment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules
 Content-Type: application/json
@@ -202,7 +194,6 @@ Accept: application/json
 {
   "integration_id" : 5
 }
-
 
 ### Create a deployment status
 POST https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}/statuses
@@ -216,7 +207,6 @@ Accept: application/json
   "description" : "Deployment finished successfully."
 }
 
-
 ### Create a repository dispatch event
 POST https://api.github.com/repos/{{owner}}/{{repo}}/dispatches
 Content-Type: application/json
@@ -229,7 +219,6 @@ Accept: application/json
     "integration" : true
   }
 }
-
 
 ### Create a repository for the authenticated user
 POST https://api.github.com/user/repos
@@ -245,7 +234,6 @@ Accept: application/scim+json
   "is_template" : true
 }
 
-
 ### Create a fork
 POST https://api.github.com/repos/{{owner}}/{{repo}}/forks
 Content-Type: application/json
@@ -257,7 +245,6 @@ Accept: application/scim+json
   "name" : "Hello-World",
   "default_branch_only" : true
 }
-
 
 ### Create an organization repository
 POST https://api.github.com/orgs/{{org}}/repos
@@ -273,7 +260,6 @@ Accept: application/json
   "has_projects" : true,
   "has_wiki" : true
 }
-
 
 ### Create or update custom property values for a repository
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/properties/values
@@ -292,7 +278,6 @@ Accept: application/json
     "value" : "octocat"
   } ]
 }
-
 
 ### Create or update an environment
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}
@@ -315,7 +300,6 @@ Accept: application/json
   }
 }
 
-
 ### Create or update file contents
 ## Example for creating a file
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
@@ -330,6 +314,7 @@ Accept: application/json
   },
   "content" : "bXkgbmV3IGZpbGUgY29udGVudHM="
 }
+
 
 ### Create or update file contents
 ## Example for updating a file
@@ -346,7 +331,6 @@ Accept: application/json
   "content" : "bXkgdXBkYXRlZCBmaWxlIGNvbnRlbnRz",
   "sha" : "95b966ae1c166bd92f8ae7d1c313e738c731dfc3"
 }
-
 
 ### Create an organization repository ruleset
 POST https://api.github.com/orgs/{{org}}/rulesets
@@ -382,7 +366,6 @@ Accept: application/json
   } ]
 }
 
-
 ### Create a GitHub Pages deployment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments
 Content-Type: application/json
@@ -397,7 +380,6 @@ Accept: application/scim+json
   "preview" : false
 }
 
-
 ### Create a GitHub Pages site
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pages
 Content-Type: application/json
@@ -409,7 +391,6 @@ Accept: application/json
     "path" : "/docs"
   }
 }
-
 
 ### Create a release
 POST https://api.github.com/repos/{{owner}}/{{repo}}/releases
@@ -425,7 +406,6 @@ Accept: application/json
   "prerelease" : false,
   "generate_release_notes" : false
 }
-
 
 ### Create a repository ruleset
 POST https://api.github.com/repos/{{owner}}/{{repo}}/rulesets
@@ -456,7 +436,6 @@ Accept: application/json
   } ]
 }
 
-
 ### Create a tag protection state for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/tags/protection
 Content-Type: application/json
@@ -465,7 +444,6 @@ Accept: application/json
 {
   "pattern" : "v1.*"
 }
-
 
 ### Create a repository using a template
 POST https://api.github.com/repos/{{template_owner}}/{{template_repo}}/generate
@@ -479,7 +457,6 @@ Accept: application/json
   "include_all_branches" : false,
   "private" : false
 }
-
 
 ### Create a repository webhook
 POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks
@@ -496,7 +473,6 @@ Accept: application/json
     "insecure_ssl" : "0"
   }
 }
-
 
 ### Decline a repository invitation
 DELETE https://api.github.com/user/repository_invitations/{{invitation_id}}
@@ -555,7 +531,6 @@ Accept: application/json
   },
   "sha" : "329688480d39049927147c162b9d2deaf885005f"
 }
-
 
 ### Delete a repository invitation
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/invitations/{{invitation_id}}
@@ -632,7 +607,6 @@ Accept: application/json
   "previous_tag_name" : "v0.9.2",
   "configuration_file_path" : ".github/custom_release_config.yml"
 }
-
 
 ### Get a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}
@@ -1022,7 +996,6 @@ Accept: application/json
   "commit_message" : "Shipped cool_feature!"
 }
 
-
 ### Sync a fork branch with the upstream repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/merge-upstream
 Content-Type: application/json
@@ -1031,7 +1004,6 @@ Accept: application/json
 {
   "branch" : "main"
 }
-
 
 ### Ping a repository webhook
 POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/pings
@@ -1051,7 +1023,6 @@ Accept: application/json
   "apps" : [ "my-app" ]
 }
 
-
 ### Remove a repository collaborator
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}
 Accept: application/json
@@ -1066,7 +1037,6 @@ Accept: application/json
   "contexts" : [ "continuous-integration/jenkins" ]
 }
 
-
 ### Remove status check protection
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks
 
@@ -1080,7 +1050,6 @@ Accept: application/json
   "teams" : [ "octocats" ]
 }
 
-
 ### Remove user access restrictions
 ## Example removing a user in a branch protection rule
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
@@ -1091,7 +1060,6 @@ Accept: application/json
   "users" : [ "octocat" ]
 }
 
-
 ### Rename a branch
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/rename
 Content-Type: application/json
@@ -1101,7 +1069,6 @@ Accept: application/json
   "new_name" : "my_renamed_branch"
 }
 
-
 ### Replace all repository topics
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/topics
 Content-Type: application/json
@@ -1110,7 +1077,6 @@ Accept: application/json
 {
   "names" : [ "octocat", "atom", "electron", "api" ]
 }
-
 
 ### Request a GitHub Pages build
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds
@@ -1129,7 +1095,6 @@ Accept: application/json
   "apps" : [ "octoapp" ]
 }
 
-
 ### Set status check contexts
 ## Example updating status checks for a branch protection rule
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
@@ -1139,7 +1104,6 @@ Accept: application/json
 {
   "contexts" : [ "continuous-integration/travis-ci" ]
 }
-
 
 ### Set team access restrictions
 ## Example replacing a team in a branch protection rule
@@ -1151,7 +1115,6 @@ Accept: application/json
   "teams" : [ "justice-league" ]
 }
 
-
 ### Set user access restrictions
 ## Example replacing a user in a branch protection rule
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
@@ -1161,7 +1124,6 @@ Accept: application/json
 {
   "users" : [ "octocat" ]
 }
-
 
 ### Test the push repository webhook
 POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/tests
@@ -1178,7 +1140,6 @@ Accept: application/json
   "new_name" : "octorepo"
 }
 
-
 ### Update a repository
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}
 Content-Type: application/json
@@ -1193,7 +1154,6 @@ Accept: application/json
   "has_projects" : true,
   "has_wiki" : true
 }
-
 
 ### Update branch protection
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection
@@ -1234,7 +1194,6 @@ Accept: application/json
   "allow_fork_syncing" : true
 }
 
-
 ### Update a commit comment
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}
 Content-Type: application/json
@@ -1244,7 +1203,6 @@ Accept: application/json
   "body" : "Nice change"
 }
 
-
 ### Update a deployment branch policy
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies/{{branch_policy_id}}
 Content-Type: application/json
@@ -1253,7 +1211,6 @@ Accept: application/json
 {
   "name" : "release/*"
 }
-
 
 ### Update information about a GitHub Pages site
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/pages
@@ -1269,7 +1226,6 @@ Accept: application/scim+json
   }
 }
 
-
 ### Update a repository invitation
 ## Example request body
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/invitations/{{invitation_id}}
@@ -1279,7 +1235,6 @@ Accept: application/json
 {
   "permissions" : "write"
 }
-
 
 ### Update an organization repository ruleset
 PUT https://api.github.com/orgs/{{org}}/rulesets/{{ruleset_id}}
@@ -1315,7 +1270,6 @@ Accept: application/json
   } ]
 }
 
-
 ### Update pull request review protection
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_pull_request_reviews
 Content-Type: application/json
@@ -1338,7 +1292,6 @@ Accept: application/json
   "require_last_push_approval" : true
 }
 
-
 ### Update a release
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}
 Content-Type: application/json
@@ -1353,7 +1306,6 @@ Accept: application/json
   "prerelease" : false
 }
 
-
 ### Update a release asset
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/releases/assets/{{asset_id}}
 Content-Type: application/json
@@ -1363,7 +1315,6 @@ Accept: application/json
   "name" : "foo-1.0.0-osx.zip",
   "label" : "Mac binary"
 }
-
 
 ### Update a repository ruleset
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}
@@ -1394,7 +1345,6 @@ Accept: application/json
   } ]
 }
 
-
 ### Update status check protection
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks
 Content-Type: application/json
@@ -1404,7 +1354,6 @@ Accept: application/json
   "strict" : true,
   "contexts" : [ "continuous-integration/travis-ci" ]
 }
-
 
 ### Update a repository webhook
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}
@@ -1416,7 +1365,6 @@ Accept: application/json
   "add_events" : [ "pull_request" ]
 }
 
-
 ### Update a webhook configuration for a repository
 ## Example of updating content type and URL
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/config
@@ -1427,7 +1375,6 @@ Accept: application/json
   "content_type" : "json",
   "url" : "https://example.com/webhook"
 }
-
 
 ### Upload a release asset
 POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/assets?name={{name}}&label={{label}}

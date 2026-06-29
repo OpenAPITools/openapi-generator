@@ -17,7 +17,6 @@ X-API-Key: {{apiKey}}
  "status": "expired"
 }
 
-
 ### Create a payment link
 POST https://checkout-test.adyen.com/v71/paymentLinks
 Content-Type: application/json

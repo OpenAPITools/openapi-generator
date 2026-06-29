@@ -66,7 +66,6 @@ Accept: application/json
   "name" : "Hubot the Robot"
 }
 
-
 ### Update Git LFS preference
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/import/lfs
 Content-Type: application/json
@@ -75,7 +74,6 @@ Accept: application/json
 {
   "use_lfs" : "opt_in"
 }
-
 
 ### Start a user migration
 POST https://api.github.com/user/migrations
@@ -87,7 +85,6 @@ Accept: application/json
   "lock_repositories" : true
 }
 
-
 ### Start an organization migration
 POST https://api.github.com/orgs/{{org}}/migrations
 Content-Type: application/json
@@ -97,7 +94,6 @@ Accept: application/json
   "repositories" : [ "github/Hello-World" ],
   "lock_repositories" : true
 }
-
 
 ### Start an import
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/import
@@ -110,7 +106,6 @@ Accept: application/json
   "vcs_username" : "octocat",
   "vcs_password" : "secret"
 }
-
 
 ### Unlock a user repository
 DELETE https://api.github.com/user/migrations/{{migration_id}}/repos/{{repo_name}}/lock
@@ -130,6 +125,7 @@ Accept: application/json
   "vcs_username" : "octocat",
   "vcs_password" : "secret"
 }
+
 
 ### Update an import
 ## Updating the project choice

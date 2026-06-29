@@ -20,7 +20,6 @@ Accept: application/json
   }
 }
 
-
 ### Create a gist comment
 ## Creating a comment in a gist
 POST https://api.github.com/gists/{{gist_id}}/comments
@@ -30,7 +29,6 @@ Accept: application/json
 {
   "body" : "This is a comment to a gist"
 }
-
 
 ### Delete a gist
 DELETE https://api.github.com/gists/{{gist_id}}
@@ -107,6 +105,7 @@ Accept: application/json
   }
 }
 
+
 ### Update a gist
 ## Deleting a gist file
 PATCH https://api.github.com/gists/{{gist_id}}
@@ -118,6 +117,7 @@ Accept: application/json
     "hello.py" : null
   }
 }
+
 
 ### Update a gist
 ## Renaming a gist file
@@ -132,7 +132,6 @@ Accept: application/json
     }
   }
 }
-
 
 ### Update a gist comment
 ## Updating a comment in a gist

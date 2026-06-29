@@ -226,7 +226,7 @@ public class JetbrainsHttpClientClientCodegenTest {
     }
 
     @Test
-    public void testInlineRequestBodyExamplesAreRenderedForNonJsonMediaTypes() throws IOException {
+    public void testInlineRequestBodyExamplesAreNotRenderedForNonJsonMediaTypes() throws IOException {
         File output = Files.createTempDirectory("jetbrainstest_").toFile();
         output.deleteOnExit();
         Path spec = Files.createTempFile("jetbrains-text-inline-example_", ".yaml");
@@ -288,20 +288,10 @@ public class JetbrainsHttpClientClientCodegenTest {
         TestUtils.assertFileContains(path, "### Render Markdown\n" +
                 "POST http://localhost:5000/v1/markdown/raw\n" +
                 "Content-Type: text/plain\n" +
-                "Accept: text/html\n" +
-                "\n" +
-                "{\n" +
-                " \"text\" : \"Hello **world**\"\n" +
-                "}");
-        TestUtils.assertFileContains(path, "### Render Markdown\n" +
-                "## Markdown content\n" +
-                "POST http://localhost:5000/v1/markdown/raw\n" +
-                "Content-Type: text/x-markdown\n" +
-                "Accept: text/html\n" +
-                "\n" +
-                "{\n" +
-                " \"text\" : \"Hello _markdown_\"\n" +
-                "}");
+                "# Content-Type: text/x-markdown\n" +
+                "Accept: text/html");
+        TestUtils.assertFileNotContains(path, "Hello **world**");
+        TestUtils.assertFileNotContains(path, "Markdown content");
         TestUtils.assertFileNotContains(path, "{\n \n}");
         TestUtils.assertFileNotContains(path, "Content-Type: text/plain\nContent-Type: text/x-markdown");
         TestUtils.assertFileNotContains(path, "Summary-only example");

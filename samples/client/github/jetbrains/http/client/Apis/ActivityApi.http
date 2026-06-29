@@ -106,7 +106,6 @@ Accept: application/json
   "read" : true
 }
 
-
 ### Mark repository notifications as read
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/notifications
 Content-Type: application/json
@@ -115,7 +114,6 @@ Accept: application/json
 {
   "last_read_at" : "2019-01-01T00:00:00Z"
 }
-
 
 ### Mark a thread as done
 DELETE https://api.github.com/notifications/threads/{{thread_id}}
@@ -134,7 +132,6 @@ Accept: application/json
   "ignored" : false
 }
 
-
 ### Set a thread subscription
 PUT https://api.github.com/notifications/threads/{{thread_id}}/subscription
 Content-Type: application/json
@@ -143,7 +140,6 @@ Accept: application/json
 {
   "ignored" : false
 }
-
 
 ### Star a repository for the authenticated user
 PUT https://api.github.com/user/starred/{{owner}}/{{repo}}

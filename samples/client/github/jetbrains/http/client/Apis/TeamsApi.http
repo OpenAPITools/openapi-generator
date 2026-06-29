@@ -14,7 +14,6 @@ Accept: application/json
   "role" : "maintainer"
 }
 
-
 ### Add or update team membership for a user (Legacy)
 ## Assign the member role for a user in a team
 PUT https://api.github.com/teams/{{team_id}}/memberships/{{username}}
@@ -24,7 +23,6 @@ Accept: application/json
 {
   "role" : "member"
 }
-
 
 ### Add or update team project permissions
 ## Updates the permissions for the team to write for the project
@@ -36,7 +34,6 @@ Accept: application/json
   "permission" : "write"
 }
 
-
 ### Add or update team project permissions (Legacy)
 ## Example of setting permission to read
 PUT https://api.github.com/teams/{{team_id}}/projects/{{project_id}}
@@ -47,7 +44,6 @@ Accept: application/json
   "permission" : "read"
 }
 
-
 ### Add or update team repository permissions
 ## Adding a team to an organization repository with the write role
 PUT https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos/{{owner}}/{{repo}}
@@ -56,7 +52,6 @@ Content-Type: application/json
 {
   "permission" : "push"
 }
-
 
 ### Add or update team repository permissions (Legacy)
 ## Example of setting permission to pull
@@ -67,7 +62,6 @@ Accept: application/json
 {
   "permission" : "push"
 }
-
 
 ### Check team permissions for a project
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects/{{project_id}}
@@ -98,7 +92,6 @@ Accept: application/json
   "privacy" : "closed"
 }
 
-
 ### Create a discussion comment
 POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments
 Content-Type: application/json
@@ -108,7 +101,6 @@ Accept: application/json
   "body" : "Do you like apples?"
 }
 
-
 ### Create a discussion comment (Legacy)
 POST https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments
 Content-Type: application/json
@@ -117,7 +109,6 @@ Accept: application/json
 {
   "body" : "Do you like apples?"
 }
-
 
 ### Create a discussion
 POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions
@@ -129,7 +120,6 @@ Accept: application/json
   "body" : "Hi! This is an area for us to collaborate as a team."
 }
 
-
 ### Create a discussion (Legacy)
 POST https://api.github.com/teams/{{team_id}}/discussions
 Content-Type: application/json
@@ -139,7 +129,6 @@ Accept: application/json
   "title" : "Our first team post",
   "body" : "Hi! This is an area for us to collaborate as a team."
 }
-
 
 ### Delete a discussion comment
 DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}
@@ -290,7 +279,6 @@ Accept: application/json
   "body" : "Do you like pineapples?"
 }
 
-
 ### Update a discussion comment (Legacy)
 PATCH https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}
 Content-Type: application/json
@@ -299,7 +287,6 @@ Accept: application/json
 {
   "body" : "Do you like pineapples?"
 }
-
 
 ### Update a discussion
 PATCH https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}
@@ -310,7 +297,6 @@ Accept: application/json
   "title" : "Welcome to our first team post"
 }
 
-
 ### Update a discussion (Legacy)
 PATCH https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}
 Content-Type: application/json
@@ -319,7 +305,6 @@ Accept: application/json
 {
   "title" : "Welcome to our first team post"
 }
-
 
 ### Update a team
 PATCH https://api.github.com/orgs/{{org}}/teams/{{team_slug}}
@@ -332,7 +317,6 @@ Accept: application/json
   "privacy" : "closed",
   "notification_setting" : "notifications_enabled"
 }
-
 
 ### Update a team (Legacy)
 PATCH https://api.github.com/teams/{{team_id}}

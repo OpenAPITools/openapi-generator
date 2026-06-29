@@ -9,7 +9,6 @@ Accept: application/json
   "assignees" : [ "hubot", "other_user" ]
 }
 
-
 ### Add labels to an issue
 POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels
 Content-Type: application/json
@@ -18,7 +17,6 @@ Accept: application/json
 {
   "labels" : [ "bug", "enhancement" ]
 }
-
 
 ### Check if a user can be assigned
 GET https://api.github.com/repos/{{owner}}/{{repo}}/assignees/{{assignee}}
@@ -42,7 +40,6 @@ Accept: application/scim+json
   "labels" : [ "bug" ]
 }
 
-
 ### Create an issue comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/comments
 Content-Type: application/json
@@ -51,7 +48,6 @@ Accept: application/json
 {
   "body" : "Me too"
 }
-
 
 ### Create a label
 POST https://api.github.com/repos/{{owner}}/{{repo}}/labels
@@ -64,7 +60,6 @@ Accept: application/json
   "color" : "f29513"
 }
 
-
 ### Create a milestone
 POST https://api.github.com/repos/{{owner}}/{{repo}}/milestones
 Content-Type: application/json
@@ -76,7 +71,6 @@ Accept: application/json
   "description" : "Tracking milestone for version 1.0",
   "due_on" : "2012-10-09T23:39:01Z"
 }
-
 
 ### Delete an issue comment
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}
@@ -174,7 +168,6 @@ Accept: application/json
   "lock_reason" : "off-topic"
 }
 
-
 ### Remove all labels from an issue
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels
 Accept: application/json
@@ -188,7 +181,6 @@ Accept: application/json
   "assignees" : [ "hubot", "other_user" ]
 }
 
-
 ### Remove a label from an issue
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels/{{name}}
 Accept: application/json
@@ -201,7 +193,6 @@ Accept: application/json
 {
   "labels" : [ "bug", "enhancement" ]
 }
-
 
 ### Unlock an issue
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/lock
@@ -221,7 +212,6 @@ Accept: application/json
   "labels" : [ "bug" ]
 }
 
-
 ### Update an issue comment
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}
 Content-Type: application/json
@@ -230,7 +220,6 @@ Accept: application/json
 {
   "body" : "Me too"
 }
-
 
 ### Update a label
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/labels/{{name}}
@@ -242,7 +231,6 @@ Accept: application/json
   "description" : "Small bug fix required",
   "color" : "b01f26"
 }
-
 
 ### Update a milestone
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/milestones/{{milestone_number}}

@@ -10,22 +10,8 @@ Accept: text/html
   "text" : "Hello **world**"
 }
 
-
 ### Render a Markdown document in raw mode
 POST https://api.github.com/markdown/raw
 Content-Type: text/plain
+# Content-Type: text/x-markdown
 Accept: text/html
-
-{
-  "text" : "Hello **world**"
-}
-
-### Render a Markdown document in raw mode
-## Rendering markdown
-POST https://api.github.com/markdown/raw
-Content-Type: text/x-markdown
-Accept: text/html
-
-{
-  "text" : "Hello **world**"
-}

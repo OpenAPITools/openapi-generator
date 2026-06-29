@@ -10,7 +10,6 @@ Accept: application/json
   "emails" : [ "octocat@github.com", "mona@github.com", "octocat@octocat.org" ]
 }
 
-
 ### Add social accounts for the authenticated user
 ## Adding multiple social accounts
 POST https://api.github.com/user/social_accounts
@@ -20,7 +19,6 @@ Accept: application/json
 {
   "account_urls" : [ "https://facebook.com/GitHub", "https://www.youtube.com/@GitHub" ]
 }
-
 
 ### Block a user
 PUT https://api.github.com/user/blocks/{{username}}
@@ -47,7 +45,6 @@ Accept: application/json
   "armored_public_key" : "-----BEGIN PGP PUBLIC KEY BLOCK-----\nVersion: GnuPG v1\n\nmQINBFnZ2ZIBEADQ2Z7Z7\n-----END PGP PUBLIC KEY BLOCK-----"
 }
 
-
 ### Create a public SSH key for the authenticated user
 POST https://api.github.com/user/keys
 Content-Type: application/json
@@ -57,7 +54,6 @@ Accept: application/json
   "title" : "ssh-rsa AAAAB3NzaC1yc2EAAA",
   "key" : "2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvv1234"
 }
-
 
 ### Create a SSH signing key for the authenticated user
 POST https://api.github.com/user/ssh_signing_keys
@@ -69,7 +65,6 @@ Accept: application/json
   "title" : "ssh-rsa AAAAB3NzaC1yc2EAAA"
 }
 
-
 ### Delete an email address for the authenticated user
 ## Example deleting multiple email accounts
 DELETE https://api.github.com/user/emails
@@ -79,7 +74,6 @@ Accept: application/json
 {
   "emails" : [ "octocat@github.com", "mona@github.com" ]
 }
-
 
 ### Delete a GPG key for the authenticated user
 DELETE https://api.github.com/user/gpg_keys/{{gpg_key_id}}
@@ -98,7 +92,6 @@ Accept: application/json
 {
   "account_urls" : [ "https://facebook.com/GitHub", "https://www.youtube.com/@GitHub" ]
 }
-
 
 ### Delete an SSH signing key for the authenticated user
 DELETE https://api.github.com/user/ssh_signing_keys/{{ssh_signing_key_id}}
@@ -205,7 +198,6 @@ Accept: application/json
 {
   "visibility" : "private"
 }
-
 
 ### Unblock a user
 DELETE https://api.github.com/user/blocks/{{username}}

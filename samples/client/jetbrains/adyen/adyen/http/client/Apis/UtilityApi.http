@@ -15,7 +15,6 @@ X-API-Key: {{apiKey}}
  "merchantIdentifier": "YOUR_MERCHANT_ID"
 }
 
-
 ### Create originKey values for domains
 ## Get origin keys
 POST https://checkout-test.adyen.com/v71/originKeys

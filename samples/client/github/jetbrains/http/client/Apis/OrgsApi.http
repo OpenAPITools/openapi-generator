@@ -37,7 +37,6 @@ Accept: application/json
   "async" : true
 }
 
-
 ### Create a custom organization role
 POST https://api.github.com/orgs/{{org}}/organization-roles
 Content-Type: application/json
@@ -49,7 +48,6 @@ Accept: application/json
   "permissions" : [ "write_organization_custom_repo_role", "write_organization_custom_org_role", "read_organization_custom_repo_role", "read_organization_custom_org_role" ]
 }
 
-
 ### Create an organization invitation
 POST https://api.github.com/orgs/{{org}}/invitations
 Content-Type: application/json
@@ -60,7 +58,6 @@ Accept: application/json
   "role" : "direct_member",
   "team_ids" : [ 12, 26 ]
 }
-
 
 ### Create or update custom properties for an organization
 PATCH https://api.github.com/orgs/{{org}}/properties/schema
@@ -86,7 +83,6 @@ Accept: application/json
   } ]
 }
 
-
 ### Create or update custom property values for organization repositories
 PATCH https://api.github.com/orgs/{{org}}/properties/values
 Content-Type: application/json
@@ -106,7 +102,6 @@ Accept: application/json
   } ]
 }
 
-
 ### Create or update a custom property for an organization
 PUT https://api.github.com/orgs/{{org}}/properties/schema/{{custom_property_name}}
 Content-Type: application/json
@@ -119,7 +114,6 @@ Accept: application/json
   "description" : "Prod or dev environment",
   "allowed_values" : [ "production", "development" ]
 }
-
 
 ### Create an organization webhook
 POST https://api.github.com/orgs/{{org}}/hooks
@@ -135,7 +129,6 @@ Accept: application/json
     "content_type" : "json"
   }
 }
-
 
 ### Delete an organization
 DELETE https://api.github.com/orgs/{{org}}
@@ -155,7 +148,6 @@ Content-Type: application/json
 {
  "query_suite": "<string>"
 }
-
 
 ### Get an organization
 GET https://api.github.com/orgs/{{org}}
@@ -300,7 +292,6 @@ Accept: application/json
   "description" : "Permissions to manage custom roles within an org."
 }
 
-
 ### Ping an organization webhook
 POST https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/pings
 Accept: application/json
@@ -343,7 +334,6 @@ Accept: application/json
   "reason" : "This request is denied because the access is too broad."
 }
 
-
 ### Review requests to access organization resources with fine-grained personal access tokens
 ## Example of denying a request
 POST https://api.github.com/orgs/{{org}}/personal-access-token-requests
@@ -355,7 +345,6 @@ Accept: application/json
   "action" : "deny",
   "reason" : "Access is too broad."
 }
-
 
 ### Remove all organization roles for a team
 DELETE https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}}
@@ -378,7 +367,6 @@ Accept: application/json
 {
   "role" : "member"
 }
-
 
 ### Set public organization membership for the authenticated user
 PUT https://api.github.com/orgs/{{org}}/public_members/{{username}}
@@ -405,7 +393,6 @@ Accept: application/json
   "members_allowed_repository_creation_type" : "all"
 }
 
-
 ### Update an organization membership for the authenticated user
 PATCH https://api.github.com/user/memberships/orgs/{{org}}
 Content-Type: application/json
@@ -414,7 +401,6 @@ Accept: application/json
 {
   "state" : "active"
 }
-
 
 ### Update the access a fine-grained personal access token has to organization resources
 ## Example of revoking a fine-grained personal access token.
@@ -425,7 +411,6 @@ Accept: application/json
 {
   "action" : "revoke"
 }
-
 
 ### Update the access to organization resources via fine-grained personal access tokens
 ## Example of revoking a fine-grained personal access token.
@@ -438,7 +423,6 @@ Accept: application/json
   "pat_ids" : [ 1296269, 1296280 ]
 }
 
-
 ### Update an organization webhook
 PATCH https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
 Content-Type: application/json
@@ -448,7 +432,6 @@ Accept: application/json
   "active" : true,
   "events" : [ "pull_request" ]
 }
-
 
 ### Update a webhook configuration for an organization
 ## Update an existing webhook

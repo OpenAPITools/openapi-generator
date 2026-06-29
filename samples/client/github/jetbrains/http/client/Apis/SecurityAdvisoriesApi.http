@@ -26,7 +26,6 @@ Accept: application/json
   "cwe_ids" : [ "CWE-123" ]
 }
 
-
 ### Create a repository security advisory
 POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories
 Content-Type: application/json
@@ -55,6 +54,7 @@ Accept: application/json
     "type" : "analyst"
   } ]
 }
+
 
 ### Create a repository security advisory
 POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories
@@ -85,6 +85,7 @@ Accept: application/json
   } ]
 }
 
+
 ### Create a repository security advisory
 POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories
 Content-Type: application/json
@@ -99,7 +100,6 @@ Accept: application/json
     }
   } ]
 }
-
 
 ### Request a CVE for a repository security advisory
 POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}/cve
@@ -139,6 +139,7 @@ Accept: application/json
   "state" : "published"
 }
 
+
 ### Update a repository security advisory
 ## To add a credit to an advisory, send the whole array of values.
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}
@@ -152,11 +153,13 @@ Accept: application/json
   } ]
 }
 
+
 ### Update a repository security advisory
 ## To add vulnerable versions, include existing versions in the array.
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}
 Content-Type: application/json
 Accept: application/json
+
 
 
 
@@ -169,6 +172,7 @@ Accept: application/json
 {
   "state" : "draft"
 }
+
 
 ### Update a repository security advisory
 ## Severity cannot be updated when the CVSS is already set.

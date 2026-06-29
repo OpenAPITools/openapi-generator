@@ -42,7 +42,6 @@ Accept: application/json
   }
 }
 
-
 ### Get a diff of the dependencies between commits
 GET https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/compare/{{basehead}}?name={{name}}
 Accept: application/json

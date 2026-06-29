@@ -13,7 +13,6 @@ Accept: application/json
   "access_token" : "e72e16c7e42f292c6912e7710c838347ae178b4a"
 }
 
-
 ### Create a GitHub App from a manifest
 POST https://api.github.com/app-manifests/{{code}}/conversions
 Accept: application/json
@@ -31,7 +30,6 @@ Accept: application/json
   }
 }
 
-
 ### Delete an app authorization
 DELETE https://api.github.com/applications/{{client_id}}/grant
 Content-Type: application/json
@@ -40,7 +38,6 @@ Accept: application/json
 {
   "access_token" : "e72e16c7e42f292c6912e7710c838347ae178b4a"
 }
-
 
 ### Delete an installation for the authenticated app
 DELETE https://api.github.com/app/installations/{{installation_id}}
@@ -54,7 +51,6 @@ Accept: application/json
 {
   "access_token" : "e72e16c7e42f292c6912e7710c838347ae178b4a"
 }
-
 
 ### Get the authenticated app
 GET https://api.github.com/app
@@ -164,7 +160,6 @@ Accept: application/json
   "access_token" : "e72e16c7e42f292c6912e7710c838347ae178b4a"
 }
 
-
 ### Revoke an installation access token
 DELETE https://api.github.com/installation/token
 
@@ -182,7 +177,6 @@ Accept: application/json
     "contents" : "read"
   }
 }
-
 
 ### Suspend an app installation
 PUT https://api.github.com/app/installations/{{installation_id}}/suspended

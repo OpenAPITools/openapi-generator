@@ -16,7 +16,6 @@ Accept: application/json
  "status": "<string>"
 }
 
-
 ### Deletes a pet
 DELETE http://petstore.swagger.io/v2/pet/{{petId}}
 api_key: {{apiKey}}
@@ -52,7 +51,6 @@ Accept: application/json
  "tags": "<string>",
  "status": "<string>"
 }
-
 
 ### Updates a pet in the store with form data
 POST http://petstore.swagger.io/v2/pet/{{petId}}

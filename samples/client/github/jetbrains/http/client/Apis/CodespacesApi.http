@@ -27,7 +27,6 @@ Accept: application/json
   "geo" : "UsWest"
 }
 
-
 ### Create or update an organization secret
 PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}
 Content-Type: application/json
@@ -40,7 +39,6 @@ Accept: application/json
   "selected_repository_ids" : [ 1296269, 1296280 ]
 }
 
-
 ### Create or update a repository secret
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/{{secret_name}}
 Content-Type: application/json
@@ -50,7 +48,6 @@ Accept: application/json
   "encrypted_value" : "c2VjcmV0",
   "key_id" : "012345678912345678"
 }
-
 
 ### Create or update a secret for the authenticated user
 PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}
@@ -63,7 +60,6 @@ Accept: application/json
   "selected_repository_ids" : [ "1234567", "2345678" ]
 }
 
-
 ### Create a codespace from a pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/codespaces
 Content-Type: application/json
@@ -73,7 +69,6 @@ Accept: application/json
   "repository_id" : 1,
   "ref" : "main"
 }
-
 
 ### Create a codespace in a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/codespaces
@@ -86,7 +81,6 @@ Accept: application/scim+json
   "machine" : "standardLinux32gb"
 }
 
-
 ### Remove users from Codespaces access for an organization
 DELETE https://api.github.com/orgs/{{org}}/codespaces/access/selected_users
 Content-Type: application/json
@@ -95,7 +89,6 @@ Accept: application/json
 {
   "selected_usernames" : [ "johnDoe", "atomIO" ]
 }
-
 
 ### Delete a codespace for the authenticated user
 DELETE https://api.github.com/user/codespaces/{{codespace_name}}
@@ -206,7 +199,6 @@ Accept: application/json
   "private" : false
 }
 
-
 ### Remove a selected repository from a user secret
 DELETE https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories/{{repository_id}}
 Accept: application/json
@@ -229,7 +221,6 @@ Accept: application/json
   "selected_usernames" : [ "johnDoe", "atomIO" ]
 }
 
-
 ### Add users to Codespaces access for an organization
 POST https://api.github.com/orgs/{{org}}/codespaces/access/selected_users
 Content-Type: application/json
@@ -238,7 +229,6 @@ Accept: application/json
 {
   "selected_usernames" : [ "johnDoe", "atomIO" ]
 }
-
 
 ### Set selected repositories for a user secret
 PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories
@@ -249,7 +239,6 @@ Accept: application/json
   "selected_repository_ids" : [ "1296269", "1296280" ]
 }
 
-
 ### Set selected repositories for an organization secret
 PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories
 Content-Type: application/json
@@ -258,7 +247,6 @@ Accept: application/json
 {
   "selected_repository_ids" : [ 64780797 ]
 }
-
 
 ### Start a codespace for the authenticated user
 POST https://api.github.com/user/codespaces/{{codespace_name}}/start

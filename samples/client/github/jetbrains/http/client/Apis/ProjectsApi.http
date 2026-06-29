@@ -10,7 +10,6 @@ Accept: application/json
   "permission" : "write"
 }
 
-
 ### Create a project card
 ## Create a new card
 POST https://api.github.com/projects/columns/{{column_id}}/cards
@@ -21,7 +20,6 @@ Accept: application/json
   "note" : "Add payload for delete Project column"
 }
 
-
 ### Create a project column
 POST https://api.github.com/projects/{{project_id}}/columns
 Content-Type: application/json
@@ -30,7 +28,6 @@ Accept: application/json
 {
   "name" : "Remaining tasks"
 }
-
 
 ### Create a user project
 ## Create a new project
@@ -43,7 +40,6 @@ Accept: application/json
   "body" : "A board to manage my personal projects."
 }
 
-
 ### Create an organization project
 POST https://api.github.com/orgs/{{org}}/projects
 Content-Type: application/json
@@ -54,7 +50,6 @@ Accept: application/json
   "body" : "High-level roadmap for the upcoming year."
 }
 
-
 ### Create a repository project
 POST https://api.github.com/repos/{{owner}}/{{repo}}/projects
 Content-Type: application/json
@@ -64,7 +59,6 @@ Accept: application/json
   "name" : "Projects Documentation",
   "body" : "Developer documentation project for the developer site."
 }
-
 
 ### Delete a project
 DELETE https://api.github.com/projects/{{project_id}}
@@ -129,7 +123,6 @@ Accept: application/json
   "position" : "bottom"
 }
 
-
 ### Move a project column
 ## Move the column to the end of the board
 POST https://api.github.com/projects/columns/{{column_id}}/moves
@@ -139,7 +132,6 @@ Accept: application/json
 {
   "position" : "last"
 }
-
 
 ### Remove user as a collaborator
 DELETE https://api.github.com/projects/{{project_id}}/collaborators/{{username}}
@@ -157,7 +149,6 @@ Accept: application/json
   "organization_permission" : "write"
 }
 
-
 ### Update an existing project card
 ## Change the note on the card
 PATCH https://api.github.com/projects/columns/cards/{{card_id}}
@@ -167,7 +158,6 @@ Accept: application/json
 {
   "note" : "Add payload for delete Project column"
 }
-
 
 ### Update an existing project column
 ## Rename the project column
