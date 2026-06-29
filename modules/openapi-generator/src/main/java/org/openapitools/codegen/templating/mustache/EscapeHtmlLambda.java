@@ -22,6 +22,7 @@ import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.CharBuffer;
 
 /**
  * Escapes HTML-sensitive characters in a fragment.
@@ -41,23 +42,42 @@ public class EscapeHtmlLambda implements Mustache.Lambda {
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
         HtmlEscapingWriter escapingWriter = new HtmlEscapingWriter(writer);
         fragment.execute(escapingWriter);
-        escapingWriter.flushBuffer();
+        escapingWriter.finish();
     }
 
     private static class HtmlEscapingWriter extends ForwardingWriter {
-        private final StringBuilder buffer = new StringBuilder();
+        private char pendingHighSurrogate;
 
         private HtmlEscapingWriter(Writer writer) {
             super(writer);
         }
 
         @Override
-        public void write(char[] cbuf, int off, int len) {
-            buffer.append(cbuf, off, len);
+        public void write(char[] cbuf, int off, int len) throws IOException {
+            int start = off;
+            int end = off + len;
+
+            if (pendingHighSurrogate != 0 && start < end) {
+                StringEscapeUtils.ESCAPE_HTML4.translate(new String(new char[]{pendingHighSurrogate, cbuf[start]}), writer);
+                pendingHighSurrogate = 0;
+                start++;
+            }
+
+            if (start < end && Character.isHighSurrogate(cbuf[end - 1])) {
+                pendingHighSurrogate = cbuf[end - 1];
+                end--;
+            }
+
+            if (start < end) {
+                StringEscapeUtils.ESCAPE_HTML4.translate(CharBuffer.wrap(cbuf, start, end - start), writer);
+            }
         }
 
-        private void flushBuffer() throws IOException {
-            writer.write(StringEscapeUtils.escapeHtml4(buffer.toString()));
+        private void finish() throws IOException {
+            if (pendingHighSurrogate != 0) {
+                StringEscapeUtils.ESCAPE_HTML4.translate(String.valueOf(pendingHighSurrogate), writer);
+                pendingHighSurrogate = 0;
+            }
         }
     }
 }
