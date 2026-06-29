@@ -184,7 +184,7 @@ public interface FakeApiDelegate {
     default ResponseEntity<Void> testEndpointParameters(BigDecimal number,
         Double _double,
         String patternWithoutDelimiter,
-        byte[] _byte,
+        String _byte,
         Integer integer,
         Integer int32,
         Long int64,

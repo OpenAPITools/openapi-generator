@@ -95,7 +95,7 @@ No authorization required
 
 <a id="multipartmixed"></a>
 # **MultipartMixed**
-> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = null, List<MultipartMixedStatus> statusArray = null)
+> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = null, List<MultipartMixedRequestMarker> markerArray = null, List<MultipartMixedStatus> statusArray = null)
 
 
 
@@ -121,11 +121,12 @@ namespace Example
             var status = (MultipartMixedStatus) "ALLOWED";  // MultipartMixedStatus | 
             var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | a file
             var marker = new MultipartMixedRequestMarker(); // MultipartMixedRequestMarker |  (optional) 
+            var markerArray = new List<MultipartMixedRequestMarker>(); // List<MultipartMixedRequestMarker> | array of objects (optional) 
             var statusArray = new List<MultipartMixedStatus>(); // List<MultipartMixedStatus> |  (optional) 
 
             try
             {
-                apiInstance.MultipartMixed(status, file, marker, statusArray);
+                apiInstance.MultipartMixed(status, file, marker, markerArray, statusArray);
             }
             catch (ApiException  e)
             {
@@ -144,7 +145,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    apiInstance.MultipartMixedWithHttpInfo(status, file, marker, statusArray);
+    apiInstance.MultipartMixedWithHttpInfo(status, file, marker, markerArray, statusArray);
 }
 catch (ApiException e)
 {
@@ -161,6 +162,7 @@ catch (ApiException e)
 | **status** | **MultipartMixedStatus** |  |  |
 | **file** | **System.IO.Stream****System.IO.Stream** | a file |  |
 | **marker** | [**MultipartMixedRequestMarker**](MultipartMixedRequestMarker.md) |  | [optional]  |
+| **markerArray** | [**List&lt;MultipartMixedRequestMarker&gt;**](MultipartMixedRequestMarker.md) | array of objects | [optional]  |
 | **statusArray** | [**List&lt;MultipartMixedStatus&gt;**](MultipartMixedStatus.md) |  | [optional]  |
 
 ### Return type

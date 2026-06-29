@@ -57,6 +57,25 @@ components:
       - REJECTED
       example: REJECTED
       type: string
+    MultipartMixedRequestMarker:
+      description: Marker metadata sent as JSON part in multipart request
+      properties:
+        name:
+          description: Marker name
+          example: example-marker
+          type: string
+        priority:
+          description: Optional priority
+          example: 10
+          format: int32
+          type: integer
+        active:
+          description: Whether the marker is active
+          example: true
+          type: boolean
+      required:
+      - name
+      type: object
     multipartArray_request:
       properties:
         files:
@@ -85,6 +104,11 @@ components:
           $ref: "#/components/schemas/MultipartMixedStatus"
         marker:
           $ref: "#/components/schemas/multipartMixed_request_marker"
+        markerArray:
+          description: array of objects
+          items:
+            $ref: "#/components/schemas/MultipartMixedRequestMarker"
+          type: array
         file:
           description: a file
           format: binary

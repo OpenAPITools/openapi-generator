@@ -212,20 +212,20 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testEndpointParameters(
-         @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestPart(value = "number", required = true) BigDecimal number,
-         @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestPart(value = "double", required = true) Double _double,
-         @Pattern(regexp = "^[A-Z].*") @Valid @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-         @Valid @RequestPart(value = "byte", required = true) byte[] _byte,
-         @Min(value = 10) @Max(value = 100) @Valid @RequestPart(value = "integer", required = false) Integer integer,
-         @Min(value = 20) @Max(value = 200) @Valid @RequestPart(value = "int32", required = false) Integer int32,
-         @Valid @RequestPart(value = "int64", required = false) Long int64,
-         @DecimalMax(value = "987.6") @Valid @RequestPart(value = "float", required = false) Float _float,
-         @Pattern(regexp = "[a-zA-Z]") @Valid @RequestPart(value = "string", required = false) String string,
+         @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
+         @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
+         @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+         @Valid @RequestParam(value = "byte", required = true) String _byte /* base64 encoded binary */,
+         @Min(value = 10) @Max(value = 100) @Valid @RequestParam(value = "integer", required = false) Integer integer,
+         @Min(value = 20) @Max(value = 200) @Valid @RequestParam(value = "int32", required = false) Integer int32,
+         @Valid @RequestParam(value = "int64", required = false) Long int64,
+         @DecimalMax(value = "987.6") @Valid @RequestParam(value = "float", required = false) Float _float,
+         @Pattern(regexp = "[a-zA-Z]") @Valid @RequestParam(value = "string", required = false) String string,
          @RequestPart(value = "binary", required = false) Part binary,
-         @Valid @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-         @Valid @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-         @Size(min = 10, max = 64) @Valid @RequestPart(value = "password", required = false) String password,
-         @Valid @RequestPart(value = "callback", required = false) String paramCallback
+         @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+         @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+         @Size(min = 10, max = 64) @Valid @RequestParam(value = "password", required = false) String password,
+         @Valid @RequestParam(value = "callback", required = false) String paramCallback
     );
 
 
@@ -257,8 +257,8 @@ public interface FakeApi {
          @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
          @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
          @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
-         @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-         @Valid @RequestPart(value = "enum_form_string", required = false) String enumFormString
+         @Valid @RequestParam(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+         @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     );
 
 
@@ -322,8 +322,8 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testJsonFormData(
-         @Valid @RequestPart(value = "param", required = true) String param,
-         @Valid @RequestPart(value = "param2", required = true) String param2
+         @Valid @RequestParam(value = "param", required = true) String param,
+         @Valid @RequestParam(value = "param2", required = true) String param2
     );
 
 

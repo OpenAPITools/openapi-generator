@@ -26,6 +26,20 @@ public class PropertyAssert extends ObjectAssert<FieldDeclaration> {
         return this;
     }
 
+    public PropertyAssert isArray() {
+        Assertions.assertThat(actual.getCommonType().isArrayType())
+                .withFailMessage("Expected property %s to be array, but it was NOT", actual.getVariable(0).getNameAsString())
+                .isEqualTo(true);
+        return this;
+    }
+
+    public PropertyAssert isNotArray() {
+        Assertions.assertThat(actual.getCommonType().isArrayType())
+                .withFailMessage("Expected property %s NOT to be array, but it was", actual.getVariable(0).getNameAsString())
+                .isEqualTo(false);
+        return this;
+    }
+
     public PropertyAnnotationsAssert assertPropertyAnnotations() {
         return new PropertyAnnotationsAssert(this, actual.getAnnotations());
     }
