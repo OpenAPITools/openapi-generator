@@ -22,7 +22,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = {{{pythonPackageName}}}.{{{classname}}}()
-{{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{unescapedDescription}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{#allParams}}{{paramName}} = {{#lambdaExample}}{{/lambdaExample}} # {{{dataType}}} | {{{unescapedDescription}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
 
 try:

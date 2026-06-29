@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
@@ -63,7 +66,6 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.model.WebhooksMap;
-import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.DiscriminatorUtils;
@@ -99,6 +101,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
+    private static final ObjectMapper JSON_VALUE_MAPPER = JsonMapper.builder().build();
 
     public static final Pattern SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX = Pattern.compile("\\s*(;|\\r?\\n)\\s*"); // Splits on semicolon or new line, ignoring surrounding whitespace
 
@@ -2063,39 +2066,57 @@ public class DefaultCodegen implements CodegenConfig {
         // if not specified in x-example, generate a default value
         // TODO need to revise how to obtain the example value
         if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+            setParameterJsonExampleValue(codegenParameter, codegenParameter.vendorExtensions.get("x-example"));
         } else if (codegenParameter.isBoolean) {
-            codegenParameter.example = "true";
+            codegenParameter.setExample("true");
         } else if (codegenParameter.isLong) {
-            codegenParameter.example = "789";
+            codegenParameter.setExample("789");
         } else if (codegenParameter.isInteger) {
-            codegenParameter.example = "56";
+            codegenParameter.setExample("56");
         } else if (codegenParameter.isFloat) {
-            codegenParameter.example = "3.4";
+            codegenParameter.setExample("3.4");
         } else if (codegenParameter.isDouble) {
-            codegenParameter.example = "1.2";
+            codegenParameter.setExample("1.2");
         } else if (codegenParameter.isNumber) {
-            codegenParameter.example = "8.14";
+            codegenParameter.setExample("8.14");
         } else if (codegenParameter.isBinary) {
-            codegenParameter.example = "BINARY_DATA_HERE";
+            codegenParameter.setExample("BINARY_DATA_HERE");
         } else if (codegenParameter.isByteArray) {
-            codegenParameter.example = "BYTE_ARRAY_DATA_HERE";
+            codegenParameter.setExample("BYTE_ARRAY_DATA_HERE");
         } else if (codegenParameter.isFile) {
-            codegenParameter.example = "/path/to/file.txt";
+            codegenParameter.setExample("/path/to/file.txt");
         } else if (codegenParameter.isDate) {
-            codegenParameter.example = "2013-10-20";
+            codegenParameter.setExample("2013-10-20");
         } else if (codegenParameter.isDateTime) {
-            codegenParameter.example = "2013-10-20T19:20:30+01:00";
+            codegenParameter.setExample("2013-10-20T19:20:30+01:00");
         } else if (codegenParameter.isUuid) {
-            codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+            codegenParameter.setExample("38400000-8cf0-11bd-b23e-10b96e4ef00d");
         } else if (codegenParameter.isUri) {
-            codegenParameter.example = "https://openapi-generator.tech";
+            codegenParameter.setExample("https://openapi-generator.tech");
         } else if (codegenParameter.isString) {
-            codegenParameter.example = codegenParameter.paramName + "_example";
+            codegenParameter.setExample(codegenParameter.paramName + "_example");
         } else if (codegenParameter.isFreeFormObject) {
-            codegenParameter.example = "Object";
+            codegenParameter.setExample("Object");
         }
 
+    }
+
+    protected void setParameterExampleValue(CodegenParameter codegenParameter, Object example) {
+        if (example instanceof JsonNode) {
+            codegenParameter.setExample((JsonNode) example);
+        } else if (example instanceof String || example instanceof Number || example instanceof Boolean) {
+            codegenParameter.setExample(example.toString());
+        } else {
+            codegenParameter.setExample(example == null ? null : JSON_VALUE_MAPPER.valueToTree(example));
+        }
+    }
+
+    protected void setParameterJsonExampleValue(CodegenParameter codegenParameter, Object example) {
+        if (example instanceof JsonNode) {
+            codegenParameter.setExample((JsonNode) example);
+        } else {
+            codegenParameter.setExample(example == null ? null : JSON_VALUE_MAPPER.valueToTree(example));
+        }
     }
 
     /**
@@ -2106,21 +2127,21 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
         if (parameter.getExample() != null) {
-            codegenParameter.example = parameter.getExample().toString();
+            setParameterExampleValue(codegenParameter, parameter.getExample());
             return;
         }
 
         if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
             Example example = parameter.getExamples().values().iterator().next();
             if (example.getValue() != null) {
-                codegenParameter.example = example.getValue().toString();
+                setParameterExampleValue(codegenParameter, example.getValue());
                 return;
             }
         }
 
         Schema schema = parameter.getSchema();
         if (schema != null && schema.getExample() != null) {
-            codegenParameter.example = schema.getExample().toString();
+            setParameterExampleValue(codegenParameter, schema.getExample());
             return;
         }
 
@@ -2155,14 +2176,14 @@ public class DefaultCodegen implements CodegenConfig {
 
         MediaType mediaType = content.values().iterator().next();
         if (mediaType.getExample() != null) {
-            codegenParameter.example = mediaType.getExample().toString();
+            setParameterExampleValue(codegenParameter, mediaType.getExample());
             return;
         }
 
         if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
             Example example = mediaType.getExamples().values().iterator().next();
             if (example.getValue() != null) {
-                codegenParameter.example = example.getValue().toString();
+                setParameterExampleValue(codegenParameter, example.getValue());
                 return;
             }
         }
@@ -3127,7 +3148,7 @@ public class DefaultCodegen implements CodegenConfig {
         m.classname = toModelName(name);
         m.classVarName = toVarName(name);
         m.classFilename = toModelFilename(name);
-        m.modelJson = Json.pretty(schema);
+        m.setModelJsonValue(schema);
         m.externalDocumentation = schema.getExternalDocs();
         if (schema.getExtensions() != null && !schema.getExtensions().isEmpty()) {
             m.getVendorExtensions().putAll(schema.getExtensions());
@@ -4753,7 +4774,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (!isSkipOperationExample() && operation.getResponses() != null) {
             // generate examples
             ExampleGenerator generator = new ExampleGenerator(schemas, this.openAPI);
-            List<Map<String, String>> examples = new ArrayList<>();
+            List<Map<String, Object>> examples = new ArrayList<>();
 
             for (String statusCode : operation.getResponses().keySet()) {
                 ApiResponse apiResponse = ModelUtils.getReferencedApiResponse(openAPI, operation.getResponses().get(statusCode));
@@ -4770,7 +4791,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (exampleStatusCode.equals("default")) {
                         exampleStatusCode = "200";
                     }
-                    List<Map<String, String>> examplesForResponse = generator.generateFromResponseSchema(exampleStatusCode, schema, producesInfo);
+                    List<Map<String, Object>> examplesForResponse = generator.generateFromResponseSchema(exampleStatusCode, schema, producesInfo);
                     if (examplesForResponse != null) {
                         examples.addAll(examplesForResponse);
                     }
@@ -8327,7 +8348,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected void generateJSONSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         if (openAPI != null) {
-            objs.put("openapi-json", SerializerUtils.toJsonString(openAPI));
+            objs.put("lambdaOpenapiJson", new OpenApiSpecOutputLambda(openAPI, OpenApiSpecOutputLambda.Format.JSON));
         }
     }
 
@@ -8338,9 +8359,8 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void generateYAMLSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
-        String yaml = SerializerUtils.toYamlString(openAPI);
-        if (yaml != null) {
-            objs.put("openapi-yaml", yaml);
+        if (openAPI != null) {
+            objs.put("lambdaOpenapiYaml", new OpenApiSpecOutputLambda(openAPI, OpenApiSpecOutputLambda.Format.YAML));
         }
     }
 

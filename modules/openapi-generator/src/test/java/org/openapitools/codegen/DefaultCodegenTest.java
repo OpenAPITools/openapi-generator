@@ -52,6 +52,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.*;
@@ -1134,24 +1136,24 @@ public class DefaultCodegenTest {
 
         Operation operation = openAPI.getPaths().get(path).getGet();
         CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, null);
-        List<Map<String, String>> examples = codegenOperation.examples;
+        List<Map<String, Object>> examples = codegenOperation.examples;
 
         assertEquals(4, examples.size());
         // 200 response example
         assertEquals(APP_JSON, examples.get(0).get("contentType"));
-        assertEquals("\"a successful response example\"", examples.get(0).get("example"));
+        assertEquals("\"a successful response example\"", renderExample(examples.get(0)));
         assertEquals("200", examples.get(0).get("statusCode"));
         // 301 response example
         assertEquals(APP_JSON, examples.get(1).get("contentType"));
-        assertEquals("\"a redirect response example\"", examples.get(1).get("example"));
+        assertEquals("\"a redirect response example\"", renderExample(examples.get(1)));
         assertEquals("301", examples.get(1).get("statusCode"));
         // 404 response example
         assertEquals(APP_JSON, examples.get(2).get("contentType"));
-        assertEquals("\"a not found response example\"", examples.get(2).get("example"));
+        assertEquals("\"a not found response example\"", renderExample(examples.get(2)));
         assertEquals("404", examples.get(2).get("statusCode"));
         // 500 response example
         assertEquals(APP_JSON, examples.get(3).get("contentType"));
-        assertEquals("\"an internal server error response example\"", examples.get(3).get("example"));
+        assertEquals("\"an internal server error response example\"", renderExample(examples.get(3)));
         assertEquals("500", examples.get(3).get("statusCode"));
     }
 
@@ -5239,5 +5241,15 @@ public class DefaultCodegenTest {
     private List<String> getNames(List<CodegenProperty> props) {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
+    }
+
+    private static String renderExample(Map<String, Object> example) {
+        try {
+            StringWriter writer = new StringWriter();
+            ((JsonOutputLambda) example.get("lambdaExample")).execute(null, writer);
+            return writer.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -33,7 +33,7 @@ public class {{{classname}}}Example {
         // Create an instance of the API class
         {{{classname}}} apiInstance = new {{{classname}}}();
         {{#allParams}}
-        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{unescapedDescription}}}
+        {{{dataType}}} {{{paramName}}} = {{#lambdaExample}}{{/lambdaExample}}; // {{{dataType}}} | {{{unescapedDescription}}}
         {{/allParams}}
 
         try {

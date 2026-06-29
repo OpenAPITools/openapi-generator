@@ -184,8 +184,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     public File write(Map<String, Object> data, String template, File target) throws IOException {
         if (this.engineAdapter.handlesFile(template)) {
             // Only pass files with valid endings through template engine
-            String templateContent = this.engineAdapter.compileTemplate(this, data, template);
-            return writeToFile(target.getPath(), templateContent);
+            return writeTemplateToFile(target.getPath(), data, template);
         } else {
             // Do a straight copy of the file if not listed as supported by the template engine.
             String fullTemplatePath = null;
@@ -227,6 +226,47 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      */
     public File writeToFile(String filename, String contents) throws IOException {
         return writeToFile(filename, contents.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Writes rendered template output to a file without materializing the full rendered content as a string.
+     *
+     * @param filename The name of file to write
+     * @param data Input data for the template
+     * @param template The template location
+     * @return File representing the written file.
+     * @throws IOException If file cannot be written.
+     */
+    public File writeTemplateToFile(String filename, Map<String, Object> data, String template) throws IOException {
+        File outputFile = Paths.get(filename).toFile();
+
+        if (this.options.isMinimalUpdate()) {
+            String tempFilename = filename + ".tmp";
+            File tempFile = null;
+            try {
+                tempFile = writeTemplateToFileRaw(tempFilename, data, template);
+                if (!filesEqual(tempFile, outputFile)) {
+                    LOGGER.info("writing file {}", filename);
+                    Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    tempFile = null;
+                } else {
+                    LOGGER.info("skipping unchanged file {}", filename);
+                }
+            } finally {
+                if (tempFile != null && tempFile.exists()) {
+                    try {
+                        Files.delete(tempFile.toPath());
+                    } catch (Exception ex) {
+                        LOGGER.error("Error removing temporary file {}", tempFile, ex);
+                    }
+                }
+            }
+        } else {
+            LOGGER.info("writing file {}", filename);
+            outputFile = writeTemplateToFileRaw(filename, data, template);
+        }
+
+        return outputFile;
     }
 
     /**
@@ -288,9 +328,45 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         return output;
     }
 
+    private File writeTemplateToFileRaw(String filename, Map<String, Object> data, String template) throws IOException {
+        File output = Paths.get(filename).toFile();
+        if (this.options.isSkipOverwrite() && output.exists()) {
+            LOGGER.info("skip overwrite of file {}", filename);
+            return output;
+        }
+
+        if (output.getParent() != null && !new File(output.getParent()).exists()) {
+            File parent = Paths.get(output.getParent()).toFile();
+            parent.mkdirs();
+        }
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output), StandardCharsets.UTF_8))) {
+            this.engineAdapter.writeTemplate(this, data, template, writer);
+        }
+
+        return output;
+    }
+
     private boolean filesEqual(File file1, File file2) throws IOException {
         if (!file1.exists() || !file2.exists()) return false;
         if (file1.length() != file2.length()) return false;
-        return Arrays.equals(Files.readAllBytes(file1.toPath()), Files.readAllBytes(file2.toPath()));
+        try (InputStream is1 = Files.newInputStream(file1.toPath());
+             InputStream is2 = Files.newInputStream(file2.toPath())) {
+            byte[] buffer1 = new byte[8192];
+            byte[] buffer2 = new byte[8192];
+            int read1;
+            while ((read1 = is1.read(buffer1)) != -1) {
+                int read2 = is2.read(buffer2);
+                if (read1 != read2) {
+                    return false;
+                }
+                for (int i = 0; i < read1; i++) {
+                    if (buffer1[i] != buffer2[i]) {
+                        return false;
+                    }
+                }
+            }
+            return is2.read() == -1;
+        }
     }
 }

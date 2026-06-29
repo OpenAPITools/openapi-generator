@@ -23,8 +23,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.mustache.OnChangeLambda;
+import org.openapitools.codegen.templating.mustache.OpenApiSpecOutputLambda;
 import org.openapitools.codegen.utils.OpenAPISorter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,9 +126,8 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
     @Override
     public void generateYAMLSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
-        String yaml = SerializerUtils.toYamlString(openAPI, sortOutput);
-        if (yaml != null) {
-            objs.put("openapi-yaml", yaml);
+        if (openAPI != null) {
+            objs.put("lambdaOpenapiYaml", new OpenApiSpecOutputLambda(openAPI, OpenApiSpecOutputLambda.Format.YAML, sortOutput));
         }
     }
 

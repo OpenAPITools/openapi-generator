@@ -881,7 +881,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.title = cm.title;
             this.description = cm.description;
             this.classVarName = cm.classVarName;
-            this.modelJson = cm.modelJson;
+            this.setModelJson(cm);
             this.dataType = cm.dataType;
             this.xmlPrefix = cm.xmlPrefix;
             this.xmlNamespace = cm.xmlNamespace;

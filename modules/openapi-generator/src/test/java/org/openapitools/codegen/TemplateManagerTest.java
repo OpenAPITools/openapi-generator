@@ -1,6 +1,8 @@
 package org.openapitools.codegen;
 
 import org.openapitools.codegen.api.TemplatePathLocator;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
+import org.openapitools.codegen.api.TemplatingExecutor;
 import org.openapitools.codegen.templating.HandlebarsEngineAdapter;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.TemplateManagerOptions;
@@ -9,6 +11,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,6 +41,28 @@ public class TemplateManagerTest {
     private final HandlebarsEngineAdapter handlebarsEngineAdapter = new HandlebarsEngineAdapter();
     private final MustacheEngineAdapter mustacheEngineAdapter = new MustacheEngineAdapter();
     private final TemplatePathLocator locator = new ResourceTemplateLoader();
+
+    static class WriterOnlyTemplateEngineAdapter implements TemplatingEngineAdapter {
+        @Override
+        public String getIdentifier() {
+            return "writer-only";
+        }
+
+        @Override
+        public String[] getFileExtensions() {
+            return new String[]{"writer"};
+        }
+
+        @Override
+        public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) {
+            throw new AssertionError("compileTemplate should not be called by TemplateManager.write");
+        }
+
+        @Override
+        public void writeTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile, Writer writer) throws IOException {
+            writer.write((String) bundle.get("contents"));
+        }
+    }
 
     @Test
     public void loadTemplateContents() {
@@ -104,6 +129,25 @@ public class TemplateManagerTest {
             File written = manager.write(data, "simple.mustache", output);
 
             assertEquals(Files.readAllLines(written.toPath()).get(0), "Teddy and 3");
+        } finally {
+            target.toFile().delete();
+        }
+    }
+
+    @Test
+    public void writeUsesTemplateEngineWriterPath() throws IOException {
+        TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
+        TemplateManager manager = new TemplateManager(opts, new WriterOnlyTemplateEngineAdapter(), new TemplatePathLocator[]{locator});
+        Map<String, Object> data = new HashMap<>();
+        data.put("contents", "streamed contents");
+
+        Path target = Files.createTempDirectory("test-templatemanager");
+        try {
+            File output = new File(target.toFile(), "simple.txt");
+
+            File written = manager.write(data, "simple.writer", output);
+
+            assertEquals(Files.readAllLines(written.toPath()).get(0), "streamed contents");
         } finally {
             target.toFile().delete();
         }

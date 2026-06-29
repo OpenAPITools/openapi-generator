@@ -17,9 +17,12 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.examples.Example;
 import lombok.Getter;
 import lombok.Setter;
+import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
 
 import java.util.*;
 
@@ -41,6 +44,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public String nameInPascalCase; // property name in pascal case (e.g. ModifiedDate)
     public String nameInSnakeCase; // property name in upper snake case
     public String example; // example value (x-example)
+    private JsonNode exampleJsonNode;
     public Map<String, Example> examples;
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary,
@@ -184,6 +188,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.defaultValue = this.defaultValue;
         output.enumDefaultValue = this.enumDefaultValue;
         output.example = this.example;
+        output.exampleJsonNode = this.exampleJsonNode;
         output.examples = this.examples;
         output.isEnum = this.isEnum;
         output.isEnumRef = this.isEnumRef;
@@ -541,6 +546,26 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
      */
     public Map<String, Object> getExts() {
         return vendorExtensions;
+    }
+
+    public Mustache.Lambda getLambdaExample() {
+        if (exampleJsonNode != null) {
+            return new JsonOutputLambda(exampleJsonNode);
+        }
+        if (example != null) {
+            return new JsonOutputLambda(example);
+        }
+        return null;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
+        this.exampleJsonNode = null;
+    }
+
+    public void setExample(JsonNode exampleJsonNode) {
+        this.exampleJsonNode = exampleJsonNode;
+        this.example = exampleJsonNode != null && exampleJsonNode.isValueNode() ? exampleJsonNode.asText() : null;
     }
 
     // use schema.getContains or content.mediaType.schema.getContains instead of this
@@ -1151,4 +1176,3 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         this.isEnum = isEnum;
     }
 }
-

@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -77,6 +78,13 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
      */
     @Override
     public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) throws IOException {
+        StringWriter out = new StringWriter();
+        writeTemplate(executor, bundle, templateFile, out);
+        return out.toString();
+    }
+
+    @Override
+    public void writeTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile, Writer writer) throws IOException {
         // Each executor gets its own compiled-template cache. computeIfAbsent is atomic, so two threads
         // racing on the same executor key will share one inner map rather than creating two separate ones.
         ConcurrentHashMap<String, Template> cache =
@@ -93,7 +101,6 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
                     .compile(executor.getFullTemplateContents(templateFile));
             cache.put(templateFile, tmpl);
         }
-        StringWriter out = new StringWriter();
 
         // the value of bundle[MUSTACHE_PARENT_CONTEXT] is used a parent content in mustache.
         // See description in https://mustache.github.io/mustache.5.html#Variables
@@ -104,8 +111,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
             // avoid NPE
             parent = new Object();
         }
-        tmpl.execute(bundle, parent, out);
-        return out.toString();
+        tmpl.execute(bundle, parent, writer);
     }
 
     @SuppressWarnings("java:S108") // catch-all is expected, and is later thrown

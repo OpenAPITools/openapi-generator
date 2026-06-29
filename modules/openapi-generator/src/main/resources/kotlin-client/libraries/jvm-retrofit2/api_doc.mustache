@@ -35,7 +35,7 @@ apiClient.setBearerToken("TOKEN")
 {{/authMethods}}
 val webService = apiClient.createWebservice({{{classname}}}::class.java)
 {{#allParams}}
-val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{{description}}}
+val {{{paramName}}} : {{{dataType}}} = {{#lambdaExample}}{{/lambdaExample}} // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 {{#useCoroutines}}

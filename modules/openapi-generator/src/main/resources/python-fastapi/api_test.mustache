@@ -21,19 +21,19 @@ def test_{{operationId}}(client: TestClient):
     {{{summary}}}
     """
     {{#bodyParam}}
-    {{paramName}} = {{#isContainer}}[{{/isContainer}}{{{example}}}{{#isContainer}}]{{/isContainer}}
+    {{paramName}} = {{#isContainer}}[{{/isContainer}}{{#lambdaExample}}{{/lambdaExample}}{{#isContainer}}]{{/isContainer}}
     {{/bodyParam}}
     {{#queryParams}}
-    {{#-first}}params = [{{/-first}}("{{paramName}}", {{{example}}}){{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/queryParams}}
+    {{#-first}}params = [{{/-first}}("{{paramName}}", {{#lambdaExample}}{{/lambdaExample}}){{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/queryParams}}
     headers = {{=<% %>=}}{<%#headerParams%><%={{ }}=%>
-        "{{paramName}}": {{{example}}},{{/headerParams}}{{#authMethods}}
+        "{{paramName}}": {{#lambdaExample}}{{/lambdaExample}},{{/headerParams}}{{#authMethods}}
         {{#isOAuth}}"Authorization": "Bearer special-key",{{/isOAuth}}{{#isApiKey}}"{{name}}": "special-key",{{/isApiKey}}{{#isBasicBasic}}"Authorization": "BasicZm9vOmJhcg==",{{/isBasicBasic}}{{#isBasicBearer}}"Authorization": "Bearer special-key",{{/isBasicBearer}}{{/authMethods}}
     }
     {{#formParams}}
     {{#-first}}
     data = {
     {{/-first}}
-        "{{paramName}}": {{{example}}}{{^-last}},{{/-last}}
+        "{{paramName}}": {{#lambdaExample}}{{/lambdaExample}}{{^-last}},{{/-last}}
     {{#-last}}
     }
     {{/-last}}
@@ -41,7 +41,7 @@ def test_{{operationId}}(client: TestClient):
     # uncomment below to make a request
     #response = client.request(
     #    "{{httpMethod}}",
-    #    "{{{path}}}"{{#pathParams}}{{#-first}}.format({{/-first}}{{baseName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
+    #    "{{{path}}}"{{#pathParams}}{{#-first}}.format({{/-first}}{{baseName}}={{#lambdaExample}}{{/lambdaExample}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
     #    headers=headers,{{#bodyParam}}
     #    json={{paramName}},{{/bodyParam}}{{#formParams}}{{#-first}}
     #    data=data,{{/-first}}{{/formParams}}{{#queryParams}}{{#-first}}

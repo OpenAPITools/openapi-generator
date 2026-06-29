@@ -18,10 +18,12 @@
 package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
 
 import java.util.*;
 
@@ -77,7 +79,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Getter @Setter
     public String title;
     @Getter @Setter
-    public String description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
+    public String description, classVarName, dataType, xmlPrefix, xmlNamespace, xmlName;
+    @Getter
+    public String modelJson;
+    private Object modelJsonValue;
     @Getter @Setter
     public String classFilename; // store the class file name, mainly used for import
     @Getter @Setter
@@ -272,6 +277,31 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      */
     public Map<String, Object> getExts() {
         return vendorExtensions;
+    }
+
+    public Mustache.Lambda getLambdaModelJson() {
+        if (modelJsonValue != null) {
+            return new JsonOutputLambda(modelJsonValue);
+        }
+        if (modelJson != null) {
+            return new JsonOutputLambda(modelJson);
+        }
+        return null;
+    }
+
+    public void setModelJson(String modelJson) {
+        this.modelJson = modelJson;
+        this.modelJsonValue = null;
+    }
+
+    public void setModelJsonValue(Object modelJsonValue) {
+        this.modelJsonValue = modelJsonValue;
+        this.modelJson = null;
+    }
+
+    public void setModelJson(CodegenModel model) {
+        this.modelJsonValue = model.modelJsonValue;
+        this.modelJson = model.modelJson;
     }
 
     @Override

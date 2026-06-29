@@ -1,5 +1,5 @@
 val exampleContentType = "{{{contentType}}}"
-val exampleContentString = """{{&example}}"""
+val exampleContentString = """{{#lambdaExample}}{{/lambdaExample}}"""
 
 when (exampleContentType) {
     "application/json" -> call.respondText(exampleContentType, ContentType.Application.Json)

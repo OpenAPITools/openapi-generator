@@ -342,10 +342,10 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             }
             if (operation.examples != null && !operation.examples.isEmpty()) {
                 // Leave application/json* items only
-                for (Iterator<Map<String, String>> it = operation.examples.iterator(); it.hasNext(); ) {
-                    final Map<String, String> example = it.next();
-                    final String contentType = example.get("contentType");
-                    if (contentType == null || !contentType.startsWith("application/json")) {
+                for (Iterator<Map<String, Object>> it = operation.examples.iterator(); it.hasNext(); ) {
+                    final Map<String, Object> example = it.next();
+                    final Object contentType = example.get("contentType");
+                    if (!(contentType instanceof String) || !((String) contentType).startsWith("application/json")) {
                         it.remove();
                     }
                 }

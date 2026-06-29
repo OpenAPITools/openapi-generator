@@ -1083,7 +1083,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     @Override
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+            setParameterJsonExampleValue(codegenParameter, codegenParameter.vendorExtensions.get("x-example"));
         }
 
         Content content = requestBody.getContent();

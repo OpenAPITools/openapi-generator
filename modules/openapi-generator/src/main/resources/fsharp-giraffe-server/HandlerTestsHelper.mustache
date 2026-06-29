@@ -31,7 +31,7 @@ module {{classname}}HandlerTestsHelper =
   {{/-first}}
   {{/consumes}}
   {{#requestBodyExamples}}
-  {{operationId}}Body <- WebUtility.HtmlDecode "{{example}}"
+  {{operationId}}Body <- WebUtility.HtmlDecode "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}"
   {{operationId}}Examples <- {{operationId}}Examples.Add("{{contentType}}", {{operationId}}Body)
 
   {{/requestBodyExamples}}

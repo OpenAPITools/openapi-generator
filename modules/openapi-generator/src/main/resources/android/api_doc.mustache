@@ -28,7 +28,7 @@ Method | HTTP request | Description
 
 {{{classname}}} apiInstance = new {{{classname}}}();
 {{#allParams}}
-{{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+{{{dataType}}} {{{paramName}}} = {{#lambdaExample}}{{/lambdaExample}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 try {
     {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}

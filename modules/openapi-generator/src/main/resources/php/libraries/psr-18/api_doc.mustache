@@ -34,11 +34,11 @@ $apiInstance = new {{invokerPackage}}\Api\{{classname}}(
     $config{{/hasAuthMethods}}
 );
 {{^exts.x-group-parameters}}
-{{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}}{{#description}} | {{{description}}}{{/description}}
+{{#allParams}}${{paramName}} = {{#lambdaExample}}{{/lambdaExample}}; // {{{dataType}}}{{#description}} | {{{description}}}{{/description}}
 {{/allParams}}
 {{/exts.x-group-parameters}}
 {{#exts.x-group-parameters}}
-{{#allParams}}$associate_array['{{paramName}}'] = {{{example}}}; // {{{dataType}}}{{#description}} | {{{description}}}{{/description}}
+{{#allParams}}$associate_array['{{paramName}}'] = {{#lambdaExample}}{{/lambdaExample}}; // {{{dataType}}}{{#description}} | {{{description}}}{{/description}}
 {{/allParams}}
 {{/exts.x-group-parameters}}
 

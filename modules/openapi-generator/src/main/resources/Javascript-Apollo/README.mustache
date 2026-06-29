@@ -143,13 +143,13 @@ var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 var api = new {{{moduleName}}}.{{{classname}}}()
 {{#hasParams}}
 {{#requiredParams}}
-var {{{paramName}}} = {{{example}}}; // {{=< >=}}{<&dataType>}<={{ }}=> {{{description}}}
+var {{{paramName}}} = {{#lambdaExample}}{{/lambdaExample}}; // {{=< >=}}{<&dataType>}<={{ }}=> {{{description}}}
 {{/requiredParams}}
 {{#optionalParams}}
 {{#-first}}
 var opts = {
 {{/-first}}
-  '{{{paramName}}}': {{{example}}}{{^-last}},{{/-last}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{description}}}
+  '{{{paramName}}}': {{#lambdaExample}}{{/lambdaExample}}{{^-last}},{{/-last}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{description}}}
 {{#-last}}
 };
 {{/-last}}

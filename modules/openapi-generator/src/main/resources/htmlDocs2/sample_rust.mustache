@@ -1,7 +1,7 @@
 extern crate {{classname}};
 
 pub fn main() {
-{{#allParams}}    let {{paramName}} = {{{example}}}; // {{{dataType}}}
+{{#allParams}}    let {{paramName}} = {{#lambdaExample}}{{/lambdaExample}}; // {{{dataType}}}
 {{/allParams}}
 
     let mut context = {{classname}}::Context::default();

@@ -39,7 +39,7 @@ public class {{classname}}Test {
     public void {{operationId}}Test() {
         // given
         {{#allParams}}
-        {{{dataType}}} {{paramName}} = {{{example}}};
+        {{{dataType}}} {{paramName}} = {{#lambdaExample}}{{/lambdaExample}};
         {{/allParams}}
 
         // when

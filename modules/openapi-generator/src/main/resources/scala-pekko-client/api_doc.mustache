@@ -53,7 +53,7 @@ object Example extends App {
 
     val apiInvoker = ApiInvoker()
     val apiInstance = {{{classname}}}("{{{basePath}}}"){{#allParams}}
-    val {{{paramName}}}: {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{{description}}}
+    val {{{paramName}}}: {{{dataType}}} = {{#lambdaExample}}{{/lambdaExample}} // {{{dataType}}} | {{{description}}}
     {{/allParams}}
     
     val request = apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})

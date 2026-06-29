@@ -39,7 +39,7 @@ Method | HTTP request | Description
 {{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
 
-{{#allParams}}{{{dataType}}} {{paramName}} = {{{example}}}; // {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{#allParams}}{{{dataType}}} {{paramName}} = {{#lambdaExample}}{{/lambdaExample}}; // {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
 
 {{classname}}*apiInstance = [[{{classname}} alloc] init];

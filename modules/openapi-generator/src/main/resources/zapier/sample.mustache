@@ -7,7 +7,7 @@ module.exports = {
 {{#is2xx}}
     {{#baseType}}
     "{{baseType}}Sample": 
-        {{#examples}}{{#-last}}{{{example}}}{{/-last}}{{/examples}}{{^examples}}{ data: {} }{{/examples}},
+        {{#examples}}{{#-last}}{{#lambdaExample}}{{/lambdaExample}}{{/-last}}{{/examples}}{{^examples}}{ data: {} }{{/examples}},
     {{/baseType}}
 {{/is2xx}}
 {{/responses}}

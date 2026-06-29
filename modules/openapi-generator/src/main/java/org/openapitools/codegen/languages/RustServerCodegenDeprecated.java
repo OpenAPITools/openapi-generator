@@ -1026,7 +1026,7 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
             // This is a model, so should only have an example if explicitly
             // defined.
             if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-                codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+                setParameterJsonExampleValue(codegenParameter, codegenParameter.vendorExtensions.get("x-example"));
             } else if (!codegenParameter.required) {
                 //mandatory parameter use the example in the yaml. if no example, it is also null.
                 codegenParameter.example = null;

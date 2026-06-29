@@ -1226,10 +1226,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 }
 
                 if (operation.examples != null) {
-                    for (Map<String, String> example : operation.examples) {
-                        for (Map.Entry<String, String> entry : example.entrySet()) {
+                    for (Map<String, Object> example : operation.examples) {
+                        for (Map.Entry<String, Object> entry : example.entrySet()) {
+                            if (!(entry.getValue() instanceof String)) {
+                                continue;
+                            }
                             // Replace " with \", \r, \n with \\r, \\n
-                            String val = entry.getValue().replace("\"", "\\\"")
+                            String val = ((String) entry.getValue()).replace("\"", "\\\"")
                                     .replace("\r", "\\r")
                                     .replace("\n", "\\n");
                             entry.setValue(val);

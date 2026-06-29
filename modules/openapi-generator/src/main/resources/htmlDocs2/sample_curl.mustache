@@ -3,4 +3,4 @@ curl -X {{vendorExtensions.x-codegen-http-method-upper-case}}{{#authMethods}} \
  -H "Accept: {{#produces}}{{{mediaType}}}{{^-last}},{{/-last}}{{/produces}}"{{/hasProduces}}{{#hasConsumes}} \
  -H "Content-Type: {{#consumes}}{{{mediaType}}}{{^-last}},{{/-last}}{{/consumes}}"{{/hasConsumes}} \
  "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{baseName}}={{{example}}}{{/queryParams}}{{/hasQueryParams}}"{{#requestBodyExamples}} \
- -d '{{example}}'{{/requestBodyExamples}}
+ -d '{{#lambdaExample}}{{/lambdaExample}}'{{/requestBodyExamples}}

@@ -546,10 +546,13 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                     }
 
                     if (operation.examples != null) {
-                        for (Map<String, String> example : operation.examples) {
-                            for (Map.Entry<String, String> entry : example.entrySet()) {
+                        for (Map<String, Object> example : operation.examples) {
+                            for (Map.Entry<String, Object> entry : example.entrySet()) {
+                                if (!(entry.getValue() instanceof String)) {
+                                    continue;
+                                }
                                 // Replace " with \", \r, \n with \\r, \\n
-                                String val = entry.getValue().replace("\"", "\\\"")
+                                String val = ((String) entry.getValue()).replace("\"", "\\\"")
                                         .replace("\r", "\\r")
                                         .replace("\n", "\\n");
                                 entry.setValue(val);
@@ -1006,7 +1009,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         // if not specified in x-example, generate a default value
         // TODO need to revise how to obtain the example value
         if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+            setParameterJsonExampleValue(codegenParameter, codegenParameter.vendorExtensions.get("x-example"));
         } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
             codegenParameter.example = "true";
         } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {

@@ -124,7 +124,7 @@ OAS.OAuth {{{name}}} = (OAS.OAuth) client.getAuthentication('{{{name}}}');
 
 Map<String, Object> params = new Map<String, Object>{
   {{#allParams}}
-    '{{{paramName}}}' => {{{example}}}{{^-last}},{{/-last}}
+    '{{{paramName}}}' => {{#lambdaExample}}{{/lambdaExample}}{{^-last}},{{/-last}}
   {{/allParams}}
 };
 {{/hasParams}}

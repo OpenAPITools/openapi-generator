@@ -565,8 +565,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             ApiResponse apiResponse = findMethodResponse(operation.getResponses());
             final Schema responseSchema = ModelUtils.getSchemaFromResponse(openAPI, apiResponse);
             String deserializedExample = toExampleValue(responseSchema);
-            for (Map<String, String> example : op.examples) {
-                example.put("example", escapeText(example.get("example")));
+            for (Map<String, Object> example : op.examples) {
+                Object rawExample = example.get("example");
+                if (rawExample instanceof String) {
+                    example.put("example", escapeText((String) rawExample));
+                }
                 example.put("deserializedExample", deserializedExample);
             }
         }

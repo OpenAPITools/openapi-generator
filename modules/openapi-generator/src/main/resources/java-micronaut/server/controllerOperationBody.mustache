@@ -12,7 +12,7 @@
         {{!The body is generated to verify that example values are passed correctly}}
         {{#allParams}}
             {{^isFile}}
-        {{{dataType}}} {{paramName}}Expected = {{{example}}};
+        {{{dataType}}} {{paramName}}Expected = {{#lambdaExample}}{{/lambdaExample}};
         assert {{paramName}}.equals({{paramName}}Expected) : "The parameter {{paramName}} was expected to match its example value";
             {{/isFile}}
         {{/allParams}}

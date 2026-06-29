@@ -60,7 +60,7 @@ $apiInstance = new {{invokerPackage}}\Api\{{classname}}(
     new GuzzleHttp\Client(){{#hasAuthMethods}},
     $config{{/hasAuthMethods}}
 );
-{{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}}{{#description}} | {{{.}}}{{/description}}
+{{#allParams}}${{paramName}} = {{#lambdaExample}}{{/lambdaExample}}; // {{{dataType}}}{{#description}} | {{{.}}}{{/description}}
 {{/allParams}}
 
 try {

@@ -48,7 +48,7 @@ $apiInstance = new {{invokerPackage}}\Api\{{classname}}(
     $config{{/hasAuthMethods}}
 );
 {{^exts.x-group-parameters}}
-{{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}}{{#description}} | {{{.}}}{{/description}}
+{{#allParams}}${{paramName}} = {{#lambdaExample}}{{/lambdaExample}}; // {{{dataType}}}{{#description}} | {{{.}}}{{/description}}
 {{/allParams}}{{#servers}}{{#-first}}
 $hostIndex = 0;
 $variables = [{{#variables}}
@@ -56,7 +56,7 @@ $variables = [{{#variables}}
 ];
 {{/-first}}{{/servers}}{{/exts.x-group-parameters}}{{#exts.x-group-parameters}}
 $associative_array = [
-{{#allParams}}    '{{paramName}}' => {{{example}}}, // {{{dataType}}}{{#description}} | {{{.}}}{{/description}}
+{{#allParams}}    '{{paramName}}' => {{#lambdaExample}}{{/lambdaExample}}, // {{{dataType}}}{{#description}} | {{{.}}}{{/description}}
 {{/allParams}}
 {{#servers}}{{#-first}}
     'hostIndex' => 0,
