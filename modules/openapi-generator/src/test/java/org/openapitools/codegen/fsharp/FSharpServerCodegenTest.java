@@ -16,10 +16,14 @@
 
 package org.openapitools.codegen.fsharp;
 
+import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.languages.AbstractFSharpCodegen;
 import org.openapitools.codegen.languages.FsharpGiraffeServerCodegen;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.templating.mustache.EscapeDoubleQuoteLambda;
+import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
+import org.openapitools.codegen.templating.mustache.RemoveLineBreakLambda;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -83,6 +87,20 @@ public class FSharpServerCodegenTest {
         codegen.setModelPackage("Model");
         String modified = codegen.toModelImport("Foo");
         Assert.assertEquals(modified, "MyNamespace.Model.Foo");
+    }
+
+    @Test
+    public void giraffeHandlerTestExamplesDoNotHtmlDecodeStreamedOutput() {
+        Map<String, Object> context = new HashMap<>();
+        context.put("lambdaRemoveLineBreak", new RemoveLineBreakLambda());
+        context.put("lambdaEscapeDoubleQuote", new EscapeDoubleQuoteLambda());
+        context.put("lambdaExample", new JsonOutputLambda("<value attr=\"quoted\">Tom &amp; Jerry</value>"));
+        context.put("operationId", "");
+
+        String template = "{{operationId}}Body <- \"{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}\"";
+        String rendered = Mustache.compiler().compile(template).execute(context);
+
+        Assert.assertEquals(rendered, "Body <- \"<value attr=\\\"quoted\\\">Tom &amp; Jerry</value>\"");
     }
 
     private static class P_AbstractFSharpCodegen extends AbstractFSharpCodegen {
