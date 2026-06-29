@@ -239,12 +239,16 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      */
     public File writeTemplateToFile(String filename, Map<String, Object> data, String template) throws IOException {
         File outputFile = Paths.get(filename).toFile();
+        if (this.options.isSkipOverwrite() && outputFile.exists()) {
+            LOGGER.info("skip overwrite of file {}", filename);
+            return outputFile;
+        }
 
         if (this.options.isMinimalUpdate()) {
             String tempFilename = filename + ".tmp";
-            File tempFile = null;
+            File tempFile = Paths.get(tempFilename).toFile();
             try {
-                tempFile = writeTemplateToFileRaw(tempFilename, data, template);
+                writeTemplateToFileRaw(tempFilename, data, template);
                 if (!filesEqual(tempFile, outputFile)) {
                     LOGGER.info("writing file {}", filename);
                     Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -263,7 +267,21 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
             }
         } else {
             LOGGER.info("writing file {}", filename);
-            outputFile = writeTemplateToFileRaw(filename, data, template);
+            String tempFilename = filename + ".tmp";
+            File tempFile = Paths.get(tempFilename).toFile();
+            try {
+                writeTemplateToFileRaw(tempFilename, data, template);
+                Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                tempFile = null;
+            } finally {
+                if (tempFile != null && tempFile.exists()) {
+                    try {
+                        Files.delete(tempFile.toPath());
+                    } catch (Exception ex) {
+                        LOGGER.error("Error removing temporary file {}", tempFile, ex);
+                    }
+                }
+            }
         }
 
         return outputFile;
@@ -330,10 +348,6 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
 
     private File writeTemplateToFileRaw(String filename, Map<String, Object> data, String template) throws IOException {
         File output = Paths.get(filename).toFile();
-        if (this.options.isSkipOverwrite() && output.exists()) {
-            LOGGER.info("skip overwrite of file {}", filename);
-            return output;
-        }
 
         if (output.getParent() != null && !new File(output.getParent()).exists()) {
             File parent = Paths.get(output.getParent()).toFile();

@@ -64,6 +64,29 @@ public class TemplateManagerTest {
         }
     }
 
+    static class FailingWriterTemplateEngineAdapter implements TemplatingEngineAdapter {
+        @Override
+        public String getIdentifier() {
+            return "failing-writer";
+        }
+
+        @Override
+        public String[] getFileExtensions() {
+            return new String[]{"failwriter"};
+        }
+
+        @Override
+        public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) {
+            throw new AssertionError("compileTemplate should not be called by TemplateManager.write");
+        }
+
+        @Override
+        public void writeTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile, Writer writer) throws IOException {
+            writer.write("partial contents");
+            throw new IOException("render failed");
+        }
+    }
+
     @Test
     public void loadTemplateContents() {
         TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
@@ -148,6 +171,47 @@ public class TemplateManagerTest {
             File written = manager.write(data, "simple.writer", output);
 
             assertEquals(Files.readAllLines(written.toPath()).get(0), "streamed contents");
+        } finally {
+            target.toFile().delete();
+        }
+    }
+
+    @Test
+    public void writePreservesExistingFileWhenStreamingTemplateFails() throws IOException {
+        TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
+        TemplateManager manager = new TemplateManager(opts, new FailingWriterTemplateEngineAdapter(), new TemplatePathLocator[]{locator});
+        Map<String, Object> data = new HashMap<>();
+
+        Path target = Files.createTempDirectory("test-templatemanager");
+        try {
+            File output = new File(target.toFile(), "simple.txt");
+            Files.write(output.toPath(), "original data".getBytes(StandardCharsets.UTF_8));
+
+            IOException thrown = expectThrows(IOException.class, () -> manager.write(data, "simple.failwriter", output));
+
+            assertEquals(thrown.getMessage(), "render failed");
+            assertEquals(Files.readAllLines(output.toPath()).get(0), "original data");
+            assertFalse(new File(target.toFile(), "simple.txt.tmp").exists());
+        } finally {
+            target.toFile().delete();
+        }
+    }
+
+    @Test
+    public void writeDoesNotLeaveOutputFileWhenStreamingTemplateFails() throws IOException {
+        TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
+        TemplateManager manager = new TemplateManager(opts, new FailingWriterTemplateEngineAdapter(), new TemplatePathLocator[]{locator});
+        Map<String, Object> data = new HashMap<>();
+
+        Path target = Files.createTempDirectory("test-templatemanager");
+        try {
+            File output = new File(target.toFile(), "simple.txt");
+
+            IOException thrown = expectThrows(IOException.class, () -> manager.write(data, "simple.failwriter", output));
+
+            assertEquals(thrown.getMessage(), "render failed");
+            assertFalse(output.exists());
+            assertFalse(new File(target.toFile(), "simple.txt.tmp").exists());
         } finally {
             target.toFile().delete();
         }
