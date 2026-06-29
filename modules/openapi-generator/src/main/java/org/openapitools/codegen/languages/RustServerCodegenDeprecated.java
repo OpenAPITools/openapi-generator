@@ -1029,7 +1029,7 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
                 setParameterJsonExampleValue(codegenParameter, codegenParameter.vendorExtensions.get("x-example"));
             } else if (!codegenParameter.required) {
                 //mandatory parameter use the example in the yaml. if no example, it is also null.
-                codegenParameter.example = null;
+                codegenParameter.setExample((String) null);
             }
         }
 

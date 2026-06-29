@@ -1163,7 +1163,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
             example = "new org.springframework.core.io.FileSystemResource(new java.io.File(\"" + escapeText(example)
                     + "\"))";
-            p.example = example;
+            p.setExample(example);
         } else {
             super.setParameterExampleValue(p);
         }

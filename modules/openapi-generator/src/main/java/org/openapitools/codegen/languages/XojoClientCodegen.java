@@ -675,19 +675,19 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setParameterExampleValue(CodegenParameter codegenParameter) {
         super.setParameterExampleValue(codegenParameter);
         if (Boolean.TRUE.equals(codegenParameter.isBinary)) {
-            codegenParameter.example = "GetTemporaryFolderItem";
+            codegenParameter.setExample("GetTemporaryFolderItem");
         } else if (Boolean.TRUE.equals(codegenParameter.isByteArray)) {
-            codegenParameter.example = "New MemoryBlock(8)";
+            codegenParameter.setExample("New MemoryBlock(8)");
         } else if (Boolean.TRUE.equals(codegenParameter.isFile)) {
-            codegenParameter.example = "GetTemporaryFolderItem";
+            codegenParameter.setExample("GetTemporaryFolderItem");
         } else if (Boolean.TRUE.equals(codegenParameter.isDate)) {
-            codegenParameter.example = "New Date";
+            codegenParameter.setExample("New Date");
         } else if (Boolean.TRUE.equals(codegenParameter.isDateTime)) {
-            codegenParameter.example = "New Date";
+            codegenParameter.setExample("New Date");
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
-            codegenParameter.example = codegenParameter.paramName + "_example";
+            codegenParameter.setExample(codegenParameter.paramName + "_example");
         } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
-            codegenParameter.example = "New Dictionary";
+            codegenParameter.setExample("New Dictionary");
         }
     }
 

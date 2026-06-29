@@ -476,7 +476,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            p.example = p.defaultValue;
+            p.setExample(p.defaultValue);
             return;
         }
 
@@ -501,9 +501,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (Boolean.TRUE.equals(p.isBoolean)) {
             if (Boolean.parseBoolean(p.example)) {
-                p.example = "1";
+                p.setExample("1");
             } else {
-                p.example = "0";
+                p.setExample("0");
             }
         } else if (Boolean.TRUE.equals(p.isFile) || Boolean.TRUE.equals(p.isBinary)) {
             if (example == null) {
@@ -547,7 +547,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             example = "null";
         }
 
-        p.example = example;
+        p.setExample(example);
     }
 
     protected String setPropertyExampleValue(CodegenProperty p) {

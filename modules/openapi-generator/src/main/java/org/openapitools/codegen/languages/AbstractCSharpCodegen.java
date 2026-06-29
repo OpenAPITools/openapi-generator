@@ -2017,7 +2017,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             }
         }
 
-        p.example = example;
+        p.setExample(example);
     }
 
     @Override

@@ -1071,7 +1071,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         }
         example = exampleFromStringOrArraySchema(schema, example, parameter.getName());
         String finalExample = toExampleValue(schema, example);
-        codegenParameter.example = finalExample;
+        codegenParameter.setExample(finalExample);
     }
 
     /**
@@ -1109,7 +1109,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             example = getObjectExample(schema);
         }
         example = exampleFromStringOrArraySchema(schema, example, codegenParameter.paramName);
-        codegenParameter.example = toExampleValue(schema, example);
+        codegenParameter.setExample(toExampleValue(schema, example));
     }
 
     /**

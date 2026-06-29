@@ -197,7 +197,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
 
         if (p.isFile) {
             // The CompletedFileUpload cannot be initialized
-            p.example = "null";
+            p.setExample("null");
         }
     }
 

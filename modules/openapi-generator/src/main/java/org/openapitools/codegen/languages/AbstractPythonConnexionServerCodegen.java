@@ -711,9 +711,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                             Map<String, Object> result = MAPPER.readValue((String) rawExample,
                                     new TypeReference<Map<String, Object>>() {
                                     });
-                            operation.bodyParam.example = MAPPER.writeValueAsString(result);
+                            operation.bodyParam.setExample(MAPPER.writeValueAsString(result));
                         } catch (IOException e) {
-                            operation.bodyParam.example = (String) rawExample;
+                            operation.bodyParam.setExample((String) rawExample);
                         }
                     }
                 }

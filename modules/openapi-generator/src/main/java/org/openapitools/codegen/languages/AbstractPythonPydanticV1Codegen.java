@@ -541,7 +541,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            p.example = p.defaultValue;
+            p.setExample(p.defaultValue);
             return;
         }
 
@@ -597,7 +597,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             example = "{'key': " + example + "}";
         }
 
-        p.example = example;
+        p.setExample(example);
     }
 
     @Override
@@ -605,14 +605,14 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         Schema schema = parameter.getSchema();
 
         if (parameter.getExample() != null) {
-            codegenParameter.example = parameter.getExample().toString();
+            codegenParameter.setExample(parameter.getExample().toString());
         } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
             Example example = parameter.getExamples().values().iterator().next();
             if (example.getValue() != null) {
-                codegenParameter.example = example.getValue().toString();
+                codegenParameter.setExample(example.getValue().toString());
             }
         } else if (schema != null && schema.getExample() != null) {
-            codegenParameter.example = schema.getExample().toString();
+            codegenParameter.setExample(schema.getExample().toString());
         }
 
         setParameterExampleValue(codegenParameter);

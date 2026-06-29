@@ -694,7 +694,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            p.example = p.defaultValue;
+            p.setExample(p.defaultValue);
             return;
         }
 
@@ -757,7 +757,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             example = "@{@\"key\" : " + example + "}";
         }
 
-        p.example = example;
+        p.setExample(example);
     }
 
     @Override

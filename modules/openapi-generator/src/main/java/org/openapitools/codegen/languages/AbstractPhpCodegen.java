@@ -749,7 +749,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             example = "array('key' => " + example + ")";
         }
 
-        p.example = example;
+        p.setExample(example);
     }
 
     @Override

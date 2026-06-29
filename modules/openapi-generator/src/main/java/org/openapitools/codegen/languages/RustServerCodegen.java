@@ -1077,7 +1077,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 setParameterJsonExampleValue(codegenParameter, codegenParameter.vendorExtensions.get("x-example"));
             } else if (!codegenParameter.required) {
                 //mandatory parameter use the example in the yaml. if no example, it is also null.
-                codegenParameter.example = null;
+                codegenParameter.setExample((String) null);
             }
         }
 
@@ -1099,7 +1099,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             // Null out the auto-generated example so processParam can detect
             // required params with no user-provided example and disable the
             // client example stub accordingly.
-            codegenParameter.example = null;
+            codegenParameter.setExample((String) null);
         }
     }
 

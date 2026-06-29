@@ -692,7 +692,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             example = "null";
         }
 
-        p.example = example;
+        p.setExample(example);
     }
 
     @Override
@@ -700,14 +700,14 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         Schema schema = parameter.getSchema();
 
         if (parameter.getExample() != null) {
-            codegenParameter.example = parameter.getExample().toString();
+            codegenParameter.setExample(parameter.getExample().toString());
         } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
             Example example = parameter.getExamples().values().iterator().next();
             if (example.getValue() != null) {
-                codegenParameter.example = example.getValue().toString();
+                codegenParameter.setExample(example.getValue().toString());
             }
         } else if (schema != null && schema.getExample() != null) {
-            codegenParameter.example = schema.getExample().toString();
+            codegenParameter.setExample(schema.getExample().toString());
         }
 
         setParameterExampleValue(codegenParameter);
