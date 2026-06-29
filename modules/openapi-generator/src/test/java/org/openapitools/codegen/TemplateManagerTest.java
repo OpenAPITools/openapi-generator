@@ -179,6 +179,28 @@ public class TemplateManagerTest {
     }
 
     @Test
+    public void writeTemplatePreservesSiblingTmpFile() throws IOException {
+        TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
+        TemplateManager manager = new TemplateManager(opts, new WriterOnlyTemplateEngineAdapter(), new TemplatePathLocator[]{locator});
+        Map<String, Object> data = new HashMap<>();
+        data.put("contents", "streamed contents");
+
+        Path target = Files.createTempDirectory("test-templatemanager");
+        try {
+            File output = new File(target.toFile(), "simple.txt");
+            File siblingTmp = new File(target.toFile(), "simple.txt.tmp");
+            Files.write(siblingTmp.toPath(), "sidecar data".getBytes(StandardCharsets.UTF_8));
+
+            File written = manager.write(data, "simple.writer", output);
+
+            assertEquals(Files.readAllLines(written.toPath()).get(0), "streamed contents");
+            assertEquals(Files.readAllLines(siblingTmp.toPath()).get(0), "sidecar data");
+        } finally {
+            target.toFile().delete();
+        }
+    }
+
+    @Test
     public void writePreservesExistingFileWhenStreamingTemplateFails() throws IOException {
         TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
         TemplateManager manager = new TemplateManager(opts, new FailingWriterTemplateEngineAdapter(), new TemplatePathLocator[]{locator});

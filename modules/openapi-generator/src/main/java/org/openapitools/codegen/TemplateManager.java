@@ -245,10 +245,9 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         }
 
         if (this.options.isMinimalUpdate()) {
-            String tempFilename = filename + ".tmp";
-            File tempFile = Paths.get(tempFilename).toFile();
+            File tempFile = createTempFile(outputFile);
             try {
-                writeTemplateToFileRaw(tempFilename, data, template);
+                writeTemplateToFileRaw(tempFile.getPath(), data, template);
                 if (!filesEqual(tempFile, outputFile)) {
                     LOGGER.info("writing file {}", filename);
                     Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -267,10 +266,9 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
             }
         } else {
             LOGGER.info("writing file {}", filename);
-            String tempFilename = filename + ".tmp";
-            File tempFile = Paths.get(tempFilename).toFile();
+            File tempFile = createTempFile(outputFile);
             try {
-                writeTemplateToFileRaw(tempFilename, data, template);
+                writeTemplateToFileRaw(tempFile.getPath(), data, template);
                 Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 tempFile = null;
             } finally {
@@ -285,6 +283,15 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         }
 
         return outputFile;
+    }
+
+    private File createTempFile(File outputFile) throws IOException {
+        Path outputPath = outputFile.toPath().toAbsolutePath();
+        Path outputDirectory = outputPath.getParent();
+        Files.createDirectories(outputDirectory);
+        String fileName = outputPath.getFileName().toString();
+        String prefix = fileName.length() < 3 ? fileName + "..." : fileName + ".";
+        return Files.createTempFile(outputDirectory, prefix, ".tmp").toFile();
     }
 
     /**
