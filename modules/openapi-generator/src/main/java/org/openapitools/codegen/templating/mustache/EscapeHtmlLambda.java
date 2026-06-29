@@ -25,7 +25,11 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 
 /**
- * Escapes HTML-sensitive characters in a fragment.
+ * Escapes HTML-sensitive characters in a fragment for HTML text content.
+ * <p>
+ * This lambda is intended for element body text such as {@code <pre><code>...</code></pre>}.
+ * Do not use it for HTML attribute values; attribute contexts need escaping rules which match
+ * the attribute quoting style.
  * <p>
  * Register:
  * <pre>
