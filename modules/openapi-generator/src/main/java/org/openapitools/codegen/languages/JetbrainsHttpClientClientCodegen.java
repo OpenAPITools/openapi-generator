@@ -199,14 +199,15 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
                     items.add(new RequestItem(codegenOperation.summary, formatJson(codegenOperation.bodyParam.example)));
                 } else if (codegenOperation.bodyParam.getContent().get("application/json") != null &&
                         codegenOperation.bodyParam.getContent().get("application/json").getExamples() != null) {
-                    // find in components/examples
+                    // find in components/examples or inline request body examples
                     for (Map.Entry<String, Example> entry : codegenOperation.bodyParam.getContent().get("application/json").getExamples().entrySet()) {
-                        String exampleRef = entry.getValue().get$ref();
+                        Example example = entry.getValue();
+                        String exampleRef = example.get$ref();
                         if (exampleRef != null) {
-                            Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
-                            String exampleAsString = getJsonFromExample(example);
-                            items.add(new RequestItem(example.getSummary(), exampleAsString));
+                            example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
                         }
+                        String exampleAsString = getJsonFromExample(example);
+                        items.add(new RequestItem(Optional.ofNullable(example.getSummary()).orElse(codegenOperation.summary), exampleAsString));
                     }
                 } else if (codegenOperation.bodyParam.getSchema() != null) {
                     // find in schema example

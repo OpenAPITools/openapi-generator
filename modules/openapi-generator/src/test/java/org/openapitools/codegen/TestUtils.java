@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.*;
 
 public class TestUtils {
@@ -171,9 +172,12 @@ public class TestUtils {
         try {
             String generatedFile = Files.readString(path);
             String file = linearize(generatedFile);
-            assertNotNull(file);
-            for (String line : lines)
-                assertTrue(file.contains(linearize(line)), "File '" + path + "' does not contain line [" + line + "]");
+            assertThat(file).isNotNull();
+            for (String line : lines) {
+                assertThat(file)
+                        .describedAs("File '%s' should contain line", path)
+                        .contains(linearize(line));
+            }
         } catch (IOException e) {
             fail("Unable to evaluate file " + path);
         }

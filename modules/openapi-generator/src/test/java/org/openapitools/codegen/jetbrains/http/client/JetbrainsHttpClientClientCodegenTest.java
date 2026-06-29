@@ -154,6 +154,81 @@ public class JetbrainsHttpClientClientCodegenTest {
     }
 
     @Test
+    public void testInlineRequestBodyExamplesAreRendered() throws IOException {
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
+        Path spec = Files.createTempFile("jetbrains-inline-example_", ".yaml");
+        spec.toFile().deleteOnExit();
+
+        Files.writeString(spec, String.join("\n",
+                "openapi: 3.0.3",
+                "info:",
+                "  title: Inline request body example",
+                "  version: '1.0'",
+                "servers:",
+                "  - url: http://localhost:5000/v1",
+                "paths:",
+                "  /users/{userId}:",
+                "    parameters:",
+                "      - name: userId",
+                "        in: path",
+                "        required: true",
+                "        schema:",
+                "          type: string",
+                "    patch:",
+                "      summary: Update User Information",
+                "      operationId: patch-users-userId",
+                "      parameters:",
+                "        - name: page",
+                "          in: query",
+                "          schema:",
+                "            type: string",
+                "      requestBody:",
+                "        content:",
+                "          application/json:",
+                "            schema:",
+                "              type: object",
+                "              properties:",
+                "                firstName:",
+                "                  type: string",
+                "            examples:",
+                "              Update First Name:",
+                "                value:",
+                "                  firstName: Rebecca",
+                "      responses:",
+                "        '200':",
+                "          description: Updated",
+                "          content:",
+                "            application/json:",
+                "              schema:",
+                "                type: object",
+                ""));
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec(spec.toString())
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis/DefaultApi.http");
+        assertFileExists(path);
+        TestUtils.assertFileContains(path, "### Update User Information\n" +
+                "## Update User Information\n" +
+                "PATCH http://localhost:5000/v1/users/{{userId}}?page={{page}}\n" +
+                "Content-Type: application/json\n" +
+                "Accept: application/json\n" +
+                "\n" +
+                "{\n" +
+                " \"firstName\" : \"Rebecca\"\n" +
+                "}");
+    }
+
+    @Test
     public void testBasicGenerationWithCustomHeaders() throws IOException {
 
         File output = Files.createTempDirectory("jetbrainstest_").toFile();
