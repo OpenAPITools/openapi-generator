@@ -95,11 +95,15 @@ public class UniqueLambda implements Mustache.Lambda {
         }
 
         private void writeCompleteValues() throws IOException {
-            int delimiterIndex = buffer.indexOf(delimiter);
+            int valueStart = 0;
+            int delimiterIndex = buffer.indexOf(delimiter, valueStart);
             while (delimiterIndex >= 0) {
-                writeUniqueValue(buffer.substring(0, delimiterIndex));
-                buffer.delete(0, delimiterIndex + delimiter.length());
-                delimiterIndex = buffer.indexOf(delimiter);
+                writeUniqueValue(buffer.substring(valueStart, delimiterIndex));
+                valueStart = delimiterIndex + delimiter.length();
+                delimiterIndex = buffer.indexOf(delimiter, valueStart);
+            }
+            if (valueStart > 0) {
+                buffer.delete(0, valueStart);
             }
         }
 
