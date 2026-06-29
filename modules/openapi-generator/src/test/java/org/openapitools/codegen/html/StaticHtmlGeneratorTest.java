@@ -30,6 +30,10 @@ import org.openapitools.codegen.languages.StaticHtmlGenerator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class StaticHtmlGeneratorTest {
 
     @Test
@@ -69,5 +73,13 @@ public class StaticHtmlGeneratorTest {
 
         Assert.assertEquals(property.baseName, "favorite_food");
         Assert.assertEquals(property.name, "favorite_food");
+    }
+
+    @Test
+    public void responseExamplesAreHtmlEscaped() throws Exception {
+        String template = new String(Files.readAllBytes(Paths.get("src/main/resources/htmlDocs/index.mustache")), StandardCharsets.UTF_8);
+
+        Assert.assertTrue(template.contains("<pre class=\"example\"><code>{{#lambdaEscapeHtml}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeHtml}}</code></pre>"));
+        Assert.assertFalse(template.contains("<pre class=\"example\"><code>{{#lambdaExample}}{{/lambdaExample}}</code></pre>"));
     }
 }

@@ -138,7 +138,7 @@
     {{#examples}}
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: {{{contentType}}}</div>
-    <pre class="example"><code>{{#lambdaExample}}{{/lambdaExample}}</code></pre>
+    <pre class="example"><code>{{#lambdaEscapeHtml}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeHtml}}</code></pre>
     {{/examples}}
     {{/responses}}
   </div> <!-- method -->
