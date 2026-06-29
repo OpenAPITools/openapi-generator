@@ -1,3 +1,4 @@
+{{^discriminator.isEnum}}
 extension {{classname}}DiscriminatorExt on {{classname}} {
     String? get discriminatorValue {
         {{#mappedModels}}
@@ -18,3 +19,26 @@ extension {{classname}}BuilderDiscriminatorExt on {{classname}}Builder {
         return null;
     }
 }
+{{/discriminator.isEnum}}
+{{#discriminator.isEnum}}
+extension {{classname}}DiscriminatorExt on {{classname}} {
+    {{discriminator.propertyType}} get discriminatorValue {
+        {{#mappedModels}}
+        if (this is {{modelName}}) {
+            return {{discriminator.propertyType}}.valueOf(r'{{mappingName}}');
+        }
+        {{/mappedModels}}
+        throw UnsupportedError('Invalid discriminator value for {{classname}}');
+    }
+}
+extension {{classname}}BuilderDiscriminatorExt on {{classname}}Builder {
+    {{discriminator.propertyType}} get discriminatorValue {
+        {{#mappedModels}}
+        if (this is {{modelName}}Builder) {
+            return {{discriminator.propertyType}}.valueOf(r'{{mappingName}}');
+        }
+        {{/mappedModels}}
+        throw UnsupportedError('Invalid discriminator value for {{classname}}Builder');
+    }
+}
+{{/discriminator.isEnum}}

@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: Dart Dio Enum Discriminator
+  version: 1.0.0
+paths:
+  /merchant:
+    get:
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantDetailsDto'
+components:
+  schemas:
+    MerchantDetailsDto:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        merchantType:
+          $ref: '#/components/schemas/MerchantTypeEnum'
+      required:
+        - uuid
+        - merchantType
+      discriminator:
+        propertyName: merchantType
+        mapping:
+          TYPE_A: '#/components/schemas/MerchantDetailsTypeADto'
+          TYPE_B: '#/components/schemas/MerchantDetailsTypeBDto'
+    MerchantDetailsTypeADto:
+      allOf:
+        - $ref: '#/components/schemas/MerchantDetailsDto'
+        - type: object
+          properties:
+            aField:
+              type: string
+    MerchantDetailsTypeBDto:
+      allOf:
+        - $ref: '#/components/schemas/MerchantDetailsDto'
+        - type: object
+          properties:
+            bField:
+              type: string
+    MerchantTypeEnum:
+      type: string
+      enum:
+        - TYPE_A
+        - TYPE_B
