@@ -16,9 +16,12 @@
 
 package org.openapitools.codegen.csharpnetcorefunctions;
 
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.languages.CSharpFunctionsServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.StringWriter;
 
 public class CSharpFunctionsServerCodegenTest {
 
@@ -71,5 +74,36 @@ public class CSharpFunctionsServerCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get("operationModifier"), "virtual");
         Assert.assertEquals(codegen.additionalProperties().get("generateBody"), Boolean.TRUE);
+    }
+
+    @Test
+    public void primitiveParametersExposeLambdaExampleForDocs() throws Exception {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+
+        CodegenParameter stringParam = new CodegenParameter();
+        stringParam.paramName = "name";
+        stringParam.dataType = "string";
+        stringParam.baseType = "string";
+        stringParam.isPrimitiveType = true;
+        stringParam.isString = true;
+
+        codegen.setParameterExampleValue(stringParam);
+
+        StringWriter stringExample = new StringWriter();
+        stringParam.getLambdaExample().execute(null, stringExample);
+        Assert.assertEquals(stringExample.toString(), "\"name_example\"");
+
+        CodegenParameter integerParam = new CodegenParameter();
+        integerParam.paramName = "count";
+        integerParam.dataType = "int";
+        integerParam.baseType = "int";
+        integerParam.isPrimitiveType = true;
+        integerParam.isInteger = true;
+
+        codegen.setParameterExampleValue(integerParam);
+
+        StringWriter integerExample = new StringWriter();
+        integerParam.getLambdaExample().execute(null, integerExample);
+        Assert.assertEquals(integerExample.toString(), "56");
     }
 }
