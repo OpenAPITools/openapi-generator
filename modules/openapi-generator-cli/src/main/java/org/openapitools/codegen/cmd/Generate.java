@@ -381,7 +381,7 @@ public class Generate extends OpenApiGeneratorCommand {
 
         // now override with any specified parameters
         if (skipValidateSpec != null) {
-            configurator.setValidateSpec(false);
+            configurator.setValidateSpec(!skipValidateSpec);
         }
 
         if (verbose != null) {

@@ -457,4 +457,32 @@ public class GenerateTest {
     public void testNPEWithInvalidSpecFile() {
         setupAndRunTest("-i", "src/test/resources/npe-test.yaml", "-g", "java", "-o", "src/main/java", false, null);
     }
+
+    @Test
+    public void testSkipValidateSpecTrue() {
+        setupAndRunGenericTest("--skip-validate-spec");
+        verify(configurator).setValidateSpec(false);
+    }
+
+    @Test
+    public void testSkipValidateSpecFalse() throws NoSuchFieldException, IllegalAccessException {
+        Cli.CliBuilder<Runnable> builder =
+                Cli.<Runnable>builder("openapi-generator-cli")
+                        .withCommands(Generate.class);
+        Generate generate = (Generate) builder.build().parse(
+                new String[]{"generate", "-g", "java", "-o", "src/main/java", "-i", "src/test/resources/swagger.yaml"});
+        java.lang.reflect.Field field = Generate.class.getDeclaredField("skipValidateSpec");
+        field.setAccessible(true);
+        field.set(generate, false);
+        generate.configurator = configurator;
+        generate.generator = generator;
+        try {
+            generate.run();
+        } finally {
+            verify(configurator).setInputSpec("src/test/resources/swagger.yaml");
+            verify(configurator).setGeneratorName("java");
+            verify(configurator).setOutputDir("src/main/java");
+        }
+        verify(configurator).setValidateSpec(true);
+    }
 }
