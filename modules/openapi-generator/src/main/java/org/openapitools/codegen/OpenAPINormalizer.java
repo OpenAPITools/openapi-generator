@@ -980,6 +980,18 @@ public class OpenAPINormalizer {
 
             return schema;
         } else if (ModelUtils.hasProperties(schema)) {
+            // OAS 3.1: if the type array includes "null", extract it and set nullable:true
+            // on the parent schema before normalizing its child properties.
+            // We intentionally do NOT call the full processNormalize31Spec here because
+            // that method can replace a JsonSchema with properties (but no explicit type)
+            // with an empty schema, discarding all properties.
+            if (getRule(NORMALIZE_31SPEC) && schema.getTypes() != null && schema.getTypes().contains("null")) {
+                schema.setNullable(true);
+                schema.getTypes().remove("null");
+                if (schema.getTypes().size() == 1) {
+                    schema.setType(String.valueOf(schema.getTypes().iterator().next()));
+                }
+            }
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);

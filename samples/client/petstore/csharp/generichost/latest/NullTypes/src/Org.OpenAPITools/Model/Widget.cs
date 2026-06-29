@@ -138,8 +138,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Widget" />
     /// </summary>
-    public class WidgetJsonConverter : JsonConverter<Widget>
+    public partial class WidgetJsonConverter : JsonConverter<Widget>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WidgetJsonConverter" /> class.
+        /// </summary>
+        public WidgetJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Widget" />
         /// </summary>

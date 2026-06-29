@@ -106,8 +106,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Quadrilateral" />
     /// </summary>
-    public class QuadrilateralJsonConverter : JsonConverter<Quadrilateral>
+    public partial class QuadrilateralJsonConverter : JsonConverter<Quadrilateral>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuadrilateralJsonConverter" /> class.
+        /// </summary>
+        public QuadrilateralJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Quadrilateral" />
         /// </summary>

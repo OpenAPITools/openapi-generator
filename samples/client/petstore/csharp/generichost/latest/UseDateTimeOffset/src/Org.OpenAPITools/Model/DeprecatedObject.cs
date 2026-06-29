@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="DeprecatedObject" />
     /// </summary>
-    public class DeprecatedObjectJsonConverter : JsonConverter<DeprecatedObject>
+    public partial class DeprecatedObjectJsonConverter : JsonConverter<DeprecatedObject>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeprecatedObjectJsonConverter" /> class.
+        /// </summary>
+        public DeprecatedObjectJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="DeprecatedObject" />
         /// </summary>

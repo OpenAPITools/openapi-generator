@@ -689,9 +689,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{#hasBodyOrFormParams}}
         $formParams = [];
         {{/hasBodyOrFormParams}}
-        {{#hasQueryParams}}
         $queryParams = [];
-        {{/hasQueryParams}}
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

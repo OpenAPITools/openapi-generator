@@ -273,8 +273,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="User" />
     /// </summary>
-    public class UserJsonConverter : JsonConverter<User>
+    public partial class UserJsonConverter : JsonConverter<User>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserJsonConverter" /> class.
+        /// </summary>
+        public UserJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="User" />
         /// </summary>

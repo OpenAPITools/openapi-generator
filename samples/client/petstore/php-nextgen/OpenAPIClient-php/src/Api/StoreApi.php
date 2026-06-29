@@ -291,6 +291,7 @@ class StoreApi
         }
 
         $resourcePath = '/store/order/{order_id}';
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -525,6 +526,7 @@ class StoreApi
     {
 
         $resourcePath = '/store/inventory';
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -779,6 +781,7 @@ class StoreApi
         }
 
         $resourcePath = '/store/order/{order_id}';
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1030,6 +1033,7 @@ class StoreApi
 
         $resourcePath = '/store/order';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

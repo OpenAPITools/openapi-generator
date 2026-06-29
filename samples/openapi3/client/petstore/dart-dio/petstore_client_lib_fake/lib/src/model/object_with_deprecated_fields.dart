@@ -111,29 +111,33 @@ class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<Obje
         case r'uuid':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.uuid = valueDes;
           break;
         case r'id':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(num),
-          ) as num;
+            specifiedType: const FullType.nullable(num),
+          ) as num?;
+          if (valueDes == null) continue;
           result.id = valueDes;
           break;
         case r'deprecatedRef':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(DeprecatedObject),
-          ) as DeprecatedObject;
+            specifiedType: const FullType.nullable(DeprecatedObject),
+          ) as DeprecatedObject?;
+          if (valueDes == null) continue;
           result.deprecatedRef.replace(valueDes);
           break;
         case r'bars':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(String)]),
-          ) as BuiltList<String>;
+            specifiedType: const FullType.nullable(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>?;
+          if (valueDes == null) continue;
           result.bars.replace(valueDes);
           break;
         default:

@@ -1708,47 +1708,57 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="RequiredClass" />
     /// </summary>
-    public class RequiredClassJsonConverter : JsonConverter<RequiredClass>
+    public partial class RequiredClassJsonConverter : JsonConverter<RequiredClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequiredClassJsonConverter" /> class.
+        /// </summary>
+        public RequiredClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize RequiredNotNullableDateProp
         /// </summary>
-        public static string RequiredNotNullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string RequiredNotNullableDatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize RequiredNotnullableDatetimeProp
         /// </summary>
-        public static string RequiredNotnullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string RequiredNotnullableDatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// The format to use to serialize NotRequiredNotnullableDateProp
         /// </summary>
-        public static string NotRequiredNotnullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string NotRequiredNotnullableDatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize NotRequiredNullableDateProp
         /// </summary>
-        public static string NotRequiredNullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string NotRequiredNullableDatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize NotrequiredNotnullableDatetimeProp
         /// </summary>
-        public static string NotrequiredNotnullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string NotrequiredNotnullableDatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// The format to use to serialize NotrequiredNullableDatetimeProp
         /// </summary>
-        public static string NotrequiredNullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string NotrequiredNullableDatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// The format to use to serialize RequiredNullableDateProp
         /// </summary>
-        public static string RequiredNullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string RequiredNullableDatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize RequiredNullableDatetimeProp
         /// </summary>
-        public static string RequiredNullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string RequiredNullableDatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="RequiredClass" />

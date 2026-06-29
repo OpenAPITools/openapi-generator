@@ -112,4 +112,33 @@ public class RustServerCodegenTest {
         // Clean up
         target.toFile().deleteOnExit();
     }
+
+    /**
+     * Test that binary/byte request bodies are passed through as raw bytes rather than being
+     * coerced to UTF-8, which panics on any non-UTF-8 payload (see issue #24094).
+     */
+    @Test
+    public void testBinaryRequestBodyNotCoercedToUtf8() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/openapi-v3.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path clientModPath = Path.of(target.toString(), "/src/client/mod.rs");
+        TestUtils.assertFileExists(clientModPath);
+
+        // format: binary request body should pass raw bytes through.
+        TestUtils.assertFileContains(clientModPath, "*request.body_mut() = body_from_bytes(param_body.0);");
+        // The bytes helper must be generated.
+        TestUtils.assertFileContains(clientModPath, "fn body_from_bytes(b: Vec<u8>) -> BoxBody<Bytes, Infallible> {");
+        // The request body must no longer be coerced to UTF-8 (would panic on non-UTF-8 payloads).
+        TestUtils.assertFileNotContains(clientModPath, "let body = String::from_utf8(param_body.0).expect(\"Body was not valid UTF8\");");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
 }

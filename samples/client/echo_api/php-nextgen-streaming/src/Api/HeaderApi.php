@@ -364,6 +364,7 @@ class HeaderApi
     {
 
         $resourcePath = '/header/integer/boolean/string/enums';
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

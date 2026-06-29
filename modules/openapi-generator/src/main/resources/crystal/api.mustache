@@ -1,189 +1,29 @@
-# {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
-
-require "uri"
+require "json"
 
 module {{moduleName}}
 {{#operations}}
-  class {{classname}}
-    property api_client : ApiClient
-
-    def initialize(api_client = ApiClient.default)
-      @api_client = api_client
-    end
+{{#apiNamespacePresent}}  module {{apiNamespace}}
+{{/apiNamespacePresent}}  class {{x-cr-api-inner-class}}
+    def initialize(@conn : Connection); end
 {{#operation}}
-    {{#summary}}
-    # {{{.}}}
-    {{/summary}}
-    {{#notes}}
-    # {{{.}}}
-    {{/notes}}
-    {{#allParams}}
-    {{#required}}
-    # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}] {{description}}
-    {{/required}}
-    {{/allParams}}
-    # @return [{{{returnType}}}{{^returnType}}nil{{/returnType}}]
-    def {{operationId}}({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}?{{/required}}{{^required}} = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
-      {{#returnType}}data, _status_code, _headers = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
-      {{#returnType}}data{{/returnType}}{{^returnType}}nil{{/returnType}}
+
+    # {{summary}}{{#notes}} {{notes}}{{/notes}}
+{{#isDeprecated}}    @[Deprecated("This operation is marked deprecated in the OpenAPI spec.")]
+{{/isDeprecated}}    def {{operationId}}({{#pathParams}}{{paramName}} : {{{vendorExtensions.x-cr-data-type}}}{{^-last}}, {{/-last}}{{/pathParams}}{{#bodyParam}}{{#hasPathParams}}, {{/hasPathParams}}{{paramName}} : {{{vendorExtensions.x-cr-data-type}}}{{^required}}? = nil{{/required}}{{/bodyParam}}{{#hasFormParams}}{{#hasPathParams}}, {{/hasPathParams}}{{#bodyParam}}, {{/bodyParam}}{{#formParams}}{{paramName}} : {{{vendorExtensions.x-cr-data-type}}}? = nil{{^-last}}, {{/-last}}{{/formParams}}{{/hasFormParams}}{{#vendorExtensions.x-cr-has-named-params}}{{#hasPathParams}}, *, {{/hasPathParams}}{{^hasPathParams}}{{#bodyParam}}, *, {{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}, *, {{/hasFormParams}}{{^hasFormParams}}*, {{/hasFormParams}}{{/bodyParam}}{{/hasPathParams}}{{#headerParams}}{{paramName}} : {{{vendorExtensions.x-cr-data-type}}}? = nil{{^-last}}, {{/-last}}{{/headerParams}}{{#vendorExtensions.x-cr-has-header-params}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/vendorExtensions.x-cr-has-header-params}}{{#queryParams}}{{paramName}} : {{{vendorExtensions.x-cr-data-type}}}? = nil{{^-last}}, {{/-last}}{{/queryParams}}{{#vendorExtensions.x-cr-has-cookie-params}}{{#headerParams.0}}, {{/headerParams.0}}{{^headerParams.0}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/headerParams.0}}{{#cookieParams}}{{paramName}} : {{{vendorExtensions.x-cr-data-type}}}? = nil{{^-last}}, {{/-last}}{{/cookieParams}}{{/vendorExtensions.x-cr-has-cookie-params}}{{/vendorExtensions.x-cr-has-named-params}}) : Response({{#returnType}}{{{vendorExtensions.x-cr-return-type}}}{{/returnType}}{{^returnType}}Nil{{/returnType}})
+      @conn.request({{#returnType}}{{{vendorExtensions.x-cr-return-type}}}{{/returnType}}{{^returnType}}Nil{{/returnType}},
+        method: :{{httpMethod}},
+        path: "{{{path}}}"{{#pathParams}}.sub("{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", {{moduleName}}.enc({{paramName}})){{/pathParams}},
+{{#bodyParam}}        body: {{paramName}},
+{{/bodyParam}}{{#vendorExtensions.x-cr-has-header-or-cookie}}        header: { {{#headerParams}}"{{baseName}}" => {{paramName}}.try &.to_s{{^-last}}, {{/-last}}{{/headerParams}}{{#vendorExtensions.x-cr-has-cookie-params}}{{#headerParams.0}}, {{/headerParams.0}}"Cookie" => [{{#cookieParams}}{{paramName}}.try { |v| "{{baseName}}=#{v}" }{{^-last}}, {{/-last}}{{/cookieParams}}].compact.join("; ").presence{{/vendorExtensions.x-cr-has-cookie-params}} },
+{{/vendorExtensions.x-cr-has-header-or-cookie}}{{#hasQueryParams}}        query: { {{#queryParams}}"{{baseName}}" => {{paramName}}{{#vendorExtensions.x-cr-join-sep}}.try(&.map(&.to_s).join("{{{vendorExtensions.x-cr-join-sep}}}")){{/vendorExtensions.x-cr-join-sep}}{{^-last}}, {{/-last}}{{/queryParams}} },
+{{/hasQueryParams}}{{#hasFormParams}}        form: Hash(String, Crest::ParamsValue){ {{#formParams}}"{{baseName}}" => {{paramName}}{{^-last}}, {{/-last}}{{/formParams}} },
+{{/hasFormParams}}        accept: %w[{{#produces}}{{{mediaType}}}{{^-last}} {{/-last}}{{/produces}}],
+{{#hasBodyParam}}        content_type: %w[{{#consumes}}{{{mediaType}}}{{^-last}} {{/-last}}{{/consumes}}],
+{{/hasBodyParam}}{{#vendorExtensions.x-cr-raw-body}}        raw: true,
+{{/vendorExtensions.x-cr-raw-body}}        auth: %w[{{#authMethods}}{{name}}{{^-last}} {{/-last}}{{/authMethods}}])
     end
-
-    {{#summary}}
-    # {{.}}
-    {{/summary}}
-    {{#notes}}
-    # {{.}}
-    {{/notes}}
-    {{#allParams}}
-    {{#required}}
-    # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}] {{description}}
-    {{/required}}
-    {{/allParams}}
-    # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{.}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
-    def {{operationId}}_with_http_info({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}?{{/required}}{{^required}} = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
-      if @api_client.config.debugging
-        Log.debug {"Calling API: {{classname}}.{{operationId}} ..."}
-      end
-      {{#allParams}}
-      {{^isNullable}}
-      {{#required}}
-      # verify the required parameter "{{paramName}}" is set
-      if @api_client.config.client_side_validation && {{{paramName}}}.nil?
-        raise ArgumentError.new("Missing the required parameter '{{paramName}}' when calling {{classname}}.{{operationId}}")
-      end
-      {{#isEnum}}
-      {{^isContainer}}
-      # verify enum value
-      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !allowable_values.includes?({{{paramName}}})
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
-      end
-      {{/isContainer}}
-      {{/isEnum}}
-      {{/required}}
-      {{/isNullable}}
-      {{^required}}
-      {{#isEnum}}
-      {{#collectionFormat}}
-      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && {{{paramName}}} && {{{paramName}}}.all? { |item| allowable_values.includes?(item) }
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must include one of #{allowable_values}")
-      end
-      {{/collectionFormat}}
-      {{^collectionFormat}}
-      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && {{{paramName}}} && !allowable_values.includes?({{{paramName}}})
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
-      end
-      {{/collectionFormat}}
-      {{/isEnum}}
-      {{/required}}
-      {{#hasValidation}}
-      {{#maxLength}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.to_s.size > {{{maxLength}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, the character length must be smaller than or equal to {{{maxLength}}}.")
-      end
-
-      {{/maxLength}}
-      {{#minLength}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.to_s.size < {{{minLength}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, the character length must be greater than or equal to {{{minLength}}}.")
-      end
-
-      {{/minLength}}
-      {{#maximum}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
-      end
-
-      {{/maximum}}
-      {{#minimum}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
-      end
-
-      {{/minimum}}
-      {{#pattern}}
-      pattern = Regexp.new({{{pattern}}})
-      if @api_client.config.client_side_validation && {{^required}}{{{paramName}}}.nil? && {{/required}}{{{paramName}}} !~ pattern
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, must conform to the pattern #{pattern}.")
-      end
-
-      {{/pattern}}
-      {{#maxItems}}
-      if @api_client.config.client_side_validation && {{^required}}{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.size > {{{maxItems}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{{maxItems}}}.")
-      end
-
-      {{/maxItems}}
-      {{#minItems}}
-      if @api_client.config.client_side_validation && {{^required}}{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.size < {{{minItems}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{{minItems}}}.")
-      end
-
-      {{/minItems}}
-      {{/hasValidation}}
-      {{/allParams}}
-      # resource path
-      local_var_path = "{{{path}}}"{{#pathParams}}.sub("{" + "{{baseName}}" + "}", URI.encode_path({{paramName}}.to_s){{^strictSpecBehavior}}.gsub("%2F", "/"){{/strictSpecBehavior}}){{/pathParams}}
-
-      # cookie parameters
-      cookie_params = Hash(String, String).new
-
-      # query parameters
-      query_params = Hash(String, String | Array(String)).new
-      {{#queryParams}}
-      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}) unless {{{paramName}}}.nil?{{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s unless {{{paramName}}}.nil?{{/collectionFormat}}
-      {{/queryParams}}
-
-      # header parameters
-      header_params = Hash(String, String).new
-      {{#hasProduces}}
-      # HTTP header "Accept" (if needed)
-      header_params["Accept"] = @api_client.select_header_accept([{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}])
-      {{/hasProduces}}
-      {{#hasConsumes}}
-      # HTTP header "Content-Type"
-      header_params["Content-Type"] = @api_client.select_header_content_type([{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}])
-      {{/hasConsumes}}
-      {{#headerParams}}
-      header_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
-      {{/headerParams}}
-
-      # form parameters
-      form_params = Hash(Symbol, (String | ::File)).new
-      {{#formParams}}
-      form_params[:"{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}} unless {{{paramName}}}.nil?{{/collectionFormat}}
-      {{/formParams}}
-
-      # http body (model)
-      post_body = {{#bodyParam}}{{{paramName}}}.to_json{{/bodyParam}}{{^bodyParam}}nil{{/bodyParam}}
-
-      # auth_names
-      auth_names = {{#authMethods}}{{#-first}}[{{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/authMethods}}{{^authMethods}}[] of String{{/authMethods}}
-
-      data, status_code, headers = @api_client.call_api(
-        http_method: :{{httpMethod}},
-        path: local_var_path,
-        operation: :"{{classname}}.{{operationId}}",
-        post_body: post_body,
-        auth_names: auth_names,
-        header_params: header_params,
-        query_params: query_params,
-        cookie_params: cookie_params,
-        form_params: form_params
-      )
-
-      if @api_client.config.debugging
-        Log.debug {"API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
-      end
-
-      return {{#returnType}}{{{.}}}.from_json(data){{/returnType}}{{^returnType}}nil{{/returnType}}, status_code, headers
-    end
-{{^-last}}
-
-{{/-last}}
 {{/operation}}
   end
-{{/operations}}
+{{#apiNamespacePresent}}  end
+{{/apiNamespacePresent}}{{/operations}}
 end

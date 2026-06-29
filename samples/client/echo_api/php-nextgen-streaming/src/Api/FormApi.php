@@ -351,6 +351,7 @@ class FormApi
 
         $resourcePath = '/form/integer/boolean/string';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -629,6 +630,7 @@ class FormApi
 
         $resourcePath = '/form/object/multipart';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -949,6 +951,7 @@ class FormApi
 
         $resourcePath = '/form/oneof';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

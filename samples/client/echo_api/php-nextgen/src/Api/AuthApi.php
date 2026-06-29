@@ -317,6 +317,7 @@ class AuthApi
     {
 
         $resourcePath = '/auth/http/basic';
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -548,6 +549,7 @@ class AuthApi
     {
 
         $resourcePath = '/auth/http/bearer';
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

@@ -1,37 +1,23 @@
 # {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
-
-# Stdlib dependencies
 require "big"
+require "big/json"
 require "json"
 require "log"
 require "time"
+require "uri"
 require "yaml"
 
-# External dependencies
-require "any_hash"
-require "crest"
+require "./{{shardName}}/configuration"
+require "./{{shardName}}/connection"
+require "./{{shardName}}/response"
+require "./{{shardName}}/api_error"
+require "./{{shardName}}/client"
+require "./{{shardName}}/serializable"
+require "./{{shardName}}/validation"
 
-module {{moduleName}}
-  Log = ::Log.for("{{moduleName}}") # => Log for {{moduleName}} source
-
-  VERSION = {{ `shards version #{__DIR__}`.chomp.stringify }}
-
-  # Return the default `Configuration` object.
-  def self.configure
-    Configuration.default
-  end
-
-  # Customize default settings for the SDK using block.
-  #
-  # ```
-  # {{moduleName}}.configure do |config|
-  #   config.username = "xxx"
-  #   config.password = "xxx"
-  # end
-  # ```
-  def self.configure
-    yield Configuration.default
-  end
-end
-
-require "./{{shardName}}/**"
+# Models
+{{#models}}{{#model}}require "./{{shardName}}/models/{{classFilename}}"
+{{/model}}{{/models}}
+# APIs
+{{#apiInfo}}{{#apis}}require "./{{shardName}}/api/{{classFilename}}"
+{{/apis}}{{/apiInfo}}

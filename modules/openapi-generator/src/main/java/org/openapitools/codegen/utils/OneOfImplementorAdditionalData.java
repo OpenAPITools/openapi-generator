@@ -103,11 +103,20 @@ public class OneOfImplementorAdditionalData {
      */
     @SuppressWarnings("unchecked")
     public void addToImplementor(CodegenConfig cc, CodegenModel implcm, List<Map<String, String>> implImports, boolean addInterfaceImports) {
-        implcm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
+        // The model may already declare x-implements in the spec, in which case the parsed value can be
+        // a scalar string or an immutable list. Normalize it to a fresh mutable list (preserving any
+        // existing entries) so the oneOf interfaces below can be appended without failing.
+        Object existing = implcm.getVendorExtensions().get(X_IMPLEMENTS);
+        List<String> impl = new ArrayList<>();
+        if (existing instanceof Collection) {
+            impl.addAll((Collection<String>) existing);
+        } else if (existing instanceof String && !((String) existing).isEmpty()) {
+            impl.add((String) existing);
+        }
+        implcm.getVendorExtensions().put(X_IMPLEMENTS, impl);
 
         // Add implemented interfaces
         for (String intf : additionalInterfaces) {
-            List<String> impl = (List<String>) implcm.getVendorExtensions().get(X_IMPLEMENTS);
             impl.add(intf);
             if (addInterfaceImports) {
                 // Add imports for interfaces
