@@ -30,7 +30,7 @@ module {{classname}}HandlerTestsHelper =
   {{/-first}}
   {{/consumes}}
   {{#requestBodyExamples}}
-  {{operationId}}Body <- "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}"
+  {{operationId}}Body <- "{{#lambda.escapeJsonString}}{{#lambdaRemoveLineBreak}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaRemoveLineBreak}}{{/lambda.escapeJsonString}}"
   {{operationId}}Examples <- {{operationId}}Examples.Add("{{contentType}}", {{operationId}}Body)
 
   {{/requestBodyExamples}}
