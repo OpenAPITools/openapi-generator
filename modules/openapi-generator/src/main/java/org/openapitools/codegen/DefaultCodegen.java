@@ -4026,11 +4026,11 @@ public class DefaultCodegen implements CodegenConfig {
         property.setter = toSetter(name);
         // put toExampleValue in a try-catch block to log the error as example values are not critical
         try {
-            property.example = toExampleValue(p);
+            property.setExample(toExampleValue(p));
         } catch (Exception e) {
             LOGGER.error("Error in generating `example` for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", property.baseName);
             LOGGER.debug("Exception from toExampleValue: {}", e.getMessage());
-            property.example = "ERROR_TO_EXAMPLE_VALUE";
+            property.setExample("ERROR_TO_EXAMPLE_VALUE");
         }
 
         property.jsonSchema = Json.pretty(Json.mapper().convertValue(p, TreeMap.class));
@@ -4259,7 +4259,7 @@ public class DefaultCodegen implements CodegenConfig {
             // that e.g. `allOf: [ $ref ]` with a sibling `example` keeps the declared example
             // instead of falling back to the literal "null".
             if (original.getExample() != null) {
-                property.example = toExampleValue(original);
+                property.setExample(toExampleValue(original));
             }
         }
 
@@ -5858,6 +5858,7 @@ public class DefaultCodegen implements CodegenConfig {
             final Map<String, Object> kv = new HashMap<>();
             kv.put("contentType", entry.getKey());
             kv.put("example", entry.getValue());
+            kv.put("lambdaExample", new JsonOutputLambda(entry.getValue()));
             output.add(kv);
         }
         return output;

@@ -82,7 +82,7 @@ h2. Models
         {{/enumVars}}
         {{/allowableValues}} {{/isEnum}}
         {{^isEnum}}||Field Name||Required||Type||Description||Enum||Example||
-        {{#vars}} |{{baseName}} |{{#required}}(/){{/required}}{{^required}}(x){{/required}} |{noformat:nopanel=true}{{{dataType}}}{noformat} | {{description}} | {{#isEnum}} {{_enum}} {{/isEnum}} | {{example}}
+        {{#vars}} |{{baseName}} |{{#required}}(/){{/required}}{{^required}}(x){{/required}} |{noformat:nopanel=true}{{{dataType}}}{noformat} | {{description}} | {{#isEnum}} {{_enum}} {{/isEnum}} | {{#lambdaExample}}{{/lambdaExample}}
         {{/vars}} {{/isEnum}}
     {{/model}}
 {{/models}}

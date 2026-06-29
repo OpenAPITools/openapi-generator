@@ -124,9 +124,9 @@
         {{#description}}
         /// <value>{{.}}</value>
         {{/description}}
-        {{#example}}
-        /* <example>{{.}}</example> */
-        {{/example}}
+        {{#hasExample}}
+        /* <example>{{#lambdaExample}}{{/lambdaExample}}</example> */
+        {{/hasExample}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
         [Obsolete]
@@ -151,9 +151,9 @@
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
-        {{#example}}
-        /* <example>{{.}}</example> */
-        {{/example}}
+        {{#hasExample}}
+        /* <example>{{#lambdaExample}}{{/lambdaExample}}</example> */
+        {{/hasExample}}
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
@@ -167,9 +167,9 @@
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
-        {{#example}}
-        /* <example>{{.}}</example> */
-        {{/example}}
+        {{#hasExample}}
+        /* <example>{{#lambdaExample}}{{/lambdaExample}}</example> */
+        {{/hasExample}}
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
@@ -208,9 +208,9 @@
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
-        {{#example}}
-        /* <example>{{.}}</example> */
-        {{/example}}
+        {{#hasExample}}
+        /* <example>{{#lambdaExample}}{{/lambdaExample}}</example> */
+        {{/hasExample}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
         [Obsolete]
@@ -233,9 +233,9 @@
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
-        {{#example}}
-        /* <example>{{.}}</example> */
-        {{/example}}
+        {{#hasExample}}
+        /* <example>{{#lambdaExample}}{{/lambdaExample}}</example> */
+        {{/hasExample}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
         [Obsolete]

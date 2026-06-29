@@ -558,6 +558,10 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         return null;
     }
 
+    public boolean getHasExample() {
+        return exampleJsonNode != null || example != null;
+    }
+
     public void setExample(String example) {
         this.example = example;
         this.exampleJsonNode = null;

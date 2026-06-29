@@ -14,7 +14,7 @@ import {{import}}
  *
 {{/description}}
 {{#vars}}
- * @param {{{name}}} {{{description}}}{{#example}} for example: ''{{{.}}}''{{/example}}
+ * @param {{{name}}} {{{description}}}{{#hasExample}} for example: ''{{#lambdaExample}}{{/lambdaExample}}''{{/hasExample}}
 {{/vars}}
 */
 final case class {{classname}} (

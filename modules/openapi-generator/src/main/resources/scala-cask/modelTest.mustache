@@ -27,8 +27,8 @@ class {{classname}}Test extends AnyWordSpec with Matchers {
            val Failure(err) = Try({{classname}}Data.fromJsonString("invalid jason"))
            err.getMessage should startWith ("Error parsing json 'invalid jason'")
         }
-        """parse {{example}}""" ignore {
-           val d8a = {{classname}}Data.fromJsonString("""{{example}}""")
+        """parse {{#lambdaExample}}{{/lambdaExample}}""" ignore {
+           val d8a = {{classname}}Data.fromJsonString("""{{#lambdaExample}}{{/lambdaExample}}""")
            val Failure(err : ValidationErrors) = {{classname}}Data.validated(d8a, true)
 
            sys.error("TODO")
