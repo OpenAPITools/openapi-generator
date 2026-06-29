@@ -73,8 +73,9 @@ class _$BananaSerializer implements PrimitiveSerializer<Banana> {
         case r'count':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(num),
-          ) as num;
+            specifiedType: const FullType.nullable(num),
+          ) as num?;
+          if (valueDes == null) continue;
           result.count = valueDes;
           break;
         default:

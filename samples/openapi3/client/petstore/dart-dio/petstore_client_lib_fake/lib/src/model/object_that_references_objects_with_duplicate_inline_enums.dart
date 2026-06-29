@@ -86,15 +86,17 @@ class _$ObjectThatReferencesObjectsWithDuplicateInlineEnumsSerializer implements
         case r'object_one':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(ObjectWithInlineEnum),
-          ) as ObjectWithInlineEnum;
+            specifiedType: const FullType.nullable(ObjectWithInlineEnum),
+          ) as ObjectWithInlineEnum?;
+          if (valueDes == null) continue;
           result.objectOne.replace(valueDes);
           break;
         case r'object_two':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(ObjectWithDuplicateInlineEnum),
-          ) as ObjectWithDuplicateInlineEnum;
+            specifiedType: const FullType.nullable(ObjectWithDuplicateInlineEnum),
+          ) as ObjectWithDuplicateInlineEnum?;
+          if (valueDes == null) continue;
           result.objectTwo.replace(valueDes);
           break;
         default:

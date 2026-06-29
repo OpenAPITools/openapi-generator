@@ -142,6 +142,79 @@ public class DartDioClientCodegenTest {
                 "package:my_api/src/model/custom_address.dart");
     }
 
+    /**
+     * Regression test for the dart-dio built_value generator's handling
+     * of optional non-nullable model properties.
+     *
+     * Before the fix, the generator emitted a Dart getter typed as
+     * {@code String?} (because in Dart, an optional field can always be
+     * absent, which is observably {@code null}) but the matching
+     * deserializer used {@code FullType(String)} and cast the result
+     * {@code as String}. As a consequence, the moment the JSON payload
+     * carried the field as an explicit {@code null} the cast threw and
+     * the entire enclosing object failed to deserialize -- silently in
+     * many call paths.
+     *
+     * The fix: in {@code deserialize_properties.mustache} the cast
+     * follows the same rule that {@code class_members.mustache} already
+     * uses for the getter type, i.e. nullable when
+     * {@code isNullable || !required}. This test asserts that.
+     */
+    @Test
+    public void testOptionalNonNullablePropertyDeserializesAsNullable() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/built_value_optional_nullable.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path widget = output.toPath().resolve("lib/src/model/widget.dart");
+
+        // Required fields stay strict: cast as a non-nullable type with a
+        // non-nullable FullType. Otherwise the existing behaviour for
+        // required fields would change.
+        TestUtils.assertFileContains(widget,
+                "case r'id':",
+                "specifiedType: const FullType(int),",
+                "as int;");
+        TestUtils.assertFileContains(widget,
+                "case r'name':",
+                "specifiedType: const FullType(String),",
+                "as String;");
+
+        // Optional non-nullable: getter is `String?` (existing), and the
+        // deserializer now matches -- FullType.nullable + cast as `T?`
+        // + skip-on-null guard so we never reach `result.x = valueDes`
+        // with a null.
+        TestUtils.assertFileContains(widget, "String? get iconUrl;");
+        TestUtils.assertFileContains(widget,
+                "case r'iconUrl':",
+                "specifiedType: const FullType.nullable(String),",
+                "as String?;",
+                "if (valueDes == null) continue;");
+
+        TestUtils.assertFileContains(widget, "int? get priority;");
+        TestUtils.assertFileContains(widget,
+                "case r'priority':",
+                "specifiedType: const FullType.nullable(int),",
+                "as int?;",
+                "if (valueDes == null) continue;");
+
+        // Explicitly nullable still works (regression guard).
+        TestUtils.assertFileContains(widget,
+                "case r'explicitlyNullable':",
+                "specifiedType: const FullType.nullable(String),",
+                "as String?;",
+                "if (valueDes == null) continue;");
+    }
+
     @Test
     public void verifyDartDioGeneratorRuns() throws IOException {
         File output = Files.createTempDirectory("test").toFile();

@@ -74,8 +74,9 @@ class _$FooGetDefaultResponseSerializer implements PrimitiveSerializer<FooGetDef
         case r'string':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(Foo),
-          ) as Foo;
+            specifiedType: const FullType.nullable(Foo),
+          ) as Foo?;
+          if (valueDes == null) continue;
           result.string.replace(valueDes);
           break;
         default:
