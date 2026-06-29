@@ -227,10 +227,10 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
 
 {{/useBeanValidation}}
 {{#swagger1AnnotationLibrary}}
-  @ApiModelProperty({{#hasExample}}example = "{{#lambdaExample}}{{/lambdaExample}}", {{/hasExample}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  @ApiModelProperty({{#hasExample}}example = "{{#lambda.escapeJavaString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJavaString}}", {{/hasExample}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
 {{/swagger1AnnotationLibrary}}
 {{#swagger2AnnotationLibrary}}
-  @Schema({{#hasExample}}example = "{{#lambdaExample}}{{/lambdaExample}}", {{/hasExample}}requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}}, description = "{{{description}}}")
+  @Schema({{#hasExample}}example = "{{#lambda.escapeJavaString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJavaString}}", {{/hasExample}}requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}}, description = "{{{description}}}")
 {{/swagger2AnnotationLibrary}}
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}

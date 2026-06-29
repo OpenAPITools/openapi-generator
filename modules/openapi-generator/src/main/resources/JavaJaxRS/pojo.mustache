@@ -88,7 +88,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#jackson}}
   @JsonProperty(value = "{{baseName}}"{{#isReadOnly}}, access = JsonProperty.Access.READ_ONLY{{/isReadOnly}}{{#isWriteOnly}}, access = JsonProperty.Access.WRITE_ONLY{{/isWriteOnly}})
   {{/jackson}}
-  @ApiModelProperty({{#hasExample}}example = "{{#lambdaExample}}{{/lambdaExample}}", {{/hasExample}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  @ApiModelProperty({{#hasExample}}example = "{{#lambda.escapeJavaString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJavaString}}", {{/hasExample}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};

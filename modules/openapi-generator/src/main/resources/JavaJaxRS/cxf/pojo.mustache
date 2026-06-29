@@ -47,10 +47,10 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
 {{#swagger1AnnotationLibrary}}
-  @ApiModelProperty({{#hasExample}}example = "{{#lambdaExample}}{{/lambdaExample}}", {{/hasExample}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  @ApiModelProperty({{#hasExample}}example = "{{#lambda.escapeJavaString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJavaString}}", {{/hasExample}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
 {{/swagger1AnnotationLibrary}}
 {{#swagger2AnnotationLibrary}}
-  @Schema(description = "{{{description}}}"{{#hasExample}}, example = "{{#lambdaExample}}{{/lambdaExample}}"{{/hasExample}}{{#required}}, requiredMode = Schema.RequiredMode.REQUIRED{{/required}})
+  @Schema(description = "{{{description}}}"{{#hasExample}}, example = "{{#lambda.escapeJavaString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJavaString}}"{{/hasExample}}{{#required}}, requiredMode = Schema.RequiredMode.REQUIRED{{/required}})
 {{/swagger2AnnotationLibrary}}
 {{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
   @Valid
