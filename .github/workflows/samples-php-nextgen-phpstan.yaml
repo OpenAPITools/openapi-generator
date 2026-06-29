@@ -1,0 +1,35 @@
+name: Samples php-nextgen (phpstan)
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/php-nextgen/OpenAPIClient-php/**
+  pull_request:
+    paths:
+      - samples/client/petstore/php-nextgen/OpenAPIClient-php/**
+jobs:
+  build:
+    name: Build 
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php:
+          - "8.1"
+          - "8.2"
+          - "8.3"
+          - "8.4"
+        sample:
+          # clients
+          - samples/client/petstore/php-nextgen/OpenAPIClient-php/
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup PHP with tools
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php }}"
+      - name: phpstan
+        working-directory: ${{ matrix.sample }}
+        run: |
+          composer require --dev phpstan/phpstan
+          vendor/bin/phpstan analyse src

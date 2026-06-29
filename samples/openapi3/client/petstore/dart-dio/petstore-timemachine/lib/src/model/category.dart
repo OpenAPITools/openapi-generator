@@ -84,15 +84,17 @@ class _$CategorySerializer implements PrimitiveSerializer<Category> {
         case r'id':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.id = valueDes;
           break;
         case r'name':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.name = valueDes;
           break;
         default:
