@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  title: Query Param Example Escaping
+  version: '1.0'
+servers:
+  - url: 'http://localhost:5001'
+paths:
+  /search:
+    get:
+      summary: Search
+      operationId: search
+      tags:
+        - basic
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "quote \" slash \\ line\nnext"
+      responses:
+        '200':
+          description: OK
+tags:
+  - name: basic
+    description: Basic tag

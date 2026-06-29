@@ -829,6 +829,8 @@ Many generators (*those extending DefaultCodegen*) come with a small set of lamb
 - `forwardslash` - Replaces all occurrences of `\/`, `\` and `//` in a fragment by `/`.
 - `backslash` - Replaces all occurrences `/` in a fragment by `\`.
 - `doublequote` - Prepends `"` to the beginning and appends `"` to the end of a fragment.
+- `escapeJavaString` - Escapes fragment output for use inside Java-compatible string literals.
+- `escapeJsonString` - Escapes fragment output for use inside JSON string values.
 - `indented` - Prepends 4 spaces indention from second line of a fragment on. First line will be indented by Mustache.
 - `indented_8` - Prepends 8 spaces indention from second line of a fragment on. First line will be indented by Mustache.
 - `indented_12` - Prepends 12 spaces indention from second line of a fragment on. First line will be indented by Mustache.
