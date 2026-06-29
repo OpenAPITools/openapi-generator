@@ -34,7 +34,7 @@ import static org.openapitools.codegen.TestUtils.assertFileExists;
 public class GraphQLNodeJSExpressServerCodegenTest {
 
     @Test
-    public void resolverExamplesAreEscapedForJavaScriptStrings() throws IOException {
+    public void resolverExamplesAreRenderedAsJavaScriptLiterals() throws IOException {
         File output = Files.createTempDirectory("graphql-nodejs-express-server-test_").toFile();
         output.deleteOnExit();
 
@@ -52,5 +52,11 @@ public class GraphQLNodeJSExpressServerCodegenTest {
         Path path = Paths.get(output + "/openapi3graphql-server/api/test_api_resolver.js");
         assertFileExists(path);
         TestUtils.assertFileContains(path, "\"filter\": \"line \\\"quoted\\\" \\\\ path\\nnext\"");
+        TestUtils.assertFileContains(path, "\"limit\": 25");
+        TestUtils.assertFileContains(path, "\"active\": true");
+        TestUtils.assertFileContains(path, "\"tags\": [ \"alpha\", \"beta\" ]");
+        TestUtils.assertFileContains(path, "\"options\": {");
+        TestUtils.assertFileContains(path, "\"mode\" : \"fast\"");
+        TestUtils.assertFileContains(path, "\"retries\" : 2");
     }
 }

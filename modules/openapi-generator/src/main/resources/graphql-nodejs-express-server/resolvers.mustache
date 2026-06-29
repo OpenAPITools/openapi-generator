@@ -10,7 +10,7 @@ export default {
         // @return {{returnType}}
         {{operationId}}: ({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) => {
             return {
-                {{#allParams}}"{{paramName}}": "{{#lambda.escapeJsonString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJsonString}}"{{^-last}},
+                {{#allParams}}"{{paramName}}": {{#lambdaExampleJsonLiteral}}{{/lambdaExampleJsonLiteral}}{{^-last}},
                 {{/-last}}{{/allParams}}
             };
         },
@@ -24,7 +24,7 @@ export default {
         // @return {{returnType}}
         {{operationId}}: ({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) => {
             return {
-                {{#allParams}}"{{paramName}}": "{{#lambda.escapeJsonString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJsonString}}"{{^-last}},
+                {{#allParams}}"{{paramName}}": {{#lambdaExampleJsonLiteral}}{{/lambdaExampleJsonLiteral}}{{^-last}},
                 {{/-last}}{{/allParams}}
             };
         },

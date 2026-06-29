@@ -24,6 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -557,6 +558,26 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
             return new JsonOutputLambda(example);
         }
         return null;
+    }
+
+    public Mustache.Lambda getLambdaExampleJsonLiteral() {
+        if (exampleJsonNode != null) {
+            return new JsonOutputLambda(exampleJsonNode);
+        }
+        if (example == null) {
+            return null;
+        }
+        if (isBoolean) {
+            return new JsonOutputLambda(Boolean.valueOf(example));
+        }
+        if (isNumeric || isInteger || isLong || isNumber || isFloat || isDouble || isDecimal || isShort || isUnboundedInteger) {
+            try {
+                return new JsonOutputLambda(new BigDecimal(example));
+            } catch (NumberFormatException e) {
+                return new JsonOutputLambda((Object) example);
+            }
+        }
+        return new JsonOutputLambda((Object) example);
     }
 
     public boolean getHasExample() {

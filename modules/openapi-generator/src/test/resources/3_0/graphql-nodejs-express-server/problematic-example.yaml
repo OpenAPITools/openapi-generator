@@ -16,6 +16,32 @@ paths:
             example: |-
               line "quoted" \ path
               next
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            example: 25
+        - name: active
+          in: query
+          schema:
+            type: boolean
+            example: true
+        - name: tags
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+            example:
+              - alpha
+              - beta
+        - name: options
+          in: query
+          schema:
+            type: object
+            example:
+              mode: fast
+              retries: 2
       responses:
         '200':
           description: ok
