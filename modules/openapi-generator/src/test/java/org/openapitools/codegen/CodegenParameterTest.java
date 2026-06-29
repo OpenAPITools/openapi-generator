@@ -20,12 +20,13 @@ import org.testng.annotations.Test;
 
 import java.util.Collections;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 
 public class CodegenParameterTest {
 
     @Test
-    public void equalityIncludesJsonExampleNode() {
+    public void equalityIncludesJsonExampleNodeWithoutHashingIt() {
         final DefaultCodegen codegen = new DefaultCodegen();
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         CodegenParameter codegenParameter2 = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
@@ -34,6 +35,6 @@ public class CodegenParameterTest {
         codegen.setParameterExampleValue(codegenParameter2, Collections.singletonMap("value", "second"));
 
         assertNotEquals(codegenParameter, codegenParameter2);
-        assertNotEquals(codegenParameter.hashCode(), codegenParameter2.hashCode());
+        assertEquals(codegenParameter.hashCode(), codegenParameter2.hashCode());
     }
 }

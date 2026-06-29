@@ -295,7 +295,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isBodyParam, isContainer, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName,
                 paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description,
                 unescapedDescription, baseType, containerType, containerTypeMapped, defaultValue,
-                enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, exampleJsonNode, examples,
+                enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
                 isFormStyle, isSpaceDelimited, isPipeDelimited,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
