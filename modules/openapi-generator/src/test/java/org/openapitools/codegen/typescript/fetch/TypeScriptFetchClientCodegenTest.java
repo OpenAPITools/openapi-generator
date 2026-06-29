@@ -453,6 +453,32 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testResponse, "import type { OptionThree } from './OptionThree'");
     }
 
+    @Test(description = "Verify multipart file arrays use FormData with repeated file fields")
+    public void testMultipartFileArrayUsesFormData() throws IOException {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/multipart-file-array.yaml"
+        );
+
+        Path api = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileExists(api);
+        TestUtils.assertFileContains(api, "files: Array<Blob>;");
+        TestUtils.assertFileContains(api, "metadata?: string;");
+        TestUtils.assertFileContains(api, "// use FormData to transmit files using content-type \"multipart/form-data\"");
+        TestUtils.assertFileContains(api, "useForm = canConsumeForm;");
+        TestUtils.assertFileContains(api, "formParams = new FormData();");
+        TestUtils.assertFileContains(api, "requestParameters['files'].forEach((element) => {");
+        TestUtils.assertFileContains(api, "formParams.append('files', element as any);");
+        TestUtils.assertFileNotContains(api, "requestParameters['files']!.join(runtime.COLLECTION_FORMATS[\"csv\"])");
+
+        Path apiDocs = Paths.get(output + "/docs/DefaultApi.md");
+        TestUtils.assertFileExists(apiDocs);
+        TestUtils.assertFileContains(apiDocs, "files: [new Blob(['example file content'], { type: 'application/octet-stream' })],");
+        TestUtils.assertFileContains(apiDocs, "metadata: 'metadata_example',");
+        TestUtils.assertFileNotContains(apiDocs, "files: /path/to/file.txt");
+        TestUtils.assertFileNotContains(apiDocs, "metadata: metadata_example");
+    }
+
     @Test(description = "Verify instanceOf checks discriminator value for single-value enums")
     public void testInstanceOfChecksDiscriminatorValue() throws IOException {
         File output = generate(Collections.emptyMap(), "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
