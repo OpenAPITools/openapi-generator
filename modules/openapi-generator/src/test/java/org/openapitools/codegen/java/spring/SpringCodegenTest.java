@@ -8147,6 +8147,7 @@ public class SpringCodegenTest {
     }
 
     @Test
+    @Ignore("Huge test used only to test OOME.")
     void issue23849() throws IOException {
         File output = Files.createTempDirectory("issue23849").toFile().getCanonicalFile();
         output.deleteOnExit();
