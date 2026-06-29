@@ -52,4 +52,3 @@ X-API-Key: {{apiKey}}
  "shopperReference": "YOUR_SHOPPER_REFERENCE",
  "recurringProcessingModel": "CardOnFile"
 }
-

@@ -1,72 +1,58 @@
 ## MigrationsApi
 
 ### Cancel an import
-## Cancel an import
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/import
 Accept: application/json
 
 ### Delete a user migration archive
-## Delete a user migration archive
 DELETE https://api.github.com/user/migrations/{{migration_id}}/archive
 Accept: application/json
 
 ### Delete an organization migration archive
-## Delete an organization migration archive
 DELETE https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/archive
 Accept: application/json
 
 ### Download an organization migration archive
-## Download an organization migration archive
 GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/archive
 Accept: application/json
 
 ### Download a user migration archive
-## Download a user migration archive
 GET https://api.github.com/user/migrations/{{migration_id}}/archive
 Accept: application/json
 
 ### Get commit authors
-## Get commit authors
 GET https://api.github.com/repos/{{owner}}/{{repo}}/import/authors?since={{since}}
 Accept: application/json
 
 ### Get an import status
-## Get an import status
 GET https://api.github.com/repos/{{owner}}/{{repo}}/import
 Accept: application/json
 
 ### Get large files
-## Get large files
 GET https://api.github.com/repos/{{owner}}/{{repo}}/import/large_files
 Accept: application/json
 
 ### Get a user migration status
-## Get a user migration status
 GET https://api.github.com/user/migrations/{{migration_id}}?exclude={{exclude}}
 Accept: application/json
 
 ### Get an organization migration status
-## Get an organization migration status
 GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}?exclude={{exclude}}
 Accept: application/json
 
 ### List user migrations
-## List user migrations
 GET https://api.github.com/user/migrations?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organization migrations
-## List organization migrations
 GET https://api.github.com/orgs/{{org}}/migrations?perPage={{perPage}}&page={{page}}&exclude={{exclude}}
 Accept: application/json
 
 ### List repositories for a user migration
-## List repositories for a user migration
 GET https://api.github.com/user/migrations/{{migration_id}}/repositories?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repositories in an organization migration
-## List repositories in an organization migration
 GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/repositories?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
@@ -127,12 +113,10 @@ Accept: application/json
 
 
 ### Unlock a user repository
-## Unlock a user repository
 DELETE https://api.github.com/user/migrations/{{migration_id}}/repos/{{repo_name}}/lock
 Accept: application/json
 
 ### Unlock an organization repository
-## Unlock an organization repository
 DELETE https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/repos/{{repo_name}}/lock
 Accept: application/json
 
@@ -158,4 +142,3 @@ Accept: application/json
   "tfvc_project" : "project1",
   "human_name" : "project1 (tfs)"
 }
-

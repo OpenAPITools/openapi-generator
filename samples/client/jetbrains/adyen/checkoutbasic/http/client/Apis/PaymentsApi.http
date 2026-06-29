@@ -1,12 +1,10 @@
 ## PaymentsApi
 
 ### Get payment method by id
-## Get payment method by id
 GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}
 Accept: application/json
 
 ### Get payment methods
-## Get payment methods
 GET https://checkout-test.adyen.com/v71/paymentMethods
 Accept: application/json
 
@@ -66,4 +64,3 @@ Accept: application/json
   "reference" : "YOUR_REFERENCE",
   "channel" : "Android"
 }
-

@@ -23,21 +23,17 @@ Accept: application/json
 
 
 ### Block a user
-## Block a user
 PUT https://api.github.com/user/blocks/{{username}}
 Accept: application/json
 
 ### Check if a user is blocked by the authenticated user
-## Check if a user is blocked by the authenticated user
 GET https://api.github.com/user/blocks/{{username}}
 Accept: application/json
 
 ### Check if a user follows another user
-## Check if a user follows another user
 GET https://api.github.com/users/{{username}}/following/{{target_user}}
 
 ### Check if a person is followed by the authenticated user
-## Check if a person is followed by the authenticated user
 GET https://api.github.com/user/following/{{username}}
 Accept: application/json
 
@@ -86,12 +82,10 @@ Accept: application/json
 
 
 ### Delete a GPG key for the authenticated user
-## Delete a GPG key for the authenticated user
 DELETE https://api.github.com/user/gpg_keys/{{gpg_key_id}}
 Accept: application/json
 
 ### Delete a public SSH key for the authenticated user
-## Delete a public SSH key for the authenticated user
 DELETE https://api.github.com/user/keys/{{key_id}}
 Accept: application/json
 
@@ -107,122 +101,98 @@ Accept: application/json
 
 
 ### Delete an SSH signing key for the authenticated user
-## Delete an SSH signing key for the authenticated user
 DELETE https://api.github.com/user/ssh_signing_keys/{{ssh_signing_key_id}}
 Accept: application/json
 
 ### Follow a user
-## Follow a user
 PUT https://api.github.com/user/following/{{username}}
 Accept: application/json
 
 ### Get the authenticated user
-## Get the authenticated user
 GET https://api.github.com/user
 Accept: application/json
 
 ### Get a user
-## Get a user
 GET https://api.github.com/users/{{username}}
 Accept: application/json
 
 ### Get contextual information for a user
-## Get contextual information for a user
 GET https://api.github.com/users/{{username}}/hovercard?subjectType={{subjectType}}&subjectId={{subjectId}}
 Accept: application/json
 
 ### Get a GPG key for the authenticated user
-## Get a GPG key for the authenticated user
 GET https://api.github.com/user/gpg_keys/{{gpg_key_id}}
 Accept: application/json
 
 ### Get a public SSH key for the authenticated user
-## Get a public SSH key for the authenticated user
 GET https://api.github.com/user/keys/{{key_id}}
 Accept: application/json
 
 ### Get an SSH signing key for the authenticated user
-## Get an SSH signing key for the authenticated user
 GET https://api.github.com/user/ssh_signing_keys/{{ssh_signing_key_id}}
 Accept: application/json
 
 ### List users
-## List users
 GET https://api.github.com/users?since={{since}}&perPage={{perPage}}
 Accept: application/json
 
 ### List users blocked by the authenticated user
-## List users blocked by the authenticated user
 GET https://api.github.com/user/blocks?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List email addresses for the authenticated user
-## List email addresses for the authenticated user
 GET https://api.github.com/user/emails?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List the people the authenticated user follows
-## List the people the authenticated user follows
 GET https://api.github.com/user/following?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List followers of the authenticated user
-## List followers of the authenticated user
 GET https://api.github.com/user/followers?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List followers of a user
-## List followers of a user
 GET https://api.github.com/users/{{username}}/followers?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List the people a user follows
-## List the people a user follows
 GET https://api.github.com/users/{{username}}/following?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List GPG keys for the authenticated user
-## List GPG keys for the authenticated user
 GET https://api.github.com/user/gpg_keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List GPG keys for a user
-## List GPG keys for a user
 GET https://api.github.com/users/{{username}}/gpg_keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public email addresses for the authenticated user
-## List public email addresses for the authenticated user
 GET https://api.github.com/user/public_emails?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public keys for a user
-## List public keys for a user
 GET https://api.github.com/users/{{username}}/keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public SSH keys for the authenticated user
-## List public SSH keys for the authenticated user
 GET https://api.github.com/user/keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List social accounts for the authenticated user
-## List social accounts for the authenticated user
 GET https://api.github.com/user/social_accounts?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List social accounts for a user
-## List social accounts for a user
 GET https://api.github.com/users/{{username}}/social_accounts?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List SSH signing keys for the authenticated user
-## List SSH signing keys for the authenticated user
 GET https://api.github.com/user/ssh_signing_keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List SSH signing keys for a user
-## List SSH signing keys for a user
 GET https://api.github.com/users/{{username}}/ssh_signing_keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
@@ -238,12 +208,10 @@ Accept: application/json
 
 
 ### Unblock a user
-## Unblock a user
 DELETE https://api.github.com/user/blocks/{{username}}
 Accept: application/json
 
 ### Unfollow a user
-## Unfollow a user
 DELETE https://api.github.com/user/following/{{username}}
 Accept: application/json
 
@@ -257,4 +225,3 @@ Accept: application/json
   "blog" : "https://github.com/blog",
   "name" : "monalisa octocat"
 }
-

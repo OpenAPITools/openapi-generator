@@ -1,14 +1,12 @@
 ## PaymentLinksApi
 
 ### Get a payment link
-## Get a payment link
 GET https://checkout-test.adyen.com/v71/paymentLinks/{{linkId}}
 Accept: application/json
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 ### Update the status of a payment link
-## Update the status of a payment link
 PATCH https://checkout-test.adyen.com/v71/paymentLinks/{{linkId}}
 Content-Type: application/json
 Accept: application/json
@@ -21,7 +19,6 @@ X-API-Key: {{apiKey}}
 
 
 ### Create a payment link
-## Create a payment link
 POST https://checkout-test.adyen.com/v71/paymentLinks
 Content-Type: application/json
 Accept: application/json
@@ -57,4 +54,3 @@ X-API-Key: {{apiKey}}
  "stateOrProvince": "SP"
 }
 }
-

@@ -1,6 +1,5 @@
 ## ProMatchesApi
 
 ### GET /proMatches
-## GET /proMatches
 GET https://api.opendota.com/api/proMatches?lessThanMatchId={{lessThanMatchId}}
 Accept: application/json; charset=utf-8

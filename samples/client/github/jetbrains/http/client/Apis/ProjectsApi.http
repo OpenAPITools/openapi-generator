@@ -67,67 +67,54 @@ Accept: application/json
 
 
 ### Delete a project
-## Delete a project
 DELETE https://api.github.com/projects/{{project_id}}
 Accept: application/json
 
 ### Delete a project card
-## Delete a project card
 DELETE https://api.github.com/projects/columns/cards/{{card_id}}
 Accept: application/json
 
 ### Delete a project column
-## Delete a project column
 DELETE https://api.github.com/projects/columns/{{column_id}}
 Accept: application/json
 
 ### Get a project
-## Get a project
 GET https://api.github.com/projects/{{project_id}}
 Accept: application/json
 
 ### Get a project card
-## Get a project card
 GET https://api.github.com/projects/columns/cards/{{card_id}}
 Accept: application/json
 
 ### Get a project column
-## Get a project column
 GET https://api.github.com/projects/columns/{{column_id}}
 Accept: application/json
 
 ### Get project permission for a user
-## Get project permission for a user
 GET https://api.github.com/projects/{{project_id}}/collaborators/{{username}}/permission
 Accept: application/json
 
 ### List project cards
-## List project cards
 GET https://api.github.com/projects/columns/{{column_id}}/cards?archivedState={{archivedState}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List project collaborators
-## List project collaborators
 GET https://api.github.com/projects/{{project_id}}/collaborators?affiliation={{affiliation}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List project columns
-## List project columns
 GET https://api.github.com/projects/{{project_id}}/columns?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organization projects
-## List organization projects
 GET https://api.github.com/orgs/{{org}}/projects?state={{state}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository projects
-## List repository projects
 GET https://api.github.com/repos/{{owner}}/{{repo}}/projects?state={{state}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List user projects
-## List user projects
 GET https://api.github.com/users/{{username}}/projects?state={{state}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
@@ -155,7 +142,6 @@ Accept: application/json
 
 
 ### Remove user as a collaborator
-## Remove user as a collaborator
 DELETE https://api.github.com/projects/{{project_id}}/collaborators/{{username}}
 Accept: application/json
 
@@ -192,4 +178,3 @@ Accept: application/json
 {
   "name" : "To Do"
 }
-

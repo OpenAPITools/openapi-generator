@@ -41,16 +41,13 @@ Accept: application/json
 
 
 ### Get Copilot seat information and settings for an organization
-## Get Copilot seat information and settings for an organization
 GET https://api.github.com/orgs/{{org}}/copilot/billing
 Accept: application/json
 
 ### Get Copilot seat assignment details for a user
-## Get Copilot seat assignment details for a user
 GET https://api.github.com/orgs/{{org}}/members/{{username}}/copilot
 Accept: application/json
 
 ### List all Copilot seat assignments for an organization
-## List all Copilot seat assignments for an organization
 GET https://api.github.com/orgs/{{org}}/copilot/billing/seats?page={{page}}&perPage={{perPage}}
 Accept: application/json

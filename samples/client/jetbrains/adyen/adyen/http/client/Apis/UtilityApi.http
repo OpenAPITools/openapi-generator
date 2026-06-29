@@ -28,4 +28,3 @@ X-API-Key: {{apiKey}}
 {
  "originDomains": ["https://www.your-domain1.com","https://www.your-domain2.com","https://www.your-domain3.com"]
 }
-

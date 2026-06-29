@@ -154,4 +154,3 @@ X-API-Key: {{apiKey}}
 {
  "payload": "VALUE_YOU_GET_FROM_CHECKOUT_SDK"
 }
-

@@ -75,37 +75,30 @@ Accept: application/json
 
 
 ### Delete a reference
-## Delete a reference
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/git/refs/{{ref}}
 Accept: application/json
 
 ### Get a blob
-## Get a blob
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/blobs/{{file_sha}}
 Accept: application/json
 
 ### Get a commit object
-## Get a commit object
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/commits/{{commit_sha}}
 Accept: application/json
 
 ### Get a reference
-## Get a reference
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/ref/{{ref}}
 Accept: application/json
 
 ### Get a tag
-## Get a tag
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/tags/{{tag_sha}}
 Accept: application/json
 
 ### Get a tree
-## Get a tree
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/trees/{{tree_sha}}?recursive={{recursive}}
 Accept: application/json
 
 ### List matching references
-## List matching references
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/matching-refs/{{ref}}
 Accept: application/json
 
@@ -118,4 +111,3 @@ Accept: application/json
   "sha" : "aa218f56b14c9653891f9e74264a383fa43fefbd",
   "force" : true
 }
-

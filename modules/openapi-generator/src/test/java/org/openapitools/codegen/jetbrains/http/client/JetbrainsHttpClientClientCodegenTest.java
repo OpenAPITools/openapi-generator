@@ -40,7 +40,6 @@ public class JetbrainsHttpClientClientCodegenTest {
         TestUtils.assertFileContains(path, "## BasicApi\n" +
                 "\n" +
                 "### Get User\n" +
-                "## Get User\n" +
                 "GET http://localhost:5001/users/{{userId}}\n" +
                 "Accept: application/json\n" +
                 "Accept: application/xml");
@@ -68,7 +67,6 @@ public class JetbrainsHttpClientClientCodegenTest {
         TestUtils.assertFileContains(path, "## BasicApi\n" +
                 "\n" +
                 "### Get User\n" +
-                "## Get User\n" +
                 "GET http://localhost:5000/v1/users/{{userId}}\n" +
                 "Accept: application/json\n" +
                 "Accept: application/xml");
@@ -310,6 +308,96 @@ public class JetbrainsHttpClientClientCodegenTest {
     }
 
     @Test
+    public void testSchemaRequestBodyUsesJsonContentTypeAndCommentsAlternates() throws IOException {
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
+        Path spec = Files.createTempFile("jetbrains-multiple-content-types_", ".yaml");
+        spec.toFile().deleteOnExit();
+
+        Files.writeString(spec, String.join("\n",
+                "openapi: 3.0.3",
+                "info:",
+                "  title: Multiple request body content types",
+                "  version: '1.0'",
+                "servers:",
+                "  - url: http://localhost:5000/v1",
+                "paths:",
+                "  /pets:",
+                "    post:",
+                "      summary: Add pet",
+                "      operationId: add-pet",
+                "      requestBody:",
+                "        content:",
+                "          application/json:",
+                "            schema:",
+                "              $ref: '#/components/schemas/Pet'",
+                "          application/xml:",
+                "            schema:",
+                "              $ref: '#/components/schemas/Pet'",
+                "      responses:",
+                "        '200':",
+                "          description: OK",
+                "  /pets/xml:",
+                "    post:",
+                "      summary: Add XML pet",
+                "      operationId: add-xml-pet",
+                "      requestBody:",
+                "        content:",
+                "          application/xml:",
+                "            schema:",
+                "              $ref: '#/components/schemas/Pet'",
+                "          text/plain:",
+                "            schema:",
+                "              type: string",
+                "      responses:",
+                "        '200':",
+                "          description: OK",
+                "components:",
+                "  schemas:",
+                "    Pet:",
+                "      type: object",
+                "      properties:",
+                "        id:",
+                "          type: integer",
+                "        name:",
+                "          type: string",
+                ""));
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec(spec.toString())
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis/DefaultApi.http");
+        assertFileExists(path);
+        TestUtils.assertFileContains(path, "### Add pet\n" +
+                "POST http://localhost:5000/v1/pets\n" +
+                "Content-Type: application/json\n" +
+                "# Content-Type: application/xml\n" +
+                "\n" +
+                "{\n" +
+                " \"id\": \"<number>\",\n" +
+                " \"name\": \"<string>\"\n" +
+                "}");
+        TestUtils.assertFileContains(path, "### Add XML pet\n" +
+                "POST http://localhost:5000/v1/pets/xml\n" +
+                "Content-Type: application/xml\n" +
+                "# Content-Type: text/plain");
+        TestUtils.assertFileNotContains(path, "Content-Type: application/json\nContent-Type: application/xml");
+        TestUtils.assertFileNotContains(path, "POST http://localhost:5000/v1/pets/xml\n" +
+                "Content-Type: application/xml\n" +
+                "# Content-Type: text/plain\n" +
+                "\n" +
+                "{");
+    }
+
+    @Test
     public void testBasicGenerationWithCustomHeaders() throws IOException {
 
         File output = Files.createTempDirectory("jetbrainstest_").toFile();
@@ -362,7 +450,6 @@ public class JetbrainsHttpClientClientCodegenTest {
         TestUtils.assertFileContains(path, "## PaymentsApi\n" +
                 "\n" +
                 "### Get payment method by id\n" +
-                "## Get payment method by id\n" +
                 "GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}\n" +
                 "Accept: application/json\n" +
                 "Authorization: Bearer {{bearerToken}}");
@@ -399,7 +486,6 @@ public class JetbrainsHttpClientClientCodegenTest {
         TestUtils.assertFileContains(path, "## PaymentsApi\n" +
                 "\n" +
                 "### Get payment method by id\n" +
-                "## Get payment method by id\n" +
                 "GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}\n" +
                 "Accept: application/json\n" +
                 "Cookie: X-API-Key={{cookieKey}}");
@@ -436,7 +522,6 @@ public class JetbrainsHttpClientClientCodegenTest {
         TestUtils.assertFileContains(path, "## PaymentsApi\n" +
                 "\n" +
                 "### Get payment method by id\n" +
-                "## Get payment method by id\n" +
                 "GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}?api_key={{queryKey}}");
 
         TestUtils.assertFileContains(path, "### Make a payment\n" +
@@ -482,7 +567,6 @@ public class JetbrainsHttpClientClientCodegenTest {
         TestUtils.assertFileContains(path, "## PaymentsApi\n" +
                 "\n" +
                 "### Get payment method by id\n" +
-                "## Get payment method by id\n" +
                 "GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}\n" +
                 "Accept: application/json\n" +
                 "Authorization: Basic: {{username-password}}");
@@ -511,7 +595,6 @@ public class JetbrainsHttpClientClientCodegenTest {
         TestUtils.assertFileContains(path, "## PaymentsApi\n" +
                 "\n" +
                 "### Get payment method by id\n" +
-                "## Get payment method by id\n" +
                 "GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}\n" +
                 "Accept: application/json\n" +
                 "X-API-Key: {{apiKey}}");
@@ -538,7 +621,6 @@ public class JetbrainsHttpClientClientCodegenTest {
         assertFileExists(path);
 
         TestUtils.assertFileContains(path, "### Get payment method by id\n" +
-                "## Get payment method by id\n" +
                 "GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}?api_key={{queryKey}}\n" +
                 "Accept: application/json\n" +
                 "Authorization: Bearer {{bearerToken}}");
@@ -661,7 +743,6 @@ public class JetbrainsHttpClientClientCodegenTest {
 
         // Checking with extra params
         TestUtils.assertFileContains(path, "### Get User Info by Query Param\n" +
-                "## Get User Info by Query Param\n" +
                 "GET http://localhost:5000/v1/users/?page={{page}}&pUserId={{pUserId}}&api_key={{queryKey}}\n" +
                 "Accept: application/json\n" +
                 "Custom-Header: {{customHeader}}\n" +
@@ -669,7 +750,6 @@ public class JetbrainsHttpClientClientCodegenTest {
 
         // Checking without extra params
         TestUtils.assertFileContains(path, "### Get User Info by User ID\n" +
-                "## Get User Info by User ID\n" +
                 "GET http://localhost:5000/v1/users/{{userId}}?api_key={{queryKey}}\n" +
                 "Accept: application/json\n" +
                 "strCode: {{strCode}}\n" +
@@ -677,7 +757,6 @@ public class JetbrainsHttpClientClientCodegenTest {
 
         // Checking with only auth
         TestUtils.assertFileContains(path, "### Get User Info by User ID\n" +
-                "## Get User Info by User ID\n" +
                 "GET http://localhost:5000/v1/users/{{userId}}?api_key={{queryKey}}\n" +
                 "Accept: application/json\n" +
                 "strCode: {{strCode}}\n" +
@@ -735,7 +814,6 @@ public class JetbrainsHttpClientClientCodegenTest {
 
         // Checking with extra headers and header security
         TestUtils.assertFileContains(path, "### Get User Info by Query Param\n" +
-                "## Get User Info by Query Param\n" +
                 "GET http://localhost:5000/v1/users/?page={{page}}&pUserId={{pUserId}}\n" +
                 "Accept: application/json\n" +
                 "Custom-Header: {{customHeader}}\n" +
@@ -753,7 +831,6 @@ public class JetbrainsHttpClientClientCodegenTest {
 
         // Checking with only extra headers
         TestUtils.assertFileContains(path, "### Get group by ID\n" +
-                "## Get group by ID\n" +
                 "GET http://localhost:5000/v1/groups/{{groupId}}\n" +
                 "Accept: application/json\n" +
                 "Custom-Header: {{customHeader}}\n" +

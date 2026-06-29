@@ -1,7 +1,6 @@
 ## PaymentsApi
 
 ### Get the result of a payment session
-## Get the result of a payment session
 GET https://checkout-test.adyen.com/v71/sessions/{{sessionId}}?sessionResult={{sessionResult}}
 Accept: application/json
 Authorization: Basic: {{username-password}}
@@ -553,7 +552,6 @@ X-API-Key: {{apiKey}}
 
 
 ### Create a payment session
-## Create a payment session
 POST https://checkout-test.adyen.com/v71/sessions
 Content-Type: application/json
 Accept: application/json
@@ -660,4 +658,3 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "splits": ["{amount={value=39200}, type=BalanceAccount, account=BA00000000000000000000001, reference=Your reference for the sale amount, description=Your description for the sale amount}","{amount={value=400}, type=Commission, reference=Your reference for the commission, description=Your description for the commission}","{amount={value=400}, account=BA00000000000000000000001, reference=Your reference for the fees, description=Your description for the fees, type=PaymentFee}"]
 }
-

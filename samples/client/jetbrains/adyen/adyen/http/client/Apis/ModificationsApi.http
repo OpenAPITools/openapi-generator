@@ -51,7 +51,6 @@ X-API-Key: {{apiKey}}
 
 
 ### Capture an authorised payment
-## Capture an authorised payment
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/captures
 Content-Type: application/json
 Accept: application/json
@@ -106,4 +105,3 @@ X-API-Key: {{apiKey}}
  "reference": "YOUR_UNIQUE_REFERENCE",
  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
 }
-

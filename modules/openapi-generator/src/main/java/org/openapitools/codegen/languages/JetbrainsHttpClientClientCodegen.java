@@ -191,28 +191,28 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             // operation with bodyParam
             if (requestParameterGeneration.equalsIgnoreCase("Schema")) {
                 // get from schema
-                items.add(new RequestItem(codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam), getDefaultContentType(codegenOperation)));
+                addRequestForContentTypes(items, codegenOperation, codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam));
             } else {
                 // get from examples
                 if (codegenOperation.bodyParam.example != null) {
                     // find in bodyParam example
-                    items.add(new RequestItem(codegenOperation.summary, formatJson(codegenOperation.bodyParam.example), getDefaultContentType(codegenOperation)));
+                    addRequestForContentTypes(items, codegenOperation, codegenOperation.summary, formatJson(codegenOperation.bodyParam.example));
                 } else if (addRequestsFromMediaTypeExamples(items, codegenOperation)) {
                     // request examples found in media type examples
                 } else if (codegenOperation.bodyParam.getSchema() != null) {
                     // find in schema example
                     String exampleAsString = (codegenOperation.bodyParam.getSchema().getExample());
-                    items.add(new RequestItem(codegenOperation.summary, exampleAsString, getDefaultContentType(codegenOperation)));
+                    addRequestForContentTypes(items, codegenOperation, codegenOperation.summary, exampleAsString);
                 } else {
                     // example not found
                     // get from schema
-                    items.add(new RequestItem(codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam), getDefaultContentType(codegenOperation)));
+                    addRequestForContentTypes(items, codegenOperation, codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam));
 
                 }
             }
         } else {
             // operation without bodyParam
-            items.add(new RequestItem(codegenOperation.summary, null));
+            addRequestForContentTypes(items, codegenOperation, codegenOperation.summary, null);
         }
 
         codegenOperation.headerParams.forEach(param -> customVariables.put(param.baseName, ""));
@@ -222,8 +222,58 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         List<String> pathVariables = extractSingleCurlyBraces(codegenOperation.path);
         pathVariables.forEach(pv -> customVariables.put(pv, ""));
 
+        items.forEach(item -> {
+            if (Objects.equals(item.getName(), codegenOperation.summary)) {
+                item.setName(null);
+            }
+        });
+
         // Handling custom variables now
         return handleCustomVariablesInRequests(items);
+    }
+
+    private void addRequestForContentTypes(List<RequestItem> items, CodegenOperation codegenOperation, String name, String body) {
+        List<String> contentTypes = getContentTypes(codegenOperation);
+        if (contentTypes.isEmpty()) {
+            items.add(new RequestItem(name, body));
+            return;
+        }
+
+        String primaryContentType = getPreferredContentType(contentTypes);
+        List<String> commentedContentTypes = new ArrayList<>(contentTypes);
+        commentedContentTypes.remove(primaryContentType);
+
+        String requestBody = null;
+        if (body != null && isJsonContentType(primaryContentType)) {
+            requestBody = body;
+        }
+        items.add(new RequestItem(name, requestBody, primaryContentType, commentedContentTypes));
+    }
+
+    private List<String> getContentTypes(CodegenOperation codegenOperation) {
+        if (codegenOperation.consumes == null || codegenOperation.consumes.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Set<String> contentTypes = new LinkedHashSet<>();
+        for (Map<String, String> mediaType : codegenOperation.consumes) {
+            String contentType = mediaType.get("mediaType");
+            if (contentType != null) {
+                contentTypes.add(contentType);
+            }
+        }
+        return new ArrayList<>(contentTypes);
+    }
+
+    private String getPreferredContentType(List<String> contentTypes) {
+        return contentTypes.stream()
+                .filter(this::isJsonContentType)
+                .findFirst()
+                .orElse(contentTypes.get(0));
+    }
+
+    private boolean isJsonContentType(String contentType) {
+        return contentType != null && contentType.toLowerCase(Locale.ROOT).contains("json");
     }
 
     private boolean addRequestsFromMediaTypeExamples(List<RequestItem> items, CodegenOperation codegenOperation) {
@@ -253,13 +303,6 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         }
 
         return !items.isEmpty();
-    }
-
-    private String getDefaultContentType(CodegenOperation codegenOperation) {
-        if (codegenOperation.consumes == null || codegenOperation.consumes.isEmpty()) {
-            return null;
-        }
-        return codegenOperation.consumes.get(0).get("mediaType");
     }
 
     public static List<String> extractDoubleCurlyBraces(String input) {
@@ -324,15 +367,21 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         private String name;
         private String body;
         private String contentType;
+        private List<String> commentedContentTypes;
 
         public RequestItem(String name, String body) {
             this(name, body, null);
         }
 
         public RequestItem(String name, String body, String contentType) {
+            this(name, body, contentType, Collections.emptyList());
+        }
+
+        public RequestItem(String name, String body, String contentType, List<String> commentedContentTypes) {
             this.name = name;
             this.body = body;
             this.contentType = contentType;
+            this.commentedContentTypes = commentedContentTypes;
         }
     }
 

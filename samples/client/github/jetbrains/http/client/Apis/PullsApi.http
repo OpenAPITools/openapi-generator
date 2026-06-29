@@ -1,7 +1,6 @@
 ## PullsApi
 
 ### Check if a pull request has been merged
-## Check if a pull request has been merged
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/merge
 
 ### Create a pull request
@@ -62,12 +61,10 @@ Accept: application/json
 
 
 ### Delete a pending review for a pull request
-## Delete a pending review for a pull request
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}
 Accept: application/json
 
 ### Delete a review comment for a pull request
-## Delete a review comment for a pull request
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}
 Accept: application/json
 
@@ -83,57 +80,46 @@ Accept: application/json
 
 
 ### Get a pull request
-## Get a pull request
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}
 Accept: application/json
 
 ### Get a review for a pull request
-## Get a review for a pull request
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}
 Accept: application/json
 
 ### Get a review comment for a pull request
-## Get a review comment for a pull request
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}
 Accept: application/json
 
 ### List pull requests
-## List pull requests
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls?state={{state}}&head={{head}}&base={{base}}&sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List comments for a pull request review
-## List comments for a pull request review
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}/comments?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List commits on a pull request
-## List commits on a pull request
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/commits?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List pull requests files
-## List pull requests files
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/files?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get all requested reviewers for a pull request
-## Get all requested reviewers for a pull request
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/requested_reviewers
 Accept: application/json
 
 ### List review comments on a pull request
-## List review comments on a pull request
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/comments?sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List review comments in a repository
-## List review comments in a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments?sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List reviews for a pull request
-## List reviews for a pull request
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
@@ -222,4 +208,3 @@ Accept: application/json
 {
   "body" : "I like this too!"
 }
-

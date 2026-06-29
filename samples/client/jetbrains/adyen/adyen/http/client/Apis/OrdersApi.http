@@ -1,7 +1,6 @@
 ## OrdersApi
 
 ### Create an order
-## Create an order
 POST https://checkout-test.adyen.com/v71/orders
 Content-Type: application/json
 Accept: application/json
@@ -20,7 +19,6 @@ X-API-Key: {{apiKey}}
 
 
 ### Cancel an order
-## Cancel an order
 POST https://checkout-test.adyen.com/v71/orders/cancel
 Content-Type: application/json
 Accept: application/json
@@ -80,4 +78,3 @@ X-API-Key: {{apiKey}}
 },
  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
 }
-
