@@ -474,25 +474,26 @@ public class TypeScriptFetchClientCodegenTest {
 
         // SnakeOptionOne: discriminator_field (snake_case baseName) vs discriminatorField (camelCase name)
         // instanceOf should check both casings for field presence and discriminator value
+        // (the value is widened to Record<string, any> to avoid TS2590 on wide models)
         Path snakeOptionOne = Paths.get(output + "/models/SnakeOptionOne.ts");
         TestUtils.assertFileExists(snakeOptionOne);
-        TestUtils.assertFileContains(snakeOptionOne, "'discriminatorField' in value");
-        TestUtils.assertFileContains(snakeOptionOne, "'discriminator_field' in value");
-        TestUtils.assertFileContains(snakeOptionOne, "value['discriminatorField'] !== 'snakeOptionOne'");
-        TestUtils.assertFileContains(snakeOptionOne, "value['discriminator_field'] !== 'snakeOptionOne'");
+        TestUtils.assertFileContains(snakeOptionOne, "'discriminatorField' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(snakeOptionOne, "'discriminator_field' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(snakeOptionOne, "(value as Record<string, any>)['discriminatorField'] !== 'snakeOptionOne'");
+        TestUtils.assertFileContains(snakeOptionOne, "(value as Record<string, any>)['discriminator_field'] !== 'snakeOptionOne'");
         // Also verify the non-enum required field checks both casings
-        TestUtils.assertFileContains(snakeOptionOne, "'someProperty' in value");
-        TestUtils.assertFileContains(snakeOptionOne, "'some_property' in value");
+        TestUtils.assertFileContains(snakeOptionOne, "'someProperty' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(snakeOptionOne, "'some_property' in (value as Record<string, any>)");
 
         // DashedOptionOne: discriminator-field (dashed baseName) vs discriminatorField (camelCase name)
         Path dashedOptionOne = Paths.get(output + "/models/DashedOptionOne.ts");
         TestUtils.assertFileExists(dashedOptionOne);
-        TestUtils.assertFileContains(dashedOptionOne, "'discriminatorField' in value");
-        TestUtils.assertFileContains(dashedOptionOne, "'discriminator-field' in value");
-        TestUtils.assertFileContains(dashedOptionOne, "value['discriminatorField'] !== 'dashedOptionOne'");
-        TestUtils.assertFileContains(dashedOptionOne, "value['discriminator-field'] !== 'dashedOptionOne'");
-        TestUtils.assertFileContains(dashedOptionOne, "'someProperty' in value");
-        TestUtils.assertFileContains(dashedOptionOne, "'some-property' in value");
+        TestUtils.assertFileContains(dashedOptionOne, "'discriminatorField' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(dashedOptionOne, "'discriminator-field' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(dashedOptionOne, "(value as Record<string, any>)['discriminatorField'] !== 'dashedOptionOne'");
+        TestUtils.assertFileContains(dashedOptionOne, "(value as Record<string, any>)['discriminator-field'] !== 'dashedOptionOne'");
+        TestUtils.assertFileContains(dashedOptionOne, "'someProperty' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(dashedOptionOne, "'some-property' in (value as Record<string, any>)");
 
         // Numeric singleton enum: value check must NOT quote the literal
         Path numericModel = Paths.get(output + "/models/NumericSingletonEnumModel.ts");

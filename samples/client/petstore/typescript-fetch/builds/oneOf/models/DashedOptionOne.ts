@@ -47,10 +47,10 @@ export type DashedOptionOneDiscriminatorFieldEnum = typeof DashedOptionOneDiscri
  * Check if a given object implements the DashedOptionOne interface.
  */
 export function instanceOfDashedOptionOne(value: object): value is DashedOptionOne {
-    if ((!('discriminatorField' in value) && !('discriminator-field' in value)) || (value['discriminatorField'] === undefined && value['discriminator-field'] === undefined)) return false;
-    if (value['discriminatorField'] !== 'dashedOptionOne' && value['discriminator-field'] !== 'dashedOptionOne') return false;
+    if ((!('discriminatorField' in (value as Record<string, any>)) && !('discriminator-field' in (value as Record<string, any>))) || ((value as Record<string, any>)['discriminatorField'] === undefined && (value as Record<string, any>)['discriminator-field'] === undefined)) return false;
+    if ((value as Record<string, any>)['discriminatorField'] !== 'dashedOptionOne' && (value as Record<string, any>)['discriminator-field'] !== 'dashedOptionOne') return false;
     
-    if ((!('someProperty' in value) && !('some-property' in value)) || (value['someProperty'] === undefined && value['some-property'] === undefined)) return false;
+    if ((!('someProperty' in (value as Record<string, any>)) && !('some-property' in (value as Record<string, any>))) || ((value as Record<string, any>)['someProperty'] === undefined && (value as Record<string, any>)['some-property'] === undefined)) return false;
     return true;
 }
 
