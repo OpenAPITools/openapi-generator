@@ -1,7 +1,7 @@
 ## UsersApi
 
 ### Add an email address for the authenticated user
-## Add an email address for the authenticated user
+## Example adding multiple email addresses
 POST https://api.github.com/user/emails
 Content-Type: application/json
 Accept: application/json
@@ -12,7 +12,7 @@ Accept: application/json
 
 
 ### Add social accounts for the authenticated user
-## Add social accounts for the authenticated user
+## Adding multiple social accounts
 POST https://api.github.com/user/social_accounts
 Content-Type: application/json
 Accept: application/json
@@ -42,7 +42,6 @@ GET https://api.github.com/user/following/{{username}}
 Accept: application/json
 
 ### Create a GPG key for the authenticated user
-## Create a GPG key for the authenticated user
 POST https://api.github.com/user/gpg_keys
 Content-Type: application/json
 Accept: application/json
@@ -54,7 +53,6 @@ Accept: application/json
 
 
 ### Create a public SSH key for the authenticated user
-## Create a public SSH key for the authenticated user
 POST https://api.github.com/user/keys
 Content-Type: application/json
 Accept: application/json
@@ -66,7 +64,6 @@ Accept: application/json
 
 
 ### Create a SSH signing key for the authenticated user
-## Create a SSH signing key for the authenticated user
 POST https://api.github.com/user/ssh_signing_keys
 Content-Type: application/json
 Accept: application/json
@@ -78,7 +75,7 @@ Accept: application/json
 
 
 ### Delete an email address for the authenticated user
-## Delete an email address for the authenticated user
+## Example deleting multiple email accounts
 DELETE https://api.github.com/user/emails
 Content-Type: application/json
 Accept: application/json
@@ -99,7 +96,7 @@ DELETE https://api.github.com/user/keys/{{key_id}}
 Accept: application/json
 
 ### Delete social accounts for the authenticated user
-## Delete social accounts for the authenticated user
+## Deleting multiple social accounts
 DELETE https://api.github.com/user/social_accounts
 Content-Type: application/json
 Accept: application/json
@@ -230,7 +227,7 @@ GET https://api.github.com/users/{{username}}/ssh_signing_keys?perPage={{perPage
 Accept: application/json
 
 ### Set primary email visibility for the authenticated user
-## Set primary email visibility for the authenticated user
+## Example setting the primary email address to private
 PATCH https://api.github.com/user/email/visibility
 Content-Type: application/json
 Accept: application/json
@@ -251,7 +248,7 @@ DELETE https://api.github.com/user/following/{{username}}
 Accept: application/json
 
 ### Update the authenticated user
-## Update the authenticated user
+## Example of updating blog and name
 PATCH https://api.github.com/user
 Content-Type: application/json
 Accept: application/json

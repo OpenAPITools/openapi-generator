@@ -1,7 +1,6 @@
 ## IssuesApi
 
 ### Add assignees to an issue
-## Add assignees to an issue
 POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/assignees
 Content-Type: application/json
 Accept: application/json
@@ -12,7 +11,6 @@ Accept: application/json
 
 
 ### Add labels to an issue
-## Add labels to an issue
 POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels
 Content-Type: application/json
 Accept: application/json
@@ -33,7 +31,6 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/assi
 Accept: application/json
 
 ### Create an issue
-## Create an issue
 POST https://api.github.com/repos/{{owner}}/{{repo}}/issues
 Content-Type: application/json
 Accept: application/json
@@ -49,7 +46,6 @@ Accept: application/scim+json
 
 
 ### Create an issue comment
-## Create an issue comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/comments
 Content-Type: application/json
 Accept: application/json
@@ -60,7 +56,6 @@ Accept: application/json
 
 
 ### Create a label
-## Create a label
 POST https://api.github.com/repos/{{owner}}/{{repo}}/labels
 Content-Type: application/json
 Accept: application/json
@@ -73,7 +68,6 @@ Accept: application/json
 
 
 ### Create a milestone
-## Create a milestone
 POST https://api.github.com/repos/{{owner}}/{{repo}}/milestones
 Content-Type: application/json
 Accept: application/json
@@ -195,7 +189,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/milestones?state={{state}}&s
 Accept: application/json
 
 ### Lock an issue
-## Lock an issue
+## Example of locking an issue as off-topic
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/lock
 Content-Type: application/json
 Accept: application/json
@@ -211,7 +205,6 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/l
 Accept: application/json
 
 ### Remove assignees from an issue
-## Remove assignees from an issue
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/assignees
 Content-Type: application/json
 Accept: application/json
@@ -227,7 +220,6 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/l
 Accept: application/json
 
 ### Set labels for an issue
-## Set labels for an issue
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels
 Content-Type: application/json
 Accept: application/json
@@ -243,7 +235,6 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/l
 Accept: application/json
 
 ### Update an issue
-## Update an issue
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}
 Content-Type: application/json
 Accept: application/json
@@ -259,7 +250,6 @@ Accept: application/json
 
 
 ### Update an issue comment
-## Update an issue comment
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}
 Content-Type: application/json
 Accept: application/json
@@ -270,7 +260,6 @@ Accept: application/json
 
 
 ### Update a label
-## Update a label
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/labels/{{name}}
 Content-Type: application/json
 Accept: application/json
@@ -283,7 +272,6 @@ Accept: application/json
 
 
 ### Update a milestone
-## Update a milestone
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/milestones/{{milestone_number}}
 Content-Type: application/json
 Accept: application/json

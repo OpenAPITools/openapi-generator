@@ -1,7 +1,7 @@
 ## ChecksApi
 
 ### Create a check run
-## Create a check run
+## Example of an in_progress conclusion
 POST https://api.github.com/repos/{{owner}}/{{repo}}/check-runs
 Content-Type: application/json
 Accept: application/json
@@ -19,9 +19,54 @@ Accept: application/json
   }
 }
 
+### Create a check run
+## Example of a completed conclusion
+POST https://api.github.com/repos/{{owner}}/{{repo}}/check-runs
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "mighty_readme",
+  "head_sha" : "ce587453ced02b1526dfb4cb910479d431683101",
+  "status" : "completed",
+  "started_at" : "2017-11-30T19:39:10Z",
+  "conclusion" : "success",
+  "completed_at" : "2017-11-30T19:49:10Z",
+  "output" : {
+    "title" : "Mighty Readme report",
+    "summary" : "There are 0 failures, 2 warnings, and 1 notices.",
+    "text" : "You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.",
+    "annotations" : [ {
+      "path" : "README.md",
+      "annotation_level" : "warning",
+      "title" : "Spell Checker",
+      "message" : "Check your spelling for 'banaas'.",
+      "raw_details" : "Do you mean 'bananas' or 'banana'?",
+      "start_line" : 2,
+      "end_line" : 2
+    }, {
+      "path" : "README.md",
+      "annotation_level" : "warning",
+      "title" : "Spell Checker",
+      "message" : "Check your spelling for 'aples'",
+      "raw_details" : "Do you mean 'apples' or 'Naples'",
+      "start_line" : 4,
+      "end_line" : 4
+    } ],
+    "images" : [ {
+      "alt" : "Super bananas",
+      "image_url" : "http://example.com/images/42"
+    } ]
+  },
+  "actions" : [ {
+    "label" : "Fix",
+    "identifier" : "fix_errors",
+    "description" : "Allow us to fix these errors for you"
+  } ]
+}
+
 
 ### Create a check suite
-## Create a check suite
 POST https://api.github.com/repos/{{owner}}/{{repo}}/check-suites
 Content-Type: application/json
 Accept: application/json
@@ -72,7 +117,6 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_
 Accept: application/json
 
 ### Update repository preferences for check suites
-## Update repository preferences for check suites
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/preferences
 Content-Type: application/json
 Accept: application/json
@@ -86,7 +130,6 @@ Accept: application/json
 
 
 ### Update a check run
-## Update a check run
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}
 Content-Type: application/json
 Accept: application/json

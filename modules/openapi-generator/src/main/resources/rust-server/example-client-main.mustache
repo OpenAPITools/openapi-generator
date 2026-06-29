@@ -166,7 +166,7 @@ fn main() {
         Some("{{{operationId}}}") => {
             let result = rt.block_on(client.{{{exts.x-operation-id}}}(
                 {{#allParams}}
-                  {{{exts.x-example}}}{{^-last}},{{/-last}}
+                  {{#exts.x-example-use-lambda}}{{{exts.x-example-prefix}}}{{#lambdaExample}}{{/lambdaExample}}{{{exts.x-example-suffix}}}{{/exts.x-example-use-lambda}}{{^exts.x-example-use-lambda}}{{{exts.x-example}}}{{/exts.x-example-use-lambda}}{{^-last}},{{/-last}}
                 {{/allParams}}
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());

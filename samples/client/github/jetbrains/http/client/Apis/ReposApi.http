@@ -6,7 +6,6 @@ PATCH https://api.github.com/user/repository_invitations/{{invitation_id}}
 Accept: application/json
 
 ### Add app access restrictions
-## Add app access restrictions
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
 Content-Type: application/json
 Accept: application/json
@@ -17,7 +16,7 @@ Accept: application/json
 
 
 ### Add a repository collaborator
-## Add a repository collaborator
+## Add a collaborator with triage permissions
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}
 Content-Type: application/json
 Accept: application/json
@@ -28,7 +27,7 @@ Accept: application/json
 
 
 ### Add status check contexts
-## Add status check contexts
+## Example adding status checks to a branch protection rule
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
 Content-Type: application/json
 Accept: application/json
@@ -39,7 +38,7 @@ Accept: application/json
 
 
 ### Add team access restrictions
-## Add team access restrictions
+## Example adding a team in a branch protection rule
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
 Content-Type: application/json
 Accept: application/json
@@ -50,7 +49,7 @@ Accept: application/json
 
 
 ### Add user access restrictions
-## Add user access restrictions
+## Example adding a user in a branch protection rule
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
 Content-Type: application/json
 Accept: application/json
@@ -89,7 +88,6 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/compare/{{basehead}}?page={{
 Accept: application/json
 
 ### Create an autolink reference for a repository
-## Create an autolink reference for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/autolinks
 Content-Type: application/json
 Accept: application/json
@@ -102,7 +100,6 @@ Accept: application/json
 
 
 ### Create a commit comment
-## Create a commit comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/comments
 Content-Type: application/json
 Accept: application/json
@@ -121,7 +118,6 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protect
 Accept: application/json
 
 ### Create a commit status
-## Create a commit status
 POST https://api.github.com/repos/{{owner}}/{{repo}}/statuses/{{sha}}
 Content-Type: application/json
 Accept: application/json
@@ -135,7 +131,6 @@ Accept: application/json
 
 
 ### Create a deploy key
-## Create a deploy key
 POST https://api.github.com/repos/{{owner}}/{{repo}}/keys
 Content-Type: application/json
 Accept: application/json
@@ -148,7 +143,7 @@ Accept: application/json
 
 
 ### Create a deployment
-## Create a deployment
+## Simple example
 POST https://api.github.com/repos/{{owner}}/{{repo}}/deployments
 Content-Type: application/json
 Accept: application/json
@@ -159,9 +154,23 @@ Accept: application/json
   "description" : "Deploy request from hubot"
 }
 
+### Create a deployment
+## Advanced example
+POST https://api.github.com/repos/{{owner}}/{{repo}}/deployments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref" : "topic-branch",
+  "auto_merge" : false,
+  "payload" : "{ \"deploy\": \"migrate\" }",
+  "description" : "Deploy request from hubot",
+  "required_contexts" : [ "ci/janky", "security/brakeman" ]
+}
+
 
 ### Create a deployment branch policy
-## Create a deployment branch policy
+## Example of a wildcard name pattern
 POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies
 Content-Type: application/json
 Accept: application/json
@@ -170,9 +179,30 @@ Accept: application/json
   "name" : "release/*"
 }
 
+### Create a deployment branch policy
+## Example of a single branch name pattern
+POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "main",
+  "type" : "branch"
+}
+
+### Create a deployment branch policy
+## Example of a single tag name pattern
+POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "v1",
+  "type" : "tag"
+}
+
 
 ### Create a custom deployment protection rule on an environment
-## Create a custom deployment protection rule on an environment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules
 Content-Type: application/json
 Accept: application/json
@@ -183,7 +213,6 @@ Accept: application/json
 
 
 ### Create a deployment status
-## Create a deployment status
 POST https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}/statuses
 Content-Type: application/json
 Accept: application/json
@@ -197,7 +226,6 @@ Accept: application/json
 
 
 ### Create a repository dispatch event
-## Create a repository dispatch event
 POST https://api.github.com/repos/{{owner}}/{{repo}}/dispatches
 Content-Type: application/json
 Accept: application/json
@@ -212,7 +240,6 @@ Accept: application/json
 
 
 ### Create a repository for the authenticated user
-## Create a repository for the authenticated user
 POST https://api.github.com/user/repos
 Content-Type: application/json
 Accept: application/json
@@ -228,7 +255,6 @@ Accept: application/scim+json
 
 
 ### Create a fork
-## Create a fork
 POST https://api.github.com/repos/{{owner}}/{{repo}}/forks
 Content-Type: application/json
 Accept: application/json
@@ -242,7 +268,6 @@ Accept: application/scim+json
 
 
 ### Create an organization repository
-## Create an organization repository
 POST https://api.github.com/orgs/{{org}}/repos
 Content-Type: application/json
 Accept: application/json
@@ -259,7 +284,6 @@ Accept: application/json
 
 
 ### Create or update custom property values for a repository
-## 
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/properties/values
 Content-Type: application/json
 Accept: application/json
@@ -279,7 +303,6 @@ Accept: application/json
 
 
 ### Create or update an environment
-## Create or update an environment
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}
 Content-Type: application/json
 Accept: application/json
@@ -302,7 +325,7 @@ Accept: application/json
 
 
 ### Create or update file contents
-## Create or update file contents
+## Example for creating a file
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
 Content-Type: application/json
 Accept: application/json
@@ -316,9 +339,24 @@ Accept: application/json
   "content" : "bXkgbmV3IGZpbGUgY29udGVudHM="
 }
 
+### Create or update file contents
+## Example for updating a file
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "message" : "a new commit message",
+  "committer" : {
+    "name" : "Monalisa Octocat",
+    "email" : "octocat@github.com"
+  },
+  "content" : "bXkgdXBkYXRlZCBmaWxlIGNvbnRlbnRz",
+  "sha" : "95b966ae1c166bd92f8ae7d1c313e738c731dfc3"
+}
+
 
 ### Create an organization repository ruleset
-## Create an organization repository ruleset
 POST https://api.github.com/orgs/{{org}}/rulesets
 Content-Type: application/json
 Accept: application/json
@@ -354,7 +392,6 @@ Accept: application/json
 
 
 ### Create a GitHub Pages deployment
-## Create a GitHub Pages deployment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments
 Content-Type: application/json
 Accept: application/json
@@ -370,7 +407,6 @@ Accept: application/scim+json
 
 
 ### Create a GitHub Pages site
-## Create a GitHub Pages site
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pages
 Content-Type: application/json
 Accept: application/json
@@ -384,7 +420,6 @@ Accept: application/json
 
 
 ### Create a release
-## Create a release
 POST https://api.github.com/repos/{{owner}}/{{repo}}/releases
 Content-Type: application/json
 Accept: application/json
@@ -401,7 +436,6 @@ Accept: application/json
 
 
 ### Create a repository ruleset
-## Create a repository ruleset
 POST https://api.github.com/repos/{{owner}}/{{repo}}/rulesets
 Content-Type: application/json
 Accept: application/json
@@ -432,7 +466,6 @@ Accept: application/json
 
 
 ### Create a tag protection state for a repository
-## Create a tag protection state for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/tags/protection
 Content-Type: application/json
 Accept: application/json
@@ -443,7 +476,6 @@ Accept: application/json
 
 
 ### Create a repository using a template
-## Create a repository using a template
 POST https://api.github.com/repos/{{template_owner}}/{{template_repo}}/generate
 Content-Type: application/json
 Accept: application/json
@@ -458,7 +490,6 @@ Accept: application/json
 
 
 ### Create a repository webhook
-## Create a repository webhook
 POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks
 Content-Type: application/json
 Accept: application/json
@@ -532,7 +563,6 @@ Accept: application/json
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies/{{branch_policy_id}}
 
 ### Delete a file
-## Delete a file
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
 Content-Type: application/json
 Accept: application/json
@@ -630,7 +660,6 @@ Accept: application/scim+json
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
 
 ### Generate release notes content for a release
-## Generate release notes content for a release
 POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/generate-notes
 Content-Type: application/json
 Accept: application/json
@@ -1114,7 +1143,6 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks?perPage={{perPage}}&pa
 Accept: application/json
 
 ### Merge a branch
-## Merge a branch
 POST https://api.github.com/repos/{{owner}}/{{repo}}/merges
 Content-Type: application/json
 Accept: application/json
@@ -1127,7 +1155,6 @@ Accept: application/json
 
 
 ### Sync a fork branch with the upstream repository
-## Sync a fork branch with the upstream repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/merge-upstream
 Content-Type: application/json
 Accept: application/json
@@ -1149,7 +1176,6 @@ Accept: application/json
 Accept: application/scim+json
 
 ### Remove app access restrictions
-## Remove app access restrictions
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
 Content-Type: application/json
 Accept: application/json
@@ -1165,7 +1191,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}
 Accept: application/json
 
 ### Remove status check contexts
-## Remove status check contexts
+## Example removing status checks from a branch protection rule
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
 Content-Type: application/json
 Accept: application/json
@@ -1180,7 +1206,7 @@ Accept: application/json
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks
 
 ### Remove team access restrictions
-## Remove team access restrictions
+## Example removing a team in a branch protection rule
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
 Content-Type: application/json
 Accept: application/json
@@ -1191,7 +1217,7 @@ Accept: application/json
 
 
 ### Remove user access restrictions
-## Remove user access restrictions
+## Example removing a user in a branch protection rule
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
 Content-Type: application/json
 Accept: application/json
@@ -1202,7 +1228,6 @@ Accept: application/json
 
 
 ### Rename a branch
-## Rename a branch
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/rename
 Content-Type: application/json
 Accept: application/json
@@ -1213,7 +1238,6 @@ Accept: application/json
 
 
 ### Replace all repository topics
-## Replace all repository topics
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/topics
 Content-Type: application/json
 Accept: application/json
@@ -1234,7 +1258,6 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protect
 Accept: application/json
 
 ### Set app access restrictions
-## Set app access restrictions
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
 Content-Type: application/json
 Accept: application/json
@@ -1245,7 +1268,7 @@ Accept: application/json
 
 
 ### Set status check contexts
-## Set status check contexts
+## Example updating status checks for a branch protection rule
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
 Content-Type: application/json
 Accept: application/json
@@ -1256,7 +1279,7 @@ Accept: application/json
 
 
 ### Set team access restrictions
-## Set team access restrictions
+## Example replacing a team in a branch protection rule
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
 Content-Type: application/json
 Accept: application/json
@@ -1267,7 +1290,7 @@ Accept: application/json
 
 
 ### Set user access restrictions
-## Set user access restrictions
+## Example replacing a user in a branch protection rule
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
 Content-Type: application/json
 Accept: application/json
@@ -1283,7 +1306,6 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/tests
 Accept: application/json
 
 ### Transfer a repository
-## Transfer a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/transfer
 Content-Type: application/json
 Accept: application/json
@@ -1296,7 +1318,6 @@ Accept: application/json
 
 
 ### Update a repository
-## Update a repository
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}
 Content-Type: application/json
 Accept: application/json
@@ -1313,7 +1334,6 @@ Accept: application/json
 
 
 ### Update branch protection
-## Update branch protection
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection
 Content-Type: application/json
 Accept: application/json
@@ -1354,7 +1374,6 @@ Accept: application/json
 
 
 ### Update a commit comment
-## Update a commit comment
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}
 Content-Type: application/json
 Accept: application/json
@@ -1365,7 +1384,6 @@ Accept: application/json
 
 
 ### Update a deployment branch policy
-## Update a deployment branch policy
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies/{{branch_policy_id}}
 Content-Type: application/json
 Accept: application/json
@@ -1376,7 +1394,6 @@ Accept: application/json
 
 
 ### Update information about a GitHub Pages site
-## Update information about a GitHub Pages site
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/pages
 Content-Type: application/json
 Accept: application/json
@@ -1392,7 +1409,7 @@ Accept: application/scim+json
 
 
 ### Update a repository invitation
-## Update a repository invitation
+## Example request body
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/invitations/{{invitation_id}}
 Content-Type: application/json
 Accept: application/json
@@ -1403,7 +1420,6 @@ Accept: application/json
 
 
 ### Update an organization repository ruleset
-## Update an organization repository ruleset
 PUT https://api.github.com/orgs/{{org}}/rulesets/{{ruleset_id}}
 Content-Type: application/json
 Accept: application/json
@@ -1439,7 +1455,6 @@ Accept: application/json
 
 
 ### Update pull request review protection
-## Update pull request review protection
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_pull_request_reviews
 Content-Type: application/json
 Accept: application/json
@@ -1463,7 +1478,6 @@ Accept: application/json
 
 
 ### Update a release
-## Update a release
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}
 Content-Type: application/json
 Accept: application/json
@@ -1479,7 +1493,6 @@ Accept: application/json
 
 
 ### Update a release asset
-## Update a release asset
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/releases/assets/{{asset_id}}
 Content-Type: application/json
 Accept: application/json
@@ -1491,7 +1504,6 @@ Accept: application/json
 
 
 ### Update a repository ruleset
-## Update a repository ruleset
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}
 Content-Type: application/json
 Accept: application/json
@@ -1522,7 +1534,6 @@ Accept: application/json
 
 
 ### Update status check protection
-## Update status check protection
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks
 Content-Type: application/json
 Accept: application/json
@@ -1534,7 +1545,6 @@ Accept: application/json
 
 
 ### Update a repository webhook
-## Update a repository webhook
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}
 Content-Type: application/json
 Accept: application/json
@@ -1546,7 +1556,7 @@ Accept: application/json
 
 
 ### Update a webhook configuration for a repository
-## Update a webhook configuration for a repository
+## Example of updating content type and URL
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/config
 Content-Type: application/json
 Accept: application/json

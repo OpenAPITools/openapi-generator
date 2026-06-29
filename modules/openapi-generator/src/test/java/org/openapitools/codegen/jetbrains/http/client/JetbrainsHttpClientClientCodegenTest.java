@@ -218,7 +218,6 @@ public class JetbrainsHttpClientClientCodegenTest {
         Path path = Paths.get(output + "/Apis/DefaultApi.http");
         assertFileExists(path);
         TestUtils.assertFileContains(path, "### Update User Information\n" +
-                "## Update User Information\n" +
                 "PATCH http://localhost:5000/v1/users/{{userId}}?page={{page}}\n" +
                 "Content-Type: application/json\n" +
                 "Accept: application/json\n" +
@@ -226,6 +225,88 @@ public class JetbrainsHttpClientClientCodegenTest {
                 "{\n" +
                 " \"firstName\" : \"Rebecca\"\n" +
                 "}");
+    }
+
+    @Test
+    public void testInlineRequestBodyExamplesAreRenderedForNonJsonMediaTypes() throws IOException {
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
+        Path spec = Files.createTempFile("jetbrains-text-inline-example_", ".yaml");
+        spec.toFile().deleteOnExit();
+
+        Files.writeString(spec, String.join("\n",
+                "openapi: 3.0.3",
+                "info:",
+                "  title: Text request body example",
+                "  version: '1.0'",
+                "servers:",
+                "  - url: http://localhost:5000/v1",
+                "paths:",
+                "  /markdown/raw:",
+                "    post:",
+                "      summary: Render Markdown",
+                "      operationId: render-markdown",
+                "      requestBody:",
+                "        content:",
+                "          text/plain:",
+                "            schema:",
+                "              type: string",
+                "            examples:",
+                "              default:",
+                "                value:",
+                "                  text: Hello **world**",
+                "          text/x-markdown:",
+                "            schema:",
+                "              type: string",
+                "            examples:",
+                "              default:",
+                "                summary: Markdown content",
+                "                value:",
+                "                  text: Hello _markdown_",
+                "              summary-only:",
+                "                summary: Summary-only example",
+                "      responses:",
+                "        '200':",
+                "          description: Rendered",
+                "          content:",
+                "            text/html:",
+                "              schema:",
+                "                type: string",
+                ""));
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec(spec.toString())
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis/DefaultApi.http");
+        assertFileExists(path);
+        TestUtils.assertFileContains(path, "### Render Markdown\n" +
+                "POST http://localhost:5000/v1/markdown/raw\n" +
+                "Content-Type: text/plain\n" +
+                "Accept: text/html\n" +
+                "\n" +
+                "{\n" +
+                " \"text\" : \"Hello **world**\"\n" +
+                "}");
+        TestUtils.assertFileContains(path, "### Render Markdown\n" +
+                "## Markdown content\n" +
+                "POST http://localhost:5000/v1/markdown/raw\n" +
+                "Content-Type: text/x-markdown\n" +
+                "Accept: text/html\n" +
+                "\n" +
+                "{\n" +
+                " \"text\" : \"Hello _markdown_\"\n" +
+                "}");
+        TestUtils.assertFileNotContains(path, "{\n \n}");
+        TestUtils.assertFileNotContains(path, "Content-Type: text/plain\nContent-Type: text/x-markdown");
+        TestUtils.assertFileNotContains(path, "Summary-only example");
     }
 
     @Test
@@ -604,7 +685,6 @@ public class JetbrainsHttpClientClientCodegenTest {
 
         // Checking with only param
         TestUtils.assertFileContains(path, "### Update User Information\n" +
-                "## Update User Information\n" +
                 "PATCH http://localhost:5000/v1/users/{{userId}}?page={{page}}\n" +
                 "Content-Type: application/json\n" +
                 "Accept: application/json\n" +
@@ -664,7 +744,6 @@ public class JetbrainsHttpClientClientCodegenTest {
 
         // Checking with only header security
         TestUtils.assertFileContains(path, "### Update User Information\n" +
-                "## Update User Information\n" +
                 "PATCH http://localhost:5000/v1/users/{{userId}}?page={{page}}\n" +
                 "Content-Type: application/json\n" +
                 "Accept: application/json\n" +

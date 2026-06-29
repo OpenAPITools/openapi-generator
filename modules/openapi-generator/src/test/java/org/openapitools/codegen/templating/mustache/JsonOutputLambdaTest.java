@@ -19,12 +19,14 @@ package org.openapitools.codegen.templating.mustache;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.testng.annotations.Test;
 
 import java.io.StringWriter;
 
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 public class JsonOutputLambdaTest {
 
@@ -47,5 +49,17 @@ public class JsonOutputLambdaTest {
         new JsonOutputLambda(node).execute(mock(Template.Fragment.class), output);
 
         assertEquals(output.toString(), "{\n  \"name\" : \"example\",\n  \"id\" : 123\n}");
+    }
+
+    @Test
+    public void omitsNullFieldsFromSwaggerSchemas() throws Exception {
+        StringSchema schema = new StringSchema();
+        schema.setExample("doggie");
+        StringWriter output = new StringWriter();
+
+        new JsonOutputLambda(schema).execute(mock(Template.Fragment.class), output);
+
+        assertEquals(output.toString(), "{\n  \"type\" : \"string\",\n  \"example\" : \"doggie\"\n}");
+        assertFalse(output.toString().contains("\"title\" : null"));
     }
 }

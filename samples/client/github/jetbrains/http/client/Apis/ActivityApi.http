@@ -121,7 +121,6 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/subscribers?perPage={{perPag
 Accept: application/json
 
 ### Mark notifications as read
-## Mark notifications as read
 PUT https://api.github.com/notifications
 Content-Type: application/json
 Accept: application/json
@@ -133,7 +132,6 @@ Accept: application/json
 
 
 ### Mark repository notifications as read
-## Mark repository notifications as read
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/notifications
 Content-Type: application/json
 Accept: application/json
@@ -153,7 +151,6 @@ PATCH https://api.github.com/notifications/threads/{{thread_id}}
 Accept: application/json
 
 ### Set a repository subscription
-## Set a repository subscription
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/subscription
 Content-Type: application/json
 Accept: application/json
@@ -165,7 +162,6 @@ Accept: application/json
 
 
 ### Set a thread subscription
-## Set a thread subscription
 PUT https://api.github.com/notifications/threads/{{thread_id}}/subscription
 Content-Type: application/json
 Accept: application/json

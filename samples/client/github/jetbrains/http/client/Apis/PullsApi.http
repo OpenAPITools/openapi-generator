@@ -5,7 +5,6 @@
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/merge
 
 ### Create a pull request
-## Create a pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls
 Content-Type: application/json
 Accept: application/json
@@ -19,7 +18,6 @@ Accept: application/json
 
 
 ### Create a reply for a review comment
-## Create a reply for a review comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/comments/{{comment_id}}/replies
 Content-Type: application/json
 Accept: application/json
@@ -30,7 +28,6 @@ Accept: application/json
 
 
 ### Create a review for a pull request
-## Create a review for a pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews
 Content-Type: application/json
 Accept: application/json
@@ -48,7 +45,7 @@ Accept: application/json
 
 
 ### Create a review comment for a pull request
-## Create a review comment for a pull request
+## Example for a multi-line comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/comments
 Content-Type: application/json
 Accept: application/json
@@ -75,7 +72,6 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_
 Accept: application/json
 
 ### Dismiss a review for a pull request
-## Dismiss a review for a pull request
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}/dismissals
 Content-Type: application/json
 Accept: application/json
@@ -142,7 +138,6 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/review
 Accept: application/json
 
 ### Merge a pull request
-## Merge a pull request
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/merge
 Content-Type: application/json
 Accept: application/json
@@ -154,7 +149,6 @@ Accept: application/json
 
 
 ### Remove requested reviewers from a pull request
-## Remove requested reviewers from a pull request
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/requested_reviewers
 Content-Type: application/json
 Accept: application/json
@@ -166,7 +160,6 @@ Accept: application/json
 
 
 ### Request reviewers for a pull request
-## Request reviewers for a pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/requested_reviewers
 Content-Type: application/json
 Accept: application/json
@@ -178,7 +171,6 @@ Accept: application/json
 
 
 ### Submit a review for a pull request
-## Submit a review for a pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}/events
 Content-Type: application/json
 Accept: application/json
@@ -190,7 +182,6 @@ Accept: application/json
 
 
 ### Update a pull request
-## Update a pull request
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}
 Content-Type: application/json
 Accept: application/json
@@ -204,7 +195,6 @@ Accept: application/json
 
 
 ### Update a pull request branch
-## Update a pull request branch
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/update-branch
 Content-Type: application/json
 Accept: application/json
@@ -215,7 +205,6 @@ Accept: application/json
 
 
 ### Update a review for a pull request
-## Update a review for a pull request
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}
 Content-Type: application/json
 Accept: application/json
@@ -226,7 +215,6 @@ Accept: application/json
 
 
 ### Update a review comment for a pull request
-## Update a review comment for a pull request
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}
 Content-Type: application/json
 Accept: application/json

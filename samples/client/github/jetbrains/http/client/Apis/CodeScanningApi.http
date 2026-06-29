@@ -58,7 +58,6 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses?toolN
 Accept: application/json
 
 ### Update a code scanning alert
-## Update a code scanning alert
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts/{{alert_number}}
 Content-Type: application/json
 Accept: application/json
@@ -71,7 +70,6 @@ Accept: application/json
 
 
 ### Update a code scanning default setup configuration
-## 
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/default-setup
 Content-Type: application/json
 Accept: application/json
@@ -82,7 +80,6 @@ Accept: application/json
 
 
 ### Upload an analysis as SARIF data
-## Upload an analysis as SARIF data
 POST https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/sarifs
 Content-Type: application/json
 Accept: application/json

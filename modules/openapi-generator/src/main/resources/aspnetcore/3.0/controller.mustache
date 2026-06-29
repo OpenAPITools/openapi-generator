@@ -80,7 +80,7 @@ namespace {{apiPackage}}
 {{#returnType}}
             string exampleJson = null;
             {{#examples}}
-            exampleJson = "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}";
+            exampleJson = "{{#lambdaEscapeNewLine}}{{#lambdaEscapeDoubleQuote}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeDoubleQuote}}{{/lambdaEscapeNewLine}}";
             {{/examples}}
             {{#isListCollection}}{{>listReturn}}{{/isListCollection}}{{^isListCollection}}{{#isMap}}{{>mapReturn}}{{/isMap}}{{^isMap}}{{>objectReturn}}{{/isMap}}{{/isListCollection}}
             {{!TODO: defaultResponse, examples, auth, consumes, produces, nickname, externalDocs, imports, security}}

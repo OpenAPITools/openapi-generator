@@ -20,6 +20,9 @@ package org.openapitools.codegen.examples;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.templating.mustache.EscapeDoubleQuoteLambda;
+import org.openapitools.codegen.templating.mustache.EscapeHtmlLambda;
+import org.openapitools.codegen.templating.mustache.EscapeNewLineLambda;
 import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -42,6 +45,9 @@ public class ExampleGenerator {
     private static final String CONTENT_TYPE = "contentType";
     private static final String GENERATED_CONTENT_TYPE = "generatedContentType";
     private static final String LAMBDA_EXAMPLE = "lambdaExample";
+    private static final String LAMBDA_ESCAPE_DOUBLE_QUOTE = "lambdaEscapeDoubleQuote";
+    private static final String LAMBDA_ESCAPE_HTML = "lambdaEscapeHtml";
+    private static final String LAMBDA_ESCAPE_NEW_LINE = "lambdaEscapeNewLine";
     private static final String OUTPUT = "output";
     private static final String NONE = "none";
     private static final String URL = "url";
@@ -228,11 +234,19 @@ public class ExampleGenerator {
 
     private void putJsonExample(Map<String, Object> output, Object example) {
         output.put(LAMBDA_EXAMPLE, new JsonOutputLambda(example));
+        putEscapeLambdas(output);
     }
 
     private void putStringExample(Map<String, Object> output, String example) {
         output.put(EXAMPLE, example);
         output.put(LAMBDA_EXAMPLE, new JsonOutputLambda(example));
+        putEscapeLambdas(output);
+    }
+
+    private void putEscapeLambdas(Map<String, Object> output) {
+        output.put(LAMBDA_ESCAPE_DOUBLE_QUOTE, new EscapeDoubleQuoteLambda());
+        output.put(LAMBDA_ESCAPE_HTML, new EscapeHtmlLambda());
+        output.put(LAMBDA_ESCAPE_NEW_LINE, new EscapeNewLineLambda());
     }
 
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {

@@ -1,7 +1,6 @@
 ## GitApi
 
 ### Create a blob
-## Create a blob
 POST https://api.github.com/repos/{{owner}}/{{repo}}/git/blobs
 Content-Type: application/json
 Accept: application/json
@@ -13,7 +12,6 @@ Accept: application/json
 
 
 ### Create a commit
-## Create a commit
 POST https://api.github.com/repos/{{owner}}/{{repo}}/git/commits
 Content-Type: application/json
 Accept: application/json
@@ -32,7 +30,6 @@ Accept: application/json
 
 
 ### Create a reference
-## Create a reference
 POST https://api.github.com/repos/{{owner}}/{{repo}}/git/refs
 Content-Type: application/json
 Accept: application/json
@@ -44,7 +41,6 @@ Accept: application/json
 
 
 ### Create a tag object
-## Create a tag object
 POST https://api.github.com/repos/{{owner}}/{{repo}}/git/tags
 Content-Type: application/json
 Accept: application/json
@@ -63,7 +59,6 @@ Accept: application/json
 
 
 ### Create a tree
-## Create a tree
 POST https://api.github.com/repos/{{owner}}/{{repo}}/git/trees
 Content-Type: application/json
 Accept: application/json
@@ -115,7 +110,6 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/git/matching-refs/{{ref}}
 Accept: application/json
 
 ### Update a reference
-## Update a reference
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/git/refs/{{ref}}
 Content-Type: application/json
 Accept: application/json

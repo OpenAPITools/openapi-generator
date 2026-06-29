@@ -493,7 +493,7 @@
                               </div>
                               {{#examples}}
                                 <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-{{code}}-example">
-                                  <pre class="prettyprint"><code class="json">{{#lambdaExample}}{{/lambdaExample}}</code></pre>
+                                  <pre class="prettyprint"><code class="json">{{#lambdaEscapeHtml}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeHtml}}</code></pre>
                                 </div>
                               {{/examples}}
                               {{#hasHeaders}}

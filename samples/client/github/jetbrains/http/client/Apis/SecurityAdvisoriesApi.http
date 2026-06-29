@@ -7,7 +7,6 @@ Accept: application/json
 Accept: application/scim+json
 
 ### Privately report a security vulnerability
-## Privately report a security vulnerability
 POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/reports
 Content-Type: application/json
 Accept: application/json
@@ -30,7 +29,6 @@ Accept: application/json
 
 
 ### Create a repository security advisory
-## Create a repository security advisory
 POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories
 Content-Type: application/json
 Accept: application/json
@@ -56,6 +54,50 @@ Accept: application/json
   }, {
     "login" : "octocat",
     "type" : "analyst"
+  } ]
+}
+
+### Create a repository security advisory
+POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories
+Content-Type: application/json
+Accept: application/json
+
+{
+  "summary" : "A new important advisory",
+  "description" : "A more in-depth description of what the problem is.",
+  "cvss_vector_string" : "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+  "cve_id" : null,
+  "vulnerabilities" : [ {
+    "package" : {
+      "name" : "a-package",
+      "ecosystem" : "npm"
+    },
+    "vulnerable_version_range" : "< 1.0.0",
+    "patched_versions" : "1.0.0",
+    "vulnerable_functions" : [ "important_function" ]
+  } ],
+  "cwe_ids" : [ "CWE-1101", "CWE-20" ],
+  "credits" : [ {
+    "login" : "monalisa",
+    "type" : "reporter"
+  }, {
+    "login" : "octocat",
+    "type" : "analyst"
+  } ]
+}
+
+### Create a repository security advisory
+POST https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories
+Content-Type: application/json
+Accept: application/json
+
+{
+  "summary" : "A new important advisory",
+  "description" : "A more in-depth description of what the problem is.",
+  "vulnerabilities" : [ {
+    "package" : {
+      "ecosystem" : "npm"
+    }
   } ]
 }
 
@@ -94,7 +136,7 @@ Accept: application/json
 Accept: application/scim+json
 
 ### Update a repository security advisory
-## Update a repository security advisory
+## Updating the severity and state.
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}
 Content-Type: application/json
 Accept: application/json
@@ -102,5 +144,46 @@ Accept: application/json
 {
   "severity" : "critical",
   "state" : "published"
+}
+
+### Update a repository security advisory
+## To add a credit to an advisory, send the whole array of values.
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "credits" : [ {
+    "login" : "monauser",
+    "type" : "remediation_developer"
+  } ]
+}
+
+### Update a repository security advisory
+## To add vulnerable versions, include existing versions in the array.
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}
+Content-Type: application/json
+Accept: application/json
+
+
+
+### Update a repository security advisory
+## Example of an invalid state transition, from &#x60;published&#x60; to &#x60;draft&#x60;.
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "state" : "draft"
+}
+
+### Update a repository security advisory
+## Severity cannot be updated when the CVSS is already set.
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories/{{ghsa_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "severity" : "low"
 }
 

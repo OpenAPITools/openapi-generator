@@ -71,7 +71,6 @@ GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/repositories
 Accept: application/json
 
 ### Map a commit author
-## Map a commit author
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/import/authors/{{author_id}}
 Content-Type: application/json
 Accept: application/json
@@ -83,7 +82,6 @@ Accept: application/json
 
 
 ### Update Git LFS preference
-## Update Git LFS preference
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/import/lfs
 Content-Type: application/json
 Accept: application/json
@@ -94,7 +92,6 @@ Accept: application/json
 
 
 ### Start a user migration
-## Start a user migration
 POST https://api.github.com/user/migrations
 Content-Type: application/json
 Accept: application/json
@@ -106,7 +103,6 @@ Accept: application/json
 
 
 ### Start an organization migration
-## Start an organization migration
 POST https://api.github.com/orgs/{{org}}/migrations
 Content-Type: application/json
 Accept: application/json
@@ -118,7 +114,6 @@ Accept: application/json
 
 
 ### Start an import
-## Start an import
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/import
 Content-Type: application/json
 Accept: application/json
@@ -142,7 +137,7 @@ DELETE https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/repos/{{r
 Accept: application/json
 
 ### Update an import
-## Update an import
+## Update authentication for an import
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/import
 Content-Type: application/json
 Accept: application/json
@@ -150,5 +145,17 @@ Accept: application/json
 {
   "vcs_username" : "octocat",
   "vcs_password" : "secret"
+}
+
+### Update an import
+## Updating the project choice
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/import
+Content-Type: application/json
+Accept: application/json
+
+{
+  "vcs" : "tfvc",
+  "tfvc_project" : "project1",
+  "human_name" : "project1 (tfs)"
 }
 

@@ -5,7 +5,6 @@
 PUT https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repositories/{{repository_id}}
 
 ### Create or update an organization secret
-## Create or update an organization secret
 PUT https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}
 Content-Type: application/json
 Accept: application/json
@@ -19,7 +18,6 @@ Accept: application/json
 
 
 ### Create or update a repository secret
-## Create or update a repository secret
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets/{{secret_name}}
 Content-Type: application/json
 Accept: application/json
@@ -100,7 +98,6 @@ Accept: application/json
 DELETE https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repositories/{{repository_id}}
 
 ### Set selected repositories for an organization secret
-## Set selected repositories for an organization secret
 PUT https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repositories
 Content-Type: application/json
 
@@ -110,7 +107,6 @@ Content-Type: application/json
 
 
 ### Update a Dependabot alert
-## Update a Dependabot alert
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/alerts/{{alert_number}}
 Content-Type: application/json
 Accept: application/json

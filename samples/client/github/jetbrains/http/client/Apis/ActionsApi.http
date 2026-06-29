@@ -1,7 +1,6 @@
 ## ActionsApi
 
 ### Add custom labels to a self-hosted runner for an organization
-## Add custom labels to a self-hosted runner for an organization
 POST https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
 Accept: application/json
@@ -12,7 +11,6 @@ Accept: application/json
 
 
 ### Add custom labels to a self-hosted runner for a repository
-## Add custom labels to a self-hosted runner for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
 Accept: application/json
@@ -41,7 +39,6 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/can
 Accept: application/json
 
 ### Create an environment variable
-## Create an environment variable
 POST https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables
 Content-Type: application/json
 Accept: application/json
@@ -53,7 +50,6 @@ Accept: application/json
 
 
 ### Create or update an environment secret
-## Create or update an environment secret
 PUT https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets/{{secret_name}}
 Content-Type: application/json
 Accept: application/json
@@ -65,7 +61,6 @@ Accept: application/json
 
 
 ### Create or update an organization secret
-## Create or update an organization secret
 PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}
 Content-Type: application/json
 Accept: application/json
@@ -79,7 +74,6 @@ Accept: application/json
 
 
 ### Create or update a repository secret
-## Create or update a repository secret
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/{{secret_name}}
 Content-Type: application/json
 Accept: application/json
@@ -91,7 +85,6 @@ Accept: application/json
 
 
 ### Create an organization variable
-## Create an organization variable
 POST https://api.github.com/orgs/{{org}}/actions/variables
 Content-Type: application/json
 Accept: application/json
@@ -125,7 +118,6 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/remove-toke
 Accept: application/json
 
 ### Create a repository variable
-## Create a repository variable
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables
 Content-Type: application/json
 Accept: application/json
@@ -137,7 +129,6 @@ Accept: application/json
 
 
 ### Create a workflow dispatch event
-## Create a workflow dispatch event
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/dispatches
 Content-Type: application/json
 
@@ -243,7 +234,6 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/for
 Accept: application/json
 
 ### Create configuration for a just-in-time runner for an organization
-## Create configuration for a just-in-time runner for an organization
 POST https://api.github.com/orgs/{{org}}/actions/runners/generate-jitconfig
 Content-Type: application/json
 Accept: application/json
@@ -257,7 +247,6 @@ Accept: application/json
 
 
 ### Create configuration for a just-in-time runner for a repository
-## Create configuration for a just-in-time runner for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/generate-jitconfig
 Content-Type: application/json
 Accept: application/json
@@ -551,7 +540,37 @@ Accept: application/json
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs?actor={{actor}}&branch={{branch}}&event={{event}}&status={{status}}&perPage={{perPage}}&page={{page}}&created={{created}}&excludePullRequests={{excludePullRequests}}&checkSuiteId={{checkSuiteId}}&headSha={{headSha}}
 Accept: application/json
 
+### Re-run a job from a workflow run
+## Re-run a job from a workflow run
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/jobs/{{job_id}}/rerun
+Content-Type: application/json
+Accept: application/json
 
+{
+ "enable_debug_logging": "<string>"
+}
+
+
+### Re-run a workflow
+## Re-run a workflow
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/rerun
+Content-Type: application/json
+Accept: application/json
+
+{
+ "enable_debug_logging": "<string>"
+}
+
+
+### Re-run failed jobs from a workflow run
+## Re-run failed jobs from a workflow run
+POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/rerun-failed-jobs
+Content-Type: application/json
+Accept: application/json
+
+{
+ "enable_debug_logging": "<string>"
+}
 
 
 ### Remove all custom labels from a self-hosted runner for an organization
@@ -583,7 +602,6 @@ DELETE https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repos
 DELETE https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories/{{repository_id}}
 
 ### Review custom deployment protection rules for a workflow run
-## Review custom deployment protection rules for a workflow run
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/deployment_protection_rule
 Content-Type: application/json
 
@@ -595,7 +613,6 @@ Content-Type: application/json
 
 
 ### Review pending deployments for a workflow run
-## Review pending deployments for a workflow run
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/pending_deployments
 Content-Type: application/json
 Accept: application/json
@@ -608,7 +625,6 @@ Accept: application/json
 
 
 ### Set allowed actions and reusable workflows for an organization
-## 
 PUT https://api.github.com/orgs/{{org}}/actions/permissions/selected-actions
 Content-Type: application/json
 
@@ -620,7 +636,6 @@ Content-Type: application/json
 
 
 ### Set allowed actions and reusable workflows for a repository
-## 
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/selected-actions
 Content-Type: application/json
 
@@ -632,7 +647,6 @@ Content-Type: application/json
 
 
 ### Set custom labels for a self-hosted runner for an organization
-## Set custom labels for a self-hosted runner for an organization
 PUT https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
 Accept: application/json
@@ -643,7 +657,6 @@ Accept: application/json
 
 
 ### Set custom labels for a self-hosted runner for a repository
-## Set custom labels for a self-hosted runner for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
 Accept: application/json
@@ -654,7 +667,6 @@ Accept: application/json
 
 
 ### Set the customization template for an OIDC subject claim for a repository
-## Set the customization template for an OIDC subject claim for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/oidc/customization/sub
 Content-Type: application/json
 Accept: application/json
@@ -689,7 +701,6 @@ Content-Type: application/json
 
 
 ### Set GitHub Actions permissions for an organization
-## Set GitHub Actions permissions for an organization
 PUT https://api.github.com/orgs/{{org}}/actions/permissions
 Content-Type: application/json
 
@@ -700,7 +711,6 @@ Content-Type: application/json
 
 
 ### Set GitHub Actions permissions for a repository
-## Set GitHub Actions permissions for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions
 Content-Type: application/json
 
@@ -711,7 +721,6 @@ Content-Type: application/json
 
 
 ### Set selected repositories for an organization secret
-## Set selected repositories for an organization secret
 PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories
 Content-Type: application/json
 
@@ -721,7 +730,6 @@ Content-Type: application/json
 
 
 ### Set selected repositories for an organization variable
-## Set selected repositories for an organization variable
 PUT https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories
 Content-Type: application/json
 
@@ -731,7 +739,6 @@ Content-Type: application/json
 
 
 ### Set selected repositories enabled for GitHub Actions in an organization
-## Set selected repositories enabled for GitHub Actions in an organization
 PUT https://api.github.com/orgs/{{org}}/actions/permissions/repositories
 Content-Type: application/json
 
@@ -741,7 +748,6 @@ Content-Type: application/json
 
 
 ### Set the level of access for workflows outside of the repository
-## 
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/access
 Content-Type: application/json
 
@@ -751,7 +757,6 @@ Content-Type: application/json
 
 
 ### Update an environment variable
-## Update an environment variable
 PATCH https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables/{{name}}
 Content-Type: application/json
 
@@ -762,7 +767,6 @@ Content-Type: application/json
 
 
 ### Update an organization variable
-## Update an organization variable
 PATCH https://api.github.com/orgs/{{org}}/actions/variables/{{name}}
 Content-Type: application/json
 
@@ -775,7 +779,6 @@ Content-Type: application/json
 
 
 ### Update a repository variable
-## Update a repository variable
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables/{{name}}
 Content-Type: application/json
 

@@ -21,7 +21,6 @@ GET https://api.github.com/user/codespaces/{{codespace_name}}/machines
 Accept: application/json
 
 ### Create a codespace for the authenticated user
-## Create a codespace for the authenticated user
 POST https://api.github.com/user/codespaces
 Content-Type: application/json
 Accept: application/json
@@ -34,7 +33,6 @@ Accept: application/json
 
 
 ### Create or update an organization secret
-## Create or update an organization secret
 PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}
 Content-Type: application/json
 Accept: application/json
@@ -48,7 +46,6 @@ Accept: application/json
 
 
 ### Create or update a repository secret
-## Create or update a repository secret
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/{{secret_name}}
 Content-Type: application/json
 Accept: application/json
@@ -60,7 +57,6 @@ Accept: application/json
 
 
 ### Create or update a secret for the authenticated user
-## Create or update a secret for the authenticated user
 PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}
 Content-Type: application/json
 Accept: application/json
@@ -73,7 +69,6 @@ Accept: application/json
 
 
 ### Create a codespace from a pull request
-## Create a codespace from a pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/codespaces
 Content-Type: application/json
 Accept: application/json
@@ -85,7 +80,6 @@ Accept: application/json
 
 
 ### Create a codespace in a repository
-## Create a codespace in a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/codespaces
 Content-Type: application/json
 Accept: application/json
@@ -98,7 +92,6 @@ Accept: application/scim+json
 
 
 ### Remove users from Codespaces access for an organization
-## Remove users from Codespaces access for an organization
 DELETE https://api.github.com/orgs/{{org}}/codespaces/access/selected_users
 Content-Type: application/json
 Accept: application/json
@@ -233,7 +226,6 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/new?ref={{ref}}&c
 Accept: application/json
 
 ### Create a repository from an unpublished codespace
-## Create a repository from an unpublished codespace
 POST https://api.github.com/user/codespaces/{{codespace_name}}/publish
 Content-Type: application/json
 Accept: application/json
@@ -260,7 +252,6 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/machines?location
 Accept: application/json
 
 ### Manage access control for organization codespaces
-## Manage access control for organization codespaces
 PUT https://api.github.com/orgs/{{org}}/codespaces/access
 Content-Type: application/json
 Accept: application/json
@@ -272,7 +263,6 @@ Accept: application/json
 
 
 ### Add users to Codespaces access for an organization
-## Add users to Codespaces access for an organization
 POST https://api.github.com/orgs/{{org}}/codespaces/access/selected_users
 Content-Type: application/json
 Accept: application/json
@@ -283,7 +273,6 @@ Accept: application/json
 
 
 ### Set selected repositories for a user secret
-## Set selected repositories for a user secret
 PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories
 Content-Type: application/json
 Accept: application/json
@@ -294,7 +283,6 @@ Accept: application/json
 
 
 ### Set selected repositories for an organization secret
-## Set selected repositories for an organization secret
 PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories
 Content-Type: application/json
 Accept: application/json
@@ -321,7 +309,6 @@ POST https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces/{{codes
 Accept: application/json
 
 ### Update a codespace for the authenticated user
-## Update a codespace for the authenticated user
 PATCH https://api.github.com/user/codespaces/{{codespace_name}}
 Content-Type: application/json
 Accept: application/json

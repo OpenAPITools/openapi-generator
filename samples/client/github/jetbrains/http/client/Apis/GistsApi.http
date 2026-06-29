@@ -6,7 +6,7 @@ GET https://api.github.com/gists/{{gist_id}}/star
 Accept: application/json
 
 ### Create a gist
-## Create a gist
+## Creating a gist
 POST https://api.github.com/gists
 Content-Type: application/json
 Accept: application/json
@@ -23,7 +23,7 @@ Accept: application/json
 
 
 ### Create a gist comment
-## Create a gist comment
+## Creating a comment in a gist
 POST https://api.github.com/gists/{{gist_id}}/comments
 Content-Type: application/json
 Accept: application/json
@@ -109,7 +109,7 @@ DELETE https://api.github.com/gists/{{gist_id}}/star
 Accept: application/json
 
 ### Update a gist
-## Update a gist
+## Updating a gist
 PATCH https://api.github.com/gists/{{gist_id}}
 Content-Type: application/json
 Accept: application/json
@@ -123,9 +123,35 @@ Accept: application/json
   }
 }
 
+### Update a gist
+## Deleting a gist file
+PATCH https://api.github.com/gists/{{gist_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "files" : {
+    "hello.py" : null
+  }
+}
+
+### Update a gist
+## Renaming a gist file
+PATCH https://api.github.com/gists/{{gist_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "files" : {
+    "hello.py" : {
+      "filename" : "goodbye.py"
+    }
+  }
+}
+
 
 ### Update a gist comment
-## Update a gist comment
+## Updating a comment in a gist
 PATCH https://api.github.com/gists/{{gist_id}}/comments/{{comment_id}}
 Content-Type: application/json
 Accept: application/json

@@ -19,9 +19,9 @@ package org.openapitools.codegen.templating.mustache;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.core.util.Json;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -31,9 +31,8 @@ import java.io.Writer;
  * materialized as strings first.
  */
 public class JsonOutputLambda implements Mustache.Lambda {
-    private static final ObjectMapper JSON_MAPPER = JsonMapper.builder()
-            .disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET)
-            .build();
+    private static final ObjectMapper JSON_MAPPER = Json.mapper().copy()
+            .disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
 
     private final String value;
     private final Object jsonValue;

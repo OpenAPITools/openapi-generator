@@ -1,7 +1,6 @@
 ## DependencyGraphApi
 
 ### Create a snapshot of dependencies for a repository
-## 
 POST https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/snapshots
 Content-Type: application/json
 Accept: application/json

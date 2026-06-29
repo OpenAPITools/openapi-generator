@@ -36,7 +36,7 @@ GET https://api.github.com/orgs/{{org}}/members/{{username}}
 GET https://api.github.com/orgs/{{org}}/public_members/{{username}}
 
 ### Convert an organization member to outside collaborator
-## Convert an organization member to outside collaborator
+## Status code 202, asynchronous request
 PUT https://api.github.com/orgs/{{org}}/outside_collaborators/{{username}}
 Content-Type: application/json
 Accept: application/json
@@ -47,7 +47,6 @@ Accept: application/json
 
 
 ### Create a custom organization role
-## Create a custom organization role
 POST https://api.github.com/orgs/{{org}}/organization-roles
 Content-Type: application/json
 Accept: application/json
@@ -60,7 +59,6 @@ Accept: application/json
 
 
 ### Create an organization invitation
-## Create an organization invitation
 POST https://api.github.com/orgs/{{org}}/invitations
 Content-Type: application/json
 Accept: application/json
@@ -73,7 +71,6 @@ Accept: application/json
 
 
 ### Create or update custom properties for an organization
-## Create or update custom properties for an organization
 PATCH https://api.github.com/orgs/{{org}}/properties/schema
 Content-Type: application/json
 Accept: application/json
@@ -99,7 +96,6 @@ Accept: application/json
 
 
 ### Create or update custom property values for organization repositories
-## 
 PATCH https://api.github.com/orgs/{{org}}/properties/values
 Content-Type: application/json
 Accept: application/json
@@ -120,7 +116,6 @@ Accept: application/json
 
 
 ### Create or update a custom property for an organization
-## Create or update a custom property for an organization
 PUT https://api.github.com/orgs/{{org}}/properties/schema/{{custom_property_name}}
 Content-Type: application/json
 Accept: application/json
@@ -135,7 +130,6 @@ Accept: application/json
 
 
 ### Create an organization webhook
-## Create an organization webhook
 POST https://api.github.com/orgs/{{org}}/hooks
 Content-Type: application/json
 Accept: application/json
@@ -164,6 +158,15 @@ DELETE https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}
 ## Delete an organization webhook
 DELETE https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
 Accept: application/json
+
+### Enable or disable a security feature for an organization
+## Enable or disable a security feature for an organization
+POST https://api.github.com/orgs/{{org}}/{{security_product}}/{{enablement}}
+Content-Type: application/json
+
+{
+ "query_suite": "<string>"
+}
 
 
 ### Get an organization
@@ -334,7 +337,6 @@ GET https://api.github.com/orgs/{{org}}/hooks?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Update a custom organization role
-## Update a custom organization role
 PATCH https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}
 Content-Type: application/json
 Accept: application/json
@@ -384,7 +386,7 @@ DELETE https://api.github.com/orgs/{{org}}/public_members/{{username}}
 DELETE https://api.github.com/orgs/{{org}}/security-managers/teams/{{team_slug}}
 
 ### Review a request to access organization resources with a fine-grained personal access token
-## Review a request to access organization resources with a fine-grained personal access token
+## Example of denying a request
 POST https://api.github.com/orgs/{{org}}/personal-access-token-requests/{{pat_request_id}}
 Content-Type: application/json
 Accept: application/json
@@ -396,7 +398,7 @@ Accept: application/json
 
 
 ### Review requests to access organization resources with fine-grained personal access tokens
-## Review requests to access organization resources with fine-grained personal access tokens
+## Example of denying a request
 POST https://api.github.com/orgs/{{org}}/personal-access-token-requests
 Content-Type: application/json
 Accept: application/json
@@ -425,7 +427,7 @@ DELETE https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}
 DELETE https://api.github.com/orgs/{{org}}/organization-roles/users/{{username}}/{{role_id}}
 
 ### Set organization membership for a user
-## Set organization membership for a user
+## Set an organization membership role for a user
 PUT https://api.github.com/orgs/{{org}}/memberships/{{username}}
 Content-Type: application/json
 Accept: application/json
@@ -445,7 +447,6 @@ Accept: application/json
 DELETE https://api.github.com/orgs/{{org}}/blocks/{{username}}
 
 ### Update an organization
-## Update an organization
 PATCH https://api.github.com/orgs/{{org}}
 Content-Type: application/json
 Accept: application/json
@@ -465,7 +466,6 @@ Accept: application/json
 
 
 ### Update an organization membership for the authenticated user
-## Update an organization membership for the authenticated user
 PATCH https://api.github.com/user/memberships/orgs/{{org}}
 Content-Type: application/json
 Accept: application/json
@@ -476,7 +476,7 @@ Accept: application/json
 
 
 ### Update the access a fine-grained personal access token has to organization resources
-## Update the access a fine-grained personal access token has to organization resources
+## Example of revoking a fine-grained personal access token.
 POST https://api.github.com/orgs/{{org}}/personal-access-tokens/{{pat_id}}
 Content-Type: application/json
 Accept: application/json
@@ -487,7 +487,7 @@ Accept: application/json
 
 
 ### Update the access to organization resources via fine-grained personal access tokens
-## Update the access to organization resources via fine-grained personal access tokens
+## Example of revoking a fine-grained personal access token.
 POST https://api.github.com/orgs/{{org}}/personal-access-tokens
 Content-Type: application/json
 Accept: application/json
@@ -499,7 +499,6 @@ Accept: application/json
 
 
 ### Update an organization webhook
-## Update an organization webhook
 PATCH https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
 Content-Type: application/json
 Accept: application/json
@@ -511,7 +510,7 @@ Accept: application/json
 
 
 ### Update a webhook configuration for an organization
-## Update a webhook configuration for an organization
+## Update an existing webhook
 PATCH https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/config
 Content-Type: application/json
 Accept: application/json

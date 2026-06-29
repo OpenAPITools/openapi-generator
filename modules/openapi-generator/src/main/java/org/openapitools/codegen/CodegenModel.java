@@ -18,7 +18,9 @@
 package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import lombok.Getter;
 import lombok.Setter;
@@ -82,7 +84,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String description, classVarName, dataType, xmlPrefix, xmlNamespace, xmlName;
     @Getter
     public String modelJson;
-    private Object modelJsonValue;
+    private JsonNode modelJsonValue;
     @Getter @Setter
     public String classFilename; // store the class file name, mainly used for import
     @Getter @Setter
@@ -295,7 +297,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     public void setModelJsonValue(Object modelJsonValue) {
-        this.modelJsonValue = modelJsonValue;
+        this.modelJsonValue = modelJsonValue == null ? null : Json.mapper().valueToTree(modelJsonValue);
         this.modelJson = null;
     }
 

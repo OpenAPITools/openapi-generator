@@ -1,7 +1,7 @@
 ## ProjectsApi
 
 ### Add project collaborator
-## Add project collaborator
+## Applying write permissions for the new collaborator
 PUT https://api.github.com/projects/{{project_id}}/collaborators/{{username}}
 Content-Type: application/json
 Accept: application/json
@@ -12,7 +12,7 @@ Accept: application/json
 
 
 ### Create a project card
-## Create a project card
+## Create a new card
 POST https://api.github.com/projects/columns/{{column_id}}/cards
 Content-Type: application/json
 Accept: application/json
@@ -23,7 +23,6 @@ Accept: application/json
 
 
 ### Create a project column
-## Create a project column
 POST https://api.github.com/projects/{{project_id}}/columns
 Content-Type: application/json
 Accept: application/json
@@ -34,7 +33,7 @@ Accept: application/json
 
 
 ### Create a user project
-## Create a user project
+## Create a new project
 POST https://api.github.com/user/projects
 Content-Type: application/json
 Accept: application/json
@@ -46,7 +45,6 @@ Accept: application/json
 
 
 ### Create an organization project
-## Create an organization project
 POST https://api.github.com/orgs/{{org}}/projects
 Content-Type: application/json
 Accept: application/json
@@ -58,7 +56,6 @@ Accept: application/json
 
 
 ### Create a repository project
-## Create a repository project
 POST https://api.github.com/repos/{{owner}}/{{repo}}/projects
 Content-Type: application/json
 Accept: application/json
@@ -135,7 +132,7 @@ GET https://api.github.com/users/{{username}}/projects?state={{state}}&perPage={
 Accept: application/json
 
 ### Move a project card
-## Move a project card
+## Move the card to the bottom of the column
 POST https://api.github.com/projects/columns/cards/{{card_id}}/moves
 Content-Type: application/json
 Accept: application/json
@@ -147,7 +144,7 @@ Accept: application/json
 
 
 ### Move a project column
-## Move a project column
+## Move the column to the end of the board
 POST https://api.github.com/projects/columns/{{column_id}}/moves
 Content-Type: application/json
 Accept: application/json
@@ -163,7 +160,7 @@ DELETE https://api.github.com/projects/{{project_id}}/collaborators/{{username}}
 Accept: application/json
 
 ### Update a project
-## Update a project
+## Change the name, state, and permissions for a project
 PATCH https://api.github.com/projects/{{project_id}}
 Content-Type: application/json
 Accept: application/json
@@ -176,7 +173,7 @@ Accept: application/json
 
 
 ### Update an existing project card
-## Update an existing project card
+## Change the note on the card
 PATCH https://api.github.com/projects/columns/cards/{{card_id}}
 Content-Type: application/json
 Accept: application/json
@@ -187,7 +184,7 @@ Accept: application/json
 
 
 ### Update an existing project column
-## Update an existing project column
+## Rename the project column
 PATCH https://api.github.com/projects/columns/{{column_id}}
 Content-Type: application/json
 Accept: application/json

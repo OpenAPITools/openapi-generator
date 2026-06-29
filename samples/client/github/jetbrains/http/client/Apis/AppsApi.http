@@ -6,7 +6,6 @@ PUT https://api.github.com/user/installations/{{installation_id}}/repositories/{
 Accept: application/json
 
 ### Check a token
-## Check a token
 POST https://api.github.com/applications/{{client_id}}/token
 Content-Type: application/json
 Accept: application/json
@@ -22,7 +21,6 @@ POST https://api.github.com/app-manifests/{{code}}/conversions
 Accept: application/json
 
 ### Create an installation access token for an app
-## Create an installation access token for an app
 POST https://api.github.com/app/installations/{{installation_id}}/access_tokens
 Content-Type: application/json
 Accept: application/json
@@ -37,7 +35,6 @@ Accept: application/json
 
 
 ### Delete an app authorization
-## Delete an app authorization
 DELETE https://api.github.com/applications/{{client_id}}/grant
 Content-Type: application/json
 Accept: application/json
@@ -53,7 +50,6 @@ DELETE https://api.github.com/app/installations/{{installation_id}}
 Accept: application/json
 
 ### Delete an app token
-## Delete an app token
 DELETE https://api.github.com/applications/{{client_id}}/token
 Content-Type: application/json
 Accept: application/json
@@ -187,7 +183,6 @@ DELETE https://api.github.com/user/installations/{{installation_id}}/repositorie
 Accept: application/json
 
 ### Reset a token
-## Reset a token
 PATCH https://api.github.com/applications/{{client_id}}/token
 Content-Type: application/json
 Accept: application/json
@@ -202,7 +197,6 @@ Accept: application/json
 DELETE https://api.github.com/installation/token
 
 ### Create a scoped access token
-## Create a scoped access token
 POST https://api.github.com/applications/{{client_id}}/token/scoped
 Content-Type: application/json
 Accept: application/json
@@ -229,7 +223,6 @@ DELETE https://api.github.com/app/installations/{{installation_id}}/suspended
 Accept: application/json
 
 ### Update a webhook configuration for an app
-## Update a webhook configuration for an app
 PATCH https://api.github.com/app/hook/config
 Content-Type: application/json
 Accept: application/json

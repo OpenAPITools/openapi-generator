@@ -108,6 +108,11 @@ public class RustServerCodegenTest {
         TestUtils.assertFileExists(exampleClientMain);
         TestUtils.assertFileContains(exampleClientMain, "Disabled because there's no example.");
         TestUtils.assertFileContains(exampleClientMain, "Some(\"QueryExampleGet\")");
+        TestUtils.assertFileContains(exampleClientMain, "Some(&serde_json::from_str::<Vec<String>>(r#\"");
+        TestUtils.assertFileContains(exampleClientMain, "\"foo\"");
+        TestUtils.assertFileContains(exampleClientMain, "Some(\"CreateRepo\")");
+        TestUtils.assertFileContains(exampleClientMain, "serde_json::from_str::<models::ObjectParam>(r#\"");
+        TestUtils.assertFileContains(exampleClientMain, "\"requiredParam\" : true");
 
         // Clean up
         target.toFile().deleteOnExit();

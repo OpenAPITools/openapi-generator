@@ -191,32 +191,22 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             // operation with bodyParam
             if (requestParameterGeneration.equalsIgnoreCase("Schema")) {
                 // get from schema
-                items.add(new RequestItem(codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam)));
+                items.add(new RequestItem(codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam), getDefaultContentType(codegenOperation)));
             } else {
                 // get from examples
                 if (codegenOperation.bodyParam.example != null) {
                     // find in bodyParam example
-                    items.add(new RequestItem(codegenOperation.summary, formatJson(codegenOperation.bodyParam.example)));
-                } else if (codegenOperation.bodyParam.getContent().get("application/json") != null &&
-                        codegenOperation.bodyParam.getContent().get("application/json").getExamples() != null) {
-                    // find in components/examples or inline request body examples
-                    for (Map.Entry<String, Example> entry : codegenOperation.bodyParam.getContent().get("application/json").getExamples().entrySet()) {
-                        Example example = entry.getValue();
-                        String exampleRef = example.get$ref();
-                        if (exampleRef != null) {
-                            example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
-                        }
-                        String exampleAsString = getJsonFromExample(example);
-                        items.add(new RequestItem(Optional.ofNullable(example.getSummary()).orElse(codegenOperation.summary), exampleAsString));
-                    }
+                    items.add(new RequestItem(codegenOperation.summary, formatJson(codegenOperation.bodyParam.example), getDefaultContentType(codegenOperation)));
+                } else if (addRequestsFromMediaTypeExamples(items, codegenOperation)) {
+                    // request examples found in media type examples
                 } else if (codegenOperation.bodyParam.getSchema() != null) {
                     // find in schema example
                     String exampleAsString = (codegenOperation.bodyParam.getSchema().getExample());
-                    items.add(new RequestItem(codegenOperation.summary, exampleAsString));
+                    items.add(new RequestItem(codegenOperation.summary, exampleAsString, getDefaultContentType(codegenOperation)));
                 } else {
                     // example not found
                     // get from schema
-                    items.add(new RequestItem(codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam)));
+                    items.add(new RequestItem(codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam), getDefaultContentType(codegenOperation)));
 
                 }
             }
@@ -234,6 +224,42 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         // Handling custom variables now
         return handleCustomVariablesInRequests(items);
+    }
+
+    private boolean addRequestsFromMediaTypeExamples(List<RequestItem> items, CodegenOperation codegenOperation) {
+        LinkedHashMap<String, CodegenMediaType> content = codegenOperation.bodyParam.getContent();
+        if (content == null || content.isEmpty()) {
+            return false;
+        }
+
+        for (Map.Entry<String, CodegenMediaType> contentEntry : content.entrySet()) {
+            CodegenMediaType mediaType = contentEntry.getValue();
+            if (mediaType.getExamples() == null || mediaType.getExamples().isEmpty()) {
+                continue;
+            }
+
+            for (Map.Entry<String, Example> entry : mediaType.getExamples().entrySet()) {
+                Example example = entry.getValue();
+                String exampleRef = example.get$ref();
+                if (exampleRef != null) {
+                    example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
+                }
+                if (example == null || example.getValue() == null) {
+                    continue;
+                }
+                String exampleAsString = getJsonFromExample(example);
+                items.add(new RequestItem(example.getSummary(), exampleAsString, contentEntry.getKey()));
+            }
+        }
+
+        return !items.isEmpty();
+    }
+
+    private String getDefaultContentType(CodegenOperation codegenOperation) {
+        if (codegenOperation.consumes == null || codegenOperation.consumes.isEmpty()) {
+            return null;
+        }
+        return codegenOperation.consumes.get(0).get("mediaType");
     }
 
     public static List<String> extractDoubleCurlyBraces(String input) {
@@ -297,10 +323,16 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         private String name;
         private String body;
+        private String contentType;
 
         public RequestItem(String name, String body) {
+            this(name, body, null);
+        }
+
+        public RequestItem(String name, String body, String contentType) {
             this.name = name;
             this.body = body;
+            this.contentType = contentType;
         }
     }
 

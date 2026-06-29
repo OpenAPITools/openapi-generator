@@ -1,7 +1,6 @@
 ## ReactionsApi
 
 ### Create reaction for a commit comment
-## Create reaction for a commit comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}/reactions
 Content-Type: application/json
 Accept: application/json
@@ -12,7 +11,6 @@ Accept: application/json
 
 
 ### Create reaction for an issue
-## Create reaction for an issue
 POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/reactions
 Content-Type: application/json
 Accept: application/json
@@ -23,7 +21,6 @@ Accept: application/json
 
 
 ### Create reaction for an issue comment
-## Create reaction for an issue comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}/reactions
 Content-Type: application/json
 Accept: application/json
@@ -34,7 +31,6 @@ Accept: application/json
 
 
 ### Create reaction for a pull request review comment
-## Create reaction for a pull request review comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}/reactions
 Content-Type: application/json
 Accept: application/json
@@ -45,7 +41,6 @@ Accept: application/json
 
 
 ### Create reaction for a release
-## Create reaction for a release
 POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/reactions
 Content-Type: application/json
 Accept: application/json
@@ -56,7 +51,6 @@ Accept: application/json
 
 
 ### Create reaction for a team discussion comment
-## Create reaction for a team discussion comment
 POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions
 Content-Type: application/json
 Accept: application/json
@@ -67,7 +61,6 @@ Accept: application/json
 
 
 ### Create reaction for a team discussion comment (Legacy)
-## Create reaction for a team discussion comment (Legacy)
 POST https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions
 Content-Type: application/json
 Accept: application/json
@@ -78,7 +71,6 @@ Accept: application/json
 
 
 ### Create reaction for a team discussion
-## Create reaction for a team discussion
 POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/reactions
 Content-Type: application/json
 Accept: application/json
@@ -89,7 +81,6 @@ Accept: application/json
 
 
 ### Create reaction for a team discussion (Legacy)
-## Create reaction for a team discussion (Legacy)
 POST https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/reactions
 Content-Type: application/json
 Accept: application/json
