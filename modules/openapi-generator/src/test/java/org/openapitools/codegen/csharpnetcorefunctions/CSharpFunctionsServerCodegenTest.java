@@ -16,12 +16,17 @@
 
 package org.openapitools.codegen.csharpnetcorefunctions;
 
+import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.languages.CSharpFunctionsServerCodegen;
+import org.openapitools.codegen.templating.mustache.EscapeJavaStringLambda;
+import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CSharpFunctionsServerCodegenTest {
 
@@ -105,5 +110,20 @@ public class CSharpFunctionsServerCodegenTest {
         StringWriter integerExample = new StringWriter();
         integerParam.getLambdaExample().execute(null, integerExample);
         Assert.assertEquals(integerExample.toString(), "56");
+    }
+
+    @Test
+    public void controllerExamplesAreEscapedForCSharpStringLiterals() {
+        Map<String, Object> lambda = new HashMap<>();
+        lambda.put("escapeJavaString", new EscapeJavaStringLambda());
+
+        Map<String, Object> context = new HashMap<>();
+        context.put("lambda", lambda);
+        context.put("lambdaExample", new JsonOutputLambda("{\"pattern\":\"\\\\d+\",\"line\":\"first\\\\nsecond\",\"unicode\":\"\\\\u003c\"}"));
+
+        String template = "exampleJson = \"{{#lambda.escapeJavaString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJavaString}}\";";
+        String rendered = Mustache.compiler().compile(template).execute(context);
+
+        Assert.assertEquals(rendered, "exampleJson = \"{\\\"pattern\\\":\\\"\\\\\\\\d+\\\",\\\"line\\\":\\\"first\\\\\\\\nsecond\\\",\\\"unicode\\\":\\\"\\\\\\\\u003c\\\"}\";");
     }
 }
