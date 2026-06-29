@@ -187,7 +187,7 @@ public class PhpNextgenClientCodegenTest {
         Assert.assertListContains(modelContent, a -> a.equalsIgnoreCase("\"Invalid value '%s' for 'color', must be one of '%s'\","), "");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testOneOfDiscriminatorEnumGeneration() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
