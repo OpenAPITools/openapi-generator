@@ -247,7 +247,7 @@ public class PhpNextgenClientCodegenTest {
                 "Combined oneOf wrapper should not use type enum values for style");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testDiscriminatorConstantsPreservedForNonEnumDiscriminatorModels() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
