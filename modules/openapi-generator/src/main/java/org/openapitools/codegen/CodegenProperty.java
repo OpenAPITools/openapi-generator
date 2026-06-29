@@ -1212,6 +1212,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(minLength, that.minLength) &&
                 Objects.equals(pattern, that.pattern) &&
                 Objects.equals(example, that.example) &&
+                Objects.equals(exampleJsonNode, that.exampleJsonNode) &&
                 Objects.equals(jsonSchema, that.jsonSchema) &&
                 Objects.equals(minimum, that.minimum) &&
                 Objects.equals(maximum, that.maximum) &&
