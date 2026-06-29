@@ -366,21 +366,8 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         if (file1.length() != file2.length()) return false;
         try (InputStream is1 = Files.newInputStream(file1.toPath());
              InputStream is2 = Files.newInputStream(file2.toPath())) {
-            byte[] buffer1 = new byte[8192];
-            byte[] buffer2 = new byte[8192];
-            int read1;
-            while ((read1 = is1.read(buffer1)) != -1) {
-                int read2 = is2.read(buffer2);
-                if (read1 != read2) {
-                    return false;
-                }
-                for (int i = 0; i < read1; i++) {
-                    if (buffer1[i] != buffer2[i]) {
-                        return false;
-                    }
-                }
-            }
-            return is2.read() == -1;
+            return IOUtils.contentEquals(is1, is2);
         }
     }
+
 }

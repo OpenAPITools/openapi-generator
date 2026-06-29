@@ -1,5 +1,6 @@
 package org.openapitools.codegen;
 
+import org.apache.commons.io.IOUtils;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
@@ -10,6 +11,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
@@ -295,6 +297,17 @@ public class TemplateManagerTest {
     }
 
     @Test
+    public void streamComparisonHandlesDifferentReadChunkSizes() throws IOException {
+        byte[] contents = new byte[20_000];
+        for (int i = 0; i < contents.length; i++) {
+            contents[i] = (byte) (i % 251);
+        }
+
+        InputStream is1 = new ShortReadInputStream(contents, contents.length);
+        assertTrue(IOUtils.contentEquals(is1, new ShortReadInputStream(contents, 3)));
+    }
+
+    @Test
     public void overwritesWhenSkipOverwriteFalse() throws IOException {
         TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
         TemplateManager manager = new TemplateManager(opts, mustacheEngineAdapter, new TemplatePathLocator[]{locator});
@@ -354,6 +367,36 @@ public class TemplateManagerTest {
             assertEquals(Files.readAllLines(written.toPath()).get(0), "This should not escape `{{this}}` or `{{{that}}}` or `{{name}} counts{{#each numbers}} {{.}}{{/each}}`");
         } finally {
             target.toFile().delete();
+        }
+    }
+
+    private static class ShortReadInputStream extends InputStream {
+        private final byte[] contents;
+        private final int maxReadSize;
+        private int offset;
+
+        private ShortReadInputStream(byte[] contents, int maxReadSize) {
+            this.contents = contents;
+            this.maxReadSize = maxReadSize;
+        }
+
+        @Override
+        public int read() {
+            if (offset >= contents.length) {
+                return -1;
+            }
+            return contents[offset++] & 0xff;
+        }
+
+        @Override
+        public int read(byte[] buffer, int off, int len) {
+            if (offset >= contents.length) {
+                return -1;
+            }
+            int read = Math.min(Math.min(len, maxReadSize), contents.length - offset);
+            System.arraycopy(contents, offset, buffer, off, read);
+            offset += read;
+            return read;
         }
     }
 }
