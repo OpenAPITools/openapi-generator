@@ -291,7 +291,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         Files.createDirectories(outputDirectory);
         String fileName = outputPath.getFileName().toString();
         String prefix = fileName.length() < 3 ? fileName + "..." : fileName + ".";
-        return Files.createTempFile(outputDirectory, prefix, ".tmp").toFile();
+        return File.createTempFile(prefix, ".tmp", outputDirectory.toFile());
     }
 
     /**
