@@ -34,7 +34,7 @@ import java.nio.CharBuffer;
  * <p>
  * Use:
  * <pre>
- * {{#lambdaEscapeHtml}}{{name}}{{/lambdaEscapeHtml}}
+ * {{#lambdaEscapeHtml}}{{{name}}}{{/lambdaEscapeHtml}}
  * </pre>
  */
 public class EscapeHtmlLambda implements Mustache.Lambda {
