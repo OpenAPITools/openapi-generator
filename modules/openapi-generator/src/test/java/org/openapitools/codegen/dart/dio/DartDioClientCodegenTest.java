@@ -274,4 +274,48 @@ public class DartDioClientCodegenTest {
         Assert.assertFalse(apiContent.contains("&#x3D;"),
             "Webhook should not contain HTML entity encoding (bug #22586 symptom)");
     }
+
+   /**
+     * Regression test for missing BuilderFactory entries on container
+     * types reachable only via {@code additionalProperties}.
+     *
+     * Before the fix, a property like
+     * {@code Map<String, List<Widget>>} (an object schema with
+     * {@code additionalProperties: { type: array, items: ... }}) ended
+     * up in the generated Dart class but no
+     * {@code addBuilderFactory(BuiltList<Widget>, ...)} call was
+     * emitted in {@code serializers.dart}. built_value then failed at
+     * runtime with
+     * {@code Bad state: No builder factory for BuiltList<Widget>}.
+     *
+     * The fix walks every model property's container tree and registers
+     * a factory for each nested layer.
+     */
+    @Test
+    public void testNestedAdditionalPropertiesGetBuilderFactories() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/built_value_additional_properties_factory.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path serializers = output.toPath().resolve("lib/src/serializers.dart");
+
+        // Inner container: List<Widget>.
+        TestUtils.assertFileContains(serializers,
+                "const FullType(BuiltList, [FullType(Widget)]),",
+                "() => ListBuilder<Widget>(),");
+
+        // Outer container: Map<String, List<Widget>>.
+        TestUtils.assertFileContains(serializers,
+                "const FullType(BuiltMap, [FullType(String), FullType(BuiltList, [FullType(Widget)])]),",
+                "() => MapBuilder<String, BuiltList<Widget>>(),");
+    }
 }
