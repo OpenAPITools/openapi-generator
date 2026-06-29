@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="OneOfNullableTest" />
     /// </summary>
-    public class OneOfNullableTestJsonConverter : JsonConverter<OneOfNullableTest>
+    public partial class OneOfNullableTestJsonConverter : JsonConverter<OneOfNullableTest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OneOfNullableTestJsonConverter" /> class.
+        /// </summary>
+        public OneOfNullableTestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="OneOfNullableTest" />
         /// </summary>

@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="OneOfNullAndRef2" />
     /// </summary>
-    public class OneOfNullAndRef2JsonConverter : JsonConverter<OneOfNullAndRef2>
+    public partial class OneOfNullAndRef2JsonConverter : JsonConverter<OneOfNullAndRef2>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OneOfNullAndRef2JsonConverter" /> class.
+        /// </summary>
+        public OneOfNullAndRef2JsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="OneOfNullAndRef2" />
         /// </summary>

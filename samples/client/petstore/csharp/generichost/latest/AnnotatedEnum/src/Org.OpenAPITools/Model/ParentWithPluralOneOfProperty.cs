@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ParentWithPluralOneOfProperty" />
     /// </summary>
-    public class ParentWithPluralOneOfPropertyJsonConverter : JsonConverter<ParentWithPluralOneOfProperty>
+    public partial class ParentWithPluralOneOfPropertyJsonConverter : JsonConverter<ParentWithPluralOneOfProperty>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParentWithPluralOneOfPropertyJsonConverter" /> class.
+        /// </summary>
+        public ParentWithPluralOneOfPropertyJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ParentWithPluralOneOfProperty" />
         /// </summary>

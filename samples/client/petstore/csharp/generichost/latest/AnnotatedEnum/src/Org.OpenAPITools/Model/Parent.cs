@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Parent" />
     /// </summary>
-    public class ParentJsonConverter : JsonConverter<Parent>
+    public partial class ParentJsonConverter : JsonConverter<Parent>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParentJsonConverter" /> class.
+        /// </summary>
+        public ParentJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Parent" />
         /// </summary>

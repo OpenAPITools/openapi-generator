@@ -95,8 +95,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="AnyOfStringArrayOfString" />
     /// </summary>
-    public class AnyOfStringArrayOfStringJsonConverter : JsonConverter<AnyOfStringArrayOfString>
+    public partial class AnyOfStringArrayOfStringJsonConverter : JsonConverter<AnyOfStringArrayOfString>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnyOfStringArrayOfStringJsonConverter" /> class.
+        /// </summary>
+        public AnyOfStringArrayOfStringJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="AnyOfStringArrayOfString" />
         /// </summary>

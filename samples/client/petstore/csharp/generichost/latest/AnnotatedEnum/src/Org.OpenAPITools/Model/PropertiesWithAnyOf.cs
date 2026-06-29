@@ -107,8 +107,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="PropertiesWithAnyOf" />
     /// </summary>
-    public class PropertiesWithAnyOfJsonConverter : JsonConverter<PropertiesWithAnyOf>
+    public partial class PropertiesWithAnyOfJsonConverter : JsonConverter<PropertiesWithAnyOf>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertiesWithAnyOfJsonConverter" /> class.
+        /// </summary>
+        public PropertiesWithAnyOfJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="PropertiesWithAnyOf" />
         /// </summary>
