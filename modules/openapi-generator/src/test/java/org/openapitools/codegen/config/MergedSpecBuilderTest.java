@@ -2,8 +2,10 @@ package org.openapitools.codegen.config;
 
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
@@ -18,6 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -401,6 +405,333 @@ public class MergedSpecBuilderTest {
         } catch (RuntimeException e) {
             assertTrue(e.getMessage().contains("Path+method conflict"),
                     "Exception message must mention the path+method conflict");
+        }
+    }
+    // ========================================================================
+    // DEEP mode — basic and structural tests
+    // ========================================================================
+
+    @Test
+    public void shouldDeepMergeNonConflictingSpecs_yaml() throws IOException {
+        shouldDeepMergeNonConflictingSpecs("yaml");
+    }
+
+    @Test
+    public void shouldDeepMergeNonConflictingSpecs_json() throws IOException {
+        shouldDeepMergeNonConflictingSpecs("json");
+    }
+
+    /** DEEP mode with spec1+spec2 (no conflicts): both paths and both schemas must be inlined. */
+    private void shouldDeepMergeNonConflictingSpecs(String fileExt) throws IOException {
+        File dir = Files.createTempDirectory("deep-basic").toFile().getCanonicalFile();
+        dir.deleteOnExit();
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1." + fileExt));
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec2." + fileExt), dir.toPath().resolve("spec2." + fileExt));
+        String mergedSpec = new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+        ParseOptions opts = new ParseOptions(); opts.setResolve(true);
+        OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, opts).getOpenAPI();
+        assertNotNull(openAPI.getPaths().get("/spec1"), "/spec1 must be present");
+        assertNotNull(openAPI.getPaths().get("/spec2"), "/spec2 must be present");
+        assertNotNull(openAPI.getComponents().getSchemas().get("Spec1Model"), "Spec1Model must be inlined");
+        assertNotNull(openAPI.getComponents().getSchemas().get("Spec2Model"), "Spec2Model must be inlined");
+    }
+
+    @Test
+    public void shouldDeepMergeCollidingPathDifferentMethods_yaml() throws IOException {
+        shouldDeepMergeCollidingPathDifferentMethods("yaml");
+    }
+
+    @Test
+    public void shouldDeepMergeCollidingPathDifferentMethods_json() throws IOException {
+        shouldDeepMergeCollidingPathDifferentMethods("json");
+    }
+
+    /**
+     * spec1 defines GET /spec1; spec-collision defines POST /spec1 and GET /collision.
+     * DEEP merge must combine both methods on /spec1 and include /collision.
+     */
+    private void shouldDeepMergeCollidingPathDifferentMethods(String fileExt) throws IOException {
+        File dir = Files.createTempDirectory("deep-path-methods").toFile().getCanonicalFile();
+        dir.deleteOnExit();
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1." + fileExt));
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-collision." + fileExt), dir.toPath().resolve("spec-collision." + fileExt));
+        String mergedSpec = new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+        ParseOptions opts = new ParseOptions(); opts.setResolve(true);
+        OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, opts).getOpenAPI();
+        PathItem spec1Path = openAPI.getPaths().get("/spec1");
+        assertNotNull(spec1Path, "/spec1 must be present");
+        assertNotNull(spec1Path.getGet(), "GET /spec1 from spec1 must be present");
+        assertNotNull(spec1Path.getPost(), "POST /spec1 from spec-collision must be present");
+        assertNotNull(openAPI.getPaths().get("/collision"), "/collision must be present");
+        assertNotNull(openAPI.getComponents().getSchemas().get("CollisionModel"), "CollisionModel must be inlined");
+    }
+
+    @Test
+    public void shouldDeepMergeDeduplicatesIdenticalSchemasSilently_yaml() throws IOException {
+        shouldDeepMergeDeduplicatesIdenticalSchemasSilently("yaml");
+    }
+
+    @Test
+    public void shouldDeepMergeDeduplicatesIdenticalSchemasSilently_json() throws IOException {
+        shouldDeepMergeDeduplicatesIdenticalSchemasSilently("json");
+    }
+
+    /**
+     * spec1 and spec-collision both define Spec1Model with identical structure.
+     * DEEP merge must succeed with no exception and no WARN log — identical duplicates are
+     * silently deduplicated, unlike conflicting definitions which produce a warning.
+     */
+    private void shouldDeepMergeDeduplicatesIdenticalSchemasSilently(String fileExt) throws IOException {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(MergedSpecBuilder.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+        try {
+            File dir = Files.createTempDirectory("deep-dedup").toFile().getCanonicalFile();
+            dir.deleteOnExit();
+            Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1." + fileExt));
+            Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-collision." + fileExt), dir.toPath().resolve("spec-collision." + fileExt));
+            String mergedSpec = new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                    .withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+            ParseOptions opts = new ParseOptions(); opts.setResolve(true);
+            OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, opts).getOpenAPI();
+            assertNotNull(openAPI.getComponents().getSchemas().get("Spec1Model"), "Spec1Model must be present");
+            long warnCount = listAppender.list.stream()
+                    .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+                    .filter(e -> e.getFormattedMessage().contains("Spec1Model"))
+                    .count();
+            assertEquals(warnCount, 0L, "Identical duplicate schemas must NOT produce a WARN");
+        } finally {
+            logger.detachAppender(listAppender);
+        }
+    }
+
+    @Test
+    public void shouldDeepMergePreservesExtensions_yaml() throws IOException {
+        shouldDeepMergePreservesExtensions("yaml");
+    }
+
+    @Test
+    public void shouldDeepMergePreservesExtensions_json() throws IOException {
+        shouldDeepMergePreservesExtensions("json");
+    }
+
+    /** DEEP mode must preserve path-level, operation-level, and schema-level x- extensions. */
+    private void shouldDeepMergePreservesExtensions(String fileExt) throws IOException {
+        File dir = Files.createTempDirectory("deep-ext").toFile().getCanonicalFile();
+        dir.deleteOnExit();
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-extensions." + fileExt), dir.toPath().resolve("spec-extensions." + fileExt));
+        String mergedSpec = new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+        ParseOptions opts = new ParseOptions(); opts.setResolve(true);
+        OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, opts).getOpenAPI();
+        PathItem extPath = openAPI.getPaths().get("/ext-path");
+        assertNotNull(extPath, "/ext-path must be present");
+        assertEquals(extPath.getExtensions().get("x-custom-path-ext"), "path-level-value",
+                "path-level extension must be preserved in DEEP mode");
+        assertEquals(extPath.getGet().getExtensions().get("x-custom-op-ext"), "operation-level-value",
+                "operation-level extension must be preserved in DEEP mode");
+        assertEquals(openAPI.getComponents().getSchemas().get("ExtModel").getExtensions().get("x-custom-schema-ext"), "schema-level-value",
+                "schema-level extension must be preserved in DEEP mode");
+    }
+
+    @Test
+    public void shouldDeepMergeMergesTopLevelVendorExtensions() {
+        OpenAPI spec1 = new OpenAPI().openapi("3.0.3").info(new Info().title("s1").version("1.0.0"));
+        spec1.addExtension("x-team", "platform");
+        spec1.addExtension("x-shared", "first-wins");
+        spec1.setPaths(new io.swagger.v3.oas.models.Paths());
+        spec1.setComponents(new Components());
+        OpenAPI spec2 = new OpenAPI().openapi("3.0.3").info(new Info().title("s2").version("1.0.0"));
+        spec2.addExtension("x-service", "users");
+        spec2.addExtension("x-shared", "MUST_NOT_OVERWRITE");
+        spec2.setPaths(new io.swagger.v3.oas.models.Paths());
+        spec2.setComponents(new Components());
+        MergedSpecBuilder builder = new MergedSpecBuilder(".", "_merged");
+        OpenAPI merged = builder.mergeSpecs(Arrays.asList(spec1, spec2), Collections.emptyList());
+        assertNotNull(merged.getExtensions(), "Merged spec must have top-level extensions");
+        assertEquals(merged.getExtensions().get("x-team"), "platform", "x-team from spec1 must be present");
+        assertEquals(merged.getExtensions().get("x-service"), "users", "x-service from spec2 must be present");
+        assertEquals(merged.getExtensions().get("x-shared"), "first-wins", "first definition must win on key conflict");
+    }
+
+    @Test
+    public void shouldDeepMergeMergesPathLevelMetadata_yaml() throws IOException {
+        shouldDeepMergeMergesPathLevelMetadata("yaml");
+    }
+
+    @Test
+    public void shouldDeepMergeMergesPathLevelMetadata_json() throws IOException {
+        shouldDeepMergeMergesPathLevelMetadata("json");
+    }
+
+    /**
+     * spec1 defines GET /spec1 with no path-level params.
+     * spec-pathlevel defines PATCH /spec1 with a path-level X-Request-ID header param and x-path-ext extension.
+     * Using explicit file list with spec1 first (so spec-pathlevel is the "incoming" PathItem),
+     * DEEP merge must copy the path-level parameter and extension from the incoming PathItem.
+     */
+    private void shouldDeepMergeMergesPathLevelMetadata(String fileExt) throws IOException {
+        File inputDir = Files.createTempDirectory("deep-pathlevel-in").toFile().getCanonicalFile();
+        inputDir.deleteOnExit();
+        File outputDir = Files.createTempDirectory("deep-pathlevel-out").toFile().getCanonicalFile();
+        outputDir.deleteOnExit();
+        java.nio.file.Path spec1Path = inputDir.toPath().resolve("spec1." + fileExt);
+        java.nio.file.Path specPathLevel = inputDir.toPath().resolve("spec-pathlevel." + fileExt);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), spec1Path);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-pathlevel." + fileExt), specPathLevel);
+        // spec1 first: creates /spec1 PathItem with GET; spec-pathlevel second: incoming PATCH + path-level metadata
+        String mergedSpec = new MergedSpecBuilder(
+                Arrays.asList(spec1Path.toAbsolutePath().toString(), specPathLevel.toAbsolutePath().toString()),
+                outputDir.getAbsolutePath(), "_merged"
+        ).withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+        // Verify the merged file actually contains the parameter before re-parsing
+        String mergedContent = new String(java.nio.file.Files.readAllBytes(Paths.get(mergedSpec)));
+        assertTrue(mergedContent.contains("X-Request-ID"),
+                "Merged file must contain X-Request-ID in serialized form");
+        assertTrue(mergedContent.contains("x-path-ext"),
+                "Merged file must contain x-path-ext extension in serialized form");
+
+        // Parse without resolve so path-level parameters aren't inlined into operations
+        OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, new ParseOptions()).getOpenAPI();
+        PathItem spec1PathItem = openAPI.getPaths().get("/spec1");
+        assertNotNull(spec1PathItem, "/spec1 must be present");
+        assertNotNull(spec1PathItem.getGet(), "GET /spec1 from spec1 must be present");
+        assertNotNull(spec1PathItem.getPatch(), "PATCH /spec1 from spec-pathlevel must be present");
+        assertNotNull(spec1PathItem.getParameters(), "Path-level parameters must be present after merge");
+        assertTrue(spec1PathItem.getParameters().stream()
+                .anyMatch(p -> "X-Request-ID".equals(p.getName()) && "header".equals(p.getIn())),
+                "X-Request-ID path-level parameter from incoming spec must be merged");
+        assertNotNull(spec1PathItem.getExtensions(), "Path-level extensions must be present after merge");
+        assertEquals(spec1PathItem.getExtensions().get("x-path-ext"), "path-level-extension-from-incoming",
+                "x-path-ext path-level extension from incoming spec must be merged");
+    }
+
+    // ========================================================================
+    // Explicit file list constructor tests
+    // ========================================================================
+
+    @Test
+    public void shouldMergeExplicitFileListRefMode_yaml() throws IOException {
+        shouldMergeExplicitFileListRefMode("yaml");
+    }
+
+    @Test
+    public void shouldMergeExplicitFileListRefMode_json() throws IOException {
+        shouldMergeExplicitFileListRefMode("json");
+    }
+
+    /**
+     * REF mode with explicit file list: files live in a separate input dir, output goes to a
+     * different dir. The merged spec must correctly reference all paths via $ref and resolve cleanly.
+     */
+    private void shouldMergeExplicitFileListRefMode(String fileExt) throws IOException {
+        File inputDir = Files.createTempDirectory("list-ref-in").toFile().getCanonicalFile();
+        inputDir.deleteOnExit();
+        File outputDir = Files.createTempDirectory("list-ref-out").toFile().getCanonicalFile();
+        outputDir.deleteOnExit();
+        java.nio.file.Path spec1Path = inputDir.toPath().resolve("spec1." + fileExt);
+        java.nio.file.Path spec2Path = inputDir.toPath().resolve("spec2." + fileExt);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), spec1Path);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec2." + fileExt), spec2Path);
+        String mergedSpec = new MergedSpecBuilder(
+                Arrays.asList(spec1Path.toAbsolutePath().toString(), spec2Path.toAbsolutePath().toString()),
+                outputDir.getAbsolutePath(), "_merged"
+        ).buildMergedSpec(); // REF mode is default
+        ParseOptions opts = new ParseOptions(); opts.setResolve(true);
+        OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, opts).getOpenAPI();
+        assertNotNull(openAPI.getPaths().get("/spec1"), "/spec1 must resolve via $ref");
+        assertNotNull(openAPI.getPaths().get("/spec2"), "/spec2 must resolve via $ref");
+    }
+
+    @Test
+    public void shouldMergeExplicitFileListDeepMode_yaml() throws IOException {
+        shouldMergeExplicitFileListDeepMode("yaml");
+    }
+
+    @Test
+    public void shouldMergeExplicitFileListDeepMode_json() throws IOException {
+        shouldMergeExplicitFileListDeepMode("json");
+    }
+
+    /** DEEP mode with explicit file list: output is a self-contained spec with all schemas inlined. */
+    private void shouldMergeExplicitFileListDeepMode(String fileExt) throws IOException {
+        File inputDir = Files.createTempDirectory("list-deep-in").toFile().getCanonicalFile();
+        inputDir.deleteOnExit();
+        File outputDir = Files.createTempDirectory("list-deep-out").toFile().getCanonicalFile();
+        outputDir.deleteOnExit();
+        java.nio.file.Path spec1Path = inputDir.toPath().resolve("spec1." + fileExt);
+        java.nio.file.Path spec2Path = inputDir.toPath().resolve("spec2." + fileExt);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), spec1Path);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec2." + fileExt), spec2Path);
+        String mergedSpec = new MergedSpecBuilder(
+                Arrays.asList(spec1Path.toAbsolutePath().toString(), spec2Path.toAbsolutePath().toString()),
+                outputDir.getAbsolutePath(), "_merged"
+        ).withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+        ParseOptions opts = new ParseOptions(); opts.setResolve(true);
+        OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, opts).getOpenAPI();
+        assertNotNull(openAPI.getPaths().get("/spec1"), "/spec1 must be present");
+        assertNotNull(openAPI.getPaths().get("/spec2"), "/spec2 must be present");
+        assertNotNull(openAPI.getComponents().getSchemas().get("Spec1Model"), "Spec1Model must be inlined");
+        assertNotNull(openAPI.getComponents().getSchemas().get("Spec2Model"), "Spec2Model must be inlined");
+    }
+
+    @Test
+    public void shouldExplicitFileListRespectsOrder_yaml() throws IOException {
+        shouldExplicitFileListRespectsOrder("yaml");
+    }
+
+    @Test
+    public void shouldExplicitFileListRespectsOrder_json() throws IOException {
+        shouldExplicitFileListRespectsOrder("json");
+    }
+
+    /**
+     * When a schema conflict exists, the first file in the explicit list wins.
+     * Listing spec-schema-conflict first keeps "differentField"; listing spec1 first keeps "spec1Field".
+     */
+    private void shouldExplicitFileListRespectsOrder(String fileExt) throws IOException {
+        File inputDir = Files.createTempDirectory("list-order-in").toFile().getCanonicalFile();
+        inputDir.deleteOnExit();
+        File outputDir1 = Files.createTempDirectory("list-order-out1").toFile().getCanonicalFile();
+        outputDir1.deleteOnExit();
+        File outputDir2 = Files.createTempDirectory("list-order-out2").toFile().getCanonicalFile();
+        outputDir2.deleteOnExit();
+        java.nio.file.Path spec1Path = inputDir.toPath().resolve("spec1." + fileExt);
+        java.nio.file.Path conflictPath = inputDir.toPath().resolve("spec-schema-conflict." + fileExt);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), spec1Path);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-schema-conflict." + fileExt), conflictPath);
+        ParseOptions opts = new ParseOptions(); opts.setResolve(true);
+        // conflict-first: differentField wins
+        String merged1 = new MergedSpecBuilder(
+                Arrays.asList(conflictPath.toAbsolutePath().toString(), spec1Path.toAbsolutePath().toString()),
+                outputDir1.getAbsolutePath(), "_merged"
+        ).withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+        OpenAPI api1 = new OpenAPIParser().readLocation(merged1, null, opts).getOpenAPI();
+        assertNotNull(api1.getComponents().getSchemas().get("Spec1Model").getProperties().get("differentField"),
+                "differentField must win when spec-schema-conflict is listed first");
+        // spec1-first: spec1Field wins
+        String merged2 = new MergedSpecBuilder(
+                Arrays.asList(spec1Path.toAbsolutePath().toString(), conflictPath.toAbsolutePath().toString()),
+                outputDir2.getAbsolutePath(), "_merged"
+        ).withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+        OpenAPI api2 = new OpenAPIParser().readLocation(merged2, null, opts).getOpenAPI();
+        assertNotNull(api2.getComponents().getSchemas().get("Spec1Model").getProperties().get("spec1Field"),
+                "spec1Field must win when spec1 is listed first");
+    }
+
+    @Test
+    public void shouldFailOnEmptyExplicitFileList() {
+        try {
+            new MergedSpecBuilder(Collections.emptyList(), System.getProperty("java.io.tmpdir"), "_merged")
+                    .buildMergedSpec();
+            fail("Expected RuntimeException for empty file list");
+        } catch (RuntimeException e) {
+            assertTrue(e.getMessage().toLowerCase().contains("empty") || e.getMessage().toLowerCase().contains("nothing"),
+                    "Exception must indicate the list is empty");
         }
     }
 }

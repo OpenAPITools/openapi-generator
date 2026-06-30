@@ -19,6 +19,7 @@ package org.openapitools.generator.gradle.plugin.tasks
 import org.gradle.api.Action
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.file.ProjectLayout
@@ -393,23 +394,26 @@ abstract class GenerateTask : DefaultTask() {
     abstract val inputSpecRootDirectory: DirectoryProperty
 
     /**
-     * An explicit ordered list of spec file paths (absolute) to merge.
+     * An explicit collection of spec files to merge, in the order they are declared.
      *
-     * When set, the generator merges exactly these files in the given order, rather than scanning
-     * a directory. Use with [mergeMode] and [mergeConflictStrategy]. The merged output is written
-     * to [inputSpecFilesOutputDir].
+     * When set, the generator merges exactly these files rather than scanning a directory.
+     * Use with [mergeMode] and [mergeConflictStrategy]. The merged output is written to
+     * [inputSpecFilesOutputDir].
      *
      * Takes precedence over [inputSpecRootDirectory] if both are set.
      */
-    @get:Input
+    @get:InputFiles
     @get:Optional
-    abstract val inputSpecFiles: ListProperty<String>
+    @get:SkipWhenEmpty
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val inputSpecFiles: ConfigurableFileCollection = project.objects.fileCollection()
 
     /**
      * Directory where the merged spec file is written when [inputSpecFiles] is used.
      * Must be set when [inputSpecFiles] is non-empty.
      */
-    @get:Internal
+    @get:OutputDirectory
+    @get:Optional
     abstract val inputSpecFilesOutputDir: DirectoryProperty
 
     /**
@@ -958,7 +962,7 @@ abstract class GenerateTask : DefaultTask() {
             }
         }
 
-        inputSpecFiles.orNull?.takeIf { it.isNotEmpty() }?.let { specFilePaths ->
+        inputSpecFiles.takeIf { !it.isEmpty }?.let { files ->
             val outputDirForMerge = inputSpecFilesOutputDir.orNull?.asFile
                 ?: throw GradleException("inputSpecFilesOutputDir must be set when using inputSpecFiles")
 
@@ -969,7 +973,7 @@ abstract class GenerateTask : DefaultTask() {
             }
 
             val builder = MergedSpecBuilder(
-                specFilePaths,
+                files.map { it.absolutePath },
                 outputDirForMerge.absolutePath,
                 mergedFileName.get()
             ).withMergeMode(resolvedMergeMode)

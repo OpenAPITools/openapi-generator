@@ -163,11 +163,7 @@ public class MergedSpecBuilder {
         }
         deleteMergedFileFromPreviousRun();
         LOGGER.info("Merging {} explicit spec files into {}", inputSpecFiles.size(), outputDirectory);
-
-        if (mergeMode == MergeMode.DEEP) {
-            return buildDeepMergedSpecFromAbsolutePaths(inputSpecFiles);
-        }
-        return buildRefMergedSpecFromAbsolutePaths(inputSpecFiles);
+        return buildMergedSpec(inputSpecFiles, outputDirectory);
     }
 
     private String buildMergedSpecFromDirectory() {
@@ -177,83 +173,57 @@ public class MergedSpecBuilder {
             throw new RuntimeException("Spec directory doesn't contain any specification");
         }
         LOGGER.info("In spec root directory {} found specs {}", inputSpecRootDirectory, specRelatedPaths);
+        // Resolve relative paths to absolute so the shared build logic works uniformly
+        List<String> absolutePaths = specRelatedPaths.stream()
+                .map(rel -> Paths.get(inputSpecRootDirectory, rel).toAbsolutePath().toString())
+                .collect(Collectors.toList());
+        return buildMergedSpec(absolutePaths, inputSpecRootDirectory);
+    }
 
+    /**
+     * Core merge logic shared by both directory mode and list mode.
+     *
+     * @param absoluteSpecPaths absolute paths to each spec file to parse, in merge order
+     * @param outputDir         directory where the merged output file will be written
+     */
+    private String buildMergedSpec(List<String> absoluteSpecPaths, String outputDir) {
+        ParsedSpecFiles parsed = parseSpecFiles(absoluteSpecPaths);
         if (mergeMode == MergeMode.DEEP) {
-            return buildDeepMergedSpec(specRelatedPaths);
+            return buildDeepMergedSpec(parsed, outputDir);
         }
-        return buildRefMergedSpec(specRelatedPaths);
+        return buildRefMergedSpec(parsed, outputDir);
     }
 
     // -------------------------------------------------------------------------
     // Shared parsing helper
     // -------------------------------------------------------------------------
 
-    /** Holds the results of parsing all spec files in a directory. */
+    /** Holds the results of parsing a set of spec files. */
     private static class ParsedSpecFiles {
         final List<OpenAPI> specs;
-        final List<String> relativePaths; // successfully parsed, in the same order as specs
+        final List<String> absolutePaths; // successfully parsed, in the same order as specs
         final boolean isJson;
         final String openapiVersion;
         final List<Server> allServers;
 
-        ParsedSpecFiles(List<OpenAPI> specs, List<String> relativePaths, boolean isJson,
+        ParsedSpecFiles(List<OpenAPI> specs, List<String> absolutePaths, boolean isJson,
                         String openapiVersion, List<Server> allServers) {
             this.specs = specs;
-            this.relativePaths = relativePaths;
+            this.absolutePaths = absolutePaths;
             this.isJson = isJson;
             this.openapiVersion = openapiVersion;
             this.allServers = allServers;
         }
     }
 
-    private ParsedSpecFiles parseSpecFiles(List<String> specRelatedPaths) {
+    /** Parses each spec file given as an absolute path. */
+    private ParsedSpecFiles parseSpecFiles(List<String> absolutePaths) {
         ParseOptions options = new ParseOptions();
-        options.setResolve(true);
-        List<OpenAPI> specs = new ArrayList<>();
-        List<String> relativePaths = new ArrayList<>();
-        List<Server> allServers = new ArrayList<>();
-        boolean isJson = false;
-        String openapiVersion = null;
-
-        for (String specRelatedPath : specRelatedPaths) {
-            String specPath = inputSpecRootDirectory + File.separator + specRelatedPath;
-            try {
-                LOGGER.info("Reading spec: {}", specPath);
-                OpenAPI result = new OpenAPIParser()
-                        .readLocation(specPath, AuthParser.parse(auth), options)
-                        .getOpenAPI();
-                if (result == null) {
-                    LOGGER.error("Failed to read file: {}. It would be ignored", specPath);
-                    continue;
-                }
-                if (specs.isEmpty() && specRelatedPath.toLowerCase(Locale.ROOT).endsWith(".json")) {
-                    isJson = true;
-                }
-                if (openapiVersion == null) {
-                    openapiVersion = result.getOpenapi();
-                }
-                allServers.addAll(ObjectUtils.defaultIfNull(result.getServers(), Collections.emptyList()));
-                specs.add(result);
-                relativePaths.add(specRelatedPath);
-            } catch (Exception e) {
-                LOGGER.error("Failed to read file: {}. It would be ignored", specPath);
-            }
-        }
-
-        if (specs.isEmpty()) {
-            throw new RuntimeException("Spec directory doesn't contain any valid specification");
-        }
-
-        return new ParsedSpecFiles(specs, relativePaths, isJson, openapiVersion, allServers);
-    }
-
-    /**
-     * Parses an explicit ordered list of spec files given as absolute paths.
-     * Unlike {@link #parseSpecFiles}, this method does not prepend {@code inputSpecRootDirectory}.
-     */
-    private ParsedSpecFiles parseSpecFilesFromAbsolutePaths(List<String> absolutePaths) {
-        ParseOptions options = new ParseOptions();
-        options.setResolve(true);
+        // Do NOT resolve — with resolve:true the swagger-parser inlines path-level parameters
+        // into each operation, making them invisible to mergePathItem. For deep merge the $refs
+        // in operations remain as '#/components/schemas/...' which resolve correctly in the merged
+        // output because all component schemas are merged into merged.getComponents().
+        options.setResolve(false);
         List<OpenAPI> specs = new ArrayList<>();
         List<String> parsedPaths = new ArrayList<>();
         List<Server> allServers = new ArrayList<>();
@@ -285,85 +255,36 @@ public class MergedSpecBuilder {
         }
 
         if (specs.isEmpty()) {
-            throw new RuntimeException("inputSpecFiles list contains no valid specifications");
+            throw new RuntimeException("No valid specifications found to merge");
         }
 
         return new ParsedSpecFiles(specs, parsedPaths, isJson, openapiVersion, allServers);
     }
 
     // -------------------------------------------------------------------------
-    // REF mode (list variant) — $ref-based shallow merge using absolute paths
+    // REF mode — original $ref-based shallow merge (identical to master)
     // -------------------------------------------------------------------------
 
-    private String buildRefMergedSpecFromAbsolutePaths(List<String> absolutePaths) {
-        ParsedSpecFiles parsed = parseSpecFilesFromAbsolutePaths(absolutePaths);
+    private String buildRefMergedSpec(ParsedSpecFiles parsed, String outputDir) {
+        Path outDirPath = Paths.get(outputDir);
 
         List<SpecWithPaths> allPaths = new ArrayList<>();
         for (int i = 0; i < parsed.specs.size(); i++) {
             io.swagger.v3.oas.models.Paths specPaths = parsed.specs.get(i).getPaths();
             Set<String> pathKeys = specPaths != null ? specPaths.keySet() : Collections.emptySet();
-            allPaths.add(new SpecWithPaths(parsed.relativePaths.get(i), pathKeys));
+            // Compute path relative to the output dir so $ref values are correct regardless of
+            // whether the spec files are in the same directory or specified as arbitrary paths.
+            String relPath = outDirPath.relativize(Paths.get(parsed.absolutePaths.get(i)))
+                    .toString().replace('\\', '/');
+            allPaths.add(new SpecWithPaths(relPath, pathKeys));
         }
 
         Map<String, Object> mergedSpec = generateRefMergedSpec(parsed.openapiVersion, allPaths, parsed.allServers);
         String mergedFilename = this.mergeFileName + (parsed.isJson ? ".json" : ".yaml");
-        Path mergedFilePath = Paths.get(outputDirectory, mergedFilename);
+        Path mergedFilePath = outDirPath.resolve(mergedFilename);
 
         try {
-            Files.createDirectories(mergedFilePath.getParent());
-            ObjectMapper objectMapper = parsed.isJson ? JSON_MAPPER : YAML_MAPPER;
-            Files.write(mergedFilePath, objectMapper.writeValueAsBytes(mergedSpec), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return mergedFilePath.toString();
-    }
-
-    // -------------------------------------------------------------------------
-    // DEEP mode (list variant) — full inline merge using absolute paths
-    // -------------------------------------------------------------------------
-
-    private String buildDeepMergedSpecFromAbsolutePaths(List<String> absolutePaths) {
-        ParsedSpecFiles parsed = parseSpecFilesFromAbsolutePaths(absolutePaths);
-
-        OpenAPI merged = mergeSpecs(parsed.specs, parsed.allServers);
-
-        String mergedFilename = this.mergeFileName + (parsed.isJson ? ".json" : ".yaml");
-        Path mergedFilePath = Paths.get(outputDirectory, mergedFilename);
-
-        try {
-            Files.createDirectories(mergedFilePath.getParent());
-            String content = parsed.isJson
-                    ? Json.mapper().writerWithDefaultPrettyPrinter().writeValueAsString(merged)
-                    : Yaml.mapper().writerWithDefaultPrettyPrinter().writeValueAsString(merged);
-            Files.write(mergedFilePath, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to serialize merged spec", e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return mergedFilePath.toString();
-    }
-
-
-
-    private String buildRefMergedSpec(List<String> specRelatedPaths) {
-        ParsedSpecFiles parsed = parseSpecFiles(specRelatedPaths);
-
-        List<SpecWithPaths> allPaths = new ArrayList<>();
-        for (int i = 0; i < parsed.specs.size(); i++) {
-            io.swagger.v3.oas.models.Paths specPaths = parsed.specs.get(i).getPaths();
-            Set<String> pathKeys = specPaths != null ? specPaths.keySet() : Collections.emptySet();
-            allPaths.add(new SpecWithPaths(parsed.relativePaths.get(i), pathKeys));
-        }
-
-        Map<String, Object> mergedSpec = generateRefMergedSpec(parsed.openapiVersion, allPaths, parsed.allServers);
-        String mergedFilename = this.mergeFileName + (parsed.isJson ? ".json" : ".yaml");
-        Path mergedFilePath = Paths.get(inputSpecRootDirectory, mergedFilename);
-
-        try {
+            Files.createDirectories(outDirPath);
             ObjectMapper objectMapper = parsed.isJson ? JSON_MAPPER : YAML_MAPPER;
             Files.write(mergedFilePath, objectMapper.writeValueAsBytes(mergedSpec), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
         } catch (IOException e) {
@@ -419,15 +340,14 @@ public class MergedSpecBuilder {
     // DEEP mode — full inline merge with component conflict detection
     // -------------------------------------------------------------------------
 
-    private String buildDeepMergedSpec(List<String> specRelatedPaths) {
-        ParsedSpecFiles parsed = parseSpecFiles(specRelatedPaths);
-
+    private String buildDeepMergedSpec(ParsedSpecFiles parsed, String outputDir) {
         OpenAPI merged = mergeSpecs(parsed.specs, parsed.allServers);
 
         String mergedFilename = this.mergeFileName + (parsed.isJson ? ".json" : ".yaml");
-        Path mergedFilePath = Paths.get(inputSpecRootDirectory, mergedFilename);
+        Path mergedFilePath = Paths.get(outputDir, mergedFilename);
 
         try {
+            Files.createDirectories(mergedFilePath.getParent());
             String content = parsed.isJson
                     ? Json.mapper().writerWithDefaultPrettyPrinter().writeValueAsString(merged)
                     : Yaml.mapper().writerWithDefaultPrettyPrinter().writeValueAsString(merged);

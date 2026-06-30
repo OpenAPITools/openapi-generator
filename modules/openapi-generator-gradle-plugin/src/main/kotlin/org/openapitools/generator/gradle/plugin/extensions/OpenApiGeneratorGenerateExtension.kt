@@ -17,6 +17,7 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.kotlin.dsl.listProperty
@@ -80,7 +81,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      * directory. Use with [mergeMode] and [mergeConflictStrategy]. The merged output is written to
      * [inputSpecFilesOutputDir]. Takes precedence over [inputSpecRootDirectory] if both are set.
      */
-    val inputSpecFiles = project.objects.listProperty<String>()
+    val inputSpecFiles: ConfigurableFileCollection = project.objects.fileCollection()
 
     /**
      * Directory where the merged spec file is written when [inputSpecFiles] is used.
