@@ -471,7 +471,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 ```
 will name the API method as `returnPetById` instead of `getPetById` obtained from OpenAPI doc/spec.
 
-NOTE: these mapping options do not perform any validation/change on the input and therefore output (e.g. auto-generated SDK) may not work (e.g. input is a reserved keyword in a particular programming language causing compilation errors). As usual, please test the output to ensure it's working as expected.
+:warning: **NOTE: these mapping options do not perform any validation/change on the input and therefore output (e.g. auto-generated SDK) may not work (e.g. input is a reserved keyword in a particular programming language causing compilation errors). As usual, please test the output to ensure it's working as expected.**
 
 ## Schema Mapping
 
