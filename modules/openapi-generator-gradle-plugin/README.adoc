@@ -162,8 +162,18 @@ apply plugin: 'org.openapi.generator'
 
 |mergedFileName
 |String / Provider<String>
-|None
-|Name of the file that will contain all merged specs
+|`merged`
+|Name of the output file that will contain all merged specs (used with `inputSpecRootDirectory`)
+
+|mergeMode
+|String / Provider<String>
+|`REF`
+|How multiple spec files are merged. `REF` (default) preserves the original behaviour: generates a lightweight index spec where each path is a `$ref` pointing back to its source file — identical to the master behaviour. `DEEP` fully parses and inlines all paths and components into a single self-contained spec, with component deduplication and conflict detection controlled by `mergeConflictStrategy`.
+
+|mergeConflictStrategy
+|String / Provider<String>
+|`WARN`
+|How to handle name conflicts when `mergeMode` is `DEEP` and two specs define the same component (schema, response, etc.) or the same path+method with different definitions. `WARN` (default) keeps the first definition and logs a warning. `FAIL` throws an exception and aborts the build.
 
 |remoteInputSpec
 |String / Provider<String>
