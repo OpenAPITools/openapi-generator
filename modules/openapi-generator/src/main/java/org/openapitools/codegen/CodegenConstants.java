@@ -354,7 +354,7 @@ public class CodegenConstants {
     public static final String REMOVE_OPERATION_ID_PREFIX_COUNT_DESC = "Count of delimiter for the prefix. Use -1 for last Default: 1";
 
     public static final String SKIP_OPERATION_EXAMPLE = "skipOperationExample";
-    public static final String SKIP_OPERATION_EXAMPLE_DESC = "Skip examples defined in operations to avoid out of memory errors.";
+    public static final String SKIP_OPERATION_EXAMPLE_DESC = "Skip examples defined in operations.";
 
     public static final String STRIP_PACKAGE_NAME = "stripPackageName";
     public static final String STRIP_PACKAGE_NAME_DESC = "Whether to strip leading dot-separated packages from generated model classes";

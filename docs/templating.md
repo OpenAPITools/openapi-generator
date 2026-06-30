@@ -813,6 +813,16 @@ Supporting files can either be processed through the templating engine or copied
 
 More variables can be found [here](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/CodegenProperty.java).
 
+### Rendering Examples
+
+When rendering `example` values from `CodegenProperty` or `CodegenParameter` in Mustache templates, use `lambdaExample` instead of direct `example` interpolation:
+
+```mustache
+{{#hasExample}}{{#lambdaExample}}{{/lambdaExample}}{{/hasExample}}
+```
+
+The `example` field is still present for compatibility and scalar example values, but it is not a complete rendering API for templates. The `lambdaExample` section streams object and array examples as JSON while preserving scalar example rendering. This is a context-specific lambda on example-bearing objects, not an entry in the global `lambda` map. When embedding an example in a language string, JSON string, or HTML text context, wrap `lambdaExample` in the appropriate escaping lambda for that context, such as `lambda.escapeJavaString`, `lambda.escapeJsonString`, or `lambdaEscapeHtml`.
+
 
 ## Mustache Lambdas
 
@@ -835,6 +845,11 @@ Many generators (*those extending DefaultCodegen*) come with a small set of lamb
 - `indented_8` - Prepends 8 spaces indention from second line of a fragment on. First line will be indented by Mustache.
 - `indented_12` - Prepends 12 spaces indention from second line of a fragment on. First line will be indented by Mustache.
 - `indented_16` -Prepends 16 spaces indention from second line of a fragment on. First line will be indented by Mustache.
+- `trim` - Removes leading and trailing whitespace from a fragment.
+- `trimLineBreaks` - Replaces duplicate line breaks in a fragment with a single line break.
+- `trimWhitespace` - Replaces duplicate whitespace in a fragment with a single space.
+- `trimTrailingWithNewLine` - Removes trailing whitespace from a fragment and appends a line break.
+- `trimTrailing` - Removes trailing whitespace from a fragment.
 
 Some generators provide additional lambdas. Lambda is invoked by `lambda.[lambda name]` expression. For example: `{{#lambda.lowercase}}FRAGMENT TO LOWERCASE{{/lambda.lowercase}}` to lower case text between `lambda.lowercase`.
 

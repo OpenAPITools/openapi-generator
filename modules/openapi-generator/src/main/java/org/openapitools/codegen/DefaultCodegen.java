@@ -4772,7 +4772,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        // check skipOperationExample, which can be set to true to avoid out of memory errors for large spec
+        // check skipOperationExample, which can be set to true to omit operation examples from generated output
         if (!isSkipOperationExample() && operation.getResponses() != null) {
             // generate examples
             ExampleGenerator generator = new ExampleGenerator(schemas, this.openAPI);
