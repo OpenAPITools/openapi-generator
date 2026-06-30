@@ -407,6 +407,14 @@ abstract class GenerateTask : DefaultTask() {
     abstract val mergedFileName: Property<String>
 
     /**
+     * Strategy when two specs define the same component name or path+method with conflicting
+     * definitions. Accepted values: "WARN" (default) or "FAIL".
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergeConflictStrategy: Property<String>
+
+    /**
      * The remote Open API 2.0/3.x specification URL location.
      */
     @get:Input
@@ -873,6 +881,7 @@ abstract class GenerateTask : DefaultTask() {
     init {
         inputSpecRootDirectorySkipMerge.convention(false)
         mergedFileName.convention("merged")
+        mergeConflictStrategy.convention("WARN")
     }
 
     @Suppress("unused")
@@ -896,6 +905,8 @@ abstract class GenerateTask : DefaultTask() {
                 finalResolvedInputSpec = MergedSpecBuilder(
                     inputDir.asFile.absolutePath,
                     mergedFileName.get()
+                ).withConflictStrategy(
+                    MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.get().uppercase())
                 ).buildMergedSpec()
                 logger.info("Merge input spec used: {}", finalResolvedInputSpec)
             }

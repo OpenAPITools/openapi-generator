@@ -81,6 +81,20 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val inputSpecRootDirectorySkipMerge = project.objects.property<Boolean>()
 
     /**
+     * Name of the file that will contain all merged specs (used with inputSpecRootDirectory).
+     *
+     * Default: "merged"
+     */
+    val mergedFileName = project.objects.property<String>()
+
+    /**
+     * Strategy when two specs define the same component name or path+method with conflicting
+     * (non-identical) definitions. Accepted values: "WARN" (default, keep first definition and
+     * log a warning) or "FAIL" (throw an exception and abort the build).
+     */
+    val mergeConflictStrategy = project.objects.property<String>()
+
+    /**
      * The remote Open API 2.0/3.x specification URL location.
      */
     val remoteInputSpec = project.objects.property<String>()
@@ -449,6 +463,8 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     fun applyDefaults() {
         releaseNote.convention("Minor update")
         inputSpecRootDirectorySkipMerge.convention(false)
+        mergedFileName.convention("merged")
+        mergeConflictStrategy.convention("WARN")
         modelNamePrefix.convention("")
         modelNameSuffix.convention("")
         apiNameSuffix.convention("")

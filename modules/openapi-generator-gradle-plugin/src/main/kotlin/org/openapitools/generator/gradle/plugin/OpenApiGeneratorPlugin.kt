@@ -102,6 +102,8 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     inputSpec.set(generate.inputSpec)
                     inputSpecRootDirectory.set(generate.inputSpecRootDirectory)
                     inputSpecRootDirectorySkipMerge.set(generate.inputSpecRootDirectorySkipMerge)
+                    mergedFileName.set(generate.mergedFileName)
+                    mergeConflictStrategy.set(generate.mergeConflictStrategy)
                     remoteInputSpec.set(generate.remoteInputSpec)
                     templateDir.set(generate.templateDir)
                     templateResourcePath.set(generate.templateResourcePath)
