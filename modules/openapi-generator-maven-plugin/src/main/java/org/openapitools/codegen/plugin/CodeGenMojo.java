@@ -598,11 +598,29 @@ public class CodeGenMojo extends AbstractMojo {
             // make sure the path can be processed correct under Windows OS
             inputSpecRootDirectory = inputSpecRootDirectory.replaceAll("\\\\", "/");
 
-            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
+            MergedSpecBuilder.MergeMode resolvedMergeMode;
+            try {
+                resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                throw new MojoExecutionException("Invalid mergeMode value '" + mergeMode
+                        + "'. Valid values are: REF, DEEP");
+            }
+
+            MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
                     mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
-                    .withMergeMode(MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT)))
-                    .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)))
-                    .buildMergedSpec();
+                    .withMergeMode(resolvedMergeMode);
+
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                try {
+                    builder.withConflictStrategy(
+                            MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(Locale.ROOT)));
+                } catch (IllegalArgumentException e) {
+                    throw new MojoExecutionException("Invalid mergeConflictStrategy value '" + mergeConflictStrategy
+                            + "'. Valid values are: WARN, FAIL");
+                }
+            }
+
+            inputSpec = builder.buildMergedSpec();
             LOGGER.info("Merge input spec would be used - {}", inputSpec);
         }
 

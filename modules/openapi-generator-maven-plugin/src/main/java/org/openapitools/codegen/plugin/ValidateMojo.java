@@ -200,10 +200,11 @@ public class ValidateMojo extends AbstractMojo {
       inputSpec = inputSpec[0].split("\\s*,\\s*");
     }
 
-    mergeInDirectory().ifPresent(mergedSpec -> {
+    Optional<String> mergedSpecOpt = mergeInDirectory();
+    if (mergedSpecOpt.isPresent()) {
       inputSpec = new String[1];
-      inputSpec[0] = mergedSpec;
-    });
+      inputSpec[0] = mergedSpecOpt.get();
+    }
 
     try {
       for (String oneInputSpec : inputSpec) {
@@ -261,16 +262,34 @@ public class ValidateMojo extends AbstractMojo {
     return false;
   }
 
-  private Optional<String> mergeInDirectory() {
+  private Optional<String> mergeInDirectory() throws MojoExecutionException {
     Optional<String> mergedSpec = Optional.empty();
     if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
       inputSpecRootDirectory = replaceBackslashesToSlashes(inputSpecRootDirectory);
 
-      mergedSpec = Optional.of(new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
+      MergedSpecBuilder.MergeMode resolvedMergeMode;
+      try {
+        resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(Locale.ROOT));
+      } catch (IllegalArgumentException e) {
+        throw new MojoExecutionException("Invalid mergeMode value '" + mergeMode
+            + "'. Valid values are: REF, DEEP");
+      }
+
+      MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
           mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
-          .withMergeMode(MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT)))
-          .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)))
-          .buildMergedSpec());
+          .withMergeMode(resolvedMergeMode);
+
+      if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+        try {
+          builder.withConflictStrategy(
+              MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(Locale.ROOT)));
+        } catch (IllegalArgumentException e) {
+          throw new MojoExecutionException("Invalid mergeConflictStrategy value '" + mergeConflictStrategy
+              + "'. Valid values are: WARN, FAIL");
+        }
+      }
+
+      mergedSpec = Optional.of(builder.buildMergedSpec());
       LOGGER.info("Merge input spec would be used - {}", mergedSpec.get());
     }
     return mergedSpec;

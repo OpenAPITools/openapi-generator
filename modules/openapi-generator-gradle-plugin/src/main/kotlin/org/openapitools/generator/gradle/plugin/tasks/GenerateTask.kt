@@ -912,14 +912,28 @@ abstract class GenerateTask : DefaultTask() {
 
         inputSpecRootDirectory.orNull?.let { inputDir ->
             if (!inputSpecRootDirectorySkipMerge.get()) {
-                finalResolvedInputSpec = MergedSpecBuilder(
+                val resolvedMergeMode = try {
+                    MergedSpecBuilder.MergeMode.valueOf(mergeMode.get().uppercase())
+                } catch (e: IllegalArgumentException) {
+                    throw GradleException("Invalid mergeMode value '${mergeMode.get()}'. Valid values are: REF, DEEP")
+                }
+
+                val builder = MergedSpecBuilder(
                     inputDir.asFile.absolutePath,
                     mergedFileName.get()
-                ).withMergeMode(
-                    MergedSpecBuilder.MergeMode.valueOf(mergeMode.get().uppercase())
-                ).withConflictStrategy(
-                    MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.get().uppercase())
-                ).buildMergedSpec()
+                ).withMergeMode(resolvedMergeMode)
+
+                if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                    try {
+                        builder.withConflictStrategy(
+                            MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.get().uppercase())
+                        )
+                    } catch (e: IllegalArgumentException) {
+                        throw GradleException("Invalid mergeConflictStrategy value '${mergeConflictStrategy.get()}'. Valid values are: WARN, FAIL")
+                    }
+                }
+
+                finalResolvedInputSpec = builder.buildMergedSpec()
                 logger.info("Merge input spec used: {}", finalResolvedInputSpec)
             }
         }

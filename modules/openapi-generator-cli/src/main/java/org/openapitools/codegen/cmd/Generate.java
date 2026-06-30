@@ -355,12 +355,27 @@ public class Generate extends OpenApiGeneratorCommand {
     public void execute() {
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
             MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName);
+
+            MergedSpecBuilder.MergeMode resolvedMergeMode = MergedSpecBuilder.MergeMode.REF;
             if (StringUtils.isNotBlank(mergeMode)) {
-                builder.withMergeMode(MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT)));
+                try {
+                    resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT));
+                } catch (IllegalArgumentException e) {
+                    System.err.println("[error] Invalid --merge-mode value '" + mergeMode + "'. Valid values are: REF, DEEP");
+                    return;
+                }
+                builder.withMergeMode(resolvedMergeMode);
             }
-            if (StringUtils.isNotBlank(mergeConflictStrategy)) {
-                builder.withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)));
+
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP && StringUtils.isNotBlank(mergeConflictStrategy)) {
+                try {
+                    builder.withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)));
+                } catch (IllegalArgumentException e) {
+                    System.err.println("[error] Invalid --merge-conflict-strategy value '" + mergeConflictStrategy + "'. Valid values are: WARN, FAIL");
+                    return;
+                }
             }
+
             spec = builder.buildMergedSpec();
             System.out.println("Merge input spec would be used - " + spec);
         }
