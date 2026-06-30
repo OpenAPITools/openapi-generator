@@ -79,7 +79,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      *
      * When set, the generator merges exactly these files in the given order, rather than scanning a
      * directory. Use with [mergeMode] and [mergeConflictStrategy]. The merged output is written to
-     * [inputSpecFilesOutputDir]. Takes precedence over [inputSpecRootDirectory] if both are set.
+     * [mergedFileOutputDir]. Takes precedence over [inputSpecRootDirectory] if both are set.
      */
     val inputSpecFiles: ConfigurableFileCollection = project.objects.fileCollection()
 
@@ -87,7 +87,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      * Directory where the merged spec file is written when [inputSpecFiles] is used.
      * Must be set when [inputSpecFiles] is non-empty.
      */
-    val inputSpecFilesOutputDir: DirectoryProperty = project.objects.directoryProperty()
+    val mergedFileOutputDir: DirectoryProperty = project.objects.directoryProperty()
 
     /**
      * Skip bundling all spec files into a merged spec file, if true.

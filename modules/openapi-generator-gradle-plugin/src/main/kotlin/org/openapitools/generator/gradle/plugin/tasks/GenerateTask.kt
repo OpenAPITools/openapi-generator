@@ -398,7 +398,7 @@ abstract class GenerateTask : DefaultTask() {
      *
      * When set, the generator merges exactly these files rather than scanning a directory.
      * Use with [mergeMode] and [mergeConflictStrategy]. The merged output is written to
-     * [inputSpecFilesOutputDir].
+     * [mergedFileOutputDir].
      *
      * Takes precedence over [inputSpecRootDirectory] if both are set.
      */
@@ -414,7 +414,7 @@ abstract class GenerateTask : DefaultTask() {
      */
     @get:OutputDirectory
     @get:Optional
-    abstract val inputSpecFilesOutputDir: DirectoryProperty
+    abstract val mergedFileOutputDir: DirectoryProperty
 
     /**
      * Skip bundling all spec files into a merged spec file, if true.
@@ -963,8 +963,8 @@ abstract class GenerateTask : DefaultTask() {
         }
 
         inputSpecFiles.takeIf { !it.isEmpty }?.let { files ->
-            val outputDirForMerge = inputSpecFilesOutputDir.orNull?.asFile
-                ?: throw GradleException("inputSpecFilesOutputDir must be set when using inputSpecFiles")
+            val outputDirForMerge = mergedFileOutputDir.orNull?.asFile
+                ?: throw GradleException("mergedFileOutputDir must be set when using inputSpecFiles")
 
             val resolvedMergeMode = try {
                 MergedSpecBuilder.MergeMode.valueOf(mergeMode.get().uppercase())
