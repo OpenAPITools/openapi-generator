@@ -1084,6 +1084,41 @@ public class KotlinClientCodegenModelTest {
                 "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\")\n    val `2ndField`");
     }
 
+    @Test
+    public void testOneOfAllOfDiscriminatorInheritancePropertiesNotLeakedToParent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .addAdditionalProperty("serializationLibrary", "jackson")
+                .addAdditionalProperty("removeDiscriminatorFromChildModels", true)
+                .setInputSpec("src/test/resources/3_1/polymorphism-allof-and-oneof-discriminator.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path petModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Pet.kt");
+        // don't include child's fields into interface class
+        TestUtils.assertFileNotContains(petModel, "packSize");
+        TestUtils.assertFileNotContains(petModel, "huntingSkill");
+        TestUtils.assertFileContains(petModel, "name");
+
+        // cat contains only cat properties + parent
+        Path catModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Cat.kt");
+        TestUtils.assertFileContains(catModel, "huntingSkill");
+        TestUtils.assertFileNotContains(catModel, "packSize");
+        TestUtils.assertFileContains(petModel, "name");
+
+        // dog contains only dog properties + parent
+        Path dogModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Dog.kt");
+        TestUtils.assertFileNotContains(dogModel, "huntingSkill");
+        TestUtils.assertFileContains(dogModel, "packSize");
+        TestUtils.assertFileContains(petModel, "name");
+    }
+
+
     private static class ModelNameTest {
         private final String expectedName;
         private final String expectedClassName;

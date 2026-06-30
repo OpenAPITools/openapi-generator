@@ -1,0 +1,69 @@
+# Test spec for allOf/oneOf inheritance with discriminator.
+# Verifies that child properties (e.g. huntingSkill, packSize) are not leaked
+# into the parent interface or sibling models.
+# Based on OAS 3.1 example: https://spec.openapis.org/oas/v3.2.0.html#models-with-polymorphism-support-and-a-discriminator-object
+openapi: 3.1.0
+info:
+  title: Polymorphism with allOf, oneOf and discriminator
+  version: "1.0"
+paths: {}
+components:
+  schemas:
+    Pet:
+      description: A pet
+      type: object
+      discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+      properties:
+        name:
+          type: string
+      required:
+        - name
+        - petType
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    Cat:
+      description: A pet cat
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+      properties:
+        petType:
+          const: 'cat'
+        huntingSkill:
+          type: string
+          description: The measured skill for hunting
+          enum:
+            - clueless
+            - lazy
+            - adventurous
+            - aggressive
+      required:
+        - huntingSkill
+    Dog:
+      description: A pet dog
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+      properties:
+        petType:
+          const: 'dog'
+        packSize:
+          type: integer
+          format: int32
+          description: the size of the pack the dog is from
+          default: 0
+          minimum: 0
+      required:
+        - petType
+        - packSize
+    House:
+      description: A house
+      type: object
+      properties:
+        pet:
+          $ref: '#/components/schemas/Pet'

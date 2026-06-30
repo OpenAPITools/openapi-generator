@@ -279,6 +279,12 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected boolean supportsInheritance;
     /**
+     * True if the language generator should not merge oneOf children's properties
+     * into the parent schema when the parent has a discriminator. This prevents
+     * child-specific properties from leaking into the parent interface/class.
+     */
+    protected boolean skipOneOfPropertyMergeInParent;
+    /**
      * True if the language generator supports the 'additionalProperties' keyword
      * as sibling of a composed (allOf/anyOf/oneOf) schema.
      * Note: all language generators should support this to comply with the OAS specification.
@@ -2741,6 +2747,10 @@ public class DefaultCodegen implements CodegenConfig {
                         "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
             }
             addVars(m, unaliasPropertySchema(composed.getProperties()), composed.getRequired(), null, null);
+            if (skipOneOfPropertyMergeInParent) {
+                // include own properties in allProperties so they appear in allVars
+                allProperties.putAll(composed.getProperties());
+            }
         }
 
         // parent model
@@ -2837,6 +2847,10 @@ public class DefaultCodegen implements CodegenConfig {
                     } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
                         // single inheritance
                         addProperties(allProperties, allRequired, refSchema, new HashSet<>());
+                    } else if (skipOneOfPropertyMergeInParent && composed.getOneOf() != null && composed.getDiscriminator() != null && supportsInheritance) {
+                        // polymorphic parent with discriminator and oneOf children —
+                        // these are type alternatives (subtypes), not compositions,
+                        // so their properties should not be merged into the parent
                     } else {
                         // composition
                         Map<String, Schema> newProperties = new LinkedHashMap<>();
@@ -3737,15 +3751,20 @@ public class DefaultCodegen implements CodegenConfig {
                 required.addAll(schema.getRequired());
             }
 
-            if (schema.getOneOf() != null) {
-                for (Object component : schema.getOneOf()) {
-                    addProperties(properties, required, (Schema) component, visitedSchemas);
+            // Note: oneOf and anyOf represent type alternatives, not compositions.
+            // When skipOneOfPropertyMergeInParent is enabled, their children's properties
+            // should NOT be merged into the parent schema.
+            if (!skipOneOfPropertyMergeInParent) {
+                if (schema.getOneOf() != null) {
+                    for (Object component : schema.getOneOf()) {
+                        addProperties(properties, required, (Schema) component, visitedSchemas);
+                    }
                 }
-            }
 
-            if (schema.getAnyOf() != null) {
-                for (Object component : schema.getAnyOf()) {
-                    addProperties(properties, required, (Schema) component, visitedSchemas);
+                if (schema.getAnyOf() != null) {
+                    for (Object component : schema.getAnyOf()) {
+                        addProperties(properties, required, (Schema) component, visitedSchemas);
+                    }
                 }
             }
 
