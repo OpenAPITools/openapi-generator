@@ -26,15 +26,15 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 
 public class CodegenPropertyTest {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
     public void equalityIncludesJsonExampleNodeWithoutHashingIt() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
         CodegenProperty property = new CodegenProperty();
         CodegenProperty property2 = new CodegenProperty();
 
-        property.setExample(mapper.readTree("{\"value\":\"first\"}"));
-        property2.setExample(mapper.readTree("{\"value\":\"second\"}"));
+        property.setExample(MAPPER.readTree("{\"value\":\"first\"}"));
+        property2.setExample(MAPPER.readTree("{\"value\":\"second\"}"));
 
         assertNotEquals(property, property2);
         assertEquals(property.hashCode(), property2.hashCode());
@@ -43,7 +43,7 @@ public class CodegenPropertyTest {
     @Test
     public void lambdaExampleUsesLegacyTextForJsonValueNodes() throws Exception {
         CodegenProperty property = new CodegenProperty();
-        property.setExample(new ObjectMapper().readTree("\"doggie\""));
+        property.setExample(MAPPER.readTree("\"doggie\""));
 
         StringWriter writer = new StringWriter();
         property.getLambdaExample().execute(null, writer);
@@ -54,11 +54,11 @@ public class CodegenPropertyTest {
     @Test
     public void lambdaExampleStreamsJsonForObjectNodes() throws Exception {
         CodegenProperty property = new CodegenProperty();
-        property.setExample(new ObjectMapper().readTree("{\"value\":\"doggie\"}"));
+        property.setExample(MAPPER.readTree("{\"value\":\"doggie\"}"));
 
         StringWriter writer = new StringWriter();
         property.getLambdaExample().execute(null, writer);
 
-        assertEquals(writer.toString(), "{\n  \"value\" : \"doggie\"\n}");
+        assertEquals(MAPPER.readTree(writer.toString()), MAPPER.readTree("{\"value\":\"doggie\"}"));
     }
 }

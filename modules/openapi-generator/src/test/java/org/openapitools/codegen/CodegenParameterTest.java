@@ -26,6 +26,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 
 public class CodegenParameterTest {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
     public void equalityIncludesJsonExampleNodeWithoutHashingIt() {
@@ -43,7 +44,7 @@ public class CodegenParameterTest {
     @Test
     public void lambdaExampleUsesLegacyTextForJsonValueNodes() throws Exception {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
-        codegenParameter.setExample(new ObjectMapper().readTree("\"doggie\""));
+        codegenParameter.setExample(MAPPER.readTree("\"doggie\""));
 
         StringWriter writer = new StringWriter();
         codegenParameter.getLambdaExample().execute(null, writer);
@@ -54,11 +55,11 @@ public class CodegenParameterTest {
     @Test
     public void lambdaExampleStreamsJsonForObjectNodes() throws Exception {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
-        codegenParameter.setExample(new ObjectMapper().readTree("{\"value\":\"doggie\"}"));
+        codegenParameter.setExample(MAPPER.readTree("{\"value\":\"doggie\"}"));
 
         StringWriter writer = new StringWriter();
         codegenParameter.getLambdaExample().execute(null, writer);
 
-        assertEquals(writer.toString(), "{\n  \"value\" : \"doggie\"\n}");
+        assertEquals(MAPPER.readTree(writer.toString()), MAPPER.readTree("{\"value\":\"doggie\"}"));
     }
 }

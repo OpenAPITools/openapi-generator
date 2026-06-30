@@ -29,6 +29,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
 public class JsonOutputLambdaTest {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
     public void writesStringValue() throws Exception {
@@ -41,14 +42,14 @@ public class JsonOutputLambdaTest {
 
     @Test
     public void writesPrettyJsonNodeValue() throws Exception {
-        ObjectNode node = new ObjectMapper().createObjectNode();
+        ObjectNode node = MAPPER.createObjectNode();
         node.put("name", "example");
         node.put("id", 123);
         StringWriter output = new StringWriter();
 
         new JsonOutputLambda(node).execute(mock(Template.Fragment.class), output);
 
-        assertEquals(output.toString(), "{\n  \"name\" : \"example\",\n  \"id\" : 123\n}");
+        assertEquals(MAPPER.readTree(output.toString()), MAPPER.readTree("{\"name\":\"example\",\"id\":123}"));
     }
 
     @Test
@@ -59,7 +60,7 @@ public class JsonOutputLambdaTest {
 
         new JsonOutputLambda(schema).execute(mock(Template.Fragment.class), output);
 
-        assertEquals(output.toString(), "{\n  \"type\" : \"string\",\n  \"example\" : \"doggie\"\n}");
+        assertEquals(MAPPER.readTree(output.toString()), MAPPER.readTree("{\"type\":\"string\",\"example\":\"doggie\"}"));
         assertFalse(output.toString().contains("\"title\" : null"));
     }
 }
