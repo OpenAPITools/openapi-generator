@@ -2847,7 +2847,7 @@ public class DefaultCodegen implements CodegenConfig {
                     } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
                         // single inheritance
                         addProperties(allProperties, allRequired, refSchema, new HashSet<>());
-                    } else if (skipOneOfPropertyMergeInParent && composed.getOneOf() != null && composed.getDiscriminator() != null && supportsInheritance) {
+                    } else if (skipOneOfPropertyMergeInParent && composed.getOneOf() != null && composed.getDiscriminator() != null) {
                         // polymorphic parent with discriminator and oneOf children —
                         // these are type alternatives (subtypes), not compositions,
                         // so their properties should not be merged into the parent

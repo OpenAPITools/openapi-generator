@@ -307,6 +307,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(USE_JACKSON_3,
             "Use Jackson 3 dependencies (tools.jackson package). Not yet supported for kotlin-client; reserved for future use."));
+
+        skipOneOfPropertyMergeInParent = true;
     }
 
     @Override

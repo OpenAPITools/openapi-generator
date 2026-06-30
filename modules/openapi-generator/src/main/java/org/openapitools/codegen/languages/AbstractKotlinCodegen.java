@@ -145,7 +145,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         super();
 
         supportsInheritance = true;
-        skipOneOfPropertyMergeInParent = true;
         setSortModelPropertiesByRequiredFlag(true);
 
         languageSpecificPrimitives = new HashSet<>(Arrays.asList(

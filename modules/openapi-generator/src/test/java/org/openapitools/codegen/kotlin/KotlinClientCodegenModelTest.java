@@ -1109,13 +1109,13 @@ public class KotlinClientCodegenModelTest {
         Path catModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Cat.kt");
         TestUtils.assertFileContains(catModel, "huntingSkill");
         TestUtils.assertFileNotContains(catModel, "packSize");
-        TestUtils.assertFileContains(petModel, "name");
+        TestUtils.assertFileContains(catModel, "name");
 
         // dog contains only dog properties + parent
         Path dogModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Dog.kt");
         TestUtils.assertFileNotContains(dogModel, "huntingSkill");
         TestUtils.assertFileContains(dogModel, "packSize");
-        TestUtils.assertFileContains(petModel, "name");
+        TestUtils.assertFileContains(dogModel, "name");
     }
 
 
