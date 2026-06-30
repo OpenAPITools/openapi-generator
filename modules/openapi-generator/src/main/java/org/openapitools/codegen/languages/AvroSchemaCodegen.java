@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -167,6 +168,17 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toDefaultValue(Schema p) {
         if (p.getDefault() == null) {
+            return null;
+        }
+
+        // The Swagger Parser represents an explicit `default: null` (common with
+        // `nullable: true`, e.g. via allOf composition) as a Jackson NullNode rather than a
+        // Java null. Treating it as a concrete default produces an invalid Avro union such as
+        // `["Foo", "null"]` with `"default": null`, because Avro requires a union's default
+        // value to match its FIRST branch. Treat an explicit null default as "no default" so
+        // the field falls through to the nullable-union form `["null", "Foo"]` with
+        // `"default": null`, which is valid.
+        if (p.getDefault() instanceof JsonNode && ((JsonNode) p.getDefault()).isNull()) {
             return null;
         }
 

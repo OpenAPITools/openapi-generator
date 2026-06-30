@@ -23,6 +23,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       QueryExampleGetResponse,
                       ReadonlyAuthSchemeGetResponse,
                       RegisterCallbackPostResponse,
+                      RequiredBinaryStreamPutResponse,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
                       Rfc7807GetResponse,
@@ -79,6 +80,7 @@ fn main() {
                 "OverrideServerGet",
                 "ParamgetGet",
                 "ReadonlyAuthSchemeGet",
+                "RequiredBinaryStreamPut",
                 "RequiredOctetStreamPut",
                 "ResponsesWithHeadersGet",
                 "Rfc7807Get",
@@ -290,6 +292,12 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        Some("RequiredBinaryStreamPut") => {
+            let result = rt.block_on(client.required_binary_stream_put(
+                  swagger::ByteArray(Vec::from("BINARY_DATA_HERE"))
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("RequiredOctetStreamPut") => {
             let result = rt.block_on(client.required_octet_stream_put(
                   swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"))

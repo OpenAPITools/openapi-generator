@@ -53,6 +53,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String POETRY1_FALLBACK = "poetry1";
     public static final String LAZY_IMPORTS = "lazyImports";
     public static final String BUILD_SYSTEM = "buildSystem";
+    public static final String SUPPORT_HTTPX_SYNC = "supportHttpxSync";
 
     @Setter protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -148,7 +149,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(SET_ENSURE_ASCII_TO_FALSE, "When set to true, add `ensure_ascii=False` in json.dumps when creating the HTTP request body.")
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
-        cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictStr or float.")
+        cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictFloat, float or Decimal.")
                 .defaultValue("Union[StrictFloat, StrictInt]"));
         cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
                 .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
@@ -158,6 +159,9 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(POETRY1_FALLBACK, "Fallback to formatting pyproject.toml to Poetry 1.x format."));
         cliOptions.add(new CliOption(LAZY_IMPORTS, "Enable lazy imports.").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BUILD_SYSTEM, "Build system to use in pyproject.toml (setuptools, hatchling).").defaultValue("setuptools"));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_HTTPX_SYNC, "Generate synchronous '_sync' variants of each API method (httpx library only). " +
+                "Each '_sync' method simply calls the corresponding async method and waits for its completion, " +
+                "so both synchronous and asynchronous methods are available from the same API class.").defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -352,8 +356,23 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("httpx/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("async", "true");
             additionalProperties.put("httpx", "true");
+            if (Boolean.parseBoolean(String.valueOf(additionalProperties.get(SUPPORT_HTTPX_SYNC)))) {
+                // generate synchronous '_sync' method variants alongside the async ones
+                additionalProperties.put(SUPPORT_HTTPX_SYNC, true);
+                supportingFiles.add(new SupportingFile("httpx/sync_helper.mustache", packagePath(), "sync_helper.py"));
+            } else {
+                additionalProperties.remove(SUPPORT_HTTPX_SYNC);
+            }
         } else {
             supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+        }
+
+        // 'supportHttpxSync' only makes sense for the (async) httpx library
+        if (!"httpx".equals(getLibrary())) {
+            if (Boolean.parseBoolean(String.valueOf(additionalProperties.get(SUPPORT_HTTPX_SYNC)))) {
+                LOGGER.warn("'{}' is only supported with the 'httpx' library and will be ignored.", SUPPORT_HTTPX_SYNC);
+            }
+            additionalProperties.remove(SUPPORT_HTTPX_SYNC);
         }
 
         modelPackage = this.packageName + "." + modelPackage;

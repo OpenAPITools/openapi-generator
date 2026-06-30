@@ -32,8 +32,8 @@ class DiscriminatorAllOfSuper(BaseModel):
     """
     DiscriminatorAllOfSuper
     """ # noqa: E501
-    element_type: StrictStr = Field(alias="elementType")
-    __properties: ClassVar[List[str]] = ["elementType"]
+    element_type: StrictStr = Field(alias="element'\"\\Type")
+    __properties: ClassVar[List[str]] = ["element'\"\\Type"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -44,11 +44,11 @@ class DiscriminatorAllOfSuper(BaseModel):
 
 
     # JSON field name that stores the object type
-    __discriminator_property_name: ClassVar[str] = 'elementType'
+    __discriminator_property_name: ClassVar[str] = 'element\'"\\Type'
 
     # discriminator mappings
     __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
-        'DiscriminatorAllOfSub': 'DiscriminatorAllOfSub'
+        'sub\'"\\kind\nvalue': 'DiscriminatorAllOfSub'
     }
 
     @classmethod
