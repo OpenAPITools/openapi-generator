@@ -7157,6 +7157,10 @@ public class DefaultCodegen implements CodegenConfig {
         return Collections.emptyList();
     }
 
+    public static void normalizeVendorExtensionWithStringList(Map<String, Object> vendorExtensions, String name) {
+        vendorExtensions.put(name, new ArrayList<>(getObjectAsStringList(vendorExtensions.get(name))));
+    }
+
     public Map<String, String> getPropertyAsStringMap(String propertyKey) {
         final Object value = additionalProperties.get(propertyKey);
         return getObjectAsStringMap(value);
