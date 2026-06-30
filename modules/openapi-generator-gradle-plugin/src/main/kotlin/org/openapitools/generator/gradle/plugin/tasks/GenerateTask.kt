@@ -23,6 +23,7 @@ import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.logging.Logging
 import org.gradle.api.provider.ListProperty
@@ -1189,7 +1190,7 @@ abstract class GenerateTask : DefaultTask() {
     fun setInputSpecAsString(path: String) {
         if (path.isRemoteUri()) {
             remoteInputSpec.set(path)
-            inputSpec.set(null as File?)  // Clear local file to prevent conflicts
+            inputSpec.set(null as RegularFile?)  // Clear local file to prevent conflicts
         } else {
             inputSpec.set(layout.projectDirectory.file(path))
             remoteInputSpec.set(null as String?)  // Clear remote URL to prevent conflicts

@@ -19,6 +19,7 @@ package org.openapitools.generator.gradle.plugin.extensions
 import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
@@ -529,7 +530,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     fun setInputSpec(path: String) {
         if (path.isRemoteUri()) {
             remoteInputSpec.set(path)
-            inputSpec.set(null as File?)  // Clear local file to prevent conflicts
+            inputSpec.set(null as RegularFile?)  // Clear local file to prevent conflicts
         } else {
             inputSpec.set(project.layout.projectDirectory.file(path))
             remoteInputSpec.set(null as String?)  // Clear remote URL to prevent conflicts

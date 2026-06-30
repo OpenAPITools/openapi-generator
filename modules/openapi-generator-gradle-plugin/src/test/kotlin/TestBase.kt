@@ -63,7 +63,7 @@ enum class PropertyFormat {
  */
 fun String.toPropertyReference(format: PropertyFormat): String {
     return when (format) {
-        PropertyFormat.STRING -> """file("$this").absolutePath"""
+        PropertyFormat.STRING -> """"$this""""
         PropertyFormat.FILE -> """file("$this")"""
     }
 }
