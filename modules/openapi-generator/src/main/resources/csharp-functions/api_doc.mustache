@@ -72,7 +72,7 @@ namespace Example
             {{/useHttpClient}}
             {{#allParams}}
             {{#isPrimitiveType}}
-            var {{paramName}} = {{#lambdaExample}}{{/lambdaExample}}{{^lambdaExample}}{{#hasExample}}{{{example}}}{{/hasExample}}{{^hasExample}}default({{{dataType}}}){{/hasExample}}{{/lambdaExample}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+            var {{paramName}} = {{#hasExample}}{{#lambdaExample}}{{/lambdaExample}}{{/hasExample}}{{^hasExample}}default({{{dataType}}}){{/hasExample}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
             var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
