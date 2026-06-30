@@ -112,14 +112,20 @@ public class MergedSpecBuilder {
      * @param mergeFileName   base name (without extension) for the merged output file
      */
     public MergedSpecBuilder(final List<String> inputSpecFiles, final String outputDirectory, final String mergeFileName) {
+        this(inputSpecFiles, outputDirectory, mergeFileName, "merged spec", "merged spec", "1.0.0", null);
+    }
+
+    public MergedSpecBuilder(final List<String> inputSpecFiles, final String outputDirectory, final String mergeFileName,
+                             final String mergedFileInfoName, final String mergedFileInfoDescription,
+                             final String mergedFileInfoVersion, final String auth) {
         this.inputSpecRootDirectory = null;
         this.inputSpecFiles = new ArrayList<>(inputSpecFiles);
         this.outputDirectory = outputDirectory;
         this.mergeFileName = mergeFileName;
-        this.mergedFileInfoName = "merged spec";
-        this.mergedFileInfoDescription = "merged spec";
-        this.mergedFileInfoVersion = "1.0.0";
-        this.auth = null;
+        this.mergedFileInfoName = mergedFileInfoName;
+        this.mergedFileInfoDescription = mergedFileInfoDescription;
+        this.mergedFileInfoVersion = mergedFileInfoVersion;
+        this.auth = auth;
     }
 
     /**

@@ -105,6 +105,9 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     inputSpecFiles.from(generate.inputSpecFiles)
                     mergedFileOutputDir.set(generate.mergedFileOutputDir)
                     mergedFileName.set(generate.mergedFileName)
+                    mergedFileInfoName.set(generate.mergedFileInfoName)
+                    mergedFileInfoDescription.set(generate.mergedFileInfoDescription)
+                    mergedFileInfoVersion.set(generate.mergedFileInfoVersion)
                     mergeMode.set(generate.mergeMode)
                     mergeConflictStrategy.set(generate.mergeConflictStrategy)
                     remoteInputSpec.set(generate.remoteInputSpec)
@@ -175,6 +178,5 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
         const val pluginGroup = "OpenAPI Tools"
     }
 }
-
 
 

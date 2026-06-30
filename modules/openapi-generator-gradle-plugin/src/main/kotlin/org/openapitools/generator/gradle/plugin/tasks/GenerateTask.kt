@@ -431,6 +431,27 @@ abstract class GenerateTask : DefaultTask() {
     abstract val mergedFileName: Property<String>
 
     /**
+     * Title to use in the info section of the merged spec.
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergedFileInfoName: Property<String>
+
+    /**
+     * Description to use in the info section of the merged spec.
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergedFileInfoDescription: Property<String>
+
+    /**
+     * Version to use in the info section of the merged spec.
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergedFileInfoVersion: Property<String>
+
+    /**
      * How multiple spec files are merged. Accepted values: "REF" (default, original $ref-based
      * shallow merge, backward-compatible) or "DEEP" (full inline merge with component
      * deduplication and conflict detection).
@@ -914,6 +935,9 @@ abstract class GenerateTask : DefaultTask() {
     init {
         inputSpecRootDirectorySkipMerge.convention(false)
         mergedFileName.convention("merged")
+        mergedFileInfoName.convention("merged spec")
+        mergedFileInfoDescription.convention("merged spec")
+        mergedFileInfoVersion.convention("1.0.0")
         mergeMode.convention("REF")
         mergeConflictStrategy.convention("WARN")
     }
@@ -944,7 +968,11 @@ abstract class GenerateTask : DefaultTask() {
 
                 val builder = MergedSpecBuilder(
                     inputDir.asFile.absolutePath,
-                    mergedFileName.get()
+                    mergedFileName.get(),
+                    mergedFileInfoName.get(),
+                    mergedFileInfoDescription.get(),
+                    mergedFileInfoVersion.get(),
+                    null
                 ).withMergeMode(resolvedMergeMode)
 
                 if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
@@ -975,7 +1003,11 @@ abstract class GenerateTask : DefaultTask() {
             val builder = MergedSpecBuilder(
                 files.map { it.absolutePath },
                 outputDirForMerge.absolutePath,
-                mergedFileName.get()
+                mergedFileName.get(),
+                mergedFileInfoName.get(),
+                mergedFileInfoDescription.get(),
+                mergedFileInfoVersion.get(),
+                null
             ).withMergeMode(resolvedMergeMode)
 
             if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {

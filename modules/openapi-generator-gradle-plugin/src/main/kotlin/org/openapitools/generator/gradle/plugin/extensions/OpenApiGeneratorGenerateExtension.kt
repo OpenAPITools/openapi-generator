@@ -102,6 +102,9 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      * Default: "merged"
      */
     val mergedFileName = project.objects.property<String>()
+    val mergedFileInfoName = project.objects.property<String>()
+    val mergedFileInfoDescription = project.objects.property<String>()
+    val mergedFileInfoVersion = project.objects.property<String>()
 
     /**
      * How multiple spec files are merged. Accepted values: "REF" (default, original $ref-based
@@ -488,6 +491,9 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
         releaseNote.convention("Minor update")
         inputSpecRootDirectorySkipMerge.convention(false)
         mergedFileName.convention("merged")
+        mergedFileInfoName.convention("merged spec")
+        mergedFileInfoDescription.convention("merged spec")
+        mergedFileInfoVersion.convention("1.0.0")
         mergeMode.convention("REF")
         mergeConflictStrategy.convention("WARN")
         modelNamePrefix.convention("")

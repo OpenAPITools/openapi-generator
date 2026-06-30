@@ -589,7 +589,7 @@ public class MergedSpecBuilderTest {
                 outputDir.getAbsolutePath(), "_merged"
         ).withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
         // Verify the merged file actually contains the parameter before re-parsing
-        String mergedContent = new String(java.nio.file.Files.readAllBytes(Paths.get(mergedSpec)));
+        String mergedContent = new String(java.nio.file.Files.readAllBytes(Paths.get(mergedSpec)), java.nio.charset.StandardCharsets.UTF_8);
         assertTrue(mergedContent.contains("X-Request-ID"),
                 "Merged file must contain X-Request-ID in serialized form");
         assertTrue(mergedContent.contains("x-path-ext"),
@@ -730,7 +730,7 @@ public class MergedSpecBuilderTest {
                     .buildMergedSpec();
             fail("Expected RuntimeException for empty file list");
         } catch (RuntimeException e) {
-            assertTrue(e.getMessage().toLowerCase().contains("empty") || e.getMessage().toLowerCase().contains("nothing"),
+            assertTrue(e.getMessage().toLowerCase(java.util.Locale.ROOT).contains("empty") || e.getMessage().toLowerCase(java.util.Locale.ROOT).contains("nothing"),
                     "Exception must indicate the list is empty");
         }
     }
