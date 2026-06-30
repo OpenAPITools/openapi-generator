@@ -26,7 +26,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -67,9 +66,6 @@ public class MergedSpecBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(MergedSpecBuilder.class);
 
     private static final Set<String> SPEC_EXTENSIONS = new HashSet<>(Arrays.asList(".yaml", ".yml", ".json"));
-
-    /** Matches any RFC 3986 URI scheme (e.g. http, https, file, ftp) followed by ':'. */
-    private static final Pattern URI_SCHEME_PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9+\\-.]*:");
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
     private static final ObjectMapper YAML_MAPPER = new ObjectMapper(new YAMLFactory());
@@ -138,7 +134,7 @@ public class MergedSpecBuilder {
     }
 
     // -------------------------------------------------------------------------
-    // REF mode — original $ref-based shallow merge
+    // REF mode — original $ref-based shallow merge (identical to master)
     // -------------------------------------------------------------------------
 
     private String buildRefMergedSpec(List<String> specRelatedPaths) {
@@ -170,17 +166,7 @@ public class MergedSpecBuilder {
                     }
                 }
                 allServers.addAll(ObjectUtils.defaultIfNull(result.getServers(), Collections.emptyList()));
-
-                ObjectMapper rawMapper = specRelatedPath.toLowerCase(Locale.ROOT).endsWith(".json")
-                        ? JSON_MAPPER : YAML_MAPPER;
-                Map<?, ?> rawSpec = rawMapper.readValue(new File(specPath), Map.class);
-                Object pathsObj = rawSpec.get("paths");
-                @SuppressWarnings("unchecked")
-                Map<String, Object> rawPaths = (pathsObj instanceof Map)
-                        ? (Map<String, Object>) pathsObj
-                        : Collections.emptyMap();
-
-                allPaths.add(new SpecWithPaths(specRelatedPath, rawPaths));
+                allPaths.add(new SpecWithPaths(specRelatedPath, result.getPaths().keySet()));
             } catch (Exception e) {
                 LOGGER.error("Failed to read file: {}. It would be ignored", specPath);
             }
@@ -205,93 +191,14 @@ public class MergedSpecBuilder {
         Map<String, Object> paths = new LinkedHashMap<>();
         spec.put("paths", paths);
 
-        Map<String, Long> pathOccurrences = allPaths.stream()
-                .flatMap(s -> s.rawPaths.keySet().stream())
-                .collect(Collectors.groupingBy(p -> p, Collectors.counting()));
-
         for (SpecWithPaths specWithPaths : allPaths) {
-            for (Map.Entry<String, Object> pathEntry : specWithPaths.rawPaths.entrySet()) {
-                String path = pathEntry.getKey();
+            for (String path : specWithPaths.paths) {
                 String encodedPath = path.replace("/", "~1");
-                String specRefBase = "./" + specWithPaths.specRelatedPath.replace('\\', '/') + "#/paths/" + encodedPath;
-
-                if (pathOccurrences.getOrDefault(path, 0L) <= 1L) {
-                    paths.put(path, ImmutableMap.of("$ref", specRefBase));
-                } else {
-                    Object rawValue = pathEntry.getValue();
-                    if (!(rawValue instanceof Map)) {
-                        LOGGER.warn("Path {} in {} has an unexpected non-map value; skipping.", path, specWithPaths.specRelatedPath);
-                        continue;
-                    }
-                    @SuppressWarnings("unchecked")
-                    Map<String, Object> rawPathItem = (Map<String, Object>) rawValue;
-                    Map<String, Object> adjustedPathItem = adjustRefs(rawPathItem, specWithPaths.specRelatedPath);
-
-                    @SuppressWarnings("unchecked")
-                    Map<String, Object> existingPathItem = (Map<String, Object>)
-                            paths.computeIfAbsent(path, k -> new LinkedHashMap<>());
-
-                    for (Map.Entry<String, Object> methodEntry : adjustedPathItem.entrySet()) {
-                        if (existingPathItem.containsKey(methodEntry.getKey())) {
-                            LOGGER.warn("Path {} HTTP method {} is defined in multiple spec files. Last definition will be used.",
-                                    path, methodEntry.getKey());
-                        }
-                        existingPathItem.put(methodEntry.getKey(), methodEntry.getValue());
-                    }
-                }
+                paths.put(path, ImmutableMap.of("$ref", "./" + specWithPaths.specRelatedPath.replace('\\', '/') + "#/paths/" + encodedPath));
             }
         }
 
         return spec;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> adjustRefs(Map<String, Object> map, String specRelatedPath) {
-        Map<String, Object> result = new LinkedHashMap<>();
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if ("$ref".equals(entry.getKey()) && entry.getValue() instanceof String) {
-                result.put("$ref", adjustRef((String) entry.getValue(), specRelatedPath));
-            } else if (entry.getValue() instanceof Map) {
-                result.put(entry.getKey(), adjustRefs((Map<String, Object>) entry.getValue(), specRelatedPath));
-            } else if (entry.getValue() instanceof List) {
-                result.put(entry.getKey(), adjustRefsList((List<?>) entry.getValue(), specRelatedPath));
-            } else {
-                result.put(entry.getKey(), entry.getValue());
-            }
-        }
-        return result;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static List<Object> adjustRefsList(List<?> list, String specRelatedPath) {
-        List<Object> result = new ArrayList<>();
-        for (Object item : list) {
-            if (item instanceof Map) {
-                result.add(adjustRefs((Map<String, Object>) item, specRelatedPath));
-            } else if (item instanceof List) {
-                result.add(adjustRefsList((List<?>) item, specRelatedPath));
-            } else {
-                result.add(item);
-            }
-        }
-        return result;
-    }
-
-    private static String adjustRef(String ref, String specRelatedPath) {
-        String normalizedSpec = specRelatedPath.replace('\\', '/');
-        if (ref.startsWith("#")) {
-            return "./" + normalizedSpec + ref;
-        }
-        if (ref.startsWith("/") || URI_SCHEME_PATTERN.matcher(ref).lookingAt()) {
-            return ref;
-        }
-        Path specPath = Paths.get(normalizedSpec);
-        Path specParent = specPath.getParent();
-        if (specParent == null) {
-            return ref;
-        }
-        Path resolved = specParent.resolve(Paths.get(ref.replace('\\', '/'))).normalize();
-        return "./" + resolved.toString().replace('\\', '/');
     }
 
     private static Map<String, Object> generateHeader(String openapiVersion, String title, String description, String version, List<Server> allServers) {
@@ -313,11 +220,11 @@ public class MergedSpecBuilder {
 
     private static class SpecWithPaths {
         private final String specRelatedPath;
-        private final Map<String, Object> rawPaths;
+        private final Set<String> paths;
 
-        private SpecWithPaths(final String specRelatedPath, final Map<String, Object> rawPaths) {
+        private SpecWithPaths(final String specRelatedPath, final Set<String> paths) {
             this.specRelatedPath = specRelatedPath;
-            this.rawPaths = rawPaths;
+            this.paths = paths;
         }
     }
 
