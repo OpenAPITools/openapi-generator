@@ -369,9 +369,12 @@ public class MergedSpecBuilder {
      * Merges HTTP method operations from {@code incoming} into {@code existing} for the same path URL.
      *
      * <p>Operations for methods not yet present in {@code existing} are added. If the same HTTP
-     * method already exists on a path, a {@link RuntimeException} is always thrown — unlike schema
-     * reuse, there is no valid reason for two specs to define the same HTTP method on the same path,
-     * and silently dropping one would produce incorrect output.</p>
+     * method already exists on a path, a {@link RuntimeException} is always thrown — even if the
+     * two definitions are identical. Unlike schema reuse (where identical duplicates are silently
+     * deduplicated), there is no valid reason for two spec files to both define the same HTTP method
+     * on the same path. An identical duplicate is still almost certainly a configuration error
+     * (e.g. the same file included twice, or an accidental copy), and failing loudly is safer than
+     * silently discarding one.</p>
      *
      * <p>Path-level metadata from {@code incoming} is merged into {@code existing}:</p>
      * <ul>
