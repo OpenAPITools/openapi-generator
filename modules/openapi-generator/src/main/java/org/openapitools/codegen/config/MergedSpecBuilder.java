@@ -75,6 +75,10 @@ public class MergedSpecBuilder {
     private static final ObjectMapper YAML_MAPPER = new ObjectMapper(new YAMLFactory());
 
     private final String inputSpecRootDirectory;
+    /** Absolute paths to individual spec files to merge. Non-null when using list mode. */
+    private final List<String> inputSpecFiles;
+    /** Output directory for the merged file. Used in list mode instead of inputSpecRootDirectory. */
+    private final String outputDirectory;
     private final String mergeFileName;
     private final String mergedFileInfoName;
     private final String mergedFileInfoDescription;
@@ -90,11 +94,32 @@ public class MergedSpecBuilder {
     public MergedSpecBuilder(final String rootDirectory, final String mergeFileName,
                              final String mergedFileInfoName, final String mergedFileInfoDescription, final String mergedFileInfoVersion, final String auth) {
         this.inputSpecRootDirectory = rootDirectory;
+        this.inputSpecFiles = null;
+        this.outputDirectory = null;
         this.mergeFileName = mergeFileName;
         this.mergedFileInfoName = mergedFileInfoName;
         this.mergedFileInfoDescription = mergedFileInfoDescription;
         this.mergedFileInfoVersion = mergedFileInfoVersion;
         this.auth = auth;
+    }
+
+    /**
+     * Constructs a builder that merges an explicit ordered list of spec files rather than
+     * scanning a directory. The merged result is written to {@code outputDirectory}.
+     *
+     * @param inputSpecFiles  absolute paths to the spec files to merge, in merge order
+     * @param outputDirectory directory where the merged file will be written
+     * @param mergeFileName   base name (without extension) for the merged output file
+     */
+    public MergedSpecBuilder(final List<String> inputSpecFiles, final String outputDirectory, final String mergeFileName) {
+        this.inputSpecRootDirectory = null;
+        this.inputSpecFiles = new ArrayList<>(inputSpecFiles);
+        this.outputDirectory = outputDirectory;
+        this.mergeFileName = mergeFileName;
+        this.mergedFileInfoName = "merged spec";
+        this.mergedFileInfoDescription = "merged spec";
+        this.mergedFileInfoVersion = "1.0.0";
+        this.auth = null;
     }
 
     /**
@@ -126,6 +151,26 @@ public class MergedSpecBuilder {
     }
 
     public String buildMergedSpec() {
+        if (inputSpecFiles != null) {
+            return buildMergedSpecFromList();
+        }
+        return buildMergedSpecFromDirectory();
+    }
+
+    private String buildMergedSpecFromList() {
+        if (inputSpecFiles.isEmpty()) {
+            throw new RuntimeException("inputSpecFiles list is empty — nothing to merge");
+        }
+        deleteMergedFileFromPreviousRun();
+        LOGGER.info("Merging {} explicit spec files into {}", inputSpecFiles.size(), outputDirectory);
+
+        if (mergeMode == MergeMode.DEEP) {
+            return buildDeepMergedSpecFromAbsolutePaths(inputSpecFiles);
+        }
+        return buildRefMergedSpecFromAbsolutePaths(inputSpecFiles);
+    }
+
+    private String buildMergedSpecFromDirectory() {
         deleteMergedFileFromPreviousRun();
         List<String> specRelatedPaths = getAllSpecFilesInDirectory();
         if (specRelatedPaths.isEmpty()) {
@@ -202,9 +247,107 @@ public class MergedSpecBuilder {
         return new ParsedSpecFiles(specs, relativePaths, isJson, openapiVersion, allServers);
     }
 
+    /**
+     * Parses an explicit ordered list of spec files given as absolute paths.
+     * Unlike {@link #parseSpecFiles}, this method does not prepend {@code inputSpecRootDirectory}.
+     */
+    private ParsedSpecFiles parseSpecFilesFromAbsolutePaths(List<String> absolutePaths) {
+        ParseOptions options = new ParseOptions();
+        options.setResolve(true);
+        List<OpenAPI> specs = new ArrayList<>();
+        List<String> parsedPaths = new ArrayList<>();
+        List<Server> allServers = new ArrayList<>();
+        boolean isJson = false;
+        String openapiVersion = null;
+
+        for (String absolutePath : absolutePaths) {
+            try {
+                LOGGER.info("Reading spec: {}", absolutePath);
+                OpenAPI result = new OpenAPIParser()
+                        .readLocation(absolutePath, AuthParser.parse(auth), options)
+                        .getOpenAPI();
+                if (result == null) {
+                    LOGGER.error("Failed to read file: {}. It would be ignored", absolutePath);
+                    continue;
+                }
+                if (specs.isEmpty() && absolutePath.toLowerCase(Locale.ROOT).endsWith(".json")) {
+                    isJson = true;
+                }
+                if (openapiVersion == null) {
+                    openapiVersion = result.getOpenapi();
+                }
+                allServers.addAll(ObjectUtils.defaultIfNull(result.getServers(), Collections.emptyList()));
+                specs.add(result);
+                parsedPaths.add(absolutePath);
+            } catch (Exception e) {
+                LOGGER.error("Failed to read file: {}. It would be ignored", absolutePath);
+            }
+        }
+
+        if (specs.isEmpty()) {
+            throw new RuntimeException("inputSpecFiles list contains no valid specifications");
+        }
+
+        return new ParsedSpecFiles(specs, parsedPaths, isJson, openapiVersion, allServers);
+    }
+
     // -------------------------------------------------------------------------
-    // REF mode — original $ref-based shallow merge (identical to master)
+    // REF mode (list variant) — $ref-based shallow merge using absolute paths
     // -------------------------------------------------------------------------
+
+    private String buildRefMergedSpecFromAbsolutePaths(List<String> absolutePaths) {
+        ParsedSpecFiles parsed = parseSpecFilesFromAbsolutePaths(absolutePaths);
+
+        List<SpecWithPaths> allPaths = new ArrayList<>();
+        for (int i = 0; i < parsed.specs.size(); i++) {
+            io.swagger.v3.oas.models.Paths specPaths = parsed.specs.get(i).getPaths();
+            Set<String> pathKeys = specPaths != null ? specPaths.keySet() : Collections.emptySet();
+            allPaths.add(new SpecWithPaths(parsed.relativePaths.get(i), pathKeys));
+        }
+
+        Map<String, Object> mergedSpec = generateRefMergedSpec(parsed.openapiVersion, allPaths, parsed.allServers);
+        String mergedFilename = this.mergeFileName + (parsed.isJson ? ".json" : ".yaml");
+        Path mergedFilePath = Paths.get(outputDirectory, mergedFilename);
+
+        try {
+            Files.createDirectories(mergedFilePath.getParent());
+            ObjectMapper objectMapper = parsed.isJson ? JSON_MAPPER : YAML_MAPPER;
+            Files.write(mergedFilePath, objectMapper.writeValueAsBytes(mergedSpec), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return mergedFilePath.toString();
+    }
+
+    // -------------------------------------------------------------------------
+    // DEEP mode (list variant) — full inline merge using absolute paths
+    // -------------------------------------------------------------------------
+
+    private String buildDeepMergedSpecFromAbsolutePaths(List<String> absolutePaths) {
+        ParsedSpecFiles parsed = parseSpecFilesFromAbsolutePaths(absolutePaths);
+
+        OpenAPI merged = mergeSpecs(parsed.specs, parsed.allServers);
+
+        String mergedFilename = this.mergeFileName + (parsed.isJson ? ".json" : ".yaml");
+        Path mergedFilePath = Paths.get(outputDirectory, mergedFilename);
+
+        try {
+            Files.createDirectories(mergedFilePath.getParent());
+            String content = parsed.isJson
+                    ? Json.mapper().writerWithDefaultPrettyPrinter().writeValueAsString(merged)
+                    : Yaml.mapper().writerWithDefaultPrettyPrinter().writeValueAsString(merged);
+            Files.write(mergedFilePath, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize merged spec", e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return mergedFilePath.toString();
+    }
+
+
 
     private String buildRefMergedSpec(List<String> specRelatedPaths) {
         ParsedSpecFiles parsed = parseSpecFiles(specRelatedPaths);
@@ -496,12 +639,13 @@ public class MergedSpecBuilder {
     }
 
     private void deleteMergedFileFromPreviousRun() {
+        String targetDir = (outputDirectory != null) ? outputDirectory : inputSpecRootDirectory;
         try {
-            Files.deleteIfExists(Paths.get(inputSpecRootDirectory + File.separator + mergeFileName + ".json"));
+            Files.deleteIfExists(Paths.get(targetDir + File.separator + mergeFileName + ".json"));
         } catch (IOException ignored) {
         }
         try {
-            Files.deleteIfExists(Paths.get(inputSpecRootDirectory + File.separator + mergeFileName + ".yaml"));
+            Files.deleteIfExists(Paths.get(targetDir + File.separator + mergeFileName + ".yaml"));
         } catch (IOException ignored) {
         }
     }

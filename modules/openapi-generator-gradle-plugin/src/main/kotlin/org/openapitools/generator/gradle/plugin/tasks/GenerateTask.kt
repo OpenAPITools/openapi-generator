@@ -393,6 +393,26 @@ abstract class GenerateTask : DefaultTask() {
     abstract val inputSpecRootDirectory: DirectoryProperty
 
     /**
+     * An explicit ordered list of spec file paths (absolute) to merge.
+     *
+     * When set, the generator merges exactly these files in the given order, rather than scanning
+     * a directory. Use with [mergeMode] and [mergeConflictStrategy]. The merged output is written
+     * to [inputSpecFilesOutputDir].
+     *
+     * Takes precedence over [inputSpecRootDirectory] if both are set.
+     */
+    @get:Input
+    @get:Optional
+    abstract val inputSpecFiles: ListProperty<String>
+
+    /**
+     * Directory where the merged spec file is written when [inputSpecFiles] is used.
+     * Must be set when [inputSpecFiles] is non-empty.
+     */
+    @get:Internal
+    abstract val inputSpecFilesOutputDir: DirectoryProperty
+
+    /**
      * Skip bundling all spec files into a merged spec file, if true.
      */
     @get:Input
@@ -937,6 +957,37 @@ abstract class GenerateTask : DefaultTask() {
                 logger.info("Merge input spec used: {}", finalResolvedInputSpec)
             }
         }
+
+        inputSpecFiles.orNull?.takeIf { it.isNotEmpty() }?.let { specFilePaths ->
+            val outputDirForMerge = inputSpecFilesOutputDir.orNull?.asFile
+                ?: throw GradleException("inputSpecFilesOutputDir must be set when using inputSpecFiles")
+
+            val resolvedMergeMode = try {
+                MergedSpecBuilder.MergeMode.valueOf(mergeMode.get().uppercase())
+            } catch (e: IllegalArgumentException) {
+                throw GradleException("Invalid mergeMode value '${mergeMode.get()}'. Valid values are: REF, DEEP")
+            }
+
+            val builder = MergedSpecBuilder(
+                specFilePaths,
+                outputDirForMerge.absolutePath,
+                mergedFileName.get()
+            ).withMergeMode(resolvedMergeMode)
+
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                try {
+                    builder.withConflictStrategy(
+                        MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.get().uppercase())
+                    )
+                } catch (e: IllegalArgumentException) {
+                    throw GradleException("Invalid mergeConflictStrategy value '${mergeConflictStrategy.get()}'. Valid values are: WARN, FAIL")
+                }
+            }
+
+            finalResolvedInputSpec = builder.buildMergedSpec()
+            logger.info("Merged spec from explicit file list: {}", finalResolvedInputSpec)
+        }
+
 
         cleanupOutput.orNull?.let { cleanup ->
             if (cleanup && outputDir.isPresent) {
