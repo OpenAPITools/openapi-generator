@@ -1133,4 +1133,148 @@ public class KotlinClientCodegenModelTest {
             this.expectedClassName = expectedClassName;
         }
     }
+
+    @Test(dataProvider = "serializationLibraries")
+    public void testPlainOneOfWithoutDiscriminatorGeneratesWrapperModel(String serializationLibrary) throws Exception {
+        // Plain oneOf without discriminator generates a wrapper data class containing all variants' properties.
+        // This is intentional — without discriminator there's no polymorphism, just a union type.
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .addAdditionalProperty("serializationLibrary", serializationLibrary)
+                .setInputSpec("src/test/resources/3_0/oneOf.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path fruitModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Fruit.kt");
+        // Fruit is a data class (wrapper) that includes its own prop + all children's props
+        TestUtils.assertFileContains(fruitModel, "color");
+        TestUtils.assertFileContains(fruitModel, "kind");   // Apple's property — merged intentionally
+        TestUtils.assertFileContains(fruitModel, "count");  // Banana's property — merged intentionally
+        TestUtils.assertFileContains(fruitModel, "sweet");  // Orange's property — merged intentionally
+
+        // Children are standalone models with only their own properties
+        Path appleModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Apple.kt");
+        TestUtils.assertFileContains(appleModel, "kind");
+        TestUtils.assertFileNotContains(appleModel, "count");
+        TestUtils.assertFileNotContains(appleModel, "sweet");
+
+        Path bananaModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Banana.kt");
+        TestUtils.assertFileContains(bananaModel, "count");
+        TestUtils.assertFileNotContains(bananaModel, "kind");
+        TestUtils.assertFileNotContains(bananaModel, "sweet");
+
+        Path orangeModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Orange.kt");
+        TestUtils.assertFileContains(orangeModel, "sweet");
+        TestUtils.assertFileNotContains(orangeModel, "kind");
+        TestUtils.assertFileNotContains(orangeModel, "count");
+    }
+
+    @Test(dataProvider = "serializationLibraries")
+    public void testOneOfWithDiscriminatorPropertiesNotLeakedToParent(String serializationLibrary) throws Exception {
+        // oneOf with discriminator: FruitReqDisc has discriminator "fruitType", children have their own props
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .addAdditionalProperty("serializationLibrary", serializationLibrary)
+                .setInputSpec("src/test/resources/3_0/oneOfDiscriminator.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path parentModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/FruitReqDisc.kt");
+        // Parent should NOT have child-specific properties
+        TestUtils.assertFileNotContains(parentModel, "seeds");   // AppleReqDisc's property
+        TestUtils.assertFileNotContains(parentModel, "length");  // BananaReqDisc's property
+
+        // Children should have only their own properties + discriminator
+        Path appleModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/AppleReqDisc.kt");
+        TestUtils.assertFileContains(appleModel, "seeds");
+        TestUtils.assertFileNotContains(appleModel, "length");
+
+        Path bananaModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/BananaReqDisc.kt");
+        TestUtils.assertFileContains(bananaModel, "length");
+        TestUtils.assertFileNotContains(bananaModel, "seeds");
+    }
+
+    @Test(dataProvider = "serializationLibraries")
+    public void testPlainAllOfWithoutDiscriminatorInheritancePreserved(String serializationLibrary) throws Exception {
+        // Plain allOf without discriminator: children inherit parent's properties via override
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .addAdditionalProperty("serializationLibrary", serializationLibrary)
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path personModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Person.kt");
+        // Person should have its own properties
+        TestUtils.assertFileContains(personModel, "lastName");
+        TestUtils.assertFileContains(personModel, "firstName");
+
+        // Adult should have its own property + parent properties via inheritance
+        Path adultModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Adult.kt");
+        TestUtils.assertFileContains(adultModel, "children");
+        TestUtils.assertFileContains(adultModel, "lastName");
+        TestUtils.assertFileContains(adultModel, "firstName");
+
+        // Child should have its own property + parent properties via inheritance
+        Path childModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Child.kt");
+        TestUtils.assertFileContains(childModel, "age");
+        TestUtils.assertFileContains(childModel, "lastName");
+        TestUtils.assertFileContains(childModel, "firstName");
+    }
+
+    @Test(dataProvider = "serializationLibraries")
+    public void testAllOfWithDiscriminatorPropertiesNotLeakedToParent(String serializationLibrary) throws Exception {
+        // allOf with discriminator: Pet is parent, Cat/Dog extend it
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .addAdditionalProperty("serializationLibrary", serializationLibrary)
+                .setInputSpec("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path petModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Pet.kt");
+        // Pet should have only its own property
+        TestUtils.assertFileContains(petModel, "name");
+        TestUtils.assertFileNotContains(petModel, "packSize");      // Dog's property
+        TestUtils.assertFileNotContains(petModel, "huntingSkill");   // Cat's property
+
+        // Cat should have its own + parent properties, NOT Dog's
+        Path catModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Cat.kt");
+        TestUtils.assertFileContains(catModel, "huntingSkill");
+        TestUtils.assertFileContains(catModel, "name");
+        TestUtils.assertFileNotContains(catModel, "packSize");
+
+        // Dog should have its own + parent properties, NOT Cat's
+        Path dogModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Dog.kt");
+        TestUtils.assertFileContains(dogModel, "packSize");
+        TestUtils.assertFileContains(dogModel, "name");
+        TestUtils.assertFileNotContains(dogModel, "huntingSkill");
+    }
+
+    @DataProvider(name = "serializationLibraries")
+    public Object[][] serializationLibraries() {
+        return new Object[][]{
+            {"jackson"},
+            {"moshi"},
+            {"gson"},
+            {"kotlinx_serialization"},
+        };
+    }
+
 }
