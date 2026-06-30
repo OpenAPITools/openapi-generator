@@ -12,6 +12,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.lang3.ObjectUtils;
 import org.openapitools.codegen.auth.AuthParser;
@@ -53,8 +54,11 @@ public class MergedSpecBuilder {
 
     /**
      * Controls what happens when two specs define the same component name (schema, response, etc.)
-     * or the same path+method with different definitions. Only applies when {@link MergeMode#DEEP}
-     * is active.
+     * with different definitions during a {@link MergeMode#DEEP} merge.
+     *
+     * <p>This strategy applies to component/model conflicts only. Path+method overlaps (the same
+     * HTTP method on the same path in multiple specs) are always silently resolved by keeping the
+     * first definition, regardless of this setting.</p>
      */
     public enum MergeConflictStrategy {
         /** Log a warning and keep the first definition (default). */
@@ -105,9 +109,11 @@ public class MergedSpecBuilder {
     }
 
     /**
-     * Sets the strategy used when two specs define the same component name or path+method
-     * with conflicting (non-identical) definitions. Only applies when {@link MergeMode#DEEP}
-     * is active.
+     * Sets the strategy used when two specs define the same component name (schema, response, etc.)
+     * with conflicting definitions. Only applies when {@link MergeMode#DEEP} is active.
+     *
+     * <p>Path+method overlaps are unaffected by this setting — they are always silently resolved
+     * by keeping the first definition.</p>
      *
      * @param strategy {@link MergeConflictStrategy#WARN} to log a warning and keep the first
      *                 definition (default), or {@link MergeConflictStrategy#FAIL} to throw a
@@ -134,50 +140,88 @@ public class MergedSpecBuilder {
     }
 
     // -------------------------------------------------------------------------
-    // REF mode — original $ref-based shallow merge (identical to master)
+    // Shared parsing helper
     // -------------------------------------------------------------------------
 
-    private String buildRefMergedSpec(List<String> specRelatedPaths) {
-        String openapiVersion = null;
-        boolean isJson = false;
+    /** Holds the results of parsing all spec files in a directory. */
+    private static class ParsedSpecFiles {
+        final List<OpenAPI> specs;
+        final List<String> relativePaths; // successfully parsed, in the same order as specs
+        final boolean isJson;
+        final String openapiVersion;
+        final List<Server> allServers;
+
+        ParsedSpecFiles(List<OpenAPI> specs, List<String> relativePaths, boolean isJson,
+                        String openapiVersion, List<Server> allServers) {
+            this.specs = specs;
+            this.relativePaths = relativePaths;
+            this.isJson = isJson;
+            this.openapiVersion = openapiVersion;
+            this.allServers = allServers;
+        }
+    }
+
+    private ParsedSpecFiles parseSpecFiles(List<String> specRelatedPaths) {
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
-        List<SpecWithPaths> allPaths = new ArrayList<>();
+        List<OpenAPI> specs = new ArrayList<>();
+        List<String> relativePaths = new ArrayList<>();
         List<Server> allServers = new ArrayList<>();
+        boolean isJson = false;
+        String openapiVersion = null;
 
         for (String specRelatedPath : specRelatedPaths) {
             String specPath = inputSpecRootDirectory + File.separator + specRelatedPath;
             try {
                 LOGGER.info("Reading spec: {}", specPath);
-
                 OpenAPI result = new OpenAPIParser()
                         .readLocation(specPath, AuthParser.parse(auth), options)
                         .getOpenAPI();
-
                 if (result == null) {
                     LOGGER.error("Failed to read file: {}. It would be ignored", specPath);
                     continue;
                 }
-
+                if (specs.isEmpty() && specRelatedPath.toLowerCase(Locale.ROOT).endsWith(".json")) {
+                    isJson = true;
+                }
                 if (openapiVersion == null) {
                     openapiVersion = result.getOpenapi();
-                    if (specRelatedPath.toLowerCase(Locale.ROOT).endsWith(".json")) {
-                        isJson = true;
-                    }
                 }
                 allServers.addAll(ObjectUtils.defaultIfNull(result.getServers(), Collections.emptyList()));
-                allPaths.add(new SpecWithPaths(specRelatedPath, result.getPaths().keySet()));
+                specs.add(result);
+                relativePaths.add(specRelatedPath);
             } catch (Exception e) {
                 LOGGER.error("Failed to read file: {}. It would be ignored", specPath);
             }
         }
 
-        Map<String, Object> mergedSpec = generateRefMergedSpec(openapiVersion, allPaths, allServers);
-        String mergedFilename = this.mergeFileName + (isJson ? ".json" : ".yaml");
+        if (specs.isEmpty()) {
+            throw new RuntimeException("Spec directory doesn't contain any valid specification");
+        }
+
+        return new ParsedSpecFiles(specs, relativePaths, isJson, openapiVersion, allServers);
+    }
+
+    // -------------------------------------------------------------------------
+    // REF mode — original $ref-based shallow merge (identical to master)
+    // -------------------------------------------------------------------------
+
+    private String buildRefMergedSpec(List<String> specRelatedPaths) {
+        ParsedSpecFiles parsed = parseSpecFiles(specRelatedPaths);
+
+        List<SpecWithPaths> allPaths = new ArrayList<>();
+        for (int i = 0; i < parsed.specs.size(); i++) {
+            io.swagger.v3.oas.models.Paths specPaths = parsed.specs.get(i).getPaths();
+            Set<String> pathKeys = specPaths != null ? specPaths.keySet() : Collections.emptySet();
+            allPaths.add(new SpecWithPaths(parsed.relativePaths.get(i), pathKeys));
+        }
+
+        Map<String, Object> mergedSpec = generateRefMergedSpec(parsed.openapiVersion, allPaths, parsed.allServers);
+        String mergedFilename = this.mergeFileName + (parsed.isJson ? ".json" : ".yaml");
         Path mergedFilePath = Paths.get(inputSpecRootDirectory, mergedFilename);
 
         try {
-            ObjectMapper objectMapper = isJson ? JSON_MAPPER : YAML_MAPPER;
+            ObjectMapper objectMapper = parsed.isJson ? JSON_MAPPER : YAML_MAPPER;
             Files.write(mergedFilePath, objectMapper.writeValueAsBytes(mergedSpec), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -233,47 +277,15 @@ public class MergedSpecBuilder {
     // -------------------------------------------------------------------------
 
     private String buildDeepMergedSpec(List<String> specRelatedPaths) {
-        boolean isJson = false;
-        ParseOptions options = new ParseOptions();
-        options.setResolve(true);
-        List<OpenAPI> parsedSpecs = new ArrayList<>();
-        List<Server> allServers = new ArrayList<>();
+        ParsedSpecFiles parsed = parseSpecFiles(specRelatedPaths);
 
-        for (String specRelatedPath : specRelatedPaths) {
-            String specPath = inputSpecRootDirectory + File.separator + specRelatedPath;
-            try {
-                LOGGER.info("Reading spec: {}", specPath);
+        OpenAPI merged = mergeSpecs(parsed.specs, parsed.allServers);
 
-                OpenAPI result = new OpenAPIParser()
-                        .readLocation(specPath, AuthParser.parse(auth), options)
-                        .getOpenAPI();
-
-                if (result == null) {
-                    LOGGER.error("Failed to read file: {}. It would be ignored", specPath);
-                    continue;
-                }
-
-                if (parsedSpecs.isEmpty() && specRelatedPath.toLowerCase(Locale.ROOT).endsWith(".json")) {
-                    isJson = true;
-                }
-                allServers.addAll(Optional.ofNullable(result.getServers()).orElse(Collections.emptyList()));
-                parsedSpecs.add(result);
-            } catch (Exception e) {
-                LOGGER.error("Failed to read file: {}. It would be ignored", specPath);
-            }
-        }
-
-        if (parsedSpecs.isEmpty()) {
-            throw new RuntimeException("Spec directory doesn't contain any valid specification");
-        }
-
-        OpenAPI merged = mergeSpecs(parsedSpecs, allServers);
-
-        String mergedFilename = this.mergeFileName + (isJson ? ".json" : ".yaml");
+        String mergedFilename = this.mergeFileName + (parsed.isJson ? ".json" : ".yaml");
         Path mergedFilePath = Paths.get(inputSpecRootDirectory, mergedFilename);
 
         try {
-            String content = isJson
+            String content = parsed.isJson
                     ? Json.mapper().writerWithDefaultPrettyPrinter().writeValueAsString(merged)
                     : Yaml.mapper().writerWithDefaultPrettyPrinter().writeValueAsString(merged);
             Files.write(mergedFilePath, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
@@ -290,14 +302,17 @@ public class MergedSpecBuilder {
      * Merges a list of parsed OpenAPI specs into a single spec.
      *
      * <p>Path items are merged by HTTP method: if two specs define the same URL path, their
-     * operations are combined (e.g. GET from one file + POST from another) rather than one
-     * overwriting the other. A warning is logged when the same path+method appears in multiple specs;
-     * the first occurrence is kept.</p>
+     * operations are combined (e.g. GET from one file + POST from another). If the same HTTP
+     * method already exists on a path, a {@link RuntimeException} is thrown — this is always
+     * a configuration error with no valid use case.</p>
      *
      * <p>Component maps (schemas, responses, requestBodies, parameters, headers, examples,
      * links, callbacks, securitySchemes) are merged by name. Structurally identical duplicates
-     * are silently deduplicated. A warning is logged if the same component name appears with
-     * different definitions; the first definition is kept.</p>
+     * are silently deduplicated. A warning (or exception in FAIL mode) is raised when the same
+     * component name appears with different definitions; the first definition is kept.</p>
+     *
+     * <p>Top-level {@code x-} vendor extensions are merged from all specs; the first definition
+     * wins on key conflicts.</p>
      */
     OpenAPI mergeSpecs(List<OpenAPI> specs, List<Server> allServers) {
         OpenAPI merged = new OpenAPI();
@@ -337,6 +352,14 @@ public class MergedSpecBuilder {
             if (spec.getComponents() != null) {
                 mergeComponents(merged.getComponents(), spec.getComponents());
             }
+            // Merge top-level x- vendor extensions (keep first on key conflict)
+            if (spec.getExtensions() != null) {
+                spec.getExtensions().forEach((key, value) -> {
+                    if (merged.getExtensions() == null || !merged.getExtensions().containsKey(key)) {
+                        merged.addExtension(key, value);
+                    }
+                });
+            }
         }
 
         return merged;
@@ -344,9 +367,19 @@ public class MergedSpecBuilder {
 
     /**
      * Merges HTTP method operations from {@code incoming} into {@code existing} for the same path URL.
-     * Path-level metadata (summary, description, servers, parameters, extensions) is kept from
-     * {@code existing} (i.e. the first spec that defined this path). A warning is logged for any
-     * path+method that already exists in {@code existing}.
+     *
+     * <p>Operations for methods not yet present in {@code existing} are added. If the same HTTP
+     * method already exists on a path, a {@link RuntimeException} is always thrown — unlike schema
+     * reuse, there is no valid reason for two specs to define the same HTTP method on the same path,
+     * and silently dropping one would produce incorrect output.</p>
+     *
+     * <p>Path-level metadata from {@code incoming} is merged into {@code existing}:</p>
+     * <ul>
+     *   <li>Parameters: added if not already present by name+in (first wins on conflict)</li>
+     *   <li>Servers: added if not already present by URL</li>
+     *   <li>Extensions: added if not already present by key</li>
+     *   <li>Summary and description: always kept from the first ({@code existing}) PathItem</li>
+     * </ul>
      */
     private void mergePathItem(PathItem existing, PathItem incoming, String pathKey) {
         if (incoming.readOperationsMap() == null) {
@@ -354,17 +387,52 @@ public class MergedSpecBuilder {
         }
         incoming.readOperationsMap().forEach((method, operation) -> {
             if (existing.readOperationsMap() != null && existing.readOperationsMap().containsKey(method)) {
-                String message = String.format(Locale.ROOT,
-                        "Path+method collision during spec merge: %s %s is defined in multiple specs with different definitions. Keeping the first definition.",
-                        method, pathKey);
-                if (conflictStrategy == MergeConflictStrategy.FAIL) {
-                    throw new RuntimeException(message);
-                }
-                LOGGER.warn(message);
-            } else {
-                existing.operation(method, operation);
+                throw new RuntimeException(String.format(Locale.ROOT,
+                        "Path+method conflict during spec merge: %s %s is defined in multiple specs. " +
+                        "Unlike schema reuse, duplicate HTTP methods on the same path are not valid — " +
+                        "check that your spec files do not overlap.",
+                        method, pathKey));
             }
+            existing.operation(method, operation);
         });
+
+        // Merge path-level parameters (deduplicate by name+in, first wins)
+        if (incoming.getParameters() != null) {
+            List<Parameter> merged = existing.getParameters() != null
+                    ? new ArrayList<>(existing.getParameters()) : new ArrayList<>();
+            Set<String> existingKeys = merged.stream()
+                    .map(p -> p.getName() + ":" + p.getIn())
+                    .collect(Collectors.toSet());
+            for (Parameter p : incoming.getParameters()) {
+                if (existingKeys.add(p.getName() + ":" + p.getIn())) {
+                    merged.add(p);
+                }
+            }
+            existing.setParameters(merged);
+        }
+
+        // Merge path-level servers (deduplicate by URL)
+        if (incoming.getServers() != null) {
+            List<Server> merged = existing.getServers() != null
+                    ? new ArrayList<>(existing.getServers()) : new ArrayList<>();
+            Set<String> existingUrls = merged.stream()
+                    .map(Server::getUrl).filter(Objects::nonNull).collect(Collectors.toSet());
+            for (Server s : incoming.getServers()) {
+                if (s.getUrl() == null || existingUrls.add(s.getUrl())) {
+                    merged.add(s);
+                }
+            }
+            existing.setServers(merged);
+        }
+
+        // Merge path-level extensions (first wins on key conflict)
+        if (incoming.getExtensions() != null) {
+            incoming.getExtensions().forEach((key, value) -> {
+                if (existing.getExtensions() == null || !existing.getExtensions().containsKey(key)) {
+                    existing.addExtension(key, value);
+                }
+            });
+        }
     }
 
     /**

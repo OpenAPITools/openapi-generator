@@ -372,36 +372,35 @@ public class MergedSpecBuilderTest {
     }
 
     @Test
-    public void shouldFailOnPathMethodConflictWithFailStrategy_yaml() throws IOException {
-        shouldFailOnPathMethodConflictWithFailStrategy("yaml");
+    public void shouldFailOnPathMethodOverlap_yaml() throws IOException {
+        shouldFailOnPathMethodOverlap("yaml");
     }
 
     @Test
-    public void shouldFailOnPathMethodConflictWithFailStrategy_json() throws IOException {
-        shouldFailOnPathMethodConflictWithFailStrategy("json");
+    public void shouldFailOnPathMethodOverlap_json() throws IOException {
+        shouldFailOnPathMethodOverlap("json");
     }
 
     /**
-     * spec-path-method-conflict defines the same path+method (GET /spec1) as spec1.
-     * With FAIL strategy this must throw.
+     * When the same path+method appears in two specs, the merge must always fail — there is no
+     * valid use case for duplicate HTTP methods on the same path across spec files.
      */
-    private void shouldFailOnPathMethodConflictWithFailStrategy(String fileExt) throws IOException {
-        File dir = Files.createTempDirectory("spec-path-conflict-fail").toFile().getCanonicalFile();
+    private void shouldFailOnPathMethodOverlap(String fileExt) throws IOException {
+        File dir = Files.createTempDirectory("spec-path-overlap").toFile().getCanonicalFile();
         dir.deleteOnExit();
 
+        // Copy spec1 twice — both define the same paths and methods
         Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1." + fileExt));
-        // spec-collision defines a POST on the same path — no method conflict, use spec-schema-conflict for method conflict
-        // Instead re-use spec1 copied as a second file to force a path+method duplicate
         Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1-duplicate." + fileExt));
 
         try {
             new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
                     .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
-                    .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.FAIL)
                     .buildMergedSpec();
-            fail("Expected RuntimeException due to path+method conflict with FAIL strategy");
+            fail("Expected RuntimeException due to duplicate path+method across specs");
         } catch (RuntimeException e) {
-            assertTrue(e.getMessage().contains("/spec1"), "Exception message must mention the conflicting path");
+            assertTrue(e.getMessage().contains("Path+method conflict"),
+                    "Exception message must mention the path+method conflict");
         }
     }
 }

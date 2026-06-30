@@ -362,7 +362,7 @@ public class Generate extends OpenApiGeneratorCommand {
                     resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT));
                 } catch (IllegalArgumentException e) {
                     System.err.println("[error] Invalid --merge-mode value '" + mergeMode + "'. Valid values are: REF, DEEP");
-                    return;
+                    System.exit(1);
                 }
                 builder.withMergeMode(resolvedMergeMode);
             }
@@ -372,7 +372,7 @@ public class Generate extends OpenApiGeneratorCommand {
                     builder.withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)));
                 } catch (IllegalArgumentException e) {
                     System.err.println("[error] Invalid --merge-conflict-strategy value '" + mergeConflictStrategy + "'. Valid values are: WARN, FAIL");
-                    return;
+                    System.exit(1);
                 }
             }
 
