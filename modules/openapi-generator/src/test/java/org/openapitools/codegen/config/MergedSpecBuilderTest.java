@@ -345,4 +345,66 @@ public class MergedSpecBuilderTest {
             logger.detachAppender(listAppender);
         }
     }
+
+    // ---- FAIL conflict strategy tests ----
+
+    @Test
+    public void shouldFailOnSchemaNameConflictWithFailStrategy_yaml() throws IOException {
+        shouldFailOnSchemaNameConflictWithFailStrategy("yaml");
+    }
+
+    @Test
+    public void shouldFailOnSchemaNameConflictWithFailStrategy_json() throws IOException {
+        shouldFailOnSchemaNameConflictWithFailStrategy("json");
+    }
+
+    private void shouldFailOnSchemaNameConflictWithFailStrategy(String fileExt) throws IOException {
+        File dir = Files.createTempDirectory("spec-schema-conflict-fail").toFile().getCanonicalFile();
+        dir.deleteOnExit();
+
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1." + fileExt));
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-schema-conflict." + fileExt), dir.toPath().resolve("spec-schema-conflict." + fileExt));
+
+        try {
+            new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                    .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.FAIL)
+                    .buildMergedSpec();
+            fail("Expected RuntimeException due to schema name conflict with FAIL strategy");
+        } catch (RuntimeException e) {
+            assertTrue(e.getMessage().contains("Spec1Model"), "Exception message must mention the conflicting schema name");
+        }
+    }
+
+    @Test
+    public void shouldFailOnPathMethodConflictWithFailStrategy_yaml() throws IOException {
+        shouldFailOnPathMethodConflictWithFailStrategy("yaml");
+    }
+
+    @Test
+    public void shouldFailOnPathMethodConflictWithFailStrategy_json() throws IOException {
+        shouldFailOnPathMethodConflictWithFailStrategy("json");
+    }
+
+    /**
+     * spec-path-method-conflict defines the same path+method (GET /spec1) as spec1.
+     * With FAIL strategy this must throw.
+     */
+    private void shouldFailOnPathMethodConflictWithFailStrategy(String fileExt) throws IOException {
+        File dir = Files.createTempDirectory("spec-path-conflict-fail").toFile().getCanonicalFile();
+        dir.deleteOnExit();
+
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1." + fileExt));
+        // spec-collision defines a POST on the same path — no method conflict, use spec-schema-conflict for method conflict
+        // Instead re-use spec1 copied as a second file to force a path+method duplicate
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1-duplicate." + fileExt));
+
+        try {
+            new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                    .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.FAIL)
+                    .buildMergedSpec();
+            fail("Expected RuntimeException due to path+method conflict with FAIL strategy");
+        } catch (RuntimeException e) {
+            assertTrue(e.getMessage().contains("/spec1"), "Exception message must mention the conflicting path");
+        }
+    }
 }

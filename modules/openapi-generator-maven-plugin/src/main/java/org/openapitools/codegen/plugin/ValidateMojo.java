@@ -127,6 +127,15 @@ public class ValidateMojo extends AbstractMojo {
    */
   @Parameter(name = "mergedFileInfoVersion", property = "openapi.generator.maven.plugin.mergedFileInfoVersion", defaultValue = "1.0.0")
   private String mergedFileInfoVersion;
+
+  /**
+   * Strategy when two specs define the same component name or path+method with different
+   * definitions. Accepted values: WARN (default, keep the first definition and log a warning)
+   * or FAIL (abort the build with an error).
+   */
+  @Parameter(name = "mergeConflictStrategy", property = "openapi.generator.maven.plugin.mergeConflictStrategy", defaultValue = "WARN")
+  private String mergeConflictStrategy;
+
   /**
    * The path to the collapsed single-file representation of the OpenAPI spec.
    */
@@ -251,6 +260,7 @@ public class ValidateMojo extends AbstractMojo {
 
       mergedSpec = Optional.of(new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
           mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
+          .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)))
           .buildMergedSpec());
       LOGGER.info("Merge input spec would be used - {}", mergedSpec.get());
     }

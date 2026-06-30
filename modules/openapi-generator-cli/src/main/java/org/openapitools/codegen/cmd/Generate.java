@@ -68,6 +68,10 @@ public class Generate extends OpenApiGeneratorCommand {
     @Option(name = "--merged-spec-filename", title = "Name of resulted merged specs file (used along with --input-spec-root-directory option)")
     private String mergedFileName;
 
+    @Option(name = "--merge-conflict-strategy", title = "Merge conflict strategy",
+            description = "Strategy when two specs define the same component/path+method with different definitions: WARN (default, keep first) or FAIL (abort).")
+    private String mergeConflictStrategy;
+
     @Option(name = {"-t", "--template-dir"}, title = "template directory",
             description = "folder containing the template files")
     private String templateDir;
@@ -346,8 +350,11 @@ public class Generate extends OpenApiGeneratorCommand {
     @Override
     public void execute() {
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
-            spec = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName)
-                    .buildMergedSpec();
+            MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName);
+            if (StringUtils.isNotBlank(mergeConflictStrategy)) {
+                builder.withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)));
+            }
+            spec = builder.buildMergedSpec();
             System.out.println("Merge input spec would be used - " + spec);
         }
 

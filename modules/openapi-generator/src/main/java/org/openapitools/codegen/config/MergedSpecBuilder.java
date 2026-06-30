@@ -27,6 +27,17 @@ import java.util.stream.Stream;
 
 public class MergedSpecBuilder {
 
+    /**
+     * Controls what happens when two specs define the same component name (schema, response, etc.)
+     * or the same path+method with different definitions.
+     */
+    public enum MergeConflictStrategy {
+        /** Log a warning and keep the first definition (default). */
+        WARN,
+        /** Throw a {@link RuntimeException} and abort the merge. */
+        FAIL
+    }
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MergedSpecBuilder.class);
 
     private static final Set<String> SPEC_EXTENSIONS = new HashSet<>(Arrays.asList(".yaml", ".yml", ".json"));
@@ -37,6 +48,7 @@ public class MergedSpecBuilder {
     private final String mergedFileInfoDescription;
     private final String mergedFileInfoVersion;
     private final String auth;
+    private MergeConflictStrategy conflictStrategy = MergeConflictStrategy.WARN;
 
     public MergedSpecBuilder(final String rootDirectory, final String mergeFileName) {
         this(rootDirectory, mergeFileName, "merged spec", "merged spec", "1.0.0", null);
@@ -50,6 +62,20 @@ public class MergedSpecBuilder {
         this.mergedFileInfoDescription = mergedFileInfoDescription;
         this.mergedFileInfoVersion = mergedFileInfoVersion;
         this.auth = auth;
+    }
+
+    /**
+     * Sets the strategy used when two specs define the same component name or path+method
+     * with conflicting (non-identical) definitions.
+     *
+     * @param strategy {@link MergeConflictStrategy#WARN} to log a warning and keep the first
+     *                 definition (default), or {@link MergeConflictStrategy#FAIL} to throw a
+     *                 {@link RuntimeException} and abort.
+     * @return this builder, for chaining
+     */
+    public MergedSpecBuilder withConflictStrategy(MergeConflictStrategy strategy) {
+        this.conflictStrategy = strategy;
+        return this;
     }
 
     public String buildMergedSpec() {
@@ -181,7 +207,13 @@ public class MergedSpecBuilder {
         }
         incoming.readOperationsMap().forEach((method, operation) -> {
             if (existing.readOperationsMap() != null && existing.readOperationsMap().containsKey(method)) {
-                LOGGER.warn("Path+method collision during spec merge: {} {} is defined in multiple specs. Keeping the first occurrence.", method, pathKey);
+                String message = String.format(Locale.ROOT,
+                        "Path+method collision during spec merge: %s %s is defined in multiple specs with different definitions. Keeping the first definition.",
+                        method, pathKey);
+                if (conflictStrategy == MergeConflictStrategy.FAIL) {
+                    throw new RuntimeException(message);
+                }
+                LOGGER.warn(message);
             } else {
                 existing.operation(method, operation);
             }
@@ -213,7 +245,13 @@ public class MergedSpecBuilder {
         incoming.forEach((name, value) -> {
             if (existing != null && existing.containsKey(name)) {
                 if (!Objects.equals(existing.get(name), value)) {
-                    LOGGER.warn("Component {} name conflict during spec merge: '{}' is defined in multiple specs with different definitions. Keeping the first definition.", typeName, name);
+                    String message = String.format(Locale.ROOT,
+                            "Component %s name conflict during spec merge: '%s' is defined in multiple specs with different definitions. Keeping the first definition.",
+                            typeName, name);
+                    if (conflictStrategy == MergeConflictStrategy.FAIL) {
+                        throw new RuntimeException(message);
+                    }
+                    LOGGER.warn(message);
                 }
                 // identical or keeping first — either way, skip
             } else {
