@@ -815,7 +815,7 @@ public class KotlinClientCodegenModelTest {
 
       final Path modelKt = Paths.get(output + "/src/main/kotlin/model/ModelWithIntArrayEnum.kt");
 
-      TestUtils.assertFileContains(modelKt, "enum class DaysOfWeek(val value: kotlin.Int)");
+      TestUtils.assertFileContains(modelKt, "enum class DaysOfWeek(@get:JsonValue val value: kotlin.Int)");
   }
 
   @Test
@@ -842,7 +842,7 @@ public class KotlinClientCodegenModelTest {
       final Path modelKt = Paths.get(output + "/src/main/kotlin/model/ExceptionState.kt");
 
       TestUtils.assertFileContains(modelKt,
-              "enum class ExceptionPeriodIsClosed(val value: kotlin.Boolean)",
+              "enum class ExceptionPeriodIsClosed(@get:JsonValue val value: kotlin.Boolean)",
               "@JsonProperty(value = \"true\")",
               "`true`(true);");
       TestUtils.assertFileNotContains(modelKt, "`true`(\"true\")");
@@ -872,6 +872,34 @@ public class KotlinClientCodegenModelTest {
 
       TestUtils.assertFileContains(enumKt, "@get:JsonValue");
       TestUtils.assertFileContains(enumKt, "@JsonCreator");
+  }
+
+  @Test
+  public void testJacksonNestedEnumsUseJsonValue() throws IOException {
+      File output = Files.createTempDirectory("test").toFile();
+      output.deleteOnExit();
+
+      final CodegenConfigurator configurator = new CodegenConfigurator()
+              .setGeneratorName("kotlin")
+              .setLibrary("jvm-retrofit2")
+              .setAdditionalProperties(new HashMap<>() {{
+                put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                put(CodegenConstants.MODEL_PACKAGE, "model");
+              }})
+              .setInputSpec("src/test/resources/3_0/kotlin/issue23886-kotlin-nested-numeric-enum.yaml")
+              .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+      final ClientOptInput clientOptInput = configurator.toClientOptInput();
+      DefaultGenerator generator = new DefaultGenerator();
+
+      generator.opts(clientOptInput).generate();
+
+      final Path modelKt = Paths.get(output + "/src/main/kotlin/model/ExampleModel.kt");
+
+      // Without @get:JsonValue, Jackson serializes the Int-valued nested enum by its name instead
+      // of its numeric value. The import must be present so the generated code compiles.
+      TestUtils.assertFileContains(modelKt, "import com.fasterxml.jackson.annotation.JsonValue");
+      TestUtils.assertFileContains(modelKt, "enum class Source(@get:JsonValue val value: kotlin.Int)");
   }
 
   @Test
