@@ -407,8 +407,17 @@ abstract class GenerateTask : DefaultTask() {
     abstract val mergedFileName: Property<String>
 
     /**
+     * How multiple spec files are merged. Accepted values: "REF" (default, original $ref-based
+     * shallow merge, backward-compatible) or "DEEP" (full inline merge with component
+     * deduplication and conflict detection).
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergeMode: Property<String>
+
+    /**
      * Strategy when two specs define the same component name or path+method with conflicting
-     * definitions. Accepted values: "WARN" (default) or "FAIL".
+     * definitions. Accepted values: "WARN" (default) or "FAIL". Only applies when mergeMode is "DEEP".
      */
     @get:Input
     @get:Optional
@@ -881,6 +890,7 @@ abstract class GenerateTask : DefaultTask() {
     init {
         inputSpecRootDirectorySkipMerge.convention(false)
         mergedFileName.convention("merged")
+        mergeMode.convention("REF")
         mergeConflictStrategy.convention("WARN")
     }
 
@@ -905,6 +915,8 @@ abstract class GenerateTask : DefaultTask() {
                 finalResolvedInputSpec = MergedSpecBuilder(
                     inputDir.asFile.absolutePath,
                     mergedFileName.get()
+                ).withMergeMode(
+                    MergedSpecBuilder.MergeMode.valueOf(mergeMode.get().uppercase())
                 ).withConflictStrategy(
                     MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.get().uppercase())
                 ).buildMergedSpec()

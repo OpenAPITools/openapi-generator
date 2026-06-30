@@ -140,10 +140,18 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Strategy when two specs define the same component name or path+method with different
      * definitions. Accepted values: WARN (default, keep the first definition and log a warning)
-     * or FAIL (abort the build with an error).
+     * or FAIL (abort the build with an error). Only applies when mergeMode is DEEP.
      */
     @Parameter(name = "mergeConflictStrategy", property = "openapi.generator.maven.plugin.mergeConflictStrategy", defaultValue = "WARN")
     private String mergeConflictStrategy;
+
+    /**
+     * How multiple spec files are merged. Accepted values: REF (default, original $ref-based
+     * shallow merge, backward-compatible) or DEEP (full inline merge with component
+     * deduplication and conflict detection).
+     */
+    @Parameter(name = "mergeMode", property = "openapi.generator.maven.plugin.mergeMode", defaultValue = "REF")
+    private String mergeMode;
 
     /**
      * Git host, e.g. gitlab.com.
@@ -592,6 +600,7 @@ public class CodeGenMojo extends AbstractMojo {
 
             inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
                     mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
+                    .withMergeMode(MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT)))
                     .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)))
                     .buildMergedSpec();
             LOGGER.info("Merge input spec would be used - {}", inputSpec);

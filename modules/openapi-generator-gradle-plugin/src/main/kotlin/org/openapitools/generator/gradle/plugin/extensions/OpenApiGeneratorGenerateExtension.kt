@@ -88,9 +88,17 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val mergedFileName = project.objects.property<String>()
 
     /**
+     * How multiple spec files are merged. Accepted values: "REF" (default, original $ref-based
+     * shallow merge, backward-compatible) or "DEEP" (full inline merge with component
+     * deduplication and conflict detection).
+     */
+    val mergeMode = project.objects.property<String>()
+
+    /**
      * Strategy when two specs define the same component name or path+method with conflicting
      * (non-identical) definitions. Accepted values: "WARN" (default, keep first definition and
-     * log a warning) or "FAIL" (throw an exception and abort the build).
+     * log a warning) or "FAIL" (throw an exception and abort the build). Only applies when
+     * mergeMode is "DEEP".
      */
     val mergeConflictStrategy = project.objects.property<String>()
 
@@ -464,6 +472,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
         releaseNote.convention("Minor update")
         inputSpecRootDirectorySkipMerge.convention(false)
         mergedFileName.convention("merged")
+        mergeMode.convention("REF")
         mergeConflictStrategy.convention("WARN")
         modelNamePrefix.convention("")
         modelNameSuffix.convention("")

@@ -322,6 +322,7 @@ public class MergedSpecBuilderTest {
             Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-schema-conflict." + fileExt), dir.toPath().resolve("spec-schema-conflict." + fileExt));
 
             String mergedSpec = new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                    .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
                     .buildMergedSpec();
 
             ParseOptions parseOptions = new ParseOptions();
@@ -367,6 +368,7 @@ public class MergedSpecBuilderTest {
 
         try {
             new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                    .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
                     .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.FAIL)
                     .buildMergedSpec();
             fail("Expected RuntimeException due to schema name conflict with FAIL strategy");
@@ -400,6 +402,7 @@ public class MergedSpecBuilderTest {
 
         try {
             new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                    .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
                     .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.FAIL)
                     .buildMergedSpec();
             fail("Expected RuntimeException due to path+method conflict with FAIL strategy");

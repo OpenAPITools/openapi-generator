@@ -69,8 +69,12 @@ public class Generate extends OpenApiGeneratorCommand {
     private String mergedFileName;
 
     @Option(name = "--merge-conflict-strategy", title = "Merge conflict strategy",
-            description = "Strategy when two specs define the same component/path+method with different definitions: WARN (default, keep first) or FAIL (abort).")
+            description = "Strategy when two specs define the same component/path+method with different definitions: WARN (default, keep first) or FAIL (abort). Only applies with --merge-mode DEEP.")
     private String mergeConflictStrategy;
+
+    @Option(name = "--merge-mode", title = "Merge mode",
+            description = "How multiple spec files are merged: REF (default, original $ref-based) or DEEP (full inline merge with component deduplication).")
+    private String mergeMode;
 
     @Option(name = {"-t", "--template-dir"}, title = "template directory",
             description = "folder containing the template files")
@@ -351,6 +355,9 @@ public class Generate extends OpenApiGeneratorCommand {
     public void execute() {
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
             MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName);
+            if (StringUtils.isNotBlank(mergeMode)) {
+                builder.withMergeMode(MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT)));
+            }
             if (StringUtils.isNotBlank(mergeConflictStrategy)) {
                 builder.withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)));
             }
