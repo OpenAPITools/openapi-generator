@@ -1,0 +1,60 @@
+openapi: 3.0.3
+info:
+  title: oneOf discriminator with no resolvable typed property
+  description: >
+    A oneOf interface whose discriminator property is a plain inline string on the
+    children (no $ref, no enum). There is no typed schema to resolve, so the
+    discriminator property type must fall back to "string".
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    PetRequest:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatRequest'
+          DOG: '#/components/schemas/DogRequest'
+
+    # Shared base whose discriminator property is a plain string (no $ref/enum).
+    PetBase:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+
+    CatRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          properties:
+            indoor:
+              type: boolean
+
+    DogRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          properties:
+            trained:
+              type: boolean

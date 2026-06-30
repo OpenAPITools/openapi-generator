@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info:
+  title: oneOf discriminator with a cyclic allOf composition
+  description: >
+    The children allOf two bases (PetBaseA, PetBaseB) that allOf each other, forming
+    a cycle. Resolving the discriminator property type must terminate instead of
+    recursing infinitely; since no schema in the cycle declares the discriminator
+    property as a typed $ref, the type falls back to "string".
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    PetRequest:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatRequest'
+          DOG: '#/components/schemas/DogRequest'
+
+    # Two bases that allOf each other -> cyclic allOf composition.
+    PetBaseA:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBaseB'
+
+    PetBaseB:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBaseA'
+
+    CatRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBaseA'
+        - type: object
+          properties:
+            indoor:
+              type: boolean
+
+    DogRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBaseB'
+        - type: object
+          properties:
+            trained:
+              type: boolean

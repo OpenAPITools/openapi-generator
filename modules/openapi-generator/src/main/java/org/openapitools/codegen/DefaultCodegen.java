@@ -3684,13 +3684,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Get the property type for the discriminator
+     * Get the property type for the discriminator from the schema, or its child schemas (from oneOf/anyOf refs) or returns String as a fallback
      *
      * @param schema                    The input OAS schema.
      * @param discriminatorPropertyName The name of the discriminator property.
      */
     protected String getDiscriminatorPropertyType(Schema schema, String discriminatorPropertyName) {
-        return DiscriminatorUtils.getDiscriminatorPropertyType(schema, discriminatorPropertyName)
+        return DiscriminatorUtils.getDiscriminatorPropertyType(openAPI, schema, discriminatorPropertyName)
                 .map(this::toModelName)
                 .orElseGet(() -> typeMapping.get("string"));
     }

@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: oneOf discriminator with shared base
+  description: >
+    A oneOf interface schema whose discriminator property is declared only on a
+    shared base schema that the concrete subtypes inherit via allOf. The oneOf
+    interface itself declares no properties, so the discriminator property type
+    must be resolved from the mapped child schemas (and through their allOf base)
+    rather than defaulting to string.
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    PetType:
+      type: string
+      enum:
+        - CAT
+        - DOG
+      description: Discriminator value identifying the type of pet
+
+    # oneOf interface schema. It declares no properties of its own: the
+    # discriminator property lives on PetBase, which the children allOf-inherit.
+    PetRequest:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatRequest'
+          DOG: '#/components/schemas/DogRequest'
+
+    # Shared base WITHOUT a discriminator, so children flatten it via allOf
+    # instead of extending it (which would create a cyclical reference).
+    PetBase:
+      type: object
+      required:
+        - petType
+        - name
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetType'
+        name:
+          type: string
+
+    CatRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          required:
+            - indoor
+          properties:
+            indoor:
+              type: boolean
+
+    DogRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          required:
+            - trained
+          properties:
+            trained:
+              type: boolean

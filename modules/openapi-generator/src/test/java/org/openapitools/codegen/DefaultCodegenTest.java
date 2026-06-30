@@ -1211,6 +1211,51 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOneOfDiscriminatorTypeResolvedFromSharedBase() {
+        // The oneOf interface (PetRequest) declares no properties of its own; the discriminator
+        // property `petType` is declared only on the shared base (PetBase), which the children
+        // inherit via allOf. The discriminator property type must still resolve to the enum model
+        // (PetType) by inspecting the mapped child schemas, rather than falling back to "string".
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneof_discriminator_enum_shared_base.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema petRequest = openAPI.getComponents().getSchemas().get("PetRequest");
+        CodegenModel petRequestModel = codegen.fromModel("PetRequest", petRequest);
+
+        assertTrue(petRequestModel.getHasDiscriminatorWithNonEmptyMapping());
+        assertEquals("PetType", petRequestModel.discriminator.getPropertyType());
+
+        // The concrete subtypes resolve the same property type, so the generated getter signatures
+        // are consistent with the interface (no String-vs-enum return type clash).
+        Schema catRequest = openAPI.getComponents().getSchemas().get("CatRequest");
+        CodegenModel catRequestModel = codegen.fromModel("CatRequest", catRequest);
+        CodegenProperty petTypeVar = catRequestModel.getVars().stream()
+                .filter(v -> "petType".equals(v.baseName))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("petType property not found on CatRequest"));
+        assertEquals("PetType", petTypeVar.dataType);
+    }
+
+    @Test
+    public void testOneOfDiscriminatorTypeFallsBackToStringWhenNotTyped() {
+        // The discriminator property (petType) is declared only as a plain inline string on the children,
+        // with no $ref to a typed schema. There is nothing to resolve from the schema or its children, so
+        // the discriminator property type must fall back to "string".
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneof_discriminator_string_fallback.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema petRequest = openAPI.getComponents().getSchemas().get("PetRequest");
+        CodegenModel petRequestModel = codegen.fromModel("PetRequest", petRequest);
+
+        assertTrue(petRequestModel.getHasDiscriminatorWithNonEmptyMapping());
+        assertEquals("String", petRequestModel.discriminator.getPropertyType());
+    }
+
+    @Test
     public void testParentName() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();

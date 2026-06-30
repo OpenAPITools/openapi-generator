@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: oneOf discriminator with multi-level allOf base
+  description: >
+    The discriminator property is declared on a grandparent schema (PetRoot). The
+    children allOf an intermediate base (PetBase) that itself allOf the grandparent,
+    so the discriminator property is reached only by recursing through more than one
+    level of allOf. Exercises the recursive descent of getDiscriminatorSchemaDeep.
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    PetType:
+      type: string
+      enum:
+        - CAT
+        - DOG
+      description: Discriminator value identifying the type of pet
+
+    PetRequest:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatRequest'
+          DOG: '#/components/schemas/DogRequest'
+
+    # Grandparent: declares the discriminator property.
+    PetRoot:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetType'
+
+    # Intermediate base: inherits the discriminator property from the grandparent
+    # via allOf and adds a property of its own.
+    PetBase:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetRoot'
+        - type: object
+          required:
+            - name
+          properties:
+            name:
+              type: string
+
+    CatRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          properties:
+            indoor:
+              type: boolean
+
+    DogRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          properties:
+            trained:
+              type: boolean

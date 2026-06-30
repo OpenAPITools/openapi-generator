@@ -17,6 +17,8 @@ public class DiscriminatorUtils {
     private static final String CONFLICTING_DISCRIMINATOR_NAMES =
             "The alternative schemas have conflicting discriminator property names. The schemas must have the same property name, but found {}";
 
+    private DiscriminatorUtils(){}
+
     /**
      * Gets the simple ref name of the discriminator property type from the schema.
      *
@@ -24,10 +26,11 @@ public class DiscriminatorUtils {
      * @param discriminatorPropertyName The name of the discriminator property.
      * @return referenced type name, or an empty optional if unavailable
      */
-    public static Optional<String> getDiscriminatorPropertyType(Schema schema, String discriminatorPropertyName) {
+    public static Optional<String> getDiscriminatorPropertyType(OpenAPI openAPI, Schema schema, String discriminatorPropertyName) {
         return Optional.ofNullable(getDiscriminatorSchema(schema, discriminatorPropertyName))
                 .map(Schema::get$ref)
-                .map(ModelUtils::getSimpleRef);
+                .map(ModelUtils::getSimpleRef)
+                .or(()-> getDiscriminatorPropertyTypeFromChildren(openAPI, schema, discriminatorPropertyName));
     }
 
     /**
@@ -47,6 +50,74 @@ public class DiscriminatorUtils {
             discSchema = (Schema) discSchema.getAllOf().get(0);
         }
         return discSchema;
+    }
+
+    /**
+     * Resolve the discriminator property type by inspecting the oneOf/anyOf child schemas. Returns the simple
+     * ref name of the first child that declares the discriminator property as a $ref (e.g. an enum), or an
+     * empty optional if no child resolves to a typed property.
+     *
+     * @param openAPI                   the OpenAPI specification, used to resolve referenced child schemas.
+     * @param schema                    The oneOf/anyOf interface schema.
+     * @param discriminatorPropertyName The name of the discriminator property.
+     */
+    static Optional<String> getDiscriminatorPropertyTypeFromChildren(OpenAPI openAPI, Schema schema, String discriminatorPropertyName) {
+        List<Schema> children = new ArrayList<>();
+        if (schema.getOneOf() != null) {
+            children.addAll(schema.getOneOf());
+        }
+        if (schema.getAnyOf() != null) {
+            children.addAll(schema.getAnyOf());
+        }
+        for (Schema child : children) {
+            Schema resolved = ModelUtils.getReferencedSchema(openAPI, child);
+            if (resolved == null) {
+                continue;
+            }
+            Schema discSchema = getDiscriminatorSchemaDeep(openAPI, resolved, discriminatorPropertyName, new ArrayList<>());
+            if (discSchema != null && discSchema.get$ref() != null) {
+                return Optional.ofNullable(ModelUtils.getSimpleRef(discSchema.get$ref()));
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Like {@link #getDiscriminatorSchema(Schema, String)}, but also chases the discriminator property through
+     * a schema's allOf members. A oneOf child commonly carries the discriminator property indirectly, via an
+     * allOf reference to a shared base schema rather than as a direct property.
+     *
+     * @param openAPI           the OpenAPI specification, used to resolve referenced allOf members.
+     * @param schema            The schema to inspect.
+     * @param discriminatorName The name of the discriminator property.
+     * @param visited           A list of schemas already visited in the recursion, to avoid infinite loops.
+     * @return The discriminator property schema, or null if not found.
+     */
+    static Schema getDiscriminatorSchemaDeep(OpenAPI openAPI, Schema schema, String discriminatorName, List<Schema> visited) {
+        for (Schema s : visited) {
+            if (s == schema) {
+                return null;
+            }
+        }
+        visited.add(schema);
+
+        Schema direct = getDiscriminatorSchema(schema, discriminatorName);
+        if (direct != null) {
+            return direct;
+        }
+        if (ModelUtils.isAllOf(schema)) {
+            for (Object member : schema.getAllOf()) {
+                Schema resolvedMember = ModelUtils.getReferencedSchema(openAPI, (Schema) member);
+                if (resolvedMember == null) {
+                    continue;
+                }
+                Schema found = getDiscriminatorSchemaDeep(openAPI, resolvedMember, discriminatorName, visited);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+        return null;
     }
 
     /**
