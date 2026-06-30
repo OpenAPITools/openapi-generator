@@ -2139,7 +2139,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // make sure the x-class-extra-annotation is always a List and always at least empty
         for (ModelMap mo : objs.getModels()) {
-            normalizeVendorExtensionWithStringList(mo.getModel().getVendorExtensions(), VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName());
+            CodegenModel model = mo.getModel();
+            normalizeVendorExtensionWithStringList(model.getVendorExtensions(), VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName());
+            normalizeModelPropertyVendorExtensions(model, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
         }
 
         // skip interfaces predefined in open api spec in x-implements via additional property xImplementsSkip
@@ -2240,9 +2242,48 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             handleImplicitHeaders(op);
             handleConstantParams(op);
+            normalizeOperationParameterVendorExtensions(op, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
         }
 
         return objs;
+    }
+
+    private void normalizeModelPropertyVendorExtensions(CodegenModel model, String name) {
+        Set<CodegenProperty> properties = Collections.newSetFromMap(new IdentityHashMap<>());
+        properties.addAll(model.vars);
+        properties.addAll(model.allVars);
+        properties.addAll(model.requiredVars);
+        properties.addAll(model.optionalVars);
+        properties.addAll(model.readOnlyVars);
+        properties.addAll(model.readWriteVars);
+        properties.addAll(model.parentVars);
+        properties.addAll(model.parentRequiredVars);
+        properties.addAll(model.nonNullableVars);
+
+        for (CodegenProperty property : properties) {
+            normalizeVendorExtensionWithStringList(property.vendorExtensions, name);
+        }
+    }
+
+    protected void normalizeOperationParameterVendorExtensions(CodegenOperation operation, String name) {
+        Set<CodegenParameter> parameters = Collections.newSetFromMap(new IdentityHashMap<>());
+        parameters.addAll(operation.allParams);
+        parameters.addAll(operation.bodyParams);
+        parameters.addAll(operation.pathParams);
+        parameters.addAll(operation.queryParams);
+        parameters.addAll(operation.headerParams);
+        parameters.addAll(operation.implicitHeadersParams);
+        parameters.addAll(operation.constantParams);
+        parameters.addAll(operation.formParams);
+        parameters.addAll(operation.cookieParams);
+        parameters.addAll(operation.requiredParams);
+        parameters.addAll(operation.optionalParams);
+        parameters.addAll(operation.requiredAndNotNullableParams);
+        parameters.addAll(operation.notNullableParams);
+
+        for (CodegenParameter parameter : parameters) {
+            normalizeVendorExtensionWithStringList(parameter.vendorExtensions, name);
+        }
     }
 
     @Override
