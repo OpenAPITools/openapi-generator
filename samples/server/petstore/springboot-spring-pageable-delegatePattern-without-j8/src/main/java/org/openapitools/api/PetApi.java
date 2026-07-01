@@ -141,7 +141,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status,
+        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) List<String> status,
         @ParameterObject final Pageable pageable
     ) {
         return getDelegate().findPetsByStatus(status, pageable);
@@ -183,7 +183,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) List<String> tags,
         @Parameter(name = "size", description = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.", in = ParameterIn.HEADER) @RequestHeader(value = "size", required = false) @Nullable String size,
         @PageableDefault(page = 0, size = 20) @SortDefault.SortDefaults({@SortDefault(sort = {"id"}, direction = Sort.Direction.ASC)}) @ParameterObject final Pageable pageable
     ) {

@@ -1,1 +1,1 @@
-{{#isBodyParam}}{{#isDeprecated}}@Deprecated {{/isDeprecated}}{{#useBeanValidation}}@Valid {{#required}}{{^isNullable}}@NotNull {{/isNullable}}{{/required}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{/isBodyParam}}
+{{#isBodyParam}}{{#isDeprecated}}@Deprecated {{/isDeprecated}}{{#useBeanValidation}}{{^isContainer}}@Valid {{/isContainer}}{{#required}}{{^isNullable}}@NotNull {{/isNullable}}{{/required}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{/isBodyParam}}

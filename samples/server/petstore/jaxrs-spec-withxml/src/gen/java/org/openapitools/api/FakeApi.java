@@ -152,7 +152,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody) {
+    public Response testAdditionalPropertiesReference(@NotNull Map<String, Object> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -244,7 +244,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> requestBody) {
+    public Response testInlineAdditionalProperties(@NotNull Map<String, String> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -298,7 +298,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testStringMapReference(@Valid @NotNull Map<String, String> requestBody) {
+    public Response testStringMapReference(@NotNull Map<String, String> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 

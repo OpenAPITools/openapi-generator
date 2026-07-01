@@ -163,7 +163,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param) {
+    public Response testInlineAdditionalProperties(@NotNull Map<String, String> param) {
         return Response.ok().entity("magic!").build();
     }
 
