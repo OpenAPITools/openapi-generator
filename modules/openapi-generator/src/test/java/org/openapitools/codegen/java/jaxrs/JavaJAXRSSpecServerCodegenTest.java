@@ -1532,6 +1532,63 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         assertFileContains(Paths.get(outputDir + "/pom.xml"), "<java.version>1.8</java.version>");
     }
 
+    /**
+     * With {@code useRecords=true} the concrete subtypes of a generated oneOf interface render as Java
+     * records rather than mutable classes. Because a record component {@code petType} exposes the
+     * canonical accessor {@code petType()} (not {@code getPetType()}), the interface declares the
+     * discriminator accessor in record style so the records satisfy it without bridge methods. The
+     * record components carry the {@code @JsonProperty} annotations. Combined here with
+     * {@code useSealed=true} so the interface is also sealed and permits the record subtypes.
+     */
+    @Test
+    public void testOneOfRecordImplementationGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+        properties.put("useRecords", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        // assertFileContains is used rather than JavaFileAssert because the latter parses the source
+        // with a JavaParser language level that predates sealed/record types.
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        // The interface is sealed, permits the record subtypes, and declares the discriminator accessor
+        // in record style (petType(), not getPetType()) so the records implement it via their canonical
+        // accessors.
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"),
+                "public sealed interface PetRequest",
+                "permits CatRequest, DogRequest",
+                "PetType petType();");
+        assertFileNotContains(Paths.get(modelDir + "PetRequest.java"), "getPetType");
+
+        // The concrete subtypes are records implementing (not extending) the interface, with @JsonProperty
+        // on the components and no JavaBean getters or final-class declaration.
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"),
+                "public record CatRequest(",
+                "@JsonProperty(required = true, value = \"petType\")",
+                "PetType petType",
+                "implements PetRequest");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"),
+                "class CatRequest", "extends PetRequest", "public PetType getPetType()");
+
+        assertFileContains(Paths.get(modelDir + "DogRequest.java"),
+                "public record DogRequest(",
+                "implements PetRequest");
+        assertFileNotContains(Paths.get(modelDir + "DogRequest.java"),
+                "class DogRequest", "extends PetRequest");
+    }
+
     @Test
     public void testGenerateJsonNullableListFieldsHelperMethodReferences_issue23251() throws Exception {
         Map<String, Object> properties = new HashMap<>();
