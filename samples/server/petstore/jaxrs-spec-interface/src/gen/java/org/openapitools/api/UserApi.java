@@ -54,7 +54,7 @@ public interface UserApi {
          }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createUsersWithArrayInput(@Valid @NotNull List<@Valid User> user);
+    void createUsersWithArrayInput(@NotNull List<@Valid User> user);
 
 
     /**
@@ -72,7 +72,7 @@ public interface UserApi {
          }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createUsersWithListInput(@Valid @NotNull List<@Valid User> user);
+    void createUsersWithListInput(@NotNull List<@Valid User> user);
 
 
     /**

@@ -66,7 +66,7 @@ public class Drawing {
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
   @jakarta.annotation.Nullable
-  private List<Shape> shapes = new ArrayList<>();
+  private List<@Valid Shape> shapes = new ArrayList<>();
 
   public Drawing() { 
   }
@@ -168,7 +168,7 @@ public class Drawing {
   }
 
 
-  public Drawing shapes(@jakarta.annotation.Nullable List<Shape> shapes) {
+  public Drawing shapes(@jakarta.annotation.Nullable List<@Valid Shape> shapes) {
     this.shapes = shapes;
     return this;
   }
@@ -186,19 +186,18 @@ public class Drawing {
    * @return shapes
    */
   @jakarta.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<Shape> getShapes() {
+  public List<@Valid Shape> getShapes() {
     return shapes;
   }
 
 
   @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setShapes(@jakarta.annotation.Nullable List<Shape> shapes) {
+  public void setShapes(@jakarta.annotation.Nullable List<@Valid Shape> shapes) {
     this.shapes = shapes;
   }
 

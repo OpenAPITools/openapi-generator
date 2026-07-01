@@ -3,13 +3,6 @@
   @NotNull
 {{/isReadOnly}}
 {{/required}}
-{{#isContainer}}
-{{^isPrimitiveType}}
-{{^isEnum}}
-  @Valid
-{{/isEnum}}
-{{/isPrimitiveType}}
-{{/isContainer}}
 {{^isContainer}}
 {{^isPrimitiveType}}
   @Valid

@@ -208,7 +208,8 @@ public class SpringCodegenTest {
                 .toMethod()
                 .assertParameter("limit").hasType("Optional<BigDecimal>")
                 .assertParameterAnnotations()
-                .containsWithName("Valid")
+                // Optional-wrapped scalar: no @Valid (nothing to cascade into; avoids HV000271 on Optional)
+                .doesNotContainWithName("Valid")
                 .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"limit\""))
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("required", "false", "value", "\"limit\""))
                 .toParameter()
@@ -1041,6 +1042,73 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void beanValidationOnContainerTypeArgument_issue23614() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseBeanValidation(true);
+
+        final Map<String, File> files = generateFiles(codegen,
+                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml");
+
+        // Array elements keep @Valid on the type argument; the container itself is no longer
+        // annotated with @Valid, which Hibernate Validator 9.1+ deprecates (HV000271).
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("List<@Valid Tag> getTags()")
+                .fileDoesNotContain("@Valid List<");
+
+        // Map values carry @Valid on the value type argument rather than on the map itself,
+        // preserving cascade validation without the deprecated container-level annotation.
+        JavaFileAssert.assertThat(files.get("MixedPropertiesAndAdditionalPropertiesClass.java"))
+                .fileContains("Map<String, @Valid Animal> getMap()")
+                .fileDoesNotContain("@Valid Map<String, Animal>");
+    }
+
+    @Test
+    public void beanValidationOnComposedContainerElement_issue23614() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseBeanValidation(true);
+
+        final Map<String, File> files = generateFiles(codegen,
+                "src/test/resources/3_0/spring/issue_23614_composed.yaml");
+
+        // A list element that is a oneOf/anyOf/allOf model still cascades validation, so it carries
+        // @Valid on the type argument just like a plain object model does.
+        JavaFileAssert.assertThat(files.get("Zoo.java"))
+                .fileContains("List<@Valid Animal> getAnimals()")
+                // an enum element type is not cascadable, so it must NOT receive @Valid.
+                .fileContains("List<Color> getColors()")
+                .fileDoesNotContain("@Valid Color");
+    }
+
+    @Test
+    public void beanValidationOnContainerParameter_issue23614() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseBeanValidation(true);
+
+        final Map<String, File> files = generateFiles(codegen,
+                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml");
+
+        // A list request body keeps @Valid on the element type argument, but the parameter itself is no
+        // longer annotated with the container-level @Valid that Hibernate Validator 9.1+ deprecates (HV000271).
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .fileContains("@RequestBody List<@Valid User> user")
+                .fileDoesNotContain("@Valid @RequestBody List");
+
+        // A map request body drops the container-level @Valid too.
+        JavaFileAssert.assertThat(files.get("FakeApi.java"))
+                .fileContains("@RequestBody Map<String, String> requestBody")
+                .fileDoesNotContain("@Valid @RequestBody Map");
+
+        // A list query parameter loses the container-level @Valid, while a single-object request body
+        // still cascades via the parameter-level @Valid (non-containers are unaffected).
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@RequestParam(value = \"status\", required = true) List<String> status")
+                .fileContains("@Valid @RequestBody Pet pet")
+                // The scalar "status" form parameter of updatePetWithForm still keeps its (harmless) @Valid,
+                // so the negative assertion must target the container form specifically.
+                .fileDoesNotContain("@Valid @RequestParam(value = \"status\", required = true) List<String>");
+    }
+
+    @Test
     public void testXImplements() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
 
@@ -1680,10 +1748,13 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"))
-                .fileContains("Mono<Map<String, DummyRequest>>")
+                .fileContains("Mono<Map<String, @Valid DummyRequest>>")
+                // Reactive bodies keep the parameter-level @Valid: Mono/Flux are not
+                // Jakarta containers, so they do not trigger HV000271 (issue #23614).
+                .fileContains("@Valid @RequestBody Mono<Map<String, @Valid DummyRequest>>")
                 .fileDoesNotContain("Mono<DummyRequest>");
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"))
-                .fileContains("Mono<Map<String, DummyRequest>>")
+                .fileContains("Mono<Map<String, @Valid DummyRequest>>")
                 .fileDoesNotContain("Mono<DummyRequest>");
     }
 
@@ -6108,7 +6179,8 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
-                "@Valid @RequestParam(value = \"additionalMetadata\", required = false) Optional<String> additionalMetadata",
+                // an Optional-wrapped scalar carries no cascade target, so no @Valid (avoids HV000271 on Optional)
+                "@RequestParam(value = \"additionalMetadata\", required = false) Optional<String> additionalMetadata",
                 "@Valid @RequestParam(value = \"length\", required = true) Integer length");
     }
 

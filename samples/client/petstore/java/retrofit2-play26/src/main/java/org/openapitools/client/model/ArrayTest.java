@@ -107,7 +107,6 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
    */
   @jakarta.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -142,7 +141,6 @@ public class ArrayTest {
    * @return arrayArrayOfModel
    */
   @jakarta.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
