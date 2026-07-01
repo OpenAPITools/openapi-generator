@@ -1,4 +1,4 @@
-from flask import request
+import flask
 from typing import Dict
 from typing import Tuple
 from typing import Union
@@ -55,6 +55,6 @@ def place_order(body):  # noqa: E501
     :rtype: Union[Order, Tuple[Order, int], Tuple[Order, int, Dict[str, str]]
     """
     order = body
-    if request.is_json:
-        order = Order.from_dict(request.get_json())  # noqa: E501
+    if flask.request.is_json:
+        order = Order.from_dict(flask.request.get_json())  # noqa: E501
     return 'do some magic!'

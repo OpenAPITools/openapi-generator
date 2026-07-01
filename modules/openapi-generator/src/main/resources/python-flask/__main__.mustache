@@ -31,12 +31,15 @@ def main():
     # add CORS support. Connexion 3 wraps the Flask app in its own ASGI
     # middleware stack, so flask-cors (which only sees requests after
     # they reach the inner WSGI app) never runs -- CORS has to be added
-    # as ASGI middleware instead.
+    # as ASGI middleware instead. allow_credentials is left at its
+    # default (False) to match flask-cors's own default
+    # (supports_credentials=False) -- combining a wildcard origin with
+    # credentials enabled would let any site make authenticated
+    # requests on a user's behalf.
     app.add_middleware(
         CORSMiddleware,
         position=MiddlewarePosition.BEFORE_EXCEPTION,
         allow_origins=["*"],
-        allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )

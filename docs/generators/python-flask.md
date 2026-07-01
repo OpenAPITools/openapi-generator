@@ -35,7 +35,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |testsUsePythonSrcRoot|generates test under the pythonSrcRoot folder.| |false|
-|useConnexion3|Use Connexion 3.x instead of Connexion 2.x. This changes the pinned connexion/Flask/Flask-Testing dependency versions and switches the generated encoder, __main__ and test bootstrap code to Connexion 3's APIs. This is a breaking change to the generated output, so it defaults to false to preserve existing Connexion 2.x behavior.| |false|
+|useConnexion3|Use Connexion 3.x instead of Connexion 2.x. This changes the pinned connexion/Flask dependency versions, removes the Flask-Testing dependency (replaced with Flask's own test client), and switches the generated encoder, __main__ and test bootstrap code to Connexion 3's APIs. This is a breaking change to the generated output, so it defaults to false to preserve existing Connexion 2.x behavior.| |false|
 |useNose|use the nose test framework| |false|
 |usePythonSrcRootInImports|include pythonSrcRoot in import namespaces.| |false|
 

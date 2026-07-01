@@ -38,7 +38,8 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
 
         cliOptions.add(CliOption.newBoolean(USE_CONNEXION_3,
                 "Use Connexion 3.x instead of Connexion 2.x. This changes the pinned "
-                        + "connexion/Flask/Flask-Testing dependency versions and switches the "
+                        + "connexion/Flask dependency versions, removes the Flask-Testing "
+                        + "dependency (replaced with Flask's own test client), and switches the "
                         + "generated encoder, __main__ and test bootstrap code to Connexion 3's "
                         + "APIs. This is a breaking change to the generated output, so it defaults "
                         + "to false to preserve existing Connexion 2.x behavior.",
@@ -50,7 +51,7 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
         super.processOpts();
 
         if (additionalProperties.containsKey(USE_CONNEXION_3)) {
-            this.useConnexion3 = Boolean.parseBoolean(additionalProperties.get(USE_CONNEXION_3).toString());
+            this.useConnexion3 = Boolean.parseBoolean(String.valueOf(additionalProperties.get(USE_CONNEXION_3)));
         }
         additionalProperties.put(USE_CONNEXION_3, useConnexion3);
     }

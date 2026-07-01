@@ -1,4 +1,4 @@
-from flask import request
+import flask
 from typing import Dict
 from typing import Tuple
 from typing import Union
@@ -19,8 +19,8 @@ def add_pet(body):  # noqa: E501
     :rtype: Union[Pet, Tuple[Pet, int], Tuple[Pet, int, Dict[str, str]]
     """
     pet = body
-    if request.is_json:
-        pet = Pet.from_dict(request.get_json())  # noqa: E501
+    if flask.request.is_json:
+        pet = Pet.from_dict(flask.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -89,8 +89,8 @@ def update_pet(body):  # noqa: E501
     :rtype: Union[Pet, Tuple[Pet, int], Tuple[Pet, int, Dict[str, str]]
     """
     pet = body
-    if request.is_json:
-        pet = Pet.from_dict(request.get_json())  # noqa: E501
+    if flask.request.is_json:
+        pet = Pet.from_dict(flask.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 

@@ -1,4 +1,4 @@
-from flask import request
+import flask
 from typing import Dict
 from typing import Tuple
 from typing import Union

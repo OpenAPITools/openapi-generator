@@ -1,4 +1,4 @@
-from flask import request
+import flask
 from typing import Dict
 from typing import Tuple
 from typing import Union
@@ -18,8 +18,8 @@ def create_user(body):  # noqa: E501
     :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
     user = body
-    if request.is_json:
-        user = User.from_dict(request.get_json())  # noqa: E501
+    if flask.request.is_json:
+        user = User.from_dict(flask.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -34,8 +34,8 @@ def create_users_with_array_input(body):  # noqa: E501
     :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
     user = body
-    if request.is_json:
-        user = [User.from_dict(d) for d in request.get_json()]  # noqa: E501
+    if flask.request.is_json:
+        user = [User.from_dict(d) for d in flask.request.get_json()]  # noqa: E501
     return 'do some magic!'
 
 
@@ -50,8 +50,8 @@ def create_users_with_list_input(body):  # noqa: E501
     :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
     user = body
-    if request.is_json:
-        user = [User.from_dict(d) for d in request.get_json()]  # noqa: E501
+    if flask.request.is_json:
+        user = [User.from_dict(d) for d in flask.request.get_json()]  # noqa: E501
     return 'do some magic!'
 
 
@@ -120,6 +120,6 @@ def update_user(username, body):  # noqa: E501
     :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
     user = body
-    if request.is_json:
-        user = User.from_dict(request.get_json())  # noqa: E501
+    if flask.request.is_json:
+        user = User.from_dict(flask.request.get_json())  # noqa: E501
     return 'do some magic!'
