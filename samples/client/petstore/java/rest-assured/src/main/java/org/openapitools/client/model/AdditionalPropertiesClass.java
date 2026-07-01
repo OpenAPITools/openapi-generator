@@ -141,7 +141,6 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public Map<String, BigDecimal> getMapNumber() {
@@ -232,7 +231,6 @@ public class AdditionalPropertiesClass {
    * @return mapArrayInteger
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -263,7 +261,6 @@ public class AdditionalPropertiesClass {
    * @return mapArrayAnytype
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -294,7 +291,6 @@ public class AdditionalPropertiesClass {
    * @return mapMapString
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public Map<String, Map<String, String>> getMapMapString() {
@@ -325,7 +321,6 @@ public class AdditionalPropertiesClass {
    * @return mapMapAnytype
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public Map<String, Map<String, Object>> getMapMapAnytype() {

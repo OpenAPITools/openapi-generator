@@ -19,7 +19,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @JsonTypeName("MapTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class MapTest  implements Serializable {
-  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
   public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
@@ -67,9 +67,9 @@ public class MapTest  implements Serializable {
     }
 }
 
-  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
-  private @Valid Map<String, Boolean> directMap = new HashMap<>();
-  private @Valid Map<String, Boolean> indirectMap = new HashMap<>();
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, Boolean> directMap = new HashMap<>();
+  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   protected MapTest(MapTestBuilder<?, ?> b) {
     this.mapMapOfString = b.mapMapOfString;

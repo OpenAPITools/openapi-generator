@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class FileSchemaTestClass  implements Serializable {
   private ModelFile _file;
-  private @Valid List<@Valid ModelFile> files = new ArrayList<>();
+  private List<@Valid ModelFile> files = new ArrayList<>();
 
   protected FileSchemaTestClass(FileSchemaTestClassBuilder<?, ?> b) {
     this._file = b._file;
@@ -78,7 +78,7 @@ public class FileSchemaTestClass  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("files")
-  @Valid public List<@Valid ModelFile> getFiles() {
+  public List<@Valid ModelFile> getFiles() {
     return files;
   }
 

@@ -1568,6 +1568,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         return extensions;
     }
 
+    @Override
+    protected boolean useBeanValidationOnMapValueType() {
+        // The Spring templates place container element validation on the type argument
+        // (List<@Valid T>, Map<String, @Valid V>) rather than the deprecated
+        // container-level @Valid (HV000271).
+        return true;
+    }
+
     protected boolean isSpringCodegen() {
         return getName().contains("spring");
     }

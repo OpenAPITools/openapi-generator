@@ -202,6 +202,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    protected boolean useBeanValidationOnMapValueType() {
+        // The Java templates place container element validation on the type argument
+        // (List<@Valid T>, Map<String, @Valid V>) rather than the deprecated
+        // container-level @Valid (HV000271).
+        return true;
+    }
+
+    @Override
     public List<DocumentationProvider> supportedDocumentationProvider() {
         List<DocumentationProvider> documentationProviders = new ArrayList<>();
         documentationProviders.add(DocumentationProvider.NONE);

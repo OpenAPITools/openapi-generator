@@ -237,7 +237,6 @@ public class Pet {
    * @return tags
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public List<@Valid Tag> getTags() {

@@ -82,7 +82,7 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_ARRAY_INPUT
     )
     ResponseEntity<Void> createUsersWithArrayInput(
-        @Parameter(name = "body", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
+        @Parameter(name = "body", description = "List of user object", required = true) @RequestBody List<@Valid User> body
     );
 
 
@@ -106,7 +106,7 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_LIST_INPUT
     )
     ResponseEntity<Void> createUsersWithListInput(
-        @Parameter(name = "body", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
+        @Parameter(name = "body", description = "List of user object", required = true) @RequestBody List<@Valid User> body
     );
 
 
