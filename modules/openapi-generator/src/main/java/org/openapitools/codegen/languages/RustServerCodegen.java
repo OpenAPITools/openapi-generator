@@ -460,7 +460,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         String pathFormatString = op.path;
@@ -634,39 +633,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             processParam(param, op);
         }
 
-        // We keep track of the 'default' model type for this API. If there are
-        // *any* XML responses, then we set the default to XML, otherwise we
-        // let the default be JSON. It would be odd for an API to want to use
-        // both XML and JSON on a single operation, and if we don't know
-        // anything then JSON is a more modern (ergo reasonable) choice.
-        boolean defaultsToXml = false;
-
-        // Determine the types that this operation produces. `getProducesInfo`
-        // simply lists all the types, and then we add the correct imports to
-        // the generated library.
-        List<String> produces = new ArrayList<String>(getProducesInfo(openAPI, operation));
-        boolean producesXml = false;
-        boolean producesPlainText = false;
-        if (produces != null && !produces.isEmpty()) {
-            List<Map<String, String>> c = new ArrayList<Map<String, String>>();
-            for (String mimeType : produces) {
-                Map<String, String> mediaType = new HashMap<String, String>();
-
-                if (isMimetypeXml(mimeType)) {
-                    additionalProperties.put("usesXml", true);
-                    defaultsToXml = true;
-                    producesXml = true;
-                } else if (isMimetypePlain(mimeType)) {
-                    producesPlainText = true;
-                }
-
-                mediaType.put("mediaType", mimeType);
-                c.add(mediaType);
-            }
-            op.produces = c;
-            op.hasProduces = true;
-        }
-
         for (CodegenParameter param : op.headerParams) {
             processParam(param, op);
 
@@ -724,99 +690,30 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             rsp.vendorExtensions.put("x-response-id", responseId);
             rsp.vendorExtensions.put("x-uppercase-response-id", underscoredResponseId.toUpperCase(Locale.ROOT));
             rsp.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId.toUpperCase(Locale.ROOT));
-            if (rsp.dataType != null) {
-                String uppercaseDataType = (rsp.dataType.replace("models::", "")).toUpperCase(Locale.ROOT);
-                rsp.vendorExtensions.put("x-uppercase-data-type", uppercaseDataType);
 
-                // Get the mimetype which is produced by this response. Note
-                // that although in general responses produces a set of
-                // different mimetypes currently we only support 1 per
-                // response.
-                String firstProduces = null;
+            Map<String, MediaType> content =
+                (original != null && original.getContent() != null)
+                    ? original.getContent() : Collections.emptyMap();
 
-                if (original.getContent() != null) {
-                    firstProduces = original.getContent().keySet().stream().findFirst().orElse(null);
-                }
-
-                // The output mime type. This allows us to do sensible fallback
-                // to JSON/XML rather than using only the default operation
-                // mimetype.
-                String outputMime;
-
-                if (firstProduces == null) {
-                    if (producesXml) {
-                        outputMime = xmlMimeType;
-                    } else if (producesPlainText) {
-                        if (bytesType.equals(rsp.dataType)) {
-                            outputMime = octetMimeType;
-                        } else {
-                            outputMime = plainTextMimeType;
-                        }
-                    } else {
-                        outputMime = jsonMimeType;
-                    }
-                } else {
-                    // If we know exactly what mimetype this response is
-                    // going to produce, then use that. If we have not found
-                    // anything, then we'll fall back to the 'producesXXX'
-                    // definitions we worked out above for the operation as a
-                    // whole.
-                    if (isMimetypeXml(firstProduces)) {
-                        producesXml = true;
-                        producesPlainText = false;
-                    } else if (isMimetypePlain(firstProduces)) {
-                        producesXml = false;
-                        producesPlainText = true;
-                    } else {
-                        producesXml = false;
-                        producesPlainText = false;
-                    }
-
-                    outputMime = firstProduces;
-                }
-
-                rsp.vendorExtensions.put("x-mime-type", outputMime);
-
-                // Write out the type of data we actually expect this response
-                // to make.
-                if (producesXml) {
-                    rsp.vendorExtensions.put("x-produces-xml", true);
-                } else if (producesPlainText) {
-                    // Plain text means that there is not structured data in
-                    // this response. So it'll either be a UTF-8 encoded string
-                    // 'plainText' or some generic 'bytes'.
-                    //
-                    // Note that we don't yet distinguish between string/binary
-                    // and string/bytes - that is we don't auto-detect whether
-                    // base64 encoding should be done. They both look like
-                    // 'producesBytes'.
-                    if (bytesType.equals(rsp.dataType)) {
-                        rsp.vendorExtensions.put("x-produces-bytes", true);
-                    } else {
-                        rsp.vendorExtensions.put("x-produces-plain-text", true);
-                    }
-                } else {
-                    rsp.vendorExtensions.put("x-produces-json", true);
-                    // If the data type is just "object", then ensure that the
-                    // Rust data type is "serde_json::Value".  This allows us
-                    // to define APIs that can return arbitrary JSON bodies.
-                    if ("object".equals(rsp.dataType)) {
-                        rsp.dataType = "serde_json::Value";
-                    }
-                }
-
-                Schema response = (Schema) rsp.schema;
-                // Check whether we're returning an object with a defined XML namespace.
-                if (response != null && (!StringUtils.isEmpty(response.get$ref()))) {
-                    Schema model = definitions.get(ModelUtils.getSimpleRef(response.get$ref()));
-                    if ((model != null)) {
-                        XML xml = model.getXml();
-                        if ((xml != null) && (xml.getNamespace() != null)) {
-                            rsp.vendorExtensions.put("x-has-namespace", "true");
-                        }
-                    }
+            // Set global generator flags from the declared content types alone, even when a
+            // content type has no schema - processInnerResponse/buildMultiContentTypeResponse
+            // below only run their per-response bookkeeping when a data type can be resolved.
+            for (String ct : content.keySet()) {
+                if (isMimetypeXml(ct)) {
+                    additionalProperties.put("usesXml", true);
+                } else if (isMimetypeMultipartRelated(ct)) {
+                    additionalProperties.put("apiUsesMultipartRelated", true);
+                    additionalProperties.put("apiUsesMultipart", true);
                 }
             }
+
+            if (content.size() > 1) {
+                buildMultiContentTypeResponse(rsp, content);
+            } else {
+                String mimeType = content.isEmpty() ? null : content.keySet().iterator().next();
+                processInnerResponse(rsp, mimeType);
+            }
+
             for (CodegenProperty header : rsp.headers) {
                 if (uuidType.equals(header.dataType)) {
                     additionalProperties.put("apiUsesUuid", true);
@@ -839,6 +736,106 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         return op;
+    }
+
+    // Populate vendor-extension map with mime-type and produces flags for one response/variant.
+    // Also handles XML namespace detection when schema is a direct $ref.
+    private void applyProducesExtensions(Map<String, Object> ve, String mimeType, String dataType, Schema schema) {
+        if (mimeType == null) return;
+        ve.put("x-mime-type", mimeType);
+        if (isMimetypeXml(mimeType)) {
+            additionalProperties.put("usesXml", true);
+            ve.put("x-produces-xml", true);
+            if (schema != null && !StringUtils.isEmpty(schema.get$ref())) {
+                Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
+                String ref = ModelUtils.getSimpleRef(schema.get$ref());
+                Schema model = definitions.get(ref);
+                if (model != null) {
+                    XML xml = model.getXml();
+                    if (xml != null && xml.getNamespace() != null) {
+                        ve.put("x-has-namespace", "true");
+                    }
+                }
+            }
+        } else if (isMimetypeMultipartRelated(mimeType)) {
+            additionalProperties.put("apiUsesMultipartRelated", true);
+            additionalProperties.put("apiUsesMultipart", true);
+            ve.put("x-produces-multipart-related", true);
+        } else if (isMimetypePlain(mimeType)) {
+            if (bytesType.equals(dataType)) {
+                ve.put("x-produces-bytes", true);
+            } else {
+                ve.put("x-produces-plain-text", true);
+            }
+        } else {
+            ve.put("x-produces-json", true);
+        }
+    }
+
+    private void processInnerResponse(CodegenResponse rsp, String mimeType) {
+        if (rsp.dataType != null) {
+            Map<String, Object> ve = rsp.vendorExtensions;
+            // Resolve $ref first so applyProducesExtensions sees the final Rust type.
+            Schema response = (Schema) rsp.schema;
+            if (response != null && !StringUtils.isEmpty(response.get$ref())) {
+                String ref = ModelUtils.getSimpleRef(response.get$ref());
+                rsp.dataType = "models::" + toModelName(ref);
+            }
+            ve.put("x-uppercase-data-type", rsp.dataType.replace("models::", "").toUpperCase(Locale.ROOT));
+            applyProducesExtensions(ve, mimeType, rsp.dataType, (Schema) rsp.schema);
+            // Inline object schema in JSON response: ensure the Rust type is serde_json::Value.
+            if ("object".equals(rsp.dataType) && Boolean.TRUE.equals(ve.get("x-produces-json"))) {
+                rsp.dataType = "serde_json::Value";
+            }
+        }
+    }
+
+    private void buildMultiContentTypeResponse(CodegenResponse rsp, Map<String, MediaType> content) {
+        List<Map<String, Object>> variants = new ArrayList<>();
+        List<String> typeArgs = new ArrayList<>();
+
+        for (Map.Entry<String, MediaType> entry : content.entrySet()) {
+            String ct = entry.getKey();
+            Schema schema = entry.getValue() != null ? entry.getValue().getSchema() : null;
+            String dataType = computeVariantDataType(schema);
+            String typeArg = dataType != null ? dataType : "()";
+
+            if (typeArgs.contains(typeArg)) {
+                LOGGER.warn("Response has multiple content types resolving to the same type '{}'; skipping duplicate variant for '{}'.", typeArg, ct);
+                continue;
+            }
+            typeArgs.add(typeArg);
+
+            Map<String, Object> exts = new LinkedHashMap<>();
+            if (dataType != null) {
+                applyProducesExtensions(exts, ct, dataType, schema);
+            }
+
+            Map<String, Object> variant = new LinkedHashMap<>();
+            variant.put("contentType", ct);
+            variant.put("dataType", dataType);
+            variant.put("exts", exts);
+            variants.add(variant);
+        }
+
+        String oneOfPrefix = "swagger::OneOf" + typeArgs.size() + "::<" + String.join(", ", typeArgs);
+        rsp.dataType = oneOfPrefix + ">";
+
+        for (int i = 0; i < variants.size(); i++) {
+            variants.get(i).put("variantName", oneOfPrefix + ">::" + (char) ('A' + i));
+        }
+
+        rsp.vendorExtensions.put("x-response-content-types", variants);
+    }
+
+    private String computeVariantDataType(Schema schema) {
+        if (schema == null) return null;
+        Schema resolved = unaliasSchema(schema);
+        if (!StringUtils.isEmpty(resolved.get$ref())) {
+            return "models::" + toModelName(ModelUtils.getSimpleRef(resolved.get$ref()));
+        }
+        String dt = getTypeDeclaration(resolved);
+        return "object".equals(dt) ? "serde_json::Value" : dt;
     }
 
     @Override
@@ -865,34 +862,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     private void postProcessOperationWithModels(CodegenOperation op, List<ModelMap> allModels) {
         boolean consumesPlainText = false;
         boolean consumesXml = false;
-
-        if (op.consumes != null) {
-            for (Map<String, String> consume : op.consumes) {
-                if (consume.get("mediaType") != null) {
-                    String mediaType = consume.get("mediaType");
-
-                    if (isMimetypeXml(mediaType)) {
-                        additionalProperties.put("usesXml", true);
-                        consumesXml = true;
-                    } else if (isMimetypePlain(mediaType)) {
-                        consumesPlainText = true;
-                    } else if (isMimetypeWwwFormUrlEncoded(mediaType)) {
-                        op.vendorExtensions.put("x-consumes-form", true);
-                        additionalProperties.put("usesUrlEncodedForm", true);
-                    } else if (isMimetypeMultipartFormData(mediaType)) {
-                        op.vendorExtensions.put("x-consumes-multipart", true);
-                        op.vendorExtensions.put("x-consumes-multipart-form", true);
-                        additionalProperties.put("apiUsesMultipartFormData", true);
-                        additionalProperties.put("apiUsesMultipart", true);
-                    } else if (isMimetypeMultipartRelated(mediaType)) {
-                        op.vendorExtensions.put("x-consumes-multipart", true);
-                        op.vendorExtensions.put("x-consumes-multipart-related", true);
-                        additionalProperties.put("apiUsesMultipartRelated", true);
-                        additionalProperties.put("apiUsesMultipart", true);
-                    }
-                }
-            }
-        }
 
         if (op.bodyParams.size() > 0 || op.formParams.size() > 0) {
             op.vendorExtensions.put("x-has-request-body", true);
@@ -931,6 +900,38 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         String underscoredOperationId = underscore(op.operationId).toUpperCase(Locale.ROOT);
 
+        if (op.consumes != null) {
+            for (Map<String, String> consume : op.consumes) {
+                if (consume.get("mediaType") != null) {
+                    String mediaType = consume.get("mediaType");
+
+                    if (isMimetypeXml(mediaType)) {
+                        additionalProperties.put("usesXml", true);
+                        consumesXml = true;
+                        op.vendorExtensions.put("x-consumes-basic", true);
+                    } else if (isMimetypePlain(mediaType)) {
+                        consumesPlainText = true;
+                        op.vendorExtensions.put("x-consumes-basic", true);
+                    } else if (isMimetypeWwwFormUrlEncoded(mediaType)) {
+                        additionalProperties.put("usesUrlEncodedForm", true);
+                        op.vendorExtensions.put("x-consumes-form", true);
+                    } else if (isMimetypeMultipartFormData(mediaType)) {
+                        op.vendorExtensions.put("x-consumes-multipart", true);
+                        op.vendorExtensions.put("x-consumes-multipart-form", true);
+                        additionalProperties.put("apiUsesMultipartFormData", true);
+                        additionalProperties.put("apiUsesMultipart", true);
+                    } else if (isMimetypeMultipartRelated(mediaType)) {
+                        op.vendorExtensions.put("x-consumes-multipart", true);
+                        op.vendorExtensions.put("x-consumes-multipart-related", true);
+                        additionalProperties.put("apiUsesMultipartRelated", true);
+                        additionalProperties.put("apiUsesMultipart", true);
+                    } else {
+                        op.vendorExtensions.put("x-consumes-basic", true);
+                    }
+                }
+            }
+        }
+
         if (op.bodyParam != null) {
             // Default to consuming json
             op.bodyParam.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId);
@@ -953,13 +954,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
             // Default to producing json if nothing else is specified
             if (consumesXml) {
-                op.vendorExtensions.put("x-consumes-basic", true);
                 param.vendorExtensions.put("x-consumes-xml", true);
             } else if (consumesPlainText) {
-                op.vendorExtensions.put("x-consumes-basic", true);
                 param.vendorExtensions.put("x-consumes-plain-text", true);
             } else {
-                op.vendorExtensions.put("x-consumes-basic", true);
                 param.vendorExtensions.put("x-consumes-json", true);
             }
         }
@@ -1062,17 +1060,14 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         CodegenParameter codegenParameter = super.fromRequestBody(body, imports, bodyParameterName);
 
         if (StringUtils.isNotBlank(original_schema.get$ref())) {
-            // Undo the mess `super.fromRequestBody` made - re-wrap the inner
-            // type.
+            // Undo the mess `super.fromRequestBody` made - re-wrap the inner type.
             codegenParameter.dataType = getTypeDeclaration(original_schema);
             codegenParameter.isPrimitiveType = false;
             codegenParameter.isArray = false;
             codegenParameter.isString = false;
             codegenParameter.isByteArray = ModelUtils.isByteArraySchema(original_schema);
 
-
-            // This is a model, so should only have an example if explicitly
-            // defined.
+            // This is a model, so should only have an example if explicitly defined.
             if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
                 codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
             } else if (!codegenParameter.required) {

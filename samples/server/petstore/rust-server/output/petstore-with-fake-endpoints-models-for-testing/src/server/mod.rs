@@ -629,7 +629,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
 
-
                                 let result = api_impl.test_special_tags(
                                             param_body,
                                         &context
@@ -760,7 +759,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
 
-
                                 let result = api_impl.fake_outer_boolean_serialize(
                                             param_body,
                                         &context
@@ -845,7 +843,6 @@ where
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
-
 
                                 let result = api_impl.fake_outer_composite_serialize(
                                             param_body,
@@ -932,7 +929,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
 
-
                                 let result = api_impl.fake_outer_number_serialize(
                                             param_body,
                                         &context
@@ -1017,7 +1013,6 @@ where
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
-
 
                                 let result = api_impl.fake_outer_string_serialize(
                                             param_body,
@@ -1189,7 +1184,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
 
-
                                 let result = api_impl.test_body_with_query_params(
                                             param_query,
                                             param_body,
@@ -1281,7 +1275,6 @@ where
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
-
 
                                 let result = api_impl.test_client_model(
                                             param_body,
@@ -1393,7 +1386,6 @@ where
                                     Some("password_example".to_string());
                                 let param_callback =
                                     Some("callback_example".to_string());
-
 
                                 let result = api_impl.test_endpoint_parameters(
                                             param_number,
@@ -1581,7 +1573,6 @@ where
                                 let param_enum_form_string =
                                     Some(models::TestEnumParametersRequestEnumFormString::Abc);
 
-
                                 let result = api_impl.test_enum_parameters(
                                             param_enum_header_string_array.as_ref(),
                                             param_enum_header_string,
@@ -1676,7 +1667,6 @@ where
                                                         .expect("Unable to create Bad Request response for missing body parameter param")),
                                 };
 
-
                                 let result = api_impl.test_inline_additional_properties(
                                             param_param,
                                         &context
@@ -1746,7 +1736,6 @@ where
                                     "param_example".to_string();
                                 let param_param2 =
                                     "param2_example".to_string();
-
 
                                 let result = api_impl.test_json_form_data(
                                             param_param,
@@ -1913,7 +1902,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
 
-
                                 let result = api_impl.test_classname(
                                             param_body,
                                         &context
@@ -2042,7 +2030,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
 
-
                                 let result = api_impl.add_pet(
                                             param_body,
                                         &context
@@ -2153,12 +2140,16 @@ where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    match body {
+        swagger::OneOf1::<Vec<models::Pet>>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
+        },
+    };
 
                                                 },
                                                 FindPetsByStatusResponse::InvalidStatusValue
@@ -2247,12 +2238,16 @@ where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    match body {
+        swagger::OneOf1::<Vec<models::Pet>>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
+        },
+    };
 
                                                 },
                                                 FindPetsByTagsResponse::InvalidTagValue
@@ -2351,7 +2346,6 @@ where
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
-
 
                                 let result = api_impl.update_pet(
                                             param_body,
@@ -2590,12 +2584,16 @@ where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    match body {
+        swagger::OneOf1::<models::Pet>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
+        },
+    };
 
                                                 },
                                                 GetPetByIdResponse::InvalidIDSupplied
@@ -2701,7 +2699,6 @@ where
                                     Some("name_example".to_string());
                                 let param_status =
                                     Some("status_example".to_string());
-
 
                                 let result = api_impl.update_pet_with_form(
                                             param_pet_id,
@@ -2915,7 +2912,6 @@ where
                                     }
                                 };
 
-
                                 let result = api_impl.upload_file(
                                             param_pet_id,
                                             param_additional_metadata,
@@ -3072,7 +3068,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
 
-
                                 let result = api_impl.place_order(
                                             param_body,
                                         &context
@@ -3095,12 +3090,16 @@ where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    match body {
+        swagger::OneOf1::<models::Order>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
+        },
+    };
 
                                                 },
                                                 PlaceOrderResponse::InvalidOrder
@@ -3256,12 +3255,16 @@ where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    match body {
+        swagger::OneOf1::<models::Order>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
+        },
+    };
 
                                                 },
                                                 GetOrderByIdResponse::InvalidIDSupplied
@@ -3335,7 +3338,6 @@ where
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
-
 
                                 let result = api_impl.create_user(
                                             param_body,
@@ -3428,7 +3430,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
 
-
                                 let result = api_impl.create_users_with_array_input(
                                             param_body.as_ref(),
                                         &context
@@ -3519,7 +3520,6 @@ where
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
-
 
                                 let result = api_impl.create_users_with_list_input(
                                             param_body.as_ref(),
@@ -3685,12 +3685,16 @@ where
                                                         x_expires_after
                                                     );
                                                     }
+    match body {
+        swagger::OneOf1::<String>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
+        },
+    };
 
                                                 },
                                                 LoginUserResponse::InvalidUsername
@@ -3885,12 +3889,16 @@ where
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+    match body {
+        swagger::OneOf1::<models::User>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
+        },
+    };
 
                                                 },
                                                 GetUserByNameResponse::InvalidUsernameSupplied
@@ -3987,7 +3995,6 @@ where
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_body, "body", validation);
-
 
                                 let result = api_impl.update_user(
                                             param_username,

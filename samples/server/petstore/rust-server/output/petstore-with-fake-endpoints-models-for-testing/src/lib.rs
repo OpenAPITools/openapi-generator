@@ -137,7 +137,7 @@ pub enum AddPetResponse {
 pub enum FindPetsByStatusResponse {
     /// successful operation
     SuccessfulOperation
-    (Vec<models::Pet>)
+    (swagger::OneOf1::<Vec<models::Pet>>)
     ,
     /// Invalid status value
     InvalidStatusValue
@@ -148,7 +148,7 @@ pub enum FindPetsByStatusResponse {
 pub enum FindPetsByTagsResponse {
     /// successful operation
     SuccessfulOperation
-    (Vec<models::Pet>)
+    (swagger::OneOf1::<Vec<models::Pet>>)
     ,
     /// Invalid tag value
     InvalidTagValue
@@ -178,7 +178,7 @@ pub enum DeletePetResponse {
 pub enum GetPetByIdResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Pet)
+    (swagger::OneOf1::<models::Pet>)
     ,
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -212,7 +212,7 @@ pub enum GetInventoryResponse {
 pub enum PlaceOrderResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Order)
+    (swagger::OneOf1::<models::Order>)
     ,
     /// Invalid Order
     InvalidOrder
@@ -233,7 +233,7 @@ pub enum DeleteOrderResponse {
 pub enum GetOrderByIdResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Order)
+    (swagger::OneOf1::<models::Order>)
     ,
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -266,7 +266,7 @@ pub enum LoginUserResponse {
     /// successful operation
     SuccessfulOperation
     {
-        body: String,
+        body: swagger::OneOf1::<String>,
         x_rate_limit:
         Option<
         i32
@@ -303,7 +303,7 @@ pub enum DeleteUserResponse {
 pub enum GetUserByNameResponse {
     /// successful operation
     SuccessfulOperation
-    (models::User)
+    (swagger::OneOf1::<models::User>)
     ,
     /// Invalid username supplied
     InvalidUsernameSupplied
