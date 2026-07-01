@@ -405,16 +405,16 @@ public interface FakeApi {
         @Parameter(name = "double", description = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
         @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
         @Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
-        @Parameter(name = "integer", description = "None") @Valid @RequestParam(value = "integer", required = false) Optional<Integer> integer,
-        @Parameter(name = "int32", description = "None") @Valid @RequestParam(value = "int32", required = false) Optional<Integer> int32,
-        @Parameter(name = "int64", description = "None") @Valid @RequestParam(value = "int64", required = false) Optional<Long> int64,
-        @Parameter(name = "float", description = "None") @Valid @RequestParam(value = "float", required = false) Optional<Float> _float,
-        @Parameter(name = "string", description = "None") @Valid @RequestParam(value = "string", required = false) Optional<String> string,
+        @Parameter(name = "integer", description = "None") @RequestParam(value = "integer", required = false) Optional<Integer> integer,
+        @Parameter(name = "int32", description = "None") @RequestParam(value = "int32", required = false) Optional<Integer> int32,
+        @Parameter(name = "int64", description = "None") @RequestParam(value = "int64", required = false) Optional<Long> int64,
+        @Parameter(name = "float", description = "None") @RequestParam(value = "float", required = false) Optional<Float> _float,
+        @Parameter(name = "string", description = "None") @RequestParam(value = "string", required = false) Optional<String> string,
         @Parameter(name = "binary", description = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
-        @Parameter(name = "date", description = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> date,
-        @Parameter(name = "dateTime", description = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<OffsetDateTime> dateTime,
-        @Parameter(name = "password", description = "None") @Valid @RequestParam(value = "password", required = false) Optional<String> password,
-        @Parameter(name = "callback", description = "None") @Valid @RequestParam(value = "callback", required = false) Optional<String> paramCallback
+        @Parameter(name = "date", description = "None") @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> date,
+        @Parameter(name = "dateTime", description = "None") @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<OffsetDateTime> dateTime,
+        @Parameter(name = "password", description = "None") @RequestParam(value = "password", required = false) Optional<String> password,
+        @Parameter(name = "callback", description = "None") @RequestParam(value = "callback", required = false) Optional<String> paramCallback
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -455,12 +455,12 @@ public interface FakeApi {
     default ResponseEntity<Void> testEnumParameters(
         @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string_array", required = false) Optional<List<String>> enumHeaderStringArray,
         @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") Optional<String> enumHeaderString,
-        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string_array", required = false) Optional<List<String>> enumQueryStringArray,
-        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") Optional<String> enumQueryString,
-        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_integer", required = false) Optional<Integer> enumQueryInteger,
-        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_double", required = false) Optional<Double> enumQueryDouble,
-        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestPart(value = "enum_form_string_array", required = false) Optional<List<String>> enumFormStringArray,
-        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) Optional<String> enumFormString
+        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_string_array", required = false) Optional<List<String>> enumQueryStringArray,
+        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") Optional<String> enumQueryString,
+        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_integer", required = false) Optional<Integer> enumQueryInteger,
+        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_double", required = false) Optional<Double> enumQueryDouble,
+        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @RequestPart(value = "enum_form_string_array", required = false) Optional<List<String>> enumFormStringArray,
+        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @RequestParam(value = "enum_form_string", required = false) Optional<String> enumFormString
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -497,9 +497,9 @@ public interface FakeApi {
         @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
         @NotNull @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
         @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
-        @Parameter(name = "string_group", description = "String in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "string_group", required = false) Optional<Integer> stringGroup,
+        @Parameter(name = "string_group", description = "String in group parameters", in = ParameterIn.QUERY) @RequestParam(value = "string_group", required = false) Optional<Integer> stringGroup,
         @Parameter(name = "boolean_group", description = "Boolean in group parameters", in = ParameterIn.HEADER) @RequestHeader(value = "boolean_group", required = false) Optional<Boolean> booleanGroup,
-        @Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "int64_group", required = false) Optional<Long> int64Group
+        @Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @RequestParam(value = "int64_group", required = false) Optional<Long> int64Group
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -529,7 +529,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testInlineAdditionalProperties(
-        @Parameter(name = "request_body", description = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
+        @Parameter(name = "request_body", description = "request body", required = true) @RequestBody Map<String, String> requestBody
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -622,10 +622,10 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT
     )
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "context", required = true) List<String> context
+        @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "pipe", required = true) List<String> pipe,
+        @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "http", required = true) List<String> http,
+        @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "url", required = true) List<String> url,
+        @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "context", required = true) List<String> context
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -704,7 +704,7 @@ public interface FakeApi {
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
-        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

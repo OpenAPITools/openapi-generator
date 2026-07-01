@@ -36,9 +36,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
     @XmlRootElement(name="ArrayTest")
 
 public class ArrayTest  implements Serializable {
-  private @Valid List<String> arrayOfString = new ArrayList<>();
-  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
-  private @Valid List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  private List<String> arrayOfString = new ArrayList<>();
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   protected ArrayTest(ArrayTestBuilder<?, ?> b) {
     this.arrayOfString = b.arrayOfString;
@@ -132,7 +132,7 @@ public class ArrayTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
-  @Valid public List<@Valid List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 

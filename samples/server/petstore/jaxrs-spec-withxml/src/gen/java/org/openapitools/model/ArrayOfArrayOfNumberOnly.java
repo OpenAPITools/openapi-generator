@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
     @XmlRootElement(name="ArrayOfArrayOfNumberOnly")
 
 public class ArrayOfArrayOfNumberOnly  implements Serializable {
-  private @Valid List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   protected ArrayOfArrayOfNumberOnly(ArrayOfArrayOfNumberOnlyBuilder<?, ?> b) {
     this.arrayArrayNumber = b.arrayArrayNumber;
@@ -56,7 +56,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayArrayNumber")
-  @Valid public List<@Valid List<@Valid BigDecimal>> getArrayArrayNumber() {
+  public List<List<@Valid BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 

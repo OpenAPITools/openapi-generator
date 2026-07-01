@@ -253,11 +253,11 @@ public interface FakeApi {
     Mono<ResponseEntity<Void>> testEnumParameters(
          @RequestHeader(value = "enum_header_string_array", required = false) @Nullable List<String> enumHeaderStringArray,
          @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
-         @Valid @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
+         @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
          @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
          @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
          @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
-         @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+         @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
          @Valid @RequestPart(value = "enum_form_string", required = false) String enumFormString
     );
 
@@ -361,10 +361,10 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(
-        @NotNull  @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull  @Valid @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull  @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull  @Valid @RequestParam(value = "context", required = true) List<String> context
+        @NotNull  @RequestParam(value = "pipe", required = true) List<String> pipe,
+        @NotNull  @RequestParam(value = "http", required = true) List<String> http,
+        @NotNull  @RequestParam(value = "url", required = true) List<String> url,
+        @NotNull  @RequestParam(value = "context", required = true) List<String> context
     );
 
 

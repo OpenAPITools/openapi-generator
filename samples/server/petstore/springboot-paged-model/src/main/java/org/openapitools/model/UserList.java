@@ -52,7 +52,7 @@ public class UserList implements Serializable {
    * Get content
    * @return content
    */
-  @Valid 
+  
   @JsonProperty("content")
   public List<@Valid User> getContent() {
     return content;

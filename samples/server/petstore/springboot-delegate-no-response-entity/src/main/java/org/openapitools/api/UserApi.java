@@ -99,7 +99,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default void createUsersWithArrayInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @RequestBody List<@Valid User> user
     ) {
         getDelegate().createUsersWithArrayInput(user);
     }
@@ -132,7 +132,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default void createUsersWithListInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @RequestBody List<@Valid User> user
     ) {
         getDelegate().createUsersWithListInput(user);
     }

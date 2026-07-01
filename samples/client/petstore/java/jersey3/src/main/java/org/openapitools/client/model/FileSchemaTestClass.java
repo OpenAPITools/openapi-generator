@@ -98,7 +98,6 @@ public class FileSchemaTestClass {
    * @return files
    */
   @jakarta.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
