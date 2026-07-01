@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +29,40 @@ import java.io.File;
 public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonFlaskConnexionServerCodegen.class);
 
+    public static final String USE_CONNEXION_3 = "useConnexion3";
+
+    protected boolean useConnexion3 = false;
+
     public PythonFlaskConnexionServerCodegen() {
         super("python-flask", false);
+
+        cliOptions.add(CliOption.newBoolean(USE_CONNEXION_3,
+                "Use Connexion 3.x instead of Connexion 2.x. This changes the pinned "
+                        + "connexion/Flask/Flask-Testing dependency versions and switches the "
+                        + "generated encoder, __main__ and test bootstrap code to Connexion 3's "
+                        + "APIs. This is a breaking change to the generated output, so it defaults "
+                        + "to false to preserve existing Connexion 2.x behavior.",
+                useConnexion3).defaultValue(Boolean.toString(useConnexion3)));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(USE_CONNEXION_3)) {
+            this.useConnexion3 = Boolean.parseBoolean(additionalProperties.get(USE_CONNEXION_3).toString());
+        }
+        additionalProperties.put(USE_CONNEXION_3, useConnexion3);
+    }
+
+    @Override
+    public String getHelp() {
+        return "Generates a Python Flask server library using the Connexion project. Connexion is "
+                + "used (instead of hand-written Flask routes) because it maps operations in an "
+                + "OpenAPI/Swagger spec directly to Python functions, handling request routing, "
+                + "payload validation and parameter binding automatically. By default, it will also "
+                + "generate service classes -- which you can disable with the `-Dnoservice` "
+                + "environment variable.";
     }
 
     /**
