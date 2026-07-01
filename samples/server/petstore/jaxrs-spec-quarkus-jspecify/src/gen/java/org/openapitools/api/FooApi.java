@@ -23,6 +23,10 @@ public interface FooApi {
 
     @GET
     @Produces({ "application/json" })
-    Foo fooDtParamGet(@PathParam("dtParam") @Nullable OffsetDateTime dtParam,@QueryParam("dtQuery")   @Nullable OffsetDateTime dtQuery,@CookieParam("dtCookie")   @Nullable OffsetDateTime dtCookie,@QueryParam("color") @DefaultValue("red")   @Nullable String color);
+    Foo fooDtParamGet(@PathParam("dtParam") @Nullable OffsetDateTime dtParam
+,@QueryParam("dtQuery")   @Nullable OffsetDateTime dtQuery
+,@CookieParam("dtCookie")   @Nullable OffsetDateTime dtCookie
+,@QueryParam("color") @DefaultValue("red")   @Nullable String color
+);
 
 }

@@ -243,7 +243,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "Tag")

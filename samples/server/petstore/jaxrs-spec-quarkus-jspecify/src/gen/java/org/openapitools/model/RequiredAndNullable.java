@@ -23,7 +23,7 @@ public class RequiredAndNullable   {
   private @Nullable File _file;
   private @Nullable String color = "red";
   private String onlyRequired;
-  private @Valid @Nullable List<String> _list;
+  private @Nullable List<String> _list;
 
   public RequiredAndNullable() {
   }

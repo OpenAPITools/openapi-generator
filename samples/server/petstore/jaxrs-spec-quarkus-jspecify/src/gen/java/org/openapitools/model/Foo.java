@@ -25,9 +25,9 @@ public class Foo   {
   private @Nullable OffsetDateTime nullableDt;
   private @Nullable File binary;
   private @Nullable File nullableBinary;
-  private @Valid @Nullable List<OffsetDateTime> listOfDt = new ArrayList<>();
-  private @Valid @Nullable List<OffsetDateTime> listMinIntems = new ArrayList<>();
-  private @Valid @Nullable List<OffsetDateTime> nullableListMinIntems;
+  private @Nullable List<OffsetDateTime> listOfDt = new ArrayList<>();
+  private @Nullable List<OffsetDateTime> listMinIntems = new ArrayList<>();
+  private @Nullable List<OffsetDateTime> nullableListMinIntems;
   private OffsetDateTime requiredDt;
   private java.math.@Nullable BigDecimal number;
   private java.math.@Nullable BigDecimal nullableNumber;
