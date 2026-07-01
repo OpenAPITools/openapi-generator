@@ -25,9 +25,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
 
   @ApiModelProperty(value = "")
 
-  @Valid
-
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, @Valid Animal> map = new HashMap<>();
  /**
    * Get uuid
    * @return uuid
@@ -69,15 +67,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
    * @return map
   **/
   @JsonProperty("map")
-  public Map<String, Animal> getMap() {
+  public Map<String, @Valid Animal> getMap() {
     return map;
   }
 
-  public void setMap(Map<String, Animal> map) {
+  public void setMap(Map<String, @Valid Animal> map) {
     this.map = map;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, @Valid Animal> map) {
     this.map = map;
     return this;
   }

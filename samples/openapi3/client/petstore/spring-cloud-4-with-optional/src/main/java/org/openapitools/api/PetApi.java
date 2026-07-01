@@ -78,7 +78,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull  @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
+        @NotNull  @RequestParam(value = "status", required = true) @Deprecated List<String> status
     );
 
 
@@ -99,7 +99,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<List<Pet>> findPetsByTags(
-        @NotNull  @Valid @RequestParam(value = "tags", required = true) List<String> tags
+        @NotNull  @RequestParam(value = "tags", required = true) List<String> tags
     );
 
 

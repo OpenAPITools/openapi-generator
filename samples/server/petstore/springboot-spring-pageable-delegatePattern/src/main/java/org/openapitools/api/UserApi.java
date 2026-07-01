@@ -87,7 +87,7 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_ARRAY_INPUT
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
-        @Parameter(name = "body", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
+        @Parameter(name = "body", description = "List of user object", required = true) @RequestBody List<@Valid User> body
     ) {
         return getDelegate().createUsersWithArrayInput(body);
     }
@@ -113,7 +113,7 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_LIST_INPUT
     )
     default ResponseEntity<Void> createUsersWithListInput(
-        @Parameter(name = "body", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
+        @Parameter(name = "body", description = "List of user object", required = true) @RequestBody List<@Valid User> body
     ) {
         return getDelegate().createUsersWithListInput(body);
     }

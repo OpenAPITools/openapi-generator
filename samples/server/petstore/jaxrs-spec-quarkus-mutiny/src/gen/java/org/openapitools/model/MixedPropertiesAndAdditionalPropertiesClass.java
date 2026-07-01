@@ -24,7 +24,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   private UUID uuid;
   private LocalDateTime dateTime;
-  private @Valid Map<String, Animal> map = new HashMap<>();
+  private Map<String, @Valid Animal> map = new HashMap<>();
 
   protected MixedPropertiesAndAdditionalPropertiesClass(MixedPropertiesAndAdditionalPropertiesClassBuilder<?, ?> b) {
     this.uuid = b.uuid;
@@ -75,7 +75,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
 
   /**
    **/
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, @Valid Animal> map) {
     this.map = map;
     return this;
   }
@@ -83,12 +83,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("map")
-  @Valid public Map<String, Animal> getMap() {
+  public Map<String, @Valid Animal> getMap() {
     return map;
   }
 
   @JsonProperty("map")
-  public void setMap(Map<String, Animal> map) {
+  public void setMap(Map<String, @Valid Animal> map) {
     this.map = map;
   }
 
