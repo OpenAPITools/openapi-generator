@@ -46,6 +46,9 @@ public class Generate extends OpenApiGeneratorCommand {
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
 
+    @Option(name = {"-q", "--quiet"}, description = "quiet mode")
+    private Boolean quiet;
+
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
             description = "generator to use (see list command for list)")
     private String generatorName;
@@ -180,6 +183,15 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "specifies mappings between the schema and the new name in the format of schema_a=Cat,schema_b=Bird."
                     + " You can also have multiple occurrences of this option.")
     private List<String> schemaMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--forced-generate-schemas"},
+            title = "forced generate schemas",
+            description = "comma-separated list of schema names that must be generated even when listed "
+                    + "in schemaMappings or importMappings. Example: MyEnum,OtherSchema."
+                    + " Use the wildcard '*' to force-generate all mapped schemas at once."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> forcedGenerateSchemas = new ArrayList<>();
 
     @Option(
             name = {"--inline-schema-name-mappings"},
@@ -376,6 +388,10 @@ public class Generate extends OpenApiGeneratorCommand {
             configurator.setVerbose(verbose);
         }
 
+        if (quiet != null) {
+                configurator.setQuiet(quiet);
+        }
+
         if (skipOverwrite != null) {
             configurator.setSkipOverwrite(skipOverwrite);
         }
@@ -508,6 +524,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);
         applySchemaMappingsKvpList(schemaMappings, configurator);
+        applyForcedGenerateSchemasKvpList(forcedGenerateSchemas, configurator);
         applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
         applyInlineSchemaOptionsKvpList(inlineSchemaOptions, configurator);
         applyNameMappingsKvpList(nameMappings, configurator);

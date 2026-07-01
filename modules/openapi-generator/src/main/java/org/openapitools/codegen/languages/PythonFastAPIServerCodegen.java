@@ -509,14 +509,16 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");
-        System.out.println("# Please support his work directly via https://paypal.me/krjakbrjak  \uD83D\uDE4F        #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");
+            System.out.println("# Please support his work directly via https://paypal.me/krjakbrjak  \uD83D\uDE4F        #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

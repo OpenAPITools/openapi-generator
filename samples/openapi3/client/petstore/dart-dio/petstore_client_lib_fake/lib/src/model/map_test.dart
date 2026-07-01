@@ -108,29 +108,33 @@ class _$MapTestSerializer implements PrimitiveSerializer<MapTest> {
         case r'map_map_of_string':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
-          ) as BuiltMap<String, BuiltMap<String, String>>;
+            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
+          ) as BuiltMap<String, BuiltMap<String, String>>?;
+          if (valueDes == null) continue;
           result.mapMapOfString.replace(valueDes);
           break;
         case r'map_of_enum_string':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)]),
-          ) as BuiltMap<String, MapTestMapOfEnumStringEnum>;
+            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)]),
+          ) as BuiltMap<String, MapTestMapOfEnumStringEnum>?;
+          if (valueDes == null) continue;
           result.mapOfEnumString.replace(valueDes);
           break;
         case r'direct_map':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]),
-          ) as BuiltMap<String, bool>;
+            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(bool)]),
+          ) as BuiltMap<String, bool>?;
+          if (valueDes == null) continue;
           result.directMap.replace(valueDes);
           break;
         case r'indirect_map':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]),
-          ) as BuiltMap<String, bool>;
+            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(bool)]),
+          ) as BuiltMap<String, bool>?;
+          if (valueDes == null) continue;
           result.indirectMap.replace(valueDes);
           break;
         default:

@@ -453,6 +453,32 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testResponse, "import type { OptionThree } from './OptionThree'");
     }
 
+    @Test(description = "Verify multipart file arrays use FormData with repeated file fields")
+    public void testMultipartFileArrayUsesFormData() throws IOException {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/multipart-file-array.yaml"
+        );
+
+        Path api = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileExists(api);
+        TestUtils.assertFileContains(api, "files: Array<Blob>;");
+        TestUtils.assertFileContains(api, "metadata?: string;");
+        TestUtils.assertFileContains(api, "// use FormData to transmit files using content-type \"multipart/form-data\"");
+        TestUtils.assertFileContains(api, "useForm = canConsumeForm;");
+        TestUtils.assertFileContains(api, "formParams = new FormData();");
+        TestUtils.assertFileContains(api, "requestParameters['files'].forEach((element) => {");
+        TestUtils.assertFileContains(api, "formParams.append('files', element as any);");
+        TestUtils.assertFileNotContains(api, "requestParameters['files']!.join(runtime.COLLECTION_FORMATS[\"csv\"])");
+
+        Path apiDocs = Paths.get(output + "/docs/DefaultApi.md");
+        TestUtils.assertFileExists(apiDocs);
+        TestUtils.assertFileContains(apiDocs, "files: [new Blob(['example file content'], { type: 'application/octet-stream' })],");
+        TestUtils.assertFileContains(apiDocs, "metadata: 'metadata_example',");
+        TestUtils.assertFileNotContains(apiDocs, "files: /path/to/file.txt");
+        TestUtils.assertFileNotContains(apiDocs, "metadata: metadata_example");
+    }
+
     @Test(description = "Verify instanceOf checks discriminator value for single-value enums")
     public void testInstanceOfChecksDiscriminatorValue() throws IOException {
         File output = generate(Collections.emptyMap(), "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
@@ -474,25 +500,26 @@ public class TypeScriptFetchClientCodegenTest {
 
         // SnakeOptionOne: discriminator_field (snake_case baseName) vs discriminatorField (camelCase name)
         // instanceOf should check both casings for field presence and discriminator value
+        // (the value is widened to Record<string, any> to avoid TS2590 on wide models)
         Path snakeOptionOne = Paths.get(output + "/models/SnakeOptionOne.ts");
         TestUtils.assertFileExists(snakeOptionOne);
-        TestUtils.assertFileContains(snakeOptionOne, "'discriminatorField' in value");
-        TestUtils.assertFileContains(snakeOptionOne, "'discriminator_field' in value");
-        TestUtils.assertFileContains(snakeOptionOne, "value['discriminatorField'] !== 'snakeOptionOne'");
-        TestUtils.assertFileContains(snakeOptionOne, "value['discriminator_field'] !== 'snakeOptionOne'");
+        TestUtils.assertFileContains(snakeOptionOne, "'discriminatorField' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(snakeOptionOne, "'discriminator_field' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(snakeOptionOne, "(value as Record<string, any>)['discriminatorField'] !== 'snakeOptionOne'");
+        TestUtils.assertFileContains(snakeOptionOne, "(value as Record<string, any>)['discriminator_field'] !== 'snakeOptionOne'");
         // Also verify the non-enum required field checks both casings
-        TestUtils.assertFileContains(snakeOptionOne, "'someProperty' in value");
-        TestUtils.assertFileContains(snakeOptionOne, "'some_property' in value");
+        TestUtils.assertFileContains(snakeOptionOne, "'someProperty' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(snakeOptionOne, "'some_property' in (value as Record<string, any>)");
 
         // DashedOptionOne: discriminator-field (dashed baseName) vs discriminatorField (camelCase name)
         Path dashedOptionOne = Paths.get(output + "/models/DashedOptionOne.ts");
         TestUtils.assertFileExists(dashedOptionOne);
-        TestUtils.assertFileContains(dashedOptionOne, "'discriminatorField' in value");
-        TestUtils.assertFileContains(dashedOptionOne, "'discriminator-field' in value");
-        TestUtils.assertFileContains(dashedOptionOne, "value['discriminatorField'] !== 'dashedOptionOne'");
-        TestUtils.assertFileContains(dashedOptionOne, "value['discriminator-field'] !== 'dashedOptionOne'");
-        TestUtils.assertFileContains(dashedOptionOne, "'someProperty' in value");
-        TestUtils.assertFileContains(dashedOptionOne, "'some-property' in value");
+        TestUtils.assertFileContains(dashedOptionOne, "'discriminatorField' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(dashedOptionOne, "'discriminator-field' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(dashedOptionOne, "(value as Record<string, any>)['discriminatorField'] !== 'dashedOptionOne'");
+        TestUtils.assertFileContains(dashedOptionOne, "(value as Record<string, any>)['discriminator-field'] !== 'dashedOptionOne'");
+        TestUtils.assertFileContains(dashedOptionOne, "'someProperty' in (value as Record<string, any>)");
+        TestUtils.assertFileContains(dashedOptionOne, "'some-property' in (value as Record<string, any>)");
 
         // Numeric singleton enum: value check must NOT quote the literal
         Path numericModel = Paths.get(output + "/models/NumericSingletonEnumModel.ts");

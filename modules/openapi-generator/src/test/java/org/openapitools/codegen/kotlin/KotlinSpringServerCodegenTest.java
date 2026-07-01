@@ -105,4 +105,101 @@ public class KotlinSpringServerCodegenTest {
         // derived doesn't contain disciminator
         TestUtils.assertFileNotContains(birdKt, "val discriminator");
     }
+
+    @Test(description = "should not generate @Validated annotation on interface when built-in validation option is set to true")
+    public void shouldEnableBuiltInValidationOptionWhenSetToTrueInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen() ;
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BUILT_IN_VALIDATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+
+        new DefaultGenerator().opts(
+                new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        final Path userApiKt = Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApi.kt");
+        TestUtils.assertFileNotContains(userApiKt, "import org.springframework.validation.annotation.Validated");
+        TestUtils.assertFileNotContains(userApiKt, "@org.springframework.validation.annotation.Validated");
+        TestUtils.assertFileNotContains(userApiKt, "@Validated");
+    }
+
+    @Test(description = "should not generate @Validated annotation on controller when built-in validation option is set to true")
+    public void shouldEnableBuiltInValidationOptionWhenSetToTrueController() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen() ;
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BUILT_IN_VALIDATION, true);
+
+        new DefaultGenerator().opts(
+                new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        final Path userApiKt = Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApiController.kt");
+        TestUtils.assertFileNotContains(userApiKt, "import org.springframework.validation.annotation.Validated");
+        TestUtils.assertFileNotContains(userApiKt, "@org.springframework.validation.annotation.Validated");
+        TestUtils.assertFileNotContains(userApiKt, "@Validated");
+    }
+
+    @Test(description = "should generate @Validated annotation when built-in validation option is set to false")
+    public void shouldDisableBuiltInValidationOptionWhenSetToFalse() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen() ;
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BUILT_IN_VALIDATION, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+
+        new DefaultGenerator().opts(
+                new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        final Path userApiKt = Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApi.kt");
+        TestUtils.assertFileContains(userApiKt, "import org.springframework.validation.annotation.Validated");
+        TestUtils.assertFileContains(userApiKt, "@Validated");
+    }
+
+    @Test(description = "should generate @Validated annotation when built-in validation option has default value")
+    public void shouldDisableBuiltInValidationOptionByDefault() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen() ;
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+
+        codegen.setUseSpringBoot3(true);
+
+        new DefaultGenerator().opts(
+                new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        final Path userApiKt = Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApi.kt");
+        TestUtils.assertFileContains(userApiKt, "import org.springframework.validation.annotation.Validated");
+        TestUtils.assertFileContains(userApiKt, "@Validated");
+    }
+
 }

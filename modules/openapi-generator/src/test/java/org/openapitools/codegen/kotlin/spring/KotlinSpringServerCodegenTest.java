@@ -6902,4 +6902,36 @@ public class KotlinSpringServerCodegenTest {
                 "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\") val `2ndField`"
         );
     }
+
+
+    /**
+     * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
+     * A property that $ref's an OAS 3.1 schema with type:[object,"null"] is nullable and must
+     * NOT receive @field:JsonSetter(nulls = Nulls.FAIL).
+     */
+    @Test(description = "issue 24139: nullable $ref (type:[object,null]) must not get @JsonSetter(nulls = Nulls.FAIL)")
+    public void testIssue24139NullableRefNoJsonSetterNullsFail() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put("useBeanValidation", true);
+        additionalProperties.put("openApiNullable", "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/issue_24139.yaml",
+                additionalProperties
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+
+        // nestedNullable: $ref to NestedNullable (type:[object,"null"]) — nullable, no @JsonSetter(nulls = Nulls.FAIL)
+        assertFileNotContains(itemFile.toPath(), "nestedNullable: NestedNullable");
+        // The field must NOT have @JsonSetter(nulls = Nulls.FAIL) because the referenced schema is nullable
+        String content = org.apache.commons.io.FileUtils.readFileToString(itemFile, StandardCharsets.UTF_8);
+        // Extract the nestedNullable field block and verify annotation absence
+        Assert.assertFalse(
+                content.contains("@field:JsonSetter(nulls = Nulls.FAIL)\n    @param:JsonProperty(\"nestedNullable\")") ||
+                content.contains("@field:JsonSetter(nulls = Nulls.FAIL)\n    @get:JsonProperty(\"nestedNullable\")"),
+                "nestedNullable ($ref to nullable schema) must not have @JsonSetter(nulls = Nulls.FAIL)"
+        );
+    }
 }

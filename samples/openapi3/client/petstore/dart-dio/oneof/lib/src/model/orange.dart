@@ -73,8 +73,9 @@ class _$OrangeSerializer implements PrimitiveSerializer<Orange> {
         case r'sweet':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(bool),
-          ) as bool;
+            specifiedType: const FullType.nullable(bool),
+          ) as bool?;
+          if (valueDes == null) continue;
           result.sweet = valueDes;
           break;
         default:

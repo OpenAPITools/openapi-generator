@@ -164,6 +164,12 @@ pub enum RegisterCallbackPostResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum RequiredBinaryStreamPutResponse {
+    /// OK
+    OK
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RequiredOctetStreamPutResponse {
     /// OK
     OK
@@ -409,6 +415,11 @@ pub trait Api<C: Send + Sync> {
         url: String,
         context: &C) -> Result<RegisterCallbackPostResponse, ApiError>;
 
+    async fn required_binary_stream_put(
+        &self,
+        body: swagger::ByteArray,
+        context: &C) -> Result<RequiredBinaryStreamPutResponse, ApiError>;
+
     async fn required_octet_stream_put(
         &self,
         body: swagger::ByteArray,
@@ -585,6 +596,11 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         url: String,
         ) -> Result<RegisterCallbackPostResponse, ApiError>;
+
+    async fn required_binary_stream_put(
+        &self,
+        body: swagger::ByteArray,
+        ) -> Result<RequiredBinaryStreamPutResponse, ApiError>;
 
     async fn required_octet_stream_put(
         &self,
@@ -836,6 +852,15 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().register_callback_post(url, &context).await
+    }
+
+    async fn required_binary_stream_put(
+        &self,
+        body: swagger::ByteArray,
+        ) -> Result<RequiredBinaryStreamPutResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().required_binary_stream_put(body, &context).await
     }
 
     async fn required_octet_stream_put(

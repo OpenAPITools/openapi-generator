@@ -432,6 +432,24 @@ public class GenerateTest {
         verifyNoMoreInteractions(configurator);
     }
 
+    @Test
+    public void testQuietLong() {
+        setupAndRunGenericTest("--quiet");
+        verify(configurator).setQuiet(true);
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testQuietShort() {
+        setupAndRunGenericTest("-q");
+        verify(configurator).setQuiet(true);
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+        verifyNoMoreInteractions(configurator);
+    }
+
     /**
      * This test ensures that when the
      */

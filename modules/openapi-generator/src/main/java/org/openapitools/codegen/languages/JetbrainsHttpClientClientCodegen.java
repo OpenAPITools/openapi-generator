@@ -279,13 +279,15 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     @Override
     public void postProcess() {
-        System.out.println("##########################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                                    #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                                    #");
-        System.out.println("#                                                                                        #");
-        System.out.println("# This generator was written by Julien Lengrand-Lambert (https://github.com/jlengrand)   #");
-        System.out.println("##########################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("##########################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                                    #");
+            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                                    #");
+            System.out.println("#                                                                                        #");
+            System.out.println("# This generator was written by Julien Lengrand-Lambert (https://github.com/jlengrand)   #");
+            System.out.println("##########################################################################################");
+        }
     }
 
     @Getter

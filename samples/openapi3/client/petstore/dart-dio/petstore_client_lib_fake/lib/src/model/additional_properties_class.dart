@@ -96,22 +96,25 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
         case r'map_property':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
-          ) as BuiltMap<String, String>;
+            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(String)]),
+          ) as BuiltMap<String, String>?;
+          if (valueDes == null) continue;
           result.mapProperty.replace(valueDes);
           break;
         case r'map_of_map_property':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
-          ) as BuiltMap<String, BuiltMap<String, String>>;
+            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
+          ) as BuiltMap<String, BuiltMap<String, String>>?;
+          if (valueDes == null) continue;
           result.mapOfMapProperty.replace(valueDes);
           break;
         case r'map_of_array_integer':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltList, [FullType(int)])]),
-          ) as BuiltMap<String, BuiltList<int>>;
+            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(BuiltList, [FullType(int)])]),
+          ) as BuiltMap<String, BuiltList<int>>?;
+          if (valueDes == null) continue;
           result.mapOfArrayInteger.replace(valueDes);
           break;
         default:
