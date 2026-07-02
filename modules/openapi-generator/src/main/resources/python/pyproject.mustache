@@ -34,11 +34,11 @@ include = ["{{packageName}}/py.typed"]
 [tool.poetry.dependencies]
 python = "^3.10"
 {{^async}}
-urllib3 = ">= 2.7.0, < 3.0.0"
+urllib3 = ">= 2.6.3, < 3.0.0"
 {{/async}}
 python-dateutil = ">= 2.8.2"
 {{#asyncio}}
-aiohttp = ">= 3.14.1"
+aiohttp = ">= 3.13.5"
 aiohttp-retry = ">= 2.8.3"
 {{/asyncio}}
 {{#httpx}}
@@ -62,14 +62,14 @@ requires-python = ">=3.9"
 
 dependencies = [
 {{^async}}
-  "urllib3 (>=2.7.0,<3.0.0)",
+  "urllib3 (>=2.6.3,<3.0.0)",
 {{/async}}
   "python-dateutil (>=2.8.2)",
 {{#httpx}}
   "httpx (>=0.28.1)",
 {{/httpx}}
 {{#asyncio}}
-  "aiohttp (>=3.14.1)",
+  "aiohttp (>=3.13.5)",
   "aiohttp-retry (>=2.8.3)",
 {{/asyncio}}
 {{#tornado}}
@@ -101,7 +101,7 @@ requires-poetry = ">=2.0"
 {{^poetry1}}
 [tool.poetry.group.dev.dependencies]
 {{/poetry1}}
-pytest = ">= 9.0.3"
+pytest = ">= 8.4.2"
 pytest-cov = ">= 2.8.1"
 tox = ">= 3.9.0"
 flake8 = ">= 4.0.0"
