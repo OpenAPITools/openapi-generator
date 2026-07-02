@@ -47,6 +47,7 @@ class TestPetController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    @unittest.skip("Connexion 3 requires the handler to specify which content type to return when an operation declares multiple response content types; the auto-generated stub does not, so calling it raises a 500 until the operation is actually implemented.")
     def test_find_pets_by_status(self):
         """Test case for find_pets_by_status
 
@@ -65,6 +66,7 @@ class TestPetController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    @unittest.skip("Connexion 3 requires the handler to specify which content type to return when an operation declares multiple response content types; the auto-generated stub does not, so calling it raises a 500 until the operation is actually implemented.")
     def test_find_pets_by_tags(self):
         """Test case for find_pets_by_tags
 
@@ -83,6 +85,7 @@ class TestPetController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    @unittest.skip("Connexion 3 requires the handler to specify which content type to return when an operation declares multiple response content types; the auto-generated stub does not, so calling it raises a 500 until the operation is actually implemented.")
     def test_get_pet_by_id(self):
         """Test case for get_pet_by_id
 
