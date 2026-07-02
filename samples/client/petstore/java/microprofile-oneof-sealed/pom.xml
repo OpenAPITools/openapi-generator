@@ -1,13 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>{{groupId}}</groupId>
-  <artifactId>{{artifactId}}</artifactId>
+  <groupId>org.openapitools</groupId>
+  <artifactId>microprofile-oneof-sealed</artifactId>
   <packaging>jar</packaging>
-  <name>{{artifactId}}</name>
-  {{#appDescription}}
-  <description>{{.}}</description>
-  {{/appDescription}}
-  <version>{{artifactVersion}}</version>
+  <name>microprofile-oneof-sealed</name>
+  <description>A minimal, self-consistent oneOf-interface spec for the Java (microprofile) client generator. The oneOf container and the shared base both declare the discriminator property so the interface getter resolves to the enum type. Children inherit the base via allOf and only implement the generated interface. </description>
+  <version>1.0.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
@@ -64,15 +62,6 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-{{#useBeanValidation}}
-    <!-- Bean Validation API support -->
-    <dependency>
-        <groupId>jakarta.validation</groupId>
-        <artifactId>jakarta.validation-api</artifactId>
-        <version>${beanvalidation.version}</version>
-        <scope>provided</scope>
-    </dependency>
-{{/useBeanValidation}}
     <!-- Eclipse MicroProfile Rest Client -->
     <dependency>
       <groupId>org.eclipse.microprofile.rest.client</groupId>
@@ -102,34 +91,6 @@
     </dependency>
 
 
-    {{#jsonb}}
-    <dependency>
-      <groupId>jakarta.json.bind</groupId>
-      <artifactId>jakarta.json.bind-api</artifactId>
-      <version>${jakarta.json.bind.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>jakarta.json</groupId>
-        <artifactId>jakarta.json-api</artifactId>
-        <version>${jakarta.json.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>jakarta.xml.bind</groupId>
-        <artifactId>jakarta.xml.bind-api</artifactId>
-        <version>${jakarta.xml.bind.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>com.sun.xml.bind</groupId>
-        <artifactId>jaxb-core</artifactId>
-        <version>${jaxb.core.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>com.sun.xml.bind</groupId>
-        <artifactId>jaxb-impl</artifactId>
-        <version>${jaxb.impl.version}</version>
-    </dependency>
-    {{/jsonb}}
-    {{#jackson}}
     <!-- JSON processing: jackson -->
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
@@ -146,20 +107,6 @@
         <artifactId>jackson-databind</artifactId>
         <version>${jackson.version}</version>
     </dependency>
-    {{#withXml}}
-    <!-- XML processing with Jackson -->
-    <dependency>
-        <groupId>jakarta.xml.bind</groupId>
-        <artifactId>jakarta.xml.bind-api</artifactId>
-        <version>${jakarta.xml.bind.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>com.fasterxml.jackson.dataformat</groupId>
-        <artifactId>jackson-dataformat-xml</artifactId>
-        <version>${jackson.version}</version>
-    </dependency>
-    {{/withXml}}
-    {{/jackson}}
     <dependency>
         <groupId>jakarta.activation</groupId>
         <artifactId>jakarta.activation-api</artifactId>
@@ -170,34 +117,12 @@
         <artifactId>jackson-datatype-jsr310</artifactId>
         <version>${jackson.jaxrs.version}</version>
     </dependency>
-{{#useBeanValidationFeature}}
-    <dependency>
-        <groupId>org.hibernate.validator</groupId>
-        <artifactId>hibernate-validator</artifactId>
-        <version>${hibernate.validator.version}</version>
-    </dependency>
-{{/useBeanValidationFeature}}
     <dependency>
         <groupId>jakarta.annotation</groupId>
         <artifactId>jakarta.annotation-api</artifactId>
         <version>${jakarta.annotation.version}</version>
         <scope>provided</scope>
     </dependency>
-{{#microprofileMutiny}}
-    <dependency>
-        <groupId>io.smallrye.reactive</groupId>
-        <artifactId>mutiny</artifactId>
-        <version>${mutiny.version}</version>
-    </dependency>
-{{/microprofileMutiny}}
-{{#useReflectionEqualsHashCode}}
-    <!-- For equals and hashCode using reflection -->
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>${commons.lang3.version}</version>
-    </dependency>
-{{/useReflectionEqualsHashCode}}
   </dependencies>
   <repositories>
     <repository>
@@ -209,7 +134,7 @@
     </repository>
   </repositories>
   <properties>
-    <java.version>{{#java17}}17{{/java17}}{{^java17}}11{{/java17}}</java.version>
+    <java.version>17</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -218,21 +143,16 @@
     <jetty.version>9.2.9.v20150224</jetty.version>
     <junit.version>5.10.2</junit.version>
     <logback.version>1.5.19</logback.version>
-{{#useBeanValidation}}
-    <beanvalidation.version>3.0.1</beanvalidation.version>
-{{/useBeanValidation}}
     <cxf.version>3.2.7</cxf.version>
     <jackson.jaxrs.version>2.17.1</jackson.jaxrs.version>
-{{#jackson}}
     <jackson.version>2.17.1</jackson.version>
-{{/jackson}}
     <jakarta.activation.version>2.1.0</jakarta.activation.version>
     <jakarta.annotation.version>2.0.0</jakarta.annotation.version>
     <jakarta.json.bind.version>3.0.0</jakarta.json.bind.version>
     <jakarta.json.version>2.0.1</jakarta.json.version>
     <jakarta.ws.rs.version>3.0.0</jakarta.ws.rs.version>
     <jakarta.xml.bind.version>3.0.1</jakarta.xml.bind.version>
-    <microprofile.rest.client.api.version>{{microprofileRestClientVersion}}</microprofile.rest.client.api.version>
+    <microprofile.rest.client.api.version>3.0</microprofile.rest.client.api.version>
     <jersey.mp.rest.client.version>3.0.4</jersey.mp.rest.client.version>
     <geronimo.config.impl.version>1.2.3</geronimo.config.impl.version>
     <cxf.rt.rs.extension.providers.version>3.5.1</cxf.rt.rs.extension.providers.version>
@@ -242,11 +162,5 @@
     <jandex.maven.plugin.version>3.2.7</jandex.maven.plugin.version>
     <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
     <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
-{{#microprofileMutiny}}
-    <mutiny.version>1.10.0</mutiny.version>
-{{/microprofileMutiny}}
-{{#useReflectionEqualsHashCode}}
-    <commons.lang3.version>3.17.0</commons.lang3.version>
-{{/useReflectionEqualsHashCode}}
   </properties>
 </project>
