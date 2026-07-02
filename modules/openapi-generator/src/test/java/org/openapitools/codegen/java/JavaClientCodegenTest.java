@@ -4192,6 +4192,33 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileNotContains(testModel.toPath(), "com.fasterxml.jackson");
     }
 
+    @Test
+    public void oneOfInterfaceMicroprofileJackson() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(MICROPROFILE)
+                .setAdditionalProperties(Map.of(
+                        USE_ONE_OF_INTERFACES, "true",
+                        CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON
+                ))
+                .setInputSpec("src/test/resources/3_0/java/oneof_interface_petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path model = output.resolve("src/main/java/org/openapitools/client/model");
+        // oneOf schema rendered as an interface (not a pojo); the discriminator getter resolves to the enum
+        assertFileContains(model.resolve("PetRequest.java"), "public interface PetRequest {");
+        assertFileContains(model.resolve("PetRequest.java"), "public PetType getPetType();");
+        // children implement the interface
+        assertFileContains(model.resolve("CatRequest.java"), "implements PetRequest");
+        assertFileContains(model.resolve("DogRequest.java"), "implements PetRequest");
+        // not sealed (useSealedOneOfInterfaces not set)
+        assertFileNotContains(model.resolve("PetRequest.java"), "sealed interface");
+        assertFileNotContains(model.resolve("CatRequest.java"), "public final class");
+    }
+
     @DataProvider(name = "sealedInterfaceScenarios")
     public static Object[][] sealedInterfaceScenarios() {
         return new Object[][]{
