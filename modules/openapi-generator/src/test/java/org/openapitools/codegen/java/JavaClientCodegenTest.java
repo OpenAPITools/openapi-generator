@@ -4596,4 +4596,41 @@ public class JavaClientCodegenTest {
                 .contains("@Tag(");
     }
 
+    @DataProvider(name = "rxJavaOptions")
+    public static Object[][] rxJavaOptions() {
+        return new Object[][]{
+                {Map.of(USE_RX_JAVA2, true, USE_RX_JAVA3, true), Map.of(USE_RX_JAVA2, false, USE_RX_JAVA3, true)},
+                {Map.of(USE_RX_JAVA2, true), Map.of(USE_RX_JAVA2, true)}
+        };
+    }
+
+    @Test(dataProvider = "rxJavaOptions")
+    public void processOptsConfiguresRxJavaOptions(Map<String, Object> properties, Map<String, Object> expectedProperties) {
+        JavaClientCodegen codegen = newRetrofit2Codegen(properties);
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties())
+                .containsAllEntriesOf(expectedProperties)
+                .doesNotContainKey(DO_NOT_USE_RX);
+    }
+
+    @Test
+    public void processOptsConvertsConfiguredSupportUrlQuery() {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.APACHE);
+        codegen.additionalProperties().put(SUPPORT_URL_QUERY, "false");
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties())
+                .containsEntry(SUPPORT_URL_QUERY, false);
+    }
+
+    private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.RETROFIT_2);
+        codegen.additionalProperties().putAll(properties);
+        return codegen;
+    }
 }
