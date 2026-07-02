@@ -1,21 +1,10 @@
 # ref: https://docs.travis-ci.com/user/languages/python
 language: python
 python:
-{{^useConnexion3}}
-  - "3.2"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "3.7"
-  - "3.8"
-{{/useConnexion3}}
-{{#useConnexion3}}
   - "3.9"
   - "3.10"
   - "3.11"
   - "3.12"
-{{/useConnexion3}}
 # command to install dependencies
 install: "pip install -r requirements.txt"
 # command to run tests

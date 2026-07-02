@@ -1,28 +1,10 @@
 import logging
-{{#useConnexion3}}
 import unittest
-{{/useConnexion3}}
 
 import connexion
-{{^useConnexion3}}
-from flask_testing import TestCase
-
-from {{packageName}}.encoder import JSONEncoder
-
-
-class BaseTestCase(TestCase):
-
-    def create_app(self):
-        logging.getLogger('connexion.operation').setLevel('ERROR')
-        app = connexion.App(__name__, specification_dir='../openapi/')
-        app.app.json_encoder = JSONEncoder
-        app.add_api('openapi.yaml', pythonic_params=True)
-        return app.app
-{{/useConnexion3}}
-{{#useConnexion3}}
 from connexion.jsonifier import Jsonifier
 
-from {{packageName}}.encoder import JSONEncoder
+from openapi_server.encoder import JSONEncoder
 
 
 class _FlaskStyleResponse:
@@ -68,4 +50,3 @@ class BaseTestCase(unittest.TestCase):
 
     def assert200(self, response, message=None):
         self.assertEqual(200, response.status_code, message)
-{{/useConnexion3}}

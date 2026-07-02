@@ -12,8 +12,9 @@ VERSION = "1.0.0"
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = [
-    "connexion>=2.0.2,<=2.14.2",
-    "swagger-ui-bundle>=0.0.2",
+    "connexion[flask,swagger-ui,uvicorn]>=3.3.0,<4.0.0",
+    "swagger-ui-bundle>=1.1.0",
+    "Flask>=2.2.0,<4.0.0",
     "python_dateutil>=2.6.0"
 ]
 
