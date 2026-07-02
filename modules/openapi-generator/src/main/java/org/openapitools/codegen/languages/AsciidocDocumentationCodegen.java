@@ -150,6 +150,27 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         }
     }
 
+    /**
+     * Lambda escaping AsciiDoc table cell separators ("|") in rendered content, so
+     * that free-form values (descriptions, defaults, patterns, enum values, ...)
+     * cannot break the layout of the table they are placed in. Use:
+     *
+     * <pre>
+     * {{#tablecellcontent}}{{description}}{{/tablecellcontent}}
+     * </pre>
+     */
+    public static class TableCellContentLambda implements Mustache.Lambda {
+        // Only escape a "|" that isn't already escaped, so values that legitimately
+        // contain a backslash-escaped pipe (e.g. a regex pattern using "\|" to match
+        // a literal pipe character) aren't mangled with a redundant backslash.
+        private static final java.util.regex.Pattern UNESCAPED_PIPE = java.util.regex.Pattern.compile("(?<!\\\\)\\|");
+
+        @Override
+        public void execute(final Template.Fragment frag, final Writer out) throws IOException {
+            out.write(UNESCAPED_PIPE.matcher(frag.execute()).replaceAll("\\\\|"));
+        }
+    }
+
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
@@ -275,6 +296,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         languageSpecificPrimitives = new HashSet<>();
         importMapping = new HashMap<>();
 
+        additionalProperties.put("tablecellcontent", new TableCellContentLambda());
     }
 
     @Override
