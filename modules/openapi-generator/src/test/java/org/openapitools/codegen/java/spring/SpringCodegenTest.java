@@ -8162,4 +8162,58 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("UserBrLockDTO.java")).implementsInterfaces("BrLockDTO")
                 .fileDoesNotContain("@JsonTypeName");
     }
+
+    /**
+     * Scenario 4 (openApiNullable=true): optional+nullable field must carry
+     * {@code @JsonInclude(JsonInclude.Include.NON_ABSENT)} so that Jackson
+     * excludes {@code JsonNullable.undefined()} from serialized output.
+     */
+    @Test
+    void optionalNullableField_withOpenApiNullable_hasNonAbsentAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.java").toPath();
+        // NON_ABSENT must be present — only optionalNullable (JsonNullable<T>) gets this annotation
+        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_ABSENT)");
+        // JsonNullable field must be present
+        assertFileContains(modelFile, "private JsonNullable<String> optionalNullable");
+        // NON_NULL must also be present (for optionalNonNullable fields)
+        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
+        assertFileContains(modelFile, "import com.fasterxml.jackson.annotation.JsonInclude");
+    }
+
+    /**
+     * Without openApiNullable the optional+nullable field is a plain nullable type —
+     * no {@code @JsonInclude(NON_ABSENT)} should be emitted.
+     */
+    @Test
+    void optionalNullableField_withoutOpenApiNullable_hasNoNonAbsentAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "false"));
+
+        Path modelFile = files.get("TestModel.java").toPath();
+        // Without openApiNullable the field is String optionalNullable, not JsonNullable
+        assertFileNotContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_ABSENT)");
+    }
+
+    /**
+     * Optional+non-nullable fields must still have {@code @JsonInclude(NON_NULL)} regardless
+     * of the openApiNullable setting.
+     */
+    @Test
+    void optionalNonNullableField_alwaysHasNonNullAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.java").toPath();
+        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
+        assertFileContains(modelFile, "private String optionalNonNullable");
+    }
 }
