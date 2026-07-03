@@ -24,7 +24,7 @@ class TestMultipleResponseTypes(unittest.IsolatedAsyncioTestCase):
         mock_resp.return_value.status_code = 200
         mock_resp.return_value.headers = {}
 
-        marker = petstore_api.UploadFileWithAdditionalPropertiesRequestObject(
+        marker = petstore_api.TestObjectForMultipartRequestsRequestMarker(
             name="name",
         )
 
