@@ -100,7 +100,7 @@ class TestMultipleResponseTypes(unittest.TestCase):
         mock_resp.data = b"some text"
         mock_resp.headers = {}
 
-        marker = petstore_api.UploadFileWithAdditionalPropertiesRequestObject(
+        marker = petstore_api.TestObjectForMultipartRequestsRequestMarker(
             name="name",
         )
 
