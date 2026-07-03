@@ -15,7 +15,7 @@ module Qdrant::Api
 
     # Optional properties
     @[JSON::Field(key: "prefetch", emit_null: false)]
-    property prefetch : QueryRequestPrefetch?
+    property prefetch : PrefetchPrefetch?
 
     # Query to perform. If missing without prefetches, returns points ordered by their IDs.
     @[JSON::Field(key: "query", emit_null: false)]
@@ -49,7 +49,7 @@ module Qdrant::Api
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@prefetch : QueryRequestPrefetch? = nil, @query : QueryInterface? = nil, @using : String? = nil, @filter : Filter? = nil, @params : SearchParams? = nil, @score_threshold : Float32? = nil, @limit : Int32? = nil, @lookup_from : LookupLocation? = nil)
+    def initialize(@prefetch : PrefetchPrefetch? = nil, @query : QueryInterface? = nil, @using : String? = nil, @filter : Filter? = nil, @params : SearchParams? = nil, @score_threshold : Float32? = nil, @limit : Int32? = nil, @lookup_from : LookupLocation? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
