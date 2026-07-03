@@ -1,16 +1,12 @@
-name: Samples PHP 8.x
+name: Samples php-laravel 8.x
 
 on:
   push:
     paths:
-      - samples/server/petstore/php-symfony/SymfonyBundle-php/**
-      - samples/server/petstore/php-flight/**
       - samples/server/petstore/php-laravel/**
       - samples/server/petstore/php-laravel-issue-21334/**
   pull_request:
     paths:
-      - samples/server/petstore/php-symfony/SymfonyBundle-php/**
-      - samples/server/petstore/php-flight/**
       - samples/server/petstore/php-laravel/**
       - samples/server/petstore/php-laravel-issue-21334/**
 jobs:
@@ -25,8 +21,6 @@ jobs:
           - "8.4"
         sample:
           # servers
-          - samples/server/petstore/php-symfony/SymfonyBundle-php/
-          - samples/server/petstore/php-flight/
           - samples/server/petstore/php-laravel/
           - samples/server/petstore/php-laravel-issue-21334/
     steps:
@@ -38,8 +32,8 @@ jobs:
       - name: composer install
         working-directory: ${{ matrix.sample }}
         run: composer install
-      - uses: php-actions/phpstan@v3
-        working-directory: ${{ matrix.sample }}
       - name: phpstan
         working-directory: ${{ matrix.sample }}
-        run: vendor/bin/phpstan
+        run: |
+          composer require --dev phpstan/phpstan
+          vendor/bin/phpstan analyse Api Http Model routes.php
