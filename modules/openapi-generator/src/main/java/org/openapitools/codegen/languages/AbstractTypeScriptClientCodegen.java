@@ -1054,6 +1054,23 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     /**
+     * Returns true for multipart form arrays whose array or item schema is binary.
+     *
+     * @param parameter Codegen parameter
+     */
+    protected static boolean isBinaryFormArray(CodegenParameter parameter) {
+        if (!parameter.isFormParam || !parameter.isArray) {
+            return false;
+        }
+        if ("binary".equals(parameter.dataFormat)) {
+            return true;
+        }
+
+        CodegenProperty items = parameter.items;
+        return items != null && (items.isFile || items.isBinary || "binary".equals(items.dataFormat));
+    }
+
+    /**
      * Override to fix the inner enum naming issue for maps/arrays of enums.
      * <p>
      * The parent implementation uses toEnumName(baseItem) which produces a generic name

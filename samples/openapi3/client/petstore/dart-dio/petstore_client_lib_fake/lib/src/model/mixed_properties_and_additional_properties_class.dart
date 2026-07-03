@@ -97,22 +97,25 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Primiti
         case r'uuid':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.uuid = valueDes;
           break;
         case r'dateTime':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
+            specifiedType: const FullType.nullable(DateTime),
+          ) as DateTime?;
+          if (valueDes == null) continue;
           result.dateTime = valueDes;
           break;
         case r'map':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)]),
-          ) as BuiltMap<String, Animal>;
+            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(Animal)]),
+          ) as BuiltMap<String, Animal>?;
+          if (valueDes == null) continue;
           result.map.replace(valueDes);
           break;
         default:

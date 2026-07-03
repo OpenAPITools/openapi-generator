@@ -73,8 +73,9 @@ class _$ModelReturnSerializer implements PrimitiveSerializer<ModelReturn> {
         case r'return':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.return_ = valueDes;
           break;
         default:

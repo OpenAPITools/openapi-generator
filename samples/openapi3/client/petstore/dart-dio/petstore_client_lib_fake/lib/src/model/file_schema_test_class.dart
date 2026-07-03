@@ -86,15 +86,17 @@ class _$FileSchemaTestClassSerializer implements PrimitiveSerializer<FileSchemaT
         case r'file':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(ModelFile),
-          ) as ModelFile;
+            specifiedType: const FullType.nullable(ModelFile),
+          ) as ModelFile?;
+          if (valueDes == null) continue;
           result.file.replace(valueDes);
           break;
         case r'files':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(ModelFile)]),
-          ) as BuiltList<ModelFile>;
+            specifiedType: const FullType.nullable(BuiltList, [FullType(ModelFile)]),
+          ) as BuiltList<ModelFile>?;
+          if (valueDes == null) continue;
           result.files.replace(valueDes);
           break;
         default:

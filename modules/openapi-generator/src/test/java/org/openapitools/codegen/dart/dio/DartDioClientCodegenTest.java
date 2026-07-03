@@ -142,6 +142,79 @@ public class DartDioClientCodegenTest {
                 "package:my_api/src/model/custom_address.dart");
     }
 
+    /**
+     * Regression test for the dart-dio built_value generator's handling
+     * of optional non-nullable model properties.
+     *
+     * Before the fix, the generator emitted a Dart getter typed as
+     * {@code String?} (because in Dart, an optional field can always be
+     * absent, which is observably {@code null}) but the matching
+     * deserializer used {@code FullType(String)} and cast the result
+     * {@code as String}. As a consequence, the moment the JSON payload
+     * carried the field as an explicit {@code null} the cast threw and
+     * the entire enclosing object failed to deserialize -- silently in
+     * many call paths.
+     *
+     * The fix: in {@code deserialize_properties.mustache} the cast
+     * follows the same rule that {@code class_members.mustache} already
+     * uses for the getter type, i.e. nullable when
+     * {@code isNullable || !required}. This test asserts that.
+     */
+    @Test
+    public void testOptionalNonNullablePropertyDeserializesAsNullable() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/built_value_optional_nullable.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path widget = output.toPath().resolve("lib/src/model/widget.dart");
+
+        // Required fields stay strict: cast as a non-nullable type with a
+        // non-nullable FullType. Otherwise the existing behaviour for
+        // required fields would change.
+        TestUtils.assertFileContains(widget,
+                "case r'id':",
+                "specifiedType: const FullType(int),",
+                "as int;");
+        TestUtils.assertFileContains(widget,
+                "case r'name':",
+                "specifiedType: const FullType(String),",
+                "as String;");
+
+        // Optional non-nullable: getter is `String?` (existing), and the
+        // deserializer now matches -- FullType.nullable + cast as `T?`
+        // + skip-on-null guard so we never reach `result.x = valueDes`
+        // with a null.
+        TestUtils.assertFileContains(widget, "String? get iconUrl;");
+        TestUtils.assertFileContains(widget,
+                "case r'iconUrl':",
+                "specifiedType: const FullType.nullable(String),",
+                "as String?;",
+                "if (valueDes == null) continue;");
+
+        TestUtils.assertFileContains(widget, "int? get priority;");
+        TestUtils.assertFileContains(widget,
+                "case r'priority':",
+                "specifiedType: const FullType.nullable(int),",
+                "as int?;",
+                "if (valueDes == null) continue;");
+
+        // Explicitly nullable still works (regression guard).
+        TestUtils.assertFileContains(widget,
+                "case r'explicitlyNullable':",
+                "specifiedType: const FullType.nullable(String),",
+                "as String?;",
+                "if (valueDes == null) continue;");
+    }
+
     @Test
     public void verifyDartDioGeneratorRuns() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
@@ -163,5 +236,86 @@ public class DartDioClientCodegenTest {
 
         TestUtils.ensureContainsFile(files, output, "README.md");
         TestUtils.ensureContainsFile(files, output, "lib/src/api.dart");
+    }
+
+    @Test
+    public void verifyWebhookImports() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setGitUserId("my-user")
+                .setGitRepoId("my-repo")
+                .setPackageName("my-package")
+                .setInputSpec("src/test/resources/3_1/webhooks.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        // Find webhook API file (default_api.dart for 'newPet' webhook)
+        File apiDir = new File(output, "lib/src/api");
+        Assert.assertTrue(apiDir.exists() && apiDir.isDirectory(), "API directory should exist");
+
+        File apiFile = new File(apiDir, "default_api.dart");
+        Assert.assertTrue(apiFile.exists(), "default_api.dart should be generated for webhook");
+
+        String apiContent = Files.readString(apiFile.toPath(), StandardCharsets.UTF_8);
+
+        // Bug symptom #22586: Map-style import with HTML entity encoding
+        // Before fix: import '{import&#x3D;model.Pet, classname&#x3D;Pet}';
+        // After fix: import 'package:my-package/src/model/pet.dart';
+        Assert.assertFalse(apiContent.contains("import '{"),
+            "Webhook should not contain Map-style import (bug #22586 symptom)");
+        Assert.assertFalse(apiContent.contains("&#x3D;"),
+            "Webhook should not contain HTML entity encoding (bug #22586 symptom)");
+    }
+
+   /**
+     * Regression test for missing BuilderFactory entries on container
+     * types reachable only via {@code additionalProperties}.
+     *
+     * Before the fix, a property like
+     * {@code Map<String, List<Widget>>} (an object schema with
+     * {@code additionalProperties: { type: array, items: ... }}) ended
+     * up in the generated Dart class but no
+     * {@code addBuilderFactory(BuiltList<Widget>, ...)} call was
+     * emitted in {@code serializers.dart}. built_value then failed at
+     * runtime with
+     * {@code Bad state: No builder factory for BuiltList<Widget>}.
+     *
+     * The fix walks every model property's container tree and registers
+     * a factory for each nested layer.
+     */
+    @Test
+    public void testNestedAdditionalPropertiesGetBuilderFactories() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/built_value_additional_properties_factory.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path serializers = output.toPath().resolve("lib/src/serializers.dart");
+
+        // Inner container: List<Widget>.
+        TestUtils.assertFileContains(serializers,
+                "const FullType(BuiltList, [FullType(Widget)]),",
+                "() => ListBuilder<Widget>(),");
+
+        // Outer container: Map<String, List<Widget>>.
+        TestUtils.assertFileContains(serializers,
+                "const FullType(BuiltMap, [FullType(String), FullType(BuiltList, [FullType(Widget)])]),",
+                "() => MapBuilder<String, BuiltList<Widget>>(),");
     }
 }

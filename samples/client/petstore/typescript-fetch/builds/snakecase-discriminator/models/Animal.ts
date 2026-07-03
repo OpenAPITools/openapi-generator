@@ -39,7 +39,7 @@ export interface Animal {
  * Check if a given object implements the Animal interface.
  */
 export function instanceOfAnimal(value: object): value is Animal {
-    if ((!('className' in value) && !('class_name' in value)) || (value['className'] === undefined && value['class_name'] === undefined)) return false;
+    if ((!('className' in (value as Record<string, any>)) && !('class_name' in (value as Record<string, any>))) || ((value as Record<string, any>)['className'] === undefined && (value as Record<string, any>)['class_name'] === undefined)) return false;
     return true;
 }
 

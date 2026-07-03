@@ -73,8 +73,9 @@ class _$SpecialModelNameSerializer implements PrimitiveSerializer<SpecialModelNa
         case r'$special[property.name]':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = valueDes;
           break;
         default:

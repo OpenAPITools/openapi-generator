@@ -862,9 +862,20 @@ public class InlineModelResolver {
             }
             // Structural match: compare with volatile fields stripped at every level.
             // See generatedStructuralSignature field for a full explanation of why this is needed.
-            String structural = computeStructuralSignature(model);
-            if (generatedStructuralSignature.containsKey(structural)) {
-                return generatedStructuralSignature.get(structural);
+            //
+            // Only applied to *titled* schemas. A title denotes a named type that should be reused
+            // wherever it appears, so parser-induced volatile differences (description, type,
+            // example) must not split it into numbered duplicates. Anonymous/untitled inline
+            // schemas, however, may be intentionally distinct even when structurally identical once
+            // those volatile fields are stripped (e.g. two response properties that differ only by
+            // description) — unifying them silently changes the generated type of one property and
+            // breaks user code. This mirrors the titled-only guards in flatten() pre-population and
+            // deduplicateComponents().
+            if (model.getTitle() != null) {
+                String structural = computeStructuralSignature(model);
+                if (generatedStructuralSignature.containsKey(structural)) {
+                    return generatedStructuralSignature.get(structural);
+                }
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -876,7 +887,11 @@ public class InlineModelResolver {
     private void addGenerated(String name, Schema model) {
         try {
             generatedSignature.put(structureMapper.writeValueAsString(model), name);
-            generatedStructuralSignature.putIfAbsent(computeStructuralSignature(model), name);
+            // Only register the volatile-stripped structural signature for titled schemas; untitled
+            // inline schemas must not participate in the structural-match fallback (see matchGenerated).
+            if (model.getTitle() != null) {
+                generatedStructuralSignature.putIfAbsent(computeStructuralSignature(model), name);
+            }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
