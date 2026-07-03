@@ -12,7 +12,7 @@
 
                 let body = match content_type {
   {{/-first}}
-                    Ok("{{{contentType}}}") => {
+                    Ok(ct) if ct.eq_ignore_ascii_case("{{{contentType}}}") => {
 {{>client-response-body-variant-instance}}
                         {{{variantName}}}(body)
                     },

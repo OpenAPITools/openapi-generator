@@ -145,9 +145,10 @@ public class RustServerCodegenTest {
 
         // Two-content-type 403 response must use a OneOf2 return type.
         TestUtils.assertFileContains(clientModPath, "swagger::OneOf2::<");
-        // Both variant content types must appear as match arms in the dispatch code.
-        TestUtils.assertFileContains(clientModPath, "Ok(\"text/plain\")");
-        TestUtils.assertFileContains(clientModPath, "Ok(\"application/json\")");
+        // Both variant content types must appear as case-insensitive match arms in the dispatch
+        // code (HTTP media types are case-insensitive per RFC 7231).
+        TestUtils.assertFileContains(clientModPath, "ct.eq_ignore_ascii_case(\"text/plain\")");
+        TestUtils.assertFileContains(clientModPath, "ct.eq_ignore_ascii_case(\"application/json\")");
         // Content-Type header must be read for dispatch.
         TestUtils.assertFileContains(clientModPath, "CONTENT_TYPE");
 

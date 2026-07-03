@@ -2141,12 +2141,20 @@ where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
     match body {
-        swagger::OneOf1::<Vec<models::Pet>>::A(body) => {
+        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+        },
+        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::B(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
         },
     };
@@ -2239,12 +2247,20 @@ where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
     match body {
-        swagger::OneOf1::<Vec<models::Pet>>::A(body) => {
+        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+        },
+        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::B(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
         },
     };
@@ -2585,12 +2601,20 @@ where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
     match body {
-        swagger::OneOf1::<models::Pet>::A(body) => {
+        swagger::OneOf2::<models::Pet, models::Pet>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+        },
+        swagger::OneOf2::<models::Pet, models::Pet>::B(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
         },
     };
@@ -3091,12 +3115,20 @@ where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
     match body {
-        swagger::OneOf1::<models::Order>::A(body) => {
+        swagger::OneOf2::<models::Order, models::Order>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+        },
+        swagger::OneOf2::<models::Order, models::Order>::B(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
         },
     };
@@ -3256,12 +3288,20 @@ where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
     match body {
-        swagger::OneOf1::<models::Order>::A(body) => {
+        swagger::OneOf2::<models::Order, models::Order>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+        },
+        swagger::OneOf2::<models::Order, models::Order>::B(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
         },
     };
@@ -3686,12 +3726,20 @@ where
                                                     );
                                                     }
     match body {
-        swagger::OneOf1::<String>::A(body) => {
+        swagger::OneOf2::<String, String>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+        },
+        swagger::OneOf2::<String, String>::B(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
         },
     };
@@ -3890,12 +3938,20 @@ where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
     match body {
-        swagger::OneOf1::<models::User>::A(body) => {
+        swagger::OneOf2::<models::User, models::User>::A(body) => {
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/xml"));
                                                     // XML Body
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+        },
+        swagger::OneOf2::<models::User, models::User>::B(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
         },
     };

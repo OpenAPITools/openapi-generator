@@ -1569,13 +1569,13 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     s.split(';').next().expect("Splitting content type header failed").trim());
 
                 let body = match content_type {
-                    Ok("text/plain") => {
+                    Ok(ct) if ct.eq_ignore_ascii_case("text/plain") => {
                         let body = str::from_utf8(&body)
                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                         let body = body.to_string();
                         swagger::OneOf2::<String, models::AnyOfObject>::A(body)
                     },
-                    Ok("application/json") => {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
                         let body = str::from_utf8(&body)
                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                         let body = serde_json::from_str::<models::AnyOfObject>(body)

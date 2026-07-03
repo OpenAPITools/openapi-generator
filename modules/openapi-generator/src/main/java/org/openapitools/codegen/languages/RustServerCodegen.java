@@ -643,6 +643,19 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         // Set for deduplication of response IDs
         Set<String> responseIds = new HashSet();
 
+        // Determine the types that this operation produces overall, so that responses with no
+        // explicit `content` map (e.g. referencing a schema outside of a media type entry) still
+        // get a sensible default MIME type rather than none at all.
+        boolean producesXml = false;
+        boolean producesPlainText = false;
+        for (String mimeType : getProducesInfo(openAPI, operation)) {
+            if (isMimetypeXml(mimeType)) {
+                producesXml = true;
+            } else if (isMimetypePlain(mimeType)) {
+                producesPlainText = true;
+            }
+        }
+
         for (CodegenResponse rsp : op.responses) {
 
             // Get the original API response so we get process the schema
@@ -709,9 +722,14 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
             if (content.size() > 1) {
                 buildMultiContentTypeResponse(rsp, content);
-            } else {
-                String mimeType = content.isEmpty() ? null : content.keySet().iterator().next();
+            } else if (content.isEmpty()) {
+                // No explicit content entry for this response: fall back to the operation's
+                // overall produces info (XML/plain-text) or default to JSON, rather than leaving
+                // the response without any MIME type extension.
+                String mimeType = producesXml ? xmlMimeType : producesPlainText ? plainTextMimeType : jsonMimeType;
                 processInnerResponse(rsp, mimeType);
+            } else {
+                processInnerResponse(rsp, content.keySet().iterator().next());
             }
 
             for (CodegenProperty header : rsp.headers) {
@@ -794,16 +812,16 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         List<Map<String, Object>> variants = new ArrayList<>();
         List<String> typeArgs = new ArrayList<>();
 
+        // Every content type gets its own OneOf variant slot, even when two content types
+        // resolve to the same Rust type (e.g. an XML and a JSON variant of the same array/object
+        // schema): the server's outgoing match needs a distinct variant per content type to know
+        // which serialization to apply, so merging them into one slot would either drop a
+        // content type or produce an unreachable/duplicate match arm on the server side.
         for (Map.Entry<String, MediaType> entry : content.entrySet()) {
             String ct = entry.getKey();
             Schema schema = entry.getValue() != null ? entry.getValue().getSchema() : null;
             String dataType = computeVariantDataType(schema);
             String typeArg = dataType != null ? dataType : "()";
-
-            if (typeArgs.contains(typeArg)) {
-                LOGGER.warn("Response has multiple content types resolving to the same type '{}'; skipping duplicate variant for '{}'.", typeArg, ct);
-                continue;
-            }
             typeArgs.add(typeArg);
 
             Map<String, Object> exts = new LinkedHashMap<>();

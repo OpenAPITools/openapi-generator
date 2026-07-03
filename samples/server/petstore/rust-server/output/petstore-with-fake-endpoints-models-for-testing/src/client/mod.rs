@@ -2083,14 +2083,21 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     s.split(';').next().expect("Splitting content type header failed").trim());
 
                 let body = match content_type {
-                    Ok("application/xml") => {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
                         let body = str::from_utf8(&body)
                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                         // ToDo: this will move to swagger-rs and become a standard From conversion trait
                         // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                         let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                             .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-                        swagger::OneOf1::<Vec<models::Pet>>::A(body)
+                        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<Vec<models::Pet>>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::B(body)
                     },
                     e => {
                         return Err(ApiError(format!("Unexpected content type: {:?}", e)));
@@ -2209,14 +2216,21 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     s.split(';').next().expect("Splitting content type header failed").trim());
 
                 let body = match content_type {
-                    Ok("application/xml") => {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
                         let body = str::from_utf8(&body)
                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                         // ToDo: this will move to swagger-rs and become a standard From conversion trait
                         // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                         let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                             .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-                        swagger::OneOf1::<Vec<models::Pet>>::A(body)
+                        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<Vec<models::Pet>>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::B(body)
                     },
                     e => {
                         return Err(ApiError(format!("Unexpected content type: {:?}", e)));
@@ -2546,14 +2560,21 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     s.split(';').next().expect("Splitting content type header failed").trim());
 
                 let body = match content_type {
-                    Ok("application/xml") => {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
                         let body = str::from_utf8(&body)
                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                         // ToDo: this will move to swagger-rs and become a standard From conversion trait
                         // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                         let body = serde_xml_rs::from_str::<models::Pet>(body)
                             .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-                        swagger::OneOf1::<models::Pet>::A(body)
+                        swagger::OneOf2::<models::Pet, models::Pet>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<models::Pet>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::Pet, models::Pet>::B(body)
                     },
                     e => {
                         return Err(ApiError(format!("Unexpected content type: {:?}", e)));
@@ -3029,14 +3050,21 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     s.split(';').next().expect("Splitting content type header failed").trim());
 
                 let body = match content_type {
-                    Ok("application/xml") => {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
                         let body = str::from_utf8(&body)
                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                         // ToDo: this will move to swagger-rs and become a standard From conversion trait
                         // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                         let body = serde_xml_rs::from_str::<models::Order>(body)
                             .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-                        swagger::OneOf1::<models::Order>::A(body)
+                        swagger::OneOf2::<models::Order, models::Order>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<models::Order>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::Order, models::Order>::B(body)
                     },
                     e => {
                         return Err(ApiError(format!("Unexpected content type: {:?}", e)));
@@ -3211,14 +3239,21 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     s.split(';').next().expect("Splitting content type header failed").trim());
 
                 let body = match content_type {
-                    Ok("application/xml") => {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
                         let body = str::from_utf8(&body)
                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                         // ToDo: this will move to swagger-rs and become a standard From conversion trait
                         // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                         let body = serde_xml_rs::from_str::<models::Order>(body)
                             .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-                        swagger::OneOf1::<models::Order>::A(body)
+                        swagger::OneOf2::<models::Order, models::Order>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<models::Order>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::Order, models::Order>::B(body)
                     },
                     e => {
                         return Err(ApiError(format!("Unexpected content type: {:?}", e)));
@@ -3587,14 +3622,21 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     s.split(';').next().expect("Splitting content type header failed").trim());
 
                 let body = match content_type {
-                    Ok("application/xml") => {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
                         let body = str::from_utf8(&body)
                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                         // ToDo: this will move to swagger-rs and become a standard From conversion trait
                         // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                         let body = serde_xml_rs::from_str::<String>(body)
                             .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-                        swagger::OneOf1::<String>::A(body)
+                        swagger::OneOf2::<String, String>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<String>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<String, String>::B(body)
                     },
                     e => {
                         return Err(ApiError(format!("Unexpected content type: {:?}", e)));
@@ -3841,14 +3883,21 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     s.split(';').next().expect("Splitting content type header failed").trim());
 
                 let body = match content_type {
-                    Ok("application/xml") => {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
                         let body = str::from_utf8(&body)
                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                         // ToDo: this will move to swagger-rs and become a standard From conversion trait
                         // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                         let body = serde_xml_rs::from_str::<models::User>(body)
                             .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-                        swagger::OneOf1::<models::User>::A(body)
+                        swagger::OneOf2::<models::User, models::User>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<models::User>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::User, models::User>::B(body)
                     },
                     e => {
                         return Err(ApiError(format!("Unexpected content type: {:?}", e)));
