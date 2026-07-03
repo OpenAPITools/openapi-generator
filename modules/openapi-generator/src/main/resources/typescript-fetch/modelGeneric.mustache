@@ -26,7 +26,7 @@ export function instanceOf{{classname}}(value: object): value is {{classname}} {
     {{#vars}}
     {{#required}}
     {{#hasSanitizedName}}
-    if ((!('{{name}}' in value) && !('{{baseName}}' in value)) || (value['{{name}}'] === undefined && value['{{baseName}}'] === undefined)) return false;
+    if ((!('{{name}}' in (value as Record<string, any>)) && !('{{baseName}}' in (value as Record<string, any>))) || ((value as Record<string, any>)['{{name}}'] === undefined && (value as Record<string, any>)['{{baseName}}'] === undefined)) return false;
     {{/hasSanitizedName}}
     {{^hasSanitizedName}}
     if (!('{{name}}' in value) || value['{{name}}'] === undefined) return false;
@@ -37,8 +37,8 @@ export function instanceOf{{classname}}(value: object): value is {{classname}} {
     {{#-first}}
     {{#-last}}
     {{#hasSanitizedName}}
-    {{#isString}}if (value['{{name}}'] !== '{{.}}' && value['{{baseName}}'] !== '{{.}}') return false;{{/isString}}
-    {{^isString}}if (value['{{name}}'] !== {{.}} && value['{{baseName}}'] !== {{.}}) return false;{{/isString}}
+    {{#isString}}if ((value as Record<string, any>)['{{name}}'] !== '{{.}}' && (value as Record<string, any>)['{{baseName}}'] !== '{{.}}') return false;{{/isString}}
+    {{^isString}}if ((value as Record<string, any>)['{{name}}'] !== {{.}} && (value as Record<string, any>)['{{baseName}}'] !== {{.}}) return false;{{/isString}}
     {{/hasSanitizedName}}
     {{^hasSanitizedName}}
     {{#isString}}if (value['{{name}}'] !== '{{.}}') return false;{{/isString}}

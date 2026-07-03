@@ -955,6 +955,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                                 return 0;
                             }
                         });
+
+                        // Retrofit2 has no annotation for cookie parameters, so they cannot be
+                        // expressed in the interface method signature. Drop them so the generated
+                        // interface (and its Javadoc) only references parameters that are actually
+                        // rendered; otherwise the parameter separator logic would emit a dangling
+                        // comma for the omitted parameter.
+                        operation.allParams.removeIf(param -> param.isCookieParam);
                     }
                 }
             }

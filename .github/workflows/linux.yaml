@@ -29,14 +29,14 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: gradle
 
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml', 'modules/**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: |
             ~/.gradle/caches
@@ -60,7 +60,7 @@ jobs:
         shell: bash
         run: ./mvnw clean -nsu -B --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress install --file pom.xml
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
 
       - name: Upload Maven build artifact
         uses: actions/upload-artifact@v7
@@ -77,7 +77,7 @@ jobs:
         if: matrix.java == '11'
         shell: bash
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
         run: |
           cd modules/openapi-generator-maven-plugin
           mvn clean verify -Pintegration
