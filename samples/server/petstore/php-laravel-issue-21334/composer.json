@@ -16,8 +16,8 @@
         }
     ],
     "require": {
-        "php": "^8.1",
-        "laravel/framework": "^10.0",
+        "php": "^8.3",
+        "laravel/framework": "^13.0",
         "crell/serde": "^1.0"
     },
     "require-dev": {
