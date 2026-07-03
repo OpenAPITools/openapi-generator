@@ -35,10 +35,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "${{ matrix.php }}"
-          tools: phpstan
       - name: composer install
         working-directory: ${{ matrix.sample }}
         run: composer install
+      - uses: php-actions/phpstan@v3
+        working-directory: ${{ matrix.sample }}
       - name: phpstan
         working-directory: ${{ matrix.sample }}
         run: vendor/bin/phpstan
