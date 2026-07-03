@@ -22,15 +22,15 @@ module Qdrant::Api
     property min_should : MinShould?
 
     @[JSON::Field(key: "must", emit_null: false)]
-    property must : FilterShould?
+    property must : FilterMust?
 
     @[JSON::Field(key: "must_not", emit_null: false)]
-    property must_not : FilterShould?
+    property must_not : FilterMustNot?
 
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@should : FilterShould? = nil, @min_should : MinShould? = nil, @must : FilterShould? = nil, @must_not : FilterShould? = nil)
+    def initialize(@should : FilterShould? = nil, @min_should : MinShould? = nil, @must : FilterMust? = nil, @must_not : FilterMustNot? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
