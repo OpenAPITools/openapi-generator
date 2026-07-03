@@ -120,6 +120,7 @@ docs/Tiger.md
 docs/Type.md
 docs/UnnamedDictWithAdditionalModelListProperties.md
 docs/UnnamedDictWithAdditionalStringListProperties.md
+docs/UploadFileWithAdditionalPropertiesRequestObject.md
 docs/User.md
 docs/UserApi.md
 docs/UuidWithPattern.md
@@ -250,6 +251,7 @@ petstore_api/models/tiger.py
 petstore_api/models/type.py
 petstore_api/models/unnamed_dict_with_additional_model_list_properties.py
 petstore_api/models/unnamed_dict_with_additional_string_list_properties.py
+petstore_api/models/upload_file_with_additional_properties_request_object.py
 petstore_api/models/user.py
 petstore_api/models/uuid_with_pattern.py
 petstore_api/models/with_nested_one_of.py
@@ -263,4 +265,5 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_upload_file_with_additional_properties_request_object.py
 tox.ini
