@@ -24,7 +24,7 @@ class TestMultipleResponseTypes(unittest.IsolatedAsyncioTestCase):
         mock_resp.return_value.status = 200
         mock_resp.return_value.headers = {}
 
-        marker = petstore_api.TestObjectForMultipartRequestsRequestMarker(
+        marker = petstore_api.UploadFileWithAdditionalPropertiesRequestObject(
             name="name",
         )
 
@@ -52,7 +52,7 @@ class TestMultipleResponseTypes(unittest.IsolatedAsyncioTestCase):
                 returned = await fake_api.upload_file_with_additional_properties(
                     file=(self.test_file_path, f.read()),
                     count=100,
-                    object=petstore_api.TestObjectForMultipartRequestsRequestMarker(
+                    object=petstore_api.UploadFileWithAdditionalPropertiesRequestObject(
                         name="foo"
                     ),
                 )
