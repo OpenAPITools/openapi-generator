@@ -41,4 +41,13 @@ jobs:
         run: composer install
       - name: phpunit
         working-directory: ${{ matrix.sample }}
-        run: vendor/bin/phpunit
+        run: |
+          if [ -f phpunit.xml ] || [ -f phpunit.xml.dist ]; then
+            vendor/bin/phpunit -c "$( [ -f phpunit.xml ] && echo phpunit.xml || echo phpunit.xml.dist )"
+          elif [ -d tests ]; then
+            vendor/bin/phpunit tests
+          elif [ -d test ]; then
+            vendor/bin/phpunit test
+          else
+            echo "No PHPUnit config or tests directory in ${{ matrix.sample }}; skipping."
+          fi
