@@ -66,6 +66,7 @@ import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.utils.DiscriminatorUtils;
 import org.openapitools.codegen.utils.ExamplesUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
@@ -179,6 +180,9 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> importMapping = new HashMap<>();
     // a map to store the mapping between a schema and the new one
     protected Map<String, String> schemaMapping = new HashMap<>();
+    // a set of schema names that must be generated even when listed in schemaMappings or importMappings.
+    // Use CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS ("*") to force-generate all mapped schemas.
+    protected Set<String> forcedGenerateSchemas = new HashSet<>();
     // a map to store the mapping between inline schema and the name provided by the user
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
@@ -315,7 +319,7 @@ public class DefaultCodegen implements CodegenConfig {
     private TemplatingEngineAdapter templatingEngine = new MustacheEngineAdapter();
     // flag to indicate whether to use the utils.OneOfImplementorAdditionalData related logic
     protected boolean useOneOfInterfaces = false;
-    // whether or not the oneOf imports machinery should add oneOf interfaces as imports in implementing classes
+    // whether the oneOf imports machinery should add oneOf interfaces as imports in implementing classes
     protected boolean addOneOfInterfaceImports = false;
     protected List<CodegenModel> addOneOfInterfaces = new ArrayList<>();
 
@@ -574,6 +578,14 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                         // if this is oneOf interface, make sure we include the necessary imports for it
                         addImportsToOneOfInterface(modelsImports);
+
+                        // ensure that no JsonTypeName is created when the parent interface has a discriminator mapping
+                        if (cm.discriminator != null && cm.discriminator.getMappedModels() != null && !cm.discriminator.getMappedModels().isEmpty()) {
+                            cm.discriminator.getMappedModels().stream()
+                                    .map(MappedModel::getModel)
+                                    .filter(Objects::nonNull)
+                                    .forEach(model -> model.setHasDiscriminatorWithNonEmptyMapping(true));
+                        }
                     }
                 }
             }
@@ -1011,11 +1023,17 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("static-method")
     public void postProcess() {
-        System.out.println("############################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                                      #");
-        System.out.println("# We appreciate your support! Please consider donation to help us maintain this project.   #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                                      #");
-        System.out.println("############################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("############################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                                      #");
+            System.out.println("# We appreciate your support! Please consider donation to help us maintain this project.   #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                                      #");
+            System.out.println("############################################################################################");
+        }
+    }
+
+    protected boolean isQuietMode() {
+        return Boolean.parseBoolean(GlobalSettings.getProperty("quiet", "false"));
     }
 
     // override with any special post-processing
@@ -1300,6 +1318,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> schemaMapping() {
         return schemaMapping;
+    }
+
+    @Override
+    public Set<String> forcedGenerateSchemas() {
+        return forcedGenerateSchemas;
     }
 
     @Override
@@ -3431,95 +3454,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param visitedSchemas An array list of visited schemas
      */
     private Discriminator recursiveGetDiscriminator(Schema sc, ArrayList<Schema> visitedSchemas) {
-        Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
-        Discriminator foundDisc = refSchema.getDiscriminator();
-        if (foundDisc != null) {
-            return foundDisc;
-        }
-
-        if (this.getLegacyDiscriminatorBehavior()) {
-            return null;
-        }
-
-        for (Schema s : visitedSchemas) {
-            if (s == refSchema) {
-                return null;
-            }
-        }
-        visitedSchemas.add(refSchema);
-
-        Discriminator disc = new Discriminator();
-        if (ModelUtils.isComposedSchema(refSchema)) {
-            Schema composedSchema = refSchema;
-            if (composedSchema.getAllOf() != null) {
-                // If our discriminator is in one of the allOf schemas break when we find it
-                for (Object allOf : composedSchema.getAllOf()) {
-                    foundDisc = recursiveGetDiscriminator((Schema) allOf, visitedSchemas);
-                    if (foundDisc != null) {
-                        disc.setPropertyName(foundDisc.getPropertyName());
-                        disc.setMapping(foundDisc.getMapping());
-                        return disc;
-                    }
-                }
-            }
-            if (ModelUtils.hasOneOf(composedSchema)) {
-                // All oneOf definitions must contain the discriminator
-                Integer hasDiscriminatorCnt = 0;
-                Integer hasNullTypeCnt = 0;
-                Set<String> discriminatorsPropNames = new HashSet<>();
-                for (Object oneOf : composedSchema.getOneOf()) {
-                    if (ModelUtils.isNullType((Schema) oneOf)) {
-                        // The null type does not have a discriminator. Skip.
-                        hasNullTypeCnt++;
-                        continue;
-                    }
-                    foundDisc = recursiveGetDiscriminator((Schema) oneOf, visitedSchemas);
-                    if (foundDisc != null) {
-                        discriminatorsPropNames.add(foundDisc.getPropertyName());
-                        hasDiscriminatorCnt++;
-                    }
-                }
-                if (discriminatorsPropNames.size() > 1) {
-                    once(LOGGER).warn("The oneOf schemas have conflicting discriminator property names. oneOf schemas must have the same property name, but found {}", String.join(", ", discriminatorsPropNames));
-                }
-                if (foundDisc != null && (hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
-                    disc.setPropertyName(foundDisc.getPropertyName());
-                    disc.setMapping(foundDisc.getMapping());
-                    return disc;
-                }
-                // If the scenario when oneOf has two children and one of them is the 'null' type,
-                // there is no need for a discriminator.
-            }
-            if (composedSchema.getAnyOf() != null && composedSchema.getAnyOf().size() != 0) {
-                // All anyOf definitions must contain the discriminator because a min of one must be selected
-                Integer hasDiscriminatorCnt = 0;
-                Integer hasNullTypeCnt = 0;
-                Set<String> discriminatorsPropNames = new HashSet<>();
-                for (Object anyOf : composedSchema.getAnyOf()) {
-                    if (ModelUtils.isNullType((Schema) anyOf)) {
-                        // The null type does not have a discriminator. Skip.
-                        hasNullTypeCnt++;
-                        continue;
-                    }
-                    foundDisc = recursiveGetDiscriminator((Schema) anyOf, visitedSchemas);
-                    if (foundDisc != null) {
-                        discriminatorsPropNames.add(foundDisc.getPropertyName());
-                        hasDiscriminatorCnt++;
-                    }
-                }
-                if (discriminatorsPropNames.size() > 1) {
-                    once(LOGGER).warn("The anyOf schemas have conflicting discriminator property names. anyOf schemas must have the same property name, but found {}", String.join(", ", discriminatorsPropNames));
-                }
-                if (foundDisc != null && (hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
-                    disc.setPropertyName(foundDisc.getPropertyName());
-                    disc.setMapping(foundDisc.getMapping());
-                    return disc;
-                }
-                // If the scenario when anyOf has two children and one of them is the 'null' type,
-                // there is no need for a discriminator.
-            }
-        }
-        return null;
+        return DiscriminatorUtils.recursiveGetDiscriminator(openAPI, this.getLegacyDiscriminatorBehavior(), sc, visitedSchemas);
     }
 
     /**
@@ -3745,14 +3680,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param discriminatorName The name of the discriminator property.
      */
     protected Schema getDiscriminatorSchema(Schema schema, String discriminatorName) {
-        if (schema.getProperties() == null) {
-            return null;
-        }
-        Schema discSchema = (Schema) schema.getProperties().get(discriminatorName);
-        if (ModelUtils.isAllOf(discSchema)) {
-            discSchema = (Schema) discSchema.getAllOf().get(0);
-        }
-        return discSchema;
+        return DiscriminatorUtils.getDiscriminatorSchema(schema, discriminatorName);
     }
 
     /**
@@ -3762,9 +3690,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param discriminatorPropertyName The name of the discriminator property.
      */
     protected String getDiscriminatorPropertyType(Schema schema, String discriminatorPropertyName) {
-        return Optional.ofNullable(getDiscriminatorSchema(schema, discriminatorPropertyName))
-                .map(Schema::get$ref)
-                .map(ModelUtils::getSimpleRef)
+        return DiscriminatorUtils.getDiscriminatorPropertyType(schema, discriminatorPropertyName)
                 .map(this::toModelName)
                 .orElseGet(() -> typeMapping.get("string"));
     }
@@ -4307,6 +4233,13 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getTitle() != null) {
                 property.setTitle(original.getTitle());
             }
+            // the example was computed above against the inner (allOf/$ref) schema, which does
+            // not carry the example declared as a sibling of the allOf/$ref. Restore it here so
+            // that e.g. `allOf: [ $ref ]` with a sibling `example` keeps the declared example
+            // instead of falling back to the literal "null".
+            if (original.getExample() != null) {
+                property.example = toExampleValue(original);
+            }
         }
 
         // override defaultValue if it's not set and defaultToEmptyContainer is set
@@ -4493,7 +4426,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Update property for map container
      *
      * @param property Codegen property
-     * @return True if the inner most type is enum
+     * @return True if the innermost type is enum
      */
     protected Boolean isPropertyInnerMostEnum(CodegenProperty property) {
         CodegenProperty currentProperty = getMostInnerItems(property);
@@ -8662,7 +8595,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (((Schema) o).get$ref() == null) {
                 if (cm.discriminator != null && ((Schema) o).get$ref() == null) {
                     // OpenAPI spec states that inline objects should not be considered when discriminator is used
-                    // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject
+                    // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminator-object
                     LOGGER.warn("Ignoring inline object in oneOf definition of {}, since discriminator is used", type);
                 } else {
                     LOGGER.warn("Inline models are not supported in oneOf definition right now");

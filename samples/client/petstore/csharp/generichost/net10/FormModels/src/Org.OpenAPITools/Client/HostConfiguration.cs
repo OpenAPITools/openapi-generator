@@ -176,6 +176,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TestDescendantsJsonConverter());
             _jsonOptions.Converters.Add(new TestDescendantsObjectTypeJsonConverter());
             _jsonOptions.Converters.Add(new TestDescendantsObjectTypeNullableJsonConverter());
+            _jsonOptions.Converters.Add(new TestEnumParametersEnumHeaderStringParameterJsonConverter());
+            _jsonOptions.Converters.Add(new TestEnumParametersEnumHeaderStringParameterNullableJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersEnumQueryDoubleParameterJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersEnumQueryDoubleParameterNullableJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersEnumQueryIntegerParameterJsonConverter());

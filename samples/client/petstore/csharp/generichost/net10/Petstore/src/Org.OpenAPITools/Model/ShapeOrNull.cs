@@ -104,8 +104,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ShapeOrNull" />
     /// </summary>
-    public class ShapeOrNullJsonConverter : JsonConverter<ShapeOrNull>
+    public partial class ShapeOrNullJsonConverter : JsonConverter<ShapeOrNull>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShapeOrNullJsonConverter" /> class.
+        /// </summary>
+        public ShapeOrNullJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ShapeOrNull" />
         /// </summary>

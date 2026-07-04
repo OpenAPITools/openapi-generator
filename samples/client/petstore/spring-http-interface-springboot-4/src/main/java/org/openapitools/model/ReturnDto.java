@@ -2,9 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -23,6 +26,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ReturnDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer _return;
 
   public ReturnDto _return(@Nullable Integer _return) {
@@ -40,6 +44,7 @@ public class ReturnDto {
     return _return;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("return")
   public void setReturn(@Nullable Integer _return) {
     this._return = _return;

@@ -99,8 +99,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="LiteralStringClass" />
     /// </summary>
-    public class LiteralStringClassJsonConverter : JsonConverter<LiteralStringClass>
+    public partial class LiteralStringClassJsonConverter : JsonConverter<LiteralStringClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LiteralStringClassJsonConverter" /> class.
+        /// </summary>
+        public LiteralStringClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="LiteralStringClass" />
         /// </summary>

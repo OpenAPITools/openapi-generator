@@ -148,8 +148,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="HasOnlyReadOnly" />
     /// </summary>
-    public class HasOnlyReadOnlyJsonConverter : JsonConverter<HasOnlyReadOnly>
+    public partial class HasOnlyReadOnlyJsonConverter : JsonConverter<HasOnlyReadOnly>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HasOnlyReadOnlyJsonConverter" /> class.
+        /// </summary>
+        public HasOnlyReadOnlyJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="HasOnlyReadOnly" />
         /// </summary>

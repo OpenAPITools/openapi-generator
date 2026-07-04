@@ -92,6 +92,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_ENTITY_ID = "x-entityId";
     private static final String X_OPERATION_RETURN_PASSTHROUGH = "x-operationReturnPassthrough";
     private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
+    private static final String X_TYPESCRIPT_FETCH_API_EXAMPLE = "x-typescriptFetchApiExample";
+    private static final String BLOB_API_EXAMPLE = "new Blob(['example file content'], { type: 'application/octet-stream' })";
 
     protected boolean sagasAndRecords = false;
     @Getter @Setter
@@ -416,9 +418,44 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+        if (isBinaryFormArray(parameter)) {
+            parameter.isFile = true;
             parameter.isCollectionFormatMulti = true;
         }
+    }
+
+    private void addMultipartFileArrayApiExampleValues(OperationsMap operations) {
+        for (CodegenOperation operation : operations.getOperations().getOperation()) {
+            if (operation.allParams == null || operation.allParams.stream().noneMatch(TypeScriptFetchClientCodegen::isBinaryFormArray)) {
+                continue;
+            }
+
+            for (CodegenParameter parameter : operation.allParams) {
+                setApiExampleValue(parameter);
+            }
+        }
+    }
+
+    private void setApiExampleValue(CodegenParameter parameter) {
+        String example = toApiExampleValue(parameter);
+        if (example != null) {
+            parameter.vendorExtensions.put(X_TYPESCRIPT_FETCH_API_EXAMPLE, example);
+        }
+    }
+
+    private String toApiExampleValue(CodegenParameter parameter) {
+        if (isBinaryFormArray(parameter)) {
+            return "[" + BLOB_API_EXAMPLE + "]";
+        } else if (parameter.isFile || parameter.isBinary) {
+            return BLOB_API_EXAMPLE;
+        } else if (parameter.isString) {
+            String example = parameter.example;
+            if (example == null) {
+                example = parameter.paramName + "_example";
+            }
+            return "'" + escapeText(example) + "'";
+        }
+        return null;
     }
 
     @Override
@@ -746,6 +783,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
+        this.addMultipartFileArrayApiExampleValues(operations);
 
         return operations;
     }
@@ -957,6 +995,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             existingClassNames.add(className);
             existingRecordClassNames.add(className + "Record");
             im.put("className", className);
+            im.put("classFileName", convertUsingFileNamingConvention(className));
         }
 
         if (this.getSagasAndRecords()) {

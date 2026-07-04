@@ -652,17 +652,27 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="FormatTest" />
     /// </summary>
-    public class FormatTestJsonConverter : JsonConverter<FormatTest>
+    public partial class FormatTestJsonConverter : JsonConverter<FormatTest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormatTestJsonConverter" /> class.
+        /// </summary>
+        public FormatTestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize Date
         /// </summary>
-        public static string DateFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string DateFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize DateTime
         /// </summary>
-        public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string DateTimeFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="FormatTest" />

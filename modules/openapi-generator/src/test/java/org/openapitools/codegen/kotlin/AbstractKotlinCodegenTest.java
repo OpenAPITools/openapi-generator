@@ -172,6 +172,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("1", "kotlin.Double"), "1.0");
         assertEquals(codegen.toEnumValue("1.3", "kotlin.Double"), "1.3");
         assertEquals(codegen.toEnumValue("1337", "kotlin.Long"), "1337");
+        assertEquals(codegen.toEnumValue("true", "kotlin.Boolean"), "true");
         assertEquals(codegen.toEnumValue("5", "kotlin.Float"), "5f");
         assertEquals(codegen.toEnumValue("1.0", "kotlin.Float"), "1.0f");
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");

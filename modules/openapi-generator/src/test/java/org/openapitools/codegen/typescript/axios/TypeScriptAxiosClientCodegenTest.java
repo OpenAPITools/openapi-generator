@@ -179,6 +179,29 @@ public class TypeScriptAxiosClientCodegenTest {
         TestUtils.assertFileContains(file, "'nicknames'?: Array<string>");
     }
 
+    @Test(description = "Verify multipart file arrays use repeated form fields")
+    public void testMultipartFileArrayUsesRepeatedFormFields() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_multipart_file_array_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output + "/api.ts");
+        TestUtils.assertFileExists(api);
+        TestUtils.assertFileContains(api, "files?: Array<File>");
+        TestUtils.assertFileContains(api, "files.forEach((element) => {");
+        TestUtils.assertFileContains(api, "localVarFormParams.append('files', element as any);");
+        TestUtils.assertFileNotContains(api, "files.join(COLLECTION_FORMATS.csv)");
+    }
+
     @Test
     public void generatesTrailingCommasInAsConstEnumObjects() throws Exception {
         final File output = Files.createTempDirectory("typescript_axios_trailing_commas_").toFile();

@@ -25,6 +25,7 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 import java.io.Serializable
 
 /**
@@ -41,22 +42,28 @@ import java.io.Serializable
 
 data class Order (
 
+    @param:JsonProperty("id")
     @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
+    @param:JsonProperty("petId")
     @get:JsonProperty("petId")
     val petId: kotlin.Long? = null,
 
+    @param:JsonProperty("quantity")
     @get:JsonProperty("quantity")
     val quantity: kotlin.Int? = null,
 
+    @param:JsonProperty("shipDate")
     @get:JsonProperty("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
 
     /* Order Status */
+    @param:JsonProperty("status")
     @get:JsonProperty("status")
     val status: Order.Status? = null,
 
+    @param:JsonProperty("complete")
     @get:JsonProperty("complete")
     val complete: kotlin.Boolean? = false
 
@@ -70,7 +77,7 @@ data class Order (
      *
      * Values: PLACED,APPROVED,DELIVERED
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "placed") PLACED("placed"),
         @JsonProperty(value = "approved") APPROVED("approved"),
         @JsonProperty(value = "delivered") DELIVERED("delivered");

@@ -82,8 +82,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="BasquePig" />
     /// </summary>
-    public class BasquePigJsonConverter : JsonConverter<BasquePig>
+    public partial class BasquePigJsonConverter : JsonConverter<BasquePig>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BasquePigJsonConverter" /> class.
+        /// </summary>
+        public BasquePigJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="BasquePig" />
         /// </summary>

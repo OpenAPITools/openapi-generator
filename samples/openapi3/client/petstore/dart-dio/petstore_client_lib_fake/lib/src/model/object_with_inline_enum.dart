@@ -76,8 +76,9 @@ class _$ObjectWithInlineEnumSerializer implements PrimitiveSerializer<ObjectWith
         case r'attribute':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltSet, [FullType(ObjectWithInlineEnumAttributeEnum)]),
-          ) as BuiltSet<ObjectWithInlineEnumAttributeEnum>;
+            specifiedType: const FullType.nullable(BuiltSet, [FullType(ObjectWithInlineEnumAttributeEnum)]),
+          ) as BuiltSet<ObjectWithInlineEnumAttributeEnum>?;
+          if (valueDes == null) continue;
           result.attribute.replace(valueDes);
           break;
         default:

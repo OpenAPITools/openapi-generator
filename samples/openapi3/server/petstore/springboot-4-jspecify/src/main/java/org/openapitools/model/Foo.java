@@ -2,8 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -34,18 +37,23 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Foo {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dt;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private org.springframework.core.io.@Nullable Resource binary;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<OffsetDateTime> listOfDt = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<OffsetDateTime> listMinIntems = new ArrayList<>();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime requiredDt;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal number;
 
   public Foo() {
@@ -89,6 +97,7 @@ public class Foo {
     return dt;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("dt")
   @JacksonXmlProperty(localName = "dt")
   public void setDt(@Nullable OffsetDateTime dt) {
@@ -113,6 +122,7 @@ public class Foo {
     return binary;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("binary")
   @JacksonXmlProperty(localName = "binary")
   public void setBinary(org.springframework.core.io.@Nullable Resource binary) {
@@ -146,6 +156,7 @@ public class Foo {
     return listOfDt;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("listOfDt")
   @JacksonXmlProperty(localName = "listOfDt")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -180,6 +191,7 @@ public class Foo {
     return listMinIntems;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("listMinIntems")
   @JacksonXmlProperty(localName = "listMinIntems")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -229,6 +241,7 @@ public class Foo {
     return number;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("number")
   @JacksonXmlProperty(localName = "number")
   public void setNumber(@Nullable BigDecimal number) {

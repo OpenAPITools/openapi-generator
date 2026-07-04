@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Client
 
             global::System.Threading.Channels.BoundedChannelOptions options = new global::System.Threading.Channels.BoundedChannelOptions(container.Tokens.Count)
             {
-                FullMode = global::System.Threading.Channels.BoundedChannelFullMode.DropOldest
+                FullMode = global::System.Threading.Channels.BoundedChannelFullMode.DropWrite
             };
 
             AvailableTokens.Add(string.Empty, global::System.Threading.Channels.Channel.CreateBounded<TTokenBase>(options));

@@ -26,8 +26,10 @@ import jakarta.validation.Valid
 data class Truck(
 
     @field:Valid
+    @param:JsonProperty("vehicleType")
     @get:JsonProperty("vehicleType", required = true) override val vehicleType: VehicleType = VehicleType.TRUCK,
 
+    @param:JsonProperty("payloadCapacity")
     @get:JsonProperty("payloadCapacity", required = true) val payloadCapacity: java.math.BigDecimal
 ) : Vehicle {
 

@@ -1,7 +1,12 @@
 generatorName: crystal
 outputDir: samples/client/petstore/crystal
-inputSpec: modules/openapi-generator/src/test/resources/3_0/crystal/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/crystal
+globalProperties:
+  apiTests: "true"
+  modelTests: "true"
+  apiDocs: "false"
+  modelDocs: "false"
 additionalProperties:
   shardVersion: 1.0.0
   moduleName: Petstore

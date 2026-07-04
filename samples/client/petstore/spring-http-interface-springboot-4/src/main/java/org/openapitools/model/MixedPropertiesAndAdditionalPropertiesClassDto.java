@@ -2,9 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,11 +32,14 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable UUID uuid;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dateTime;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, AnimalDto> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(@Nullable UUID uuid) {
@@ -51,6 +57,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return uuid;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("uuid")
   public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
@@ -71,6 +78,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return dateTime;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("dateTime")
   public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
@@ -99,6 +107,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return map;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("map")
   public void setMap(Map<String, AnimalDto> map) {
     this.map = map;

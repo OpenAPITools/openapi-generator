@@ -1,0 +1,27 @@
+# {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
+require "json"
+
+module {{moduleName}}
+  # Shared serialization helpers mixed into every generated model.
+  module Serializable
+    # Returns the string representation of the object
+    def to_s(io : IO) : Nil
+      io << to_json
+    end
+
+    # to_body is an alias to to_h (backward compatibility)
+    def to_body : Hash(String, JSON::Any)
+      to_h
+    end
+
+    # Returns the object in the form of hash
+    def to_h : Hash(String, JSON::Any)
+      JSON.parse(to_json).as_h
+    end
+
+    # @see the `==` method
+    def eql?(other)
+      self == other
+    end
+  end
+end

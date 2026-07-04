@@ -210,6 +210,18 @@ paths:
       responses:
         '200':
           description: 'OK'
+  /required_binary_stream:
+    put:
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: 'OK'
   /readonly_auth_scheme:
     get:
       security:

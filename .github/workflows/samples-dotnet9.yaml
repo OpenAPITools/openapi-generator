@@ -40,8 +40,8 @@ jobs:
           # unity
           #- samples/client/petstore/csharp/unityWebRequest/net9/Petstore
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-dotnet@v5.3.0
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v5.4.0
         with:
           dotnet-version: '9.0.x'
       - name: Build

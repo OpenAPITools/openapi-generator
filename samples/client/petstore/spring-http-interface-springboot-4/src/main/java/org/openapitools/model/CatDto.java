@@ -3,11 +3,14 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.openapitools.model.AnimalDto;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -35,6 +38,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class CatDto extends AnimalDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Boolean declawed;
 
   public CatDto() {
@@ -56,6 +60,7 @@ public class CatDto extends AnimalDto {
     return declawed;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("declawed")
   public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;

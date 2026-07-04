@@ -5,7 +5,9 @@ on:
     paths:
       - samples/openapi3/client/petstore/python-aiohttp/**
       - samples/openapi3/client/petstore/python-httpx/**
+      - samples/openapi3/client/petstore/python-httpx-sync/**
       - samples/openapi3/client/petstore/python/**
+      - samples/openapi3/client/petstore/python-lazyImports/**
       - .github/workflows/samples-python-petstore.yaml
 
 jobs:
@@ -13,7 +15,7 @@ jobs:
     name: Validate pyproject.toml
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
@@ -36,6 +38,7 @@ jobs:
         sample:
           - samples/openapi3/client/petstore/python-aiohttp
           - samples/openapi3/client/petstore/python-httpx
+          - samples/openapi3/client/petstore/python-httpx-sync
           - samples/openapi3/client/petstore/python
           - samples/openapi3/client/petstore/python-lazyImports
     services:
@@ -47,14 +50,14 @@ jobs:
           SWAGGER_HOST: http://petstore.swagger.io
           SWAGGER_BASE_PATH: /v2
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         id: py
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           key: ${{ runner.os }}-python-${{ steps.py.outputs.python-version }}-
           path: |
