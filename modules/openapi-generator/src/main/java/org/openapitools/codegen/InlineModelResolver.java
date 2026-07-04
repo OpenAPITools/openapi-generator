@@ -1223,7 +1223,15 @@ public class InlineModelResolver {
                 String sigKey = schema.getTitle() + "||" + structural;
                 String canonical = canonicalBySig.get(sigKey);
                 if (canonical != null) {
-                    duplicateToCanonical.put(name, canonical);
+                    // Only collapse numbered duplicates (e.g. FlowSegment_1) — those are artifacts
+                    // the Swagger Parser / inline resolver produced when it failed to reuse an
+                    // existing component. A schema the user authored with its own distinct,
+                    // non-numbered name is part of the spec's source of truth and must be kept even
+                    // when it is structurally identical to another named schema (see #24177: two
+                    // schemas 'upper1'/'upper2' with the same title, intentionally distinct).
+                    if (name.matches(".*_\\d+$")) {
+                        duplicateToCanonical.put(name, canonical);
+                    }
                 } else {
                     canonicalBySig.put(sigKey, name);
                 }
