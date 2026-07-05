@@ -37,27 +37,27 @@ export type {{classname}}Dto = {
 {{^vendorExtensions.x-is-literal}}
 {{#vendorExtensions.x-is-enum-ref}}
 {{#isArray}}
-  {{name}}{{^required}}?{{/required}}: types.{{{vendorExtensions.x-enum-type}}}[];
+  {{name}}{{^required}}?{{/required}}: types.{{{vendorExtensions.x-enum-type}}}[]{{#isNullable}} | null{{/isNullable}};
 {{/isArray}}
 {{^isArray}}
-  {{name}}{{^required}}?{{/required}}: types.{{{vendorExtensions.x-enum-type}}};
+  {{name}}{{^required}}?{{/required}}: types.{{{vendorExtensions.x-enum-type}}}{{#isNullable}} | null{{/isNullable}};
 {{/isArray}}
 {{/vendorExtensions.x-is-enum-ref}}
 {{^vendorExtensions.x-is-enum-ref}}
 {{#isArray}}
 {{#vendorExtensions.x-is-ref}}
-  {{name}}{{^required}}?{{/required}}: {{{vendorExtensions.x-ref-type}}}Dto[];
+  {{name}}{{^required}}?{{/required}}: {{{vendorExtensions.x-ref-type}}}Dto[]{{#isNullable}} | null{{/isNullable}};
 {{/vendorExtensions.x-is-ref}}
 {{^vendorExtensions.x-is-ref}}
-  {{name}}{{^required}}?{{/required}}: {{{dataType}}};
+  {{name}}{{^required}}?{{/required}}: {{{dataType}}}{{#isNullable}} | null{{/isNullable}};
 {{/vendorExtensions.x-is-ref}}
 {{/isArray}}
 {{^isArray}}
 {{#vendorExtensions.x-is-ref}}
-  {{name}}{{^required}}?{{/required}}: {{{vendorExtensions.x-ref-type}}}Dto;
+  {{name}}{{^required}}?{{/required}}: {{{vendorExtensions.x-ref-type}}}Dto{{#isNullable}} | null{{/isNullable}};
 {{/vendorExtensions.x-is-ref}}
 {{^vendorExtensions.x-is-ref}}
-  {{name}}{{^required}}?{{/required}}: {{{dataType}}};
+  {{name}}{{^required}}?{{/required}}: {{{dataType}}}{{#isNullable}} | null{{/isNullable}};
 {{/vendorExtensions.x-is-ref}}
 {{/isArray}}
 {{/vendorExtensions.x-is-enum-ref}}
@@ -82,33 +82,38 @@ export type {{classname}}Dto = {
 {{^vendorExtensions.x-is-literal}}
 {{#vendorExtensions.x-is-enum-ref}}
 {{#isArray}}
-  {{name}}{{^required}}?{{/required}}: types.{{{vendorExtensions.x-enum-type}}}[];
+  {{name}}{{^required}}?{{/required}}: types.{{{vendorExtensions.x-enum-type}}}[]{{#isNullable}} | null{{/isNullable}};
 {{/isArray}}
 {{^isArray}}
-  {{name}}{{^required}}?{{/required}}: types.{{{vendorExtensions.x-enum-type}}};
+  {{name}}{{^required}}?{{/required}}: types.{{{vendorExtensions.x-enum-type}}}{{#isNullable}} | null{{/isNullable}};
 {{/isArray}}
 {{/vendorExtensions.x-is-enum-ref}}
 {{^vendorExtensions.x-is-enum-ref}}
 {{#isArray}}
 {{#vendorExtensions.x-is-ref}}
-  {{name}}{{^required}}?{{/required}}: {{{vendorExtensions.x-ref-type}}}Dto[];
+  {{name}}{{^required}}?{{/required}}: {{{vendorExtensions.x-ref-type}}}Dto[]{{#isNullable}} | null{{/isNullable}};
 {{/vendorExtensions.x-is-ref}}
 {{^vendorExtensions.x-is-ref}}
-  {{name}}{{^required}}?{{/required}}: {{{dataType}}};
+  {{name}}{{^required}}?{{/required}}: {{{dataType}}}{{#isNullable}} | null{{/isNullable}};
 {{/vendorExtensions.x-is-ref}}
 {{/isArray}}
 {{^isArray}}
 {{#vendorExtensions.x-is-ref}}
-  {{name}}{{^required}}?{{/required}}: {{{vendorExtensions.x-ref-type}}}Dto;
+  {{name}}{{^required}}?{{/required}}: {{{vendorExtensions.x-ref-type}}}Dto{{#isNullable}} | null{{/isNullable}};
 {{/vendorExtensions.x-is-ref}}
 {{^vendorExtensions.x-is-ref}}
-  {{name}}{{^required}}?{{/required}}: {{{dataType}}};
+  {{name}}{{^required}}?{{/required}}: {{{dataType}}}{{#isNullable}} | null{{/isNullable}};
 {{/vendorExtensions.x-is-ref}}
 {{/isArray}}
 {{/vendorExtensions.x-is-enum-ref}}
 {{/vendorExtensions.x-is-literal}}
 {{/vars}}
 };
+
+{{/hasVars}}
+{{^hasVars}}
+/** The over-the-wire representation of the {@link types.{{classname}}|{{classname}}} type. */
+export type {{classname}}Dto = types.{{classname}};
 
 {{/hasVars}}
 {{/vendorExtensions.x-is-intersection}}

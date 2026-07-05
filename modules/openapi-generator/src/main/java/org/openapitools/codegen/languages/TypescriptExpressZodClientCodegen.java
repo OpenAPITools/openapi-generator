@@ -449,8 +449,11 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
         prop.vendorExtensions.put("x-zod-type", zodType);
 
         String fullZod = zodType;
+        if (prop.isNullable) {
+            fullZod = fullZod + ".nullable()";
+        }
         if (!prop.required) {
-            fullZod = zodType + ".optional()";
+            fullZod = fullZod + ".optional()";
         }
         prop.vendorExtensions.put("x-zod-full", fullZod);
     }
@@ -577,6 +580,7 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
                     pm.put("name", p.paramName);
                     pm.put("baseName", p.baseName);
                     pm.put("zodType", buildZodType(p));
+                    pm.put("dataType", p.dataType);
                     pathParams.add(pm);
                 }
                 opInfo.put("pathParams", pathParams);
@@ -601,6 +605,7 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
                     Map<String, Object> body = new HashMap<>();
                     body.put("name", op.vendorExtensions.get("x-body-param-name"));
                     body.put("dataType", op.bodyParam.dataType);
+                    body.put("required", op.bodyParam.required);
                     opInfo.put("bodyParam", body);
                     opInfo.put("hasBodyParam", true);
                 } else {

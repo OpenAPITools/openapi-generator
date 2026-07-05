@@ -51,6 +51,10 @@ export const {{classname}}Schema = z.object({
 });
 
 {{/hasVars}}
+{{^hasVars}}
+export const {{classname}}Schema = z.object({}).catchall(z.unknown());
+
+{{/hasVars}}
 {{/vendorExtensions.x-is-intersection}}
 {{/vendorExtensions.x-is-union}}
 {{/vendorExtensions.x-is-discriminated-union}}

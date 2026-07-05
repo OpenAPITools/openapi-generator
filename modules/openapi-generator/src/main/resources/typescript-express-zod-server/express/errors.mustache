@@ -11,7 +11,7 @@ export function methodNotAllowed(): MethodNotAllowedError {
 }
 
 export function isMethodNotAllowed(error: any): error is MethodNotAllowedError {
-  return error.code === "METHOD_NOT_ALLOWED";
+  return typeof error === "object" && error !== null && error.code === "METHOD_NOT_ALLOWED";
 }
 
 export type MethodNotAllowedError = {
@@ -28,7 +28,7 @@ export function validationErrors(
 }
 
 export function isValidationErrors(error: any): error is ValidationErrorsError {
-  return error.code === "VALIDATION_ERRORS";
+  return typeof error === "object" && error !== null && error.code === "VALIDATION_ERRORS";
 }
 
 export type ValidationErrorsError = {
@@ -45,7 +45,7 @@ export function handledException(
 }
 
 export function isHandledException(error: any): error is HandledExceptionError {
-  return error.code === "HANDLED_EXCEPTION";
+  return typeof error === "object" && error !== null && error.code === "HANDLED_EXCEPTION";
 }
 
 export type HandledExceptionError = {
@@ -61,7 +61,7 @@ export function unhandledException(exception: any): UnhandledExceptionError {
 export function isUnhandledException(
   error: any,
 ): error is UnhandledExceptionError {
-  return error.code === "UNHANDLED_EXCEPTION";
+  return typeof error === "object" && error !== null && error.code === "UNHANDLED_EXCEPTION";
 }
 
 export type UnhandledExceptionError = {

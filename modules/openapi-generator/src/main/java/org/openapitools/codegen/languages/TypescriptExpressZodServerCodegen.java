@@ -602,15 +602,13 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
         String zodType = buildZodPropertyType(prop);
         prop.vendorExtensions.put("x-zod-type", zodType);
 
-        // Full expression including optional
+        // Full expression including nullability and optionality.
         String fullZod = zodType;
+        if (prop.isNullable) {
+            fullZod = fullZod + ".nullable()";
+        }
         if (!prop.required) {
-            // Check if the zodType already ends with a schema reference
-            if (zodType.endsWith("Schema")) {
-                fullZod = zodType + ".optional()";
-            } else {
-                fullZod = zodType + ".optional()";
-            }
+            fullZod = fullZod + ".optional()";
         }
         prop.vendorExtensions.put("x-zod-full", fullZod);
     }
@@ -741,6 +739,7 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
                     pm.put("name", p.paramName);
                     pm.put("baseName", p.baseName);
                     pm.put("zodType", buildZodType(p));
+                    pm.put("dataType", p.dataType);
                     pathParams.add(pm);
                 }
                 opInfo.put("pathParams", pathParams);
@@ -765,6 +764,7 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
                     Map<String, Object> body = new HashMap<>();
                     body.put("name", op.vendorExtensions.get("x-body-param-name"));
                     body.put("dataType", op.bodyParam.dataType);
+                    body.put("required", op.bodyParam.required);
                     body.put("mapper", op.vendorExtensions.get("x-body-mapper"));
                     opInfo.put("bodyParam", body);
                     opInfo.put("hasBodyParam", true);

@@ -76,24 +76,41 @@ async function* parseSSEStream<TDto, TDomain>(
       const { done, value } = await reader.read();
       if (done) break;
       buffer += decoder.decode(value, { stream: true });
+      // Normalize CRLF / CR line endings to LF per the SSE spec.
+      buffer = buffer.replace(/\r\n|\r/g, "\n");
       const parts = buffer.split("\n\n");
       buffer = parts.pop() ?? "";
       for (const part of parts) {
         if (!part.trim()) continue;
-        const fields: Record<string, string> = {};
+        let id = "";
+        let event = "";
+        const dataLines: string[] = [];
         for (const line of part.split("\n")) {
+          if (line.startsWith(":")) continue; // comment line
           const colonIdx = line.indexOf(":");
-          if (colonIdx === -1) continue;
-          const key = line.slice(0, colonIdx).trim();
-          const val = line.slice(colonIdx + 1).trim();
-          fields[key] = val;
+          const field = colonIdx === -1 ? line : line.slice(0, colonIdx);
+          let val = colonIdx === -1 ? "" : line.slice(colonIdx + 1);
+          // A single leading space after the colon is part of the delimiter.
+          if (val.startsWith(" ")) val = val.slice(1);
+          switch (field) {
+            case "id":
+              id = val;
+              break;
+            case "event":
+              event = val;
+              break;
+            case "data":
+              dataLines.push(val);
+              break;
+          }
         }
-        if (!fields.data) continue;
+        if (dataLines.length === 0) continue;
         try {
           const envelope = {
-            id: fields.id ?? "",
-            event: fields.event ?? "",
-            data: JSON.parse(fields.data),
+            id,
+            event,
+            // Multiple data: lines are joined with newlines per the SSE spec.
+            data: JSON.parse(dataLines.join("\n")),
           };
           yield mapper(schema.parse(envelope));
         } catch { /* skip malformed events */ }
@@ -152,7 +169,7 @@ export class Http{{name}} implements types.{{name}} {
         method: "{{fetchMethod}}",
 {{/hasFetchMethod}}
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(params.{{bodyParam.name}}),
+        body: JSON.stringify(params{{#allParamsOptional}}?{{/allParamsOptional}}.{{bodyParam.name}}),
       });
 {{/hasBodyParam}}
 {{^hasBodyParam}}
@@ -168,7 +185,8 @@ export class Http{{name}} implements types.{{name}} {
       return mappers.{{responseDtoMapper}}(schemas.{{responseSchema}}.parse(json));
 {{/responseType}}
 {{^responseType}}
-      await response.json();
+      // No response body expected (e.g. 204 No Content); nothing to parse.
+      return;
 {{/responseType}}
     } catch (err) {
       if (err instanceof ZodError) {

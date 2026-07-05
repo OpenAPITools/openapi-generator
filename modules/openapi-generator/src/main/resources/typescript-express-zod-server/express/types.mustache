@@ -22,7 +22,7 @@ export type RouterFactoryInput = {
 {{/services}}
 
   middleware?: Middleware | Middleware[];
-  handlerOverrides?: Middleware;
+  handlerOverrides?: HandlerOverrides;
   swaggerUiVersion?: string;
 };
 
@@ -37,6 +37,16 @@ export type Middleware = {
     | {{operationIdPascal}}RequestHandler[];
 {{/allOperations}}
 };
+
+/**
+ * Per-operation handler replacements. Unlike {@link Middleware}, the
+ * Swagger-UI scopes (`_onlySwaggerUI` / `_exceptSwaggerUI`) are not valid here
+ * because they are ignored when resolving handler overrides.
+ */
+export type HandlerOverrides = Omit<
+  Middleware,
+  "_onlySwaggerUI" | "_exceptSwaggerUI"
+>;
 
 {{#allOperations}}
 export type {{operationIdPascal}}RequestHandler = RequestHandler<

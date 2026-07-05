@@ -28,6 +28,10 @@ export function mapFrom{{classname}}Dto(dto: dtos.{{classname}}Dto): types.{{cla
     case "{{mappingName}}":
       return mapFrom{{modelName}}Dto(dto);
 {{/vendorExtensions.x-mapped-models}}
+    default:
+      throw new Error(
+        `Unknown {{classname}} discriminator: ${(dto as { {{{vendorExtensions.x-discriminator-property}}}?: unknown }).{{{vendorExtensions.x-discriminator-property}}}}`,
+      );
   }
 }
 
@@ -37,6 +41,10 @@ export function mapTo{{classname}}Dto(obj: types.{{classname}}): dtos.{{classnam
     case "{{mappingName}}":
       return mapTo{{modelName}}Dto(obj);
 {{/vendorExtensions.x-mapped-models}}
+    default:
+      throw new Error(
+        `Unknown {{classname}} discriminator: ${(obj as { {{{vendorExtensions.x-discriminator-property}}}?: unknown }).{{{vendorExtensions.x-discriminator-property}}}}`,
+      );
   }
 }
 
@@ -75,11 +83,14 @@ export function mapFrom{{classname}}Dto(
 {{#vars}}
 {{#vendorExtensions.x-is-ref}}
 {{#isArray}}
-    {{name}}: dto.{{name}}?.map(mapFrom{{vendorExtensions.x-ref-type}}Dto),
+    {{name}}:
+      dto.{{name}} == null
+        ? dto.{{name}}
+        : dto.{{name}}.map(mapFrom{{vendorExtensions.x-ref-type}}Dto),
 {{/isArray}}
 {{^isArray}}
     {{name}}:
-      typeof dto.{{name}} === "undefined"
+      dto.{{name}} == null
         ? dto.{{name}}
         : mapFrom{{vendorExtensions.x-ref-type}}Dto(dto.{{name}}),
 {{/isArray}}
@@ -98,11 +109,14 @@ export function mapTo{{classname}}Dto(
 {{#vars}}
 {{#vendorExtensions.x-is-ref}}
 {{#isArray}}
-    {{name}}: obj.{{name}}?.map(mapTo{{vendorExtensions.x-ref-type}}Dto),
+    {{name}}:
+      obj.{{name}} == null
+        ? obj.{{name}}
+        : obj.{{name}}.map(mapTo{{vendorExtensions.x-ref-type}}Dto),
 {{/isArray}}
 {{^isArray}}
     {{name}}:
-      typeof obj.{{name}} === "undefined"
+      obj.{{name}} == null
         ? obj.{{name}}
         : mapTo{{vendorExtensions.x-ref-type}}Dto(obj.{{name}}),
 {{/isArray}}

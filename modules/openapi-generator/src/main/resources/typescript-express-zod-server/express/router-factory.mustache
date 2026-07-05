@@ -72,7 +72,7 @@ export function getRouter({
         <body>
           <div id="swagger-ui">CONTENT NOT LOADED</div>
           <script>
-            const spec = ${JSON.stringify(schema)};
+            const spec = ${JSON.stringify(schema).replace(/</g, "\\u003c")};
             const ui = SwaggerUIBundle({
               deepLinking: false,
               spec,
