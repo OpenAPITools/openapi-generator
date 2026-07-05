@@ -186,6 +186,7 @@ export class Http{{name}} implements types.{{name}} {
 {{/responseType}}
 {{^responseType}}
       // No response body expected (e.g. 204 No Content); nothing to parse.
+      void response;
       return;
 {{/responseType}}
     } catch (err) {
