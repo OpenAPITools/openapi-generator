@@ -5,6 +5,10 @@
  * the code is regenerated.
  */
 
+{{#hasDiscriminatedUnion}}
+import { ZodError } from "zod";
+
+{{/hasDiscriminatedUnion}}
 import type * as types from "../types";
 import type * as dtos from "./types";
 
@@ -29,11 +33,17 @@ export function mapFrom{{classname}}Dto(dto: dtos.{{classname}}Dto): types.{{cla
       return mapFrom{{modelName}}Dto(dto);
 {{/vendorExtensions.x-mapped-models}}
     default:
-      // An unknown discriminator here means the server returned a variant not
-      // described by the spec — unexpected server response / contract drift.
-      throw new Error(
-        `Unexpected {{classname}} discriminator in server response: ${(dto as { {{{vendorExtensions.x-discriminator-property}}}?: unknown }).{{{vendorExtensions.x-discriminator-property}}}}`,
-      );
+      // On the client this maps a server response: an unknown discriminator
+      // means the server returned a variant not described by the spec. Surface
+      // it through the same ZodError channel the client already uses for
+      // response validation, so mapZodError (and any user override) applies.
+      throw new ZodError([
+        {
+          code: "custom",
+          path: ["{{{vendorExtensions.x-discriminator-property}}}"],
+          message: `Unexpected {{classname}} discriminator in server response: ${(dto as { {{{vendorExtensions.x-discriminator-property}}}?: unknown }).{{{vendorExtensions.x-discriminator-property}}}}`,
+        },
+      ]);
   }
 }
 
