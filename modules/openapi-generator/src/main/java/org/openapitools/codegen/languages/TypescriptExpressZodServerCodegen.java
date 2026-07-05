@@ -886,6 +886,22 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
             bundle.put("models", topologicallySortModels(models));
         }
 
+        // Flag whether any model is a discriminated union, so templates can
+        // conditionally import ZodError (thrown from mapFrom*Dto default branches).
+        boolean hasDiscriminatedUnion = false;
+        if (models != null) {
+            for (Object modelEntry : models) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> entry = (Map<String, Object>) modelEntry;
+                CodegenModel cm = (CodegenModel) entry.get("model");
+                if (cm != null && cm.vendorExtensions.containsKey("x-is-discriminated-union")) {
+                    hasDiscriminatedUnion = true;
+                    break;
+                }
+            }
+        }
+        bundle.put("hasDiscriminatedUnion", hasDiscriminatedUnion);
+
         return bundle;
     }
 

@@ -91,19 +91,22 @@ export const {{handlerName}} =
           next(errors.handledException(status, resolved.errors));
         } else {
 {{#responseDtoMapper}}
-          const responseDto = mappers.{{{responseDtoMapper}}}(resolved);
-          res.status(status).json(responseDto);
-{{#responseSchema}}
-          // Validate the wire payload actually sent to the client.
-          schemas.{{{responseSchema}}}.parse(responseDto);
-{{/responseSchema}}
+          const responseBody = mappers.{{{responseDtoMapper}}}(resolved);
 {{/responseDtoMapper}}
 {{^responseDtoMapper}}
-          res.status(status).json(resolved);
-{{#responseSchema}}
-          schemas.{{{responseSchema}}}.parse(resolved);
-{{/responseSchema}}
+          const responseBody = resolved;
 {{/responseDtoMapper}}
+{{#responseSchema}}
+          // Validate the wire payload before sending it. A mismatch is a
+          // server-side contract violation, so fail with a 5xx instead of
+          // shipping invalid data to the client.
+          try {
+            schemas.{{{responseSchema}}}.parse(responseBody);
+          } catch (responseErr) {
+            return next(errors.unhandledException(responseErr));
+          }
+{{/responseSchema}}
+          res.status(status).json(responseBody);
         }
       }
 {{/hasSSE}}
@@ -114,19 +117,22 @@ export const {{handlerName}} =
         next(errors.handledException(status, result.errors));
       } else {
 {{#responseDtoMapper}}
-        const responseDto = mappers.{{{responseDtoMapper}}}(result);
-        res.status(status).json(responseDto);
-{{#responseSchema}}
-        // Validate the wire payload actually sent to the client.
-        schemas.{{{responseSchema}}}.parse(responseDto);
-{{/responseSchema}}
+        const responseBody = mappers.{{{responseDtoMapper}}}(result);
 {{/responseDtoMapper}}
 {{^responseDtoMapper}}
-        res.status(status).json(result);
-{{#responseSchema}}
-        schemas.{{{responseSchema}}}.parse(result);
-{{/responseSchema}}
+        const responseBody = result;
 {{/responseDtoMapper}}
+{{#responseSchema}}
+        // Validate the wire payload before sending it. A mismatch is a
+        // server-side contract violation, so fail with a 5xx instead of
+        // shipping invalid data to the client.
+        try {
+          schemas.{{{responseSchema}}}.parse(responseBody);
+        } catch (responseErr) {
+          return next(errors.unhandledException(responseErr));
+        }
+{{/responseSchema}}
+        res.status(status).json(responseBody);
       }
 {{/hasSSE}}
     } catch (err) {
