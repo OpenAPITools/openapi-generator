@@ -112,17 +112,17 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
             ...json,
-        'integerProp': json['integer_prop'] == null ? null : json['integer_prop'],
-        'numberProp': json['number_prop'] == null ? null : json['number_prop'],
-        'booleanProp': json['boolean_prop'] == null ? null : json['boolean_prop'],
-        'stringProp': json['string_prop'] == null ? null : json['string_prop'],
-        'dateProp': json['date_prop'] == null ? null : (new Date(json['date_prop'])),
-        'datetimeProp': json['datetime_prop'] == null ? null : (new Date(json['datetime_prop'])),
-        'arrayNullableProp': json['array_nullable_prop'] == null ? null : json['array_nullable_prop'],
-        'arrayAndItemsNullableProp': json['array_and_items_nullable_prop'] == null ? null : json['array_and_items_nullable_prop'],
+        'integerProp': json['integer_prop'] === undefined ? undefined : json['integer_prop'] === null ? null : json['integer_prop'],
+        'numberProp': json['number_prop'] === undefined ? undefined : json['number_prop'] === null ? null : json['number_prop'],
+        'booleanProp': json['boolean_prop'] === undefined ? undefined : json['boolean_prop'] === null ? null : json['boolean_prop'],
+        'stringProp': json['string_prop'] === undefined ? undefined : json['string_prop'] === null ? null : json['string_prop'],
+        'dateProp': json['date_prop'] === undefined ? undefined : json['date_prop'] === null ? null : (new Date(json['date_prop'])),
+        'datetimeProp': json['datetime_prop'] === undefined ? undefined : json['datetime_prop'] === null ? null : (new Date(json['datetime_prop'])),
+        'arrayNullableProp': json['array_nullable_prop'] === undefined ? undefined : json['array_nullable_prop'] === null ? null : json['array_nullable_prop'],
+        'arrayAndItemsNullableProp': json['array_and_items_nullable_prop'] === undefined ? undefined : json['array_and_items_nullable_prop'] === null ? null : json['array_and_items_nullable_prop'],
         'arrayItemsNullable': json['array_items_nullable'] == null ? undefined : json['array_items_nullable'],
-        'objectNullableProp': json['object_nullable_prop'] == null ? null : json['object_nullable_prop'],
-        'objectAndItemsNullableProp': json['object_and_items_nullable_prop'] == null ? null : json['object_and_items_nullable_prop'],
+        'objectNullableProp': json['object_nullable_prop'] === undefined ? undefined : json['object_nullable_prop'] === null ? null : json['object_nullable_prop'],
+        'objectAndItemsNullableProp': json['object_and_items_nullable_prop'] === undefined ? undefined : json['object_and_items_nullable_prop'] === null ? null : json['object_and_items_nullable_prop'],
         'objectItemsNullable': json['object_items_nullable'] == null ? undefined : json['object_items_nullable'],
     };
 }

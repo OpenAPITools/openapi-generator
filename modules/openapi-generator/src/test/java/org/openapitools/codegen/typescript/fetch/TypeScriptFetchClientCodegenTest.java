@@ -662,9 +662,9 @@ public class TypeScriptFetchClientCodegenTest {
 
         Path modelPath = Paths.get(output + "/models/TestSchema.ts");
         // Optional nullable field: when API returns null, FromJSON should produce null not undefined
-        TestUtils.assertFileContains(modelPath, "json['nullable_property'] == null ? null :");
+        TestUtils.assertFileContains(modelPath, "json['nullable_property'] === undefined ? undefined : json['nullable_property'] === null ? null :");
         // Required non-nullable field: still uses undefined path
-        TestUtils.assertFileNotContains(modelPath, "json['required_property'] == null ? null :");
+        TestUtils.assertFileNotContains(modelPath, "json['required_property'] === undefined ? undefined : json['required_property'] === null ? null :");
     }
 
     private static File generate(
