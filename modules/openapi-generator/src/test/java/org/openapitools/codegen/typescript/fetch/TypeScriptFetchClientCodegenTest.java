@@ -653,6 +653,21 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(outerPlain, "export interface OuterPlain {");
     }
 
+    @Test(description = "instanceOf guard must not emit scalar enum comparison for array-typed enum properties")
+    public void testInstanceOfArrayEnumNoScalarComparison() throws Exception {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/array_of_single_value_enum.json"
+        );
+
+        Path modelPath = Paths.get(output + "/models/TestSchema.ts");
+        // Must NOT emit a scalar !== comparison for an array-typed enum property
+        TestUtils.assertFileNotContains(modelPath, "value['types'] !== 'boatbooker_activities'");
+        TestUtils.assertFileNotContains(modelPath, "value['types'] !== boatbooker_activities");
+        // Must still check for presence of the field
+        TestUtils.assertFileContains(modelPath, "'types' in value");
+    }
+
     private static File generate(
         Map<String, Object> properties
     ) throws IOException {
