@@ -43,7 +43,7 @@ Then, run:
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 ```groovy
 def apiInstance = new {{classname}}()
-{{#allParams}}def {{paramName}} = {{{example}}} // {{{dataType}}} | {{{description}}}
+{{#allParams}}def {{paramName}} = {{#lambdaExample}}{{/lambdaExample}} // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})

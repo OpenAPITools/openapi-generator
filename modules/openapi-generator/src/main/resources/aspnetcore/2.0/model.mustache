@@ -38,9 +38,9 @@ namespace {{packageName}}.Models
         {{#description}}
         /// <value>{{.}}</value>
         {{/description}}
-        {{#example}}
-        /* <example>{{.}}</example> */
-        {{/example}}
+        {{#hasExample}}
+        /* <example>{{#lambdaExample}}{{/lambdaExample}}</example> */
+        {{/hasExample}}
         {{#required}}
         [Required]
         {{/required}}

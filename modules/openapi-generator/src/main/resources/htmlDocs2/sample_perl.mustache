@@ -20,7 +20,7 @@ ${{{perlModuleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isOA
 
 # Create an instance of the API class
 my $api_instance = {{perlModuleName}}::{{classname}}->new();
-{{#allParams}}my ${{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}{{{perlModuleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; # {{{dataType}}} | {{{unescapedDescription}}}
+{{#allParams}}my ${{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}{{{perlModuleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{#lambdaExample}}{{/lambdaExample}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; # {{{dataType}}} | {{{unescapedDescription}}}
 {{/allParams}}
 
 eval {

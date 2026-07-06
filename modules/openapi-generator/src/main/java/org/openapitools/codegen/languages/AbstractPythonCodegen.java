@@ -574,7 +574,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            p.example = p.defaultValue;
+            p.setExample(p.defaultValue);
             return;
         }
 
@@ -635,7 +635,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             example = "{'key': " + example + "}";
         }
 
-        p.example = example;
+        p.setExample(example);
     }
 
     @Override
@@ -643,16 +643,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         Schema schema = parameter.getSchema();
 
         if (parameter.getExample() != null) {
-            codegenParameter.example = parameter.getExample().toString();
+            codegenParameter.setExample(parameter.getExample().toString());
             codegenParameter.vendorExtensions.put(X_PY_EXAMPLE, toPythonLiteral(parameter.getExample()));
         } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
             Example example = parameter.getExamples().values().iterator().next();
             if (example.getValue() != null) {
-                codegenParameter.example = example.getValue().toString();
+                codegenParameter.setExample(example.getValue().toString());
                 codegenParameter.vendorExtensions.put(X_PY_EXAMPLE, toPythonLiteral(example.getValue()));
             }
         } else if (schema != null && schema.getExample() != null) {
-            codegenParameter.example = schema.getExample().toString();
+            codegenParameter.setExample(schema.getExample().toString());
             codegenParameter.vendorExtensions.put(X_PY_EXAMPLE, toPythonLiteral(schema.getExample()));
         }
 

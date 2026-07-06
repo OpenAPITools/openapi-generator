@@ -81,7 +81,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
-  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  @ApiModelProperty({{#hasExample}}example = "{{#lambda.escapeJavaString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJavaString}}", {{/hasExample}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }

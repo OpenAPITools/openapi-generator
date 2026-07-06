@@ -1720,19 +1720,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
         if (parameter.getExample() != null) {
-            codegenParameter.example = parameter.getExample().toString();
+            codegenParameter.setExample(parameter.getExample().toString());
         }
 
         if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
             Example example = parameter.getExamples().values().iterator().next();
             if (example.getValue() != null) {
-                codegenParameter.example = example.getValue().toString();
+                codegenParameter.setExample(example.getValue().toString());
             }
         }
 
         Schema schema = parameter.getSchema();
         if (schema != null && schema.getExample() != null) {
-            codegenParameter.example = schema.getExample().toString();
+            codegenParameter.setExample(schema.getExample().toString());
         }
 
         setParameterExampleValue(codegenParameter);
@@ -1761,7 +1761,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (isModel) {
                 once(LOGGER).warn("Ignoring complex example on request body");
             } else {
-                codegenParameter.example = mediaType.getExample().toString();
+                codegenParameter.setExample(mediaType.getExample().toString());
                 return;
             }
         }
@@ -1772,7 +1772,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 if (isModel) {
                     once(LOGGER).warn("Ignoring complex example on request body");
                 } else {
-                    codegenParameter.example = example.getValue().toString();
+                    codegenParameter.setExample(example.getValue().toString());
                     return;
                 }
             }
@@ -1894,7 +1894,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             example = "new HashMap()";
         }
 
-        p.example = example;
+        p.setExample(example);
     }
 
     @Override

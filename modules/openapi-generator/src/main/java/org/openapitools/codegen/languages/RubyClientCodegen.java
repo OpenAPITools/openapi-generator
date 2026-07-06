@@ -645,7 +645,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             if (codegenParameter.isEnum) {
                 // When inline enum, set example to first allowable value
                 List<Object> values = (List<Object>) codegenParameter.allowableValues.get("values");
-                codegenParameter.example = String.valueOf(values.get(0));
+                codegenParameter.setExample(String.valueOf(values.get(0)));
             }
             if (codegenParameter.isString || "String".equalsIgnoreCase(codegenParameter.baseType)) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {

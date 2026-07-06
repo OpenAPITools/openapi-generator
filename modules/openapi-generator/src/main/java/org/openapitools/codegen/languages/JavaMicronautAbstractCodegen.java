@@ -561,7 +561,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
         p.vendorExtensions.put("groovyExample", getParameterExampleValue(p, true));
-        p.example = getParameterExampleValue(p, false);
+        p.setExample(getParameterExampleValue(p, false));
     }
 
     protected String getParameterExampleValue(CodegenParameter p, boolean groovy) {

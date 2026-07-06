@@ -147,13 +147,13 @@
     var defs = {}
     {{#models}}
     {{#model}}
-    defs["{{name}}"] = {{{modelJson}}};
+    defs["{{name}}"] = {{#lambdaModelJson}}{{/lambdaModelJson}};
     {{/model}}
     {{/models}}
 
     {{#aliasModels}}
       {{#model}}
-        defs["{{name}}"] = {{{modelJson}}};
+        defs["{{name}}"] = {{#lambdaModelJson}}{{/lambdaModelJson}};
       {{/model}}
     {{/aliasModels}}
 
@@ -493,7 +493,7 @@
                               </div>
                               {{#examples}}
                                 <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-{{code}}-example">
-                                  <pre class="prettyprint"><code class="json">{{example}}</code></pre>
+                                  <pre class="prettyprint"><code class="json">{{#lambdaEscapeHtml}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeHtml}}</code></pre>
                                 </div>
                               {{/examples}}
                               {{#hasHeaders}}

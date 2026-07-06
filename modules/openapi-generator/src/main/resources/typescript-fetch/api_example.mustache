@@ -27,7 +27,7 @@ async function example() {
   const body = {
     {{#allParams}}
     // {{{dataType}}}{{#description}} | {{{description}}}{{/description}}{{^required}} (optional){{/required}}
-    {{paramName}}: {{#vendorExtensions.x-typescriptFetchApiExample}}{{{.}}}{{/vendorExtensions.x-typescriptFetchApiExample}}{{^vendorExtensions.x-typescriptFetchApiExample}}{{{example}}}{{^example}}...{{/example}}{{/vendorExtensions.x-typescriptFetchApiExample}},
+    {{paramName}}: {{#vendorExtensions.x-typescriptFetchApiExample}}{{{.}}}{{/vendorExtensions.x-typescriptFetchApiExample}}{{^vendorExtensions.x-typescriptFetchApiExample}}{{#lambdaExample}}{{/lambdaExample}}{{^lambdaExample}}...{{/lambdaExample}}{{/vendorExtensions.x-typescriptFetchApiExample}},
     {{/allParams}}
   } satisfies {{operationIdCamelCase}}Request;
 

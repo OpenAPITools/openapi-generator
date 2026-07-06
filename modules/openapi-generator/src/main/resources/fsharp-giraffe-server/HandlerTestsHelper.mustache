@@ -1,7 +1,6 @@
 namespace {{packageName}}.Tests
 
 open System
-open System.Net
 open System.Net.Http
 open System.IO
 open Microsoft.AspNetCore.Builder
@@ -31,7 +30,7 @@ module {{classname}}HandlerTestsHelper =
   {{/-first}}
   {{/consumes}}
   {{#requestBodyExamples}}
-  {{operationId}}Body <- WebUtility.HtmlDecode "{{example}}"
+  {{operationId}}Body <- "{{#lambda.escapeJsonString}}{{#lambdaRemoveLineBreak}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaRemoveLineBreak}}{{/lambda.escapeJsonString}}"
   {{operationId}}Examples <- {{operationId}}Examples.Add("{{contentType}}", {{operationId}}Body)
 
   {{/requestBodyExamples}}

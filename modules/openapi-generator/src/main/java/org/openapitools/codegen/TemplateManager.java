@@ -184,8 +184,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     public File write(Map<String, Object> data, String template, File target) throws IOException {
         if (this.engineAdapter.handlesFile(template)) {
             // Only pass files with valid endings through template engine
-            String templateContent = this.engineAdapter.compileTemplate(this, data, template);
-            return writeToFile(target.getPath(), templateContent);
+            return writeTemplateToFile(target.getPath(), data, template);
         } else {
             // Do a straight copy of the file if not listed as supported by the template engine.
             String fullTemplatePath = null;
@@ -227,6 +226,72 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      */
     public File writeToFile(String filename, String contents) throws IOException {
         return writeToFile(filename, contents.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Writes rendered template output to a file without materializing the full rendered content as a string.
+     *
+     * @param filename The name of file to write
+     * @param data Input data for the template
+     * @param template The template location
+     * @return File representing the written file.
+     * @throws IOException If file cannot be written.
+     */
+    public File writeTemplateToFile(String filename, Map<String, Object> data, String template) throws IOException {
+        File outputFile = Paths.get(filename).toFile();
+        if (this.options.isSkipOverwrite() && outputFile.exists()) {
+            LOGGER.info("skip overwrite of file {}", filename);
+            return outputFile;
+        }
+
+        if (this.options.isMinimalUpdate()) {
+            File tempFile = createTempFile(outputFile);
+            try {
+                writeTemplateToFileRaw(tempFile.getPath(), data, template);
+                if (!filesEqual(tempFile, outputFile)) {
+                    LOGGER.info("writing file {}", filename);
+                    Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    tempFile = null;
+                } else {
+                    LOGGER.info("skipping unchanged file {}", filename);
+                }
+            } finally {
+                if (tempFile != null && tempFile.exists()) {
+                    try {
+                        Files.delete(tempFile.toPath());
+                    } catch (Exception ex) {
+                        LOGGER.error("Error removing temporary file {}", tempFile, ex);
+                    }
+                }
+            }
+        } else {
+            LOGGER.info("writing file {}", filename);
+            File tempFile = createTempFile(outputFile);
+            try {
+                writeTemplateToFileRaw(tempFile.getPath(), data, template);
+                Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                tempFile = null;
+            } finally {
+                if (tempFile != null && tempFile.exists()) {
+                    try {
+                        Files.delete(tempFile.toPath());
+                    } catch (Exception ex) {
+                        LOGGER.error("Error removing temporary file {}", tempFile, ex);
+                    }
+                }
+            }
+        }
+
+        return outputFile;
+    }
+
+    private File createTempFile(File outputFile) throws IOException {
+        Path outputPath = outputFile.toPath().toAbsolutePath();
+        Path outputDirectory = outputPath.getParent();
+        Files.createDirectories(outputDirectory);
+        String fileName = outputPath.getFileName().toString();
+        String prefix = fileName.length() < 3 ? fileName + "..." : fileName + ".";
+        return File.createTempFile(prefix, ".tmp", outputDirectory.toFile());
     }
 
     /**
@@ -288,9 +353,28 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         return output;
     }
 
+    private File writeTemplateToFileRaw(String filename, Map<String, Object> data, String template) throws IOException {
+        File output = Paths.get(filename).toFile();
+
+        if (output.getParent() != null && !new File(output.getParent()).exists()) {
+            File parent = Paths.get(output.getParent()).toFile();
+            parent.mkdirs();
+        }
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output), StandardCharsets.UTF_8))) {
+            this.engineAdapter.writeTemplate(this, data, template, writer);
+        }
+
+        return output;
+    }
+
     private boolean filesEqual(File file1, File file2) throws IOException {
         if (!file1.exists() || !file2.exists()) return false;
         if (file1.length() != file2.length()) return false;
-        return Arrays.equals(Files.readAllBytes(file1.toPath()), Files.readAllBytes(file2.toPath()));
+        try (InputStream is1 = Files.newInputStream(file1.toPath());
+             InputStream is2 = Files.newInputStream(file2.toPath())) {
+            return IOUtils.contentEquals(is1, is2);
+        }
     }
+
 }

@@ -1,17 +1,18 @@
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.templating.mustache.EscapeDoubleQuoteLambda;
+import org.openapitools.codegen.templating.mustache.RemoveDoubleQuoteLambda;
+import org.openapitools.codegen.templating.mustache.RemoveLineBreakLambda;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.regex.Matcher;
 
 /**
  * <p>Mustache templates are located in {@code src/main/resources/java-wiremock/}.
@@ -63,12 +64,9 @@ public class JavaWiremockServerCodegen extends AbstractJavaCodegen implements Co
         this.setLegacyDiscriminatorBehavior(false);
 
         // add lambda for mustache templates
-        additionalProperties.put("lambdaRemoveDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
-                .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement(""))));
-        additionalProperties.put("lambdaEscapeDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
-                .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
-        additionalProperties.put("lambdaRemoveLineBreak",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
+        additionalProperties.put("lambdaRemoveDoubleQuote", new RemoveDoubleQuoteLambda());
+        additionalProperties.put("lambdaEscapeDoubleQuote", new EscapeDoubleQuoteLambda());
+        additionalProperties.put("lambdaRemoveLineBreak", new RemoveLineBreakLambda());
 
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 

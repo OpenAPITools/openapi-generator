@@ -70,7 +70,7 @@ public class {{classname}}Test {
     void {{operationId}}MethodTest() {
         // given
         {{#allParams}}
-        {{{dataType}}} {{paramName}} = {{{example}}};
+        {{{dataType}}} {{paramName}} = {{#lambdaExample}}{{/lambdaExample}};
         {{/allParams}}
 
         // when
@@ -103,14 +103,14 @@ public class {{classname}}Test {
         // given
         {{!Create the body}}
         {{#bodyParam}}
-        {{{dataType}}} body = {{{example}}};
+        {{{dataType}}} body = {{#lambdaExample}}{{/lambdaExample}};
         {{/bodyParam}}
         {{#formParams.0}}
         Map<String, Object> form = new HashMap<String, Object>(){{openbrace}}{{openbrace}}
             // Fill in the body form parameters
             {{#formParams}}
                 {{^isFile}}
-            put("{{{baseName}}}", {{{example}}});
+            put("{{{baseName}}}", {{#lambdaExample}}{{/lambdaExample}});
                 {{/isFile}}
                 {{#isFile}}
             put("{{{baseName}}}", new FileReader(File.createTempFile("test", ".tmp")));
@@ -123,7 +123,7 @@ public class {{classname}}Test {
         MultipartBody body = MultipartBody.builder() // Create multipart body
                 {{#bodyParams}}
                     {{^isFile}}
-            .addPart("{{{baseName}}}", {{^isString}}String.valueOf({{/isString}}{{{example}}}{{^isString}}){{/isString}})
+            .addPart("{{{baseName}}}", {{^isString}}String.valueOf({{/isString}}{{#lambdaExample}}{{/lambdaExample}}{{^isString}}){{/isString}})
                     {{/isFile}}
                     {{#isFile}}
                         {{#contentType}}
@@ -141,28 +141,28 @@ public class {{classname}}Test {
         String uri = UriTemplate.of("{{{path}}}").expand(new HashMap{{^pathParams}}<>(){{/pathParams}}{{#pathParams.0}}<String, Object>(){{openbrace}}{{openbrace}}
             // Fill in the path variables
         {{#pathParams}}
-            put("{{{baseName}}}", {{{example}}});
+            put("{{{baseName}}}", {{#lambdaExample}}{{/lambdaExample}});
         {{/pathParams}}
         {{closebrace}}{{closebrace}}{{/pathParams.0}});
         {{!Create the request with body and uri}}
         MutableHttpRequest<?> request = HttpRequest.{{httpMethod}}{{#vendorExtensions.methodAllowsBody}}{{#bodyParam}}(uri, body){{/bodyParam}}{{#isMultipart}}{{^formParams}}(uri, body){{/formParams}}{{/isMultipart}}{{#formParams.0}}(uri, form){{/formParams.0}}{{^bodyParam}}{{^isMultipart}}{{^formParams}}(uri, null){{/formParams}}{{/isMultipart}}{{/bodyParam}}{{/vendorExtensions.methodAllowsBody}}{{^vendorExtensions.methodAllowsBody}}(uri){{/vendorExtensions.methodAllowsBody}}{{!Fill in all the request parameters}}{{#vendorExtensions.x-contentType}}
             .contentType("{{{vendorExtensions.x-contentType}}}"){{/vendorExtensions.x-contentType}}{{#vendorExtensions.x-accepts}}
             .accept("{{{vendorExtensions.x-accepts}}}"){{/vendorExtensions.x-accepts}}{{#headerParams}}
-            .header("{{{baseName}}}", {{^isString}}String.valueOf({{/isString}}{{{example}}}{{^isString}}){{/isString}}){{/headerParams}}{{#cookieParams}}
-            .cookie(Cookie.of("{{{baseName}}}", {{{example}}})){{/cookieParams}};
+            .header("{{{baseName}}}", {{^isString}}String.valueOf({{/isString}}{{#lambdaExample}}{{/lambdaExample}}{{^isString}}){{/isString}}){{/headerParams}}{{#cookieParams}}
+            .cookie(Cookie.of("{{{baseName}}}", {{#lambdaExample}}{{/lambdaExample}})){{/cookieParams}};
         {{!Fill in the query parameters}}
         {{#queryParams.0}}
         request.getParameters()
             {{#queryParams}}
                 {{#isCollectionFormatMulti}}
-            .add("{{{baseName}}}", {{{example}}}){{#-last}};{{/-last}} // The query format should be multi
+            .add("{{{baseName}}}", {{#lambdaExample}}{{/lambdaExample}}){{#-last}};{{/-last}} // The query format should be multi
                 {{/isCollectionFormatMulti}}
                 {{#isDeepObject}}
             .add("{{{baseName}}}[property]", "value"){{#-last}};{{/-last}} // The query format should be deep-object
                 {{/isDeepObject}}
                 {{^isCollectionFormatMulti}}
                     {{^isDeepObject}}
-            .add("{{{baseName}}}", {{^isString}}String.valueOf({{/isString}}{{{example}}}{{^isString}}){{/isString}}){{#-last}};{{/-last}} // The query parameter format should be {{collectionFormat}}
+            .add("{{{baseName}}}", {{^isString}}String.valueOf({{/isString}}{{#lambdaExample}}{{/lambdaExample}}{{^isString}}){{/isString}}){{#-last}};{{/-last}} // The query parameter format should be {{collectionFormat}}
                     {{/isDeepObject}}
                 {{/isCollectionFormatMulti}}
             {{/queryParams}}

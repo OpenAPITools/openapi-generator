@@ -206,7 +206,7 @@ fn main() {
         },
         Some("ExamplesTest") => {
             let result = rt.block_on(client.examples_test(
-                  Some(&vec!["foo".to_string()])
+                  Some(&serde_json::from_str::<Vec<String>>(r#"[ "foo" ]"#).expect("Failed to parse JSON example"))
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -379,7 +379,9 @@ fn main() {
         */
         Some("CreateRepo") => {
             let result = rt.block_on(client.create_repo(
-                  serde_json::from_str::<models::ObjectParam>(r#"{"requiredParam":true}"#).expect("Failed to parse JSON example")
+                  serde_json::from_str::<models::ObjectParam>(r#"{
+  "requiredParam" : true
+}"#).expect("Failed to parse JSON example")
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

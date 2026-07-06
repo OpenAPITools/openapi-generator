@@ -1074,10 +1074,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             // This is a model, so should only have an example if explicitly
             // defined.
             if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-                codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+                setParameterJsonExampleValue(codegenParameter, codegenParameter.vendorExtensions.get("x-example"));
             } else if (!codegenParameter.required) {
                 //mandatory parameter use the example in the yaml. if no example, it is also null.
-                codegenParameter.example = null;
+                codegenParameter.setExample((String) null);
             }
         }
 
@@ -1099,7 +1099,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             // Null out the auto-generated example so processParam can detect
             // required params with no user-provided example and disable the
             // client example stub accordingly.
-            codegenParameter.example = null;
+            codegenParameter.setExample((String) null);
         }
     }
 
@@ -1683,6 +1683,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
         String example = null;
+        String lambdaExamplePrefix = null;
+        String lambdaExampleSuffix = null;
 
         // If a parameter is an integer, fit it into the right type.
         // Note: For CodegenParameter, baseType may be null, so we check isInteger/isLong/isShort flags instead.
@@ -1741,7 +1743,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         } else if (param.isArray) {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            if (param.items.isString) {
+            if (param.example == null && param.getLambdaExample() != null) {
+                lambdaExamplePrefix = "&serde_json::from_str::<" + param.dataType + ">(r#\"";
+                lambdaExampleSuffix = "\"#).expect(\"Failed to parse JSON example\")";
+            } else if (param.items.isString) {
                 // We iterate through the list of string and ensure they end up in the format vec!["example".to_string()]
                 example = (param.example != null)
                     ? "&vec![" + Arrays.stream(param.example.replace("[", "").replace("]", "").split(","))
@@ -1763,14 +1768,24 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                     example = param.dataType + "::" + enumVariant;
                 } else if (param.example != null) {
                     example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
+                } else if (param.getLambdaExample() != null) {
+                    lambdaExamplePrefix = "serde_json::from_str::<" + param.dataType + ">(r#\"";
+                    lambdaExampleSuffix = "\"#).expect(\"Failed to parse JSON example\")";
                 }
             } else if (param.example != null) {
                 example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
+            } else if (param.getLambdaExample() != null) {
+                lambdaExamplePrefix = "serde_json::from_str::<" + param.dataType + ">(r#\"";
+                lambdaExampleSuffix = "\"#).expect(\"Failed to parse JSON example\")";
             }
         }
 
         if (param.required) {
-            if (example != null) {
+            if (lambdaExamplePrefix != null) {
+                param.vendorExtensions.put("x-example-use-lambda", Boolean.TRUE);
+                param.vendorExtensions.put("x-example-prefix", lambdaExamplePrefix);
+                param.vendorExtensions.put("x-example-suffix", lambdaExampleSuffix);
+            } else if (example != null) {
                 param.vendorExtensions.put("x-example", example);
             } else if (param.isArray) {
                 // Use the empty list if we don't have an example
@@ -1786,8 +1801,14 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         } else {
             // Not required, so override the format string and example
             param.vendorExtensions.put("x-format-string", "{:?}");
-            String exampleString = (example != null) ? "Some(" + example + ")" : "None";
-            param.vendorExtensions.put("x-example", exampleString);
+            if (lambdaExamplePrefix != null) {
+                param.vendorExtensions.put("x-example-use-lambda", Boolean.TRUE);
+                param.vendorExtensions.put("x-example-prefix", "Some(" + lambdaExamplePrefix);
+                param.vendorExtensions.put("x-example-suffix", lambdaExampleSuffix + ")");
+            } else {
+                String exampleString = (example != null) ? "Some(" + example + ")" : "None";
+                param.vendorExtensions.put("x-example", exampleString);
+            }
         }
 
         // Add a vendor extension to flag if this can have validate() run on it.

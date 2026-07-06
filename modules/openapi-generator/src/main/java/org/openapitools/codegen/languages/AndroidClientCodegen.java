@@ -337,7 +337,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            p.example = p.defaultValue;
+            p.setExample(p.defaultValue);
             return;
         }
 
@@ -392,7 +392,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             example = "new HashMap()";
         }
 
-        p.example = example;
+        p.setExample(example);
     }
 
     @Override

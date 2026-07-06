@@ -546,10 +546,13 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                     }
 
                     if (operation.examples != null) {
-                        for (Map<String, String> example : operation.examples) {
-                            for (Map.Entry<String, String> entry : example.entrySet()) {
+                        for (Map<String, Object> example : operation.examples) {
+                            for (Map.Entry<String, Object> entry : example.entrySet()) {
+                                if (!(entry.getValue() instanceof String)) {
+                                    continue;
+                                }
                                 // Replace " with \", \r, \n with \\r, \\n
-                                String val = entry.getValue().replace("\"", "\\\"")
+                                String val = ((String) entry.getValue()).replace("\"", "\\\"")
                                         .replace("\r", "\\r")
                                         .replace("\n", "\\n");
                                 entry.setValue(val);
@@ -1006,33 +1009,33 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         // if not specified in x-example, generate a default value
         // TODO need to revise how to obtain the example value
         if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+            setParameterJsonExampleValue(codegenParameter, codegenParameter.vendorExtensions.get("x-example"));
         } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
-            codegenParameter.example = "true";
+            codegenParameter.setExample("true");
         } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {
-            codegenParameter.example = "789";
+            codegenParameter.setExample("789");
         } else if (Boolean.TRUE.equals(codegenParameter.isInteger)) {
-            codegenParameter.example = "56";
+            codegenParameter.setExample("56");
         } else if (Boolean.TRUE.equals(codegenParameter.isFloat)) {
-            codegenParameter.example = "3.4F";
+            codegenParameter.setExample("3.4F");
         } else if (Boolean.TRUE.equals(codegenParameter.isDouble)) {
-            codegenParameter.example = "1.2D";
+            codegenParameter.setExample("1.2D");
         } else if (Boolean.TRUE.equals(codegenParameter.isNumber)) {
-            codegenParameter.example = "8.14";
+            codegenParameter.setExample("8.14");
         } else if (Boolean.TRUE.equals(codegenParameter.isBinary)) {
-            codegenParameter.example = "BINARY_DATA_HERE";
+            codegenParameter.setExample("BINARY_DATA_HERE");
         } else if (Boolean.TRUE.equals(codegenParameter.isByteArray)) {
-            codegenParameter.example = "BYTE_ARRAY_DATA_HERE";
+            codegenParameter.setExample("BYTE_ARRAY_DATA_HERE");
         } else if (Boolean.TRUE.equals(codegenParameter.isFile)) {
-            codegenParameter.example = "/path/to/file.txt";
+            codegenParameter.setExample("/path/to/file.txt");
         } else if (Boolean.TRUE.equals(codegenParameter.isDate)) {
-            codegenParameter.example = "2013-10-20";
+            codegenParameter.setExample("2013-10-20");
         } else if (Boolean.TRUE.equals(codegenParameter.isDateTime)) {
-            codegenParameter.example = "2013-10-20T19:20:30+01:00";
+            codegenParameter.setExample("2013-10-20T19:20:30+01:00");
         } else if (Boolean.TRUE.equals(codegenParameter.isUuid)) {
-            codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+            codegenParameter.setExample("38400000-8cf0-11bd-b23e-10b96e4ef00d");
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
-            codegenParameter.example = codegenParameter.paramName + "_example";
+            codegenParameter.setExample(codegenParameter.paramName + "_example");
         }
     }
 

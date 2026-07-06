@@ -28,15 +28,15 @@ async def test_{{operationId}}(client):
     {{{summary}}}
     """
     {{#bodyParam}}
-    {{paramName}} = {{{example}}}
+    {{paramName}} = {{#lambdaExample}}{{/lambdaExample}}
     {{/bodyParam}}
     {{#queryParams}}
-    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{#lambdaExample}}{{/lambdaExample}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
     {{/queryParams}}
     headers = { {{#vendorExtensions.x-preferred-produce}}
         'Accept': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-produce}}{{#vendorExtensions.x-preferred-consume}}
         'Content-Type': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-consume}}{{#headerParams}}
-        '{{paramName}}': {{{example}}},{{/headerParams}}{{#authMethods}}
+        '{{paramName}}': {{#lambdaExample}}{{/lambdaExample}},{{/headerParams}}{{#authMethods}}
         {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}'{{name}}': 'special-key',{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'BasicZm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}
     }
     {{#formParams}}
@@ -44,13 +44,13 @@ async def test_{{operationId}}(client):
     {{#-first}}
     data = FormData()
     {{/-first}}
-    data.add_field('{{paramName}}', {{{example}}})
+    data.add_field('{{paramName}}', {{#lambdaExample}}{{/lambdaExample}})
     {{/isMultipart}}
     {{^isMultipart}}
     {{#-first}}
     data = {
     {{/-first}}
-        '{{paramName}}': {{{example}}}{{^-last}},{{/-last}}
+        '{{paramName}}': {{#lambdaExample}}{{/lambdaExample}}{{^-last}},{{/-last}}
     {{#-last}}
         }
     {{/-last}}
@@ -58,7 +58,7 @@ async def test_{{operationId}}(client):
     {{/formParams}}
     response = await client.request(
         method='{{httpMethod}}',
-        path='{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
+        path='{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{#lambdaExample}}{{/lambdaExample}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
         headers=headers,{{#bodyParam}}
         json={{paramName}},{{/bodyParam}}{{#formParams}}{{#-first}}
         data=data,{{/-first}}{{/formParams}}{{#queryParams}}{{#-first}}

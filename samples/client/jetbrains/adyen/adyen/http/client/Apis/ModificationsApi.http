@@ -15,7 +15,6 @@ X-API-Key: {{apiKey}}
  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
 }
 
-
 ### Update an authorised amount
 ## Update the amount of an authorised payment
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/amountUpdates
@@ -34,7 +33,6 @@ X-API-Key: {{apiKey}}
  "reference": "YOUR_UNIQUE_REFERENCE"
 }
 
-
 ### Cancel an authorised payment
 ## Cancel payment using a PSP reference
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/cancels
@@ -49,9 +47,7 @@ X-API-Key: {{apiKey}}
  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
 }
 
-
 ### Capture an authorised payment
-## Capture an authorised payment
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/captures
 Content-Type: application/json
 Accept: application/json
@@ -73,7 +69,6 @@ X-API-Key: {{apiKey}}
 }
 }
 
-
 ### Refund a captured payment
 ## Refund a payment
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/refunds
@@ -92,7 +87,6 @@ X-API-Key: {{apiKey}}
  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
 }
 
-
 ### Refund or cancel a payment
 ## Reverse (cancel or refund) a payment
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/reversals
@@ -106,4 +100,3 @@ X-API-Key: {{apiKey}}
  "reference": "YOUR_UNIQUE_REFERENCE",
  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
 }
-

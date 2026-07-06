@@ -4,11 +4,16 @@
 
 {{#vendorExtensions.requests}}
 ### {{#summary}}{{summary}}{{/summary}}
-## {{name}}
+{{#name}}
+## {{.}}
+{{/name}}
 {{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{{path}}}{{/lambda.doubleMustache}}{{>queryParams}}
-{{#consumes}}
-Content-Type: {{{mediaType}}}
-{{/consumes}}
+{{#contentType}}
+Content-Type: {{{.}}}
+{{/contentType}}
+{{#commentedContentTypes}}
+# Content-Type: {{{.}}}
+{{/commentedContentTypes}}
 {{#produces}}
 Accept: {{{mediaType}}}
 {{/produces}}
@@ -35,6 +40,7 @@ Authorization: Bearer {{#lambda.doubleMustache}}{bearerToken}{{/lambda.doubleMus
 {{#body}}
 
 {{{.}}}
+{{#hasMore}}
 
-{{/body}}
-{{/vendorExtensions.requests}}{{/operation}}{{/operations}}
+
+{{/hasMore}}{{/body}}{{/vendorExtensions.requests}}{{/operation}}{{/operations}}

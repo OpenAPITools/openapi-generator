@@ -42,7 +42,7 @@
     {{#queryParams}}
         {
         "key": "{{paramName}}",
-        "value": "{{example}}",
+        "value": "{{#lambda.escapeJsonString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJsonString}}",
         "description": "{{{description}}}",
         "disabled": {{#required}}false{{/required}}{{^required}}true{{/required}}
         }{{^-last}},{{/-last}}

@@ -19,6 +19,7 @@ package org.openapitools.codegen.api;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Locale;
@@ -66,6 +67,20 @@ public interface TemplatingEngineAdapter {
      */
     String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle,
                            String templateFile) throws IOException;
+
+    /**
+     * Writes a compiled template directly to a writer.
+     *
+     * @param executor     From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
+     * @param bundle       The map of values to pass to the template
+     * @param templateFile The name of the template (e.g. model.mustache )
+     * @param writer       Destination writer for the processed template result
+     * @throws IOException an error occurred in the template processing
+     */
+    default void writeTemplate(TemplatingExecutor executor, Map<String, Object> bundle,
+                               String templateFile, Writer writer) throws IOException {
+        writer.write(compileTemplate(executor, bundle, templateFile));
+    }
 
     /**
      * Determines whether the template file with supported extensions exists. This may be on the filesystem,

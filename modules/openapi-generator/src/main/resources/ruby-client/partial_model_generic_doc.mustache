@@ -20,7 +20,7 @@ instance = {{moduleName}}::{{classname}}.new()
 {{#-first}}
 instance = {{moduleName}}::{{classname}}.new(
 {{/-first}}
-  {{name}}: {{example}}{{^-last}},{{/-last}}
+  {{name}}: {{#lambdaExample}}{{/lambdaExample}}{{^-last}},{{/-last}}
 {{#-last}}
 )
 {{/-last}}

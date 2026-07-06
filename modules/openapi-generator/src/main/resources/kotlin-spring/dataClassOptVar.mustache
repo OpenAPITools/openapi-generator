@@ -1,6 +1,6 @@
 {{#useBeanValidation}}{{>beanValidation}}{{>beanValidationModel}}{{/useBeanValidation}}{{#swagger2AnnotationLibrary}}
-    @Schema({{#example}}example = "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeInNormalString}}{{{.}}}{{/lambdaEscapeInNormalString}}{{/lambdaRemoveLineBreak}}", {{/example}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}description = "{{{description}}}"){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}
-    @ApiModelProperty({{#example}}example = "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeInNormalString}}{{{.}}}{{/lambdaEscapeInNormalString}}{{/lambdaRemoveLineBreak}}", {{/example}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}"){{/swagger1AnnotationLibrary}}{{#deprecated}}
+    @Schema({{#hasExample}}example = "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeInNormalString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeInNormalString}}{{/lambdaRemoveLineBreak}}", {{/hasExample}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}description = "{{{description}}}"){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}
+    @ApiModelProperty({{#hasExample}}example = "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeInNormalString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambdaEscapeInNormalString}}{{/lambdaRemoveLineBreak}}", {{/hasExample}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}"){{/swagger1AnnotationLibrary}}{{#deprecated}}
     @Deprecated(message = ""){{/deprecated}}{{#vendorExtensions.x-field-extra-annotation}}
     {{{.}}}{{/vendorExtensions.x-field-extra-annotation}}{{^isNullable}}
     @field:JsonInclude(JsonInclude.Include.NON_NULL){{/isNullable}}{{#vendorExtensions.x-has-json-setter-nulls-skip}}

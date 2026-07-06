@@ -73,7 +73,7 @@ namespace {{apiPackage}}
 {{#returnType}}
             string exampleJson = null;
             {{#examples}}
-            exampleJson = "{{{example}}}";
+            exampleJson = "{{#lambda.escapeJavaString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJavaString}}";
             {{/examples}}
             {{#isListCollection}}{{>listReturn}}{{/isListCollection}}{{^isListCollection}}{{#isMap}}{{>mapReturn}}{{/isMap}}{{^isMap}}{{>objectReturn}}{{/isMap}}{{/isListCollection}}
             {{!TODO: defaultResponse, examples, auth, consumes, produces, nickname, externalDocs, imports, security}}

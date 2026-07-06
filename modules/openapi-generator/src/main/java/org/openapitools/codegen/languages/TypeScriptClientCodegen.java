@@ -1071,7 +1071,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         }
         example = exampleFromStringOrArraySchema(schema, example, parameter.getName());
         String finalExample = toExampleValue(schema, example);
-        codegenParameter.example = finalExample;
+        codegenParameter.setExample(finalExample);
     }
 
     /**
@@ -1083,7 +1083,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     @Override
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+            setParameterJsonExampleValue(codegenParameter, codegenParameter.vendorExtensions.get("x-example"));
         }
 
         Content content = requestBody.getContent();
@@ -1109,7 +1109,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             example = getObjectExample(schema);
         }
         example = exampleFromStringOrArraySchema(schema, example, codegenParameter.paramName);
-        codegenParameter.example = toExampleValue(schema, example);
+        codegenParameter.setExample(toExampleValue(schema, example));
     }
 
     /**

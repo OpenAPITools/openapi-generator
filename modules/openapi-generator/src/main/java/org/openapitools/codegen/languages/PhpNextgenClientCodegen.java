@@ -293,7 +293,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         }
         String firstMember = oneOfTypeHints.get(alias).split("\\|", 2)[0];
         if (firstMember.startsWith("\\")) { // a concrete class we can instantiate
-            param.example = param.example.replace(alias, firstMember);
+            param.setExample(param.example.replace(alias, firstMember));
         }
     }
 
@@ -393,7 +393,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
         if (p.isArray && p.items.defaultValue != null) {
-            p.example = p.defaultValue;
+            p.setExample(p.defaultValue);
         } else {
             super.setParameterExampleValue(p);
         }

@@ -16,9 +16,17 @@
 
 package org.openapitools.codegen.csharpnetcorefunctions;
 
+import com.samskivert.mustache.Mustache;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.languages.CSharpFunctionsServerCodegen;
+import org.openapitools.codegen.templating.mustache.EscapeJavaStringLambda;
+import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CSharpFunctionsServerCodegenTest {
 
@@ -71,5 +79,51 @@ public class CSharpFunctionsServerCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get("operationModifier"), "virtual");
         Assert.assertEquals(codegen.additionalProperties().get("generateBody"), Boolean.TRUE);
+    }
+
+    @Test
+    public void primitiveParametersExposeLambdaExampleForDocs() throws Exception {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+
+        CodegenParameter stringParam = new CodegenParameter();
+        stringParam.paramName = "name";
+        stringParam.dataType = "string";
+        stringParam.baseType = "string";
+        stringParam.isPrimitiveType = true;
+        stringParam.isString = true;
+
+        codegen.setParameterExampleValue(stringParam);
+
+        StringWriter stringExample = new StringWriter();
+        stringParam.getLambdaExample().execute(null, stringExample);
+        Assert.assertEquals(stringExample.toString(), "\"name_example\"");
+
+        CodegenParameter integerParam = new CodegenParameter();
+        integerParam.paramName = "count";
+        integerParam.dataType = "int";
+        integerParam.baseType = "int";
+        integerParam.isPrimitiveType = true;
+        integerParam.isInteger = true;
+
+        codegen.setParameterExampleValue(integerParam);
+
+        StringWriter integerExample = new StringWriter();
+        integerParam.getLambdaExample().execute(null, integerExample);
+        Assert.assertEquals(integerExample.toString(), "56");
+    }
+
+    @Test
+    public void controllerExamplesAreEscapedForCSharpStringLiterals() {
+        Map<String, Object> lambda = new HashMap<>();
+        lambda.put("escapeJavaString", new EscapeJavaStringLambda());
+
+        Map<String, Object> context = new HashMap<>();
+        context.put("lambda", lambda);
+        context.put("lambdaExample", new JsonOutputLambda("{\"pattern\":\"\\\\d+\",\"line\":\"first\\\\nsecond\",\"unicode\":\"\\\\u003c\"}"));
+
+        String template = "exampleJson = \"{{#lambda.escapeJavaString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJavaString}}\";";
+        String rendered = Mustache.compiler().compile(template).execute(context);
+
+        Assert.assertEquals(rendered, "exampleJson = \"{\\\"pattern\\\":\\\"\\\\\\\\d+\\\",\\\"line\\\":\\\"first\\\\\\\\nsecond\\\",\\\"unicode\\\":\\\"\\\\\\\\u003c\\\"}\";");
     }
 }

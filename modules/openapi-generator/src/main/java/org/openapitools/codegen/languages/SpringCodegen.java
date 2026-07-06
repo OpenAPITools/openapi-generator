@@ -37,6 +37,9 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.EscapeDoubleQuoteLambda;
+import org.openapitools.codegen.templating.mustache.RemoveDoubleQuoteLambda;
+import org.openapitools.codegen.templating.mustache.RemoveLineBreakLambda;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
@@ -800,12 +803,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         // add lambda for mustache templates
-        additionalProperties.put("lambdaRemoveDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
-                .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement(""))));
-        additionalProperties.put("lambdaEscapeDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
-                .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
-        additionalProperties.put("lambdaRemoveLineBreak",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
+        additionalProperties.put("lambdaRemoveDoubleQuote", new RemoveDoubleQuoteLambda());
+        additionalProperties.put("lambdaEscapeDoubleQuote", new EscapeDoubleQuoteLambda());
+        additionalProperties.put("lambdaRemoveLineBreak", new RemoveLineBreakLambda());
 
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
@@ -1163,7 +1163,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
             example = "new org.springframework.core.io.FileSystemResource(new java.io.File(\"" + escapeText(example)
                     + "\"))";
-            p.example = example;
+            p.setExample(example);
         } else {
             super.setParameterExampleValue(p);
         }

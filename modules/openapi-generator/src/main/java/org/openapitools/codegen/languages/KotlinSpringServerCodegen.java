@@ -33,6 +33,8 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.EscapeKotlinStringLambda;
+import org.openapitools.codegen.templating.mustache.RemoveLineBreakLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -999,10 +1001,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         additionalProperties.put("jackson", "true");
 
         // add lambda for mustache templates
-        additionalProperties.put("lambdaEscapeInNormalString",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("([$\"\\\\])", "\\\\$1")));
-        additionalProperties.put("lambdaRemoveLineBreak",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
+        additionalProperties.put("lambdaEscapeInNormalString", new EscapeKotlinStringLambda());
+        additionalProperties.put("lambdaRemoveLineBreak", new RemoveLineBreakLambda());
     }
 
     @Override

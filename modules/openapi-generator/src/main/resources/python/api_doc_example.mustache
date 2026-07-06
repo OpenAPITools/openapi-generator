@@ -14,7 +14,7 @@ from pprint import pprint
     # Create an instance of the API class
     api_instance = {{{packageName}}}.{{{classname}}}(api_client)
     {{#allParams}}
-    {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+    {{paramName}} = {{#lambdaExample}}{{/lambdaExample}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
     {{/allParams}}
 
     try:

@@ -37,7 +37,7 @@ const apiInstance = new {{classname}}(configuration);
 const request: {{classname}}{{operationIdCamelCase}}Request = {
 {{#allParams}}
   {{#description}}  // {{{description}}}{{^required}} (optional){{/required}}{{/description}}
-  {{paramName}}: {{{example}}},
+  {{paramName}}: {{#lambdaExample}}{{/lambdaExample}},
 {{/allParams}}
 };
 {{/hasParams}}

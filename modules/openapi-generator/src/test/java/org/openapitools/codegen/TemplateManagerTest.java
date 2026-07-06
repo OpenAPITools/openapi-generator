@@ -1,6 +1,9 @@
 package org.openapitools.codegen;
 
+import org.apache.commons.io.IOUtils;
 import org.openapitools.codegen.api.TemplatePathLocator;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
+import org.openapitools.codegen.api.TemplatingExecutor;
 import org.openapitools.codegen.templating.HandlebarsEngineAdapter;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.TemplateManagerOptions;
@@ -8,7 +11,9 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,6 +43,51 @@ public class TemplateManagerTest {
     private final HandlebarsEngineAdapter handlebarsEngineAdapter = new HandlebarsEngineAdapter();
     private final MustacheEngineAdapter mustacheEngineAdapter = new MustacheEngineAdapter();
     private final TemplatePathLocator locator = new ResourceTemplateLoader();
+
+    static class WriterOnlyTemplateEngineAdapter implements TemplatingEngineAdapter {
+        @Override
+        public String getIdentifier() {
+            return "writer-only";
+        }
+
+        @Override
+        public String[] getFileExtensions() {
+            return new String[]{"writer"};
+        }
+
+        @Override
+        public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) {
+            throw new AssertionError("compileTemplate should not be called by TemplateManager.write");
+        }
+
+        @Override
+        public void writeTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile, Writer writer) throws IOException {
+            writer.write((String) bundle.get("contents"));
+        }
+    }
+
+    static class FailingWriterTemplateEngineAdapter implements TemplatingEngineAdapter {
+        @Override
+        public String getIdentifier() {
+            return "failing-writer";
+        }
+
+        @Override
+        public String[] getFileExtensions() {
+            return new String[]{"failwriter"};
+        }
+
+        @Override
+        public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) {
+            throw new AssertionError("compileTemplate should not be called by TemplateManager.write");
+        }
+
+        @Override
+        public void writeTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile, Writer writer) throws IOException {
+            writer.write("partial contents");
+            throw new IOException("render failed");
+        }
+    }
 
     @Test
     public void loadTemplateContents() {
@@ -104,6 +154,88 @@ public class TemplateManagerTest {
             File written = manager.write(data, "simple.mustache", output);
 
             assertEquals(Files.readAllLines(written.toPath()).get(0), "Teddy and 3");
+        } finally {
+            target.toFile().delete();
+        }
+    }
+
+    @Test
+    public void writeUsesTemplateEngineWriterPath() throws IOException {
+        TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
+        TemplateManager manager = new TemplateManager(opts, new WriterOnlyTemplateEngineAdapter(), new TemplatePathLocator[]{locator});
+        Map<String, Object> data = new HashMap<>();
+        data.put("contents", "streamed contents");
+
+        Path target = Files.createTempDirectory("test-templatemanager");
+        try {
+            File output = new File(target.toFile(), "simple.txt");
+
+            File written = manager.write(data, "simple.writer", output);
+
+            assertEquals(Files.readAllLines(written.toPath()).get(0), "streamed contents");
+        } finally {
+            target.toFile().delete();
+        }
+    }
+
+    @Test
+    public void writeTemplatePreservesSiblingTmpFile() throws IOException {
+        TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
+        TemplateManager manager = new TemplateManager(opts, new WriterOnlyTemplateEngineAdapter(), new TemplatePathLocator[]{locator});
+        Map<String, Object> data = new HashMap<>();
+        data.put("contents", "streamed contents");
+
+        Path target = Files.createTempDirectory("test-templatemanager");
+        try {
+            File output = new File(target.toFile(), "simple.txt");
+            File siblingTmp = new File(target.toFile(), "simple.txt.tmp");
+            Files.write(siblingTmp.toPath(), "sidecar data".getBytes(StandardCharsets.UTF_8));
+
+            File written = manager.write(data, "simple.writer", output);
+
+            assertEquals(Files.readAllLines(written.toPath()).get(0), "streamed contents");
+            assertEquals(Files.readAllLines(siblingTmp.toPath()).get(0), "sidecar data");
+        } finally {
+            target.toFile().delete();
+        }
+    }
+
+    @Test
+    public void writePreservesExistingFileWhenStreamingTemplateFails() throws IOException {
+        TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
+        TemplateManager manager = new TemplateManager(opts, new FailingWriterTemplateEngineAdapter(), new TemplatePathLocator[]{locator});
+        Map<String, Object> data = new HashMap<>();
+
+        Path target = Files.createTempDirectory("test-templatemanager");
+        try {
+            File output = new File(target.toFile(), "simple.txt");
+            Files.write(output.toPath(), "original data".getBytes(StandardCharsets.UTF_8));
+
+            IOException thrown = expectThrows(IOException.class, () -> manager.write(data, "simple.failwriter", output));
+
+            assertEquals(thrown.getMessage(), "render failed");
+            assertEquals(Files.readAllLines(output.toPath()).get(0), "original data");
+            assertFalse(new File(target.toFile(), "simple.txt.tmp").exists());
+        } finally {
+            target.toFile().delete();
+        }
+    }
+
+    @Test
+    public void writeDoesNotLeaveOutputFileWhenStreamingTemplateFails() throws IOException {
+        TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
+        TemplateManager manager = new TemplateManager(opts, new FailingWriterTemplateEngineAdapter(), new TemplatePathLocator[]{locator});
+        Map<String, Object> data = new HashMap<>();
+
+        Path target = Files.createTempDirectory("test-templatemanager");
+        try {
+            File output = new File(target.toFile(), "simple.txt");
+
+            IOException thrown = expectThrows(IOException.class, () -> manager.write(data, "simple.failwriter", output));
+
+            assertEquals(thrown.getMessage(), "render failed");
+            assertFalse(output.exists());
+            assertFalse(new File(target.toFile(), "simple.txt.tmp").exists());
         } finally {
             target.toFile().delete();
         }
@@ -187,6 +319,17 @@ public class TemplateManagerTest {
     }
 
     @Test
+    public void streamComparisonHandlesDifferentReadChunkSizes() throws IOException {
+        byte[] contents = new byte[20_000];
+        for (int i = 0; i < contents.length; i++) {
+            contents[i] = (byte) (i % 251);
+        }
+
+        InputStream is1 = new ShortReadInputStream(contents, contents.length);
+        assertTrue(IOUtils.contentEquals(is1, new ShortReadInputStream(contents, 3)));
+    }
+
+    @Test
     public void overwritesWhenSkipOverwriteFalse() throws IOException {
         TemplateManagerOptions opts = new TemplateManagerOptions(false, false);
         TemplateManager manager = new TemplateManager(opts, mustacheEngineAdapter, new TemplatePathLocator[]{locator});
@@ -246,6 +389,36 @@ public class TemplateManagerTest {
             assertEquals(Files.readAllLines(written.toPath()).get(0), "This should not escape `{{this}}` or `{{{that}}}` or `{{name}} counts{{#each numbers}} {{.}}{{/each}}`");
         } finally {
             target.toFile().delete();
+        }
+    }
+
+    private static class ShortReadInputStream extends InputStream {
+        private final byte[] contents;
+        private final int maxReadSize;
+        private int offset;
+
+        private ShortReadInputStream(byte[] contents, int maxReadSize) {
+            this.contents = contents;
+            this.maxReadSize = maxReadSize;
+        }
+
+        @Override
+        public int read() {
+            if (offset >= contents.length) {
+                return -1;
+            }
+            return contents[offset++] & 0xff;
+        }
+
+        @Override
+        public int read(byte[] buffer, int off, int len) {
+            if (offset >= contents.length) {
+                return -1;
+            }
+            int read = Math.min(Math.min(len, maxReadSize), contents.length - offset);
+            System.arraycopy(contents, offset, buffer, off, read);
+            offset += read;
+            return read;
         }
     }
 }

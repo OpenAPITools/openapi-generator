@@ -825,7 +825,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            p.example = p.defaultValue;
+            p.setExample(p.defaultValue);
             return;
         }
 
@@ -879,7 +879,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             example = "{'key' => " + example + "}";
         }
 
-        p.example = example;
+        p.setExample(example);
     }
 
     @Override

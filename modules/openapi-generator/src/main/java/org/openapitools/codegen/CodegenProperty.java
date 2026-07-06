@@ -17,8 +17,11 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.samskivert.mustache.Mustache;
 import lombok.Getter;
 import lombok.Setter;
+import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
 
 import java.util.*;
 
@@ -96,8 +99,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     /**
      * A free-form property to include an example of an instance for this schema.
      */
-    @Getter @Setter
+    @Getter
     public String example;
+    private JsonNode exampleJsonNode;
 
     @Getter @Setter
     public String jsonSchema;
@@ -605,6 +609,33 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return ref;
     }
 
+    public Mustache.Lambda getLambdaExample() {
+        if (exampleJsonNode != null) {
+            if (exampleJsonNode.isValueNode()) {
+                return new JsonOutputLambda(exampleJsonNode.asText());
+            }
+            return new JsonOutputLambda(exampleJsonNode);
+        }
+        if (example != null) {
+            return new JsonOutputLambda(example);
+        }
+        return null;
+    }
+
+    public boolean getHasExample() {
+        return exampleJsonNode != null || example != null;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
+        this.exampleJsonNode = null;
+    }
+
+    public void setExample(JsonNode exampleJsonNode) {
+        this.exampleJsonNode = exampleJsonNode;
+        this.example = exampleJsonNode != null && exampleJsonNode.isValueNode() ? exampleJsonNode.asText() : null;
+    }
+
     @Override
     public CodegenProperty clone() {
         try {
@@ -651,6 +682,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             if (this.contains != null) {
                 cp.setContains(this.contains);
             }
+            cp.exampleJsonNode = this.exampleJsonNode;
 
             return cp;
         } catch (CloneNotSupportedException e) {
@@ -1183,6 +1215,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(minLength, that.minLength) &&
                 Objects.equals(pattern, that.pattern) &&
                 Objects.equals(example, that.example) &&
+                Objects.equals(exampleJsonNode, that.exampleJsonNode) &&
                 Objects.equals(jsonSchema, that.jsonSchema) &&
                 Objects.equals(minimum, that.minimum) &&
                 Objects.equals(maximum, that.maximum) &&

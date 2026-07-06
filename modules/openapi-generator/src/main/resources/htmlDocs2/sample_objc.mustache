@@ -22,7 +22,7 @@
 // Create an instance of the API class
 {{classname}} *apiInstance = [[{{classname}} alloc] init];
 {{#allParams}}
-{{{dataType}}} *{{paramName}} = {{{example}}}; // {{{unescapedDescription}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{{dataType}}} *{{paramName}} = {{#lambdaExample}}{{/lambdaExample}}; // {{{unescapedDescription}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
 
 {{#summary}}// {{{.}}}

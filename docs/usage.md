@@ -487,7 +487,7 @@ OPTIONS
             variable templating of servers.
 
         --skip-operation-example
-            Skip examples defined in operations to avoid out of memory errors.
+            Skip examples defined in operations.
 
         --skip-validate-spec
             Skips the default behavior of validating an input specification.

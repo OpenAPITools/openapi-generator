@@ -56,8 +56,8 @@ public class CodegenOperation {
     public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
     public List<CodegenCallback> callbacks = new ArrayList<>();
     public Set<String> imports = new HashSet<String>();
-    public List<Map<String, String>> examples;
-    public List<Map<String, String>> requestBodyExamples;
+    public List<Map<String, Object>> examples;
+    public List<Map<String, Object>> requestBodyExamples;
     public ExternalDocumentation externalDocs;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public String nickname; // legacy support

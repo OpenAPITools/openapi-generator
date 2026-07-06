@@ -16,9 +16,15 @@
 
 package org.openapitools.codegen.csharpnetcore;
 
+import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.languages.AspNetServerCodegen;
+import org.openapitools.codegen.templating.mustache.EscapeJavaStringLambda;
+import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AspNetServerCodegenTest {
 
@@ -56,5 +62,20 @@ public class AspNetServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get("classModifier"), "abstract");
         Assert.assertEquals(codegen.additionalProperties().get("operationModifier"), "virtual");
         Assert.assertEquals(codegen.additionalProperties().get("generateBody"), Boolean.TRUE);
+    }
+
+    @Test
+    public void controllerExamplesAreEscapedForCSharpStringLiterals() {
+        Map<String, Object> lambda = new HashMap<>();
+        lambda.put("escapeJavaString", new EscapeJavaStringLambda());
+
+        Map<String, Object> context = new HashMap<>();
+        context.put("lambda", lambda);
+        context.put("lambdaExample", new JsonOutputLambda("{\"pattern\":\"\\\\d+\",\"line\":\"first\\\\nsecond\",\"unicode\":\"\\\\u003c\"}"));
+
+        String template = "exampleJson = \"{{#lambda.escapeJavaString}}{{#lambdaExample}}{{/lambdaExample}}{{/lambda.escapeJavaString}}\";";
+        String rendered = Mustache.compiler().compile(template).execute(context);
+
+        Assert.assertEquals(rendered, "exampleJson = \"{\\\"pattern\\\":\\\"\\\\\\\\d+\\\",\\\"line\\\":\\\"first\\\\\\\\nsecond\\\",\\\"unicode\\\":\\\"\\\\\\\\u003c\\\"}\";");
     }
 }

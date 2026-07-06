@@ -56,8 +56,8 @@ h4. Responses
     	|| Message | {{message}} |
     	|| Response Type | {{{dataType}}} |
     	|| Response Model | [{{dataType}} Model|#{{dataType}}ModelAnchor|Jump to model] |
-    	|| Response Schema | {code:collapse=true}{{{jsonSchema}}}{code}{{#examples}}{code:title=Example {{{contentType}}} |collapse=true }{{{example}}}{code}{{/examples}} |
-       {{#hasExamples}}{{#examples}}|| Example {{-index}} | {code:title=Example {{{contentType}}} |collapse=true }{{{example}}}{code} |{{/examples}}{{/hasExamples}}
+	    || Response Schema | {code:collapse=true}{{{jsonSchema}}}{code}{{#examples}}{code:title=Example {{{contentType}}} |collapse=true }{{#lambdaExample}}{{/lambdaExample}}{code}{{/examples}} |
+       {{#hasExamples}}{{#examples}}|| Example {{-index}} | {code:title=Example {{{contentType}}} |collapse=true }{{#lambdaExample}}{{/lambdaExample}}{code} |{{/examples}}{{/hasExamples}}
 
     {{/responses}}
 {panel}
@@ -82,7 +82,7 @@ h2. Models
         {{/enumVars}}
         {{/allowableValues}} {{/isEnum}}
         {{^isEnum}}||Field Name||Required||Type||Description||Enum||Example||
-        {{#vars}} |{{baseName}} |{{#required}}(/){{/required}}{{^required}}(x){{/required}} |{noformat:nopanel=true}{{{dataType}}}{noformat} | {{description}} | {{#isEnum}} {{_enum}} {{/isEnum}} | {{example}}
+        {{#vars}} |{{baseName}} |{{#required}}(/){{/required}}{{^required}}(x){{/required}} |{noformat:nopanel=true}{{{dataType}}}{noformat} | {{description}} | {{#isEnum}} {{_enum}} {{/isEnum}} | {{#lambdaExample}}{{/lambdaExample}}
         {{/vars}} {{/isEnum}}
     {{/model}}
 {{/models}}

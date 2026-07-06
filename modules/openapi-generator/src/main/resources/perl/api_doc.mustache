@@ -47,7 +47,7 @@ my $api_instance = {{moduleName}}::{{classname}}->new(
 {{/hasAuthMethods}}
 );
 
-{{#allParams}}my ${{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; # {{{dataType}}} | {{{description}}}
+{{#allParams}}my ${{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{#lambdaExample}}{{/lambdaExample}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; # {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 eval {

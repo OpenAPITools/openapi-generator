@@ -62,7 +62,7 @@ public class {{classname}}{{#parent}} extends {{{.}}}{{/parent}}{{#interfaces}}{
     public static {{classname}} getExample() {
         {{classname}} {{classVarName}} = new {{classname}}();
       {{#vars}}
-          {{#example}}{{classVarName}}.{{name}} = {{{example}}};{{/example}}
+          {{#hasExample}}{{classVarName}}.{{name}} = {{#lambdaExample}}{{/lambdaExample}};{{/hasExample}}
       {{/vars}}
         return {{classVarName}};
     }

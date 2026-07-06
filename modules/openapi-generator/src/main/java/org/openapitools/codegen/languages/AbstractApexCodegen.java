@@ -269,30 +269,30 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     public void setParameterExampleValue(CodegenParameter p) {
 
         if (Boolean.TRUE.equals(p.isLong)) {
-            p.example = "2147483648L";
+            p.setExample("2147483648L");
         } else if (Boolean.TRUE.equals(p.isFile)) {
-            p.example = "Blob.valueOf('Sample text file\\nContents')";
+            p.setExample("Blob.valueOf('Sample text file\\nContents')");
         } else if (Boolean.TRUE.equals(p.isDate)) {
-            p.example = "Date.newInstance(1960, 2, 17)";
+            p.setExample("Date.newInstance(1960, 2, 17)");
         } else if (Boolean.TRUE.equals(p.isDateTime)) {
-            p.example = "Datetime.newInstanceGmt(2013, 11, 12, 3, 3, 3)";
+            p.setExample("Datetime.newInstanceGmt(2013, 11, 12, 3, 3, 3)");
         } else if (Boolean.TRUE.equals(p.isArray)) {
             if (p.items != null && p.items.example != null) {
-                p.example = "new " + p.dataType + "{" + p.items.example + "}";
+                p.setExample("new " + p.dataType + "{" + p.items.example + "}");
             }
         } else if (Boolean.TRUE.equals(p.isMap)) {
             if (p.items != null && p.items.example != null) {
-                p.example = "new " + p.dataType + "{" + p.items.example + "}";
+                p.setExample("new " + p.dataType + "{" + p.items.example + "}");
             }
         } else if (Boolean.TRUE.equals(p.isString)) {
-            p.example = "'" + p.example + "'";
+            p.setExample("'" + p.example + "'");
         } else if ("".equals(p.example) || p.example == null && "Object".equals(p.dataType)) {
             // Get an example object from the generated model
             if (!isReservedWord(p.dataType.toLowerCase(Locale.ROOT))) {
-                p.example = p.dataType + ".getExample()";
+                p.setExample(p.dataType + ".getExample()");
             }
         } else {
-            p.example = "''";
+            p.setExample("''");
         }
 
     }
@@ -565,8 +565,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             ApiResponse apiResponse = findMethodResponse(operation.getResponses());
             final Schema responseSchema = ModelUtils.getSchemaFromResponse(openAPI, apiResponse);
             String deserializedExample = toExampleValue(responseSchema);
-            for (Map<String, String> example : op.examples) {
-                example.put("example", escapeText(example.get("example")));
+            for (Map<String, Object> example : op.examples) {
+                Object rawExample = example.get("example");
+                if (rawExample instanceof String) {
+                    example.put("example", escapeText((String) rawExample));
+                }
                 example.put("deserializedExample", deserializedExample);
             }
         }

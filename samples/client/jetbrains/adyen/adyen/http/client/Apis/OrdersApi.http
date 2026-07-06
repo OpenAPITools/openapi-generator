@@ -1,7 +1,6 @@
 ## OrdersApi
 
 ### Create an order
-## Create an order
 POST https://checkout-test.adyen.com/v71/orders
 Content-Type: application/json
 Accept: application/json
@@ -18,9 +17,7 @@ X-API-Key: {{apiKey}}
  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
 }
 
-
 ### Cancel an order
-## Cancel an order
 POST https://checkout-test.adyen.com/v71/orders/cancel
 Content-Type: application/json
 Accept: application/json
@@ -35,7 +32,6 @@ X-API-Key: {{apiKey}}
 },
  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
 }
-
 
 ### Get the balance of a gift card
 ## Get gift card balance specifying amount of 10 EUR
@@ -59,6 +55,7 @@ X-API-Key: {{apiKey}}
  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
 }
 
+
 ### Get the balance of a gift card
 ## Get gift card balance specifying amount of 100 EUR
 POST https://checkout-test.adyen.com/v71/paymentMethods/balance
@@ -80,4 +77,3 @@ X-API-Key: {{apiKey}}
 },
  "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
 }
-

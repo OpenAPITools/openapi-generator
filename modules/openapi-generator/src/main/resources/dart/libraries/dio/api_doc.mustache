@@ -47,7 +47,7 @@ import 'package:{{pubName}}/api.dart';
 
 final api = {{clientName}}().get{{classname}}();
 {{#allParams}}
-final {{{dataType}}} {{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+final {{{dataType}}} {{paramName}} = {{#lambdaExample}}{{/lambdaExample}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 try {

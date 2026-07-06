@@ -4,8 +4,11 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +27,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -40,7 +43,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals("\"primitive type example value\"", examples.get(0).get("example"));
+        assertEquals("\"primitive type example value\"", renderExample(examples.get(0)));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -53,7 +56,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -71,7 +74,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"date_with_example\" : \"2024-01-01\",%n  \"date_without_example\" : \"2000-01-23\"%n}")), mapper.readTree(examples.get(0).get("example")));     
+        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"date_with_example\" : \"2024-01-01\",%n  \"date_without_example\" : \"2000-01-23\"%n}")), mapper.readTree(renderExample(examples.get(0))));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -84,7 +87,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -110,7 +113,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -126,7 +129,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals("[ \"string schema example value\", \"string schema example value\" ]", examples.get(0).get("example"));
+        assertEquals("[ \"string schema example value\", \"string schema example value\" ]", renderExample(examples.get(0)));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -139,7 +142,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -155,7 +158,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals("[ \"primitive types example value\", \"primitive types example value\" ]", examples.get(0).get("example"));
+        assertEquals("[ \"primitive types example value\", \"primitive types example value\" ]", renderExample(examples.get(0)));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -168,7 +171,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -184,7 +187,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(String.format(Locale.ROOT, "[ {%n  \"example_schema_property\" : \"example schema property value\"%n}, {%n  \"example_schema_property\" : \"example schema property value\"%n} ]"), examples.get(0).get("example"));
+        assertEquals(String.format(Locale.ROOT, "[ {%n  \"example_schema_property\" : \"example schema property value\"%n}, {%n  \"example_schema_property\" : \"example schema property value\"%n} ]"), renderExample(examples.get(0)));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -197,7 +200,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -213,7 +216,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property\" : \"example schema property value\"%n}"), examples.get(0).get("example"));
+        assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property\" : \"example schema property value\"%n}"), renderExample(examples.get(0)));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -226,7 +229,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -244,7 +247,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"example_schema_property_composed\" : \"example schema property value composed\",%n  \"example_schema_property\" : \"example schema property value\"%n}")), mapper.readTree(examples.get(0).get("example")));
+        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"example_schema_property_composed\" : \"example schema property value composed\",%n  \"example_schema_property\" : \"example schema property value\"%n}")), mapper.readTree(renderExample(examples.get(0))));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -257,7 +260,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -275,7 +278,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"example_schema_property_alloff_circular\" : \"example schema property allOff circular\"%n}")), mapper.readTree(examples.get(0).get("example")));
+        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"example_schema_property_alloff_circular\" : \"example schema property allOff circular\"%n}")), mapper.readTree(renderExample(examples.get(0))));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -288,7 +291,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -306,7 +309,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n \"base\":{\"example_schema_property\":\"example schema property value\",\"example_schema_property_composed\":\"example schema property value composed\"}, \"sibling\":{\"example_schema_property\":\"example schema property value\",\"example_schema_property_composed\":\"example schema property value composed\"} %n}")), mapper.readTree(examples.get(0).get("example")));
+        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n \"base\":{\"example_schema_property\":\"example schema property value\",\"example_schema_property_composed\":\"example schema property value composed\"}, \"sibling\":{\"example_schema_property\":\"example schema property value\",\"example_schema_property_composed\":\"example schema property value composed\"} %n}")), mapper.readTree(renderExample(examples.get(0))));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -319,7 +322,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -337,7 +340,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"example_schema_property_composed\" : \"example schema property value composed\",%n  \"example_schema_property_composed_parent\" : \"example schema property value composed parent\",%n  \"example_schema_property\" : \"example schema property value\"%n}")), mapper.readTree(examples.get(0).get("example")));
+        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"example_schema_property_composed\" : \"example schema property value composed\",%n  \"example_schema_property_composed_parent\" : \"example schema property value composed parent\",%n  \"example_schema_property\" : \"example schema property value\"%n}")), mapper.readTree(renderExample(examples.get(0))));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -350,7 +353,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -366,7 +369,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property\" : \"example schema property value\"%n}"), examples.get(0).get("example"));
+        assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property\" : \"example schema property value\"%n}"), renderExample(examples.get(0)));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -379,7 +382,7 @@ public class ExampleGeneratorTest {
         ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
-        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+        List<Map<String, Object>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
                         .getPaths()
@@ -395,7 +398,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property\" : \"example schema property value\"%n}"), examples.get(0).get("example"));
+        assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property\" : \"example schema property value\"%n}"), renderExample(examples.get(0)));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -442,10 +445,10 @@ public class ExampleGeneratorTest {
         Set<String> mediaTypeKeys = new TreeSet<>();
         mediaTypeKeys.add("application/json");
         
-        List<Map<String, String>> generatedExamples = generator.generate(null, new ArrayList<>(mediaTypeKeys), "TestModel");
+        List<Map<String, Object>> generatedExamples = generator.generate(null, new ArrayList<>(mediaTypeKeys), "TestModel");
         
         assertEquals(1, generatedExamples.size());
-        String exampleOutput = generatedExamples.get(0).get("example");
+        String exampleOutput = renderExample(generatedExamples.get(0));
         
         System.out.println("Generated example output: " + exampleOutput);
 
@@ -470,5 +473,15 @@ public class ExampleGeneratorTest {
         assertTrue("apple should come before mango", applePos < mangoPos);
         assertTrue("mango should come before cherry", mangoPos < cherryPos);
         assertTrue("cherry should come before banana", cherryPos < bananaPos);
+    }
+
+    private static String renderExample(Map<String, Object> example) {
+        try {
+            StringWriter writer = new StringWriter();
+            ((JsonOutputLambda) example.get("lambdaExample")).execute(null, writer);
+            return writer.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

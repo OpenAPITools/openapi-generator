@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: GraphQL NodeJS Express problematic example
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      tags:
+        - test
+      operationId: listItems
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            type: string
+            example: |-
+              line "quoted" \ path
+              next
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            example: 25
+        - name: active
+          in: query
+          schema:
+            type: boolean
+            example: true
+        - name: tags
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+            example:
+              - alpha
+              - beta
+        - name: options
+          in: query
+          schema:
+            type: object
+            example:
+              mode: fast
+              retries: 2
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string

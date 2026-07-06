@@ -43,6 +43,7 @@ regex = "1"
 serde = { version = "1", features = ["derive"] }
 serde_html_form = "0.2"
 serde_json = { version = "1", features = ["raw_value"] }
+time = ">=0.3, <0.3.52"
 tokio = { version = "1", default-features = false, features = [
     "signal",
     "rt-multi-thread",

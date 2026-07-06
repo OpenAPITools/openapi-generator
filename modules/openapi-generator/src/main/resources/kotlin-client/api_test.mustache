@@ -19,7 +19,7 @@ class {{{classname}}}Test : ShouldSpec() {
         should("test {{{operationId}}}") {
             // uncomment below to test {{{operationId}}}
             {{#allParams}}
-            //val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{{description}}}
+            //val {{{paramName}}} : {{{dataType}}} = {{#lambdaExample}}{{/lambdaExample}} // {{{dataType}}} | {{{description}}}
             {{/allParams}}
             //{{#returnType}}val result : {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}} = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
             {{#returnType}}

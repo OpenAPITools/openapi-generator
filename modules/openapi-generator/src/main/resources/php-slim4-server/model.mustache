@@ -31,7 +31,7 @@ class {{classname}} extends BaseModel
      * Should be overwritten by inherited class.
      */
     protected const MODEL_SCHEMA = <<<'SCHEMA'
-{{{modelJson}}}
+{{#lambdaModelJson}}{{/lambdaModelJson}}
 SCHEMA;
 }
 {{/model}}{{/models}}

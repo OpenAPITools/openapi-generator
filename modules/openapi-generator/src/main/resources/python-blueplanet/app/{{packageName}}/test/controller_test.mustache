@@ -20,19 +20,19 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{{summary}}}
         """
         {{#bodyParam}}
-        {{paramName}} = {{{example}}}
+        {{paramName}} = {{#lambdaExample}}{{/lambdaExample}}
         {{/bodyParam}}
         {{#queryParams}}
-        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{paramName}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{paramName}}', {{#lambdaExample}}{{/lambdaExample}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/queryParams}}
         {{#headerParams}}
-        {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{paramName}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+        {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{paramName}}', {{#lambdaExample}}{{/lambdaExample}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/headerParams}}
         {{#formParams}}
-        {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
+        {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{#lambdaExample}}{{/lambdaExample}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
         {{/formParams}}
         response = self.client.open(
-            '{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
+            '{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{#lambdaExample}}{{/lambdaExample}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
             method='{{httpMethod}}'{{#bodyParam}},
             data=json.dumps({{paramName}}){{^consumes}},
             content_type='application/json'{{/consumes}}{{/bodyParam}}{{#headerParams}}{{#-first}},

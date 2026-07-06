@@ -17,10 +17,13 @@
 
 package org.openapitools.codegen.examples;
 
-import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.templating.mustache.EscapeDoubleQuoteLambda;
+import org.openapitools.codegen.templating.mustache.EscapeHtmlLambda;
+import org.openapitools.codegen.templating.mustache.EscapeNewLineLambda;
+import org.openapitools.codegen.templating.mustache.JsonOutputLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +44,10 @@ public class ExampleGenerator {
     private static final String EXAMPLE = "example";
     private static final String CONTENT_TYPE = "contentType";
     private static final String GENERATED_CONTENT_TYPE = "generatedContentType";
+    private static final String LAMBDA_EXAMPLE = "lambdaExample";
+    private static final String LAMBDA_ESCAPE_DOUBLE_QUOTE = "lambdaEscapeDoubleQuote";
+    private static final String LAMBDA_ESCAPE_HTML = "lambdaEscapeHtml";
+    private static final String LAMBDA_ESCAPE_NEW_LINE = "lambdaEscapeNewLine";
     private static final String OUTPUT = "output";
     private static final String NONE = "none";
     private static final String URL = "url";
@@ -59,20 +66,20 @@ public class ExampleGenerator {
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
-    public List<Map<String, String>> generateFromResponseSchema(String statusCode, Schema responseSchema, Set<String> producesInfo) {
-        List<Map<String, String>> examples = generateFromResponseSchema(responseSchema, producesInfo);
+    public List<Map<String, Object>> generateFromResponseSchema(String statusCode, Schema responseSchema, Set<String> producesInfo) {
+        List<Map<String, Object>> examples = generateFromResponseSchema(responseSchema, producesInfo);
         if (examples == null) {
             return null;
         }
 
-        for (Map<String, String> example : examples) {
+        for (Map<String, Object> example : examples) {
             example.put(STATUS_CODE, statusCode);
         }
 
         return examples;
     }
 
-    private List<Map<String, String>> generateFromResponseSchema(Schema responseSchema, Set<String> producesInfo) {
+    private List<Map<String, Object>> generateFromResponseSchema(Schema responseSchema, Set<String> producesInfo) {
         if (responseSchema.getExample() == null && StringUtils.isEmpty(responseSchema.get$ref()) && !ModelUtils.isArraySchema(responseSchema)) {
             // no example provided
             return null;
@@ -99,9 +106,9 @@ public class ExampleGenerator {
         }
     }
 
-    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Schema property) {
+    public List<Map<String, Object>> generate(Map<String, Object> examples, List<String> mediaTypes, Schema property) {
         LOGGER.debug("debugging generate in ExampleGenerator");
-        List<Map<String, String>> output = new ArrayList<>();
+        List<Map<String, Object>> output = new ArrayList<>();
         Set<String> processedModels = new HashSet<>();
         if (examples == null) {
             if (mediaTypes == null) {
@@ -109,19 +116,19 @@ public class ExampleGenerator {
                 mediaTypes = Collections.singletonList(MIME_TYPE_JSON); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
             }
             for (String mediaType : mediaTypes) {
-                Map<String, String> kv = new HashMap<>();
+                Map<String, Object> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
                 if (property != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
-                    String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels));
+                    Object example = resolvePropertyToExample("", mediaType, property, processedModels);
                     if (example != null) {
-                        kv.put(EXAMPLE, example);
+                        putJsonExample(kv, example);
                         kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_JSON);
                         output.add(kv);
                     }
                 } else if (property != null && mediaType.startsWith(MIME_TYPE_XML)) {
                     String example = new XmlExampleGenerator(this.examples).toXml(property);
                     if (example != null) {
-                        kv.put(EXAMPLE, example);
+                        putStringExample(kv, example);
                         kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_XML);
                         output.add(kv);
                     }
@@ -129,23 +136,23 @@ public class ExampleGenerator {
             }
         } else {
             for (Map.Entry<String, Object> entry : examples.entrySet()) {
-                final Map<String, String> kv = new HashMap<>();
+                final Map<String, Object> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, entry.getKey());
-                kv.put(EXAMPLE, Json.pretty(entry.getValue()));
+                putJsonExample(kv, entry.getValue());
                 output.add(kv);
             }
         }
 
         if (output.size() == 0) {
-            Map<String, String> kv = new HashMap<>();
+            Map<String, Object> kv = new HashMap<>();
             kv.put(OUTPUT, NONE);
             output.add(kv);
         }
         return output;
     }
 
-    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, String modelName) {
-        List<Map<String, String>> output = new ArrayList<>();
+    public List<Map<String, Object>> generate(Map<String, Object> examples, List<String> mediaTypes, String modelName) {
+        List<Map<String, Object>> output = new ArrayList<>();
         Set<String> processedModels = new HashSet<>();
         if (examples == null) {
             if (mediaTypes == null) {
@@ -153,15 +160,15 @@ public class ExampleGenerator {
                 mediaTypes = Collections.singletonList(MIME_TYPE_JSON); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
             }
             for (String mediaType : mediaTypes) {
-                Map<String, String> kv = new HashMap<>();
+                Map<String, Object> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
                 if (modelName != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
                     final Schema schema = this.examples.get(modelName);
                     if (schema != null) {
-                        String example = Json.pretty(resolveModelToExample(modelName, mediaType, schema, processedModels));
+                        Object example = resolveModelToExample(modelName, mediaType, schema, processedModels);
 
                         if (example != null) {
-                            kv.put(EXAMPLE, example);
+                            putJsonExample(kv, example);
                             kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_JSON);
                             output.add(kv);
                         }
@@ -170,44 +177,44 @@ public class ExampleGenerator {
                     final Schema schema = this.examples.get(modelName);
                     String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.emptySet());
                     if (example != null) {
-                        kv.put(EXAMPLE, example);
+                        putStringExample(kv, example);
                         kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_XML);
                         output.add(kv);
                     }
                 } else {
-                    kv.put(EXAMPLE, "Custom MIME type example not yet supported: " + mediaType);
+                    putStringExample(kv, "Custom MIME type example not yet supported: " + mediaType);
                     output.add(kv);
                 }
             }
         } else {
             for (Map.Entry<String, Object> entry : examples.entrySet()) {
-                final Map<String, String> kv = new HashMap<>();
+                final Map<String, Object> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, entry.getKey());
-                kv.put(EXAMPLE, Json.pretty(entry.getValue()));
+                putJsonExample(kv, entry.getValue());
                 output.add(kv);
             }
         }
 
         if (output.size() == 0) {
-            Map<String, String> kv = new HashMap<>();
+            Map<String, Object> kv = new HashMap<>();
             kv.put(OUTPUT, NONE);
             output.add(kv);
         }
         return output;
     }
 
-    private List<Map<String, String>> generate(Object example, List<String> mediaTypes) {
-        List<Map<String, String>> output = new ArrayList<>();
+    private List<Map<String, Object>> generate(Object example, List<String> mediaTypes) {
+        List<Map<String, Object>> output = new ArrayList<>();
         if (examples != null) {
             if (mediaTypes == null) {
                 // assume application/json for this
                 mediaTypes = Collections.singletonList(MIME_TYPE_JSON);
             }
             for (String mediaType : mediaTypes) {
-                Map<String, String> kv = new HashMap<>();
+                Map<String, Object> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
                 if ((mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
-                    kv.put(EXAMPLE, Json.pretty(example));
+                    putJsonExample(kv, example);
                     kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_JSON);
                     output.add(kv);
                 } else if (mediaType.startsWith(MIME_TYPE_XML)) {
@@ -218,11 +225,28 @@ public class ExampleGenerator {
         }
 
         if (output.size() == 0) {
-            Map<String, String> kv = new HashMap<>();
+            Map<String, Object> kv = new HashMap<>();
             kv.put(OUTPUT, NONE);
             output.add(kv);
         }
         return output;
+    }
+
+    private void putJsonExample(Map<String, Object> output, Object example) {
+        output.put(LAMBDA_EXAMPLE, new JsonOutputLambda(example));
+        putEscapeLambdas(output);
+    }
+
+    private void putStringExample(Map<String, Object> output, String example) {
+        output.put(EXAMPLE, example);
+        output.put(LAMBDA_EXAMPLE, new JsonOutputLambda(example));
+        putEscapeLambdas(output);
+    }
+
+    private void putEscapeLambdas(Map<String, Object> output) {
+        output.put(LAMBDA_ESCAPE_DOUBLE_QUOTE, new EscapeDoubleQuoteLambda());
+        output.put(LAMBDA_ESCAPE_HTML, new EscapeHtmlLambda());
+        output.put(LAMBDA_ESCAPE_NEW_LINE, new EscapeNewLineLambda());
     }
 
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {

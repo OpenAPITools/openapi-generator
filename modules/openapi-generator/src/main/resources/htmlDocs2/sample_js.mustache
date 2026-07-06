@@ -24,13 +24,13 @@ var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 var api = new {{{jsModuleName}}}.{{{classname}}}(){{#hasParams}}
 {{#hasRequiredParams}}
 {{#requiredParams}}
-var {{{paramName}}} = {{{example}}}; // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}
+var {{{paramName}}} = {{#lambdaExample}}{{/lambdaExample}}; // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}
 {{/requiredParams}}
 {{/hasRequiredParams}}
 {{#hasOptionalParams}}
 var opts = {
   {{#optionalParams}}
-  '{{{paramName}}}': {{{example}}}{{^-last}},{{/-last}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}
+  '{{{paramName}}}': {{#lambdaExample}}{{/lambdaExample}}{{^-last}},{{/-last}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}
   {{/optionalParams}}
 };
 {{/hasOptionalParams}}

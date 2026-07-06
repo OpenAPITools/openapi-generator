@@ -119,6 +119,30 @@ public class PostmanCollectionCodegenTest {
     }
 
     @Test
+    public void testQueryParamExampleIsJsonEscaped() throws IOException {
+        File output = Files.createTempDirectory("postmantest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/QueryParamExampleEscaping.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/postman.json");
+        assertFileExists(path);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.readTree(path.toFile());
+        assertFileContains(path, "quote \\\" slash \\\\ line\\nnext");
+    }
+
+    @Test
     public void testTagDescriptionIsJsonEscaped() throws IOException {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();

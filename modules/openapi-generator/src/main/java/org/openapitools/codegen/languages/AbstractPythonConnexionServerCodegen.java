@@ -701,17 +701,19 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 operation.vendorExtensions.put("x-skip-test", skipTests);
             }
             if (operation.requestBodyExamples != null) {
-                for (Map<String, String> example : operation.requestBodyExamples) {
-                    if (example.get("contentType") != null && example.get("contentType").equals("application/json")) {
+                for (Map<String, Object> example : operation.requestBodyExamples) {
+                    Object contentType = example.get("contentType");
+                    Object rawExample = example.get("example");
+                    if ("application/json".equals(contentType) && rawExample instanceof String) {
                         // Make an example dictionary more python-like (Booleans True/False).
                         // If fails, use the original string.
                         try {
-                            Map<String, Object> result = MAPPER.readValue(example.get("example"),
+                            Map<String, Object> result = MAPPER.readValue((String) rawExample,
                                     new TypeReference<Map<String, Object>>() {
                                     });
-                            operation.bodyParam.example = MAPPER.writeValueAsString(result);
+                            operation.bodyParam.setExample(MAPPER.writeValueAsString(result));
                         } catch (IOException e) {
-                            operation.bodyParam.example = example.get("example");
+                            operation.bodyParam.setExample((String) rawExample);
                         }
                     }
                 }

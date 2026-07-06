@@ -19,7 +19,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 // Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\{{classname}}();
-{{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}} | {{{unescapedDescription}}}
+{{#allParams}}${{paramName}} = {{#lambdaExample}}{{/lambdaExample}}; // {{{dataType}}} | {{{unescapedDescription}}}
 {{/allParams}}
 
 try {

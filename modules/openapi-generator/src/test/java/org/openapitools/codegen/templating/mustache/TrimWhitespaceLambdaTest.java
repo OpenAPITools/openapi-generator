@@ -17,42 +17,59 @@
 
 package org.openapitools.codegen.templating.mustache;
 
-import com.samskivert.mustache.Template.Fragment;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import com.samskivert.mustache.Template;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 public class TrimWhitespaceLambdaTest {
 
-    @Mock
-    private Fragment fragment;
-
-    @BeforeMethod
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @AfterMethod
-    public void reset() {
-        Mockito.reset(fragment);
-    }
-
     @Test
     public void testTrimWhitespace() throws IOException {
-        when(fragment.execute()).thenReturn("\t a  b\t\tc \t");
+        Template.Fragment fragment = mock(Template.Fragment.class);
+        doAnswer(invocation -> {
+            invocation.<Writer>getArgument(0).write("\t a  b\t\tc \t");
+            return null;
+        }).when(fragment).execute(any(Writer.class));
 
         StringWriter output = new StringWriter();
         new TrimWhitespaceLambda().execute(fragment, output);
         assertEquals(output.toString(), " a b c ");
+    }
+
+    @Test
+    public void trimsWhitespaceAcrossFragmentWrites() throws IOException {
+        Template.Fragment fragment = mock(Template.Fragment.class);
+        doAnswer(invocation -> {
+            invocation.<Writer>getArgument(0).write("alpha\t");
+            invocation.<Writer>getArgument(0).write("\n\r");
+            invocation.<Writer>getArgument(0).write("beta");
+            return null;
+        }).when(fragment).execute(any(Writer.class));
+
+        StringWriter output = new StringWriter();
+        new TrimWhitespaceLambda().execute(fragment, output);
+        assertEquals(output.toString(), "alpha beta");
+    }
+
+    @Test
+    public void preservesNonRegexWhitespaceCharacters() throws IOException {
+        Template.Fragment fragment = mock(Template.Fragment.class);
+        doAnswer(invocation -> {
+            invocation.<Writer>getArgument(0).write("alpha\u001Cbeta");
+            return null;
+        }).when(fragment).execute(any(Writer.class));
+
+        StringWriter output = new StringWriter();
+        new TrimWhitespaceLambda().execute(fragment, output);
+        assertEquals(output.toString(), "alpha\u001Cbeta");
     }
 
 }
