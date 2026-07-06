@@ -52,7 +52,7 @@ export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club
     }
     return {
         
-        'owner': json['owner'] == null ? undefined : OwnerFromJSON(json['owner']),
+        'owner': json['owner'] == null ? null : OwnerFromJSON(json['owner']),
     };
 }
 
