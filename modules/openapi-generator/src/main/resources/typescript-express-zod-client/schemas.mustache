@@ -61,3 +61,9 @@ export const {{classname}}Schema = z.object({}).catchall(z.unknown());
 {{/isEnum}}
 {{/model}}
 {{/models}}
+{{#allOperations}}
+{{#responseType}}
+export const {{operationIdPascal}}ResponseSchema = {{{responseZodExpr}}};
+
+{{/responseType}}
+{{/allOperations}}

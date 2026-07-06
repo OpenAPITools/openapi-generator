@@ -9,12 +9,12 @@
 /** Interface for the {{name}} */
 export interface {{name}} {
 {{#operations}}
-  /** {{description}} */
-  {{operationId}}({{#hasParams}}params{{#allParamsOptional}}?{{/allParamsOptional}}: {{operationIdPascal}}Params{{/hasParams}}): Promise<{{#responseType}}{{responseType}}{{/responseType}}{{^responseType}}void{{/responseType}}>;
+  /** {{{description}}} */
+  {{operationId}}({{#hasParams}}params{{#allParamsOptional}}?{{/allParamsOptional}}: {{operationIdPascal}}Params{{/hasParams}}): Promise<{{#responseType}}{{{responseType}}}{{/responseType}}{{^responseType}}void{{/responseType}}>;
 
 {{#hasSSE}}
-  /** {{description}} (streaming) */
-  {{streamOperationId}}({{#hasParams}}params{{#allParamsOptional}}?{{/allParamsOptional}}: {{operationIdPascal}}Params{{/hasParams}}): AsyncIterable<{{sseType}}>;
+  /** {{{description}}} (streaming) */
+  {{streamOperationId}}({{#hasParams}}params{{#allParamsOptional}}?{{/allParamsOptional}}: {{operationIdPascal}}Params{{/hasParams}}): AsyncIterable<{{{sseType}}}>;
 
 {{/hasSSE}}
 {{/operations}}
@@ -49,7 +49,7 @@ export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last
 {{^isEnum}}
 {{#vendorExtensions.x-is-discriminated-union}}
 {{#description}}
-/** {{.}} */
+/** {{{.}}} */
 {{/description}}
 export type {{classname}} = {{#vendorExtensions.x-mapped-models}}{{modelName}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-mapped-models}};
 
@@ -63,7 +63,7 @@ export function is{{modelName}}(obj: {{classname}}): obj is {{modelName}} {
 {{^vendorExtensions.x-is-discriminated-union}}
 {{#vendorExtensions.x-is-union}}
 {{#description}}
-/** {{.}} */
+/** {{{.}}} */
 {{/description}}
 export type {{classname}} = {{#vendorExtensions.x-union-members}}{{modelName}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-union-members}};
 
@@ -71,14 +71,14 @@ export type {{classname}} = {{#vendorExtensions.x-union-members}}{{modelName}}{{
 {{^vendorExtensions.x-is-union}}
 {{#vendorExtensions.x-is-intersection}}
 {{#description}}
-/** {{.}} */
+/** {{{.}}} */
 {{/description}}
 {{#vendorExtensions.x-has-own-properties}}
 export type {{classname}} = {
 {{#vars}}
 {{#vendorExtensions.x-is-own-property}}
 {{#description}}
-  /** {{.}} */
+  /** {{{.}}} */
 {{/description}}
 {{#vendorExtensions.x-is-literal}}
   {{name}}: "{{{vendorExtensions.x-literal-value}}}";
@@ -97,12 +97,12 @@ export type {{classname}} = {{#vendorExtensions.x-intersection-parents}}{{modelN
 {{/vendorExtensions.x-is-intersection}}
 {{^vendorExtensions.x-is-intersection}}
 {{#description}}
-/** {{.}} */
+/** {{{.}}} */
 {{/description}}
 export type {{classname}} = {
 {{#vars}}
 {{#description}}
-  /** {{.}} */
+  /** {{{.}}} */
 {{/description}}
 {{#vendorExtensions.x-is-literal}}
   {{name}}: "{{{vendorExtensions.x-literal-value}}}";

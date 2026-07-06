@@ -99,11 +99,8 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
                 op.vendorExtensions.put("x-fetch-method", httpMethodUpper);
             }
 
-            // Determine the response type and schema names
-            if (op.returnType != null) {
-                op.vendorExtensions.put("x-response-type", op.returnType);
-                op.vendorExtensions.put("x-response-schema", op.returnType + "Schema");
-            }
+            // Response Zod schema / wire type / mapper are resolved (array/map/primitive
+            // aware) in postProcessSupportingFileData via TypescriptExpressZodSupport.
 
             // Build params type name
             String paramsType = camelize(op.operationId) + "Params";
@@ -193,10 +190,26 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
             if (param.minLength != null) {
                 zod.append(".min(").append(param.minLength).append(")");
             }
-        } else if (param.isArray) {
-            zod.append("z.array(z.string())"); // simplified
+        } else if (param.isArray && param.items != null) {
+            zod.append(TypescriptExpressZodSupport.zodExpr(param.items)).append(".array()");
+        } else if (param.isMap && param.additionalProperties != null) {
+            zod.append("z.record(z.string(), ")
+               .append(TypescriptExpressZodSupport.zodExpr(param.additionalProperties))
+               .append(")");
         } else if (param.isModel || param.isBodyParam) {
-            zod.append(camelize(param.dataType) + "Schema");
+            // Bodies whose schema dereferences to a bare primitive (e.g. a $ref'd enum
+            // handled as string by fromRequestBody) carry a primitive dataType with the
+            // primitive flags unset — camelize(dataType)+"Schema" would fabricate an
+            // unresolved symbol like StringSchema.
+            if ("string".equals(param.dataType)) {
+                zod.append("z.string()");
+            } else if ("number".equals(param.dataType)) {
+                zod.append("z.number()");
+            } else if ("boolean".equals(param.dataType)) {
+                zod.append("z.boolean()");
+            } else {
+                zod.append(camelize(param.dataType) + "Schema");
+            }
         } else {
             zod.append("z.string()");
             if (param.maxLength != null) {
@@ -459,79 +472,12 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
     }
 
     /**
-     * Build a Zod type expression for a model property.
+     * Build a Zod type expression for a model property. Delegates to the shared
+     * {@link TypescriptExpressZodSupport#zodExpr} so the server and client generators
+     * cannot diverge on the recursive array/map/primitive logic.
      */
     private String buildZodPropertyType(CodegenProperty prop) {
-        // Handle enum properties with allowable values
-        if (prop.isEnum && prop.allowableValues != null) {
-            List<?> values = (List<?>) prop.allowableValues.get("values");
-            if (values != null && values.size() == 1) {
-                return "z.literal(\"" + values.get(0) + "\")";
-            }
-            if (prop.complexType != null) {
-                return camelize(prop.complexType) + "Schema";
-            }
-            if (values != null) {
-                StringBuilder sb = new StringBuilder("z.enum([");
-                for (int i = 0; i < values.size(); i++) {
-                    if (i > 0) sb.append(", ");
-                    sb.append("\"").append(values.get(i)).append("\"");
-                }
-                sb.append("])");
-                return sb.toString();
-            }
-        }
-
-        // Handle arrays (before complexType check)
-        if (prop.isArray && prop.items != null) {
-            String itemZod = buildZodPropertyType(prop.items);
-            return itemZod + ".array()";
-        }
-
-        // Handle $ref to another model or enum type
-        if (prop.complexType != null) {
-            return camelize(prop.complexType) + "Schema";
-        }
-
-        // Handle primitive types
-        if (prop.isInteger || prop.isLong) {
-            StringBuilder sb = new StringBuilder("z.coerce.number().int()");
-            if (prop.minimum != null) {
-                sb.append(".gte(").append(prop.minimum).append(")");
-            }
-            if (prop.maximum != null) {
-                sb.append(".lte(").append(prop.maximum).append(")");
-            }
-            return sb.toString();
-        }
-
-        if (prop.isNumber || prop.isFloat || prop.isDouble) {
-            StringBuilder sb = new StringBuilder("z.number()");
-            if (prop.minimum != null) {
-                sb.append(".gte(").append(prop.minimum).append(")");
-            }
-            if (prop.maximum != null) {
-                sb.append(".lte(").append(prop.maximum).append(")");
-            }
-            return sb.toString();
-        }
-
-        if (prop.isBoolean) {
-            return "z.boolean()";
-        }
-
-        if (prop.isString) {
-            StringBuilder sb = new StringBuilder("z.string()");
-            if (prop.maxLength != null) {
-                sb.append(".max(").append(prop.maxLength).append(")");
-            }
-            if (prop.minLength != null) {
-                sb.append(".min(").append(prop.minLength).append(")");
-            }
-            return sb.toString();
-        }
-
-        return "z.any()";
+        return TypescriptExpressZodSupport.zodExpr(prop);
     }
 
     @Override
@@ -555,6 +501,17 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
 
                 Map<String, Object> opInfo = new HashMap<>();
                 String operationIdPascal = camelize(op.operationId);
+                // Resolve response/body shapes (array/map/primitive aware). The client converts
+                // wire json -> domain (FROM_WIRE) and domain -> wire before sending (TO_WIRE).
+                TypescriptExpressZodSupport.Resolved rr = op.returnType != null
+                        ? TypescriptExpressZodSupport.resolveResponse(
+                                op, TypescriptExpressZodSupport.Direction.FROM_WIRE)
+                        : null;
+                TypescriptExpressZodSupport.Resolved rb = op.bodyParam != null
+                        ? TypescriptExpressZodSupport.resolveBody(
+                                op.bodyParam, TypescriptExpressZodSupport.Direction.TO_WIRE,
+                                buildZodType(op.bodyParam))
+                        : null;
                 opInfo.put("operationId", op.operationId);
                 opInfo.put("operationIdPascal", operationIdPascal);
                 opInfo.put("description", op.summary != null ? op.summary : op.notes);
@@ -608,16 +565,34 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
                     body.put("required", op.bodyParam.required);
                     opInfo.put("bodyParam", body);
                     opInfo.put("hasBodyParam", true);
+                    // Convert the domain body -> wire before JSON.stringify. Identity (x) => x
+                    // for bare primitives so the template can always call it as a function.
+                    // When the body can be undefined (optional requestBody, or params itself
+                    // optional), guard the mapper so absent bodies keep the old
+                    // JSON.stringify(undefined) -> no-body behavior instead of crashing.
+                    String bodyMapFn = rb.mapFn != null ? rb.mapFn : "(x) => x";
+                    boolean bodyMayBeUndefined = !op.bodyParam.required
+                            || Boolean.TRUE.equals(op.vendorExtensions.get("x-all-params-optional"));
+                    if (rb.mapFn != null && bodyMayBeUndefined) {
+                        bodyMapFn = "(b) => b === undefined ? undefined : (" + rb.mapFn + ")(b)";
+                    }
+                    opInfo.put("bodyMapFn", bodyMapFn);
                 } else {
                     opInfo.put("hasBodyParam", false);
                 }
 
-                // Response info
+                // Response info. The response Zod schema is emitted as a per-operation const
+                // in schemas.ts, and the parsed wire payload is converted to domain via mapFn
+                // (identity (x) => x for bare primitives, so it can always be called as a function).
                 opInfo.put("responseType", op.returnType);
-                opInfo.put("responseSchema", op.vendorExtensions.get("x-response-schema"));
-                if (op.returnType != null) {
-                    opInfo.put("responseDtoMapper", "mapFrom" + op.returnType + "Dto");
-                    opInfo.put("responseDtoType", op.returnType + "Dto");
+                if (rr != null) {
+                    opInfo.put("responseSchema", operationIdPascal + "ResponseSchema");
+                    opInfo.put("responseZodExpr", rr.zod);
+                    opInfo.put("responseDtoMapper", rr.mapFn != null ? rr.mapFn : "(x) => x");
+                    opInfo.put("responseDtoGeneric", rr.dtoGeneric);
+                    // Domain type qualified for http-client.ts (which imports types); e.g.
+                    // types.Pet[], { [key: string]: number }, string.
+                    opInfo.put("responseDomainGeneric", rr.domainGeneric);
                 }
 
                 // SSE detection
@@ -639,11 +614,6 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
                     }
                 }
                 opInfo.put("hasSSE", hasSSE);
-
-                // Body DTO mapper
-                if (op.bodyParam != null) {
-                    opInfo.put("bodyDtoMapper", "mapTo" + op.bodyParam.dataType + "Dto");
-                }
 
                 serviceMap.get(serviceName).add(opInfo);
             }

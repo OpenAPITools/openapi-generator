@@ -48,7 +48,7 @@ export const {{handlerName}} =
 {{/hasDifferentName}}
 {{/queryParams}}
 {{#hasBodyParam}}
-          {{bodyParam.name}}: mappers.{{bodyParam.mapper}}(req.body),
+          {{bodyParam.name}}: {{#bodyParam.mapFn}}({{{bodyParam.mapFn}}})(req.body){{/bodyParam.mapFn}}{{^bodyParam.mapFn}}req.body{{/bodyParam.mapFn}},
 {{/hasBodyParam}}
         });
 
@@ -85,7 +85,7 @@ export const {{handlerName}} =
           res.end();
         }
       } else {
-        const resolved = await (result as Promise<types.{{{responseType}}}>);
+        const resolved = await (result as Promise<{{{responseDomainGeneric}}}>);
         const status = getHttpStatus(200, resolved);
         if (isError(resolved)) {
           next(errors.handledException(status, resolved.errors));
@@ -94,7 +94,7 @@ export const {{handlerName}} =
             res,
             next,
             status,
-            {{#responseDtoMapper}}mappers.{{{responseDtoMapper}}}(resolved){{/responseDtoMapper}}{{^responseDtoMapper}}resolved{{/responseDtoMapper}},
+            {{#responseDtoMapper}}({{{responseDtoMapper}}})(resolved){{/responseDtoMapper}}{{^responseDtoMapper}}resolved{{/responseDtoMapper}},
 {{#responseSchema}}
             (payload) => schemas.{{{responseSchema}}}.parse(payload),
 {{/responseSchema}}
@@ -112,7 +112,7 @@ export const {{handlerName}} =
           res,
           next,
           status,
-          {{#responseDtoMapper}}mappers.{{{responseDtoMapper}}}(result){{/responseDtoMapper}}{{^responseDtoMapper}}result{{/responseDtoMapper}},
+          {{#responseDtoMapper}}({{{responseDtoMapper}}})(result){{/responseDtoMapper}}{{^responseDtoMapper}}result{{/responseDtoMapper}},
 {{#responseSchema}}
           (payload) => schemas.{{{responseSchema}}}.parse(payload),
 {{/responseSchema}}

@@ -71,9 +71,15 @@ export const {{operationIdPascal}}ParamsSchema = z.object({
   {{name}}: {{{zodType}}},
 {{/queryParams}}
 {{#hasBodyParam}}
-  {{bodyParam.name}}: {{bodyParam.dataType}}Schema,
+  {{bodyParam.name}}: {{{bodyParam.zodExpr}}},
 {{/hasBodyParam}}
 });
 
 {{/hasParams}}
+{{/allOperations}}
+{{#allOperations}}
+{{#responseType}}
+export const {{operationIdPascal}}ResponseSchema = {{{responseZodExpr}}};
+
+{{/responseType}}
 {{/allOperations}}

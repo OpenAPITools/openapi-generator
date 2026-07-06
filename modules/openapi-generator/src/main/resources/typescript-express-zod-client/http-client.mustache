@@ -144,8 +144,8 @@ export class Http{{name}} implements types.{{name}} {
   }
 
 {{#operations}}
-  /** {{description}} */
-  async {{operationId}}({{#hasParams}}params{{#allParamsOptional}}?{{/allParamsOptional}}: types.{{operationIdPascal}}Params{{/hasParams}}): Promise<{{#responseType}}types.{{responseType}}{{/responseType}}{{^responseType}}void{{/responseType}}> {
+  /** {{{description}}} */
+  async {{operationId}}({{#hasParams}}params{{#allParamsOptional}}?{{/allParamsOptional}}: types.{{operationIdPascal}}Params{{/hasParams}}): Promise<{{#responseType}}{{{responseDomainGeneric}}}{{/responseType}}{{^responseType}}void{{/responseType}}> {
 {{#hasQueryParams}}
     const query = new URLSearchParams();
 {{#queryParams}}
@@ -164,25 +164,25 @@ export class Http{{name}} implements types.{{name}} {
 {{/hasQueryParams}}
     try {
 {{#hasBodyParam}}
-      const response = await this.fetch<{{#responseDtoType}}dtos.{{responseDtoType}}{{/responseDtoType}}{{^responseDtoType}}unknown{{/responseDtoType}}>(url, {
+      const response = await this.fetch<{{#responseDtoGeneric}}{{{responseDtoGeneric}}}{{/responseDtoGeneric}}{{^responseDtoGeneric}}unknown{{/responseDtoGeneric}}>(url, {
 {{#hasFetchMethod}}
         method: "{{fetchMethod}}",
 {{/hasFetchMethod}}
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(params{{#allParamsOptional}}?{{/allParamsOptional}}.{{bodyParam.name}}),
+        body: JSON.stringify(({{{bodyMapFn}}})(params{{#allParamsOptional}}?{{/allParamsOptional}}.{{bodyParam.name}})),
       });
 {{/hasBodyParam}}
 {{^hasBodyParam}}
 {{#hasFetchMethod}}
-      const response = await this.fetch<{{#responseDtoType}}dtos.{{responseDtoType}}{{/responseDtoType}}{{^responseDtoType}}unknown{{/responseDtoType}}>(url, { method: "{{fetchMethod}}" });
+      const response = await this.fetch<{{#responseDtoGeneric}}{{{responseDtoGeneric}}}{{/responseDtoGeneric}}{{^responseDtoGeneric}}unknown{{/responseDtoGeneric}}>(url, { method: "{{fetchMethod}}" });
 {{/hasFetchMethod}}
 {{^hasFetchMethod}}
-      const response = await this.fetch<{{#responseDtoType}}dtos.{{responseDtoType}}{{/responseDtoType}}{{^responseDtoType}}unknown{{/responseDtoType}}>(url);
+      const response = await this.fetch<{{#responseDtoGeneric}}{{{responseDtoGeneric}}}{{/responseDtoGeneric}}{{^responseDtoGeneric}}unknown{{/responseDtoGeneric}}>(url);
 {{/hasFetchMethod}}
 {{/hasBodyParam}}
 {{#responseType}}
       const json = await response.json();
-      return mappers.{{responseDtoMapper}}(schemas.{{responseSchema}}.parse(json));
+      return ({{{responseDtoMapper}}})(schemas.{{responseSchema}}.parse(json));
 {{/responseType}}
 {{^responseType}}
       // No response body expected (e.g. 204 No Content); nothing to parse.
@@ -191,15 +191,15 @@ export class Http{{name}} implements types.{{name}} {
 {{/responseType}}
     } catch (err) {
       if (err instanceof ZodError) {
-        return { errors: this.mapZodError(err) } as unknown as {{#responseType}}types.{{responseType}}{{/responseType}}{{^responseType}}any{{/responseType}};
+        return { errors: this.mapZodError(err) } as unknown as {{#responseType}}{{{responseDomainGeneric}}}{{/responseType}}{{^responseType}}any{{/responseType}};
       }
-      return { errors: this.mapUnhandledException(err) } as unknown as {{#responseType}}types.{{responseType}}{{/responseType}}{{^responseType}}any{{/responseType}};
+      return { errors: this.mapUnhandledException(err) } as unknown as {{#responseType}}{{{responseDomainGeneric}}}{{/responseType}}{{^responseType}}any{{/responseType}};
     }
   }
 
 {{#hasSSE}}
-  /** {{description}} (streaming) */
-  async *{{streamOperationId}}({{#hasParams}}params{{#allParamsOptional}}?{{/allParamsOptional}}: types.{{operationIdPascal}}Params{{/hasParams}}): AsyncGenerator<types.{{sseType}}> {
+  /** {{{description}}} (streaming) */
+  async *{{streamOperationId}}({{#hasParams}}params{{#allParamsOptional}}?{{/allParamsOptional}}: types.{{operationIdPascal}}Params{{/hasParams}}): AsyncGenerator<types.{{{sseType}}}> {
 {{#hasQueryParams}}
     const query = new URLSearchParams();
 {{#queryParams}}
@@ -223,7 +223,7 @@ export class Http{{name}} implements types.{{name}} {
 {{/hasFetchMethod}}
 {{#hasBodyParam}}
       headers: { "Content-Type": "application/json", "Accept": "text/event-stream" },
-      body: JSON.stringify(params.{{bodyParam.name}}),
+      body: JSON.stringify(({{{bodyMapFn}}})(params.{{bodyParam.name}})),
 {{/hasBodyParam}}
 {{^hasBodyParam}}
       headers: { "Accept": "text/event-stream" },
