@@ -960,7 +960,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             final List<Map<String, String>> tags = new ArrayList<>();
                             for (final String tag : operation.getTags()) {
                                 final Map<String, String> value = new HashMap<>();
-                                value.put("tag", tag);
+                                value.put("tag", escapeText(tag));
                                 tags.add(value);
                             }
                             if (operation.getTags().size() > 0) {
@@ -1032,7 +1032,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             final Tag firstTag = firstOperation.tags.get(0);
             final String firstTagName = firstTag.getName();
             // But use a sensible tag name if there is none
-            objs.put("tagName", "default".equals(firstTagName) ? firstOperation.baseName : firstTagName);
+            objs.put("tagName", escapeText("default".equals(firstTagName) ? firstOperation.baseName : firstTagName));
             objs.put("tagDescription", escapeText(firstTag.getDescription()));
 
             // Add clientRegistrationId for spring-http-interface with OAuth

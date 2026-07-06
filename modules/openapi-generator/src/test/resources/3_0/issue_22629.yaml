@@ -3,10 +3,26 @@ info:
   title: Issue 22629 Reproduction
   version: 0.1.0
 paths:
-  /endpoint:
+  /endpoint1:
     get:
       tags:
         - "My \"quoted\" api"
+      summary: Summary
+      responses:
+        200:
+          description: Success
+  /endpoint2:
+    get:
+      tags:
+        - "My\\backslash\\api"
+      summary: Summary
+      responses:
+        200:
+          description: Success
+  /endpoint3:
+    get:
+      tags:
+        - "My\nnewline\napi"
       summary: Summary
       responses:
         200:

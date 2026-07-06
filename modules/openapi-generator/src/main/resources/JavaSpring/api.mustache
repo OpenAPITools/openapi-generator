@@ -106,10 +106,10 @@ import {{javaxPackage}}.annotation.Generated;
 {{/useResponseEntity}}
 {{/useSpringController}}
 {{#swagger2AnnotationLibrary}}
-@Tag(name = "{{#lambdaEscapeDoubleQuote}}{{{tagName}}}{{/lambdaEscapeDoubleQuote}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{#lambdaEscapeDoubleQuote}}{{{tagName}}}{{/lambdaEscapeDoubleQuote}} API"{{/tagDescription}})
+@Tag(name = "{{{tagName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{tagName}}} API"{{/tagDescription}})
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
-@Api(value = "{{#lambdaEscapeDoubleQuote}}{{{tagName}}}{{/lambdaEscapeDoubleQuote}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{#lambdaEscapeDoubleQuote}}{{{tagName}}}{{/lambdaEscapeDoubleQuote}} API"{{/tagDescription}})
+@Api(value = "{{{tagName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{tagName}}} API"{{/tagDescription}})
 {{/swagger1AnnotationLibrary}}
 {{#operations}}
 {{#virtualService}}
@@ -178,7 +178,7 @@ public interface {{classname}} {
         deprecated = true,
         {{/isDeprecated}}
         {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{#lambdaEscapeDoubleQuote}}{{{tag}}}{{/lambdaEscapeDoubleQuote}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        tags = { {{#vendorExtensions.x-tags}}"{{{tag}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
         responses = {
             {{#responses}}
@@ -212,7 +212,7 @@ public interface {{classname}} {
     {{#swagger1AnnotationLibrary}}
     @ApiOperation(
         {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{#lambdaEscapeDoubleQuote}}{{{tag}}}{{/lambdaEscapeDoubleQuote}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        tags = { {{#vendorExtensions.x-tags}}"{{{tag}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
         value = "{{{summary}}}",
         nickname = "{{{operationId}}}",
