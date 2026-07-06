@@ -357,6 +357,11 @@ export function mapValues(data: any, fn: (item: any) => any) {
     }
     return result;
 }
+
+// Pass-through serializer for `any`-typed properties in form data. See #1877.
+export function anyToJSON(value: any): any {
+    return value;
+}
 {{/withoutRuntimeChecks}}
 
 export function canConsumeForm(consumes: Consume[]): boolean {
