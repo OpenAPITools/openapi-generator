@@ -668,6 +668,20 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(modelPath, "'types' in value");
     }
 
+    @Test(description = "Optional nullable fields should deserialize to null, not undefined (fix #5670)")
+    public void testOptionalNullableFieldDeserializesToNull() throws Exception {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/nullable_property.json"
+        );
+
+        Path modelPath = Paths.get(output + "/models/TestSchema.ts");
+        // Optional nullable field: when API returns null, FromJSON should produce null not undefined
+        TestUtils.assertFileContains(modelPath, "json['nullable_property'] === undefined ? undefined : json['nullable_property'] === null ? null :");
+        // Required non-nullable field: still uses undefined path
+        TestUtils.assertFileNotContains(modelPath, "json['required_property'] === undefined ? undefined : json['required_property'] === null ? null :");
+    }
+
     private static File generate(
         Map<String, Object> properties
     ) throws IOException {
