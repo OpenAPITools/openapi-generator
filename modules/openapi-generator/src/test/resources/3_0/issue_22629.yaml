@@ -1,0 +1,13 @@
+openapi: 3.0.1
+info:
+  title: Issue 22629 Reproduction
+  version: 0.1.0
+paths:
+  /endpoint:
+    get:
+      tags:
+        - "My \"quoted\" api"
+      summary: Summary
+      responses:
+        200:
+          description: Success

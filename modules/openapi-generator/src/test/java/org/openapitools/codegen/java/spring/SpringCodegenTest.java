@@ -8162,4 +8162,41 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("UserBrLockDTO.java")).implementsInterfaces("BrLockDTO")
                 .fileDoesNotContain("@JsonTypeName");
     }
+
+    @Test
+    public void testStringQuotesInTags_Issue22629() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new io.swagger.parser.OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_22629.yaml", null, new io.swagger.v3.parser.core.models.ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGenerateMetadata(false);
+        List<File> generatedFiles = generator.opts(input).generate();
+
+        File apiFile = generatedFiles.stream()
+                .filter(f -> f.getName().endsWith("Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("API file not generated"));
+
+        // 1. Verify the @Tag annotation has escaped double quotes
+        // Expected: @Tag(name = "My \"quoted\" api", description = "...")
+        assertFileContains(apiFile.toPath(), "name = \"My \\\"quoted\\\" api\"");
+
+        // 2. Verify the @Operation tags attribute has escaped double quotes
+        // Expected: tags = { "My \"quoted\" api" }
+        assertFileContains(apiFile.toPath(), "tags = { \"My \\\"quoted\\\" api\" }");
+    }
 }
