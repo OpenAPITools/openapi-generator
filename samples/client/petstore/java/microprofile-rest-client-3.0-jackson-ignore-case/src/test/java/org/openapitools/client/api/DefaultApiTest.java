@@ -1,6 +1,6 @@
 /*
- * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * Sample API
+ * API description in Markdown.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -13,7 +13,7 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.model.FooGetDefaultResponse;
+import org.openapitools.client.model.Pony;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * OpenAPI Petstore Test
+ * Sample API Test
  *
  * API tests for DefaultApi
  */
@@ -45,13 +45,35 @@ public class DefaultApiTest {
 
     
     /**
+     * Returns all animals.
+     *
+     * Optional extended description in Markdown.
+     *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void fooGetTest() {
+    public void poniesGetTest() {
         // TODO: test validations
-        //FooGetDefaultResponse response = api.fooGet();
+        //List<Pony> response = api.poniesGet();
+        //Assertions.assertNotNull(response);
+
+
+    }
+    
+    /**
+     * To test enum parameters.
+     *
+     * To test enum parameters.
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void poniesPostTest() {
+        // TODO: test validations
+        List<String> status = null;
+        //List<Pony> response = api.poniesPost(status);
         //Assertions.assertNotNull(response);
 
 

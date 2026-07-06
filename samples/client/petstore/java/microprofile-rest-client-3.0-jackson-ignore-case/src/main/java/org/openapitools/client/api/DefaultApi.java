@@ -1,6 +1,6 @@
 /*
- * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * Sample API
+ * API description in Markdown.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -12,7 +12,7 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.model.FooGetDefaultResponse;
+import org.openapitools.client.model.Pony;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,19 +30,36 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 
 /**
- * OpenAPI Petstore
+ * Sample API
  *
- * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * <p>API description in Markdown.
  *
  */
 
 @RegisterRestClient(configKey="petstore")
 @RegisterProvider(ApiExceptionMapper.class)
-@Path("/foo")
+@Path("/ponies")
 public interface DefaultApi  {
 
+    /**
+     * Returns all animals.
+     *
+     * Optional extended description in Markdown.
+     *
+     */
     @GET
     
     @Produces({ "application/json" })
-    FooGetDefaultResponse fooGet() throws ApiException, ProcessingException;
+    List<Pony> poniesGet() throws ApiException, ProcessingException;
+
+    /**
+     * To test enum parameters.
+     *
+     * To test enum parameters.
+     *
+     */
+    @POST
+    
+    @Produces({ "application/json" })
+    List<Pony> poniesPost(@QueryParam("status") List<String> status) throws ApiException, ProcessingException;
 }
