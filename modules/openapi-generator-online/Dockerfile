@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.19_10-jre-resolute
+FROM eclipse-temurin:17.0.19_10-jre-noble
 
 WORKDIR /generator
 
