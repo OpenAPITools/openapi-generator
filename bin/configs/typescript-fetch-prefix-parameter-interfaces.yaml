@@ -8,3 +8,4 @@ additionalProperties:
   npmRepository: https://skimdb.npmjs.com/registry
   prefixParameterInterfaces: true
   snapshot: false
+  supportsES6: true
