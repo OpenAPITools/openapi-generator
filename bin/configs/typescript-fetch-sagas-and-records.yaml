@@ -14,4 +14,3 @@ additionalProperties:
   inferEntityFromUniqueIdWithName: id
   packageAsSourceOnlyLibrary: false
   snapshot: false
-  supportsES6: true
