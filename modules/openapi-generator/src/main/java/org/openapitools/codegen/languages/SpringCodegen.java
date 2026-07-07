@@ -1216,6 +1216,11 @@ public class SpringCodegen extends AbstractJavaCodegen
                 model.imports.add("Nulls");
             }
         }
+        // Optional + nullable with openApiNullable: emit @JsonInclude(NON_ABSENT) so that
+        // JsonNullable.undefined() is excluded from serialized output.
+        if (openApiNullable && !property.required && property.isNullable) {
+            model.imports.add("JsonInclude");
+        }
     }
 
     @Override

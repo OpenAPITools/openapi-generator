@@ -338,6 +338,44 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testRetrofit2CookieParamsOmittedFromSignature() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RETROFIT_2)
+                .setInputSpec("src/test/resources/3_0/java/retrofit2-cookie-params.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // Retrofit2 has no annotation for cookie parameters, so they are omitted from the
+        // interface method signature. Previously the cookie param was dropped while its
+        // separator comma was kept, producing an uncompilable signature such as
+        // "cookieLast(@Header(...) String xApiVersion, );". validateJavaSourceFiles parses
+        // every generated file, so a stray leading/trailing comma fails the parse here.
+        validateJavaSourceFiles(files);
+
+        Map<String, File> fileMap = files.stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(fileMap.get("DefaultApi.java"))
+                // cookie param is last -> no trailing comma, cookie param omitted
+                .assertMethod("cookieLast", "String")
+                .assertParameter("xApiVersion")
+                .toMethod()
+                .toFileAssert()
+                // cookie param is first -> no leading comma, remaining params kept
+                .assertMethod("cookieFirst", "String", "String")
+                .assertParameter("xApiVersion")
+                .toMethod()
+                .assertParameter("filter")
+                .toMethod()
+                .toFileAssert()
+                // only a cookie param -> empty parameter list
+                .assertMethod("cookieOnly");
+    }
+
+    @Test
     public void testSupportedSecuritySchemesJersey() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.JERSEY3);
@@ -4558,4 +4596,41 @@ public class JavaClientCodegenTest {
                 .contains("@Tag(");
     }
 
+    @DataProvider(name = "rxJavaOptions")
+    public static Object[][] rxJavaOptions() {
+        return new Object[][]{
+                {Map.of(USE_RX_JAVA2, true, USE_RX_JAVA3, true), Map.of(USE_RX_JAVA2, false, USE_RX_JAVA3, true)},
+                {Map.of(USE_RX_JAVA2, true), Map.of(USE_RX_JAVA2, true)}
+        };
+    }
+
+    @Test(dataProvider = "rxJavaOptions")
+    public void processOptsConfiguresRxJavaOptions(Map<String, Object> properties, Map<String, Object> expectedProperties) {
+        JavaClientCodegen codegen = newRetrofit2Codegen(properties);
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties())
+                .containsAllEntriesOf(expectedProperties)
+                .doesNotContainKey(DO_NOT_USE_RX);
+    }
+
+    @Test
+    public void processOptsConvertsConfiguredSupportUrlQuery() {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.APACHE);
+        codegen.additionalProperties().put(SUPPORT_URL_QUERY, "false");
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties())
+                .containsEntry(SUPPORT_URL_QUERY, false);
+    }
+
+    private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.RETROFIT_2);
+        codegen.additionalProperties().putAll(properties);
+        return codegen;
+    }
 }

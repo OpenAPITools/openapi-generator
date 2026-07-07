@@ -25,6 +25,7 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * An order for a pets from the pet store
@@ -72,7 +73,7 @@ data class Order (
      *
      * Values: placed,approved,delivered
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "placed") placed("placed"),
         @JsonProperty(value = "approved") approved("approved"),
         @JsonProperty(value = "delivered") delivered("delivered");

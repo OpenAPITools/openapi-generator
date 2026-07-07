@@ -17,6 +17,35 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pony'
+    post:
+      summary: To test enum parameters.
+      description: To test enum parameters.
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: true
+          style: form
+          explode: false
+          deprecated: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - available
+                - pending
+                - sold
+              default: available
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pony'
 components:
   schemas:
     Pony:
@@ -30,3 +59,9 @@ components:
         - Earth
         - Pegasi
         - Unicorn
+    IntegerEnum:
+      type: integer
+      enum:
+        - 1
+        - 2
+        - 4

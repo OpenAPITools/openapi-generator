@@ -6,7 +6,6 @@ on:
     paths:
       - samples/client/petstore/java/jersey2-java8/**
       - samples/openapi3/client/petstore/java/jersey2-java8/**
-      - samples/client/petstore/java/jersey3/**
       - samples/client/petstore/java/okhttp-gson/**
       - samples/client/petstore/java/okhttp-gson-3.1/**
       - samples/client/petstore/java/okhttp-gson-dynamicOperations/**
@@ -15,7 +14,6 @@ on:
     paths:
       - samples/client/petstore/java/jersey2-java8/**
       - samples/openapi3/client/petstore/java/jersey2-java8/**
-      - samples/client/petstore/java/jersey3/**
       - samples/client/petstore/java/okhttp-gson/**
       - samples/client/petstore/java/okhttp-gson-3.1/**
       - samples/client/petstore/java/okhttp-gson-dynamicOperations/**
@@ -30,7 +28,6 @@ jobs:
         sample:
           - samples/client/petstore/java/jersey2-java8
           - samples/openapi3/client/petstore/java/jersey2-java8
-          - samples/client/petstore/java/jersey3
           - samples/client/petstore/java/okhttp-gson
           - samples/client/petstore/java/okhttp-gson-3.1
           - samples/client/petstore/java/okhttp-gson-dynamicOperations

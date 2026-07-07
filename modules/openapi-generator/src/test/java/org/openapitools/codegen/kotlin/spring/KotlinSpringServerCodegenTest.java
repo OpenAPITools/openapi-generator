@@ -6562,6 +6562,51 @@ public class KotlinSpringServerCodegenTest {
     }
 
     /**
+     * Scenario 4 (openApiNullable=true): optional+nullable field must carry
+     * {@code @field:JsonInclude(JsonInclude.Include.NON_ABSENT)} so that Jackson
+     * excludes {@code JsonNullable.undefined()} from serialized output.
+     */
+    @Test(description = "Scenario 4 – optional+nullable with openApiNullable=true: @JsonInclude(NON_ABSENT) guards undefined from serialization")
+    public void requiredNullable_scenario4_optionalNullable_hasNonAbsentAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNullable property must exist");
+        // Annotations appear before the val declaration
+        String context = content.substring(Math.max(0, idx - 300), idx);
+        Assert.assertTrue(context.contains("@field:JsonInclude(JsonInclude.Include.NON_ABSENT)"),
+                "optionalNullable must have @field:JsonInclude(NON_ABSENT) to suppress JsonNullable.undefined() from output");
+        // Must NOT have NON_NULL — that annotation is only for non-nullable optional fields
+        Assert.assertFalse(context.contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
+                "optionalNullable must NOT have @field:JsonInclude(NON_NULL); only non-nullable optionals use NON_NULL");
+        assertFileContains(modelFile, "import com.fasterxml.jackson.annotation.JsonInclude");
+    }
+
+    /**
+     * Without openApiNullable the optional+nullable field is a plain {@code Type?} — no
+     * {@code @field:JsonInclude(NON_ABSENT)} should be emitted because {@code JsonNullable} is
+     * not used and the legacy nullable-type path doesn't need the annotation.
+     */
+    @Test(description = "Scenario 4 – optional+nullable without openApiNullable: no @JsonInclude(NON_ABSENT)")
+    public void requiredNullable_scenario4_optionalNullable_noNonAbsentWithoutOpenApiNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertFalse(context.contains("@field:JsonInclude(JsonInclude.Include.NON_ABSENT)"),
+                "optionalNullable must NOT have NON_ABSENT when openApiNullable=false (no JsonNullable wrapping)");
+    }
+
+    /**
      * Scenario 4 with Jackson 3 (Spring Boot 4) + openApiNullable=true.
      * JsonNullable is in org.openapitools.jackson.nullable regardless of Jackson version
      * (jackson-databind-nullable >= 0.2.10 supports both).
@@ -6811,6 +6856,38 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(
                 itemFile.toPath(),
                 "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\") val `2ndField`"
+        );
+    }
+
+
+    /**
+     * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
+     * A property that $ref's an OAS 3.1 schema with type:[object,"null"] is nullable and must
+     * NOT receive @field:JsonSetter(nulls = Nulls.FAIL).
+     */
+    @Test(description = "issue 24139: nullable $ref (type:[object,null]) must not get @JsonSetter(nulls = Nulls.FAIL)")
+    public void testIssue24139NullableRefNoJsonSetterNullsFail() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put("useBeanValidation", true);
+        additionalProperties.put("openApiNullable", "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/issue_24139.yaml",
+                additionalProperties
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+
+        // nestedNullable: $ref to NestedNullable (type:[object,"null"]) — nullable, no @JsonSetter(nulls = Nulls.FAIL)
+        assertFileNotContains(itemFile.toPath(), "nestedNullable: NestedNullable");
+        // The field must NOT have @JsonSetter(nulls = Nulls.FAIL) because the referenced schema is nullable
+        String content = org.apache.commons.io.FileUtils.readFileToString(itemFile, StandardCharsets.UTF_8);
+        // Extract the nestedNullable field block and verify annotation absence
+        Assert.assertFalse(
+                content.contains("@field:JsonSetter(nulls = Nulls.FAIL)\n    @param:JsonProperty(\"nestedNullable\")") ||
+                content.contains("@field:JsonSetter(nulls = Nulls.FAIL)\n    @get:JsonProperty(\"nestedNullable\")"),
+                "nestedNullable ($ref to nullable schema) must not have @JsonSetter(nulls = Nulls.FAIL)"
         );
     }
 }

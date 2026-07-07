@@ -67,6 +67,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   @JsonInclude(JsonInclude.Include.NON_NULL)
   {{/isNullable}}
   {{/required}}
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{/jackson}}
   {{#deprecated}}
   @Deprecated
