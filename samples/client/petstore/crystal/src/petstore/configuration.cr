@@ -132,6 +132,14 @@ module Petstore
     # Default: Crest::NestedParamsEncoder (encodes arrays as key=a&key=b).
     property params_encoder : Crest::ParamsEncoder.class = Crest::NestedParamsEncoder
 
+    # Optional request-signing hook. Called on every request, after apply_auth! and
+    # just before the HTTP call, with (method, full_url, body, headers, query). Mutate
+    # `headers`/`query` in place to inject a computed signature (OVH `$1$`+SHA1,
+    # AWS SigV4, ...). Left nil = no signing. Not expressible as an OpenAPI security
+    # scheme, hence this seam rather than apply_auth!.
+    property sign_request : Proc(Symbol, String, String?, HTTP::Headers,
+                                 Hash(String, String | Array(String)), Nil)? = nil
+
     # Create a new `Configuration`.
     def initialize
       @scheme = "http"
@@ -151,6 +159,7 @@ module Petstore
       @password = nil
       @access_token = nil
       @temp_folder_path = nil
+      @sign_request = nil
     end
 
     # Create a new `Configuration` with block.

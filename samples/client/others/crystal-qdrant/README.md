@@ -171,6 +171,40 @@ dependencies:
     version: ~> 1.0.0
 ```
 
+## Request signing / custom auth
+
+Static credentials (`apiKey`, `basic`, `bearer`, `oauth`) are applied from the OpenAPI
+spec by `Configuration#apply_auth!`. A **request signature** — a hash computed per request
+over the method, full URL, body and a timestamp (OVH, AWS SigV4, RFC 9421, ...) — cannot be
+modeled as an OpenAPI security scheme, so it is injected via the `sign_request` hook on
+`Configuration`. It runs on every request, after `apply_auth!` and just before the HTTP
+call, with `(method, full_url, body, headers, query)`; mutate `headers`/`query` in place:
+
+```crystal
+require "digest/sha1"
+
+config = Qdrant::Api::Configuration.new
+app_key, app_secret, consumer_key = "...", "...", "..."
+config.sign_request = ->(method : Symbol, url : String, body : String?,
+                         headers : HTTP::Headers,
+                         _query : Hash(String, String | Array(String))) do
+  ts  = Time.utc.to_unix.to_s
+  sig = "$1$" + Digest::SHA1.hexdigest(
+    {app_secret, consumer_key, method.to_s.upcase, url, body || "", ts}.join("+"))
+  headers["X-Ovh-Application"] = app_key
+  headers["X-Ovh-Consumer"]    = consumer_key
+  headers["X-Ovh-Timestamp"]   = ts
+  headers["X-Ovh-Signature"]   = sig
+  nil
+end
+```
+
+Design note: the hook runs **before** Crest re-encodes `query` into the final URL, so `url`
+here does not yet include the query string. If your API requires the signature to cover the
+query string, rebuild the URL from the params (the 5th argument) inside the hook, or rely on
+a native Crest hook — evaluate per target API. For a GET/write without query params, the
+current insertion point is sufficient.
+
 ## Development
 
 Install dependencies
