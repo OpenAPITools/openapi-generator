@@ -8216,4 +8216,53 @@ public class SpringCodegenTest {
         assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
         assertFileContains(modelFile, "private String optionalNonNullable");
     }
+
+    @Test
+    void testStringQuotesInTags_Issue22629() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new io.swagger.parser.OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_22629.yaml", null, new io.swagger.v3.parser.core.models.ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGenerateMetadata(false);
+        List<File> generatedFiles = generator.opts(input).generate();
+
+        File endpoint1ApiFile = generatedFiles.stream()
+                .filter(f -> f.getName().endsWith("Endpoint1Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Endpoint1Api file not generated"));
+
+        File endpoint2ApiFile = generatedFiles.stream()
+                .filter(f -> f.getName().endsWith("Endpoint2Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Endpoint2Api file not generated"));
+
+        File endpoint3ApiFile = generatedFiles.stream()
+                .filter(f -> f.getName().endsWith("Endpoint3Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Endpoint3Api file not generated"));
+
+        // 1. Verify the @Tag annotations have escaped double quotes, backslashes, and newlines
+        assertFileContains(endpoint1ApiFile.toPath(), "name = \"My \\\"quoted\\\" api\"");
+        assertFileContains(endpoint2ApiFile.toPath(), "name = \"My\\\\backslash\\\\api\"");
+        assertFileContains(endpoint3ApiFile.toPath(), "name = \"My newline api\"");
+
+        // 2. Verify the @Operation tags attributes have escaped double quotes, backslashes, and newlines
+        assertFileContains(endpoint1ApiFile.toPath(), "tags = { \"My \\\"quoted\\\" api\" }");
+        assertFileContains(endpoint2ApiFile.toPath(), "tags = { \"My\\\\backslash\\\\api\" }");
+        assertFileContains(endpoint3ApiFile.toPath(), "tags = { \"My newline api\" }");
+    }
 }
