@@ -1026,6 +1026,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
+                normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_OPERATION_EXTRA_ANNOTATION.getName());
+                normalizeOperationParameterVendorExtensions(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
             }
             // The tag for the controller is the first tag of the first operation
             final CodegenOperation firstOperation = ops.get(0);

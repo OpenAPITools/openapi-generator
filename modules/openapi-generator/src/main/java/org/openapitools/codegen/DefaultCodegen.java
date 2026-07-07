@@ -7157,6 +7157,19 @@ public class DefaultCodegen implements CodegenConfig {
         return Collections.emptyList();
     }
 
+    /**
+     * Normalizes a vendor extension value to a mutable list of strings.
+     * In this context, normalization means accepting a missing value, a single string, or a list value
+     * from the extension map and writing back a predictable {@code List<String>}. This gives templates
+     * and downstream generator logic a single shape to iterate over.
+     *
+     * @param vendorExtensions vendor extension map to update
+     * @param name             vendor extension name
+     */
+    public static void normalizeVendorExtensionWithStringList(Map<String, Object> vendorExtensions, String name) {
+        vendorExtensions.put(name, new ArrayList<>(getObjectAsStringList(vendorExtensions.get(name))));
+    }
+
     public Map<String, String> getPropertyAsStringMap(String propertyKey) {
         final Object value = additionalProperties.get(propertyKey);
         return getObjectAsStringMap(value);

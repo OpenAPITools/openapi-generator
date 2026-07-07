@@ -4345,6 +4345,34 @@ public class JavaClientCodegenTest {
         assertTrue(speciesSeen);
     }
 
+    @Test(dataProvider = "supportedLibraries")
+    public void testAllOfClassWithAnnotations(Library library) {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/allOf-with-annotations.yaml",
+                library.value,
+                Map.of(),
+                configurator -> configurator
+                        .addGlobalProperty(MODELS, "Animal,Bird,Cat,Dog,Fish")
+                        .addGlobalProperty(MODEL_TESTS, "false")
+                        .addGlobalProperty(MODEL_DOCS, "false"));
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Bird.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Fish.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("Deprecated");
+    }
+
     @Test
     public void testOneOfClassWithAnnotation() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT);

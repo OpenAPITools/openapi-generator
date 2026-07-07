@@ -6102,6 +6102,42 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testAllOfClassWithAnnotations() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/allOf-with-annotations.yaml", SPRING_BOOT);
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .assertProperty("breed")
+                .assertPropertyAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Bird.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Fish.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .assertMethod("getDog")
+                .assertMethodAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated")
+                .toMethod()
+                .assertParameter("includeDetails")
+                .assertParameterAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+    }
+
+    @Test
     public void testApiVersion() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/apiVersion.yaml", SPRING_BOOT,
                 Map.of(SpringCodegen.SPRING_API_VERSION, "v1",
