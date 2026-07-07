@@ -202,9 +202,10 @@ public class GoGinServer2Codegen extends AbstractGoCodegen {
                 addedTimeImport = true;
             }
 
+            // strfmt.UUID (this generator) and strfmt.DateTime (go-resty-client) both need the strfmt import
             boolean addUuidImport = openapiUUIDFeatureEnabled && !addedUuidImport &&
-                    (operation.queryParams.stream().anyMatch(p -> requiresImport(p, "strfmt.UUID")) ||
-                    operation.pathParams.stream().anyMatch(p -> requiresImport(p, "strfmt.UUID")));
+                    (operation.queryParams.stream().anyMatch(p -> requiresImport(p, "strfmt.UUID") || requiresImport(p, "strfmt.DateTime")) ||
+                    operation.pathParams.stream().anyMatch(p -> requiresImport(p, "strfmt.UUID") || requiresImport(p, "strfmt.DateTime")));
 
             if (addUuidImport) {
                 imports.add(createMapping("import", "github.com/go-openapi/strfmt"));
@@ -271,7 +272,7 @@ public class GoGinServer2Codegen extends AbstractGoCodegen {
                         break;
                     }
 
-                    if (requiresImport(cp, "strfmt.UUID")) {
+                    if (requiresImport(cp, "strfmt.UUID") || requiresImport(cp, "strfmt.DateTime")) {
                         imports.add(createMapping("import", "github.com/go-openapi/strfmt"));
                         strfmtImportAdded = true;
                     }

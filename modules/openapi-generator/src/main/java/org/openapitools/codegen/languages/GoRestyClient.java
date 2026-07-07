@@ -39,6 +39,9 @@ public class GoRestyClient extends GoGinServer2Codegen {
 
         replacePath = false;
 
+        // go-resty-client uses strfmt.DateTime (not time.Time) for date-time; strfmt import handled by parent
+        typeMapping.put("DateTime", "strfmt.DateTime");
+
         // map[string]any and any are Go builtins mapped from object/AnyType — not model types
         languageSpecificPrimitives.add("map[string]any");
         languageSpecificPrimitives.add("map[string]interface{}");
