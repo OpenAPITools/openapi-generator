@@ -2248,6 +2248,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return objs;
     }
 
+    /**
+     * Normalizes a model property vendor extension across all property collections.
+     * In this context, normalization means converting a missing value, a single string, or a list value
+     * into a predictable mutable {@code List<String>} on each property. The same property can appear in
+     * several model collections, so the collections are de-duplicated before updating the extension map.
+     *
+     * @param model model whose properties should be updated
+     * @param name  vendor extension name
+     */
     private void normalizeModelPropertyVendorExtensions(CodegenModel model, String name) {
         Set<CodegenProperty> properties = Collections.newSetFromMap(new IdentityHashMap<>());
         properties.addAll(model.vars);
@@ -2265,6 +2274,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    /**
+     * Normalizes an operation parameter vendor extension across all parameter collections.
+     * In this context, normalization means converting a missing value, a single string, or a list value
+     * into a predictable mutable {@code List<String>} on each parameter. The same parameter can appear in
+     * several operation collections, so the collections are de-duplicated before updating the extension map.
+     *
+     * @param operation operation whose parameters should be updated
+     * @param name      vendor extension name
+     */
     protected void normalizeOperationParameterVendorExtensions(CodegenOperation operation, String name) {
         Set<CodegenParameter> parameters = Collections.newSetFromMap(new IdentityHashMap<>());
         parameters.addAll(operation.allParams);
