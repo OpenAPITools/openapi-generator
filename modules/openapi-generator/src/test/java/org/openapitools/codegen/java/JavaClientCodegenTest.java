@@ -2039,6 +2039,37 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testOneOfInterfaceInheritedEnumDiscriminator() {
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        // resttemplate (unlike the default okhttp-gson) renders oneOf as interfaces, so it uses the
+        // base Java/oneof_interface template that emits the discriminator getter type.
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary("resttemplate");
+        codegen.setOutputDir(output.toString());
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        final ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        // Issue #22541: the inline-enum discriminator inherited from a base schema via allOf must
+        // resolve to the enum type in the oneOf interface getter, not String.
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/PetResponseEnumDisc.java"))
+                .content().contains("public PetTypeEnum getPetType();");
+    }
+
+    @Test
     public void testDiscriminatorWithoutMappingIssue14731() {
         final Path output = newTempFolder();
         final OpenAPI openAPI = new OpenAPIParser()
