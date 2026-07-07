@@ -1,0 +1,13 @@
+generatorName: ruby-idiomatic
+outputDir: samples/client/petstore/ruby-idiomatic
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/ruby-idiomatic
+globalProperties:
+  apiTests: "true"
+  modelTests: "true"
+  apiDocs: "false"
+  modelDocs: "false"
+additionalProperties:
+  gemName: petstore
+  moduleName: Petstore
+  gemVersion: 1.0.0

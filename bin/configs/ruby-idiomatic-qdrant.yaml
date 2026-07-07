@@ -1,0 +1,13 @@
+generatorName: ruby-idiomatic
+outputDir: samples/client/others/ruby-idiomatic-qdrant
+inputSpec: modules/openapi-generator/src/test/resources/3_0/crystal/qdrant.json
+templateDir: modules/openapi-generator/src/main/resources/ruby-idiomatic
+globalProperties:
+  apiTests: "true"
+  modelTests: "true"
+  apiDocs: "false"
+  modelDocs: "false"
+additionalProperties:
+  gemName: qdrant
+  moduleName: Qdrant
+  gemVersion: 1.0.0

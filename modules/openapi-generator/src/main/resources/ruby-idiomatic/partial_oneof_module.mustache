@@ -1,0 +1,34 @@
+    # oneOf wrapper. Builds the matching member from the discriminator when present,
+    # else tries each candidate type in order.
+    module {{classname}}
+      CANDIDATES = [
+{{#oneOf}}
+        '{{{.}}}',
+{{/oneOf}}
+      ].freeze
+
+      def self.build(data)
+{{#discriminator}}
+        key = data['{{vendorExtensions.x-rb-discriminator-prop}}']
+        mapping = { {{#mappedModels}}'{{mappingName}}' => {{moduleName}}::Models::{{modelName}}{{^-last}}, {{/-last}}{{/mappedModels}} }
+        klass = mapping[key]
+        return klass.from_hash(data) if klass
+{{/discriminator}}
+        # oneOf semantics: exactly one candidate must match. Collect every match so an
+        # ambiguous payload (satisfying more than one schema) is surfaced rather than
+        # silently resolved to whichever candidate happens to be listed first. (A match
+        # can legitimately be `false`, so reject only nil -- never use compact/filter_map.)
+        matches = []
+        CANDIDATES.each do |type_name|
+          next if type_name == 'AnyType'
+
+          result = {{moduleName}}::Polymorphism.cast(type_name, data)
+          matches << result unless result.nil?
+        end
+        raise ArgumentError, "ambiguous oneOf for #{name}: #{matches.size} candidates matched" if matches.size > 1
+        return matches.first unless matches.empty?
+        return data if CANDIDATES.include?('AnyType')
+
+        raise ArgumentError, "oneOf for #{name}: no candidate matched #{CANDIDATES.inspect}"
+      end
+    end
