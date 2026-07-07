@@ -32,6 +32,7 @@ export function instanceOf{{classname}}(value: object): value is {{classname}} {
     if (!('{{name}}' in value) || value['{{name}}'] === undefined) return false;
     {{/hasSanitizedName}}
     {{#isEnum}}
+    {{^isContainer}}
     {{#allowableValues}}
     {{#values}}
     {{#-first}}
@@ -48,6 +49,7 @@ export function instanceOf{{classname}}(value: object): value is {{classname}} {
     {{/-first}}
     {{/values}}
     {{/allowableValues}}
+    {{/isContainer}}
     {{/isEnum}}
     {{/required}}
     {{/vars}}
