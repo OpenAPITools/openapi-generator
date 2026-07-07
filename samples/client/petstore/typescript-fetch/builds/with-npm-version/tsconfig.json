@@ -5,10 +5,6 @@
     "module": "commonjs",
     "outDir": "dist",
     "rootDir": "src",
-    "lib": [
-      "es6",
-      "dom"
-    ],
     "typeRoots": [
       "node_modules/@types"
     ]
