@@ -199,11 +199,16 @@ config.sign_request = ->(method : Symbol, url : String, body : String?,
 end
 ```
 
-Design note: the hook runs **before** Crest re-encodes `query` into the final URL, so `url`
-here does not yet include the query string. If your API requires the signature to cover the
-query string, rebuild the URL from the params (the 5th argument) inside the hook, or rely on
-a native Crest hook — evaluate per target API. For a GET/write without query params, the
-current insertion point is sufficient.
+Design notes:
+
+- `url` is the base URL + path **without** the query string — the hook runs before Crest
+  re-encodes `query` into the final URL. If your signature must cover the query string,
+  rebuild it from the `query` argument (5th param) inside the hook, matching Crest's
+  `params_encoder`, or rely on a native Crest hook.
+- `body` is **nil for form/multipart operations** (`application/x-www-form-urlencoded`,
+  file uploads): the form is encoded by Crest after this hook, so a body-hashing signer
+  cannot see it here. Signing is therefore supported for JSON-body and query/path requests;
+  form-body signing would need a hook at the Crest layer.
 
 ## Development
 

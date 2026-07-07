@@ -133,10 +133,13 @@ module Qdrant::Api
     property params_encoder : Crest::ParamsEncoder.class = Crest::NestedParamsEncoder
 
     # Optional request-signing hook. Called on every request, after apply_auth! and
-    # just before the HTTP call, with (method, full_url, body, headers, query). Mutate
-    # `headers`/`query` in place to inject a computed signature (OVH `$1$`+SHA1,
-    # AWS SigV4, ...). Left nil = no signing. Not expressible as an OpenAPI security
-    # scheme, hence this seam rather than apply_auth!.
+    # just before the HTTP call, with (method, url, body, headers, query). `url` is the
+    # base URL + path WITHOUT the query string (Crest re-encodes `query` into the final
+    # URL after this hook); rebuild it from the `query` argument if your signature must
+    # cover it. `body` is nil for form/multipart operations (the form is encoded by Crest
+    # later). Mutate `headers`/`query` in place to inject a computed signature (OVH
+    # `$1$`+SHA1, AWS SigV4, ...). Left nil = no signing. Not expressible as an OpenAPI
+    # security scheme, hence this seam rather than apply_auth!.
     property sign_request : Proc(Symbol, String, String?, HTTP::Headers,
                                  Hash(String, String | Array(String)), Nil)? = nil
 
