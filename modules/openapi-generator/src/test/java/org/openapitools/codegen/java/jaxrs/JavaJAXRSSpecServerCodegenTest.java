@@ -2106,4 +2106,60 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/ItemsApi.java");
         return Files.readString(output.toPath().resolve("src/gen/java/org/openapitools/api/ItemsApi.java"));
     }
+
+    /**
+     * With {@code useOneOfInterfaces=true} a oneOf schema is generated as a Java interface, and the
+     * concrete subtypes implement (not extend) it. The discriminator property is declared only on a
+     * shared non-discriminator base (acyclic pattern), so the interface getter type resolves to the
+     * enum model (PetType) from the mapped children rather than falling back to String.
+     */
+    @Test
+    public void testOneOfInterfaceGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        // The oneOf schema becomes an interface declaring the discriminator getter with the resolved
+        // enum type rather than String.
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"),
+                "public interface PetRequest",
+                "PetType getPetType();");
+        // an interface is not a class and must not extend a parent
+        assertFileNotContains(Paths.get(modelDir + "PetRequest.java"), "class PetRequest");
+
+        // The concrete subtypes implement (not extend) the interface, with a matching getter return type,
+        // so there is no cyclical extends/implements and no return-type clash.
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"),
+                "public class CatRequest",
+                "implements PetRequest",
+                "public PetType getPetType()");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"), "extends PetRequest");
+
+        assertFileContains(Paths.get(modelDir + "DogRequest.java"),
+                "public class DogRequest",
+                "implements PetRequest",
+                "public PetType getPetType()");
+        assertFileNotContains(Paths.get(modelDir + "DogRequest.java"), "extends PetRequest");
+
+        // The @JsonTypeName of each subtype is the discriminator mapping value (CAT/DOG), resolved from
+        // the oneOf interface it implements, not the class name - so polymorphic (de)serialization keys
+        // off the discriminator value and round-trips with the @JsonSubTypes mapping on the interface.
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"), "@JsonTypeName(\"CAT\")");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"), "@JsonTypeName(\"CatRequest\")");
+        assertFileContains(Paths.get(modelDir + "DogRequest.java"), "@JsonTypeName(\"DOG\")");
+        assertFileNotContains(Paths.get(modelDir + "DogRequest.java"), "@JsonTypeName(\"DogRequest\")");
+    }
 }
