@@ -1,0 +1,11 @@
+generatorName: java
+outputDir: samples/client/petstore/java/microprofile-oneof-interface
+library: microprofile
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/oneof_interface_petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  serializationLibrary: jackson
+  artifactId: microprofile-oneof-interface
+  useOneOfInterfaces: "true"
+  microprofileRestClientVersion: "3.0"
+  hideGenerationTimestamp: true
