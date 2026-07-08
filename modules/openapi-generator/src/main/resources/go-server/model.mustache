@@ -80,8 +80,8 @@ type {{classname}} struct {
 func Assert{{classname}}Required(obj {{classname}}) error {
 {{#hasRequired}}
 	elements := map[string]interface{}{
-{{#requiredVars}}		"{{baseName}}": obj.{{name}},
-{{/requiredVars}}	}
+{{#requiredVars}}{{^isReadOnly}}		"{{baseName}}": obj.{{name}},
+{{/isReadOnly}}{{/requiredVars}}	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {
 			return &RequiredError{Field: name}
@@ -100,6 +100,7 @@ func Assert{{classname}}Required(obj {{classname}}) error {
 	{{/isMap}}
 {{/parent}}
 {{#Vars}}
+{{^isReadOnly}}
 	{{#isNullable}}
 		{{#isModel}}
 	if obj.{{name}} != nil {
@@ -157,6 +158,7 @@ func Assert{{classname}}Required(obj {{classname}}) error {
 			{{/items.isModel}}
 		{{/isArray}}
 	{{/isNullable}}
+{{/isReadOnly}}
 {{/Vars}}
 	return nil
 }
@@ -164,6 +166,7 @@ func Assert{{classname}}Required(obj {{classname}}) error {
 // Assert{{classname}}Constraints checks if the values respects the defined constraints
 func Assert{{classname}}Constraints(obj {{classname}}) error {
 {{#Vars}}
+{{^isReadOnly}}
 {{#minimum}}
 	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} < {{minimum}} {
 		return &ParsingError{Param: "{{name}}", Err: errors.New(errMsgMinValueConstraint)}
@@ -229,6 +232,7 @@ func Assert{{classname}}Constraints(obj {{classname}}) error {
 {{/items.isModel}}
 {{/isArray}}
 {{/isNullable}}
+{{/isReadOnly}}
 {{/Vars}}
 	return nil
 }{{/model}}{{/models}}

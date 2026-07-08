@@ -3344,110 +3344,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Recursively look in Schema sc for the discriminator discPropName
-     * and return a CodegenProperty with the dataType and required params set
-     * the returned CodegenProperty may not be required and it may not be of type string
-     *
-     * @param composedSchemaName The name of the sc Schema
-     * @param sc                 The Schema that may contain the discriminator
-     * @param discPropName       The String that is the discriminator propertyName in the schema
-     * @param visitedSchemas     A set of visited schema names
-     */
-    private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, Set<String> visitedSchemas) {
-        Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
-        String schemaName = Optional.ofNullable(composedSchemaName)
-                .or(() -> Optional.ofNullable(refSchema.getName()))
-                .or(() -> Optional.ofNullable(sc.get$ref()).map(ModelUtils::getSimpleRef))
-                .orElseGet(sc::toString);
-        if (visitedSchemas.contains(schemaName)) { // recursive schema definition found
-            return null;
-        } else {
-            visitedSchemas.add(schemaName);
-        }
-
-        if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
-            Schema discSchema = ModelUtils.getReferencedSchema(openAPI, getDiscriminatorSchema(refSchema, discPropName));
-            CodegenProperty cp = new CodegenProperty();
-            if (ModelUtils.isStringSchema(discSchema)) {
-                cp.isString = true;
-            }
-            cp.setRequired(false);
-            if (refSchema.getRequired() != null && refSchema.getRequired().contains(discPropName)) {
-                cp.setRequired(true);
-            }
-            cp.setIsEnum(discSchema.getEnum() != null && !discSchema.getEnum().isEmpty());
-            return cp;
-        }
-        if (ModelUtils.isComposedSchema(refSchema)) {
-            Schema composedSchema = refSchema;
-            if (composedSchema.getAllOf() != null) {
-                // If our discriminator is in one of the allOf schemas break when we find it
-                for (Object allOf : composedSchema.getAllOf()) {
-                    Schema allOfSchema = (Schema) allOf;
-                    CodegenProperty cp = discriminatorFound(allOfSchema.getName(), allOfSchema, discPropName, visitedSchemas);
-                    if (cp != null) {
-                        return cp;
-                    }
-                }
-            }
-            if (ModelUtils.hasOneOf(composedSchema)) {
-                // All oneOf definitions must contain the discriminator
-                CodegenProperty cp = new CodegenProperty();
-                for (Object oneOf : composedSchema.getOneOf()) {
-                    Schema oneOfSchema = (Schema) oneOf;
-                    String modelName = ModelUtils.getSimpleRef((oneOfSchema).get$ref());
-                    // Must use a copied set as the oneOf schemas can point to the same discriminator.
-                    Set<String> visitedSchemasCopy = new TreeSet<>(visitedSchemas);
-                    CodegenProperty thisCp = discriminatorFound(oneOfSchema.getName(), oneOfSchema, discPropName, visitedSchemasCopy);
-                    if (thisCp == null) {
-                        once(LOGGER).warn(
-                                "'{}' defines discriminator '{}', but the referenced OneOf schema '{}' is missing {}",
-                                composedSchemaName, discPropName, modelName, discPropName);
-                    }
-                    if (cp != null && cp.dataType == null) {
-                        cp = thisCp;
-                        continue;
-                    }
-                    if (cp != thisCp) {
-                        once(LOGGER).warn(
-                                "'{}' defines discriminator '{}', but the OneOf schema '{}' has a different {} definition than the prior OneOf schema's. Make sure the {} type and required values are the same",
-                                composedSchemaName, discPropName, modelName, discPropName, discPropName);
-                    }
-                }
-                return cp;
-            }
-            if (ModelUtils.hasAnyOf(composedSchema)) {
-                // All anyOf definitions must contain the discriminator because a min of one must be selected
-                CodegenProperty cp = new CodegenProperty();
-                for (Object anyOf : composedSchema.getAnyOf()) {
-                    Schema anyOfSchema = (Schema) anyOf;
-                    String modelName = ModelUtils.getSimpleRef(anyOfSchema.get$ref());
-                    // Must use a copied set as the anyOf schemas can point to the same discriminator.
-                    Set<String> visitedSchemasCopy = new TreeSet<>(visitedSchemas);
-                    CodegenProperty thisCp = discriminatorFound(anyOfSchema.getName(), anyOfSchema, discPropName, visitedSchemasCopy);
-                    if (thisCp == null) {
-                        once(LOGGER).warn(
-                                "'{}' defines discriminator '{}', but the referenced AnyOf schema '{}' is missing {}",
-                                composedSchemaName, discPropName, modelName, discPropName);
-                    }
-                    if (cp != null && cp.dataType == null) {
-                        cp = thisCp;
-                        continue;
-                    }
-                    if (cp != thisCp) {
-                        once(LOGGER).warn(
-                                "'{}' defines discriminator '{}', but the AnyOf schema '{}' has a different {} definition than the prior AnyOf schema's. Make sure the {} type and required values are the same",
-                                composedSchemaName, discPropName, modelName, discPropName, discPropName);
-                    }
-                }
-                return cp;
-
-            }
-        }
-        return null;
-    }
-
-    /**
      * Recursively look in Schema sc for the discriminator and return it
      *
      * @param sc             The Schema that may contain the discriminator
@@ -3495,7 +3391,7 @@ public class DefaultCodegen implements CodegenConfig {
                             "Invalid inline schema defined in oneOf/anyOf in '{}'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the oneOf/anyOf schemas must use $ref. Change this inline definition to a $ref definition",
                             composedSchemaName);
                 }
-                CodegenProperty df = discriminatorFound(composedSchemaName, sc, discPropName, new TreeSet<String>());
+                CodegenProperty df = DiscriminatorUtils.discriminatorFound(openAPI, composedSchemaName, sc, discPropName, new TreeSet<String>());
                 String modelName = ModelUtils.getSimpleRef(ref);
                 if (df == null || !df.isString || !df.required) {
                     String msgSuffix = "";
@@ -3611,7 +3507,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // check to see if the discriminator property is an enum string
         boolean isEnum = Optional
-                .ofNullable(discriminatorFound(schemaName, schema, discriminatorPropertyName, new TreeSet<>()))
+                .ofNullable(DiscriminatorUtils.discriminatorFound(openAPI, schemaName, schema, discriminatorPropertyName, new TreeSet<>()))
                 .map(CodegenProperty::getIsEnum)
                 .orElse(false);
         discriminator.setIsEnum(isEnum);
@@ -3669,18 +3565,6 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.getMappedModels().addAll(uniqueDescendants);
 
         return discriminator;
-    }
-
-    /**
-     * Get the Schema for the discriminator type. Requires special handling due to siblings from OAS 3.1.
-     * An example of a sibling is an enum-ref that has its own description. This will lead to the enum being
-     * referenced as an allOf that in turn has a ref, rather than a regular ref directly to the enum.
-     *
-     * @param schema            The input OAS schema.
-     * @param discriminatorName The name of the discriminator property.
-     */
-    protected Schema getDiscriminatorSchema(Schema schema, String discriminatorName) {
-        return DiscriminatorUtils.getDiscriminatorSchema(schema, discriminatorName);
     }
 
     /**
@@ -7155,6 +7039,19 @@ public class DefaultCodegen implements CodegenConfig {
             return Collections.singletonList((String) value);
         }
         return Collections.emptyList();
+    }
+
+    /**
+     * Normalizes a vendor extension value to a mutable list of strings.
+     * In this context, normalization means accepting a missing value, a single string, or a list value
+     * from the extension map and writing back a predictable {@code List<String>}. This gives templates
+     * and downstream generator logic a single shape to iterate over.
+     *
+     * @param vendorExtensions vendor extension map to update
+     * @param name             vendor extension name
+     */
+    public static void normalizeVendorExtensionWithStringList(Map<String, Object> vendorExtensions, String name) {
+        vendorExtensions.put(name, new ArrayList<>(getObjectAsStringList(vendorExtensions.get(name))));
     }
 
     public Map<String, String> getPropertyAsStringMap(String propertyKey) {

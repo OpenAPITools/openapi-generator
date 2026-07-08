@@ -4345,6 +4345,34 @@ public class JavaClientCodegenTest {
         assertTrue(speciesSeen);
     }
 
+    @Test(dataProvider = "supportedLibraries")
+    public void testAllOfClassWithAnnotations(Library library) {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/allOf-with-annotations.yaml",
+                library.value,
+                Map.of(),
+                configurator -> configurator
+                        .addGlobalProperty(MODELS, "Animal,Bird,Cat,Dog,Fish")
+                        .addGlobalProperty(MODEL_TESTS, "false")
+                        .addGlobalProperty(MODEL_DOCS, "false"));
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Bird.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Fish.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("Deprecated");
+    }
+
     @Test
     public void testOneOfClassWithAnnotation() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT);
@@ -4596,4 +4624,41 @@ public class JavaClientCodegenTest {
                 .contains("@Tag(");
     }
 
+    @DataProvider(name = "rxJavaOptions")
+    public static Object[][] rxJavaOptions() {
+        return new Object[][]{
+                {Map.of(USE_RX_JAVA2, true, USE_RX_JAVA3, true), Map.of(USE_RX_JAVA2, false, USE_RX_JAVA3, true)},
+                {Map.of(USE_RX_JAVA2, true), Map.of(USE_RX_JAVA2, true)}
+        };
+    }
+
+    @Test(dataProvider = "rxJavaOptions")
+    public void processOptsConfiguresRxJavaOptions(Map<String, Object> properties, Map<String, Object> expectedProperties) {
+        JavaClientCodegen codegen = newRetrofit2Codegen(properties);
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties())
+                .containsAllEntriesOf(expectedProperties)
+                .doesNotContainKey(DO_NOT_USE_RX);
+    }
+
+    @Test
+    public void processOptsConvertsConfiguredSupportUrlQuery() {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.APACHE);
+        codegen.additionalProperties().put(SUPPORT_URL_QUERY, "false");
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties())
+                .containsEntry(SUPPORT_URL_QUERY, false);
+    }
+
+    private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.RETROFIT_2);
+        codegen.additionalProperties().putAll(properties);
+        return codegen;
+    }
 }

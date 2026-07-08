@@ -726,4 +726,30 @@ public class CrystalClientCodegenTest {
         assertTrue(src.contains("\"multi_ids\" => multi_ids,") || src.contains("\"multi_ids\" => multi_ids "),
             "multi array param must stay an array (no join)");
     }
+
+    @Test
+    public void testConfigurationExposesSignRequestSeam() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/crystal/petstore.yaml");
+        CodegenConfig codegen = new CrystalClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        List<File> files = new DefaultGenerator()
+            .opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        boolean configSeen = false, connSeen = false;
+        for (File f : files) {
+            if (f.getName().equals("configuration.cr")) {
+                configSeen = true;
+                String c = FileUtils.readFileToString(f, StandardCharsets.UTF_8);
+                assertTrue(c.contains("property sign_request"), "Configuration must expose sign_request seam");
+            }
+            if (f.getName().equals("connection.cr")) {
+                connSeen = true;
+                String c = FileUtils.readFileToString(f, StandardCharsets.UTF_8);
+                assertTrue(c.contains("config.sign_request.try"), "Connection must invoke the sign_request hook");
+            }
+        }
+        assertTrue(configSeen && connSeen, "configuration.cr and connection.cr must be generated");
+    }
 }

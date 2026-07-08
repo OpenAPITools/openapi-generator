@@ -367,6 +367,11 @@ export function mapValues(data: any, fn: (item: any) => any) {
     return result;
 }
 
+// Pass-through serializer for `any`-typed properties in form data. See #1877.
+export function anyToJSON(value: any): any {
+    return value;
+}
+
 export function canConsumeForm(consumes: Consume[]): boolean {
     for (const consume of consumes) {
         if (consume.contentType?.startsWith('multipart/form-data') == true) {

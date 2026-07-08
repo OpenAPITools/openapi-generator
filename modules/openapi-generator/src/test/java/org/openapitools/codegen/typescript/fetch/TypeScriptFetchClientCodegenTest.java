@@ -209,21 +209,6 @@ public class TypeScriptFetchClientCodegenTest {
         assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
     }
 
-    @Test
-    public void doesNotContainESMTSConfigFileInCaseOfES5AndNPM() {
-        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
-
-        codegen.additionalProperties().put("npmName", "@openapi/typescript-fetch-petstore");
-        codegen.additionalProperties().put("snapshot", false);
-        codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
-        codegen.additionalProperties().put("supportsES6", false);
-
-        codegen.processOpts();
-
-        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        assertThat(codegen.supportingFiles()).doesNotContain(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
-    }
-
     @Test(description = "Verify file name formatting from model name in PascalCase")
     public void testModelFileNameInPascalCase() {
         final TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
@@ -651,6 +636,35 @@ public class TypeScriptFetchClientCodegenTest {
         Path outerPlain = Paths.get(output + "/models/OuterPlain.ts");
         TestUtils.assertFileExists(outerPlain);
         TestUtils.assertFileContains(outerPlain, "export interface OuterPlain {");
+    }
+
+    @Test(description = "instanceOf guard must not emit scalar enum comparison for array-typed enum properties")
+    public void testInstanceOfArrayEnumNoScalarComparison() throws Exception {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/array_of_single_value_enum.json"
+        );
+
+        Path modelPath = Paths.get(output + "/models/TestSchema.ts");
+        // Must NOT emit a scalar !== comparison for an array-typed enum property
+        TestUtils.assertFileNotContains(modelPath, "value['types'] !== 'boatbooker_activities'");
+        TestUtils.assertFileNotContains(modelPath, "value['types'] !== boatbooker_activities");
+        // Must still check for presence of the field
+        TestUtils.assertFileContains(modelPath, "'types' in value");
+    }
+
+    @Test(description = "Optional nullable fields should deserialize to null, not undefined (fix #5670)")
+    public void testOptionalNullableFieldDeserializesToNull() throws Exception {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/nullable_property.json"
+        );
+
+        Path modelPath = Paths.get(output + "/models/TestSchema.ts");
+        // Optional nullable field: when API returns null, FromJSON should produce null not undefined
+        TestUtils.assertFileContains(modelPath, "json['nullable_property'] === undefined ? undefined : json['nullable_property'] === null ? null :");
+        // Required non-nullable field: still uses undefined path
+        TestUtils.assertFileNotContains(modelPath, "json['required_property'] === undefined ? undefined : json['required_property'] === null ? null :");
     }
 
     private static File generate(

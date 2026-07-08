@@ -2134,13 +2134,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         // make sure the x-implements is always a List and always at least empty
         for (ModelMap mo : objs.getModels()) {
-            CodegenModel cm = mo.getModel();
-            if (cm.getVendorExtensions().containsKey(X_IMPLEMENTS)) {
-                List<String> xImplements = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
-                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
-            } else {
-                cm.getVendorExtensions().put(X_IMPLEMENTS, new ArrayList<String>());
-            }
+            normalizeVendorExtensionWithStringList(mo.getModel().getVendorExtensions(), X_IMPLEMENTS);
+        }
+
+        // make sure the x-class-extra-annotation is always a List and always at least empty
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel model = mo.getModel();
+            normalizeVendorExtensionWithStringList(model.getVendorExtensions(), VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName());
+            normalizeModelPropertyVendorExtensions(model, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
         }
 
         // skip interfaces predefined in open api spec in x-implements via additional property xImplementsSkip
@@ -2241,9 +2242,66 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             handleImplicitHeaders(op);
             handleConstantParams(op);
+            normalizeOperationParameterVendorExtensions(op, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
         }
 
         return objs;
+    }
+
+    /**
+     * Normalizes a model property vendor extension across all property collections.
+     * In this context, normalization means converting a missing value, a single string, or a list value
+     * into a predictable mutable {@code List<String>} on each property. The same property can appear in
+     * several model collections, so the collections are de-duplicated before updating the extension map.
+     *
+     * @param model model whose properties should be updated
+     * @param name  vendor extension name
+     */
+    private void normalizeModelPropertyVendorExtensions(CodegenModel model, String name) {
+        Set<CodegenProperty> properties = Collections.newSetFromMap(new IdentityHashMap<>());
+        properties.addAll(model.vars);
+        properties.addAll(model.allVars);
+        properties.addAll(model.requiredVars);
+        properties.addAll(model.optionalVars);
+        properties.addAll(model.readOnlyVars);
+        properties.addAll(model.readWriteVars);
+        properties.addAll(model.parentVars);
+        properties.addAll(model.parentRequiredVars);
+        properties.addAll(model.nonNullableVars);
+
+        for (CodegenProperty property : properties) {
+            normalizeVendorExtensionWithStringList(property.vendorExtensions, name);
+        }
+    }
+
+    /**
+     * Normalizes an operation parameter vendor extension across all parameter collections.
+     * In this context, normalization means converting a missing value, a single string, or a list value
+     * into a predictable mutable {@code List<String>} on each parameter. The same parameter can appear in
+     * several operation collections, so the collections are de-duplicated before updating the extension map.
+     *
+     * @param operation operation whose parameters should be updated
+     * @param name      vendor extension name
+     */
+    protected void normalizeOperationParameterVendorExtensions(CodegenOperation operation, String name) {
+        Set<CodegenParameter> parameters = Collections.newSetFromMap(new IdentityHashMap<>());
+        parameters.addAll(operation.allParams);
+        parameters.addAll(operation.bodyParams);
+        parameters.addAll(operation.pathParams);
+        parameters.addAll(operation.queryParams);
+        parameters.addAll(operation.headerParams);
+        parameters.addAll(operation.implicitHeadersParams);
+        parameters.addAll(operation.constantParams);
+        parameters.addAll(operation.formParams);
+        parameters.addAll(operation.cookieParams);
+        parameters.addAll(operation.requiredParams);
+        parameters.addAll(operation.optionalParams);
+        parameters.addAll(operation.requiredAndNotNullableParams);
+        parameters.addAll(operation.notNullableParams);
+
+        for (CodegenParameter parameter : parameters) {
+            normalizeVendorExtensionWithStringList(parameter.vendorExtensions, name);
+        }
     }
 
     @Override

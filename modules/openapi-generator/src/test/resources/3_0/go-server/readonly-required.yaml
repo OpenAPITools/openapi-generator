@@ -1,0 +1,45 @@
+openapi: 3.0.1
+
+info:
+  version: 1.0.0
+  title: readOnly required fields must not be enforced on request bodies
+
+paths:
+  /thing:
+    post:
+      operationId: createThing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      responses:
+        '201':
+          description: created
+
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        meta:
+          readOnly: true
+          allOf:
+            - $ref: '#/components/schemas/Meta'
+      required:
+        - id
+        - name
+        - meta
+    Meta:
+      type: object
+      properties:
+        createdBy:
+          type: string
+      required:
+        - createdBy

@@ -35,6 +35,7 @@ public class NullableModel implements Serializable {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String optionalNonNullable;
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> optionalNullable = JsonNullable.<String>undefined();
 
   public NullableModel() {

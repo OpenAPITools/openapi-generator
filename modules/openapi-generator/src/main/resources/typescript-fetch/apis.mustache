@@ -279,7 +279,7 @@ export class {{classname}} extends runtime.BaseAPI {
             {{^isEnumRef}}
             {{^withoutRuntimeChecks}}
             {{^isContainer}}
-            formParams.append('{{baseName}}', new Blob([JSON.stringify({{{dataType}}}ToJSON(requestParameters['{{paramName}}']))], { type: "application/json", }));
+            formParams.append('{{baseName}}', new Blob([JSON.stringify({{#isFreeFormObject}}runtime.anyToJSON{{/isFreeFormObject}}{{^isFreeFormObject}}{{{dataType}}}ToJSON{{/isFreeFormObject}}(requestParameters['{{paramName}}']))], { type: "application/json", }));
             {{/isContainer}}
             {{#isContainer}}
             formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters['{{paramName}}'])], { type: "application/json", }));
