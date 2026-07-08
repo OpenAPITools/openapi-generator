@@ -434,7 +434,6 @@ class Pet implements ModelInterface, ArrayAccess, JsonSerializable
             throw new InvalidArgumentException('non-nullable photo_urls cannot be null');
         }
 
-
         $this->container['photo_urls'] = $photo_urls;
 
         return $this;
