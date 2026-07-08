@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: mapping
+paths:
+  /some/dummy/endpoint/{id}:
+    get:
+      operationId: getDummy
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: My Custom Id
+          schema:
+            $ref: '#/components/schemas/MyId'
+        - name: key
+          in: query
+          required: true
+          description: filter on key
+          schema:
+            $ref: '#/components/schemas/MyKey'
+
+      responses:
+        200:
+          description: Successfully created reverse listings for retail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dummy'
+components:
+  schemas:
+    Dummy:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/MyId'
+        key:
+          $ref: '#/components/schemas/MyKey'
+    MyId:
+      type: string
+      format: custom
+    MyKey:
+      type: string

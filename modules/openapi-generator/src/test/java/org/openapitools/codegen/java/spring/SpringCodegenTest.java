@@ -8301,4 +8301,26 @@ public class SpringCodegenTest {
         assertFileContains(endpoint2ApiFile.toPath(), "tags = { \"My\\\\backslash\\\\api\" }");
         assertFileContains(endpoint3ApiFile.toPath(), "tags = { \"My newline api\" }");
     }
+
+    @Test
+    void issue_24232() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24232.yaml", SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .addTypeMapping("string+custom", "MyCustomId")
+                                .addSchemaMapping("MyKey", "MyCustomKey")
+                                .addImportMapping("MyCustomId", "org.myorg.MyCustomId")
+                                .addImportMapping("MyCustomKey", "org.myorg.MyCustomKey"));
+
+        JavaFileAssert.assertThat(files.get("SomeApi.java"))
+                .assertMethod("getDummy", "MyCustomId", "MyCustomKey")
+                .toFileAssert()
+                .fileContains( "import org.myorg.MyCustomId", "import org.myorg.MyCustomKey");
+
+        JavaFileAssert.assertThat(files.get("Dummy.java"))
+                .fileContains("import org.myorg.MyCustomId", "import org.myorg.MyCustomId");
+
+    }
 }
