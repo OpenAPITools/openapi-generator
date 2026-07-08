@@ -136,4 +136,35 @@ public class GoServerCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
     }
 
+    @Test
+    public void verifyReadOnlyRequiredFieldsNotEnforced() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output)
+                .setInputSpec("src/test/resources/3_0/go-server/readonly-required.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // AssertThingRequired must not reference the readOnly "id" field, so a
+        // request body that legitimately omits it is accepted. The non-readOnly
+        // required "name" field must still be enforced.
+        java.nio.file.Path modelPath = Paths.get(output + "/go/model_thing.go");
+        TestUtils.assertFileExists(modelPath);
+        TestUtils.assertFileContains(modelPath,
+                "func AssertThingRequired(obj Thing) error {");
+        TestUtils.assertFileContains(modelPath,
+                "\"name\": obj.Name,");
+        // readOnly "id" must be skipped
+        TestUtils.assertFileNotContains(modelPath,
+                "\"id\": obj.Id,");
+        // readOnly nested model "meta" must not be recursed into, so a
+        // request body that omits it (and thus omits Meta's own required
+        // fields) is accepted.
+        TestUtils.assertFileNotContains(modelPath,
+                "if err := AssertMetaRequired(obj.Meta); err != nil {");
+    }
+
 }
