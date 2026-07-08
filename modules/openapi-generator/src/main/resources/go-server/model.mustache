@@ -57,16 +57,9 @@ func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}
 {{/isEnum}}{{^isEnum}}{{#description}}
 // {{classname}} - {{{description}}}{{/description}}
 type {{classname}} struct {
-{{#parent}}
-{{^isMap}}
-{{^isArray}}
-	{{{parent}}}
-{{/isArray}}
-{{/isMap}}
-{{#isArray}}
-	Items {{{parent}}}
-{{/isArray}}
-{{/parent}}
+{{#vendorExtensions.x-go-embed-parent-classname}}
+	{{{.}}}
+{{/vendorExtensions.x-go-embed-parent-classname}}
 {{#vars}}{{#description}}
 	// {{{.}}}{{/description}}
 	{{#deprecated}}
@@ -74,31 +67,36 @@ type {{classname}} struct {
 	{{/deprecated}}
 	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
-}{{/isEnum}}
+}
+{{#vendorExtensions.hasPresenceCheckRequiredVars}}
+{{>model_unmarshal_json_presence}}
+{{/vendorExtensions.hasPresenceCheckRequiredVars}}
+{{/isEnum}}
 
-// Assert{{classname}}Required checks if the required fields are not zero-ed
+// Assert{{classname}}Required checks complex required fields (models, arrays, maps) and embedded parents.
+// Primitive required fields are validated for JSON request bodies in UnmarshalJSON so zero values remain valid.
 func Assert{{classname}}Required(obj {{classname}}) error {
 {{#hasRequired}}
+{{#vendorExtensions.hasRequiredAssertVars}}
 	elements := map[string]interface{}{
-{{#requiredVars}}{{^isReadOnly}}		"{{baseName}}": obj.{{name}},
-{{/isReadOnly}}{{/requiredVars}}	}
+{{#vendorExtensions.assertRequiredVars}}
+		"{{baseName}}": obj.{{name}},
+{{/vendorExtensions.assertRequiredVars}}
+	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {
 			return &RequiredError{Field: name}
 		}
 	}
 
+{{/vendorExtensions.hasRequiredAssertVars}}
 {{/hasRequired}}
-{{#parent}}
-	{{^isMap}}
-		{{^isArray}}
-	if err := Assert{{{parent}}}Required(obj.{{{parent}}}); err != nil {
+{{#vendorExtensions.x-go-embed-parent-classname}}
+	if err := Assert{{vendorExtensions.x-go-embed-parent-classname}}Required(obj.{{vendorExtensions.x-go-embed-parent-classname}}); err != nil {
 		return err
 	}
 
-		{{/isArray}}
-	{{/isMap}}
-{{/parent}}
+{{/vendorExtensions.x-go-embed-parent-classname}}
 {{#Vars}}
 {{^isReadOnly}}
 	{{#isNullable}}
