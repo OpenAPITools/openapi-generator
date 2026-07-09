@@ -7,6 +7,7 @@ import io.javalin.http.queryParamAsClass
 
 import org.openapitools.server.models.ModelApiResponse
 import org.openapitools.server.models.Pet
+import io.javalin.http.UploadedFile
 
 class PetApi(private val service: PetApiService) {
     /**

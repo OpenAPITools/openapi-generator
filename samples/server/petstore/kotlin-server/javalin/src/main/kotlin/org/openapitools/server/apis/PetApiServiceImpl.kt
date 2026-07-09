@@ -2,6 +2,7 @@ package org.openapitools.server.apis
 
 import org.openapitools.server.models.ModelApiResponse
 import org.openapitools.server.models.Pet
+import io.javalin.http.UploadedFile
 
 class PetApiServiceImpl : PetApiService {
 
