@@ -70,7 +70,7 @@ public class Foo {
   /**
    * Constructor with all args parameters
    */
-  public Foo(OffsetDateTime dt, org.springframework.core.io.Resource binary, List<OffsetDateTime> listOfDt, List<OffsetDateTime> listMinIntems, OffsetDateTime requiredDt, BigDecimal number) {
+  public Foo(@Nullable OffsetDateTime dt, org.springframework.core.io.@Nullable Resource binary, List<OffsetDateTime> listOfDt, List<OffsetDateTime> listMinIntems, OffsetDateTime requiredDt, @Nullable BigDecimal number) {
       this.dt = dt;
       this.binary = binary;
       this.listOfDt = listOfDt;
@@ -79,7 +79,7 @@ public class Foo {
       this.number = number;
   }
 
-  public Foo dt(OffsetDateTime dt) {
+  public Foo dt(@Nullable OffsetDateTime dt) {
     this.dt = dt;
     return this;
   }
@@ -104,7 +104,7 @@ public class Foo {
     this.dt = dt;
   }
 
-  public Foo binary(org.springframework.core.io.Resource binary) {
+  public Foo binary(org.springframework.core.io.@Nullable Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -223,7 +223,7 @@ public class Foo {
     this.requiredDt = requiredDt;
   }
 
-  public Foo number(BigDecimal number) {
+  public Foo number(@Nullable BigDecimal number) {
     this.number = number;
     return this;
   }
