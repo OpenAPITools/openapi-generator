@@ -20,8 +20,8 @@ class {{classname}} implements ComposedInterface
     public static function getComposedTypes(): array
     {
         return [
-            {{#composedSchemas}}{{#oneOf}}'{{{dataType}}}'{{^-last}},
-            {{/-last}}{{/oneOf}}{{/composedSchemas}}
+            {{#composedSchemas}}{{#anyOf}}'{{{dataType}}}'{{^-last}},
+            {{/-last}}{{/anyOf}}{{/composedSchemas}}
         ];
     }
 
