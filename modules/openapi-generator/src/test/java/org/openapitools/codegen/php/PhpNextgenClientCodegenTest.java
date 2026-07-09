@@ -354,13 +354,13 @@ public class PhpNextgenClientCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         // The marker interface used to recognize oneOf models is generated.
-        Assert.assertTrue(files.containsKey("OneOfInterface.php"), "Expected OneOfInterface.php to be generated.");
+        Assert.assertTrue(files.containsKey("ComposedInterface.php"), "Expected ComposedInterface.php to be generated.");
 
         // A oneOf without a discriminator becomes a dispatcher exposing its member types.
         List<String> fruit = Files.readAllLines(files.get("Fruit.php").toPath())
                 .stream().map(String::trim).collect(Collectors.toList());
-        Assert.assertListContains(fruit, a -> a.equals("class Fruit implements OneOfInterface"),
-                "Fruit must implement OneOfInterface");
+        Assert.assertListContains(fruit, a -> a.equals("class Fruit implements ComposedInterface"),
+                "Fruit must implement ComposedInterface");
         Assert.assertListContains(fruit, a -> a.equals("public const DISCRIMINATOR = null;"),
                 "Fruit has no discriminator");
         Assert.assertListContains(fruit, a -> a.equals("'\\OpenAPI\\Client\\Model\\Apple',"),
@@ -446,7 +446,7 @@ public class PhpNextgenClientCodegenTest {
         List<String> objectSerializer = Files.readAllLines(files.get("ObjectSerializer.php").toPath())
                 .stream().map(String::trim).collect(Collectors.toList());
         Assert.assertListContains(objectSerializer,
-                a -> a.contains("private static function deserializeOneOf("),
+                a -> a.contains("private static function deserializeComposed("),
                 "ObjectSerializer resolves oneOf schemas");
     }
 
