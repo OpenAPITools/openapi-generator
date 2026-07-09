@@ -36,11 +36,11 @@ src/FormDataProcessor.php
 src/HeaderSelector.php
 src/Model/Bird.php
 src/Model/Category.php
+src/Model/ComposedInterface.php
 src/Model/DataQuery.php
 src/Model/DefaultValue.php
 src/Model/ModelInterface.php
 src/Model/NumberPropertiesOnly.php
-src/Model/OneOfInterface.php
 src/Model/Pet.php
 src/Model/Query.php
 src/Model/StringEnumRef.php

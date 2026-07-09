@@ -505,9 +505,9 @@ class ObjectSerializer
                 $data = (object) $data;
             }
 
-            // A oneOf schema is not a value object: resolve the data to one of its member types.
-            if (is_subclass_of($class, '\OpenAPI\Client\Model\OneOfInterface')) {
-                return self::deserializeOneOf($data, $class, $httpHeaders);
+            // A oneOf/anyOf schema is not a value object: resolve the data to one of its member types.
+            if (is_subclass_of($class, '\OpenAPI\Client\Model\ComposedInterface')) {
+                return self::deserializeComposed($data, $class, $httpHeaders);
             }
 
             // If a discriminator is defined and points to a valid subclass, use it.
@@ -546,32 +546,32 @@ class ObjectSerializer
     }
 
     /**
-     * Deserialize data into one of the member types of a `oneOf` schema.
+     * Deserialize data into one of the member types of a `oneOf` or `anyOf` schema.
      *
      * When the schema declares a discriminator, its value selects the member type directly.
      * Otherwise each member type is tried in turn and the first one that yields a valid model
      * (or a non-null primitive) is returned.
      *
      * @param mixed         $data        the data already decoded to an object
-     * @param string        $class       a class name implementing OneOfInterface
+     * @param string        $class       a class name implementing ComposedInterface
      * @param string[]|null $httpHeaders HTTP headers
      *
      * @return mixed an instance of one of the `oneOf` member types
      */
-    private static function deserializeOneOf(mixed $data, string $class, ?array $httpHeaders): mixed
+    private static function deserializeComposed(mixed $data, string $class, ?array $httpHeaders): mixed
     {
-        $discriminator = $class::getOneOfDiscriminator();
+        $discriminator = $class::getComposedDiscriminator();
         if ($discriminator !== null && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
-            $mappings = $class::getOneOfDiscriminatorMappings();
+            $mappings = $class::getComposedDiscriminatorMappings();
             if (isset($mappings[$data->{$discriminator}])) {
                 return self::deserialize($data, $mappings[$data->{$discriminator}], $httpHeaders);
             }
         }
 
-        foreach ($class::getOneOfTypes() as $type) {
+        foreach ($class::getComposedTypes() as $type) {
             try {
                 $instance = self::deserialize($data, $type, $httpHeaders);
-            } catch (\Throwable $e) {
+            } catch (\Exception | \TypeError $e) {
                 // The data does not match this member type, try the next one.
                 continue;
             }
@@ -585,7 +585,7 @@ class ObjectSerializer
             }
         }
 
-        throw new \InvalidArgumentException(sprintf('No matching schema in oneOf %s for the given data', $class));
+        throw new \InvalidArgumentException(sprintf('No matching schema in composed type %s for the given data', $class));
     }
 
     /**

@@ -101,6 +101,7 @@ src/Model/Category.php
 src/Model/ChildWithNullable.php
 src/Model/ClassModel.php
 src/Model/Client.php
+src/Model/ComposedInterface.php
 src/Model/DeprecatedObject.php
 src/Model/DiscriminatorBase.php
 src/Model/DiscriminatorChild.php
@@ -131,7 +132,6 @@ src/Model/Name.php
 src/Model/NullableClass.php
 src/Model/NumberOnly.php
 src/Model/ObjectWithDeprecatedFields.php
-src/Model/OneOfInterface.php
 src/Model/Order.php
 src/Model/OuterComposite.php
 src/Model/OuterEnum.php

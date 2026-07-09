@@ -34,7 +34,7 @@ namespace OpenAPI\Client\Model;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class Mammal implements OneOfInterface
+class Mammal implements ComposedInterface
 {
     /**
      * The original name of the model.
@@ -53,7 +53,7 @@ class Mammal implements OneOfInterface
     /**
      * {@inheritdoc}
      */
-    public static function getOneOfTypes(): array
+    public static function getComposedTypes(): array
     {
         return [
             '\OpenAPI\Client\Model\Whale',
@@ -64,7 +64,7 @@ class Mammal implements OneOfInterface
     /**
      * {@inheritdoc}
      */
-    public static function getOneOfDiscriminator(): ?string
+    public static function getComposedDiscriminator(): ?string
     {
         return self::DISCRIMINATOR;
     }
@@ -72,7 +72,7 @@ class Mammal implements OneOfInterface
     /**
      * {@inheritdoc}
      */
-    public static function getOneOfDiscriminatorMappings(): array
+    public static function getComposedDiscriminatorMappings(): array
     {
         return [
             'whale' => '\OpenAPI\Client\Model\Whale',
