@@ -150,6 +150,26 @@ public class PythonClientCodegenTest {
         Assert.assertEquals("'\\\\'", defaultValue);
     }
 
+    @Test(description = "test string enum default is quoted")
+    public void testStringEnumDefaultIsQuoted() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        StringSchema schema = new StringSchema();
+        schema.setEnum(Arrays.asList("uploadTime", "duration", "fileSize"));
+        schema.setDefault("uploadTime");
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals("'uploadTime'", defaultValue);
+    }
+
+    @Test(description = "test string enum default with special chars is quoted")
+    public void testStringEnumDefaultFalseIsQuoted() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        StringSchema schema = new StringSchema();
+        schema.setEnum(Arrays.asList("true", "false"));
+        schema.setDefault("false");
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals("'false'", defaultValue);
+    }
+
     @Test(description = "convert a python model with dots")
     public void modelTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/v1beta3.yaml");
