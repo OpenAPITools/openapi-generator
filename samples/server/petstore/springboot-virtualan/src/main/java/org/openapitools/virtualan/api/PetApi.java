@@ -9,6 +9,7 @@ import org.openapitools.virtualan.model.ModelApiResponse;
 import org.springframework.lang.Nullable;
 import org.openapitools.virtualan.model.Pet;
 import java.util.Set;
+import org.springframework.core.io.Resource;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
