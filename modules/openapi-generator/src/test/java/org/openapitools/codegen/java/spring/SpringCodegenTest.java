@@ -8320,7 +8320,7 @@ public class SpringCodegenTest {
                 .fileContains( "import org.myorg.MyCustomId", "import org.myorg.MyCustomKey");
 
         JavaFileAssert.assertThat(files.get("Dummy.java"))
-                .fileContains("import org.myorg.MyCustomId", "import org.myorg.MyCustomId");
+                .fileContains("import org.myorg.MyCustomId", "import org.myorg.MyCustomKey");
 
     }
 }
