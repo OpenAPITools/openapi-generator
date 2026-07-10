@@ -95,7 +95,8 @@ public class UserApiExample {
         UserApi apiInstance = new UserApi(defaultClient);
         List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> username = Arrays.asList(); // List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> | The name of the user
         try {
-            apiInstance.userGet(username);
+            User result = apiInstance.userGet(username);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#userGet");
             System.err.println("Status code: " + e.getCode());
@@ -119,6 +120,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [User](docs/User.md)
 
 
 <a id="documentation-for-authorization"></a>
