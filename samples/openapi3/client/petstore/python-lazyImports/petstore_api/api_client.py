@@ -672,7 +672,16 @@ class ApiClient:
         :param auth_setting: auth settings for the endpoint
         """
         if auth_setting['in'] == 'cookie':
-            headers['Cookie'] = auth_setting['value']
+            if not 'Cookie' in headers:
+                headers['Cookie'] = ""
+            else:
+                headers['Cookie'] += "; "
+            # Account for cookie value containing spaces and special characters
+            cookie_value = str(auth_setting['value'])
+            if not re.match("^\".*\"$", cookie_value):
+                cookie_value = cookie_value.replace("\"", "\\\"")
+                cookie_value = f"\"{cookie_value}\""
+            headers['Cookie'] += f"{auth_setting['key']}={cookie_value}"
         elif auth_setting['in'] == 'header':
             if auth_setting['type'] != 'http-signature':
                 headers[auth_setting['key']] = auth_setting['value']
