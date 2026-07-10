@@ -4219,6 +4219,33 @@ public class JavaClientCodegenTest {
         assertFileNotContains(model.resolve("CatRequest.java"), "public final class");
     }
 
+    @Test
+    public void sealedOneOfInterfaceMicroprofileJackson() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(MICROPROFILE)
+                .setAdditionalProperties(Map.of(
+                        USE_ONE_OF_INTERFACES, "true",
+                        USE_SEALED_ONE_OF_INTERFACES, "true",
+                        CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"
+                ))
+                .setInputSpec("src/test/resources/3_0/java/oneof_interface_petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path model = output.resolve("src/main/java/org/openapitools/client/model");
+        assertFileContains(model.resolve("PetRequest.java"), "public sealed interface PetRequest permits CatRequest, DogRequest {");
+        assertFileContains(model.resolve("CatRequest.java"), "public final class CatRequest");
+        assertFileContains(model.resolve("CatRequest.java"), "implements PetRequest");
+        assertFileContains(model.resolve("DogRequest.java"), "public final class DogRequest");
+        // sealed requires Java 17 in the generated pom
+        assertFileContains(output.resolve("pom.xml"), "<java.version>17</java.version>");
+        assertFileNotContains(output.resolve("pom.xml"), "<java.version>11</java.version>");
+    }
+
     @DataProvider(name = "sealedInterfaceScenarios")
     public static Object[][] sealedInterfaceScenarios() {
         return new Object[][]{

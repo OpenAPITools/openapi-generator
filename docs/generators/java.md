@@ -108,7 +108,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useRuntimeException|Use RuntimeException instead of Exception. Only jersey2, jersey3, okhttp-gson, vertx, microprofile support this option.| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated.| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated.| |false|
-|useSealedOneOfInterfaces|Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient and RestClient.| |false|
+|useSealedOneOfInterfaces|Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient, RestClient and Microprofile (with Jackson).| |false|
 |useSingleRequestParameter|Setting this property to &quot;true&quot; will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY native, jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to &quot;static&quot; does the same as &quot;true&quot;, but also makes the generated arguments class static with single parameter instantiation.| |false|
 |useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x.| |false|
 |useUnaryInterceptor|If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption| |false|
