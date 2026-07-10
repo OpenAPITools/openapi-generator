@@ -788,24 +788,31 @@ public class KotlinSpringServerCodegenTest {
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@Schema(example = \"null\", description = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:Schema(example = \"null\", description = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:Schema(description = \"\")"
         );
         assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@Schema(example = \"null\", requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:Schema(example = \"null\", requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
         );
     }
 
     @Test(description = "use get Annotation use-site target on kotlin interface attributes (swagger1)")
     public void useTargetOnInterfaceAnnotationsWithSwagger1() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
@@ -823,17 +830,25 @@ public class KotlinSpringServerCodegenTest {
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@ApiModelProperty(example = \"null\", value = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:ApiModelProperty(example = \"null\", value = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:ApiModelProperty(value = \"\")"
         );
         assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@ApiModelProperty(example = \"null\", required = true, value = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:ApiModelProperty(example = \"null\", required = true, value = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:ApiModelProperty(required = true, value = \"\")"
         );
     }
 
