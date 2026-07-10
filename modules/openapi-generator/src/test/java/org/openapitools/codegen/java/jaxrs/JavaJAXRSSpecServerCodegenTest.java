@@ -1371,6 +1371,167 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         }
     }
 
+    /**
+     * With {@code useOneOfInterfaces=true} a oneOf schema is generated as a Java interface, and the
+     * concrete subtypes implement it. With {@code useSealed=true} the interface is {@code sealed} and
+     * {@code permits} its subtypes, which become {@code final} and {@code implements} the interface.
+     * The discriminator property is declared only on a shared non-discriminator base (acyclic pattern),
+     * so the interface getter type must resolve to the enum model (PetType) from the mapped children.
+     * Assertions use {@code assertFileContains} rather than {@code JavaFileAssert} because the latter
+     * parses the source with a JavaParser language level that predates the sealed/permits keywords.
+     */
+    @Test
+    public void testOneOfSealedInterfaceGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"),
+                "public sealed interface PetRequest",
+                "permits CatRequest, DogRequest",
+                "PetType getPetType();");
+        assertFileNotContains(Paths.get(modelDir + "PetRequest.java"), "class PetRequest");
+
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"),
+                "public final class CatRequest",
+                "implements PetRequest",
+                "public PetType getPetType()");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"), "extends PetRequest");
+
+        assertFileContains(Paths.get(modelDir + "DogRequest.java"),
+                "public final class DogRequest",
+                "implements PetRequest",
+                "public PetType getPetType()");
+        assertFileNotContains(Paths.get(modelDir + "DogRequest.java"), "extends PetRequest");
+    }
+
+    /**
+     * With {@code useSealed=true} an allOf class hierarchy driven by a parent discriminator is
+     * generated as a sealed parent class that permits its subclasses; the subclasses extend the
+     * parent and become final. A middle tier with its own discriminator stays open downwards but
+     * closed to outsiders: it is sealed over its own subclasses while extending its parent. A
+     * standalone model with no subtypes becomes final, and the generated pom targets Java 17
+     * (sealed types need JDK 17+).
+     */
+    @Test
+    public void testSealedClassHierarchyGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useSealed", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/sealed_hierarchy.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String outputDir = output.getAbsolutePath().replace("\\", "/");
+        String modelDir = outputDir + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "Pet.java"),
+                "public sealed class Pet",
+                "permits Cat, Dog");
+        assertFileContains(Paths.get(modelDir + "Cat.java"),
+                "public sealed class Cat",
+                "extends Pet",
+                "permits PersianCat");
+        assertFileNotContains(Paths.get(modelDir + "Cat.java"), "final class Cat");
+        assertFileContains(Paths.get(modelDir + "PersianCat.java"),
+                "public final class PersianCat",
+                "extends Cat");
+        assertFileContains(Paths.get(modelDir + "Dog.java"),
+                "public final class Dog",
+                "extends Pet");
+        assertFileContains(Paths.get(modelDir + "Toy.java"), "public final class Toy");
+        assertFileNotContains(Paths.get(modelDir + "Toy.java"), "sealed ", "permits ");
+
+        assertFileContains(Paths.get(outputDir + "/pom.xml"), "<java.version>17</java.version>");
+    }
+
+    /**
+     * {@code useSealed=true} without {@code useOneOfInterfaces}: the oneOf container is rendered as
+     * a plain class whose oneOf members do not extend it, so it must not carry a sealed/permits
+     * clause over them (the generated code would not compile). Like any other model without
+     * subclasses it becomes final.
+     */
+    @Test
+    public void testUseSealedWithoutOneOfInterfaces() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useSealed", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"), "public final class PetRequest");
+        assertFileNotContains(Paths.get(modelDir + "PetRequest.java"), "sealed ", "permits ");
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"), "public final class CatRequest");
+        assertFileContains(Paths.get(modelDir + "DogRequest.java"), "public final class DogRequest");
+        assertFileContains(Paths.get(modelDir + "PetBase.java"), "public final class PetBase");
+    }
+
+    /**
+     * Without {@code useSealed} the output is unchanged: no sealed/final/permits modifiers are
+     * emitted (even though the permits list is populated on the models) and the generated pom
+     * still targets Java 1.8.
+     */
+    @Test
+    public void testWithoutUseSealedOutputIsUnchanged() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String outputDir = output.getAbsolutePath().replace("\\", "/");
+        String modelDir = outputDir + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"), "public interface PetRequest");
+        assertFileNotContains(Paths.get(modelDir + "PetRequest.java"), "sealed ", "permits ");
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"), "public class CatRequest");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"), "final class");
+
+        assertFileContains(Paths.get(outputDir + "/pom.xml"), "<java.version>1.8</java.version>");
+    }
+
     @Test
     public void testGenerateJsonNullableListFieldsHelperMethodReferences_issue23251() throws Exception {
         Map<String, Object> properties = new HashMap<>();
