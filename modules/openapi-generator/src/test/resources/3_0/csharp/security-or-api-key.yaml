@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  title: Security OR Api Key Test
+  version: 1.0.0
+
+servers:
+  - url: https://api.example.com
+
+security:
+  - apiKeyHeader: []
+  - apiKeyQuery: []
+
+paths:
+  /ping:
+    get:
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    apiKeyQuery:
+      type: apiKey
+      in: query
+      name: api-key
