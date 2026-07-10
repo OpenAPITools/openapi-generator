@@ -53,7 +53,6 @@ module Qdrant
 
           public_send("#{k}=", v)
         end
-        @max_indexing_threads = 0 if @max_indexing_threads.nil?
         raise ArgumentError, list_invalid_properties.join(', ') unless valid?
       end
     end

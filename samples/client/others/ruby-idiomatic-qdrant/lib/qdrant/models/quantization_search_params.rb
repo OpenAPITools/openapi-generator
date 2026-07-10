@@ -34,7 +34,6 @@ module Qdrant
 
           public_send("#{k}=", v)
         end
-        @ignore = false if @ignore.nil?
         raise ArgumentError, list_invalid_properties.join(', ') unless valid?
       end
     end

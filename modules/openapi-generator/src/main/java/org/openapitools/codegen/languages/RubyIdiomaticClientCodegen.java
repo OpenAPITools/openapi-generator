@@ -656,9 +656,12 @@ public class RubyIdiomaticClientCodegen extends AbstractRubyCodegen {
             for (CodegenProperty prop : cm.vars) {
                 boolean validated = prop.isEnum || prop.hasValidation || prop.required;
                 prop.vendorExtensions.put("x-rb-validated", validated);
-                if (prop.defaultValue != null && !"null".equals(prop.defaultValue)) {
-                    prop.vendorExtensions.put("x-rb-default", prop.defaultValue);
-                }
+                // Schema `default` is deliberately NOT materialized into the constructor.
+                // from_hash bypasses initialize (allocate), so materializing would only ever
+                // fire on client-built request objects: on optional fields it force-sends the
+                // default and overrides the server's own default (to_hash omits nil optionals
+                // precisely to let the server decide), and on required fields it is inert since
+                // the caller must always supply the value. The default stays documentation-only.
             }
             if (cm.discriminator != null) {
                 cm.vendorExtensions.put("x-rb-discriminator-prop", cm.discriminator.getPropertyBaseName());

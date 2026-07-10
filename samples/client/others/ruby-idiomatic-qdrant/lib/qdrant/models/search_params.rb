@@ -39,8 +39,6 @@ module Qdrant
 
           public_send("#{k}=", v)
         end
-        @exact = false if @exact.nil?
-        @indexed_only = false if @indexed_only.nil?
         raise ArgumentError, list_invalid_properties.join(', ') unless valid?
       end
     end

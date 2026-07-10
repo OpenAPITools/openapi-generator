@@ -33,7 +33,6 @@ module Qdrant
 
           public_send("#{k}=", v)
         end
-        @exact = true if @exact.nil?
         raise ArgumentError, list_invalid_properties.join(', ') unless valid?
       end
     end

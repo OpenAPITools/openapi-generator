@@ -62,10 +62,6 @@ module Qdrant
 
           public_send("#{k}=", v)
         end
-        @shard_number = 1 if @shard_number.nil?
-        @replication_factor = 1 if @replication_factor.nil?
-        @write_consistency_factor = 1 if @write_consistency_factor.nil?
-        @on_disk_payload = false if @on_disk_payload.nil?
         raise ArgumentError, list_invalid_properties.join(', ') unless valid?
       end
     end

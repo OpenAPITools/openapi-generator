@@ -48,7 +48,6 @@ module Petstore
 
           public_send("#{k}=", v)
         end
-        @complete = false if @complete.nil?
         raise ArgumentError, list_invalid_properties.join(', ') unless valid?
       end
     end

@@ -41,11 +41,6 @@
           public_send("#{k}=", v)
         end
 {{/vendorExtensions.x-rb-additional-properties}}
-{{#vars}}
-{{#vendorExtensions.x-rb-default}}
-        @{{name}} = {{{vendorExtensions.x-rb-default}}} if @{{name}}.nil?
-{{/vendorExtensions.x-rb-default}}
-{{/vars}}
 {{#vendorExtensions.x-rb-additional-properties}}
         @additional_properties ||= {}
 {{/vendorExtensions.x-rb-additional-properties}}
