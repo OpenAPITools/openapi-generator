@@ -99,7 +99,7 @@ namespace {{packageName}}.{{apiPackage}}
     {{#-first}}
 
     /// <summary>
-    /// The <see cref="{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse"/>
+    /// The <see cref="{{interfacePrefix}}{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse"/>
     /// </summary>
     {{>visibility}} interface {{interfacePrefix}}{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse : {{#lambda.joinWithComma}}{{packageName}}.{{clientPackage}}.{{interfacePrefix}}ApiResponse  {{#responses}}{{#dataType}}{{interfacePrefix}}{{vendorExtensions.x-http-status}}<{{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}>  {{/dataType}}{{/responses}}{{/lambda.joinWithComma}}
     {

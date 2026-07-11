@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Api
     }
 
     /// <summary>
-    /// The <see cref="IGetApiKeysIdApiResponse"/>
+    /// The <see cref="IAPIKeysApiGetApiKeysIdApiResponse"/>
     /// </summary>
     public interface IAPIKeysApiGetApiKeysIdApiResponse : Org.OpenAPITools.Client.IApiResponse
     {
