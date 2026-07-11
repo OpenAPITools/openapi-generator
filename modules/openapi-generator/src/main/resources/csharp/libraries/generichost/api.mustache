@@ -61,11 +61,11 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>&gt;</returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse"/>&gt;</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        Task<{{interfacePrefix}}{{operationId}}ApiResponse> {{operationId}}Async({{>OperationSignature}});
+        Task<{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> {{operationId}}Async({{>OperationSignature}});
 
         /// <summary>
         /// {{summary}}
@@ -77,25 +77,31 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>{{nrt?}}&gt;</returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse"/>{{nrt?}}&gt;</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        Task<{{interfacePrefix}}{{operationId}}ApiResponse{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}});
+        Task<{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}});
         {{^-last}}
 
         {{/-last}}
         {{/operation}}
     }
     {{#operation}}
-    {{^vendorExtensions.x-duplicates}}
+    {{#lambda.copy}}
+    {{#lambda.trim}}
+    {{#vendorExtensions.x-duplicates}}
+    {{classname}}
+    {{/vendorExtensions.x-duplicates}}
+    {{/lambda.trim}}
+    {{/lambda.copy}}
     {{#responses}}
     {{#-first}}
 
     /// <summary>
-    /// The <see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>
+    /// The <see cref="{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse"/>
     /// </summary>
-    {{>visibility}} interface {{interfacePrefix}}{{operationId}}ApiResponse : {{#lambda.joinWithComma}}{{packageName}}.{{clientPackage}}.{{interfacePrefix}}ApiResponse  {{#responses}}{{#dataType}}{{interfacePrefix}}{{vendorExtensions.x-http-status}}<{{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}>  {{/dataType}}{{/responses}}{{/lambda.joinWithComma}}
+    {{>visibility}} interface {{interfacePrefix}}{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse : {{#lambda.joinWithComma}}{{packageName}}.{{clientPackage}}.{{interfacePrefix}}ApiResponse  {{#responses}}{{#dataType}}{{interfacePrefix}}{{vendorExtensions.x-http-status}}<{{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}>  {{/dataType}}{{/responses}}{{/lambda.joinWithComma}}
     {
         {{#responses}}
         {{#vendorExtensions.x-http-status-is-default}}
@@ -119,7 +125,6 @@ namespace {{packageName}}.{{apiPackage}}
     }
     {{/-first}}
     {{/responses}}
-    {{/vendorExtensions.x-duplicates}}
     {{/operation}}
 
     /// <summary>
@@ -139,7 +144,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         public event EventHandler<ExceptionEventArgs>{{nrt?}} OnError{{operationId}};
 
-        internal void ExecuteOn{{operationId}}({{#vendorExtensions.x-duplicates}}{{.}}{{/vendorExtensions.x-duplicates}}{{^vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}.{{operationId}}ApiResponse apiResponse)
+        internal void ExecuteOn{{operationId}}({{classname}}.{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponse)
         {
             On{{operationId}}?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
@@ -288,7 +293,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}{{interfacePrefix}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
+        private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
             bool suppressDefaultLog = false;
             After{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
@@ -303,7 +308,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  {{interfacePrefix}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  {{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -341,8 +346,8 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>&gt;</returns>
-        public async Task<{{interfacePrefix}}{{operationId}}ApiResponse{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}})
+        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse"/>&gt;</returns>
+        public async Task<{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}})
         {
             try
             {
@@ -362,8 +367,8 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>&gt;</returns>
-        public async Task<{{interfacePrefix}}{{operationId}}ApiResponse> {{operationId}}Async({{>OperationSignature}})
+        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse"/>&gt;</returns>
+        public async Task<{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> {{operationId}}Async({{>OperationSignature}})
         {
             {{#lambda.trimLineBreaks}}
             UriBuilder uriBuilderLocalVar = new UriBuilder();
@@ -716,8 +721,8 @@ namespace {{packageName}}.{{apiPackage}}
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        ILogger<{{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<{{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse>();
-                        {{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar;
+                        ILogger<{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse>();
+                        {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar;
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             {{#responses}}
@@ -731,7 +736,7 @@ namespace {{packageName}}.{{apiPackage}}
                             {
                                 byte[] responseBytesArrayLocalVar = await httpResponseMessageLocalVar.Content.ReadAsByteArrayAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
                                 System.IO.Stream responseContentStreamLocalVar = new System.IO.MemoryStream(responseBytesArrayLocalVar);
-                                apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentStreamLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new{{^net60OrLater}} {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentStreamLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -740,7 +745,7 @@ namespace {{packageName}}.{{apiPackage}}
                             {{/responses}}
                             default: {
                                 string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
-                                apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new{{^net60OrLater}} {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -803,22 +808,28 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/lambda.trimLineBreaks}}
         }
-        {{^vendorExtensions.x-duplicates}}
+        {{#lambda.copy}}
+        {{#lambda.trim}}
+        {{#vendorExtensions.x-duplicates}}
+        {{classname}}
+        {{/vendorExtensions.x-duplicates}}
+        {{/lambda.trim}}
+        {{/lambda.copy}}
         {{#responses}}
         {{#-first}}
 
         /// <summary>
-        /// The <see cref="{{operationId}}ApiResponse"/>
+        /// The <see cref="{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse"/>
         /// </summary>
-        {{>visibility}} partial class {{operationId}}ApiResponse : {{packageName}}.{{clientPackage}}.ApiResponse, {{interfacePrefix}}{{operationId}}ApiResponse
+        {{>visibility}} partial class {{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse : {{packageName}}.{{clientPackage}}.ApiResponse, {{interfacePrefix}}{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse
         {
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<{{operationId}}ApiResponse> Logger { get; }
+            public ILogger<{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse> Logger { get; }
 
             /// <summary>
-            /// The <see cref="{{operationId}}ApiResponse"/>
+            /// The <see cref="{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse"/>
             /// </summary>
             /// <param name="logger"></param>
             /// <param name="httpRequestMessage"></param>
@@ -827,14 +838,14 @@ namespace {{packageName}}.{{apiPackage}}
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public {{operationId}}ApiResponse(ILogger<{{operationId}}ApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public {{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse(ILogger<{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
             /// <summary>
-            /// The <see cref="{{operationId}}ApiResponse"/>
+            /// The <see cref="{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse"/>
             /// </summary>
             /// <param name="logger"></param>
             /// <param name="httpRequestMessage"></param>
@@ -843,7 +854,7 @@ namespace {{packageName}}.{{apiPackage}}
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public {{operationId}}ApiResponse(ILogger<{{operationId}}ApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            public {{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse(ILogger<{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -932,7 +943,6 @@ namespace {{packageName}}.{{apiPackage}}
         }
         {{/-first}}
         {{/responses}}
-        {{/vendorExtensions.x-duplicates}}
         {{/operation}}
     }
     {{/operations}}
