@@ -4,20 +4,18 @@ import io.swagger.annotations.*;
 {{#useSwaggerV3Annotations}}
 import io.swagger.v3.oas.annotations.media.Schema;
 {{/useSwaggerV3Annotations}}
+{{#vendorExtensions.x-jaxrs-record-has-byte-array}}
+import java.util.Objects;
+{{/vendorExtensions.x-jaxrs-record-has-byte-array}}
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 {{/jackson}}
-{{#withXml}}
-import {{javaxPackage}}.xml.bind.annotation.XmlElement;
-import {{javaxPackage}}.xml.bind.annotation.XmlRootElement;
-import {{javaxPackage}}.xml.bind.annotation.XmlAccessType;
-import {{javaxPackage}}.xml.bind.annotation.XmlAccessorType;
-import {{javaxPackage}}.xml.bind.annotation.XmlType;
-import {{javaxPackage}}.xml.bind.annotation.XmlEnum;
-import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
-{{/withXml}}
+{{#openApiNullable}}
+import org.openapitools.jackson.nullable.JsonNullable;
+{{/openApiNullable}}
 
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{.}}
@@ -46,7 +44,16 @@ public {{>sealed}}record {{classname}}(
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-  {{#jackson}}@JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}") {{/jackson}}{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{^-last}},{{/-last}}
+  {{#useSwaggerAnnotations}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  {{/useSwaggerAnnotations}}
+  {{#useSwaggerV3Annotations}}
+  @Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"{{#deprecated}}, deprecated = true{{/deprecated}})
+  {{/useSwaggerV3Annotations}}
+  {{#useMicroProfileOpenAPIAnnotations}}
+  @org.eclipse.microprofile.openapi.annotations.media.Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"{{#deprecated}}, deprecated = true{{/deprecated}})
+  {{/useMicroProfileOpenAPIAnnotations}}
+  {{#jackson}}@JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}") {{/jackson}}{{#vendorExtensions.x-is-jackson-optional-nullable}}JsonNullable<{{{datatypeWithEnum}}}>{{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{{datatypeWithEnum}}}{{/vendorExtensions.x-is-jackson-optional-nullable}} {{name}}{{^-last}},{{/-last}}
   {{/vars}}
 ) {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}
@@ -61,4 +68,93 @@ public {{>sealed}}record {{classname}}(
   {{/isContainer}}
   {{/isEnum}}
   {{/vars}}
+  {{#vendorExtensions.x-jaxrs-record-has-defaults}}
+  public {{classname}} {
+    {{#vars}}
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if ({{name}} == null) {
+      {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#isContainer}}undefined(){{/isContainer}}{{^isContainer}}{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}}{{/isContainer}};
+    }
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
+    {{#defaultValue}}
+    if ({{name}} == null) {
+      {{name}} = {{{.}}};
+    }
+    {{/defaultValue}}
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{/vars}}
+  }
+
+  {{/vendorExtensions.x-jaxrs-record-has-defaults}}
+  {{#vendorExtensions.x-jaxrs-record-has-byte-array}}
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    {{classname}} {{classVarName}} = ({{classname}}) o;
+    return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{/vars}};
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}});
+  }
+
+  {{/vendorExtensions.x-jaxrs-record-has-byte-array}}
+  {{#vendorExtensions.x-jaxrs-record-has-password}}
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#vars}}sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
+    {{/vars}}sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
+  }
+
+  {{/vendorExtensions.x-jaxrs-record-has-password}}
+  {{#generateBuilders}}
+  public static {{classname}}Builder builder() {
+    return new {{classname}}Builder();
+  }
+
+  public static class {{classname}}Builder {
+    {{#vars}}
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    private JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}> {{name}} = JsonNullable.<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}>{{#isContainer}}undefined(){{/isContainer}}{{^isContainer}}{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}}{{/isContainer}};
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
+    private {{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{/vars}}
+
+    {{#vars}}
+    {{#deprecated}}
+    @Deprecated
+    {{/deprecated}}
+    public {{classname}}Builder {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
+      this.{{name}} = {{#vendorExtensions.x-is-jackson-optional-nullable}}JsonNullable.<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}>of({{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{name}}{{/vendorExtensions.x-is-jackson-optional-nullable}};
+      return this;
+    }
+    {{/vars}}
+
+    public {{classname}} build() {
+      return new {{classname}}({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}});
+    }
+  }
+
+  {{/generateBuilders}}
 }

@@ -458,6 +458,22 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 }
                 if (useRecords && useSealed && isOneOfInterfaceRecordCandidate(model, oneOfInterfaceNames)) {
                     model.getVendorExtensions().put("x-jaxrs-record", true);
+                    // Records have no field initializers: defaults (and the JsonNullable undefined
+                    // state) must be applied in a compact canonical constructor.
+                    if (model.vars.stream().anyMatch(v -> v.defaultValue != null
+                            || Boolean.TRUE.equals(v.getVendorExtensions().get("x-is-jackson-optional-nullable")))) {
+                        model.getVendorExtensions().put("x-jaxrs-record-has-defaults", true);
+                    }
+                    // The implicit record equals/hashCode compares arrays by reference; mirror the
+                    // pojo's Arrays.equals/hashCode semantics for byte[] properties.
+                    if (model.vars.stream().anyMatch(v -> v.isByteArray)) {
+                        model.getVendorExtensions().put("x-jaxrs-record-has-byte-array", true);
+                    }
+                    // The implicit record toString prints component values; mask password properties
+                    // like the pojo does.
+                    if (model.vars.stream().anyMatch(v -> v.isPassword)) {
+                        model.getVendorExtensions().put("x-jaxrs-record-has-password", true);
+                    }
                 }
             }
         }

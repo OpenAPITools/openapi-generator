@@ -1751,9 +1751,118 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     /**
-     * {@code useRecords} cannot be combined with {@code withXml}: JAXB binding requires mutable
-     * JavaBeans with a no-argument constructor, which records cannot provide.
+     * The records emitted for oneOf interface implementations keep pojo semantics: defaults (scalar,
+     * enum and container) are applied in a compact canonical constructor, spec-marked JsonNullable
+     * properties render as JsonNullable components defaulting to undefined, byte[] properties get
+     * content-based equals/hashCode, and password properties are masked in toString. Models outside the
+     * oneOf hierarchy stay untouched classes.
      */
+    @Test
+    public void testRecordsForOneOfInterfaceImplementationsOnly() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+        properties.put("useRecords", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/records_parity.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String outputDir = output.getAbsolutePath().replace("\\", "/");
+        String modelDir = outputDir + "/src/gen/java/org/openapitools/model/";
+
+        // The oneOf interface implementation becomes a record; components carry the property annotations.
+        assertFileContains(Paths.get(modelDir + "Item.java"),
+                "public record Item(",
+                "@JsonProperty(required = true, value = \"name\") @NotNull String name",
+                "@ApiModelProperty(required = true, value = \"\")",
+                "@JsonProperty(\"nickname\") JsonNullable<String> nickname");
+        assertFileNotContains(Paths.get(modelDir + "Item.java"),
+                "public class Item", "public void setName", "ItemBuilder");
+
+        // Defaults are applied in the compact canonical constructor.
+        assertFileContains(Paths.get(modelDir + "Item.java"),
+                "public Item {",
+                "count = 10;",
+                "status = StatusEnum.AVAILABLE;",
+                "tags = new ArrayList<>();",
+                "nickname = JsonNullable.<String>undefined();");
+
+        // byte[] properties keep content-based equality; password properties are masked in toString.
+        assertFileContains(Paths.get(modelDir + "Item.java"),
+                "Arrays.equals(this.payload, item.payload)",
+                "Arrays.hashCode(payload)",
+                "sb.append(\"    secret: \").append(\"*\")");
+
+        // An ordinary pojo outside the oneOf hierarchy is left untouched by useRecords: still a class,
+        // still mutable, still carrying its field-initialised defaults. (It is final because useSealed
+        // finalises standalone pojos - that is useSealed's behaviour, not useRecords'.)
+        assertFileContains(Paths.get(modelDir + "Standalone.java"),
+                "public final class Standalone",
+                "public void setCount",
+                "private Integer count = 5;");
+        assertFileNotContains(Paths.get(modelDir + "Standalone.java"), "record Standalone");
+
+        // Models taking part in inheritance stay classes (a record can neither extend nor be extended).
+        assertFileContains(Paths.get(modelDir + "Animal.java"), "public sealed class Animal", "permits Cat");
+        assertFileNotContains(Paths.get(modelDir + "Animal.java"), "record Animal");
+        assertFileContains(Paths.get(modelDir + "Cat.java"), "public final class Cat", "extends Animal");
+        assertFileNotContains(Paths.get(modelDir + "Cat.java"), "record Cat");
+
+        // Models with additionalProperties need the map-backed pojo and stay classes.
+        assertFileContains(Paths.get(modelDir + "FreeForm.java"), "public final class FreeForm");
+        assertFileNotContains(Paths.get(modelDir + "FreeForm.java"), "record FreeForm");
+
+        assertFileContains(Paths.get(outputDir + "/pom.xml"), "<java.version>17</java.version>");
+    }
+
+    /**
+     * {@code useRecords=true} + {@code generateBuilders=true}: since records drop setters, a flat
+     * builder inside the record offers fluent construction. Builder fields carry the pojo field
+     * defaults so an unset property builds to the same value a pojo would have, and JsonNullable
+     * properties are wrapped on the fluent setter.
+     */
+    @Test
+    public void testRecordsBuilderGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+        properties.put("useRecords", "true");
+        properties.put("generateBuilders", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/records_parity.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "Item.java"),
+                "public static ItemBuilder builder()",
+                "public static class ItemBuilder {",
+                "private Integer count = 10;",
+                "private List<String> tags = new ArrayList<>();",
+                "private JsonNullable<String> nickname = JsonNullable.<String>undefined();",
+                "public ItemBuilder name(String name)",
+                "this.nickname = JsonNullable.<String>of(nickname);",
+                "return new Item(itemType, name, count, status, tags, nickname, payload, secret);");
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class,
           expectedExceptionsMessageRegExp = ".*useRecords.*withXml.*")
     public void useRecordsRejectsWithXml() {
