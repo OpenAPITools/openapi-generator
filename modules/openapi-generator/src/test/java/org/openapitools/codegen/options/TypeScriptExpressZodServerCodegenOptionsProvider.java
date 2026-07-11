@@ -1,13 +1,10 @@
 package org.openapitools.codegen.options;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.TypescriptExpressZodServerCodegen;
-
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-public class TypescriptExpressZodServerCodegenOptionsProvider implements OptionsProvider {
+public class TypeScriptExpressZodServerCodegenOptionsProvider implements TypeScriptSharedClientOptionsProvider {
     public static final String PROJECT_NAME_VALUE = "OpenAPI";
 
     @Override
@@ -17,8 +14,9 @@ public class TypescriptExpressZodServerCodegenOptionsProvider implements Options
 
     @Override
     public Map<String, String> createOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
-        return builder.build();
+        return ImmutableMap.<String, String>builder()
+                .putAll(TypeScriptSharedClientOptionsProvider.super.createOptions())
+                .build();
     }
 
     @Override

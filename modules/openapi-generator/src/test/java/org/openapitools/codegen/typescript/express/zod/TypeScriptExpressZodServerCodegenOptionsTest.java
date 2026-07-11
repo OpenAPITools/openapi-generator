@@ -2,17 +2,17 @@ package org.openapitools.codegen.typescript.express.zod;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.TypescriptExpressZodServerCodegen;
-import org.openapitools.codegen.options.TypescriptExpressZodServerCodegenOptionsProvider;
+import org.openapitools.codegen.languages.TypeScriptExpressZodServerCodegen;
+import org.openapitools.codegen.options.TypeScriptExpressZodServerCodegenOptionsProvider;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class TypescriptExpressZodServerCodegenOptionsTest extends AbstractOptionsTest {
-    private TypescriptExpressZodServerCodegen codegen = mock(TypescriptExpressZodServerCodegen.class, mockSettings);
+public class TypeScriptExpressZodServerCodegenOptionsTest extends AbstractOptionsTest {
+    private TypeScriptExpressZodServerCodegen codegen = mock(TypeScriptExpressZodServerCodegen.class, mockSettings);
 
-    public TypescriptExpressZodServerCodegenOptionsTest() {
-        super(new TypescriptExpressZodServerCodegenOptionsProvider());
+    public TypeScriptExpressZodServerCodegenOptionsTest() {
+        super(new TypeScriptExpressZodServerCodegenOptionsProvider());
     }
 
     @Override

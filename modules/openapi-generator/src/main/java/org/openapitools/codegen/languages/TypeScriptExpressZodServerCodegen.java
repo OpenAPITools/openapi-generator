@@ -1,6 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -8,7 +7,6 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +16,10 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(TypescriptExpressZodServerCodegen.class);
+public class TypeScriptExpressZodServerCodegen extends AbstractTypeScriptClientCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptExpressZodServerCodegen.class);
 
-    public TypescriptExpressZodServerCodegen() {
+    public TypeScriptExpressZodServerCodegen() {
         super();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -104,7 +102,7 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
             }
 
             // Response Zod schema / wire type / mapper are resolved (array/map/primitive
-            // aware) in postProcessSupportingFileData via TypescriptExpressZodSupport.
+            // aware) in postProcessSupportingFileData via TypeScriptExpressZodUtils.
 
             // Mark whether this operation has only path params, only query params, etc.
             boolean hasOnlyPathParams = !op.pathParams.isEmpty() && op.queryParams.isEmpty() && op.bodyParam == null;
@@ -222,10 +220,10 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
                 zod.append(".min(").append(param.minLength).append(")");
             }
         } else if (param.isArray && param.items != null) {
-            zod.append(TypescriptExpressZodSupport.zodExpr(param.items)).append(".array()");
+            zod.append(TypeScriptExpressZodUtils.zodExpr(param.items)).append(".array()");
         } else if (param.isMap && param.additionalProperties != null) {
             zod.append("z.record(z.string(), ")
-               .append(TypescriptExpressZodSupport.zodExpr(param.additionalProperties))
+               .append(TypeScriptExpressZodUtils.zodExpr(param.additionalProperties))
                .append(")");
         } else if (param.isModel || param.isBodyParam) {
             // Bodies whose schema dereferences to a bare primitive (e.g. a $ref'd enum
@@ -301,210 +299,9 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> result = super.postProcessAllModels(objs);
 
-        // Collect enum model names (enums don't need DTO mappers)
-        Set<String> enumModelNames = new HashSet<>();
-        for (ModelsMap modEntry : result.values()) {
-            for (ModelMap innerMo : modEntry.getModels()) {
-                CodegenModel innerCm = innerMo.getModel();
-                if (innerCm.isEnum) {
-                    enumModelNames.add(innerCm.classname);
-                }
-            }
-        }
-
-        for (ModelsMap entry : result.values()) {
-            for (ModelMap mo : entry.getModels()) {
-                CodegenModel cm = mo.getModel();
-
-                // Add Zod vendor extensions to each property
-                for (CodegenProperty prop : cm.vars) {
-                    addZodVendorExtensions(prop, cm);
-                }
-
-                // Look up original schema from OAS spec (shared by oneOf and allOf detection)
-                Map<String, Schema> allSchemas = ModelUtils.getSchemas(this.openAPI);
-                Schema origSchema = null;
-                for (Map.Entry<String, Schema> schemaEntry : allSchemas.entrySet()) {
-                    if (toModelName(schemaEntry.getKey()).equals(cm.classname)) {
-                        origSchema = schemaEntry.getValue();
-                        break;
-                    }
-                }
-
-                // Determine if this is a discriminated union
-                if (cm.discriminator != null && cm.oneOf != null && !cm.oneOf.isEmpty()) {
-                    cm.vendorExtensions.put("x-is-discriminated-union", true);
-                    cm.vendorExtensions.put("x-discriminator-property", cm.discriminator.getPropertyBaseName());
-
-                    List<Map<String, String>> mappedTypes = new ArrayList<>();
-
-                    if (cm.discriminator.getMappedModels() != null && !cm.discriminator.getMappedModels().isEmpty()) {
-                        // Use explicit mappings from the discriminator
-                        for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
-                            Map<String, String> mapped = new HashMap<>();
-                            mapped.put("modelName", mm.getModelName());
-                            mapped.put("mappingName", mm.getMappingName());
-                            mappedTypes.add(mapped);
-                        }
-                    } else {
-                        // Build mappings from oneOf members by inspecting their discriminator property
-                        for (String memberName : cm.oneOf) {
-                            Map<String, String> mapped = new HashMap<>();
-                            mapped.put("modelName", memberName);
-                            // Try to find the discriminator value from the member model's literal property
-                            String discValue = findDiscriminatorValue(memberName, cm.discriminator.getPropertyBaseName(), result);
-                            mapped.put("mappingName", discValue != null ? discValue : memberName);
-                            mappedTypes.add(mapped);
-                        }
-                    }
-                    cm.vendorExtensions.put("x-mapped-models", mappedTypes);
-                }
-
-                // Detect non-discriminated oneOf unions from the original OAS spec
-                if (cm.discriminator == null && !cm.vendorExtensions.containsKey("x-is-discriminated-union")) {
-                    if (origSchema != null && origSchema.getOneOf() != null && !origSchema.getOneOf().isEmpty()) {
-                        cm.vendorExtensions.put("x-is-union", true);
-
-                        // Collect member classnames
-                        List<String> memberNames = new ArrayList<>();
-                        for (Object memberObj : origSchema.getOneOf()) {
-                            Schema memberSchema = (Schema) memberObj;
-                            String ref = memberSchema.get$ref();
-                            if (ref != null) {
-                                memberNames.add(toModelName(ModelUtils.getSimpleRef(ref)));
-                            }
-                        }
-
-                        // Collect property sets per member to find distinguishing properties
-                        Map<String, Set<String>> memberPropSets = new LinkedHashMap<>();
-                        for (String memberName : memberNames) {
-                            Set<String> props = new LinkedHashSet<>();
-                            ModelsMap memberModels = result.get(memberName);
-                            if (memberModels != null) {
-                                for (ModelMap mm : memberModels.getModels()) {
-                                    for (CodegenProperty prop : mm.getModel().vars) {
-                                        props.add(prop.name);
-                                    }
-                                }
-                            }
-                            memberPropSets.put(memberName, props);
-                        }
-
-                        // Build x-union-members list with distinguishing properties
-                        List<Map<String, Object>> members = new ArrayList<>();
-                        for (int i = 0; i < memberNames.size(); i++) {
-                            String memberName = memberNames.get(i);
-                            Map<String, Object> info = new HashMap<>();
-                            info.put("modelName", memberName);
-
-                            if (i < memberNames.size() - 1) {
-                                // Find a property unique to this member
-                                Set<String> myProps = memberPropSets.getOrDefault(memberName, Collections.emptySet());
-                                for (String prop : myProps) {
-                                    boolean unique = true;
-                                    for (Map.Entry<String, Set<String>> other : memberPropSets.entrySet()) {
-                                        if (!other.getKey().equals(memberName) && other.getValue().contains(prop)) {
-                                            unique = false;
-                                            break;
-                                        }
-                                    }
-                                    if (unique) {
-                                        info.put("hasDistinguishingProperty", true);
-                                        info.put("distinguishingProperty", prop);
-                                        break;
-                                    }
-                                }
-                            }
-                            // Last member is always the fallback (no distinguishing property needed)
-                            members.add(info);
-                        }
-
-                        cm.vendorExtensions.put("x-union-members", members);
-                    }
-                }
-
-                // Detect allOf intersection types
-                if (origSchema != null && origSchema.getAllOf() != null && !origSchema.getAllOf().isEmpty()) {
-                    List<String> parentNames = new ArrayList<>();
-                    for (Object member : origSchema.getAllOf()) {
-                        Schema memberSchema = (Schema) member;
-                        if (memberSchema.get$ref() != null) {
-                            parentNames.add(toModelName(ModelUtils.getSimpleRef(memberSchema.get$ref())));
-                        }
-                    }
-
-                    if (!parentNames.isEmpty()) {
-                        cm.vendorExtensions.put("x-is-intersection", true);
-
-                        List<Map<String, String>> parents = new ArrayList<>();
-                        Set<String> parentPropertyNames = new HashSet<>();
-                        for (String parentName : parentNames) {
-                            Map<String, String> parentInfo = new HashMap<>();
-                            parentInfo.put("modelName", parentName);
-                            parents.add(parentInfo);
-
-                            ModelsMap parentModels = result.get(parentName);
-                            if (parentModels != null) {
-                                for (ModelMap pmm : parentModels.getModels()) {
-                                    for (CodegenProperty prop : pmm.getModel().vars) {
-                                        parentPropertyNames.add(prop.name);
-                                    }
-                                }
-                            }
-                        }
-                        cm.vendorExtensions.put("x-intersection-parents", parents);
-
-                        boolean hasOwnProperties = false;
-                        for (CodegenProperty prop : cm.vars) {
-                            if (!parentPropertyNames.contains(prop.name)) {
-                                prop.vendorExtensions.put("x-is-own-property", true);
-                                hasOwnProperties = true;
-                            }
-                        }
-                        cm.vendorExtensions.put("x-has-own-properties", hasOwnProperties);
-                    }
-                }
-
-                // Check if model has properties that reference other object models
-                // (not enums - enums are identity-mapped and don't need DTO mappers)
-                for (CodegenProperty prop : cm.vars) {
-                    if (prop.complexType != null && !prop.isArray) {
-                        if (enumModelNames.contains(prop.complexType)) {
-                            // Reference to an enum type - mark for DTO template to use types. prefix
-                            prop.vendorExtensions.put("x-is-enum-ref", true);
-                            prop.vendorExtensions.put("x-enum-type", prop.complexType);
-                        } else {
-                            // Reference to an object type - needs DTO mapper
-                            prop.vendorExtensions.put("x-is-ref", true);
-                            prop.vendorExtensions.put("x-ref-type", prop.complexType);
-                        }
-                    } else if (prop.isArray && prop.items != null && prop.items.complexType != null) {
-                        if (enumModelNames.contains(prop.items.complexType)) {
-                            prop.vendorExtensions.put("x-is-enum-ref", true);
-                            prop.vendorExtensions.put("x-enum-type", prop.items.complexType);
-                        } else {
-                            prop.vendorExtensions.put("x-is-ref", true);
-                            prop.vendorExtensions.put("x-ref-type", prop.items.complexType);
-                        }
-                    }
-                }
-
-                // Add DTO-related vendor extensions
-                cm.vendorExtensions.put("x-dto-name", cm.classname + "Dto");
-                cm.vendorExtensions.put("x-schema-name", cm.classname + "Schema");
-
-                // Check if has single-value enum properties (literal types)
-                for (CodegenProperty prop : cm.vars) {
-                    if (prop.isEnum && prop.allowableValues != null) {
-                        List<?> values = (List<?>) prop.allowableValues.get("values");
-                        if (values != null && values.size() == 1) {
-                            prop.vendorExtensions.put("x-is-literal", true);
-                            prop.vendorExtensions.put("x-literal-value", values.get(0).toString());
-                        }
-                    }
-                }
-            }
-        }
+        // Zod/union/intersection/ref annotations shared with the express-zod client
+        // (the `express-zod` framework of the `typescript` generator).
+        TypeScriptExpressZodUtils.annotateModels(result, this.openAPI, this::toModelName);
 
         // Second pass: Make discriminator properties required in Zod schemas.
         // Discriminator properties must not be .optional() so that the inferred
@@ -541,31 +338,6 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
     }
 
     /**
-     * Find the discriminator property's literal value in a member model.
-     * E.g., for UserLoginPrincipal with discriminator "kind", returns "USER_LOGIN".
-     */
-    private String findDiscriminatorValue(String modelName, String discriminatorProperty,
-                                           Map<String, ModelsMap> allModels) {
-        ModelsMap modelsMap = allModels.get(modelName);
-        if (modelsMap == null) return null;
-
-        for (ModelMap mo : modelsMap.getModels()) {
-            CodegenModel cm = mo.getModel();
-            for (CodegenProperty prop : cm.vars) {
-                if (prop.baseName.equals(discriminatorProperty) || prop.name.equals(discriminatorProperty)) {
-                    if (prop.isEnum && prop.allowableValues != null) {
-                        List<?> values = (List<?>) prop.allowableValues.get("values");
-                        if (values != null && values.size() == 1) {
-                            return values.get(0).toString();
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
      * Escape characters that are reserved in path-to-regexp v8 (used by Express v5).
      * Reserved chars: ( ) [ ] ? + !
      * These are escaped with backslash in the generated TypeScript source.
@@ -597,33 +369,6 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
         return result.toString();
     }
 
-    /**
-     * Add Zod-specific vendor extensions to a model property.
-     */
-    private void addZodVendorExtensions(CodegenProperty prop, CodegenModel model) {
-        String zodType = buildZodPropertyType(prop);
-        prop.vendorExtensions.put("x-zod-type", zodType);
-
-        // Full expression including nullability and optionality.
-        String fullZod = zodType;
-        if (prop.isNullable) {
-            fullZod = fullZod + ".nullable()";
-        }
-        if (!prop.required) {
-            fullZod = fullZod + ".optional()";
-        }
-        prop.vendorExtensions.put("x-zod-full", fullZod);
-    }
-
-    /**
-     * Build a Zod type expression for a model property. Delegates to the shared
-     * {@link TypescriptExpressZodSupport#zodExpr} so the server and client generators
-     * cannot diverge on the recursive array/map/primitive logic.
-     */
-    private String buildZodPropertyType(CodegenProperty prop) {
-        return TypescriptExpressZodSupport.zodExpr(prop);
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> bundle) {
@@ -651,13 +396,13 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
                 String operationIdPascal = camelize(op.operationId);
                 // Resolve response/body shapes (array/map/primitive aware). The server maps
                 // domain results -> wire (TO_WIRE) and req.body wire -> domain (FROM_WIRE).
-                TypescriptExpressZodSupport.Resolved rr = op.returnType != null
-                        ? TypescriptExpressZodSupport.resolveResponse(
-                                op, TypescriptExpressZodSupport.Direction.TO_WIRE)
+                TypeScriptExpressZodUtils.Resolved rr = op.returnType != null
+                        ? TypeScriptExpressZodUtils.resolveResponse(
+                                op, TypeScriptExpressZodUtils.Direction.TO_WIRE)
                         : null;
-                TypescriptExpressZodSupport.Resolved rb = op.bodyParam != null
-                        ? TypescriptExpressZodSupport.resolveBody(
-                                op.bodyParam, TypescriptExpressZodSupport.Direction.FROM_WIRE,
+                TypeScriptExpressZodUtils.Resolved rb = op.bodyParam != null
+                        ? TypeScriptExpressZodUtils.resolveBody(
+                                op.bodyParam, TypeScriptExpressZodUtils.Direction.FROM_WIRE,
                                 buildZodType(op.bodyParam))
                         : null;
                 opInfo.put("operationId", op.operationId);
@@ -852,7 +597,7 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
         @SuppressWarnings("unchecked")
         List<Object> models = (List<Object>) bundle.get("models");
         if (models != null) {
-            bundle.put("models", topologicallySortModels(models));
+            bundle.put("models", TypeScriptExpressZodUtils.topologicallySortModels(models));
         }
 
         // Flag whether any model is a discriminated union, so templates can
@@ -872,93 +617,5 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
         bundle.put("hasDiscriminatedUnion", hasDiscriminatedUnion);
 
         return bundle;
-    }
-
-    /**
-     * Topologically sort models so that leaf types (enums, simple objects) come before
-     * models that reference them. This ensures correct declaration order in generated schemas.
-     */
-    @SuppressWarnings("unchecked")
-    private List<Object> topologicallySortModels(List<Object> models) {
-        // Build maps from classname to model entry and dependencies
-        Map<String, Object> modelByName = new LinkedHashMap<>();
-        Map<String, Set<String>> dependencies = new LinkedHashMap<>();
-
-        for (Object modelEntry : models) {
-            Map<String, Object> entry = (Map<String, Object>) modelEntry;
-            CodegenModel cm = (CodegenModel) entry.get("model");
-            if (cm == null) continue;
-
-            modelByName.put(cm.classname, modelEntry);
-
-            Set<String> deps = new LinkedHashSet<>();
-            for (CodegenProperty prop : cm.vars) {
-                if (prop.complexType != null) {
-                    deps.add(prop.complexType);
-                }
-                if (prop.isArray && prop.items != null && prop.items.complexType != null) {
-                    deps.add(prop.items.complexType);
-                }
-            }
-            // oneOf dependencies
-            if (cm.oneOf != null) {
-                deps.addAll(cm.oneOf);
-            }
-            // Also include non-discriminated union member dependencies
-            if (cm.vendorExtensions.containsKey("x-union-members")) {
-                @SuppressWarnings("unchecked")
-                List<Map<String, Object>> unionMembers =
-                    (List<Map<String, Object>>) cm.vendorExtensions.get("x-union-members");
-                for (Map<String, Object> member : unionMembers) {
-                    deps.add((String) member.get("modelName"));
-                }
-            }
-            // Also include allOf intersection parent dependencies
-            if (cm.vendorExtensions.containsKey("x-intersection-parents")) {
-                @SuppressWarnings("unchecked")
-                List<Map<String, String>> intersectionParents =
-                    (List<Map<String, String>>) cm.vendorExtensions.get("x-intersection-parents");
-                for (Map<String, String> parent : intersectionParents) {
-                    deps.add(parent.get("modelName"));
-                }
-            }
-            // Remove self-references
-            deps.remove(cm.classname);
-            dependencies.put(cm.classname, deps);
-        }
-
-        // DFS-based topological sort
-        List<Object> sorted = new ArrayList<>();
-        Set<String> visited = new LinkedHashSet<>();
-        Set<String> visiting = new LinkedHashSet<>();
-
-        for (String name : modelByName.keySet()) {
-            if (!visited.contains(name)) {
-                topoVisit(name, modelByName, dependencies, visited, visiting, sorted);
-            }
-        }
-
-        return sorted;
-    }
-
-    private void topoVisit(String name, Map<String, Object> modelByName,
-                            Map<String, Set<String>> dependencies,
-                            Set<String> visited, Set<String> visiting, List<Object> sorted) {
-        if (visited.contains(name)) return;
-        if (visiting.contains(name)) return; // cycle detected, break it
-        visiting.add(name);
-
-        Set<String> deps = dependencies.getOrDefault(name, Collections.emptySet());
-        for (String dep : deps) {
-            if (modelByName.containsKey(dep)) {
-                topoVisit(dep, modelByName, dependencies, visited, visiting, sorted);
-            }
-        }
-
-        visiting.remove(name);
-        visited.add(name);
-        if (modelByName.containsKey(name)) {
-            sorted.add(modelByName.get(name));
-        }
     }
 }

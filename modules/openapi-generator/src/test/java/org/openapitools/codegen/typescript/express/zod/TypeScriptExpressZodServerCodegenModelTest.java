@@ -10,13 +10,13 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.TypescriptExpressZodServerCodegen;
+import org.openapitools.codegen.languages.TypeScriptExpressZodServerCodegen;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
-public class TypescriptExpressZodServerCodegenModelTest {
+public class TypeScriptExpressZodServerCodegenModelTest {
 
     @Test(description = "convert a simple TypeScript Express Zod model")
     public void simpleModelTest() {
@@ -26,7 +26,7 @@ public class TypescriptExpressZodServerCodegenModelTest {
                 .addProperties("name", new StringSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
-        final DefaultCodegen codegen = new TypescriptExpressZodServerCodegen();
+        final DefaultCodegen codegen = new TypeScriptExpressZodServerCodegen();
         final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Sample", schema);
         codegen.setOpenAPI(openAPI);
 
