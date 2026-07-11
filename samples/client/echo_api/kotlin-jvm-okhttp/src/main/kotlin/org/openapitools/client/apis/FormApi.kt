@@ -138,12 +138,6 @@ open class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
      * POST /form/oneof
      * Test form parameter(s) for oneOf schema
      * Test form parameter(s) for oneOf schema
-     * @param form1  (optional)
-     * @param form2  (optional)
-     * @param form3  (optional)
-     * @param form4  (optional)
-     * @param id  (optional)
-     * @param name  (optional)
      * @return kotlin.String
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -153,8 +147,8 @@ open class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun testFormOneof(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null) : kotlin.String {
-        val localVarResponse = testFormOneofWithHttpInfo(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
+    fun testFormOneof() : kotlin.String {
+        val localVarResponse = testFormOneofWithHttpInfo()
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
@@ -175,22 +169,16 @@ open class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
      * POST /form/oneof
      * Test form parameter(s) for oneOf schema
      * Test form parameter(s) for oneOf schema
-     * @param form1  (optional)
-     * @param form2  (optional)
-     * @param form3  (optional)
-     * @param form4  (optional)
-     * @param id  (optional)
-     * @param name  (optional)
      * @return ApiResponse<kotlin.String?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun testFormOneofWithHttpInfo(form1: kotlin.String?, form2: kotlin.Int?, form3: kotlin.String?, form4: kotlin.Boolean?, id: kotlin.Long?, name: kotlin.String?) : ApiResponse<kotlin.String?> {
-        val localVariableConfig = testFormOneofRequestConfig(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
+    fun testFormOneofWithHttpInfo() : ApiResponse<kotlin.String?> {
+        val localVariableConfig = testFormOneofRequestConfig()
 
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -198,24 +186,13 @@ open class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
     /**
      * To obtain the request config of the operation testFormOneof
      *
-     * @param form1  (optional)
-     * @param form2  (optional)
-     * @param form3  (optional)
-     * @param form4  (optional)
-     * @param id  (optional)
-     * @param name  (optional)
      * @return RequestConfig
      */
-    fun testFormOneofRequestConfig(form1: kotlin.String?, form2: kotlin.Int?, form3: kotlin.String?, form4: kotlin.Boolean?, id: kotlin.Long?, name: kotlin.String?) : RequestConfig<Map<String, PartConfig<*>>> {
-        val localVariableBody = mapOf(
-            "form1" to PartConfig(body = form1, headers = mutableMapOf()),
-            "form2" to PartConfig(body = form2, headers = mutableMapOf()),
-            "form3" to PartConfig(body = form3, headers = mutableMapOf()),
-            "form4" to PartConfig(body = form4, headers = mutableMapOf()),
-            "id" to PartConfig(body = id, headers = mutableMapOf()),
-            "name" to PartConfig(body = name, headers = mutableMapOf()),)
+    fun testFormOneofRequestConfig() : RequestConfig<Unit> {
+        val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/x-www-form-urlencoded"
         localVariableHeaders["Accept"] = "text/plain"
 
         return RequestConfig(
