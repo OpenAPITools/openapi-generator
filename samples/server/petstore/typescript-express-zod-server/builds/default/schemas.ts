@@ -73,3 +73,13 @@ export const GetLatestBookEventParamsSchema = z.object({
   bookId: z.coerce.number().int(),
 });
 
+export const CreateAuthorResponseSchema = AuthorSchema;
+
+export const CreateBookResponseSchema = BookSchema;
+
+export const GetAuthorResponseSchema = AuthorSchema;
+
+export const GetBookResponseSchema = BookSchema;
+
+export const GetLatestBookEventResponseSchema = BookEventSchema;
+

@@ -25,7 +25,7 @@ export const handleCreateAuthor =
       // Parse parameters from request
       const params: types.CreateAuthorParams =
         schemas.CreateAuthorParamsSchema.parse({
-          author: mappers.mapFromAuthorDto(req.body),
+          author: ((b) => b == null ? b : (mappers.mapFromAuthorDto)(b))(req.body),
         });
 
       // Execute service method
@@ -39,8 +39,8 @@ export const handleCreateAuthor =
           res,
           next,
           status,
-          mappers.mapToAuthorDto(result),
-          (payload) => schemas.AuthorSchema.parse(payload),
+          (mappers.mapToAuthorDto)(result),
+          (payload) => schemas.CreateAuthorResponseSchema.parse(payload),
         );
       }
     } catch (err) {
@@ -63,7 +63,7 @@ export const handleCreateBook =
       // Parse parameters from request
       const params: types.CreateBookParams =
         schemas.CreateBookParamsSchema.parse({
-          createBookRequest: mappers.mapFromCreateBookRequestDto(req.body),
+          createBookRequest: ((b) => b == null ? b : (mappers.mapFromCreateBookRequestDto)(b))(req.body),
         });
 
       // Execute service method
@@ -77,8 +77,8 @@ export const handleCreateBook =
           res,
           next,
           status,
-          mappers.mapToBookDto(result),
-          (payload) => schemas.BookSchema.parse(payload),
+          (mappers.mapToBookDto)(result),
+          (payload) => schemas.CreateBookResponseSchema.parse(payload),
         );
       }
     } catch (err) {
@@ -152,8 +152,8 @@ export const handleGetAuthor =
           res,
           next,
           status,
-          mappers.mapToAuthorDto(result),
-          (payload) => schemas.AuthorSchema.parse(payload),
+          (mappers.mapToAuthorDto)(result),
+          (payload) => schemas.GetAuthorResponseSchema.parse(payload),
         );
       }
     } catch (err) {
@@ -191,8 +191,8 @@ export const handleGetBook =
           res,
           next,
           status,
-          mappers.mapToBookDto(result),
-          (payload) => schemas.BookSchema.parse(payload),
+          (mappers.mapToBookDto)(result),
+          (payload) => schemas.GetBookResponseSchema.parse(payload),
         );
       }
     } catch (err) {
@@ -229,8 +229,8 @@ export const handleGetLatestBookEvent =
           res,
           next,
           status,
-          mappers.mapToBookEventDto(result),
-          (payload) => schemas.BookEventSchema.parse(payload),
+          (mappers.mapToBookEventDto)(result),
+          (payload) => schemas.GetLatestBookEventResponseSchema.parse(payload),
         );
       }
     } catch (err) {
