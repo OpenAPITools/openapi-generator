@@ -31,9 +31,16 @@ interface FormApi {
      * Responses:
      *  - 200: Successful operation
      *
+     * @param form1  (optional)
+     * @param form2  (optional)
+     * @param form3  (optional)
+     * @param form4  (optional)
+     * @param id  (optional)
+     * @param name  (optional)
      * @return [kotlin.String]
      */
+    @FormUrlEncoded
     @POST("form/oneof")
-    suspend fun testFormOneof(): Response<kotlin.String>
+    suspend fun testFormOneof(@Field("form1") form1: kotlin.String? = null, @Field("form2") form2: kotlin.Int? = null, @Field("form3") form3: kotlin.String? = null, @Field("form4") form4: kotlin.Boolean? = null, @Field("id") id: kotlin.Long? = null, @Field("name") name: kotlin.String? = null): Response<kotlin.String>
 
 }

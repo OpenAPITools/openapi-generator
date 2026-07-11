@@ -3720,7 +3720,10 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Add schema's properties to "properties" and "required" list
+     * Add schema's properties to "properties" and "required" list.
+     *
+     * <p>oneOf/anyOf sub-schema properties are merged into the parent only when
+     * {@code skipOneOfPropertyMergeInParent} is disabled (model generation default).
      *
      * @param properties     all properties
      * @param required       required property only
@@ -3728,6 +3731,22 @@ public class DefaultCodegen implements CodegenConfig {
      * @param visitedSchemas circuit-breaker - the schemas with which the method was called before for recursive structures
      */
     protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas) {
+        addProperties(properties, required, schema, visitedSchemas, false);
+    }
+
+    /**
+     * Add schema's properties to "properties" and "required" list.
+     *
+     * @param properties             all properties
+     * @param required               required property only
+     * @param schema                 schema in which the properties will be added to the lists
+     * @param visitedSchemas         circuit-breaker - the schemas with which the method was called before for recursive structures
+     * @param flattenComposedSchemas when true, oneOf/anyOf sub-schema properties are always flattened into the
+     *                               parent regardless of {@code skipOneOfPropertyMergeInParent}. This is required
+     *                               for form-data parameters, which need an individual field per alternative,
+     *                               unlike model definitions where alternatives are represented as separate types.
+     */
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas, boolean flattenComposedSchemas) {
         if (schema == null) {
             return;
         }
@@ -3743,7 +3762,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (schema.getAllOf() != null) {
                 for (Object component : schema.getAllOf()) {
-                    addProperties(properties, required, (Schema) component, visitedSchemas);
+                    addProperties(properties, required, (Schema) component, visitedSchemas, flattenComposedSchemas);
                 }
             }
 
@@ -3753,17 +3772,18 @@ public class DefaultCodegen implements CodegenConfig {
 
             // Note: oneOf and anyOf represent type alternatives, not compositions.
             // When skipOneOfPropertyMergeInParent is enabled, their children's properties
-            // should NOT be merged into the parent schema.
-            if (!skipOneOfPropertyMergeInParent) {
+            // should NOT be merged into the parent schema - unless flattenComposedSchemas is
+            // requested (e.g. for form-data parameters, which need one field per alternative).
+            if (flattenComposedSchemas || !skipOneOfPropertyMergeInParent) {
                 if (schema.getOneOf() != null) {
                     for (Object component : schema.getOneOf()) {
-                        addProperties(properties, required, (Schema) component, visitedSchemas);
+                        addProperties(properties, required, (Schema) component, visitedSchemas, flattenComposedSchemas);
                     }
                 }
 
                 if (schema.getAnyOf() != null) {
                     for (Object component : schema.getAnyOf()) {
-                        addProperties(properties, required, (Schema) component, visitedSchemas);
+                        addProperties(properties, required, (Schema) component, visitedSchemas, flattenComposedSchemas);
                     }
                 }
             }
@@ -3773,7 +3793,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             Schema interfaceSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
-            addProperties(properties, required, interfaceSchema, visitedSchemas);
+            addProperties(properties, required, interfaceSchema, visitedSchemas, flattenComposedSchemas);
             return;
         }
         if (schema.getProperties() != null) {
@@ -7463,9 +7483,11 @@ public class DefaultCodegen implements CodegenConfig {
         // TODO in the future have this return one codegenParameter of type object or composed which includes all definition
         // that will be needed for complex composition use cases
         // https://github.com/OpenAPITools/openapi-generator/issues/10415
-        addProperties(properties, allRequired, schema, new HashSet<>());
 
+        // For form data, always flatten oneOf/anyOf alternatives into individual fields
+        // regardless of skipOneOfPropertyMergeInParent (which only applies to model generation).
         boolean isOneOfOrAnyOf = ModelUtils.isOneOf(schema) || ModelUtils.isAnyOf(schema);
+        addProperties(properties, allRequired, schema, new HashSet<>(), isOneOfOrAnyOf);
 
         if (!properties.isEmpty()) {
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {

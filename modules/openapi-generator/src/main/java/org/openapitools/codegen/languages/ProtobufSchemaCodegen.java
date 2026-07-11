@@ -1955,8 +1955,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
  * In this case, the second allOf that defines a map with string keys and Pet values will be part of model's property.
  */
     @Override
-    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas){
-        super.addProperties(properties, required, schema, visitedSchemas);
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas, boolean flattenComposedSchemas){
+        super.addProperties(properties, required, schema, visitedSchemas, flattenComposedSchemas);
         if(schema.getAdditionalProperties() != null) {
             String addtionalPropertiesName = "default_map";
             if(schema.getTitle() != null) {

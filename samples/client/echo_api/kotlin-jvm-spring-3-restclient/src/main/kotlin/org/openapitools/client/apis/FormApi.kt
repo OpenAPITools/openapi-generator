@@ -83,24 +83,29 @@ open class FormApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testFormOneof(): kotlin.String {
-        val result = testFormOneofWithHttpInfo()
+    fun testFormOneof(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null): kotlin.String {
+        val result = testFormOneofWithHttpInfo(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testFormOneofWithHttpInfo(): ResponseEntity<kotlin.String> {
-        val localVariableConfig = testFormOneofRequestConfig()
-        return request<Unit, kotlin.String>(
+    fun testFormOneofWithHttpInfo(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null): ResponseEntity<kotlin.String> {
+        val localVariableConfig = testFormOneofRequestConfig(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
+        return request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig
         )
     }
 
-    fun testFormOneofRequestConfig() : RequestConfig<Unit> {
-        val localVariableBody = null
+    fun testFormOneofRequestConfig(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
+        val localVariableBody = mapOf(
+            "form1" to PartConfig(body = form1, headers = mutableMapOf()),
+            "form2" to PartConfig(body = form2, headers = mutableMapOf()),
+            "form3" to PartConfig(body = form3, headers = mutableMapOf()),
+            "form4" to PartConfig(body = form4, headers = mutableMapOf()),
+            "id" to PartConfig(body = id, headers = mutableMapOf()),
+            "name" to PartConfig(body = name, headers = mutableMapOf()),)
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Content-Type"] = "application/x-www-form-urlencoded"
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         localVariableHeaders["Accept"] = "text/plain"
 
         val params = mutableMapOf<String, Any>(

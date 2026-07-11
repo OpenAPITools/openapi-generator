@@ -60,7 +60,7 @@ No authorization required
 
 <a id="testFormOneof"></a>
 # **testFormOneof**
-> kotlin.String testFormOneof()
+> kotlin.String testFormOneof(form1, form2, form3, form4, id, name)
 
 Test form parameter(s) for oneOf schema
 
@@ -73,8 +73,14 @@ Test form parameter(s) for oneOf schema
 //import org.openapitools.client.models.*
 
 val apiInstance = FormApi()
+val form1 : kotlin.String = form1_example // kotlin.String | 
+val form2 : kotlin.Int = 56 // kotlin.Int | 
+val form3 : kotlin.String = form3_example // kotlin.String | 
+val form4 : kotlin.Boolean = true // kotlin.Boolean | 
+val id : kotlin.Long = 789 // kotlin.Long | 
+val name : kotlin.String = name_example // kotlin.String | 
 try {
-    val result : kotlin.String = apiInstance.testFormOneof()
+    val result : kotlin.String = apiInstance.testFormOneof(form1, form2, form3, form4, id, name)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling FormApi#testFormOneof")
@@ -86,7 +92,14 @@ try {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+| **form1** | **kotlin.String**|  | [optional] |
+| **form2** | **kotlin.Int**|  | [optional] |
+| **form3** | **kotlin.String**|  | [optional] |
+| **form4** | **kotlin.Boolean**|  | [optional] |
+| **id** | **kotlin.Long**|  | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **name** | **kotlin.String**|  | [optional] |
 
 ### Return type
 

@@ -65,14 +65,27 @@ Test form parameter(s) for oneOf schema
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(FormApi::class.java)
+val form1 : kotlin.String = form1_example // kotlin.String | 
+val form2 : kotlin.Int = 56 // kotlin.Int | 
+val form3 : kotlin.String = form3_example // kotlin.String | 
+val form4 : kotlin.Boolean = true // kotlin.Boolean | 
+val id : kotlin.Long = 789 // kotlin.Long | 
+val name : kotlin.String = name_example // kotlin.String | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testFormOneof()
+    val result : kotlin.String = webService.testFormOneof(form1, form2, form3, form4, id, name)
 }
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+| **form1** | **kotlin.String**|  | [optional] |
+| **form2** | **kotlin.Int**|  | [optional] |
+| **form3** | **kotlin.String**|  | [optional] |
+| **form4** | **kotlin.Boolean**|  | [optional] |
+| **id** | **kotlin.Long**|  | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **name** | **kotlin.String**|  | [optional] |
 
 ### Return type
 
