@@ -28,6 +28,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using {{packageName}}.{{clientPackage}};
+using {{packageName}}.Logging;
 {{#hasImport}}
 using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
@@ -166,11 +167,6 @@ namespace {{packageName}}.{{apiPackage}}
         private JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
-        /// The logger factory
-        /// </summary>
-        public ILoggerFactory LoggerFactory { get; }
-
-        /// <summary>
         /// The logger
         /// </summary>
         public ILogger<{{classname}}> Logger { get; }
@@ -227,7 +223,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        public {{classname}}(ILogger<{{classname}}> logger, ILoggerFactory loggerFactory, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}}{{#hasApiKeyMethods}},
+        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}}{{#hasApiKeyMethods}},
             TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}},
             TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}},
             TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}},
@@ -236,8 +232,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{packageName}}.{{clientPackage}}.CookieContainer cookieContainer{{/vendorExtensions.x-set-cookie}}{{/lambda.uniqueLines}}{{/operation}}{{/net80OrLater}})
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            LoggerFactory = loggerFactory;
-            Logger = LoggerFactory.CreateLogger<{{classname}}>();
+            Logger = logger;
             HttpClient = httpClient;
             Events = {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}};{{#hasApiKeyMethods}}
             ApiKeyProvider = apiKeyProvider;{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
@@ -721,7 +716,6 @@ namespace {{packageName}}.{{apiPackage}}
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        ILogger<{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse>();
                         {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar;
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
@@ -736,7 +730,7 @@ namespace {{packageName}}.{{apiPackage}}
                             {
                                 byte[] responseBytesArrayLocalVar = await httpResponseMessageLocalVar.Content.ReadAsByteArrayAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
                                 System.IO.Stream responseContentStreamLocalVar = new System.IO.MemoryStream(responseBytesArrayLocalVar);
-                                apiResponseLocalVar = new{{^net60OrLater}} {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentStreamLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new{{^net60OrLater}} {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{/net60OrLater}}(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentStreamLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -745,7 +739,7 @@ namespace {{packageName}}.{{apiPackage}}
                             {{/responses}}
                             default: {
                                 string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
-                                apiResponseLocalVar = new{{^net60OrLater}} {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new{{^net60OrLater}} {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{/net60OrLater}}(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -815,6 +809,12 @@ namespace {{packageName}}.{{apiPackage}}
         {{/vendorExtensions.x-duplicates}}
         {{/lambda.trim}}
         {{/lambda.copy}}
+        {{#lambda.cache}}
+        classname
+        {{#lambda.trim}}
+        {{classname}}
+        {{/lambda.trim}}
+        {{/lambda.cache}}
         {{#responses}}
         {{#-first}}
 
@@ -826,7 +826,7 @@ namespace {{packageName}}.{{apiPackage}}
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse> Logger { get; }
+            public ILogger<{{#lambda.recall}}classname{{/lambda.recall}}> Logger { get; }
 
             /// <summary>
             /// The <see cref="{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse"/>
@@ -838,7 +838,7 @@ namespace {{packageName}}.{{apiPackage}}
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public {{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse(ILogger<{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public {{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse(ILogger<{{classname}}> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -854,7 +854,7 @@ namespace {{packageName}}.{{apiPackage}}
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public {{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse(ILogger<{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            public {{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse(ILogger<{{classname}}> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
