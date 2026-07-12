@@ -730,7 +730,7 @@ namespace {{packageName}}.{{apiPackage}}
                             {
                                 byte[] responseBytesArrayLocalVar = await httpResponseMessageLocalVar.Content.ReadAsByteArrayAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
                                 System.IO.Stream responseContentStreamLocalVar = new System.IO.MemoryStream(responseBytesArrayLocalVar);
-                                apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentStreamLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new{{^net60OrLater}} {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{/net60OrLater}}(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentStreamLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -739,7 +739,7 @@ namespace {{packageName}}.{{apiPackage}}
                             {{/responses}}
                             default: {
                                 string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
-                                apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new{{^net60OrLater}} {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{/net60OrLater}}(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
