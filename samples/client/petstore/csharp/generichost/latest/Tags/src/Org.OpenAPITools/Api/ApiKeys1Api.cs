@@ -46,8 +46,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Api Key ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysIdApiResponse"/>&gt;</returns>
-        Task<IGetApiKeysIdApiResponse> GetApiKeysIdAsync(int id, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IApiKeysApiGetApiKeysIdApiResponse"/>&gt;</returns>
+        Task<IApiKeysApiGetApiKeysIdApiResponse> GetApiKeysIdAsync(int id, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Show API Key
@@ -57,8 +57,20 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <param name="id">Api Key ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysIdApiResponse"/>?&gt;</returns>
-        Task<IGetApiKeysIdApiResponse?> GetApiKeysIdOrDefaultAsync(int id, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IApiKeysApiGetApiKeysIdApiResponse"/>?&gt;</returns>
+        Task<IApiKeysApiGetApiKeysIdApiResponse?> GetApiKeysIdOrDefaultAsync(int id, System.Threading.CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// The <see cref="IApiKeysApiGetApiKeysIdApiResponse"/>
+    /// </summary>
+    public interface IApiKeysApiGetApiKeysIdApiResponse : Org.OpenAPITools.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
     }
 
     /// <summary>
@@ -76,7 +88,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorGetApiKeysId;
 
-        internal void ExecuteOnGetApiKeysId(APIKEYSApi.GetApiKeysIdApiResponse apiResponse)
+        internal void ExecuteOnGetApiKeysId(ApiKeysApi.ApiKeysApiGetApiKeysIdApiResponse apiResponse)
         {
             OnGetApiKeysId?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
@@ -141,7 +153,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="id"></param>
-        private void AfterGetApiKeysIdDefaultImplementation(IGetApiKeysIdApiResponse apiResponseLocalVar, int id)
+        private void AfterGetApiKeysIdDefaultImplementation(IApiKeysApiGetApiKeysIdApiResponse apiResponseLocalVar, int id)
         {
             bool suppressDefaultLog = false;
             AfterGetApiKeysId(ref suppressDefaultLog, apiResponseLocalVar, id);
@@ -155,7 +167,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="id"></param>
-        partial void AfterGetApiKeysId(ref bool suppressDefaultLog, IGetApiKeysIdApiResponse apiResponseLocalVar, int id);
+        partial void AfterGetApiKeysId(ref bool suppressDefaultLog, IApiKeysApiGetApiKeysIdApiResponse apiResponseLocalVar, int id);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -187,8 +199,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="id">Api Key ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysIdApiResponse"/>&gt;</returns>
-        public async Task<IGetApiKeysIdApiResponse?> GetApiKeysIdOrDefaultAsync(int id, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IApiKeysApiGetApiKeysIdApiResponse"/>&gt;</returns>
+        public async Task<IApiKeysApiGetApiKeysIdApiResponse?> GetApiKeysIdOrDefaultAsync(int id, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -206,8 +218,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Api Key ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetApiKeysIdApiResponse"/>&gt;</returns>
-        public async Task<IGetApiKeysIdApiResponse> GetApiKeysIdAsync(int id, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IApiKeysApiGetApiKeysIdApiResponse"/>&gt;</returns>
+        public async Task<IApiKeysApiGetApiKeysIdApiResponse> GetApiKeysIdAsync(int id, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -233,8 +245,8 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        ILogger<APIKEYSApi.GetApiKeysIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<APIKEYSApi.GetApiKeysIdApiResponse>();
-                        APIKEYSApi.GetApiKeysIdApiResponse apiResponseLocalVar;
+                        ILogger<ApiKeysApiGetApiKeysIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<ApiKeysApiGetApiKeysIdApiResponse>();
+                        ApiKeysApiGetApiKeysIdApiResponse apiResponseLocalVar;
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             default: {
@@ -259,6 +271,67 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorGetApiKeysId(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="ApiKeysApiGetApiKeysIdApiResponse"/>
+        /// </summary>
+        public partial class ApiKeysApiGetApiKeysIdApiResponse : Org.OpenAPITools.Client.ApiResponse, IApiKeysApiGetApiKeysIdApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<ApiKeysApiGetApiKeysIdApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="ApiKeysApiGetApiKeysIdApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ApiKeysApiGetApiKeysIdApiResponse(ILogger<ApiKeysApiGetApiKeysIdApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="ApiKeysApiGetApiKeysIdApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ApiKeysApiGetApiKeysIdApiResponse(ILogger<ApiKeysApiGetApiKeysIdApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
     }
 }
