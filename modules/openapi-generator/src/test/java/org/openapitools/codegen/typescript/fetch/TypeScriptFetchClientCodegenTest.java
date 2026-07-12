@@ -667,6 +667,19 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(modelPath, "json['required_property'] === undefined ? undefined : json['required_property'] === null ? null :");
     }
 
+    @Test(description = "Verify Omit uses the camelCase property name instead of the baseName for readOnly fields")
+    public void testIssue23380_OmitUsesCorrectPropertyName() throws Exception {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/issue_23380.yaml"
+        );
+
+        Path modelPath = Paths.get(output + "/models/Mission.ts");
+        TestUtils.assertFileExists(modelPath);
+        // Ensure Omit uses camelCase names like 'singleCar' and 'taskName' instead of snake_case 'single_car' and 'TaskName'
+        TestUtils.assertFileContains(modelPath, "export function MissionToJSONTyped(value?: Omit<Mission, 'id'|'taskName'|'singleCar'> | null, ignoreDiscriminator: boolean = false): any {");
+    }
+
     private static File generate(
         Map<String, Object> properties
     ) throws IOException {
