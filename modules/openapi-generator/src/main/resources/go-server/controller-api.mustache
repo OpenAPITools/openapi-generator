@@ -92,11 +92,11 @@ func (c *{{classname}}Controller) OrderedRoutes() []Route {
 
 {{#operations}}{{#operation}}
 
-// {{nickname}} - {{{summary}}}
+// {{operationId}} - {{{summary}}}
 {{#isDeprecated}}
 // Deprecated
 {{/isDeprecated}}
-func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Request) {
+func (c *{{classname}}Controller) {{operationId}}(w http.ResponseWriter, r *http.Request) {
 	{{#hasFormParams}}
 	{{#isMultipart}}
 	if err := r.ParseMultipartForm(32 << 20); err != nil {
@@ -641,7 +641,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}
 	{{/isBodyParam}}
 	{{/allParams}}
-	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isNullable}}{{#isBodyParam}}&{{/isBodyParam}}{{/isNullable}}{{paramName}}Param{{/allParams}})
+	result, err := c.service.{{operationId}}(r.Context(){{#allParams}}, {{#isNullable}}{{#isBodyParam}}&{{/isBodyParam}}{{/isNullable}}{{paramName}}Param{{/allParams}})
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

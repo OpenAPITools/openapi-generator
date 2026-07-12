@@ -339,6 +339,44 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testRetrofit2CookieParamsOmittedFromSignature() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RETROFIT_2)
+                .setInputSpec("src/test/resources/3_0/java/retrofit2-cookie-params.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // Retrofit2 has no annotation for cookie parameters, so they are omitted from the
+        // interface method signature. Previously the cookie param was dropped while its
+        // separator comma was kept, producing an uncompilable signature such as
+        // "cookieLast(@Header(...) String xApiVersion, );". validateJavaSourceFiles parses
+        // every generated file, so a stray leading/trailing comma fails the parse here.
+        validateJavaSourceFiles(files);
+
+        Map<String, File> fileMap = files.stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(fileMap.get("DefaultApi.java"))
+                // cookie param is last -> no trailing comma, cookie param omitted
+                .assertMethod("cookieLast", "String")
+                .assertParameter("xApiVersion")
+                .toMethod()
+                .toFileAssert()
+                // cookie param is first -> no leading comma, remaining params kept
+                .assertMethod("cookieFirst", "String", "String")
+                .assertParameter("xApiVersion")
+                .toMethod()
+                .assertParameter("filter")
+                .toMethod()
+                .toFileAssert()
+                // only a cookie param -> empty parameter list
+                .assertMethod("cookieOnly");
+    }
+
+    @Test
     public void testSupportedSecuritySchemesJersey() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.JERSEY3);
@@ -4155,6 +4193,60 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileNotContains(testModel.toPath(), "com.fasterxml.jackson");
     }
 
+    @Test
+    public void oneOfInterfaceMicroprofileJackson() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(MICROPROFILE)
+                .setAdditionalProperties(Map.of(
+                        USE_ONE_OF_INTERFACES, "true",
+                        CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON
+                ))
+                .setInputSpec("src/test/resources/3_0/java/oneof_interface_petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path model = output.resolve("src/main/java/org/openapitools/client/model");
+        // oneOf schema rendered as an interface (not a pojo); the discriminator getter resolves to the enum
+        assertFileContains(model.resolve("PetRequest.java"), "public interface PetRequest {");
+        assertFileContains(model.resolve("PetRequest.java"), "public PetType getPetType();");
+        // children implement the interface
+        assertFileContains(model.resolve("CatRequest.java"), "implements PetRequest");
+        assertFileContains(model.resolve("DogRequest.java"), "implements PetRequest");
+        // not sealed (useSealedOneOfInterfaces not set)
+        assertFileNotContains(model.resolve("PetRequest.java"), "sealed interface");
+        assertFileNotContains(model.resolve("CatRequest.java"), "public final class");
+    }
+
+    @Test
+    public void sealedOneOfInterfaceMicroprofileJackson() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(MICROPROFILE)
+                .setAdditionalProperties(Map.of(
+                        USE_ONE_OF_INTERFACES, "true",
+                        USE_SEALED_ONE_OF_INTERFACES, "true",
+                        CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"
+                ))
+                .setInputSpec("src/test/resources/3_0/java/oneof_interface_petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path model = output.resolve("src/main/java/org/openapitools/client/model");
+        assertFileContains(model.resolve("PetRequest.java"), "public sealed interface PetRequest permits CatRequest, DogRequest {");
+        assertFileContains(model.resolve("CatRequest.java"), "public final class CatRequest");
+        assertFileContains(model.resolve("CatRequest.java"), "implements PetRequest");
+        assertFileContains(model.resolve("DogRequest.java"), "public final class DogRequest");
+        // sealed requires Java 17 in the generated pom
+        assertFileContains(output.resolve("pom.xml"), "<java.version>17</java.version>");
+        assertFileNotContains(output.resolve("pom.xml"), "<java.version>11</java.version>");
+    }
+
     @DataProvider(name = "sealedInterfaceScenarios")
     public static Object[][] sealedInterfaceScenarios() {
         return new Object[][]{
@@ -4306,6 +4398,34 @@ public class JavaClientCodegenTest {
             }
         }
         assertTrue(speciesSeen);
+    }
+
+    @Test(dataProvider = "supportedLibraries")
+    public void testAllOfClassWithAnnotations(Library library) {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/allOf-with-annotations.yaml",
+                library.value,
+                Map.of(),
+                configurator -> configurator
+                        .addGlobalProperty(MODELS, "Animal,Bird,Cat,Dog,Fish")
+                        .addGlobalProperty(MODEL_TESTS, "false")
+                        .addGlobalProperty(MODEL_DOCS, "false"));
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Bird.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Fish.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("Deprecated");
     }
 
     @Test
@@ -4628,4 +4748,41 @@ public class JavaClientCodegenTest {
         assertFileNotContains(animalFile.toPath(), "defaultImpl");
     }
 
+    @DataProvider(name = "rxJavaOptions")
+    public static Object[][] rxJavaOptions() {
+        return new Object[][]{
+                {Map.of(USE_RX_JAVA2, true, USE_RX_JAVA3, true), Map.of(USE_RX_JAVA2, false, USE_RX_JAVA3, true)},
+                {Map.of(USE_RX_JAVA2, true), Map.of(USE_RX_JAVA2, true)}
+        };
+    }
+
+    @Test(dataProvider = "rxJavaOptions")
+    public void processOptsConfiguresRxJavaOptions(Map<String, Object> properties, Map<String, Object> expectedProperties) {
+        JavaClientCodegen codegen = newRetrofit2Codegen(properties);
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties())
+                .containsAllEntriesOf(expectedProperties)
+                .doesNotContainKey(DO_NOT_USE_RX);
+    }
+
+    @Test
+    public void processOptsConvertsConfiguredSupportUrlQuery() {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.APACHE);
+        codegen.additionalProperties().put(SUPPORT_URL_QUERY, "false");
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties())
+                .containsEntry(SUPPORT_URL_QUERY, false);
+    }
+
+    private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.RETROFIT_2);
+        codegen.additionalProperties().putAll(properties);
+        return codegen;
+    }
 }

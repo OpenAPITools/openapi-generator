@@ -68,7 +68,7 @@ export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: 
     return {
         
         'type': json['type'] == null ? undefined : json['type'],
-        'nullableProperty': json['nullableProperty'] == null ? undefined : json['nullableProperty'],
+        'nullableProperty': json['nullableProperty'] === undefined ? undefined : json['nullableProperty'] === null ? null : json['nullableProperty'],
     };
 }
 
