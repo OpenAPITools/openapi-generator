@@ -205,8 +205,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="AdditionalPropertiesClass" />
     /// </summary>
-    public class AdditionalPropertiesClassJsonConverter : JsonConverter<AdditionalPropertiesClass>
+    public partial class AdditionalPropertiesClassJsonConverter : JsonConverter<AdditionalPropertiesClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdditionalPropertiesClassJsonConverter" /> class.
+        /// </summary>
+        public AdditionalPropertiesClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="AdditionalPropertiesClass" />
         /// </summary>

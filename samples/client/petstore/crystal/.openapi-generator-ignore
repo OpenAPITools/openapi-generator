@@ -21,5 +21,7 @@
 #docs/*.md
 # Then explicitly reverse the ignore rule for a single file:
 #!docs/README.md
-#
-#
+
+# Hand-maintained live-server integration specs (the generated spec/api/*
+# stubs are structural-only and must not hit the network).
+spec/integration/**

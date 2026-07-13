@@ -87,15 +87,17 @@ class _$EnumArraysSerializer implements PrimitiveSerializer<EnumArrays> {
         case r'just_symbol':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(EnumArraysJustSymbolEnum),
-          ) as EnumArraysJustSymbolEnum;
+            specifiedType: const FullType.nullable(EnumArraysJustSymbolEnum),
+          ) as EnumArraysJustSymbolEnum?;
+          if (valueDes == null) continue;
           result.justSymbol = valueDes;
           break;
         case r'array_enum':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)]),
-          ) as BuiltList<EnumArraysArrayEnumEnum>;
+            specifiedType: const FullType.nullable(BuiltList, [FullType(EnumArraysArrayEnumEnum)]),
+          ) as BuiltList<EnumArraysArrayEnumEnum>?;
+          if (valueDes == null) continue;
           result.arrayEnum.replace(valueDes);
           break;
         default:

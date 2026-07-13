@@ -95,6 +95,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                         "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
 
                     verbose.set(generate.verbose)
+                    quiet.set(generate.quiet)
                     validateSpec.set(generate.validateSpec)
                     generatorName.set(generate.generatorName)
                     outputDir.set(generate.outputDir)
@@ -126,6 +127,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     openapiGeneratorIgnoreList.set(generate.openapiGeneratorIgnoreList)
                     importMappings.set(generate.importMappings)
                     schemaMappings.set(generate.schemaMappings)
+                    forcedGenerateSchemas.set(generate.forcedGenerateSchemas)
                     inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
                     inlineSchemaOptions.set(generate.inlineSchemaOptions)
                     nameMappings.set(generate.nameMappings)

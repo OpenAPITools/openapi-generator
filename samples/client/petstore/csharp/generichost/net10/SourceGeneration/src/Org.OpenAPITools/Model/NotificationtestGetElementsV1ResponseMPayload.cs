@@ -94,8 +94,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="NotificationtestGetElementsV1ResponseMPayload" />
     /// </summary>
-    public class NotificationtestGetElementsV1ResponseMPayloadJsonConverter : JsonConverter<NotificationtestGetElementsV1ResponseMPayload>
+    public partial class NotificationtestGetElementsV1ResponseMPayloadJsonConverter : JsonConverter<NotificationtestGetElementsV1ResponseMPayload>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotificationtestGetElementsV1ResponseMPayloadJsonConverter" /> class.
+        /// </summary>
+        public NotificationtestGetElementsV1ResponseMPayloadJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="NotificationtestGetElementsV1ResponseMPayload" />
         /// </summary>

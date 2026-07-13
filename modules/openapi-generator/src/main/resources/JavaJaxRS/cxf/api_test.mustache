@@ -4,9 +4,16 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
+{{#generateSpringBootApplication}}
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
+{{/generateSpringBootApplication}}
+{{^generateSpringBootApplication}}
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
+{{/generateSpringBootApplication}}
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.Valid;
@@ -78,7 +85,7 @@ public class {{classname}}Test {
 
     private {{classname}} api;
 
-    @Before
+    {{#generateSpringBootApplication}}@Before{{/generateSpringBootApplication}}{{^generateSpringBootApplication}}@BeforeEach{{/generateSpringBootApplication}}
     public void setup() {
         JacksonJsonProvider provider = new JacksonJsonProvider();
         List providers = new ArrayList();

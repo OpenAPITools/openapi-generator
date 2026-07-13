@@ -128,6 +128,11 @@
   image: "img/companies/carlsberggroup.png"
   infoLink: "https://www.carlsberggroup.com/"
   pinned: false
+- 
+  caption: Carmatec
+  image: "img/companies/carmatec.png"
+  infoLink: "https://www.carmatec.com/"
+  pinned: false
 -
   caption: Cisco 
   image: "img/companies/cisco.png"
@@ -512,6 +517,11 @@
   caption: "SearchApi"
   image: "img/companies/searchapi.png"
   infoLink: "https://www.searchapi.io/"
+  pinned: false
+-
+  caption: "Service Cost"
+  image: "img/companies/servicecost.png"
+  infoLink: "https://servicecost.in"
   pinned: false
 -
   caption: "Shotstack"

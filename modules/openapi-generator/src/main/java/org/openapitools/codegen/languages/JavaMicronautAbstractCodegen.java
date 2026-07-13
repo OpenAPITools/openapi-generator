@@ -720,19 +720,21 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# WARNING! This generator is outdated. Please use the official generator for   #");
-        System.out.println("# Micronaut: https://github.com/micronaut-projects/micronaut-openapi with the  #");
-        System.out.println("# help of the plugin for Gradle                                                #");
-        System.out.println("# (https://github.com/micronaut-projects/micronaut-gradle-plugin) and Maven    #");
-        System.out.println("# (https://github.com/micronaut-projects/micronaut-maven-plugin).              #");
-        System.out.println("#                                                                              #");
-        System.out.println("# Supported generators for micronaut client / server side, java and kotlin     #");
-        System.out.println("# languages.                                                                   #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# WARNING! This generator is outdated. Please use the official generator for   #");
+            System.out.println("# Micronaut: https://github.com/micronaut-projects/micronaut-openapi with the  #");
+            System.out.println("# help of the plugin for Gradle                                                #");
+            System.out.println("# (https://github.com/micronaut-projects/micronaut-gradle-plugin) and Maven    #");
+            System.out.println("# (https://github.com/micronaut-projects/micronaut-maven-plugin).              #");
+            System.out.println("#                                                                              #");
+            System.out.println("# Supported generators for micronaut client / server side, java and kotlin     #");
+            System.out.println("# languages.                                                                   #");
+            System.out.println("################################################################################");
+        }
     }
 }

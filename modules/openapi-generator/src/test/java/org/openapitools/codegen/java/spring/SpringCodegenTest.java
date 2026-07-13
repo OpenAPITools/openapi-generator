@@ -6102,6 +6102,42 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testAllOfClassWithAnnotations() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/allOf-with-annotations.yaml", SPRING_BOOT);
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .assertProperty("breed")
+                .assertPropertyAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Bird.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Fish.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .assertMethod("getDog")
+                .assertMethodAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated")
+                .toMethod()
+                .assertParameter("includeDetails")
+                .assertParameterAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+    }
+
+    @Test
     public void testApiVersion() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/apiVersion.yaml", SPRING_BOOT,
                 Map.of(SpringCodegen.SPRING_API_VERSION, "v1",
@@ -7996,6 +8032,19 @@ public class SpringCodegenTest {
     }
 
     @Test
+    void oneOf_issue_23577_userDefinedXImplements() throws IOException {
+        // Default oneOf-interface generation (without REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING):
+        // a member schema that already declares its own x-implements must still be able to
+        // receive the oneOf interface, i.e. the user-supplied x-implements value must remain mutable.
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_issue_23577.yaml", SPRING_BOOT,
+                Map.of(GENERATE_MODEL_DOCS, false, GENERATE_APIS, false, INTERFACE_ONLY, true));
+        JavaFileAssert.assertThat(files.get("CreatedEvent.java"))
+                .implementsInterfaces("com.example.Notification", "Event");
+        JavaFileAssert.assertThat(files.get("UpdatedEvent.java"))
+                .implementsInterfaces("Event");
+    }
+
+    @Test
     void oneof_polymorphism_and_inheritance() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", SPRING_BOOT,
                 Map.of(MODEL_NAME_SUFFIX, "Dto",
@@ -8131,5 +8180,125 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("MyObject.java"))
                 .assertProperty("optionalRef").withType("JsonNullable<com.example.ExternalModel>");
+    }
+
+    @Test
+    void issue24003() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24003.yaml", SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true, MODEL_NAME_SUFFIX, "DTO", INTERFACE_ONLY, "true"));
+        JavaFileAssert.assertThat(files.get("BrLockDTO.java")).isInterface()
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("use", "JsonTypeInfo.Id.NAME", "include", "JsonTypeInfo.As.PROPERTY", "property", "\"lockType\"", "visible", "true"))
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "ComponentBrLockDTO.class", "name", "\"COMPONENT\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "UserBrLockDTO.class", "name", "\"USER\""));
+        JavaFileAssert.assertThat(files.get("ComponentBrLockDTO.java")).implementsInterfaces("BrLockDTO")
+                .fileDoesNotContain("@JsonTypeName");
+        JavaFileAssert.assertThat(files.get("UserBrLockDTO.java")).implementsInterfaces("BrLockDTO")
+                .fileDoesNotContain("@JsonTypeName");
+    }
+
+    /**
+     * Scenario 4 (openApiNullable=true): optional+nullable field must carry
+     * {@code @JsonInclude(JsonInclude.Include.NON_ABSENT)} so that Jackson
+     * excludes {@code JsonNullable.undefined()} from serialized output.
+     */
+    @Test
+    void optionalNullableField_withOpenApiNullable_hasNonAbsentAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.java").toPath();
+        // NON_ABSENT must be present — only optionalNullable (JsonNullable<T>) gets this annotation
+        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_ABSENT)");
+        // JsonNullable field must be present
+        assertFileContains(modelFile, "private JsonNullable<String> optionalNullable");
+        // NON_NULL must also be present (for optionalNonNullable fields)
+        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
+        assertFileContains(modelFile, "import com.fasterxml.jackson.annotation.JsonInclude");
+    }
+
+    /**
+     * Without openApiNullable the optional+nullable field is a plain nullable type —
+     * no {@code @JsonInclude(NON_ABSENT)} should be emitted.
+     */
+    @Test
+    void optionalNullableField_withoutOpenApiNullable_hasNoNonAbsentAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "false"));
+
+        Path modelFile = files.get("TestModel.java").toPath();
+        // Without openApiNullable the field is String optionalNullable, not JsonNullable
+        assertFileNotContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_ABSENT)");
+    }
+
+    /**
+     * Optional+non-nullable fields must still have {@code @JsonInclude(NON_NULL)} regardless
+     * of the openApiNullable setting.
+     */
+    @Test
+    void optionalNonNullableField_alwaysHasNonNullAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.java").toPath();
+        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
+        assertFileContains(modelFile, "private String optionalNonNullable");
+    }
+
+    @Test
+    void testStringQuotesInTags_Issue22629() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new io.swagger.parser.OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_22629.yaml", null, new io.swagger.v3.parser.core.models.ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGenerateMetadata(false);
+        List<File> generatedFiles = generator.opts(input).generate();
+
+        File endpoint1ApiFile = generatedFiles.stream()
+                .filter(f -> f.getName().endsWith("Endpoint1Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Endpoint1Api file not generated"));
+
+        File endpoint2ApiFile = generatedFiles.stream()
+                .filter(f -> f.getName().endsWith("Endpoint2Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Endpoint2Api file not generated"));
+
+        File endpoint3ApiFile = generatedFiles.stream()
+                .filter(f -> f.getName().endsWith("Endpoint3Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Endpoint3Api file not generated"));
+
+        // 1. Verify the @Tag annotations have escaped double quotes, backslashes, and newlines
+        assertFileContains(endpoint1ApiFile.toPath(), "name = \"My \\\"quoted\\\" api\"");
+        assertFileContains(endpoint2ApiFile.toPath(), "name = \"My\\\\backslash\\\\api\"");
+        assertFileContains(endpoint3ApiFile.toPath(), "name = \"My newline api\"");
+
+        // 2. Verify the @Operation tags attributes have escaped double quotes, backslashes, and newlines
+        assertFileContains(endpoint1ApiFile.toPath(), "tags = { \"My \\\"quoted\\\" api\" }");
+        assertFileContains(endpoint2ApiFile.toPath(), "tags = { \"My\\\\backslash\\\\api\" }");
+        assertFileContains(endpoint3ApiFile.toPath(), "tags = { \"My newline api\" }");
     }
 }

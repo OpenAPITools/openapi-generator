@@ -107,8 +107,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="FileSchemaTestClass" />
     /// </summary>
-    public class FileSchemaTestClassJsonConverter : JsonConverter<FileSchemaTestClass>
+    public partial class FileSchemaTestClassJsonConverter : JsonConverter<FileSchemaTestClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileSchemaTestClassJsonConverter" /> class.
+        /// </summary>
+        public FileSchemaTestClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="FileSchemaTestClass" />
         /// </summary>

@@ -84,15 +84,17 @@ class _$HasOnlyReadOnlySerializer implements PrimitiveSerializer<HasOnlyReadOnly
         case r'bar':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.bar = valueDes;
           break;
         case r'foo':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.foo = valueDes;
           break;
         default:

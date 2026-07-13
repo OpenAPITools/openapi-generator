@@ -27,6 +27,7 @@ import org.openapitools.client.models.StringEnumRef
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * to test the default value of properties
@@ -83,7 +84,7 @@ data class DefaultValue (
      *
      * Values: success,failure,unclassified,unknown_default_open_api
      */
-    enum class ArrayStringEnumDefault(val value: kotlin.String) {
+    enum class ArrayStringEnumDefault(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "success") success("success"),
         @JsonProperty(value = "failure") failure("failure"),
         @JsonProperty(value = "unclassified") unclassified("unclassified"),

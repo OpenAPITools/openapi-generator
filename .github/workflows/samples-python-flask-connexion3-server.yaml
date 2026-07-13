@@ -1,0 +1,35 @@
+name: Python Flask (Connexion 3) Server
+
+on:
+  push:
+    paths:
+      - samples/server/petstore/python-flask-connexion3/**
+      - .github/workflows/samples-python-flask-connexion3-server.yaml
+  pull_request:
+    paths:
+      - samples/server/petstore/python-flask-connexion3/**
+      - .github/workflows/samples-python-flask-connexion3-server.yaml
+jobs:
+  build:
+    name: Test Python Flask (Connexion 3) server
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # servers
+          - samples/server/petstore/python-flask-connexion3/
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        working-directory: ${{ matrix.sample }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r test-requirements.txt
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: pytest

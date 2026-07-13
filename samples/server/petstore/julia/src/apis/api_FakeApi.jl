@@ -5,7 +5,7 @@
 function uuid_default_value_read(handler)
     function uuid_default_value_read_handler(req::HTTP.Request)
         openapi_params = Dict{String,Any}()
-        headers = Dict{String,String}(HTTP.headers(req))
+        headers = Dict{String,String}(req.headers)
         openapi_params["uuid_parameter"] = OpenAPI.Servers.to_param(String, headers, "uuid_parameter", required=true, )
         req.context[:openapi_params] = openapi_params
 

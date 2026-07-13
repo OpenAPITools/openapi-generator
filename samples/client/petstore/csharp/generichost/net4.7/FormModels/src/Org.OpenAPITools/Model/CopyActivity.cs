@@ -74,8 +74,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="CopyActivity" />
     /// </summary>
-    public class CopyActivityJsonConverter : JsonConverter<CopyActivity>
+    public partial class CopyActivityJsonConverter : JsonConverter<CopyActivity>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CopyActivityJsonConverter" /> class.
+        /// </summary>
+        public CopyActivityJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="CopyActivity" />
         /// </summary>

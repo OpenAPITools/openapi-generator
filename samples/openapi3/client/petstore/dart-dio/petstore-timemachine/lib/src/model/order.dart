@@ -133,43 +133,49 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
         case r'id':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.id = valueDes;
           break;
         case r'petId':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.petId = valueDes;
           break;
         case r'quantity':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.quantity = valueDes;
           break;
         case r'shipDate':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(OffsetDateTime),
-          ) as OffsetDateTime;
+            specifiedType: const FullType.nullable(OffsetDateTime),
+          ) as OffsetDateTime?;
+          if (valueDes == null) continue;
           result.shipDate = valueDes;
           break;
         case r'status':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(OrderStatusEnum),
-          ) as OrderStatusEnum;
+            specifiedType: const FullType.nullable(OrderStatusEnum),
+          ) as OrderStatusEnum?;
+          if (valueDes == null) continue;
           result.status = valueDes;
           break;
         case r'complete':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(bool),
-          ) as bool;
+            specifiedType: const FullType.nullable(bool),
+          ) as bool?;
+          if (valueDes == null) continue;
           result.complete = valueDes;
           break;
         default:

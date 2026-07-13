@@ -37,6 +37,11 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val verbose = project.objects.property<Boolean>()
 
     /**
+     * Whether generation should run in quiet mode.
+     */
+    val quiet = project.objects.property<Boolean>()
+
+    /**
      * Whether an input specification should be validated upon generation.
      * Defaults to `true`.
      */
@@ -207,6 +212,11 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      * Specifies mappings between a given schema and the new one
      */
     val schemaMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies schema names that must be generated even when listed in schemaMappings or importMappings
+     */
+    val forcedGenerateSchemas = project.objects.listProperty<String>()
 
     /**
      * Specifies mappings between an inline schema name and the new name
@@ -512,6 +522,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
         generateApiDocumentation.convention(true)
         configOptions.convention(mapOf())
         validateSpec.convention(true)
+        quiet.convention(false)
         logToStderr.convention(false)
         enablePostProcessFile.convention(false)
         skipValidateSpec.convention(false)

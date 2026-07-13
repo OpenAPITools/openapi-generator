@@ -146,8 +146,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ReadOnlyFirst" />
     /// </summary>
-    public class ReadOnlyFirstJsonConverter : JsonConverter<ReadOnlyFirst>
+    public partial class ReadOnlyFirstJsonConverter : JsonConverter<ReadOnlyFirst>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFirstJsonConverter" /> class.
+        /// </summary>
+        public ReadOnlyFirstJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ReadOnlyFirst" />
         /// </summary>

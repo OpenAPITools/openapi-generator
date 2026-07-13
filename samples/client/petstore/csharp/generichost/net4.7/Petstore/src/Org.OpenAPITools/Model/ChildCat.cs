@@ -133,8 +133,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ChildCat" />
     /// </summary>
-    public class ChildCatJsonConverter : JsonConverter<ChildCat>
+    public partial class ChildCatJsonConverter : JsonConverter<ChildCat>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChildCatJsonConverter" /> class.
+        /// </summary>
+        public ChildCatJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ChildCat" />
         /// </summary>

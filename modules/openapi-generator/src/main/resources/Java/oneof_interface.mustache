@@ -1,6 +1,6 @@
 {{>additionalOneOfTypeAnnotations}}{{>generatedAnnotation}}{{>typeInfoAnnotation}}{{>deductionAnnotation}}{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
-{{{vendorExtensions.x-class-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public {{>sealed}}interface {{classname}} {{#vendorExtensions.x-implements}}{{#-first}}extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{{>permits}}{
     {{#discriminator}}

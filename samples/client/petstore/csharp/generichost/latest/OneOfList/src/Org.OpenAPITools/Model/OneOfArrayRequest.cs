@@ -88,8 +88,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="OneOfArrayRequest" />
     /// </summary>
-    public class OneOfArrayRequestJsonConverter : JsonConverter<OneOfArrayRequest>
+    public partial class OneOfArrayRequestJsonConverter : JsonConverter<OneOfArrayRequest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OneOfArrayRequestJsonConverter" /> class.
+        /// </summary>
+        public OneOfArrayRequestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="OneOfArrayRequest" />
         /// </summary>
