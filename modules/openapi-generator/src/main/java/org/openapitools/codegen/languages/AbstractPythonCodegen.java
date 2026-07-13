@@ -1540,6 +1540,25 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return "str".equals(dataType);
     }
 
+    /**
+     * Python generators represent additionalProperties via a dedicated `additional_properties`
+     * field in the generated model class rather than through class inheritance. Setting
+     * model.parent to "object" (the return value of toInstantiationType when additionalProperties
+     * is the boolean true) causes the template to emit an invalid import:
+     *   from openapi_server.models.object import object
+     * and an incorrect base class declaration:
+     *   class Foo(object):
+     * Override here to only set additionalPropertiesType (used for typing) without calling
+     * addParentContainer(), keeping model.parent null so the template falls back to BaseModel.
+     */
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+        if (additionalProperties != null) {
+            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
+        }
+    }
+
     /* The definition for a Python type.
      *
      * This encapsulate all the type definition: the actual type, and potentially:

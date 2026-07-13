@@ -1,0 +1,45 @@
+openapi: "3.1.0"
+info:
+  title: Issue 20153 - additionalProperties true generates wrong parent class
+  version: "1.0"
+paths:
+  /requests:
+    post:
+      operationId: createRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HttpRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpRequest'
+components:
+  schemas:
+    HttpRequest:
+      title: HTTP Request
+      description: Gives information on a particular http request a client should perform
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          description: The URL to make the request to
+          type: string
+        body:
+          description: The body of the request
+          type: string
+        content-type:
+          description: The content type to use
+          type: string
+        headers:
+          description: Additional headers to include
+          type: object
+          additionalProperties:
+            type: string
+      additionalProperties: true
