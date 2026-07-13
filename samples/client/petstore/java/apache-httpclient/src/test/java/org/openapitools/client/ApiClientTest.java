@@ -77,12 +77,12 @@ public class ApiClientTest {
         // start from the custom client's defaults, so the request against a socket that
         // never responds must still fail with the client's 500 ms response timeout
         // instead of waiting forever.
-        CloseableHttpClient customClient = HttpClients.custom()
-            .setDefaultRequestConfig(RequestConfig.custom()
-                .setResponseTimeout(Timeout.ofMilliseconds(500))
-                .build())
-            .build();
-        try (ServerSocket serverSocket = new ServerSocket(0)) {
+        try (CloseableHttpClient customClient = HttpClients.custom()
+                .setDefaultRequestConfig(RequestConfig.custom()
+                    .setResponseTimeout(Timeout.ofMilliseconds(500))
+                    .build())
+                .build();
+             ServerSocket serverSocket = new ServerSocket(0)) {
             ApiClient customApiClient = new ApiClient(customClient);
             customApiClient.setBasePath("http://localhost:" + serverSocket.getLocalPort());
             customApiClient.setConnectTimeout(5000);
