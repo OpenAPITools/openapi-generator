@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 
+import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.cookie.BasicCookieStore;
 import org.apache.hc.client5.http.cookie.Cookie;
 import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
@@ -42,6 +43,7 @@ import org.apache.hc.core5.http.io.entity.FileEntity;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.hc.core5.util.Timeout;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -95,6 +97,7 @@ public class ApiClient extends JavaTimeFormatter {
   protected Map<String, String> serverVariables = null;
   protected boolean debugging = false;
   protected int connectionTimeout = 0;
+  protected int readTimeout = 0;
 
   protected CloseableHttpClient httpClient;
   protected ObjectMapper objectMapper;
@@ -430,15 +433,40 @@ public class ApiClient extends JavaTimeFormatter {
 
   /**
    * Set the connect timeout (in milliseconds).
-   * A value of 0 means no timeout, otherwise values must be between 1 and
-   * {@link Integer#MAX_VALUE}.
+   * A value of 0 means the HTTP client's default connect timeout is used,
+   * otherwise values must be between 1 and {@link Integer#MAX_VALUE}.
+   * The timeout is applied to each request via its request configuration
+   * and takes precedence over the defaults of the underlying HTTP client.
    * @param connectionTimeout Connection timeout in milliseconds
    * @return API client
    */
-   public ApiClient setConnectTimeout(int connectionTimeout) {
-     this.connectionTimeout = connectionTimeout;
-     return this;
-   }
+  public ApiClient setConnectTimeout(int connectionTimeout) {
+    this.connectionTimeout = connectionTimeout;
+    return this;
+  }
+
+  /**
+   * Read timeout (in milliseconds).
+   * @return Read timeout
+   */
+  public int getReadTimeout() {
+    return readTimeout;
+  }
+
+  /**
+   * Set the read timeout (in milliseconds), i.e. the response timeout
+   * while waiting for data after the connection is established.
+   * A value of 0 means the HTTP client's default response timeout is used,
+   * otherwise values must be between 1 and {@link Integer#MAX_VALUE}.
+   * The timeout is applied to each request via its request configuration
+   * and takes precedence over the defaults of the underlying HTTP client.
+   * @param readTimeout Read timeout in milliseconds
+   * @return API client
+   */
+  public ApiClient setReadTimeout(int readTimeout) {
+    this.readTimeout = readTimeout;
+    return this;
+  }
 
   /**
    * Get the date format used to parse/format date parameters.
@@ -1015,6 +1043,17 @@ public class ApiClient extends JavaTimeFormatter {
 
     HttpClientContext context = HttpClientContext.create();
     context.setCookieStore(store);
+
+    if (connectionTimeout > 0 || readTimeout > 0) {
+      RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
+      if (connectionTimeout > 0) {
+        requestConfigBuilder.setConnectTimeout(Timeout.ofMilliseconds(connectionTimeout));
+      }
+      if (readTimeout > 0) {
+        requestConfigBuilder.setResponseTimeout(Timeout.ofMilliseconds(readTimeout));
+      }
+      context.setRequestConfig(requestConfigBuilder.build());
+    }
 
     ContentType contentTypeObj = getContentType(contentType);
     if (body != null || !formParams.isEmpty()) {
