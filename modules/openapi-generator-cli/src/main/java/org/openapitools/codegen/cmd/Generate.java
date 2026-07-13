@@ -360,6 +360,41 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "Only write output files that have changed.")
     private Boolean minimalUpdate;
 
+    /**
+     * Resolves and applies the merge mode and conflict strategy options to the given builder.
+     * Shared by both the explicit-file-list and root-directory merge entry points so validation
+     * and option handling cannot drift between the two modes.
+     *
+     * <p>The {@code --merge-conflict-strategy} value is validated whenever it is supplied,
+     * regardless of the resolved merge mode, so malformed input consistently fails fast; it is only
+     * applied to the builder in DEEP mode (it has no effect in REF mode).</p>
+     */
+    private void applyMergeOptions(MergedSpecBuilder builder) {
+        MergedSpecBuilder.MergeMode resolvedMergeMode = MergedSpecBuilder.MergeMode.REF;
+        if (StringUtils.isNotBlank(mergeMode)) {
+            try {
+                resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                System.err.println("[error] Invalid --merge-mode value '" + mergeMode + "'. Valid values are: REF, DEEP");
+                System.exit(1);
+            }
+            builder.withMergeMode(resolvedMergeMode);
+        }
+
+        if (StringUtils.isNotBlank(mergeConflictStrategy)) {
+            MergedSpecBuilder.MergeConflictStrategy resolvedStrategy = null;
+            try {
+                resolvedStrategy = MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                System.err.println("[error] Invalid --merge-conflict-strategy value '" + mergeConflictStrategy + "'. Valid values are: WARN, FAIL");
+                System.exit(1);
+            }
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                builder.withConflictStrategy(resolvedStrategy);
+            }
+        }
+    }
+
     @Override
     public void execute() {
         if (inputSpecFiles != null && !inputSpecFiles.isEmpty()) {
@@ -373,51 +408,13 @@ public class Generate extends OpenApiGeneratorCommand {
                     mergedFileOutputDir,
                     StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName
             );
-
-            MergedSpecBuilder.MergeMode resolvedMergeMode = MergedSpecBuilder.MergeMode.REF;
-            if (StringUtils.isNotBlank(mergeMode)) {
-                try {
-                    resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT));
-                } catch (IllegalArgumentException e) {
-                    System.err.println("[error] Invalid --merge-mode value '" + mergeMode + "'. Valid values are: REF, DEEP");
-                    System.exit(1);
-                }
-                builder.withMergeMode(resolvedMergeMode);
-            }
-
-            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP && StringUtils.isNotBlank(mergeConflictStrategy)) {
-                try {
-                    builder.withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)));
-                } catch (IllegalArgumentException e) {
-                    System.err.println("[error] Invalid --merge-conflict-strategy value '" + mergeConflictStrategy + "'. Valid values are: WARN, FAIL");
-                    System.exit(1);
-                }
-            }
+            applyMergeOptions(builder);
 
             spec = builder.buildMergedSpec();
             System.out.println("Merged input spec from explicit file list: " + spec);
         } else if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
             MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName);
-
-            MergedSpecBuilder.MergeMode resolvedMergeMode = MergedSpecBuilder.MergeMode.REF;
-            if (StringUtils.isNotBlank(mergeMode)) {
-                try {
-                    resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(java.util.Locale.ROOT));
-                } catch (IllegalArgumentException e) {
-                    System.err.println("[error] Invalid --merge-mode value '" + mergeMode + "'. Valid values are: REF, DEEP");
-                    System.exit(1);
-                }
-                builder.withMergeMode(resolvedMergeMode);
-            }
-
-            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP && StringUtils.isNotBlank(mergeConflictStrategy)) {
-                try {
-                    builder.withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(java.util.Locale.ROOT)));
-                } catch (IllegalArgumentException e) {
-                    System.err.println("[error] Invalid --merge-conflict-strategy value '" + mergeConflictStrategy + "'. Valid values are: WARN, FAIL");
-                    System.exit(1);
-                }
-            }
+            applyMergeOptions(builder);
 
             spec = builder.buildMergedSpec();
             System.out.println("Merge input spec would be used - " + spec);

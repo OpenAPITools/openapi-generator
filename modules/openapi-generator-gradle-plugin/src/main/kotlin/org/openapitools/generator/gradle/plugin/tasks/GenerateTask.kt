@@ -959,7 +959,16 @@ abstract class GenerateTask : DefaultTask() {
         }
 
         inputSpecRootDirectory.orNull?.let { inputDir ->
-            if (!inputSpecRootDirectorySkipMerge.get()) {
+            // Explicit inputSpecFiles takes precedence over the root directory. When both are set,
+            // skip the directory merge entirely so a bad/conflicting root directory cannot abort the
+            // build before the declared file list is used, and so its (unwanted) merged output is not
+            // written.
+            if (!inputSpecFiles.isEmpty) {
+                logger.info(
+                    "Both inputSpecRootDirectory and inputSpecFiles are set; ignoring inputSpecRootDirectory " +
+                            "and merging the explicit inputSpecFiles list instead."
+                )
+            } else if (!inputSpecRootDirectorySkipMerge.get()) {
                 val resolvedMergeMode = try {
                     MergedSpecBuilder.MergeMode.valueOf(mergeMode.get().uppercase())
                 } catch (e: IllegalArgumentException) {

@@ -5,12 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.parser.OpenAPIResolver;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -53,12 +56,13 @@ public class MergedSpecBuilder {
     }
 
     /**
-     * Controls what happens when two specs define the same component name (schema, response, etc.)
-     * with different definitions during a {@link MergeMode#DEEP} merge.
+     * Controls what happens when a conflict is detected during a {@link MergeMode#DEEP} merge.
      *
-     * <p>This strategy applies to component/model conflicts only. Path+method overlaps (the same
-     * HTTP method on the same path in multiple specs) are always silently resolved by keeping the
-     * first definition, regardless of this setting.</p>
+     * <p>This strategy is applied consistently to every kind of merge conflict: component/model
+     * name clashes (same name, different definition), duplicate HTTP methods on the same path
+     * across specs, and duplicate {@code operationId}s. {@link #WARN} keeps the first definition
+     * (and, for operationId clashes, renames the later one to keep the document valid);
+     * {@link #FAIL} aborts the merge.</p>
      */
     public enum MergeConflictStrategy {
         /** Log a warning and keep the first definition (default). */
@@ -140,11 +144,9 @@ public class MergedSpecBuilder {
     }
 
     /**
-     * Sets the strategy used when two specs define the same component name (schema, response, etc.)
-     * with conflicting definitions. Only applies when {@link MergeMode#DEEP} is active.
-     *
-     * <p>Path+method overlaps are unaffected by this setting — they are always silently resolved
-     * by keeping the first definition.</p>
+     * Sets the strategy used when a conflict is detected during a {@link MergeMode#DEEP} merge —
+     * conflicting component names, duplicate HTTP methods on the same path, or duplicate
+     * {@code operationId}s. Only applies when {@link MergeMode#DEEP} is active.
      *
      * @param strategy {@link MergeConflictStrategy#WARN} to log a warning and keep the first
      *                 definition (default), or {@link MergeConflictStrategy#FAIL} to throw a
@@ -193,7 +195,10 @@ public class MergedSpecBuilder {
      * @param outputDir         directory where the merged output file will be written
      */
     private String buildMergedSpec(List<String> absoluteSpecPaths, String outputDir) {
-        ParsedSpecFiles parsed = parseSpecFiles(absoluteSpecPaths);
+        // In DEEP mode we inline everything into a single self-contained file, so external
+        // ($ref to another file) references must be resolved and pulled into components up front;
+        // otherwise they would dangle once the merged file is written to a different location.
+        ParsedSpecFiles parsed = parseSpecFiles(absoluteSpecPaths, mergeMode == MergeMode.DEEP);
         if (mergeMode == MergeMode.DEEP) {
             return buildDeepMergedSpec(parsed, outputDir);
         }
@@ -222,13 +227,23 @@ public class MergedSpecBuilder {
         }
     }
 
-    /** Parses each spec file given as an absolute path. */
-    private ParsedSpecFiles parseSpecFiles(List<String> absolutePaths) {
+    /**
+     * Parses each spec file given as an absolute path.
+     *
+     * @param absolutePaths        absolute paths to each spec file, in merge order
+     * @param resolveExternalRefs  when {@code true} (DEEP mode), external ({@code $ref} to another
+     *                             file) references are resolved and pulled into each spec's own
+     *                             components so the eventual merged document is self-contained.
+     *                             Path-level parameters are intentionally preserved (they are NOT
+     *                             pushed down into operations) so {@code mergePathItem} can still
+     *                             merge them.
+     */
+    private ParsedSpecFiles parseSpecFiles(List<String> absolutePaths, boolean resolveExternalRefs) {
         ParseOptions options = new ParseOptions();
-        // Do NOT resolve — with resolve:true the swagger-parser inlines path-level parameters
-        // into each operation, making them invisible to mergePathItem. For deep merge the $refs
-        // in operations remain as '#/components/schemas/...' which resolve correctly in the merged
-        // output because all component schemas are merged into merged.getComponents().
+        // Do NOT resolve here — with resolve:true the swagger-parser inlines path-level parameters
+        // into each operation, making them invisible to mergePathItem. External-ref resolution for
+        // DEEP mode is instead performed explicitly below via OpenAPIResolver with
+        // addParametersToEachOperation(false), which keeps path-level parameters intact.
         options.setResolve(false);
         List<OpenAPI> specs = new ArrayList<>();
         List<String> parsedPaths = new ArrayList<>();
@@ -245,6 +260,14 @@ public class MergedSpecBuilder {
                 if (result == null) {
                     LOGGER.error("Failed to read file: {}. It would be ignored", absolutePath);
                     continue;
+                }
+                if (resolveExternalRefs) {
+                    // Resolve external references into this spec's components (rewriting them to
+                    // internal '#/components/...' refs) while keeping path-level parameters where
+                    // they are, so the merged output does not contain dangling cross-file refs.
+                    result = new OpenAPIResolver(result, AuthParser.parse(auth), absolutePath,
+                            new OpenAPIResolver.Settings().addParametersToEachOperation(false))
+                            .resolve();
                 }
                 if (specs.isEmpty() && absolutePath.toLowerCase(Locale.ROOT).endsWith(".json")) {
                     isJson = true;
@@ -272,7 +295,10 @@ public class MergedSpecBuilder {
     // -------------------------------------------------------------------------
 
     private String buildRefMergedSpec(ParsedSpecFiles parsed, String outputDir) {
-        Path outDirPath = Paths.get(outputDir);
+        // Normalize to an absolute path: relativize() requires both paths to be of the same type
+        // (both absolute or both relative). The spec paths are always absolute, so a relative
+        // outputDir (e.g. a plain directory name passed from the CLI/Gradle) would otherwise throw.
+        Path outDirPath = Paths.get(outputDir).toAbsolutePath().normalize();
 
         List<SpecWithPaths> allPaths = new ArrayList<>();
         for (int i = 0; i < parsed.specs.size(); i++) {
@@ -280,7 +306,7 @@ public class MergedSpecBuilder {
             Set<String> pathKeys = specPaths != null ? specPaths.keySet() : Collections.emptySet();
             // Compute path relative to the output dir so $ref values are correct regardless of
             // whether the spec files are in the same directory or specified as arbitrary paths.
-            String relPath = outDirPath.relativize(Paths.get(parsed.absolutePaths.get(i)))
+            String relPath = outDirPath.relativize(Paths.get(parsed.absolutePaths.get(i)).toAbsolutePath().normalize())
                     .toString().replace('\\', '/');
             allPaths.add(new SpecWithPaths(relPath, pathKeys));
         }
@@ -371,17 +397,20 @@ public class MergedSpecBuilder {
      * Merges a list of parsed OpenAPI specs into a single spec.
      *
      * <p>Path items are merged by HTTP method: if two specs define the same URL path, their
-     * operations are combined (e.g. GET from one file + POST from another). If the same HTTP
-     * method already exists on a path, a {@link RuntimeException} is thrown — this is always
-     * a configuration error with no valid use case.</p>
+     * operations are combined (e.g. GET from one file + POST from another). Duplicate HTTP methods
+     * on the same path, conflicting component definitions, and duplicate {@code operationId}s are
+     * all treated as conflicts and handled according to the configured {@link MergeConflictStrategy}
+     * ({@link MergeConflictStrategy#WARN} keeps the first definition; {@link MergeConflictStrategy#FAIL}
+     * aborts).</p>
      *
      * <p>Component maps (schemas, responses, requestBodies, parameters, headers, examples,
      * links, callbacks, securitySchemes) are merged by name. Structurally identical duplicates
      * are silently deduplicated. A warning (or exception in FAIL mode) is raised when the same
      * component name appears with different definitions; the first definition is kept.</p>
      *
-     * <p>Top-level {@code x-} vendor extensions are merged from all specs; the first definition
-     * wins on key conflicts.</p>
+     * <p>Root-level {@code security} from each source spec is propagated onto its operations before
+     * merging so API-wide authorization is preserved. Top-level {@code x-} vendor extensions are
+     * merged from all specs; the first definition wins on key conflicts.</p>
      */
     OpenAPI mergeSpecs(List<OpenAPI> specs, List<Server> allServers) {
         OpenAPI merged = new OpenAPI();
@@ -408,6 +437,11 @@ public class MergedSpecBuilder {
         merged.setComponents(new Components());
 
         for (OpenAPI spec : specs) {
+            // Root-level security applies to every operation that does not declare its own. Since
+            // the merged document has no single root security that can represent multiple sources,
+            // push each spec's root-level security down onto its own operations first so their
+            // effective authorization is preserved after merging.
+            propagateRootSecurityToOperations(spec);
             if (spec.getPaths() != null) {
                 spec.getPaths().forEach((pathKey, incomingPathItem) -> {
                     PathItem existing = merged.getPaths().get(pathKey);
@@ -431,23 +465,97 @@ public class MergedSpecBuilder {
             }
         }
 
+        resolveOperationIdConflicts(merged);
         return merged;
+    }
+
+    /**
+     * Detects operationId collisions across the whole merged document. Two operations on different
+     * path/method combinations sharing the same {@code operationId} produce an invalid OpenAPI
+     * document and can collide in generated code. Iterating paths in insertion order, the first
+     * occurrence of each id is kept; a later collision is handled per {@link MergeConflictStrategy}:
+     * {@link MergeConflictStrategy#FAIL} aborts, while {@link MergeConflictStrategy#WARN} (default)
+     * logs a warning and renames the later operation by appending a numeric suffix (e.g. {@code _2})
+     * until it is unique.
+     */
+    private void resolveOperationIdConflicts(OpenAPI merged) {
+        if (merged.getPaths() == null) {
+            return;
+        }
+        Set<String> usedOperationIds = new HashSet<>();
+        for (Map.Entry<String, PathItem> pathEntry : merged.getPaths().entrySet()) {
+            PathItem pathItem = pathEntry.getValue();
+            if (pathItem == null || pathItem.readOperationsMap() == null) {
+                continue;
+            }
+            for (Map.Entry<PathItem.HttpMethod, Operation> opEntry : pathItem.readOperationsMap().entrySet()) {
+                Operation operation = opEntry.getValue();
+                String operationId = operation.getOperationId();
+                if (operationId == null || operationId.isEmpty()) {
+                    continue;
+                }
+                if (!usedOperationIds.add(operationId)) {
+                    String message = String.format(Locale.ROOT,
+                            "operationId conflict during spec merge: '%s' (%s %s) is already used by another operation.",
+                            operationId, opEntry.getKey(), pathEntry.getKey());
+                    if (conflictStrategy == MergeConflictStrategy.FAIL) {
+                        throw new RuntimeException(message);
+                    }
+                    String uniqueId = operationId;
+                    int suffix = 2;
+                    while (!usedOperationIds.add(uniqueId + "_" + suffix)) {
+                        suffix++;
+                    }
+                    uniqueId = uniqueId + "_" + suffix;
+                    LOGGER.warn("{} Renaming to '{}'.", message, uniqueId);
+                    operation.setOperationId(uniqueId);
+                }
+            }
+        }
+    }
+
+    /**
+     * Pushes a spec's root-level security requirements down onto each of its operations that does
+     * not already declare operation-level security. In OpenAPI, root-level {@code security} applies
+     * to every operation unless overridden; an explicit empty list on an operation disables security.
+     * Because the merged document combines specs that may each have different (or no) root-level
+     * security, we cannot keep a single merged root security. Propagating to operations preserves
+     * the effective authorization of every operation regardless of which spec it came from.
+     *
+     * <p>Operations that already declare their own {@code security} (including an explicit empty
+     * list meaning "no auth") are left untouched.</p>
+     */
+    private void propagateRootSecurityToOperations(OpenAPI spec) {
+        List<SecurityRequirement> rootSecurity = spec.getSecurity();
+        if (rootSecurity == null || rootSecurity.isEmpty() || spec.getPaths() == null) {
+            return;
+        }
+        spec.getPaths().values().forEach(pathItem -> {
+            if (pathItem == null || pathItem.readOperations() == null) {
+                return;
+            }
+            for (Operation operation : pathItem.readOperations()) {
+                if (operation.getSecurity() == null) {
+                    operation.setSecurity(new ArrayList<>(rootSecurity));
+                }
+            }
+        });
     }
 
     /**
      * Merges HTTP method operations from {@code incoming} into {@code existing} for the same path URL.
      *
      * <p>Operations for methods not yet present in {@code existing} are added. If the same HTTP
-     * method already exists on a path, a {@link RuntimeException} is always thrown — even if the
-     * two definitions are identical. Unlike schema reuse (where identical duplicates are silently
-     * deduplicated), there is no valid reason for two spec files to both define the same HTTP method
-     * on the same path. An identical duplicate is still almost certainly a configuration error
-     * (e.g. the same file included twice, or an accidental copy), and failing loudly is safer than
-     * silently discarding one.</p>
+     * method already exists on a path, the configured {@link MergeConflictStrategy} is applied:
+     * {@link MergeConflictStrategy#FAIL} throws a {@link RuntimeException} and aborts, while
+     * {@link MergeConflictStrategy#WARN} (default) logs a warning and keeps the first definition.
+     * There is no valid use case for two spec files to both define the same HTTP method on the same
+     * path, so this is treated as a conflict just like a component name clash.</p>
      *
      * <p>Path-level metadata from {@code incoming} is merged into {@code existing}:</p>
      * <ul>
-     *   <li>Parameters: added if not already present by name+in (first wins on conflict)</li>
+     *   <li>Parameters: added if not already present (identity is the {@code $ref} when present,
+     *       otherwise name+in); first wins on conflict</li>
      *   <li>Servers: added if not already present by URL</li>
      *   <li>Extensions: added if not already present by key</li>
      *   <li>Summary and description: always kept from the first ({@code existing}) PathItem</li>
@@ -459,24 +567,32 @@ public class MergedSpecBuilder {
         }
         incoming.readOperationsMap().forEach((method, operation) -> {
             if (existing.readOperationsMap() != null && existing.readOperationsMap().containsKey(method)) {
-                throw new RuntimeException(String.format(Locale.ROOT,
+                String message = String.format(Locale.ROOT,
                         "Path+method conflict during spec merge: %s %s is defined in multiple specs. " +
                         "Unlike schema reuse, duplicate HTTP methods on the same path are not valid — " +
-                        "check that your spec files do not overlap.",
-                        method, pathKey));
+                        "check that your spec files do not overlap. Keeping the first definition.",
+                        method, pathKey);
+                if (conflictStrategy == MergeConflictStrategy.FAIL) {
+                    throw new RuntimeException(message);
+                }
+                LOGGER.warn(message);
+                // WARN: keep the first (existing) operation, skip the incoming one.
+                return;
             }
             existing.operation(method, operation);
         });
 
-        // Merge path-level parameters (deduplicate by name+in, first wins)
+        // Merge path-level parameters (first wins on conflict). Identity is the $ref value when the
+        // parameter is a reference; otherwise name+in. Without this, multiple distinct $ref
+        // parameters would all collapse to the key "null:null" and all but the first would be lost.
         if (incoming.getParameters() != null) {
             List<Parameter> merged = existing.getParameters() != null
                     ? new ArrayList<>(existing.getParameters()) : new ArrayList<>();
             Set<String> existingKeys = merged.stream()
-                    .map(p -> p.getName() + ":" + p.getIn())
+                    .map(MergedSpecBuilder::parameterIdentity)
                     .collect(Collectors.toSet());
             for (Parameter p : incoming.getParameters()) {
-                if (existingKeys.add(p.getName() + ":" + p.getIn())) {
+                if (existingKeys.add(parameterIdentity(p))) {
                     merged.add(p);
                 }
             }
@@ -508,7 +624,18 @@ public class MergedSpecBuilder {
     }
 
     /**
-     * Merges all component maps from {@code source} into {@code target}.
+     * Identity used to deduplicate parameters during path-level merging. A {@code $ref} parameter
+     * has no {@code name}/{@code in} of its own, so those would all collide as {@code "null:null"};
+     * use the reference value as its identity instead. Inline parameters fall back to name+in.
+     */
+    private static String parameterIdentity(Parameter p) {
+        if (p.get$ref() != null) {
+            return "$ref:" + p.get$ref();
+        }
+        return p.getName() + ":" + p.getIn();
+    }
+
+    /**
      * Identical definitions are silently deduplicated. Conflicting definitions (same name, different
      * structure) generate a warning and keep the first definition.
      */

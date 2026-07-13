@@ -59,7 +59,7 @@ enum class PropertyFormat {
 /**
  * Converts a file path to a Gradle property reference based on format.
  * @param format The property format to use
- * @return Formatted property value (either file("path").absolutePath or file("path"))
+ * @return Formatted property value (either "path" for STRING or file("path") for FILE)
  */
 fun String.toPropertyReference(format: PropertyFormat): String {
     return when (format) {

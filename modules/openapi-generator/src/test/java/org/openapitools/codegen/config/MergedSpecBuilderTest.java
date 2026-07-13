@@ -386,8 +386,9 @@ public class MergedSpecBuilderTest {
     }
 
     /**
-     * When the same path+method appears in two specs, the merge must always fail — there is no
-     * valid use case for duplicate HTTP methods on the same path across spec files.
+     * When the same path+method appears in two specs, the merge must fail under the FAIL conflict
+     * strategy — there is no valid use case for duplicate HTTP methods on the same path across
+     * spec files.
      */
     private void shouldFailOnPathMethodOverlap(String fileExt) throws IOException {
         File dir = Files.createTempDirectory("spec-path-overlap").toFile().getCanonicalFile();
@@ -400,11 +401,53 @@ public class MergedSpecBuilderTest {
         try {
             new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
                     .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
+                    .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.FAIL)
                     .buildMergedSpec();
             fail("Expected RuntimeException due to duplicate path+method across specs");
         } catch (RuntimeException e) {
             assertTrue(e.getMessage().contains("Path+method conflict"),
                     "Exception message must mention the path+method conflict");
+        }
+    }
+
+    @Test
+    public void shouldWarnAndKeepFirstOnPathMethodOverlap_yaml() throws IOException {
+        shouldWarnAndKeepFirstOnPathMethodOverlap("yaml");
+    }
+
+    @Test
+    public void shouldWarnAndKeepFirstOnPathMethodOverlap_json() throws IOException {
+        shouldWarnAndKeepFirstOnPathMethodOverlap("json");
+    }
+
+    /**
+     * Under the default WARN conflict strategy, a duplicate path+method must NOT abort the merge:
+     * it logs a warning and keeps the first definition.
+     */
+    private void shouldWarnAndKeepFirstOnPathMethodOverlap(String fileExt) throws IOException {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(MergedSpecBuilder.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+        try {
+            File dir = Files.createTempDirectory("spec-path-overlap-warn").toFile().getCanonicalFile();
+            dir.deleteOnExit();
+            Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1." + fileExt));
+            Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1-duplicate." + fileExt));
+            String mergedSpec = new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                    .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
+                    .buildMergedSpec(); // default WARN
+            ParseOptions opts = new ParseOptions(); opts.setResolve(true);
+            OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, opts).getOpenAPI();
+            assertNotNull(openAPI.getPaths().get("/spec1").getGet(), "GET /spec1 must be kept from the first spec");
+            long warnCount = listAppender.list.stream()
+                    .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+                    .filter(e -> e.getFormattedMessage().contains("Path+method conflict"))
+                    .count();
+            assertTrue(warnCount > 0, "A path+method conflict WARN must be logged");
+        } finally {
+            logger.detachAppender(listAppender);
         }
     }
     // ========================================================================
@@ -733,5 +776,228 @@ public class MergedSpecBuilderTest {
             assertTrue(e.getMessage().toLowerCase(java.util.Locale.ROOT).contains("empty") || e.getMessage().toLowerCase(java.util.Locale.ROOT).contains("nothing"),
                     "Exception must indicate the list is empty");
         }
+    }
+
+    // ========================================================================
+    // DEEP mode — external $ref resolution, security, operationId, $ref params
+    // ========================================================================
+
+    @Test
+    public void shouldDeepMergeResolvesExternalRefs_yaml() throws IOException {
+        shouldDeepMergeResolvesExternalRefs("yaml");
+    }
+
+    @Test
+    public void shouldDeepMergeResolvesExternalRefs_json() throws IOException {
+        shouldDeepMergeResolvesExternalRefs("json");
+    }
+
+    /**
+     * A spec referencing a schema in a separate file via an external $ref must produce a
+     * self-contained DEEP-merged document: the external schema is inlined into components and no
+     * dangling cross-file reference remains, even when the output dir differs from the source dir.
+     */
+    private void shouldDeepMergeResolvesExternalRefs(String fileExt) throws IOException {
+        File inputDir = Files.createTempDirectory("deep-extref-in").toFile().getCanonicalFile();
+        inputDir.deleteOnExit();
+        File outputDir = Files.createTempDirectory("deep-extref-out").toFile().getCanonicalFile();
+        outputDir.deleteOnExit();
+        java.nio.file.Path specPath = inputDir.toPath().resolve("spec-extref." + fileExt);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-extref." + fileExt), specPath);
+        // The external components file lives next to the spec but is NOT part of the merge list.
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/common-components." + fileExt),
+                inputDir.toPath().resolve("common-components." + fileExt));
+
+        String mergedSpec = new MergedSpecBuilder(
+                Arrays.asList(specPath.toAbsolutePath().toString()),
+                outputDir.getAbsolutePath(), "_merged"
+        ).withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+
+        // The serialized merged file must not contain any external file reference.
+        String mergedContent = new String(Files.readAllBytes(Paths.get(mergedSpec)), java.nio.charset.StandardCharsets.UTF_8);
+        assertFalse(mergedContent.contains("common-components"),
+                "Merged output must not contain a dangling external file $ref");
+
+        // Parse without resolve — the referenced schema must already be inlined into components.
+        OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, new ParseOptions()).getOpenAPI();
+        assertNotNull(openAPI.getComponents(), "Merged components must exist");
+        assertNotNull(openAPI.getComponents().getSchemas().get("SharedModel"),
+                "External SharedModel schema must be inlined into the merged components");
+        assertNotNull(openAPI.getPaths().get("/extref"), "/extref must be present");
+    }
+
+    @Test
+    public void shouldDeepMergePreservesRootSecurityOnOperations_yaml() throws IOException {
+        shouldDeepMergePreservesRootSecurityOnOperations("yaml");
+    }
+
+    @Test
+    public void shouldDeepMergePreservesRootSecurityOnOperations_json() throws IOException {
+        shouldDeepMergePreservesRootSecurityOnOperations("json");
+    }
+
+    /**
+     * Root-level security applies to every operation that does not override it. After DEEP merge
+     * (which cannot keep a single root security across specs) each such operation must carry the
+     * inherited security requirement, while an operation that opts out (empty security) stays open.
+     */
+    private void shouldDeepMergePreservesRootSecurityOnOperations(String fileExt) throws IOException {
+        File dir = Files.createTempDirectory("deep-security").toFile().getCanonicalFile();
+        dir.deleteOnExit();
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-security." + fileExt), dir.toPath().resolve("spec-security." + fileExt));
+        String mergedSpec = new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+        OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, new ParseOptions()).getOpenAPI();
+
+        // The merged document must not rely on a root-level security block.
+        assertTrue(openAPI.getSecurity() == null || openAPI.getSecurity().isEmpty(),
+                "DEEP merge must not keep a single root-level security block");
+
+        io.swagger.v3.oas.models.Operation secured = openAPI.getPaths().get("/secured").getGet();
+        assertNotNull(secured.getSecurity(), "Inherited root security must be propagated to the operation");
+        assertTrue(secured.getSecurity().stream().anyMatch(r -> r.containsKey("apiKeyAuth")),
+                "The apiKeyAuth requirement must be present on the operation");
+
+        io.swagger.v3.oas.models.Operation open = openAPI.getPaths().get("/open").getGet();
+        assertNotNull(open.getSecurity(), "Explicit empty security must be preserved");
+        assertTrue(open.getSecurity().isEmpty(), "Operation opting out of auth must keep empty security");
+    }
+
+    @Test
+    public void shouldDeepMergeRenamesDuplicateOperationIdWithWarn_yaml() throws IOException {
+        shouldDeepMergeRenamesDuplicateOperationIdWithWarn("yaml");
+    }
+
+    @Test
+    public void shouldDeepMergeRenamesDuplicateOperationIdWithWarn_json() throws IOException {
+        shouldDeepMergeRenamesDuplicateOperationIdWithWarn("json");
+    }
+
+    /**
+     * Two operations on different paths sharing the same operationId would produce an invalid
+     * document. Under the default WARN strategy the merge keeps the first and renames the later
+     * one (e.g. spec1Operation_2) so all operationIds remain unique.
+     */
+    private void shouldDeepMergeRenamesDuplicateOperationIdWithWarn(String fileExt) throws IOException {
+        File dir = Files.createTempDirectory("deep-dupopid").toFile().getCanonicalFile();
+        dir.deleteOnExit();
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1." + fileExt));
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-dupopid." + fileExt), dir.toPath().resolve("spec-dupopid." + fileExt));
+        String mergedSpec = new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+        OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, new ParseOptions()).getOpenAPI();
+
+        List<String> operationIds = openAPI.getPaths().values().stream()
+                .flatMap(p -> p.readOperations().stream())
+                .map(io.swagger.v3.oas.models.Operation::getOperationId)
+                .collect(Collectors.toList());
+        // spec1 (sorted first) keeps spec1Operation; the duplicate from spec-dupopid is renamed.
+        assertTrue(operationIds.contains("spec1Operation"), "First operationId must be kept");
+        assertTrue(operationIds.contains("spec1Operation_2"), "Duplicate operationId must be renamed to spec1Operation_2");
+        assertEquals(operationIds.stream().distinct().count(), (long) operationIds.size(),
+                "All operationIds must be unique after merge");
+    }
+
+    @Test
+    public void shouldDeepMergeFailsOnDuplicateOperationIdWithFailStrategy() throws IOException {
+        File dir = Files.createTempDirectory("deep-dupopid-fail").toFile().getCanonicalFile();
+        dir.deleteOnExit();
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1.yaml"), dir.toPath().resolve("spec1.yaml"));
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-dupopid.yaml"), dir.toPath().resolve("spec-dupopid.yaml"));
+        try {
+            new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
+                    .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
+                    .withConflictStrategy(MergedSpecBuilder.MergeConflictStrategy.FAIL)
+                    .buildMergedSpec();
+            fail("Expected RuntimeException due to duplicate operationId with FAIL strategy");
+        } catch (RuntimeException e) {
+            assertTrue(e.getMessage().contains("operationId conflict"),
+                    "Exception must mention the operationId conflict");
+        }
+    }
+
+    @Test
+    public void shouldDeepMergePreservesDistinctRefPathParameters_yaml() throws IOException {
+        shouldDeepMergePreservesDistinctRefPathParameters("yaml");
+    }
+
+    @Test
+    public void shouldDeepMergePreservesDistinctRefPathParameters_json() throws IOException {
+        shouldDeepMergePreservesDistinctRefPathParameters("json");
+    }
+
+    /**
+     * Two specs define the same path with different HTTP methods, each carrying a distinct
+     * path-level parameter. Both must be retained on the merged path. Previously, parameters were
+     * deduplicated using a name+in identity that collapsed every {@code $ref} parameter to the same
+     * "null:null" key, dropping all but the first; the identity now falls back to the {@code $ref}
+     * value so distinct references survive too.
+     */
+    private void shouldDeepMergePreservesDistinctRefPathParameters(String fileExt) throws IOException {
+        File inputDir = Files.createTempDirectory("deep-refparams-in").toFile().getCanonicalFile();
+        inputDir.deleteOnExit();
+        File outputDir = Files.createTempDirectory("deep-refparams-out").toFile().getCanonicalFile();
+        outputDir.deleteOnExit();
+        java.nio.file.Path a = inputDir.toPath().resolve("spec-refparams-a." + fileExt);
+        java.nio.file.Path b = inputDir.toPath().resolve("spec-refparams-b." + fileExt);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-refparams-a." + fileExt), a);
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-refparams-b." + fileExt), b);
+        String mergedSpec = new MergedSpecBuilder(
+                Arrays.asList(a.toAbsolutePath().toString(), b.toAbsolutePath().toString()),
+                outputDir.getAbsolutePath(), "_merged"
+        ).withMergeMode(MergedSpecBuilder.MergeMode.DEEP).buildMergedSpec();
+
+        // Parse without resolve so path-level parameters are not inlined into operations.
+        OpenAPI openAPI = new OpenAPIParser().readLocation(mergedSpec, null, new ParseOptions()).getOpenAPI();
+        PathItem refParams = openAPI.getPaths().get("/refparams");
+        assertNotNull(refParams, "/refparams must be present");
+        assertNotNull(refParams.getGet(), "GET /refparams from spec A must be present");
+        assertNotNull(refParams.getPost(), "POST /refparams from spec B must be present");
+        assertNotNull(refParams.getParameters(), "path-level parameters must be present");
+        List<String> names = refParams.getParameters().stream()
+                .map(p -> p.get$ref() != null ? p.get$ref() : p.getName())
+                .collect(Collectors.toList());
+        assertTrue(names.stream().anyMatch(n -> n.contains("ParamA") || "paramA".equals(n)),
+                "ParamA must be retained on the merged path");
+        assertTrue(names.stream().anyMatch(n -> n.contains("ParamB") || "paramB".equals(n)),
+                "ParamB must be retained on the merged path");
+        assertEquals(refParams.getParameters().size(), 2, "Both distinct path parameters must be kept");
+    }
+
+    @Test
+    public void shouldMergeSpecsRetainsDistinctRefParametersOnCollidingPath() {
+        // Build two specs in-memory that both define "/x" with a distinct $ref path-level parameter.
+        // Calling mergeSpecs directly bypasses the parser's external-ref resolution, so the
+        // parameters stay as $refs — exercising the $ref-based dedup identity. Without it, both
+        // $ref parameters would share the "null:null" key and the second would be lost.
+        OpenAPI a = new OpenAPI();
+        a.setPaths(new io.swagger.v3.oas.models.Paths());
+        PathItem pa = new PathItem();
+        pa.setParameters(new java.util.ArrayList<>(Collections.singletonList(
+                new io.swagger.v3.oas.models.parameters.Parameter().$ref("#/components/parameters/ParamA"))));
+        pa.setGet(new io.swagger.v3.oas.models.Operation().operationId("getX"));
+        a.getPaths().addPathItem("/x", pa);
+
+        OpenAPI b = new OpenAPI();
+        b.setPaths(new io.swagger.v3.oas.models.Paths());
+        PathItem pb = new PathItem();
+        pb.setParameters(new java.util.ArrayList<>(Collections.singletonList(
+                new io.swagger.v3.oas.models.parameters.Parameter().$ref("#/components/parameters/ParamB"))));
+        pb.setPost(new io.swagger.v3.oas.models.Operation().operationId("postX"));
+        b.getPaths().addPathItem("/x", pb);
+
+        OpenAPI merged = new MergedSpecBuilder("dummy", "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
+                .mergeSpecs(Arrays.asList(a, b), Collections.emptyList());
+
+        PathItem mergedPath = merged.getPaths().get("/x");
+        assertNotNull(mergedPath.getParameters(), "path-level parameters must be present");
+        List<String> refs = mergedPath.getParameters().stream()
+                .map(io.swagger.v3.oas.models.parameters.Parameter::get$ref)
+                .collect(Collectors.toList());
+        assertTrue(refs.contains("#/components/parameters/ParamA"), "ParamA $ref must be retained");
+        assertTrue(refs.contains("#/components/parameters/ParamB"),
+                "ParamB $ref must be retained (not collapsed to the same null:null key as ParamA)");
+        assertEquals(mergedPath.getParameters().size(), 2, "Both distinct $ref parameters must be kept");
     }
 }
