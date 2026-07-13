@@ -1099,6 +1099,7 @@ Here is a list of template creators:
    * R: @ramnov
    * Ruby (Faraday): @meganemura @dkliban
    * Ruby (HTTPX): @honeyryderchuck
+   * Ruby (ruby-nextgen): @n-rodriguez
    * Rust: @farcaller
    * Rust (rust-server): @metaswitch
    * Scala (scalaz & http4s): @tbrown1979
