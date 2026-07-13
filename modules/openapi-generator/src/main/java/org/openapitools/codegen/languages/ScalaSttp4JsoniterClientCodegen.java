@@ -47,7 +47,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion",
             "The version of " +
                     "sttp client",
-            "4.0.23");
+            "4.0.26");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
@@ -56,7 +56,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     private static final StringProperty JSONITER_VERSION = new StringProperty("jsoniterVersion",
             "The version of jsoniter-scala " +
                     "library",
-            "2.38.12");
+            "2.39.1");
 
     public static final String DEFAULT_PACKAGE_NAME = "org.openapitools.client";
     private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();
