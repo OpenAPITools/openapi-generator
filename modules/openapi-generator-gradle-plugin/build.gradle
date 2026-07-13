@@ -67,12 +67,6 @@ tasks.withType(KotlinCompile).configureEach {
     }
 }
 
-tasks.withType(Javadoc).configureEach {
-    if (JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption("html5", true)
-    }
-}
-
 // Generate a KDoc-based javadoc jar using Dokka so IntelliJ shows rich documentation
 // tooltips without requiring the -sources.jar to be downloaded.
 tasks.register("javadocJar", Jar) {
