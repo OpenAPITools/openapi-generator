@@ -266,7 +266,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return null;
         }
         if (value.length() >= 6 && value.startsWith("'''") && value.endsWith("'''")) {
-            return value.substring(3, value.length() - 3);
+            // formatPythonStringLiteral() escapes \ and ' for both single- and triple-quoted
+            // forms; unwrap must reverse those escapes so enum-member matching still works.
+            return value.substring(3, value.length() - 3)
+                    .replace("\\'", "'")
+                    .replace("\\\\", "\\");
         }
         if (value.length() >= 2 && value.startsWith("'") && value.endsWith("'")) {
             return value.substring(1, value.length() - 1)
