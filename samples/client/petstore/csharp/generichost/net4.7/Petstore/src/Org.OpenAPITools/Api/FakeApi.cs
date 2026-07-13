@@ -1419,7 +1419,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FakeHealthGetApiResponse"/>
@@ -1661,7 +1661,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FakeOuterBooleanSerializeApiResponse"/>
@@ -1916,7 +1916,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FakeOuterCompositeSerializeApiResponse"/>
@@ -2158,7 +2158,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FakeOuterNumberSerializeApiResponse"/>
@@ -2425,7 +2425,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FakeOuterStringSerializeApiResponse"/>
@@ -2641,7 +2641,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetArrayOfEnumsApiResponse"/>
@@ -2857,7 +2857,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetMixedAnyOfApiResponse"/>
@@ -3073,7 +3073,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetMixedOneOfApiResponse"/>
@@ -3317,7 +3317,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestAdditionalPropertiesReferenceApiResponse"/>
@@ -3529,7 +3529,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestBodyWithFileSchemaApiResponse"/>
@@ -3757,7 +3757,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestBodyWithQueryParamsApiResponse"/>
@@ -3977,7 +3977,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestClientModelApiResponse"/>
@@ -4364,7 +4364,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestEndpointParametersApiResponse"/>
@@ -4688,7 +4688,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestEnumParametersApiResponse"/>
@@ -4956,7 +4956,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestGroupParametersApiResponse"/>
@@ -5168,7 +5168,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestInlineAdditionalPropertiesApiResponse"/>
@@ -5380,7 +5380,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestInlineFreeformAdditionalPropertiesApiResponse"/>
@@ -5602,7 +5602,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestJsonFormDataApiResponse"/>
@@ -5890,7 +5890,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestQueryParameterCollectionFormatApiResponse"/>
@@ -6102,7 +6102,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestStringMapReferenceApiResponse"/>

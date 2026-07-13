@@ -302,7 +302,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<DefaultApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="HelloWorldPostApiResponse"/>

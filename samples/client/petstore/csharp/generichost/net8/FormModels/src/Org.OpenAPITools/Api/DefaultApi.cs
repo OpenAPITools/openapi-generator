@@ -570,7 +570,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<DefaultApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FooGetApiResponse"/>
@@ -812,7 +812,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<DefaultApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetCountryApiResponse"/>
@@ -997,7 +997,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<DefaultApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="HelloApiResponse"/>
@@ -1214,7 +1214,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<DefaultApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="RedirectOrDefaultApiResponse"/>
@@ -1437,7 +1437,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<DefaultApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="RolesReportGetApiResponse"/>
@@ -1654,7 +1654,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<DefaultApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestApiResponse"/>

@@ -754,7 +754,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<UserApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="CreateUserApiResponse"/>
@@ -966,7 +966,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<UserApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="CreateUsersWithArrayInputApiResponse"/>
@@ -1178,7 +1178,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<UserApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="CreateUsersWithListInputApiResponse"/>
@@ -1377,7 +1377,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<UserApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="DeleteUserApiResponse"/>
@@ -1592,7 +1592,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<UserApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetUserByNameApiResponse"/>
@@ -1905,7 +1905,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<UserApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="LoginUserApiResponse"/>
@@ -2118,7 +2118,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<UserApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="LogoutUserApiResponse"/>
@@ -2341,7 +2341,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<UserApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="UpdateUserApiResponse"/>

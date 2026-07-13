@@ -334,7 +334,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<AnotherFakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="Call123TestSpecialTagsApiResponse"/>

@@ -374,7 +374,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEnumParametersApiResponse"/>&gt;</returns>
-        Task<ITestEnumParametersApiResponse> TestEnumParametersAsync(Option<TestEnumParametersRequestEnumFormString> enumFormString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default, Option<TestEnumParametersRequestEnumFormString> enumHeaderString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default, Option<TestEnumParametersRequestEnumFormString> enumQueryString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestEnumParametersApiResponse> TestEnumParametersAsync(Option<TestEnumParametersRequestEnumFormString> enumFormString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test enum parameters
@@ -392,7 +392,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEnumParametersApiResponse"/>&gt;</returns>
-        Task<ITestEnumParametersApiResponse> TestEnumParametersOrDefaultAsync(Option<TestEnumParametersRequestEnumFormString> enumFormString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default, Option<TestEnumParametersRequestEnumFormString> enumHeaderString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default, Option<TestEnumParametersRequestEnumFormString> enumQueryString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestEnumParametersApiResponse> TestEnumParametersOrDefaultAsync(Option<TestEnumParametersRequestEnumFormString> enumFormString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -1420,7 +1420,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FakeHealthGetApiResponse"/>
@@ -1663,7 +1663,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FakeOuterBooleanSerializeApiResponse"/>
@@ -1919,7 +1919,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FakeOuterCompositeSerializeApiResponse"/>
@@ -2162,7 +2162,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FakeOuterNumberSerializeApiResponse"/>
@@ -2430,7 +2430,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="FakeOuterStringSerializeApiResponse"/>
@@ -2647,7 +2647,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetArrayOfEnumsApiResponse"/>
@@ -2864,7 +2864,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetMixedAnyOfApiResponse"/>
@@ -3081,7 +3081,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetMixedOneOfApiResponse"/>
@@ -3325,7 +3325,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestAdditionalPropertiesReferenceApiResponse"/>
@@ -3537,7 +3537,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestBodyWithFileSchemaApiResponse"/>
@@ -3765,7 +3765,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestBodyWithQueryParamsApiResponse"/>
@@ -3986,7 +3986,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestClientModelApiResponse"/>
@@ -4373,7 +4373,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestEndpointParametersApiResponse"/>
@@ -4432,7 +4432,7 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatTestEnumParameters(ref Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, ref Option<TestEnumParametersRequestEnumFormString> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, ref Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, ref Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, ref Option<TestEnumParametersRequestEnumFormString> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
+        partial void FormatTestEnumParameters(ref Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, ref Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, ref Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, ref Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, ref Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
 
         /// <summary>
         /// Validates the request parameters
@@ -4465,7 +4465,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumQueryStringArray"></param>
-        private void AfterTestEnumParametersDefaultImplementation(ITestEnumParametersApiResponse apiResponseLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersRequestEnumFormString> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersRequestEnumFormString> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray)
+        private void AfterTestEnumParametersDefaultImplementation(ITestEnumParametersApiResponse apiResponseLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray)
         {
             bool suppressDefaultLog = false;
             AfterTestEnumParameters(ref suppressDefaultLog, apiResponseLocalVar, enumFormString, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryString, enumQueryStringArray);
@@ -4486,7 +4486,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumQueryStringArray"></param>
-        partial void AfterTestEnumParameters(ref bool suppressDefaultLog, ITestEnumParametersApiResponse apiResponseLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersRequestEnumFormString> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersRequestEnumFormString> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
+        partial void AfterTestEnumParameters(ref bool suppressDefaultLog, ITestEnumParametersApiResponse apiResponseLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4502,7 +4502,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumQueryStringArray"></param>
-        private void OnErrorTestEnumParametersDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersRequestEnumFormString> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersRequestEnumFormString> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray)
+        private void OnErrorTestEnumParametersDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray)
         {
             bool suppressDefaultLogLocalVar = false;
             OnErrorTestEnumParameters(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, enumFormString, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryString, enumQueryStringArray);
@@ -4525,7 +4525,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumQueryStringArray"></param>
-        partial void OnErrorTestEnumParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersRequestEnumFormString> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersRequestEnumFormString> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
+        partial void OnErrorTestEnumParameters(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<TestEnumParametersRequestEnumFormString> enumFormString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray);
 
         /// <summary>
         /// To test enum parameters To test enum parameters
@@ -4540,7 +4540,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEnumParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestEnumParametersApiResponse> TestEnumParametersOrDefaultAsync(Option<TestEnumParametersRequestEnumFormString> enumFormString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default, Option<TestEnumParametersRequestEnumFormString> enumHeaderString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default, Option<TestEnumParametersRequestEnumFormString> enumQueryString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestEnumParametersApiResponse> TestEnumParametersOrDefaultAsync(Option<TestEnumParametersRequestEnumFormString> enumFormString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -4566,7 +4566,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEnumParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestEnumParametersApiResponse> TestEnumParametersAsync(Option<TestEnumParametersRequestEnumFormString> enumFormString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default, Option<TestEnumParametersRequestEnumFormString> enumHeaderString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default, Option<TestEnumParametersRequestEnumFormString> enumQueryString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestEnumParametersApiResponse> TestEnumParametersAsync(Option<TestEnumParametersRequestEnumFormString> enumFormString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default, Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default, Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default, Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default, Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString = default, Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -4685,7 +4685,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestEnumParametersApiResponse"/>
@@ -4954,7 +4954,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestGroupParametersApiResponse"/>
@@ -5166,7 +5166,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestInlineAdditionalPropertiesApiResponse"/>
@@ -5378,7 +5378,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestInlineFreeformAdditionalPropertiesApiResponse"/>
@@ -5600,7 +5600,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestJsonFormDataApiResponse"/>
@@ -5889,7 +5889,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestQueryParameterCollectionFormatApiResponse"/>
@@ -6101,7 +6101,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<FakeApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="TestStringMapReferenceApiResponse"/>

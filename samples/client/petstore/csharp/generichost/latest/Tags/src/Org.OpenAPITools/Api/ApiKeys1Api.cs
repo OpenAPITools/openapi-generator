@@ -275,7 +275,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<> Logger { get; }
+            public ILogger<ApiKeysApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="ApiKeysApiGetApiKeysIdApiResponse"/>
