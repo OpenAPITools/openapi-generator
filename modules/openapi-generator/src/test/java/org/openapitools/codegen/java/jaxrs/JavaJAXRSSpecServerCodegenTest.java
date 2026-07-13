@@ -2323,4 +2323,105 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         assertFileContains(Paths.get(modelDir + "DogRequest.java"), "@JsonTypeName(\"DOG\")");
         assertFileNotContains(Paths.get(modelDir + "DogRequest.java"), "@JsonTypeName(\"DogRequest\")");
     }
+
+    @Test
+    public void generatesEmailAnnotationWhenBeanValidationEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        Path person = Paths.get(outputPath + "/src/gen/java/org/openapitools/model/PersonWithEmail.java");
+        // format: email string is validated with jakarta.validation.constraints.@Email,
+        // covered by the wildcard "import {javaxPackage}.validation.constraints.*;"
+        assertFileContains(person, "@Email");
+        assertFileContains(person, "import javax.validation.constraints.*;");
+    }
+
+    @Test
+    public void generatesJakartaEmailAnnotationWhenBeanValidationAndJakartaEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(true);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        Path person = Paths.get(outputPath + "/src/gen/java/org/openapitools/model/PersonWithEmail.java");
+        assertFileContains(person, "@Email");
+        assertFileContains(person, "import jakarta.validation.constraints.*;");
+    }
+
+    @Test
+    public void doesNotGenerateEmailAnnotationWhenBeanValidationDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(false);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        Path person = Paths.get(outputPath + "/src/gen/java/org/openapitools/model/PersonWithEmail.java");
+        Path api = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/PersonApi.java");
+        assertFileNotContains(person, "@Email");
+        assertFileNotContains(api, "@Email");
+    }
+
+    @Test
+    public void generatesEmailAnnotationOnQueryParameterWhenBeanValidationEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // a format: email query parameter is validated with @Email alongside @NotNull
+        Path api = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/PersonApi.java");
+        assertFileContains(api, "import javax.validation.constraints.*;");
+        assertFileContains(api, "@QueryParam(\"email\")", "@Email", "String email");
+    }
 }
