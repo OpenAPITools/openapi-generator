@@ -772,6 +772,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             String pomTemplate = mpRestClientVersions.get(microprofileRestClientVersion).pomTemplate;
             supportingFiles.add(new SupportingFile(pomTemplate, "", "pom.xml"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+            supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+            supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+            supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                    gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+            supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                    gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
             supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
             if (getSerializationLibrary() == null) {
