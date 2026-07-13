@@ -1,24 +1,24 @@
-name: Samples Ruby Idiomatic
+name: Samples ruby-nextgen
 
 on:
   push:
     paths:
-      - 'samples/client/petstore/ruby-idiomatic/**'
-      - 'samples/client/others/ruby-idiomatic-qdrant/**'
+      - 'samples/client/petstore/ruby-nextgen/**'
+      - 'samples/client/others/ruby-nextgen-qdrant/**'
   pull_request:
     paths:
-      - 'samples/client/petstore/ruby-idiomatic/**'
-      - 'samples/client/others/ruby-idiomatic-qdrant/**'
+      - 'samples/client/petstore/ruby-nextgen/**'
+      - 'samples/client/others/ruby-nextgen-qdrant/**'
 
 jobs:
   build:
-    name: Build Ruby Idiomatic client
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
-          - samples/client/petstore/ruby-idiomatic
+          - samples/client/petstore/ruby-nextgen
         ruby-version:
           - '3.0'
           - '3.3'

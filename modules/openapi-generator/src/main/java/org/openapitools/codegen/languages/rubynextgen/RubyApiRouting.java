@@ -1,5 +1,5 @@
 // RubyApiRouting.java
-package org.openapitools.codegen.languages.rubyidiomatic;
+package org.openapitools.codegen.languages.rubynextgen;
 
 import java.util.*;
 import org.openapitools.codegen.utils.StringUtils;
@@ -7,7 +7,7 @@ import org.openapitools.codegen.utils.StringUtils;
 // NOTE: Intentional copy of CrystalApiRouting. The path->route logic is
 // language-agnostic; it is duplicated (not shared) to keep each generator
 // fully decoupled and avoid modifying the already-shipped Crystal generator.
-/** Pure routing logic for the Ruby-idiomatic generator: path -> (namespace, resource, action). */
+/** Pure routing logic for the ruby-nextgengenerator: path -> (namespace, resource, action). */
 public final class RubyApiRouting {
     private RubyApiRouting() {}
 
