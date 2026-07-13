@@ -14,6 +14,7 @@ import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.util.*;
 
@@ -236,18 +237,53 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("bin_rubocop.mustache", "bin", "rubocop"));
     }
 
-    public void setGemName(String gemName) { this.gemName = gemName; }
-    public void setModuleName(String moduleName) { this.moduleName = moduleName; }
-    public void setGemVersion(String v) { this.gemVersion = v; }
-    public void setApiNamespace(String apiNamespace) { this.apiNamespace = apiNamespace; }
-    public void setGemAuthor(String gemAuthor) { this.gemAuthor = gemAuthor; }
-    public void setGemAuthorEmail(String gemAuthorEmail) { this.gemAuthorEmail = gemAuthorEmail; }
-    public void setGemHomepage(String gemHomepage) { this.gemHomepage = gemHomepage; }
-    public void setGemSummary(String gemSummary) { this.gemSummary = gemSummary; }
-    public void setGemDescription(String gemDescription) { this.gemDescription = gemDescription; }
-    public void setGemLicense(String gemLicense) { this.gemLicense = gemLicense; }
-    public String generateModuleName(String gemName) { return camelize(gemName.replaceAll("[^\\w]+", "_")); }
-    public String generateGemName(String moduleName) { return underscore(moduleName.replaceAll("[^\\w]+", "")); }
+    public void setGemName(String gemName) {
+        this.gemName = gemName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public void setGemVersion(String v) {
+        this.gemVersion = v;
+    }
+
+    public void setApiNamespace(String apiNamespace) {
+        this.apiNamespace = apiNamespace;
+    }
+
+    public void setGemAuthor(String gemAuthor) {
+        this.gemAuthor = gemAuthor;
+    }
+
+    public void setGemAuthorEmail(String gemAuthorEmail) {
+        this.gemAuthorEmail = gemAuthorEmail;
+    }
+
+    public void setGemHomepage(String gemHomepage) {
+        this.gemHomepage = gemHomepage;
+    }
+
+    public void setGemSummary(String gemSummary) {
+        this.gemSummary = gemSummary;
+    }
+
+    public void setGemDescription(String gemDescription) {
+        this.gemDescription = gemDescription;
+    }
+
+    public void setGemLicense(String gemLicense) {
+        this.gemLicense = gemLicense;
+    }
+
+    public String generateModuleName(String gemName) {
+        return camelize(gemName.replaceAll("[^\\w]+", "_"));
+    }
+
+    public String generateGemName(String moduleName) {
+        return underscore(moduleName.replaceAll("[^\\w]+", ""));
+    }
 
     @Override
     public String apiFileFolder() {
@@ -513,7 +549,7 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         boolean clash = uniqueClash(opList, unique);
         while (clash) {
             unique = co.operationId + "_" + co.httpMethod.toLowerCase(Locale.ROOT)
-                     + (counter == 0 ? "" : "_" + counter);
+                    + (counter == 0 ? "" : "_" + counter);
             counter++;
             clash = uniqueClash(opList, unique);
         }
@@ -524,7 +560,9 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         opList.add(co);
     }
 
-    /** Returns true if any operation in {@code opList} already uses {@code candidate} as its operationId. */
+    /**
+     * Returns true if any operation in {@code opList} already uses {@code candidate} as its operationId.
+     */
     private static boolean uniqueClash(List<CodegenOperation> opList, String candidate) {
         for (CodegenOperation op : opList) {
             if (op.operationId.equals(candidate)) return true;
