@@ -409,6 +409,19 @@ abstract class GenerateTask : DefaultTask() {
     val inputSpecFiles: ConfigurableFileCollection = project.objects.fileCollection()
 
     /**
+     * The declared order of [inputSpecFiles], tracked as an explicit task input.
+     *
+     * [inputSpecFiles] is an [InputFiles] collection, whose up-to-date checks are order-insensitive.
+     * Because the merge honors a first-wins/conflict contract that depends on file ordering,
+     * this derived ordered list is exposed as an [Input] so that reordering the declared files
+     * invalidates the task and forces a fresh merge instead of reusing a stale merged spec.
+     */
+    @get:Input
+    @get:Optional
+    val inputSpecFilesOrder: List<String>
+        get() = inputSpecFiles.files.map { it.name }
+
+    /**
      * Directory where the merged spec file is written when [inputSpecFiles] is used.
      * Must be set when [inputSpecFiles] is non-empty.
      */
@@ -958,6 +971,16 @@ abstract class GenerateTask : DefaultTask() {
             logger.warn("Using remoteInputSpec may result in stale build caches if the remote content changes.")
         }
 
+        // Clean up the output directory BEFORE merging. When mergedFileOutputDir overlaps outputDir,
+        // running cleanup after the merge would delete the freshly written merged spec before the
+        // worker can read it. Doing it here preserves the merged input spec.
+        cleanupOutput.orNull?.let { cleanup ->
+            if (cleanup && outputDir.isPresent) {
+                fs.delete { delete(outputDir) }
+                logger.lifecycle("Cleaned up output directory ${outputDir.get().asFile.path} before code generation.")
+            }
+        }
+
         inputSpecRootDirectory.orNull?.let { inputDir ->
             // Explicit inputSpecFiles takes precedence over the root directory. When both are set,
             // skip the directory merge entirely so a bad/conflicting root directory cannot abort the
@@ -1033,13 +1056,6 @@ abstract class GenerateTask : DefaultTask() {
             logger.info("Merged spec from explicit file list: {}", finalResolvedInputSpec)
         }
 
-
-        cleanupOutput.orNull?.let { cleanup ->
-            if (cleanup && outputDir.isPresent) {
-                fs.delete { delete(outputDir) }
-                logger.lifecycle("Cleaned up output directory ${outputDir.get().asFile.path} before code generation.")
-            }
-        }
 
 // Submit generation work using the configured isolation mode.
 // "classloader" (default): worker runs inside the Gradle daemon JVM with a separate ClassLoader; no startup

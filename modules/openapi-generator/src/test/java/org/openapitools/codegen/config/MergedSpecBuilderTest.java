@@ -899,11 +899,20 @@ public class MergedSpecBuilderTest {
     }
 
     @Test
-    public void shouldDeepMergeFailsOnDuplicateOperationIdWithFailStrategy() throws IOException {
+    public void shouldDeepMergeFailsOnDuplicateOperationIdWithFailStrategy_yaml() throws IOException {
+        shouldDeepMergeFailsOnDuplicateOperationIdWithFailStrategy("yaml");
+    }
+
+    @Test
+    public void shouldDeepMergeFailsOnDuplicateOperationIdWithFailStrategy_json() throws IOException {
+        shouldDeepMergeFailsOnDuplicateOperationIdWithFailStrategy("json");
+    }
+
+    private void shouldDeepMergeFailsOnDuplicateOperationIdWithFailStrategy(String fileExt) throws IOException {
         File dir = Files.createTempDirectory("deep-dupopid-fail").toFile().getCanonicalFile();
         dir.deleteOnExit();
-        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1.yaml"), dir.toPath().resolve("spec1.yaml"));
-        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-dupopid.yaml"), dir.toPath().resolve("spec-dupopid.yaml"));
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec1." + fileExt), dir.toPath().resolve("spec1." + fileExt));
+        Files.copy(Paths.get("src/test/resources/bugs/mergerTest/spec-dupopid." + fileExt), dir.toPath().resolve("spec-dupopid." + fileExt));
         try {
             new MergedSpecBuilder(dir.getAbsolutePath().replace('\\', '/'), "_merged")
                     .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
@@ -999,5 +1008,64 @@ public class MergedSpecBuilderTest {
         assertTrue(refs.contains("#/components/parameters/ParamB"),
                 "ParamB $ref must be retained (not collapsed to the same null:null key as ParamA)");
         assertEquals(mergedPath.getParameters().size(), 2, "Both distinct $ref parameters must be kept");
+    }
+
+    @Test
+    public void shouldMergeSpecsCarriesRootTagsExternalDocsWebhooksAndPathItems() {
+        // Spec A: tag "alpha", externalDocs to a.example, a webhook, and a reusable path item.
+        OpenAPI a = new OpenAPI();
+        a.setPaths(new io.swagger.v3.oas.models.Paths());
+        a.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("alpha").description("Alpha tag"));
+        a.setExternalDocs(new io.swagger.v3.oas.models.ExternalDocumentation()
+                .url("https://a.example.com").description("A docs"));
+        PathItem hookA = new PathItem().post(new io.swagger.v3.oas.models.Operation().operationId("hookA"));
+        a.addWebhooks("newThing", hookA);
+        a.setComponents(new io.swagger.v3.oas.models.Components());
+        a.getComponents().addPathItem("SharedItem",
+                new PathItem().get(new io.swagger.v3.oas.models.Operation().operationId("sharedGet")));
+
+        // Spec B: new tag "beta" plus a colliding "alpha" (must be ignored), a different
+        // externalDocs (must be ignored — first wins), a distinct webhook and a distinct path item.
+        OpenAPI b = new OpenAPI();
+        b.setPaths(new io.swagger.v3.oas.models.Paths());
+        b.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("beta"));
+        b.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("alpha").description("SHOULD BE IGNORED"));
+        b.setExternalDocs(new io.swagger.v3.oas.models.ExternalDocumentation().url("https://b.example.com"));
+        PathItem hookB = new PathItem().post(new io.swagger.v3.oas.models.Operation().operationId("hookB"));
+        b.addWebhooks("otherThing", hookB);
+        b.setComponents(new io.swagger.v3.oas.models.Components());
+        b.getComponents().addPathItem("OtherItem",
+                new PathItem().get(new io.swagger.v3.oas.models.Operation().operationId("otherGet")));
+
+        OpenAPI merged = new MergedSpecBuilder("dummy", "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
+                .mergeSpecs(Arrays.asList(a, b), Collections.emptyList());
+
+        // Tags: alpha (first definition) + beta, deduplicated by name.
+        assertNotNull(merged.getTags(), "Root tags must be carried over");
+        List<String> tagNames = merged.getTags().stream()
+                .map(io.swagger.v3.oas.models.tags.Tag::getName).collect(Collectors.toList());
+        assertTrue(tagNames.contains("alpha") && tagNames.contains("beta"), "Both tags must be present");
+        assertEquals(tagNames.size(), 2, "Duplicate tag name must not be added twice");
+        String alphaDesc = merged.getTags().stream()
+                .filter(t -> "alpha".equals(t.getName())).findFirst().get().getDescription();
+        assertEquals(alphaDesc, "Alpha tag", "First tag definition must win on name collision");
+
+        // External docs: first definition wins.
+        assertNotNull(merged.getExternalDocs(), "Root externalDocs must be carried over");
+        assertEquals(merged.getExternalDocs().getUrl(), "https://a.example.com",
+                "First externalDocs must win");
+
+        // Webhooks: both distinct webhooks retained.
+        assertNotNull(merged.getWebhooks(), "Webhooks must be carried over");
+        assertTrue(merged.getWebhooks().containsKey("newThing"), "Webhook from spec A must be present");
+        assertTrue(merged.getWebhooks().containsKey("otherThing"), "Webhook from spec B must be present");
+
+        // components.pathItems: both distinct reusable path items retained.
+        assertNotNull(merged.getComponents().getPathItems(), "components.pathItems must be carried over");
+        assertTrue(merged.getComponents().getPathItems().containsKey("SharedItem"),
+                "pathItem from spec A must be present");
+        assertTrue(merged.getComponents().getPathItems().containsKey("OtherItem"),
+                "pathItem from spec B must be present");
     }
 }

@@ -15,6 +15,7 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.lang3.ObjectUtils;
@@ -404,13 +405,16 @@ public class MergedSpecBuilder {
      * aborts).</p>
      *
      * <p>Component maps (schemas, responses, requestBodies, parameters, headers, examples,
-     * links, callbacks, securitySchemes) are merged by name. Structurally identical duplicates
-     * are silently deduplicated. A warning (or exception in FAIL mode) is raised when the same
-     * component name appears with different definitions; the first definition is kept.</p>
+     * links, callbacks, securitySchemes and OpenAPI 3.1 pathItems) are merged by name. Structurally
+     * identical duplicates are silently deduplicated. A warning (or exception in FAIL mode) is
+     * raised when the same component name appears with different definitions; the first definition
+     * is kept.</p>
      *
      * <p>Root-level {@code security} from each source spec is propagated onto its operations before
-     * merging so API-wide authorization is preserved. Top-level {@code x-} vendor extensions are
-     * merged from all specs; the first definition wins on key conflicts.</p>
+     * merging so API-wide authorization is preserved. Root-level {@code tags}, {@code externalDocs}
+     * and OpenAPI 3.1 {@code webhooks} are also carried over (first definition wins on collisions).
+     * Top-level {@code x-} vendor extensions are merged from all specs; the first definition wins on
+     * key conflicts.</p>
      */
     OpenAPI mergeSpecs(List<OpenAPI> specs, List<Server> allServers) {
         OpenAPI merged = new OpenAPI();
@@ -462,6 +466,24 @@ public class MergedSpecBuilder {
                         merged.addExtension(key, value);
                     }
                 });
+            }
+            // Merge root-level tags (dedup by name, first definition wins)
+            if (spec.getTags() != null) {
+                for (Tag tag : spec.getTags()) {
+                    boolean present = merged.getTags() != null && merged.getTags().stream()
+                            .anyMatch(t -> Objects.equals(t.getName(), tag.getName()));
+                    if (!present) {
+                        merged.addTagsItem(tag);
+                    }
+                }
+            }
+            // Root-level external documentation: keep the first one encountered
+            if (merged.getExternalDocs() == null && spec.getExternalDocs() != null) {
+                merged.setExternalDocs(spec.getExternalDocs());
+            }
+            // Merge OpenAPI 3.1 webhooks by name using the same conflict handling as components
+            if (spec.getWebhooks() != null) {
+                mergeComponentMap(merged.getWebhooks(), spec.getWebhooks(), "webhook", merged::addWebhooks);
             }
         }
 
@@ -649,6 +671,9 @@ public class MergedSpecBuilder {
         mergeComponentMap(target.getLinks(), source.getLinks(), "link", target::addLinks);
         mergeComponentMap(target.getCallbacks(), source.getCallbacks(), "callback", target::addCallbacks);
         mergeComponentMap(target.getSecuritySchemes(), source.getSecuritySchemes(), "securityScheme", target::addSecuritySchemes);
+        // OpenAPI 3.1 reusable path items — without this, operations referencing
+        // '#/components/pathItems/...' would dangle in the merged output.
+        mergeComponentMap(target.getPathItems(), source.getPathItems(), "pathItem", target::addPathItem);
     }
 
     private <T> void mergeComponentMap(Map<String, T> existing, Map<String, T> incoming,

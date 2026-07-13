@@ -406,14 +406,19 @@ public class Generate extends OpenApiGeneratorCommand {
             MergedSpecBuilder builder = new MergedSpecBuilder(
                     inputSpecFiles,
                     mergedFileOutputDir,
-                    StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName
+                    StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName,
+                    "merged spec", "merged spec", "1.0.0", auth
             );
             applyMergeOptions(builder);
 
             spec = builder.buildMergedSpec();
             System.out.println("Merged input spec from explicit file list: " + spec);
         } else if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
-            MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName);
+            MergedSpecBuilder builder = new MergedSpecBuilder(
+                    inputSpecRootDirectory,
+                    StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName,
+                    "merged spec", "merged spec", "1.0.0", auth
+            );
             applyMergeOptions(builder);
 
             spec = builder.buildMergedSpec();
