@@ -90,8 +90,9 @@ class _$ChildWithNullableSerializer implements PrimitiveSerializer<ChildWithNull
         case r'type':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.type = valueDes;
           break;
         case r'nullableProperty':
@@ -105,8 +106,9 @@ class _$ChildWithNullableSerializer implements PrimitiveSerializer<ChildWithNull
         case r'otherProperty':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.otherProperty = valueDes;
           break;
         default:

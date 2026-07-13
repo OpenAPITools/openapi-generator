@@ -29,6 +29,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -36,10 +37,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -758,5 +756,49 @@ public class PythonClientCodegenTest {
         TestUtils.assertFileContains(filePath, "number: Union[Annotated[float, Field(multiple_of=32.5, le=543.2, strict=True, ge=32.1)], Annotated[int, Field(le=543, strict=True, ge=33)]]");
         TestUtils.assertFileContains(filePath, "double: Optional[Union[Annotated[float, Field(le=123.4, strict=True, ge=67.8)], Annotated[int, Field(le=123, strict=True, ge=68)]]]");
         TestUtils.assertFileContains(filePath, "decimal: Optional[Annotated[Decimal, Field(multiple_of=0.1, lt=123.4, strict=True, gt=67.8)]]");
+    }
+
+    @Test
+    public void testModelNameMappingDoesNotRenameParameters() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.nameMapping().put("some-value", "model_value");
+
+        Assert.assertEquals(codegen.toVarName("some-value"), "model_value");
+        Assert.assertEquals(codegen.toParamName("some-value"), "some_value");
+
+        codegen.parameterNameMapping().put("some-value", "parameter_value");
+        Assert.assertEquals(codegen.toParamName("some-value"), "parameter_value");
+    }
+
+    @Test(dataProvider = "numberMappings")
+    public void testMapNumberTo(String mapToNumber, String expectedType) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/echo_api.yaml")
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("mapNumberTo", mapToNumber);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path numberPropertiesOnlyPath = Paths.get(output.getAbsolutePath(), "openapi_client/models/number_properties_only.py");
+        TestUtils.assertFileExists(numberPropertiesOnlyPath);
+
+        TestUtils.assertFileContains(numberPropertiesOnlyPath, String.format(Locale.ROOT, "number: Optional[%s]", expectedType));
+        TestUtils.assertFileContains(numberPropertiesOnlyPath, String.format(Locale.ROOT, "var_float: Optional[%s]", expectedType));
+    }
+
+    @DataProvider(name = "numberMappings")
+    public Object[][] numberMappings() {
+        return new Object[][] {
+                { "float", "float" },
+                { "Decimal", "Decimal" },
+                { "StrictFloat", "StrictFloat" },
+                { "Union[StrictFloat, StrictInt]", "Union[StrictFloat, StrictInt]" }
+        };
     }
 }

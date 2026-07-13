@@ -435,6 +435,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         final CopyContent copyContent = new CopyContent();
+        final CacheLambda.CacheContent cacheContent = new CacheLambda.CacheContent();
 
         return super.addMustacheLambdas()
                 .put("camelcase_sanitize_param", new CamelCaseAndSanitizeLambda().generator(this).escapeAsParamName(true))
@@ -454,6 +455,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 .put("copyText", new CopyLambda(copyContent, WhiteSpaceStrategy.Strip, WhiteSpaceStrategy.StripLineBreakIfPresent))
                 .put("paste", new PasteLambda(copyContent, false))
                 .put("pasteOnce", new PasteLambda(copyContent, true))
+                .put("cache", new CacheLambda(cacheContent))
+                .put("recall", new RecallLambda(cacheContent, false))
+                .put("recallOnce", new RecallLambda(cacheContent, true))
                 .put("uniqueLines", new UniqueLambda("\n", false))
                 .put("unique", new UniqueLambda("\n", true))
                 .put("camel_case", new CamelCaseLambda())

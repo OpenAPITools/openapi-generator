@@ -2106,6 +2106,22 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfSingleRefSiblingExample() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/property-title.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map testProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("ModelWithTitledProperties").getProperties());
+
+        // a plain property keeps its example
+        assertEquals("Simple-Property-Example", codegen.fromProperty("simpleProperty", (Schema) testProperties.get("simpleProperty")).example);
+        // an `allOf: [ $ref ]` property must keep the example declared as a sibling of the allOf,
+        // instead of falling back to the literal "null" computed against the inner $ref schema
+        assertEquals("Ref-Property-Example", codegen.fromProperty("refProperty", (Schema) testProperties.get("refProperty")).example);
+    }
+
+    @Test
     public void testDeprecatedRef() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/model-deprecated.yaml");
         new InlineModelResolver().flatten(openAPI);

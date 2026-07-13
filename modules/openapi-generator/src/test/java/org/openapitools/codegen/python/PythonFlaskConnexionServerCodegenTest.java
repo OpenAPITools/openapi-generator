@@ -67,4 +67,25 @@ public class PythonFlaskConnexionServerCodegenTest {
         assertFileContains(p4, "def with_path_param_required(param1, body):");
         assertFileContains(p4, "test_request = body");
     }
+
+    @Test(description = "the defaultController option controls the module name for untagged operations (issue #1891)")
+    public void testDefaultController() throws IOException {
+        final PythonFlaskConnexionServerCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        codegen.additionalProperties().put("defaultController", "my_default_controller");
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_1891.yaml");
+
+        // The untagged operation should land in the configured controller module...
+        final Path expected = Paths.get(outputPath + "openapi_server/controllers/my_default_controller.py");
+        assertFileExists(expected);
+        assertFileContains(expected, "def ping():");
+
+        // ...and connexion's routing must point at the same module, not the hardcoded default.
+        final Path openapiYaml = Paths.get(outputPath + "openapi_server/openapi/openapi.yaml");
+        assertFileContains(openapiYaml, "x-openapi-router-controller: openapi_server.controllers.my_default_controller");
+
+        // The hardcoded default_controller.py must no longer be emitted.
+        final Path old = Paths.get(outputPath + "openapi_server/controllers/default_controller.py");
+        Assert.assertFalse(Files.exists(old),
+                "Untagged operations should honor defaultController, not fall back to default_controller.py");
+    }
 }

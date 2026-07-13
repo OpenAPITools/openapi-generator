@@ -378,6 +378,7 @@ class PathApi
         }
 
         $resourcePath = '/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}';
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

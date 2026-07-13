@@ -1,3 +1,4 @@
+{{^useConnexion3}}
 connexion[swagger-ui] >= 2.6.0; python_version>="3.6"
 # 2.3 is the last version that supports python 3.4-3.5
 connexion[swagger-ui] <= 2.3.0; python_version=="3.5" or python_version=="3.4"
@@ -7,11 +8,32 @@ connexion[swagger-ui] <= 2.14.2; python_version>"3.4"
 # we must peg werkzeug versions below to fix connexion
 # https://github.com/zalando/connexion/pull/1044
 werkzeug == 0.16.1; python_version=="3.5" or python_version=="3.4"
+{{/useConnexion3}}
+{{#useConnexion3}}
+# pinned to 3.3.0+ (not just the first 3.0.0 release) since that's the
+# earliest version verified to work with the Jsonifier/test_client setup
+# below, and the first to officially support Python 3.13/3.14
+connexion[flask,swagger-ui,uvicorn] >= 3.3.0,<4.0.0
+{{/useConnexion3}}
+{{^useConnexion3}}
 swagger-ui-bundle >= 0.0.2
+{{/useConnexion3}}
+{{#useConnexion3}}
+# connexion's own swagger-ui extra already requires this floor; pinned
+# explicitly here too so requirements.txt is self-documenting.
+swagger-ui-bundle >= 1.1.0
+{{/useConnexion3}}
 python_dateutil >= 2.6.0
+{{^useConnexion3}}
 {{#featureCORS}}
 # should support both Python 2 and Python 3
 flask-cors >= 3.0.10
 {{/featureCORS}}
+{{/useConnexion3}}
 setuptools >= 21.0.0
+{{^useConnexion3}}
 Flask == 2.1.1
+{{/useConnexion3}}
+{{#useConnexion3}}
+Flask >= 2.2.0,<4.0.0
+{{/useConnexion3}}

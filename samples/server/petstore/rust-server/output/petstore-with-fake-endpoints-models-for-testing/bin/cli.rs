@@ -185,14 +185,14 @@ enum Operation {
         #[clap(value_parser = parse_json::<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>, long)]
         enum_header_string_array: Option<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         /// Header parameter enum test (string)
-        #[clap(value_parser = parse_json::<models::TestEnumParametersRequestEnumFormString>)]
-        enum_header_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        #[clap(value_parser = parse_json::<models::TestEnumParametersEnumHeaderStringParameter>)]
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         /// Query parameter enum test (string array)
         #[clap(value_parser = parse_json::<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>, long)]
         enum_query_string_array: Option<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         /// Query parameter enum test (string)
-        #[clap(value_parser = parse_json::<models::TestEnumParametersRequestEnumFormString>)]
-        enum_query_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        #[clap(value_parser = parse_json::<models::TestEnumParametersEnumHeaderStringParameter>)]
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         /// Query parameter enum test (double)
         #[clap(value_parser = parse_json::<models::TestEnumParametersEnumQueryIntegerParameter>)]
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
