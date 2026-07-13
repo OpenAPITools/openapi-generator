@@ -1120,4 +1120,51 @@ public class MergedSpecBuilderTest {
         assertEquals(merged.getOpenapi(), "3.0.3",
                 "Merged version must be the highest patch among compatible specs");
     }
+
+    @Test
+    public void shouldRejectUnversionedSourceAmongVersioned() {
+        // 'openapi' is required; a source missing it must not be silently accepted when another
+        // source declares a version.
+        OpenAPI a = new OpenAPI();
+        a.setOpenapi("3.0.3");
+        a.setPaths(new io.swagger.v3.oas.models.Paths());
+        a.getPaths().addPathItem("/a",
+                new PathItem().get(new io.swagger.v3.oas.models.Operation().operationId("getA")));
+
+        OpenAPI b = new OpenAPI(); // no openapi version set
+        b.setOpenapi(null);
+        b.setPaths(new io.swagger.v3.oas.models.Paths());
+        b.getPaths().addPathItem("/b",
+                new PathItem().get(new io.swagger.v3.oas.models.Operation().operationId("getB")));
+
+        MergedSpecBuilder builder = new MergedSpecBuilder("dummy", "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP);
+        try {
+            builder.mergeSpecs(Arrays.asList(a, b), Collections.emptyList());
+            fail("Expected RuntimeException when a source is unversioned but others are versioned");
+        } catch (RuntimeException e) {
+            assertTrue(e.getMessage().contains("required"),
+                    "Exception must explain that the 'openapi' field is required on every source");
+        }
+    }
+
+    @Test
+    public void shouldRejectMalformedVersion() {
+        // A non-numeric segment (e.g. '3.x.3') must fail rather than being normalized to '3.0'.
+        OpenAPI a = new OpenAPI();
+        a.setOpenapi("3.x.3");
+        a.setPaths(new io.swagger.v3.oas.models.Paths());
+        a.getPaths().addPathItem("/a",
+                new PathItem().get(new io.swagger.v3.oas.models.Operation().operationId("getA")));
+
+        MergedSpecBuilder builder = new MergedSpecBuilder("dummy", "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP);
+        try {
+            builder.mergeSpecs(Collections.singletonList(a), Collections.emptyList());
+            fail("Expected RuntimeException for a malformed OpenAPI version");
+        } catch (RuntimeException e) {
+            assertTrue(e.getMessage().contains("Malformed OpenAPI version"),
+                    "Exception must explain that the version is malformed");
+        }
+    }
 }

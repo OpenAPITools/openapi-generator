@@ -504,15 +504,39 @@ public class MergedSpecBuilder {
      * <p>Patch-level differences (e.g. {@code 3.0.1} vs {@code 3.0.3}) are compatible; the highest
      * patch version encountered is used for the merged document.</p>
      *
-     * @throws RuntimeException if the source specs declare different major.minor OpenAPI versions
+     * <p>{@code openapi} is a required field. If any source declares a version, every source must
+     * declare one — an unversioned source among versioned ones is rejected rather than silently
+     * assumed compatible. The default version is only used when <em>every</em> source is
+     * unversioned. Malformed version strings (non-numeric segments such as {@code 3.x.3}) are
+     * rejected outright.</p>
+     *
+     * @throws RuntimeException if the sources declare different major.minor OpenAPI versions, mix
+     *                          versioned and unversioned specs, or contain a malformed version
      */
     private String resolveOutputVersion(List<OpenAPI> specs) {
         List<String> versions = specs.stream()
                 .map(OpenAPI::getOpenapi)
-                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-        if (versions.isEmpty()) {
+
+        if (versions.stream().noneMatch(Objects::nonNull)) {
+            // Every source is unversioned — fall back to the default.
             return "3.0.3";
+        }
+        // At least one source declares a version. Since 'openapi' is required, an unversioned
+        // source cannot be assumed compatible and must not be silently accepted.
+        if (versions.stream().anyMatch(Objects::isNull)) {
+            throw new RuntimeException(
+                    "Cannot merge specs where some declare an OpenAPI version and others do not. The 'openapi' "
+                            + "field is required; every source spec must declare a version so compatibility can be verified.");
+        }
+        // Reject malformed versions before comparing, so a value like '3.x.3' cannot pass the
+        // major.minor check by having its non-numeric segment normalized to zero.
+        for (String version : versions) {
+            if (!isWellFormedVersion(version)) {
+                throw new RuntimeException(String.format(Locale.ROOT,
+                        "Malformed OpenAPI version '%s' in a source spec. Expected a numeric dotted version "
+                                + "such as '3.0.3' or '3.1.0'.", version));
+            }
         }
         String firstMajorMinor = majorMinor(versions.get(0));
         for (String version : versions) {
@@ -532,6 +556,15 @@ public class MergedSpecBuilder {
             }
         }
         return highest;
+    }
+
+    /**
+     * Returns {@code true} if {@code version} is a well-formed numeric dotted version with at least
+     * a major and minor segment (e.g. {@code "3.0"} or {@code "3.1.0"}). Any non-numeric segment
+     * (such as the {@code x} in {@code "3.x.3"}) makes it invalid.
+     */
+    private boolean isWellFormedVersion(String version) {
+        return version != null && version.matches("\\d+(\\.\\d+)+");
     }
 
     /** Returns the {@code major.minor} portion of a dot-separated version string (e.g. "3.1"). */
