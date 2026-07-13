@@ -23,7 +23,7 @@ VERSION = "1.0.0"
 PYTHON_REQUIRES = ">= 3.10"
 REQUIRES = [
     "python-dateutil >= 2.8.2",
-    "aiohttp >= 3.8.4",
+    "aiohttp >= 3.13.5",
     "aiohttp-retry >= 2.8.3",
     "pem >= 19.3.0",
     "pycryptodome >= 3.9.0",
