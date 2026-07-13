@@ -170,9 +170,22 @@ public class PythonClientCodegenTest {
         Assert.assertEquals("'false'", defaultValue);
     }
 
+    /**
+     * Exposes protected helpers for unit tests without setAccessible() (forbiddenapis).
+     */
+    private static final class TestablePythonClientCodegen extends PythonClientCodegen {
+        String unwrapPythonStringLiteralForTest(String value) {
+            return unwrapPythonStringLiteral(value);
+        }
+
+        String getEnumDefaultValueForTest(String defaultValue, String dataType) {
+            return getEnumDefaultValue(defaultValue, dataType);
+        }
+    }
+
     @Test(description = "multiline string enum default with apostrophe/backslash is quoted and unwraps for enum matching")
-    public void testMultilineStringEnumDefaultUnwrapsEscapes() throws Exception {
-        final PythonClientCodegen codegen = new PythonClientCodegen();
+    public void testMultilineStringEnumDefaultUnwrapsEscapes() {
+        final TestablePythonClientCodegen codegen = new TestablePythonClientCodegen();
         // Multiline forces triple quotes; apostrophe/backslash are escaped by formatPythonStringLiteral.
         final String multilineDefault = "line1\\it's\nline2";
         StringSchema schema = new StringSchema();
@@ -184,18 +197,10 @@ public class PythonClientCodegenTest {
 
         // Triple-quoted unwrap must reverse the same escapes as the single-quoted path so
         // getEnumDefaultValue() can match against enumVars (see issue review on #23774).
-        java.lang.reflect.Method unwrap = codegen.getClass()
-                .getSuperclass()
-                .getDeclaredMethod("unwrapPythonStringLiteral", String.class);
-        unwrap.setAccessible(true);
-        Assert.assertEquals(multilineDefault, unwrap.invoke(codegen, defaultValue));
-
-        java.lang.reflect.Method getEnumDefault = codegen.getClass()
-                .getSuperclass()
-                .getDeclaredMethod("getEnumDefaultValue", String.class, String.class);
-        getEnumDefault.setAccessible(true);
-        String enumDefaultValue = (String) getEnumDefault.invoke(codegen, defaultValue, "str");
-        Assert.assertEquals(codegen.toEnumValue(multilineDefault, "str"), enumDefaultValue);
+        Assert.assertEquals(multilineDefault, codegen.unwrapPythonStringLiteralForTest(defaultValue));
+        Assert.assertEquals(
+                codegen.toEnumValue(multilineDefault, "str"),
+                codegen.getEnumDefaultValueForTest(defaultValue, "str"));
     }
 
     @Test(description = "convert a python model with dots")
