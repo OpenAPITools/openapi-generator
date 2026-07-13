@@ -21,9 +21,6 @@ export abstract class UserApi {
   abstract getUserByName(username: string,  request: Request): User | Promise<User> | Observable<User>;
 
 
-  abstract getUsers( request: Request): Array<User> | Promise<Array<User>> | Observable<Array<User>>;
-
-
   abstract loginUser(username: string, password: string,  request: Request): string | Promise<string> | Observable<string>;
 
 

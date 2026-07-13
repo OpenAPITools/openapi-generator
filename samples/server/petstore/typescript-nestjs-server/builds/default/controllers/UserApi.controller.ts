@@ -33,11 +33,6 @@ export class UserApiController {
     return this.userApi.getUserByName(username, request);
   }
 
-  @Get('/users')
-  getUsers(@Req() request: Request): Array<User> | Promise<Array<User>> | Observable<Array<User>> {
-    return this.userApi.getUsers(request);
-  }
-
   @Get('/user/login')
   loginUser(@Query('username') username: string, @Query('password') password: string, @Req() request: Request): string | Promise<string> | Observable<string> {
     return this.userApi.loginUser(username, password, request);

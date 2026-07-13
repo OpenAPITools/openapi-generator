@@ -573,7 +573,7 @@ paths:
   /users:
     get:
       tags:
-        - user
+        - fake
       operationId: getUsers
       responses:
         '200':
