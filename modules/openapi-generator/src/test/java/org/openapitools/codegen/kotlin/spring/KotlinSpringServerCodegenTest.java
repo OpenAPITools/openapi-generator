@@ -4186,8 +4186,9 @@ public class KotlinSpringServerCodegenTest {
                 .orElseThrow()
                 .toPath();
 
-        assertFileContains(apiPath, "suspend fun", "List<kotlin.String>");
-        assertFileNotContains(apiPath, "Flow<kotlin.String>");
+        assertFileContains(apiPath, "suspend fun", "List<kotlin.String>", "Set<kotlin.String>");
+        // neither the list nor the uniqueItems (Set) operation must leak Flow<...> or a raw/nested container
+        assertFileNotContains(apiPath, "Flow<kotlin.String>", "Flow<kotlin.collections.Set", "kotlin.collections.Set<");
     }
 
     @Test(description = "declarative http interface reactor: array-of-string returns Mono<List<String>>, not Flux<String> (issue #22662)")
@@ -4213,8 +4214,9 @@ public class KotlinSpringServerCodegenTest {
                 .orElseThrow()
                 .toPath();
 
-        assertFileContains(apiPath, "Mono<List<kotlin.String>>");
-        assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux");
+        assertFileContains(apiPath, "Mono<List<kotlin.String>>", "Mono<Set<kotlin.String>>");
+        assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
+                "kotlin.collections.Set<", "Mono<set<");
     }
 
     @Test(description = "declarative http interface reactor + ResponseEntity: array-of-string returns Mono<ResponseEntity<List<String>>> (issue #22662)")
@@ -4240,8 +4242,9 @@ public class KotlinSpringServerCodegenTest {
                 .orElseThrow()
                 .toPath();
 
-        assertFileContains(apiPath, "Mono<ResponseEntity<List<kotlin.String>>>");
-        assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux");
+        assertFileContains(apiPath, "Mono<ResponseEntity<List<kotlin.String>>>", "Mono<ResponseEntity<Set<kotlin.String>>>");
+        assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
+                "kotlin.collections.Set<", "Mono<ResponseEntity<set<");
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {
