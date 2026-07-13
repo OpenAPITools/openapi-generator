@@ -159,6 +159,9 @@ class RESTClientObject:
         else:
             self.pool_manager = urllib3.PoolManager(**pool_args)
 
+    def close(self) -> None:
+        self.pool_manager.clear()
+
     def request(
         self,
         method,

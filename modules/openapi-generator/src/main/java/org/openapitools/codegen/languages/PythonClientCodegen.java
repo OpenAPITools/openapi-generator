@@ -25,6 +25,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -33,9 +35,13 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /**
@@ -54,6 +60,15 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String LAZY_IMPORTS = "lazyImports";
     public static final String BUILD_SYSTEM = "buildSystem";
     public static final String SUPPORT_HTTPX_SYNC = "supportHttpxSync";
+    public static final String USE_INDEPENDENT_IMPLICIT_CLIENTS = "useIndependentImplicitClients";
+    private static final Set<String> SYNC_API_LIFECYCLE_METHODS =
+            Set.of("close", "__enter__", "__exit__");
+    private static final Set<String> ASYNC_API_LIFECYCLE_METHODS =
+            Set.of("close", "__aenter__", "__aexit__");
+    private static final Set<String> HTTPX_SYNC_API_LIFECYCLE_METHODS =
+            Set.of("close_sync", "__enter__", "__exit__");
+    private static final Set<String> INDEPENDENT_API_MEMBER_NAMES =
+            Set.of("_owned_api_client");
 
     @Setter protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -62,6 +77,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Setter protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
     @Setter protected String dateFormat = "%Y-%m-%d";
     @Setter protected boolean setEnsureAsciiToFalse = false;
+    @Setter protected boolean useIndependentImplicitClients = false;
 
     private String testFolder;
 
@@ -162,6 +178,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(CliOption.newBoolean(SUPPORT_HTTPX_SYNC, "Generate synchronous '_sync' variants of each API method (httpx library only). " +
                 "Each '_sync' method simply calls the corresponding async method and waits for its completion, " +
                 "so both synchronous and asynchronous methods are available from the same API class.").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(USE_INDEPENDENT_IMPLICIT_CLIENTS,
+                "Give API instances without an explicit or registered default ApiClient " +
+                "an owned client with a copied Configuration.")
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -285,6 +305,14 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             if ("hatchling".equals(buildSystem)) {
                 additionalProperties.put("hatchling", true);
             }
+        }
+
+        if (additionalProperties.containsKey(USE_INDEPENDENT_IMPLICIT_CLIENTS)) {
+            setUseIndependentImplicitClients(
+                    convertPropertyToBooleanAndWriteBack(USE_INDEPENDENT_IMPLICIT_CLIENTS));
+        } else {
+            additionalProperties.put(
+                    USE_INDEPENDENT_IMPLICIT_CLIENTS, useIndependentImplicitClients);
         }
 
         String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
@@ -483,6 +511,82 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         }
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
+        if (useIndependentImplicitClients) {
+            renameIndependentClientOperationMembers(
+                    objs.getOperations().getOperation());
+        }
+        return super.postProcessOperationsWithModels(objs, allModels);
+    }
+
+    private void renameIndependentClientOperationMembers(
+            List<CodegenOperation> operations) {
+        Set<String> apiMembers = independentClientApiMembers();
+        Set<String> occupiedMembers = new HashSet<>(apiMembers);
+        for (CodegenOperation operation : operations) {
+            if (!apiMembers.contains(operation.operationId)) {
+                occupiedMembers.addAll(generatedOperationMembers(operation.operationId));
+            }
+        }
+
+        for (CodegenOperation operation : operations) {
+            String originalName = operation.operationId;
+            if (!apiMembers.contains(originalName)) {
+                continue;
+            }
+
+            String candidate = "call_" + originalName;
+            int suffix = 2;
+            while (generatedOperationMembers(candidate).stream()
+                    .anyMatch(occupiedMembers::contains)) {
+                candidate = "call_" + originalName + "_" + suffix;
+                suffix++;
+            }
+
+            LOGGER.warn("{} conflicts with a generated API member. Renamed to {}",
+                    originalName, candidate);
+            operation.operationId = candidate;
+            operation.operationIdLowerCase = candidate.toLowerCase(Locale.ROOT);
+            operation.operationIdCamelCase = camelize(candidate);
+            operation.operationIdSnakeCase = underscore(candidate);
+            occupiedMembers.addAll(generatedOperationMembers(candidate));
+        }
+    }
+
+    private Set<String> independentClientApiMembers() {
+        Set<String> members = new HashSet<>(INDEPENDENT_API_MEMBER_NAMES);
+        boolean async = "asyncio".equals(getLibrary()) || "httpx".equals(getLibrary());
+        members.addAll(async
+                ? ASYNC_API_LIFECYCLE_METHODS
+                : SYNC_API_LIFECYCLE_METHODS);
+        if (supportsHttpxSync()) {
+            members.addAll(HTTPX_SYNC_API_LIFECYCLE_METHODS);
+        }
+        return members;
+    }
+
+    private Set<String> generatedOperationMembers(String operationId) {
+        Set<String> members = new HashSet<>(Set.of(
+                operationId,
+                operationId + "_with_http_info",
+                operationId + "_without_preload_content",
+                "_" + operationId + "_serialize"));
+        if (supportsHttpxSync()) {
+            members.add(operationId + "_sync");
+            members.add(operationId + "_sync_with_http_info");
+            members.add(operationId + "_sync_without_preload_content");
+        }
+        return members;
+    }
+
+    private boolean supportsHttpxSync() {
+        return "httpx".equals(getLibrary())
+                && Boolean.parseBoolean(String.valueOf(
+                        additionalProperties.get(SUPPORT_HTTPX_SYNC)));
     }
 
     @Override

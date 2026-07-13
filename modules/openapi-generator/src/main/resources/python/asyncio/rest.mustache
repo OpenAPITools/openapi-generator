@@ -118,16 +118,37 @@ class RESTClientObject:
         fields (trace_configs / client_session_kwargs) are read via getattr
         so older Configuration objects remain compatible.
         """
+        extra = getattr(self.configuration, "client_session_kwargs", None)
         kwargs: Dict[str, Any] = {
+{{#useIndependentImplicitClients}}
+            # Preserve an explicit connector=None override. ClientSession then
+            # creates and owns its default connector instead of using ours:
+            # https://github.com/aio-libs/aiohttp/blob/v3.8.4/aiohttp/client.py#L238-L257
+            "connector": (
+                extra["connector"]
+                if extra is not None and "connector" in extra
+                else self._create_connector()
+            ),
+{{/useIndependentImplicitClients}}
+{{^useIndependentImplicitClients}}
             "connector": self._create_connector(),
+{{/useIndependentImplicitClients}}
             "trust_env": True,
         }
         trace_configs = getattr(self.configuration, "trace_configs", None)
         if trace_configs is not None:
             kwargs["trace_configs"] = trace_configs
-        extra = getattr(self.configuration, "client_session_kwargs", None)
         if extra:
             kwargs.update(extra)
+{{#useIndependentImplicitClients}}
+            if extra.get("connector") is not None:
+                # Copied configurations can share a caller-supplied connector.
+                # aiohttp requires connector_owner=False for shared connectors:
+                # https://docs.aiohttp.org/en/stable/client_advanced.html#connectors
+                kwargs["connector_owner"] = False
+            else:
+                kwargs["connector_owner"] = True
+{{/useIndependentImplicitClients}}
         return aiohttp.ClientSession(**kwargs)
 
     async def request(
