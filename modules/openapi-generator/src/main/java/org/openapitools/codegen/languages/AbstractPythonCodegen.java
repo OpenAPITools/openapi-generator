@@ -55,6 +55,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     public static final String PYDANTIC = "pydantic";
     public static final Set<String> SUPPORTED_NUMBER_MAPPINGS =
             Set.of("Union[StrictFloat, StrictInt]", "StrictFloat", "float", "Decimal");
+    // https://docs.python.org/3/reference/lexical_analysis.html#keywords
+    protected static final Set<String> PYTHON_KEYWORDS = Set.of(
+            "False", "None", "True", "and", "as", "assert", "async", "await",
+            "break", "class", "continue", "def", "del", "elif", "else", "except",
+            "finally", "for", "from", "global", "if", "import", "in", "is",
+            "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try",
+            "while", "with", "yield");
 
     protected String packageName = "openapi_client";
     @Setter protected String packageVersion = "1.0.0";
@@ -81,25 +88,21 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 DataTypeFeature.Uuid
         ));
 
-        // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // pydantic
-                        "field",
-                        // local variable name used in API methods (endpoints)
-                        "all_params", "resource_path", "path_params", "query_params",
-                        "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
-                        // @property
-                        "property",
-                        // typing keywords
-                        "schema", "base64", "json",
-                        "date", "float",
-                        // python reserved words
-                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
-                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
-                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True",
-                        "False", "async", "await"));
+        List<String> reservedWords = new ArrayList<>(PYTHON_KEYWORDS);
+        reservedWords.addAll(Arrays.asList(
+                // pydantic
+                "field",
+                // local variable name used in API methods (endpoints)
+                "all_params", "resource_path", "path_params", "query_params",
+                "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
+                // @property
+                "property",
+                // typing keywords
+                "schema", "base64", "json",
+                "date", "float",
+                // Python 2 keywords and method receivers
+                "print", "exec", "self"));
+        setReservedWordsLowerCase(reservedWords);
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
@@ -253,7 +256,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return toVarNameWithoutNameMapping(name);
     }
 
-    private String toVarNameWithoutNameMapping(String name) {
+    protected String toVarNameWithoutNameMapping(String name) {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -966,6 +969,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             PythonImports moduleImports = new PythonImports();
             CodegenModel model = m.getModel();
+
+            if (model.vendorExtensions.containsKey(X_PY_PREPROCESSES_INPUT_NAMES)) {
+                moduleImports.add("collections.abc", "Mapping as _Mapping");
+                moduleImports.add("typing", "cast as _cast");
+            }
+            if (model.vendorExtensions.containsKey(X_PY_VALIDATES_INPUT_NAMES)) {
+                moduleImports.add(PYDANTIC, "model_validator as _model_validator");
+                moduleImports.add(PYDANTIC,
+                        "ModelWrapValidatorHandler as _ModelWrapValidatorHandler");
+            }
 
             PydanticType pydantic = new PydanticType(
                     modelImports,
@@ -2142,6 +2155,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         public String generatePythonType(CodegenProperty cp) {
             PythonType pt = this.getType(cp);
+            if (!cp.required || cp.isNullable) {
+                moduleImports.add(TYPING, "Optional");
+                PythonType opt = new PythonType("Optional");
+                opt.addTypeParam(pt);
+                pt = opt;
+            }
+            if (cp.vendorExtensions.containsKey(X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE)) {
+                cp.vendorExtensions.put(X_PY_PUBLIC_NAME_TYPING,
+                        pt.asTypeConstraint(moduleImports));
+            }
             return this.finalizeType(cp, pt);
         }
 
@@ -2200,19 +2223,26 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         private String finalizeType(CodegenProperty cp, PythonType pt) {
-            if (!cp.required || cp.isNullable) {
-                moduleImports.add(TYPING, "Optional");
-                PythonType opt = new PythonType("Optional");
-                opt.addTypeParam(pt);
-                pt = opt;
-            }
-
             if (!StringUtils.isEmpty(cp.description)) { // has description
                 pt.annotate("description", cp.description);
             }
 
             // field
-            if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
+            String publicName = (String) cp.vendorExtensions.get(X_PY_PUBLIC_NAME);
+            if (publicName != null) {
+                String aliasName = cp.vendorExtensions.containsKey(X_PY_EXPLICIT_PUBLIC_NAME)
+                        ? publicName
+                        : cp.baseName;
+                if (!aliasName.equals(cp.name)) {
+                    pt.annotate("alias", toPythonStringLiteral(aliasName), false);
+                }
+                if (!publicName.equals(cp.baseName)) {
+                    moduleImports.add(PYDANTIC, "AliasChoices");
+                    pt.annotate("validation_alias", String.format(Locale.ROOT, "AliasChoices(%s, %s)",
+                            toPythonStringLiteral(cp.baseName), toPythonStringLiteral(publicName)), false);
+                    pt.annotate("serialization_alias", toPythonStringLiteral(cp.baseName), false);
+                }
+            } else if (cp.baseName != null && !cp.baseName.equals(cp.name)) {
                 pt.annotate("alias", toPythonStringLiteral(cp.baseName), false);
             }
 

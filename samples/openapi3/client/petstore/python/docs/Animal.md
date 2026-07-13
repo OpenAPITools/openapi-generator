@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**class_name** | **str** |  | 
+**_class_name** | **str** |  |
 **color** | **str** |  | [optional] [default to 'red']
 
 ## Example

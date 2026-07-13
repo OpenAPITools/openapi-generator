@@ -9,6 +9,12 @@ additionalProperties:
   mapNumberTo: StrictFloat
 nameMappings:
   _type: underscore_type
+  className: _class_name
+  circular_ref: _circular_ref
+  quantity: _field_validator
+  return: AliasChoices
+  schema: schema
+  shipDate: datetime
   type_: type_with_underscore
 modelNameMappings:
   # The OpenAPI spec ApiResponse conflicts with the internal ApiResponse
