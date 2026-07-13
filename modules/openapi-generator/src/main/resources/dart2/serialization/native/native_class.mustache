@@ -150,6 +150,20 @@ class {{{classname}}} {
     return json;
   }
 
+{{#useFinalProperties}}
+  /// Clones this instance of [{{{classname}}}] and returns a new one where some of the
+  /// properties have changed.
+  {{{classname}}} copyWith({
+  {{#vars}}
+    final {{{datatypeWithEnum}}}? {{{name}}},
+  {{/vars}}
+  }) => {{{classname}}}(
+  {{#vars}}
+    {{{name}}}: {{{name}}} ?? this.{{{name}}},
+  {{/vars}}
+  );
+{{/useFinalProperties}}
+
   /// Returns a new [{{{classname}}}] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
