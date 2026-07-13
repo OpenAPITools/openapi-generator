@@ -98,6 +98,19 @@ object FormSerializable:
           case optArray: Option[Seq[Primitive]] =>
             optArray.map(serializeArray(name, _, format, explode))
               .getOrElse(Seq.empty[(String, String)])
+          case enumArray: Seq[t] =>
+            inline summonInline[Mirror.Of[t]] match
+              case mirror: Mirror.SumOf[t] =>
+                serializeArray(name, enumArray.map(v => writeToString(v)(summonInline[JsonValueCodec[mirror.MirroredMonoType]]).stripPrefix("\"").stripSuffix("\"")), format, explode)
+              case _ =>
+                error("Arrays of non-primitive types are only supported for enums")
+          case optEnumArray: Option[Seq[t]] =>
+            inline summonInline[Mirror.Of[t]] match
+              case mirror: Mirror.SumOf[t] =>
+                optEnumArray.map(seq => serializeArray(name, seq.map(v => writeToString(v)(summonInline[JsonValueCodec[mirror.MirroredMonoType]]).stripPrefix("\"").stripSuffix("\"")), format, explode))
+                  .getOrElse(Seq.empty[(String, String)])
+              case _ =>
+                error("Arrays of non-primitive types are only supported for enums")
           case freeObj: Map[String, Primitive] =>
             freeObj.map((key, value) => (key, value.asString)).toSeq
           case optObj: Option[t] =>
@@ -201,6 +214,14 @@ object HeaderSerializable:
         case optPrimitive: Option[Primitive] => optPrimitive.map(v => Map(name -> v.asString)).getOrElse(Map.empty[String, String])
         case seqPrimitive: Seq[Primitive] => Map(name -> seqPrimitive.map(_.asString).mkString(","))
         case optSeqPrimitive: Option[Seq[Primitive]] => optSeqPrimitive.map(v => Map(name -> v.map(_.asString).mkString(","))).getOrElse(Map.empty[String, String])
+        case enumArray: Seq[t] =>
+          inline summonInline[Mirror.Of[t]] match
+            case mirror: Mirror.SumOf[t] => Map(name -> enumArray.map(v => writeToString(v)(summonInline[JsonValueCodec[mirror.MirroredMonoType]]).stripPrefix("\"").stripSuffix("\"")).mkString(","))
+            case _ => error("Arrays of non-primitive types are only supported for enums")
+        case optEnumArray: Option[Seq[t]] =>
+          inline summonInline[Mirror.Of[t]] match
+            case mirror: Mirror.SumOf[t] => optEnumArray.map(seq => Map(name -> seq.map(v => writeToString(v)(summonInline[JsonValueCodec[mirror.MirroredMonoType]]).stripPrefix("\"").stripSuffix("\"")).mkString(","))).getOrElse(Map.empty[String, String])
+            case _ => error("Arrays of non-primitive types are only supported for enums")
         case mapPrimitive: Map[String, Primitive] => mapPrimitive.map((k, v) => (k, v.asString))
         case optObj: Option[t] =>
           inline summonInline[Mirror.Of[t]] match
@@ -252,6 +273,19 @@ object PathSerializable:
           case optArray: Option[Seq[Primitive]] =>
             optArray.map(serializeArray(name, _, style, explode))
               .getOrElse("")
+          case enumArray: Seq[t] =>
+            inline summonInline[Mirror.Of[t]] match
+              case mirror: Mirror.SumOf[t] =>
+                serializeArray(name, enumArray.map(v => writeToString(v)(summonInline[JsonValueCodec[mirror.MirroredMonoType]]).stripPrefix("\"").stripSuffix("\"")), style, explode)
+              case _ =>
+                error("Arrays of non-primitive types are only supported for enums")
+          case optEnumArray: Option[Seq[t]] =>
+            inline summonInline[Mirror.Of[t]] match
+              case mirror: Mirror.SumOf[t] =>
+                optEnumArray.map(seq => serializeArray(name, seq.map(v => writeToString(v)(summonInline[JsonValueCodec[mirror.MirroredMonoType]]).stripPrefix("\"").stripSuffix("\"")), style, explode))
+                  .getOrElse("")
+              case _ =>
+                error("Arrays of non-primitive types are only supported for enums")
           case freeObj: Map[String, Primitive] =>
             serializeModel(name, freeObj.map((key, value) => (key, value.asString)).toSeq, style, explode)
           case optObj: Option[t] =>
@@ -343,6 +377,19 @@ object CookieSerializable:
           case optArray: Option[Seq[Primitive]] =>
             optArray.map(serializeArray(name, _, explode))
               .getOrElse(Seq.empty[(String, String)])
+          case enumArray: Seq[t] =>
+            inline summonInline[Mirror.Of[t]] match
+              case mirror: Mirror.SumOf[t] =>
+                serializeArray(name, enumArray.map(v => writeToString(v)(summonInline[JsonValueCodec[mirror.MirroredMonoType]]).stripPrefix("\"").stripSuffix("\"")), explode)
+              case _ =>
+                error("Arrays of non-primitive types are only supported for enums")
+          case optEnumArray: Option[Seq[t]] =>
+            inline summonInline[Mirror.Of[t]] match
+              case mirror: Mirror.SumOf[t] =>
+                optEnumArray.map(seq => serializeArray(name, seq.map(v => writeToString(v)(summonInline[JsonValueCodec[mirror.MirroredMonoType]]).stripPrefix("\"").stripSuffix("\"")), explode))
+                  .getOrElse(Seq.empty[(String, String)])
+              case _ =>
+                error("Arrays of non-primitive types are only supported for enums")
           case freeObj: Map[String, Primitive] =>
             serializeModel(name, freeObj.map((key, value) => (key, value.asString)).toSeq, explode)
           case optObj: Option[t] =>
