@@ -1,17 +1,38 @@
-// RubyApiRouting.java
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.openapitools.codegen.languages.rubynextgen;
 
 import java.util.*;
+
 import org.openapitools.codegen.utils.StringUtils;
 
 // NOTE: Intentional copy of CrystalApiRouting. The path->route logic is
 // language-agnostic; it is duplicated (not shared) to keep each generator
 // fully decoupled and avoid modifying the already-shipped Crystal generator.
-/** Pure routing logic for the ruby-nextgengenerator: path -> (namespace, resource, action). */
-public final class RubyApiRouting {
-    private RubyApiRouting() {}
 
-    private static boolean isParam(String seg) { return seg.startsWith("{") && seg.endsWith("}"); }
+/**
+ * Pure routing logic for the ruby-nextgen generator: path -> (namespace, resource, action).
+ */
+public final class RubyApiRouting {
+    private RubyApiRouting() {
+    }
+
+    private static boolean isParam(String seg) {
+        return seg.startsWith("{") && seg.endsWith("}");
+    }
 
     private static List<String> segments(String path) {
         List<String> out = new ArrayList<>();
@@ -21,7 +42,9 @@ public final class RubyApiRouting {
         return out;
     }
 
-    /** Segments that appear immediately before a {param} in at least one path. */
+    /**
+     * Segments that appear immediately before a {param} in at least one path.
+     */
     public static Set<String> resourceSegments(Collection<String> paths) {
         Set<String> r = new HashSet<>();
         for (String path : paths) {
@@ -35,7 +58,9 @@ public final class RubyApiRouting {
         return r;
     }
 
-    /** Longest leading run of identical literal segments shared by all paths. */
+    /**
+     * Longest leading run of identical literal segments shared by all paths.
+     */
     public static String commonBasePrefix(Collection<String> paths) {
         List<List<String>> all = new ArrayList<>();
         for (String p : paths) all.add(segments(p));
@@ -55,7 +80,9 @@ public final class RubyApiRouting {
         }
     }
 
-    /** Literal segments after stripping the base prefix and dropping {param} segments. */
+    /**
+     * Literal segments after stripping the base prefix and dropping {param} segments.
+     */
     public static List<String> literals(String path, String basePrefix) {
         List<String> segs = segments(path);
         List<String> prefix = basePrefix.isEmpty() ? Collections.emptyList() : segments(basePrefix);
@@ -71,11 +98,14 @@ public final class RubyApiRouting {
         return out;
     }
 
-    /** Route triple: (namespace, resource, action). Resource may be null. */
+    /**
+     * Route triple: (namespace, resource, action). Resource may be null.
+     */
     public static final class Route {
         public final String namespace;
         public final String resource;   // nullable
         public final String action;
+
         public Route(String namespace, String resource, String action) {
             this.namespace = namespace;
             this.resource = resource;
@@ -135,12 +165,18 @@ public final class RubyApiRouting {
 
     private static String verbAction(String httpMethod, boolean item) {
         switch (httpMethod.toUpperCase(java.util.Locale.ROOT)) {
-            case "GET":    return item ? "get" : "list";
-            case "POST":   return "create";
-            case "PUT":    return item ? "update" : "bulk_update";
-            case "PATCH":  return item ? "partial_update" : "bulk_partial_update";
-            case "DELETE": return item ? "delete" : "bulk_destroy";
-            default:       return httpMethod.toLowerCase(java.util.Locale.ROOT);
+            case "GET":
+                return item ? "get" : "list";
+            case "POST":
+                return "create";
+            case "PUT":
+                return item ? "update" : "bulk_update";
+            case "PATCH":
+                return item ? "partial_update" : "bulk_partial_update";
+            case "DELETE":
+                return item ? "delete" : "bulk_destroy";
+            default:
+                return httpMethod.toLowerCase(java.util.Locale.ROOT);
         }
     }
 }

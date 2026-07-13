@@ -1,7 +1,23 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.openapitools.codegen.rubynextgen;
 
 import org.openapitools.codegen.languages.RubyNextgenClientCodegen;
 import org.testng.annotations.Test;
+
 import static org.testng.Assert.assertEquals;
 
 public class RubyNextgenClientCodegenTest {
@@ -179,32 +195,32 @@ public class RubyNextgenClientCodegenTest {
     @Test
     public void testModelPropertyValidationFlags() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
-            .parseSpec("src/test/resources/3_0/petstore.yaml");
+                .parseSpec("src/test/resources/3_0/petstore.yaml");
         RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
         org.openapitools.codegen.CodegenModel cm = codegen.fromModel("Pet",
-            openAPI.getComponents().getSchemas().get("Pet"));
+                openAPI.getComponents().getSchemas().get("Pet"));
         org.openapitools.codegen.model.ModelsMap mm = org.openapitools.codegen.TestUtils
-            .createCodegenModelWrapper(cm);
+                .createCodegenModelWrapper(cm);
         codegen.postProcessModels(mm);
         org.openapitools.codegen.CodegenProperty status = cm.vars.stream()
-            .filter(v -> v.baseName.equals("status")).findFirst().orElseThrow(RuntimeException::new);
+                .filter(v -> v.baseName.equals("status")).findFirst().orElseThrow(RuntimeException::new);
         org.testng.Assert.assertEquals(status.vendorExtensions.get("x-rb-validated"), Boolean.TRUE);
     }
 
     @Test
     public void testArrayItemsValidation() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
-            .parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+                .parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
         org.openapitools.codegen.CodegenModel cm = codegen.fromModel("ArrayTest",
-            openAPI.getComponents().getSchemas().get("ArrayTest"));
+                openAPI.getComponents().getSchemas().get("ArrayTest"));
         org.openapitools.codegen.model.ModelsMap mm = org.openapitools.codegen.TestUtils
-            .createCodegenModelWrapper(cm);
+                .createCodegenModelWrapper(cm);
         codegen.postProcessModels(mm);
         org.openapitools.codegen.CodegenProperty arrayOfString = cm.vars.stream()
-            .filter(v -> v.baseName.equals("array_of_string")).findFirst().orElseThrow(RuntimeException::new);
+                .filter(v -> v.baseName.equals("array_of_string")).findFirst().orElseThrow(RuntimeException::new);
         org.testng.Assert.assertTrue(arrayOfString.isArray);
         org.testng.Assert.assertEquals(arrayOfString.maxItems, Integer.valueOf(3));
         org.testng.Assert.assertEquals(arrayOfString.vendorExtensions.get("x-rb-validated"), Boolean.TRUE);
@@ -213,25 +229,25 @@ public class RubyNextgenClientCodegenTest {
     @Test
     public void testAdditionalPropertiesExtension() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
-            .parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+                .parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         // FreeFormObject is `additionalProperties: true` with no declared properties --
         // exercises isAdditionalPropertiesTrue.
         org.openapitools.codegen.CodegenModel freeForm = codegen.fromModel("FreeFormObject",
-            openAPI.getComponents().getSchemas().get("FreeFormObject"));
+                openAPI.getComponents().getSchemas().get("FreeFormObject"));
         org.openapitools.codegen.model.ModelsMap freeFormMap = org.openapitools.codegen.TestUtils
-            .createCodegenModelWrapper(freeForm);
+                .createCodegenModelWrapper(freeForm);
         codegen.postProcessModels(freeFormMap);
         assertEquals(freeForm.vendorExtensions.get("x-rb-additional-properties"), Boolean.TRUE);
 
         // Pet has no additionalProperties at all -- the extension must be absent so
         // partial_model_generic.mustache does not emit the overflow accessor.
         org.openapitools.codegen.CodegenModel pet = codegen.fromModel("Pet",
-            openAPI.getComponents().getSchemas().get("Pet"));
+                openAPI.getComponents().getSchemas().get("Pet"));
         org.openapitools.codegen.model.ModelsMap petMap = org.openapitools.codegen.TestUtils
-            .createCodegenModelWrapper(pet);
+                .createCodegenModelWrapper(pet);
         codegen.postProcessModels(petMap);
         org.testng.Assert.assertNull(pet.vendorExtensions.get("x-rb-additional-properties"));
     }
@@ -339,17 +355,17 @@ public class RubyNextgenClientCodegenTest {
         java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
         target.toFile().deleteOnExit();
         org.openapitools.codegen.ClientOptInput input =
-            new org.openapitools.codegen.config.CodegenConfigurator()
-                .setGeneratorName("ruby-nextgen")
-                .setInputSpec("src/test/resources/3_0/petstore.yaml")
-                .setOutputDir(target.toString())
-                .addAdditionalProperty("gemName", "petstore")
-                .addAdditionalProperty("moduleName", "Petstore")
-                .toClientOptInput();
+                new org.openapitools.codegen.config.CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
         new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
         org.openapitools.codegen.TestUtils.assertFileContains(
-            target.resolve("lib/petstore/configuration.rb"),
-            "def use(", "@middlewares.each");
+                target.resolve("lib/petstore/configuration.rb"),
+                "def use(", "@middlewares.each");
     }
 
     @Test
@@ -357,29 +373,29 @@ public class RubyNextgenClientCodegenTest {
         java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
         target.toFile().deleteOnExit();
         org.openapitools.codegen.ClientOptInput input =
-            new org.openapitools.codegen.config.CodegenConfigurator()
-                .setGeneratorName("ruby-nextgen")
-                .setInputSpec("src/test/resources/3_0/ruby-nextgen/acronym.yaml")
-                .setOutputDir(target.toString())
-                .addAdditionalProperty("gemName", "acme")
-                .addAdditionalProperty("moduleName", "Acme")
-                .toClientOptInput();
+                new org.openapitools.codegen.config.CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/ruby-nextgen/acronym.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "acme")
+                        .addAdditionalProperty("moduleName", "Acme")
+                        .toClientOptInput();
         new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
         // gem.rb must register the acronym exception so Zeitwerk can autoload it: the model
         // class is HTTPConfig but the file is http_config.rb, which Zeitwerk would otherwise
         // expect to define HttpConfig.
         org.openapitools.codegen.TestUtils.assertFileContains(
-            target.resolve("lib/acme.rb"),
-            "@loader.inflector.inflect(", "\"http_config\" => \"HTTPConfig\"");
+                target.resolve("lib/acme.rb"),
+                "@loader.inflector.inflect(", "\"http_config\" => \"HTTPConfig\"");
         // and the model file itself must define the acronym-cased constant
         org.openapitools.codegen.TestUtils.assertFileContains(
-            target.resolve("lib/acme/models/http_config.rb"), "HTTPConfig");
+                target.resolve("lib/acme/models/http_config.rb"), "HTTPConfig");
         // Acronyms in API resource classes must be registered too: the file
         // api/dedicated_cloud/two_fa_whitelist.rb defines DedicatedCloud::TwoFAWhitelist,
         // which the default inflector (expecting TwoFaWhitelist) would fail to autoload.
         org.openapitools.codegen.TestUtils.assertFileContains(
-            target.resolve("lib/acme.rb"), "\"two_fa_whitelist\" => \"TwoFAWhitelist\"");
+                target.resolve("lib/acme.rb"), "\"two_fa_whitelist\" => \"TwoFAWhitelist\"");
         org.openapitools.codegen.TestUtils.assertFileContains(
-            target.resolve("lib/acme/api/dedicated_cloud/two_fa_whitelist.rb"), "TwoFAWhitelist");
+                target.resolve("lib/acme/api/dedicated_cloud/two_fa_whitelist.rb"), "TwoFAWhitelist");
     }
 }
