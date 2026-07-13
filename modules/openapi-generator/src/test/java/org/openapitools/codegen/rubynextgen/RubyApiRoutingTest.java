@@ -1,6 +1,6 @@
-package org.openapitools.codegen.rubyidiomatic;
+package org.openapitools.codegen.rubynextgen;
 
-import org.openapitools.codegen.languages.rubyidiomatic.RubyApiRouting;
+import org.openapitools.codegen.languages.rubynextgen.RubyApiRouting;
 import org.testng.annotations.Test;
 import java.util.*;
 import static org.testng.Assert.assertEquals;

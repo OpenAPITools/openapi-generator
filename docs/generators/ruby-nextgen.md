@@ -1,12 +1,12 @@
 ---
-title: Documentation for the ruby-idiomatic Generator
+title: Documentation for the ruby-nextgen Generator
 ---
 
 ## METADATA
 
 | Property | Value | Notes |
 | -------- | ----- | ----- |
-| generator name | ruby-idiomatic | pass this to the generate command after -g |
+| generator name | ruby-nextgen | pass this to the generate command after -g |
 | generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Ruby | |

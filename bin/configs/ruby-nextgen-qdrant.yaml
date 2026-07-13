@@ -1,7 +1,7 @@
-generatorName: ruby-idiomatic
-outputDir: samples/client/others/ruby-idiomatic-qdrant
+generatorName: ruby-nextgen
+outputDir: samples/client/others/ruby-nextgen-qdrant
 inputSpec: modules/openapi-generator/src/test/resources/3_0/crystal/qdrant.json
-templateDir: modules/openapi-generator/src/main/resources/ruby-idiomatic
+templateDir: modules/openapi-generator/src/main/resources/ruby-nextgen
 globalProperties:
   apiTests: "true"
   modelTests: "true"

@@ -3,7 +3,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.rubyidiomatic.RubyApiRouting;
+import org.openapitools.codegen.languages.rubynextgen.RubyApiRouting;
 import org.openapitools.codegen.model.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -20,8 +20,8 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class RubyIdiomaticClientCodegen extends AbstractRubyCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(RubyIdiomaticClientCodegen.class);
+public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(RubyNextgenClientCodegen.class);
 
     private static final String GEM_VERSION = "gemVersion";
     private static final String GEM_VERSION_DESC = "gem version.";
@@ -80,7 +80,7 @@ public class RubyIdiomaticClientCodegen extends AbstractRubyCodegen {
     // inflections for names whose acronym casing diverges from the default inflector.
     private final java.util.LinkedHashMap<String, String> modelFileToClass = new java.util.LinkedHashMap<>();
 
-    public RubyIdiomaticClientCodegen() {
+    public RubyNextgenClientCodegen() {
         super();
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
@@ -106,12 +106,12 @@ public class RubyIdiomaticClientCodegen extends AbstractRubyCodegen {
                         SecurityFeature.BearerToken
                 ))
         );
-        outputFolder = "generated-code" + File.separator + "ruby-idiomatic";
+        outputFolder = "generated-code" + File.separator + "ruby-nextgen";
         modelTemplateFiles.put("model.mustache", ".rb");
         apiTemplateFiles.put("api.mustache", ".rb");
         modelTestTemplateFiles.put("model_test.mustache", ".rb");
         apiTestTemplateFiles.put("api_test.mustache", ".rb");
-        embeddedTemplateDir = templateDir = "ruby-idiomatic";
+        embeddedTemplateDir = templateDir = "ruby-nextgen";
         modelPackage = "models";
         apiPackage = "api";
         cliOptions.add(new CliOption(CodegenConstants.GEM_NAME, CodegenConstants.GEM_NAME_DESC));
@@ -276,7 +276,7 @@ public class RubyIdiomaticClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String getName() {
-        return "ruby-idiomatic";
+        return "ruby-nextgen";
     }
 
     @Override
@@ -292,12 +292,12 @@ public class RubyIdiomaticClientCodegen extends AbstractRubyCodegen {
     public String toOperationId(String operationId) {
         if (operationId == null || operationId.isEmpty()) {
             String renamed = "empty_method_name_" + emptyMethodNameCounter++;
-            LOGGER.warn("ruby-idiomatic: empty method name renamed to `{}`", renamed);
+            LOGGER.warn("ruby-nextgen: empty method name renamed to `{}`", renamed);
             return renamed;
         }
         if (operationId.matches("^\\d.*")) {
             String renamed = underscore("call_" + operationId);
-            LOGGER.warn("ruby-idiomatic: method name `{}` starts with a digit, renamed to `{}`", operationId, renamed);
+            LOGGER.warn("ruby-nextgen: method name `{}` starts with a digit, renamed to `{}`", operationId, renamed);
             return renamed;
         }
         return super.toOperationId(operationId);
@@ -341,7 +341,7 @@ public class RubyIdiomaticClientCodegen extends AbstractRubyCodegen {
             head = head.substring(0, head.length() - 1);
         }
         String shortened = head + suffix;
-        LOGGER.warn("ruby-idiomatic: model name too long for tar, shortened `{}` -> `{}`", camelized, shortened);
+        LOGGER.warn("ruby-nextgen: model name too long for tar, shortened `{}` -> `{}`", camelized, shortened);
         return shortened;
     }
 
@@ -518,7 +518,7 @@ public class RubyIdiomaticClientCodegen extends AbstractRubyCodegen {
             clash = uniqueClash(opList, unique);
         }
         if (!unique.equals(co.operationId)) {
-            LOGGER.warn("ruby-idiomatic: action collision, renamed `{}` -> `{}`", co.operationId, unique);
+            LOGGER.warn("ruby-nextgen: action collision, renamed `{}` -> `{}`", co.operationId, unique);
             co.operationId = unique;
         }
         opList.add(co);

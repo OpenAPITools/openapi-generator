@@ -1,20 +1,20 @@
-package org.openapitools.codegen.rubyidiomatic;
+package org.openapitools.codegen.rubynextgen;
 
-import org.openapitools.codegen.languages.RubyIdiomaticClientCodegen;
+import org.openapitools.codegen.languages.RubyNextgenClientCodegen;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
-public class RubyIdiomaticClientCodegenTest {
+public class RubyNextgenClientCodegenTest {
     @Test
     public void testGeneratorName() {
-        RubyIdiomaticClientCodegen gen = new RubyIdiomaticClientCodegen();
-        assertEquals(gen.getName(), "ruby-idiomatic");
+        RubyNextgenClientCodegen gen = new RubyNextgenClientCodegen();
+        assertEquals(gen.getName(), "ruby-nextgen");
         assertEquals(gen.getTag().toString(), "CLIENT");
     }
 
     @Test
     public void testModelNameAvoidsInfraCollision() {
-        RubyIdiomaticClientCodegen gen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen gen = new RubyNextgenClientCodegen();
         assertEquals(gen.toModelName("Client"), "ModelClient");
         assertEquals(gen.toModelName("Pet"), "Pet");
         assertEquals(gen.toModelFilename("ApiResponse"), "api_response");
@@ -22,14 +22,14 @@ public class RubyIdiomaticClientCodegenTest {
 
     @Test
     public void testApiNamespacedNames() {
-        RubyIdiomaticClientCodegen gen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen gen = new RubyNextgenClientCodegen();
         assertEquals(gen.toApiFilename("dcim/cable-terminations"), "dcim/cable_terminations");
         assertEquals(gen.toApiName("dcim/cable-terminations"), "Dcim::CableTerminations");
     }
 
     @Test
     public void testNumericEnumValueNotQuoted() {
-        RubyIdiomaticClientCodegen g = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen g = new RubyNextgenClientCodegen();
         org.testng.Assert.assertEquals(g.toEnumValue("1", "Integer"), "1");
         org.testng.Assert.assertEquals(g.toEnumValue("1.5", "Float"), "1.5");
         org.testng.Assert.assertEquals(g.toEnumValue("available", "String"), "'available'");
@@ -37,7 +37,7 @@ public class RubyIdiomaticClientCodegenTest {
 
     @Test
     public void testNumericEnumVarNameIsValidConstant() {
-        RubyIdiomaticClientCodegen g = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen g = new RubyNextgenClientCodegen();
         // Ruby 3.0+ reserves _1.._9 as numbered block parameters, so a bare "_" + digit
         // prefix (DefaultCodegen's behavior) emits an illegal constant: `_1 = '1'` raises
         // "_1 is reserved for numbered parameters". Numeric enum values must instead get a
@@ -63,7 +63,7 @@ public class RubyIdiomaticClientCodegenTest {
 
     @Test
     public void testLongModelNameIsTruncatedForTar() {
-        RubyIdiomaticClientCodegen g = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen g = new RubyNextgenClientCodegen();
         // Real OVH inline body models concatenate the whole deep path, producing 120+ char
         // file names. The tar ustar format caps each path component at 100 bytes, so
         // `gem build` raises Gem::Package::TooLongFileName. The model file name -- including
@@ -93,7 +93,7 @@ public class RubyIdiomaticClientCodegenTest {
 
     @Test
     public void testLeadingDigitOperationIdIsPrefixed() {
-        RubyIdiomaticClientCodegen g = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen g = new RubyNextgenClientCodegen();
         // Ruby method names cannot begin with a digit; OVH price-plan path segments like
         // "2013v1_bhs1a_filer_hourly" would otherwise emit `def 2013v1...` (SyntaxError).
         // Prefix with "call_" as the stock ruby generator does.
@@ -108,7 +108,7 @@ public class RubyIdiomaticClientCodegenTest {
     public void testOperationGroupingBuildsNamespaces() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
                 .parseSpec("src/test/resources/3_0/petstore.yaml");
-        RubyIdiomaticClientCodegen codegen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.preprocessOpenAPI(openAPI);
 
@@ -126,7 +126,7 @@ public class RubyIdiomaticClientCodegenTest {
     public void testOperationIdCollisionIsDeduped() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
                 .parseSpec("src/test/resources/3_0/petstore.yaml");
-        RubyIdiomaticClientCodegen codegen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.preprocessOpenAPI(openAPI);
 
@@ -155,7 +155,7 @@ public class RubyIdiomaticClientCodegenTest {
     public void testMultiTagOperationNotDuplicated() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
                 .parseSpec("src/test/resources/3_0/crystal/qdrant.json");
-        RubyIdiomaticClientCodegen codegen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.preprocessOpenAPI(openAPI);
 
@@ -180,7 +180,7 @@ public class RubyIdiomaticClientCodegenTest {
     public void testModelPropertyValidationFlags() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
             .parseSpec("src/test/resources/3_0/petstore.yaml");
-        RubyIdiomaticClientCodegen codegen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
         org.openapitools.codegen.CodegenModel cm = codegen.fromModel("Pet",
             openAPI.getComponents().getSchemas().get("Pet"));
@@ -196,7 +196,7 @@ public class RubyIdiomaticClientCodegenTest {
     public void testArrayItemsValidation() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
             .parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
-        RubyIdiomaticClientCodegen codegen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
         org.openapitools.codegen.CodegenModel cm = codegen.fromModel("ArrayTest",
             openAPI.getComponents().getSchemas().get("ArrayTest"));
@@ -214,7 +214,7 @@ public class RubyIdiomaticClientCodegenTest {
     public void testAdditionalPropertiesExtension() {
         io.swagger.v3.oas.models.OpenAPI openAPI = org.openapitools.codegen.TestUtils
             .parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
-        RubyIdiomaticClientCodegen codegen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen codegen = new RubyNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         // FreeFormObject is `additionalProperties: true` with no declared properties --
@@ -238,13 +238,13 @@ public class RubyIdiomaticClientCodegenTest {
 
     @Test
     public void testApiNamespaceOption() {
-        RubyIdiomaticClientCodegen gen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen gen = new RubyNextgenClientCodegen();
         gen.additionalProperties().put(org.openapitools.codegen.CodegenConstants.GEM_NAME, "petstore");
         gen.processOpts();
         assertEquals(gen.additionalProperties().get("apiNamespacePresent"), Boolean.TRUE);
         assertEquals(gen.additionalProperties().get("apiNamespace"), "Api");
 
-        RubyIdiomaticClientCodegen disabled = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen disabled = new RubyNextgenClientCodegen();
         disabled.additionalProperties().put(org.openapitools.codegen.CodegenConstants.GEM_NAME, "petstore");
         disabled.additionalProperties().put("apiNamespace", "");
         disabled.processOpts();
@@ -255,13 +255,13 @@ public class RubyIdiomaticClientCodegenTest {
     @SuppressWarnings("unchecked")
     public void testNestedModuleName() {
         // Single-level module: nesting flags off, no parents to pre-define.
-        RubyIdiomaticClientCodegen simple = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen simple = new RubyNextgenClientCodegen();
         simple.additionalProperties().put(org.openapitools.codegen.CodegenConstants.MODULE_NAME, "Petstore");
         simple.processOpts();
         assertEquals(simple.additionalProperties().get("moduleNameNested"), Boolean.FALSE);
 
         // Two-level module: parent must be pre-defined so `module A::B` doesn't raise.
-        RubyIdiomaticClientCodegen nested = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen nested = new RubyNextgenClientCodegen();
         nested.additionalProperties().put(org.openapitools.codegen.CodegenConstants.MODULE_NAME, "Dolibarr::Api");
         nested.processOpts();
         assertEquals(nested.additionalProperties().get("moduleNameNested"), Boolean.TRUE);
@@ -269,7 +269,7 @@ public class RubyIdiomaticClientCodegenTest {
                 java.util.Arrays.asList("Dolibarr"));
 
         // Three-level module: cumulative parent prefixes, deepest-but-one last.
-        RubyIdiomaticClientCodegen deep = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen deep = new RubyNextgenClientCodegen();
         deep.additionalProperties().put(org.openapitools.codegen.CodegenConstants.MODULE_NAME, "A::B::C");
         deep.processOpts();
         assertEquals(deep.additionalProperties().get("moduleNameParents"),
@@ -278,13 +278,13 @@ public class RubyIdiomaticClientCodegenTest {
 
     @Test
     public void testLicenseMitFlag() {
-        RubyIdiomaticClientCodegen mit = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen mit = new RubyNextgenClientCodegen();
         mit.additionalProperties().put(org.openapitools.codegen.CodegenConstants.GEM_NAME, "petstore");
         mit.additionalProperties().put("gemLicense", "MIT");
         mit.processOpts();
         assertEquals(mit.additionalProperties().get("isLicenseMIT"), Boolean.TRUE);
 
-        RubyIdiomaticClientCodegen def = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen def = new RubyNextgenClientCodegen();
         def.additionalProperties().put(org.openapitools.codegen.CodegenConstants.GEM_NAME, "petstore");
         def.processOpts();
         assertEquals(def.additionalProperties().get("isLicenseMIT"), Boolean.FALSE);
@@ -292,7 +292,7 @@ public class RubyIdiomaticClientCodegenTest {
 
     @Test
     public void testModelReturnTypeIsModelsQualified() {
-        RubyIdiomaticClientCodegen gen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen gen = new RubyNextgenClientCodegen();
         gen.additionalProperties().put(org.openapitools.codegen.CodegenConstants.GEM_NAME, "petstore");
         gen.processOpts(); // sets moduleName = Petstore
 
@@ -323,7 +323,7 @@ public class RubyIdiomaticClientCodegenTest {
 
     @Test
     public void testSupportingFilesRegistered() {
-        RubyIdiomaticClientCodegen gen = new RubyIdiomaticClientCodegen();
+        RubyNextgenClientCodegen gen = new RubyNextgenClientCodegen();
         gen.additionalProperties().put(org.openapitools.codegen.CodegenConstants.GEM_NAME, "petstore");
         gen.processOpts();
         java.util.Set<String> names = new java.util.HashSet<>();
@@ -340,7 +340,7 @@ public class RubyIdiomaticClientCodegenTest {
         target.toFile().deleteOnExit();
         org.openapitools.codegen.ClientOptInput input =
             new org.openapitools.codegen.config.CodegenConfigurator()
-                .setGeneratorName("ruby-idiomatic")
+                .setGeneratorName("ruby-nextgen")
                 .setInputSpec("src/test/resources/3_0/petstore.yaml")
                 .setOutputDir(target.toString())
                 .addAdditionalProperty("gemName", "petstore")
@@ -358,8 +358,8 @@ public class RubyIdiomaticClientCodegenTest {
         target.toFile().deleteOnExit();
         org.openapitools.codegen.ClientOptInput input =
             new org.openapitools.codegen.config.CodegenConfigurator()
-                .setGeneratorName("ruby-idiomatic")
-                .setInputSpec("src/test/resources/3_0/ruby-idiomatic/acronym.yaml")
+                .setGeneratorName("ruby-nextgen")
+                .setInputSpec("src/test/resources/3_0/ruby-nextgen/acronym.yaml")
                 .setOutputDir(target.toString())
                 .addAdditionalProperty("gemName", "acme")
                 .addAdditionalProperty("moduleName", "Acme")
