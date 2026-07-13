@@ -418,7 +418,7 @@ public class MergedSpecBuilder {
      */
     OpenAPI mergeSpecs(List<OpenAPI> specs, List<Server> allServers) {
         OpenAPI merged = new OpenAPI();
-        merged.openapi(specs.get(0).getOpenapi() != null ? specs.get(0).getOpenapi() : "3.0.3");
+        merged.openapi(resolveOutputVersion(specs));
 
         Info info = new Info()
                 .title(mergedFileInfoName)
@@ -489,6 +489,87 @@ public class MergedSpecBuilder {
 
         resolveOperationIdConflicts(merged);
         return merged;
+    }
+
+    /**
+     * Determines the OpenAPI version to declare on the merged document, and rejects incompatible
+     * inputs.
+     *
+     * <p>3.0 and 3.1 differ in structural ways (e.g. {@code webhooks} and
+     * {@code components.pathItems} only exist in 3.1, and {@code nullable} /
+     * {@code exclusiveMinimum} change meaning), and the merge does not translate between them.
+     * Silently combining them would produce a document that is invalid or subtly wrong. All source
+     * specs must therefore share the same major.minor version; otherwise the merge fails fast.</p>
+     *
+     * <p>Patch-level differences (e.g. {@code 3.0.1} vs {@code 3.0.3}) are compatible; the highest
+     * patch version encountered is used for the merged document.</p>
+     *
+     * @throws RuntimeException if the source specs declare different major.minor OpenAPI versions
+     */
+    private String resolveOutputVersion(List<OpenAPI> specs) {
+        List<String> versions = specs.stream()
+                .map(OpenAPI::getOpenapi)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        if (versions.isEmpty()) {
+            return "3.0.3";
+        }
+        String firstMajorMinor = majorMinor(versions.get(0));
+        for (String version : versions) {
+            if (!majorMinor(version).equals(firstMajorMinor)) {
+                throw new RuntimeException(String.format(Locale.ROOT,
+                        "Cannot merge specs that declare incompatible OpenAPI versions %s. All specs must share "
+                                + "the same major.minor version (e.g. all 3.0.x or all 3.1.x); mixing 3.0 and 3.1 "
+                                + "is not supported because version-specific fields and semantics are not translated.",
+                        versions.stream().distinct().collect(Collectors.toList())));
+            }
+        }
+        // Same major.minor across all specs — declare the highest patch version encountered.
+        String highest = versions.get(0);
+        for (String version : versions) {
+            if (compareVersions(version, highest) > 0) {
+                highest = version;
+            }
+        }
+        return highest;
+    }
+
+    /** Returns the {@code major.minor} portion of a dot-separated version string (e.g. "3.1"). */
+    private String majorMinor(String version) {
+        String[] parts = version.split("\\.");
+        return parseVersionSegment(parts, 0) + "." + parseVersionSegment(parts, 1);
+    }
+
+    /**
+     * Compares two dot-separated OpenAPI version strings (e.g. {@code "3.0.3"} vs {@code "3.1.0"})
+     * numerically, segment by segment. Non-numeric or missing segments are treated as {@code 0}.
+     *
+     * @return a negative number, zero, or a positive number if {@code a} is lower than, equal to,
+     *         or higher than {@code b}
+     */
+    private int compareVersions(String a, String b) {
+        String[] aParts = a.split("\\.");
+        String[] bParts = b.split("\\.");
+        int length = Math.max(aParts.length, bParts.length);
+        for (int i = 0; i < length; i++) {
+            int aValue = parseVersionSegment(aParts, i);
+            int bValue = parseVersionSegment(bParts, i);
+            if (aValue != bValue) {
+                return Integer.compare(aValue, bValue);
+            }
+        }
+        return 0;
+    }
+
+    private int parseVersionSegment(String[] parts, int index) {
+        if (index >= parts.length) {
+            return 0;
+        }
+        try {
+            return Integer.parseInt(parts[index].trim());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     /**

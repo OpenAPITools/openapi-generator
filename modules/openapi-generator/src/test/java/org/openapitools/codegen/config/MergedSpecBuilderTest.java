@@ -1068,4 +1068,56 @@ public class MergedSpecBuilderTest {
         assertTrue(merged.getComponents().getPathItems().containsKey("OtherItem"),
                 "pathItem from spec B must be present");
     }
+
+    @Test
+    public void shouldRejectMixing30And31Specs() {
+        // Spec A is 3.0.3 and spec B is 3.1.0. Mixing major.minor versions is not supported
+        // because version-specific fields (webhooks, components.pathItems) and semantics are not
+        // translated, so the merge must fail fast rather than emit an invalid/misleading document.
+        OpenAPI a = new OpenAPI();
+        a.setOpenapi("3.0.3");
+        a.setPaths(new io.swagger.v3.oas.models.Paths());
+        a.getPaths().addPathItem("/a",
+                new PathItem().get(new io.swagger.v3.oas.models.Operation().operationId("getA")));
+
+        OpenAPI b = new OpenAPI();
+        b.setOpenapi("3.1.0");
+        b.setPaths(new io.swagger.v3.oas.models.Paths());
+        b.addWebhooks("newThing",
+                new PathItem().post(new io.swagger.v3.oas.models.Operation().operationId("hookB")));
+
+        MergedSpecBuilder builder = new MergedSpecBuilder("dummy", "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP);
+        try {
+            builder.mergeSpecs(Arrays.asList(a, b), Collections.emptyList());
+            fail("Expected RuntimeException when merging incompatible OpenAPI versions");
+        } catch (RuntimeException e) {
+            assertTrue(e.getMessage().contains("incompatible OpenAPI versions"),
+                    "Exception must explain the version incompatibility");
+        }
+    }
+
+    @Test
+    public void shouldUseHighestPatchVersionForCompatibleSpecs() {
+        // Same major.minor (3.0.x) with different patch levels is compatible; the merged document
+        // should declare the highest patch version encountered.
+        OpenAPI a = new OpenAPI();
+        a.setOpenapi("3.0.1");
+        a.setPaths(new io.swagger.v3.oas.models.Paths());
+        a.getPaths().addPathItem("/a",
+                new PathItem().get(new io.swagger.v3.oas.models.Operation().operationId("getA")));
+
+        OpenAPI b = new OpenAPI();
+        b.setOpenapi("3.0.3");
+        b.setPaths(new io.swagger.v3.oas.models.Paths());
+        b.getPaths().addPathItem("/b",
+                new PathItem().get(new io.swagger.v3.oas.models.Operation().operationId("getB")));
+
+        OpenAPI merged = new MergedSpecBuilder("dummy", "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP)
+                .mergeSpecs(Arrays.asList(a, b), Collections.emptyList());
+
+        assertEquals(merged.getOpenapi(), "3.0.3",
+                "Merged version must be the highest patch among compatible specs");
+    }
 }
