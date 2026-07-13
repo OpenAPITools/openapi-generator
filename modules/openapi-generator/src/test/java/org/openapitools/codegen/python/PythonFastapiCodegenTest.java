@@ -89,4 +89,32 @@ public class PythonFastapiCodegenTest {
         TestUtils.assertFileContains(Paths.get(output + "/src/openapi_server/models/test_object.py"),
                 "raise ValueError(r\"must validate the regular expression /^[A-Z0-9_\\- ]+$/\")");
     }
+
+    @Test
+    public void testBinaryResponseUsesBytesNotFile() throws IOException {
+        // Regression for https://github.com/OpenAPITools/openapi-generator/issues/20775
+        // Repro: src/test/resources/3_0/issue_20775.yaml
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-fastapi")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .setInputSpec("src/test/resources/3_0/issue_20775.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        final String apiFile = output + "/src/openapi_server/apis/resource_api.py";
+        final String baseApiFile = output + "/src/openapi_server/apis/resource_api_base.py";
+
+        TestUtils.assertFileContains(Paths.get(apiFile), "-> bytes");
+        TestUtils.assertFileContains(Paths.get(apiFile), "\"model\": bytes");
+        TestUtils.assertFileNotContains(Paths.get(apiFile), "-> file");
+        TestUtils.assertFileNotContains(Paths.get(apiFile), "\"model\": file");
+
+        TestUtils.assertFileContains(Paths.get(baseApiFile), "-> bytes");
+        TestUtils.assertFileNotContains(Paths.get(baseApiFile), "-> file");
+    }
 }
