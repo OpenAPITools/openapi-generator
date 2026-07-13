@@ -40,6 +40,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src|
 |useEnumExtension|Allow the 'x-enum-values' extension for enums| |false|
 |useOptional|Use Optional&lt;T&gt; to distinguish absent, null, and present for optional fields (Dart 3+)| |false|
+|useFinalProperties|Add 'final' to class properties, thus making them immutable| |false|
 
 ## IMPORT MAPPING
 

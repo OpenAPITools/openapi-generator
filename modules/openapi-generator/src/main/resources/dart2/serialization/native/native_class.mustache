@@ -34,7 +34,7 @@ class {{{classname}}} {
     {{/isNullable}}
   {{/isEnum}}
   {{#required}}
-  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
+  {{#useFinalProperties}}final {{/useFinalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
   {{/required}}
   {{^required}}
     {{#vendorExtensions.x-is-optional}}
