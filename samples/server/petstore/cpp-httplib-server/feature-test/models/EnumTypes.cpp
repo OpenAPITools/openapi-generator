@@ -58,9 +58,9 @@ std::string EnumTypes::StringEnumEnumToString(EnumTypes::StringEnumEnum value)
     switch (value)
     {
         case StringEnumEnum::UNSPECIFIED: return "UNSPECIFIED";
-        case StringEnumEnum::PENDING: return "pending";
-        case StringEnumEnum::APPROVED: return "approved";
-        case StringEnumEnum::REJECTED: return "rejected";
+        case StringEnumEnum::PENDING: return "PENDING";
+        case StringEnumEnum::APPROVED: return "APPROVED";
+        case StringEnumEnum::REJECTED: return "REJECTED";
         default: return {};
     }
 }
@@ -71,15 +71,15 @@ EnumTypes::StringEnumEnum EnumTypes::StringEnumEnumFromString(const std::string&
     {
         return StringEnumEnum::UNSPECIFIED;
     }
-    if (str == "pending")
+    if (str == "PENDING")
     {
         return StringEnumEnum::PENDING;
     }
-    if (str == "approved")
+    if (str == "APPROVED")
     {
         return StringEnumEnum::APPROVED;
     }
-    if (str == "rejected")
+    if (str == "REJECTED")
     {
         return StringEnumEnum::REJECTED;
     }
@@ -94,11 +94,11 @@ std::string EnumTypes::NumericEnumEnumToString(EnumTypes::NumericEnumEnum value)
     switch (value)
     {
         case NumericEnumEnum::UNSPECIFIED: return "UNSPECIFIED";
-        case NumericEnumEnum::_100: return "100";
-        case NumericEnumEnum::_200: return "200";
-        case NumericEnumEnum::_300: return "300";
-        case NumericEnumEnum::_404: return "404";
-        case NumericEnumEnum::_500: return "500";
+        case NumericEnumEnum::_100: return "_100";
+        case NumericEnumEnum::_200: return "_200";
+        case NumericEnumEnum::_300: return "_300";
+        case NumericEnumEnum::_404: return "_404";
+        case NumericEnumEnum::_500: return "_500";
         default: return {};
     }
 }
@@ -109,23 +109,23 @@ EnumTypes::NumericEnumEnum EnumTypes::NumericEnumEnumFromString(const std::strin
     {
         return NumericEnumEnum::UNSPECIFIED;
     }
-    if (str == "100")
+    if (str == "_100")
     {
         return NumericEnumEnum::_100;
     }
-    if (str == "200")
+    if (str == "_200")
     {
         return NumericEnumEnum::_200;
     }
-    if (str == "300")
+    if (str == "_300")
     {
         return NumericEnumEnum::_300;
     }
-    if (str == "404")
+    if (str == "_404")
     {
         return NumericEnumEnum::_404;
     }
-    if (str == "500")
+    if (str == "_500")
     {
         return NumericEnumEnum::_500;
     }
@@ -140,9 +140,9 @@ std::string EnumTypes::StatusCodeEnumToString(EnumTypes::StatusCodeEnum value)
     switch (value)
     {
         case StatusCodeEnum::UNSPECIFIED: return "UNSPECIFIED";
-        case StatusCodeEnum::_200: return "200";
-        case StatusCodeEnum::_404: return "404";
-        case StatusCodeEnum::_500: return "500";
+        case StatusCodeEnum::_200: return "_200";
+        case StatusCodeEnum::_404: return "_404";
+        case StatusCodeEnum::_500: return "_500";
         default: return {};
     }
 }
@@ -153,15 +153,15 @@ EnumTypes::StatusCodeEnum EnumTypes::StatusCodeEnumFromString(const std::string&
     {
         return StatusCodeEnum::UNSPECIFIED;
     }
-    if (str == "200")
+    if (str == "_200")
     {
         return StatusCodeEnum::_200;
     }
-    if (str == "404")
+    if (str == "_404")
     {
         return StatusCodeEnum::_404;
     }
-    if (str == "500")
+    if (str == "_500")
     {
         return StatusCodeEnum::_500;
     }

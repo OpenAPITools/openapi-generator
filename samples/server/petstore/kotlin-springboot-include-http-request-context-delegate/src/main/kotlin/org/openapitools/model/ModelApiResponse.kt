@@ -24,19 +24,19 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class ModelApiResponse(
 
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(example = "null", value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("code")
     @get:JsonProperty("code") val code: kotlin.Int? = null,
 
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(example = "null", value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("type")
     @get:JsonProperty("type") val type: kotlin.String? = null,
 
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(example = "null", value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("message")

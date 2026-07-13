@@ -253,7 +253,6 @@ Method | HTTP request | Description
  - [Return](docs/Return.md)
  - [Tag](docs/Tag.md)
  - [TestEnumParametersEnumHeaderStringArrayParameterInner](docs/TestEnumParametersEnumHeaderStringArrayParameterInner.md)
- - [TestEnumParametersEnumHeaderStringParameter](docs/TestEnumParametersEnumHeaderStringParameter.md)
  - [TestEnumParametersEnumQueryDoubleParameter](docs/TestEnumParametersEnumQueryDoubleParameter.md)
  - [TestEnumParametersEnumQueryIntegerParameter](docs/TestEnumParametersEnumQueryIntegerParameter.md)
  - [TestEnumParametersRequestEnumFormString](docs/TestEnumParametersRequestEnumFormString.md)

@@ -12,7 +12,7 @@ title: Documentation for the python-flask Generator
 | generator language | Python | |
 | generator language version | 3.5.2+ | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Python Flask server library using the Connexion project. Connexion is used (instead of hand-written Flask routes) because it maps operations in an OpenAPI/Swagger spec directly to Python functions, handling request routing, payload validation and parameter binding automatically. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
+| helpTxt | Generates a Python server library using the Connexion project. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -35,7 +35,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |testsUsePythonSrcRoot|generates test under the pythonSrcRoot folder.| |false|
-|useConnexion3|Use Connexion 3.x instead of Connexion 2.x. This changes the pinned connexion/Flask dependency versions, removes the Flask-Testing dependency (replaced with Flask's own test client), and switches the generated encoder, __main__ and test bootstrap code to Connexion 3's APIs. This is a breaking change to the generated output, so it defaults to false to preserve existing Connexion 2.x behavior.| |false|
 |useNose|use the nose test framework| |false|
 |usePythonSrcRootInImports|include pythonSrcRoot in import namespaces.| |false|
 

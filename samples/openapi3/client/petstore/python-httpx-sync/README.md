@@ -261,7 +261,6 @@ Class | Method | HTTP request | Description
  - [Type](docs/Type.md)
  - [UnnamedDictWithAdditionalModelListProperties](docs/UnnamedDictWithAdditionalModelListProperties.md)
  - [UnnamedDictWithAdditionalStringListProperties](docs/UnnamedDictWithAdditionalStringListProperties.md)
- - [UploadFileWithAdditionalPropertiesRequestObject](docs/UploadFileWithAdditionalPropertiesRequestObject.md)
  - [User](docs/User.md)
  - [UuidWithPattern](docs/UuidWithPattern.md)
  - [WithNestedOneOf](docs/WithNestedOneOf.md)

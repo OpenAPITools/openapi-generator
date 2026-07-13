@@ -913,7 +913,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<PetApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="AddPetApiResponse"/>
@@ -1142,7 +1142,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<PetApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="DeletePetApiResponse"/>
@@ -1377,7 +1377,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<PetApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="FindPetsByStatusApiResponse"/>
@@ -1676,7 +1676,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<PetApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="FindPetsByTagsApiResponse"/>
@@ -1927,7 +1927,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<PetApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetPetByIdApiResponse"/>
@@ -2203,7 +2203,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<PetApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="UpdatePetApiResponse"/>
@@ -2457,7 +2457,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<PetApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="UpdatePetWithFormApiResponse"/>
@@ -2715,7 +2715,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<PetApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="UploadFileApiResponse"/>
@@ -3005,7 +3005,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<PetApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="UploadFileWithRequiredFileApiResponse"/>
@@ -3282,7 +3282,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<PetApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="UploadFilesApiResponse"/>

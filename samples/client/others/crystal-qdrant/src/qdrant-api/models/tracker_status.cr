@@ -16,17 +16,17 @@ module Qdrant::Api
   class TrackerStatus
     getter value
 
+    def initialize(@value : OptimizersStatusOneOf)
+    end
     def initialize(@value : String)
     end
     def initialize(@value : TrackerStatusOneOf)
-    end
-    def initialize(@value : TrackerStatusOneOf1)
     end
 
     # List of classes defined in oneOf (OpenAPI v3)
     def self.openapi_one_of
       [
-        String, TrackerStatusOneOf, TrackerStatusOneOf1
+        OptimizersStatusOneOf, String, TrackerStatusOneOf
       ]
     end
 
@@ -41,15 +41,15 @@ module Qdrant::Api
     def self.from_json_any(data : JSON::Any) : self
       json = data.to_json
       begin
+        return new(OptimizersStatusOneOf.from_json(json))
+      rescue JSON::ParseException | ArgumentError | TypeCastError
+      end
+      begin
         return new(String.from_json(json))
       rescue JSON::ParseException | ArgumentError | TypeCastError
       end
       begin
         return new(TrackerStatusOneOf.from_json(json))
-      rescue JSON::ParseException | ArgumentError | TypeCastError
-      end
-      begin
-        return new(TrackerStatusOneOf1.from_json(json))
       rescue JSON::ParseException | ArgumentError | TypeCastError
       end
       raise JSON::ParseException.new("`#{json}` doesn't match any schema listed in TrackerStatus (oneOf)", 0, 0)
@@ -64,15 +64,15 @@ module Qdrant::Api
 
     def self.new(ctx : YAML::ParseContext, node : YAML::Nodes::Node)
       begin
+        return new(OptimizersStatusOneOf.new(ctx, node))
+      rescue YAML::ParseException | ArgumentError | TypeCastError
+      end
+      begin
         return new(String.new(ctx, node))
       rescue YAML::ParseException | ArgumentError | TypeCastError
       end
       begin
         return new(TrackerStatusOneOf.new(ctx, node))
-      rescue YAML::ParseException | ArgumentError | TypeCastError
-      end
-      begin
-        return new(TrackerStatusOneOf1.new(ctx, node))
       rescue YAML::ParseException | ArgumentError | TypeCastError
       end
       raise YAML::ParseException.new("doesn't match any schema listed in TrackerStatus (oneOf)", 0, 0)

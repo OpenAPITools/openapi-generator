@@ -29,37 +29,37 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class Order(
 
-    @Schema(description = "")
+    @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
-    @Schema(description = "")
+    @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("petId")
     @get:JsonProperty("petId") val petId: kotlin.Long? = null,
 
-    @Schema(description = "")
+    @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("quantity")
     @get:JsonProperty("quantity") val quantity: kotlin.Int? = null,
 
-    @Schema(description = "")
+    @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("shipDate")
     @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
 
-    @Schema(description = "Order Status")
+    @Schema(example = "null", description = "Order Status")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("status")
     @get:JsonProperty("status") val status: Order.Status? = null,
 
-    @Schema(description = "")
+    @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("complete")

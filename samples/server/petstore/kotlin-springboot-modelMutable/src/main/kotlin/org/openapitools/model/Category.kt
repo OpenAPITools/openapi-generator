@@ -23,13 +23,13 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class Category(
 
-    @Schema(description = "")
+    @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("id")
     @get:JsonProperty("id") var id: kotlin.Long? = null,
 
-    @Schema(description = "")
+    @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("name")

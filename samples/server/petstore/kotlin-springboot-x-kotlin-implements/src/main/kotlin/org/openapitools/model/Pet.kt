@@ -46,31 +46,31 @@ import io.swagger.annotations.ApiModelProperty
 
 interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods, com.some.pack.WithId, java.io.Serializable {
         
-        @get:ApiModelProperty(required = true, value = "")
+        @get:ApiModelProperty(example = "null", required = true, value = "")
         override val name: kotlin.String
 
         
-        @get:ApiModelProperty(required = true, value = "")
+        @get:ApiModelProperty(example = "null", required = true, value = "")
         val photoUrls: kotlin.collections.List<kotlin.String>
 
         
-        @get:ApiModelProperty(required = true, value = "")
+        @get:ApiModelProperty(example = "null", required = true, value = "")
         val petType: kotlin.String
 
         
-        @get:ApiModelProperty(value = "")
+        @get:ApiModelProperty(example = "null", value = "")
         override val id: kotlin.Long? 
 
         
-        @get:ApiModelProperty(value = "")
+        @get:ApiModelProperty(example = "null", value = "")
         override val category: Category? 
 
         
-        @get:ApiModelProperty(value = "")
+        @get:ApiModelProperty(example = "null", value = "")
         val tags: kotlin.collections.List<Tag>? 
 
         
-        @get:ApiModelProperty(value = "")
+        @get:ApiModelProperty(example = "null", value = "")
         val color: Color? 
 
 

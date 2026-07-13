@@ -20,7 +20,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
-@JsonTypeName("CAT")
+@JsonTypeName("CatRequest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class CatRequest  implements Serializable, PetRequest {
   private PetType petType;

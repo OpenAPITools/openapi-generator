@@ -22,9 +22,9 @@ class ArrayTypes
 public:
     enum class EnumArrayEnum {
         UNSPECIFIED,
-        RED,
-        GREEN,
-        BLUE
+        red,
+        green,
+        blue
     };
 
     // Enum conversion functions (definitions in .cpp)

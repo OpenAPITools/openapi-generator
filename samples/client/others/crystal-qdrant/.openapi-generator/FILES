@@ -122,8 +122,6 @@ src/qdrant-api/models/facet_value.cr
 src/qdrant-api/models/facet_value_hit.cr
 src/qdrant-api/models/field_condition.cr
 src/qdrant-api/models/filter.cr
-src/qdrant-api/models/filter_must.cr
-src/qdrant-api/models/filter_must_not.cr
 src/qdrant-api/models/filter_selector.cr
 src/qdrant-api/models/filter_should.cr
 src/qdrant-api/models/float_index_params.cr
@@ -217,7 +215,6 @@ src/qdrant-api/models/points_batch.cr
 src/qdrant-api/models/points_list.cr
 src/qdrant-api/models/points_selector.cr
 src/qdrant-api/models/prefetch.cr
-src/qdrant-api/models/prefetch_prefetch.cr
 src/qdrant-api/models/product_quantization.cr
 src/qdrant-api/models/product_quantization_config.cr
 src/qdrant-api/models/quantization_config.cr
@@ -315,7 +312,6 @@ src/qdrant-api/models/text_index_type.cr
 src/qdrant-api/models/tokenizer_type.cr
 src/qdrant-api/models/tracker_status.cr
 src/qdrant-api/models/tracker_status_one_of.cr
-src/qdrant-api/models/tracker_status_one_of1.cr
 src/qdrant-api/models/tracker_telemetry.cr
 src/qdrant-api/models/update_collection.cr
 src/qdrant-api/models/update_operation.cr

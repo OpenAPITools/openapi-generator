@@ -85,9 +85,9 @@ std::string Pet::StatusEnumToString(Pet::StatusEnum value)
     switch (value)
     {
         case StatusEnum::UNSPECIFIED: return "UNSPECIFIED";
-        case StatusEnum::AVAILABLE: return "available";
-        case StatusEnum::PENDING: return "pending";
-        case StatusEnum::SOLD: return "sold";
+        case StatusEnum::AVAILABLE: return "AVAILABLE";
+        case StatusEnum::PENDING: return "PENDING";
+        case StatusEnum::SOLD: return "SOLD";
         default: return {};
     }
 }
@@ -98,15 +98,15 @@ Pet::StatusEnum Pet::StatusEnumFromString(const std::string& str)
     {
         return StatusEnum::UNSPECIFIED;
     }
-    if (str == "available")
+    if (str == "AVAILABLE")
     {
         return StatusEnum::AVAILABLE;
     }
-    if (str == "pending")
+    if (str == "PENDING")
     {
         return StatusEnum::PENDING;
     }
-    if (str == "sold")
+    if (str == "SOLD")
     {
         return StatusEnum::SOLD;
     }

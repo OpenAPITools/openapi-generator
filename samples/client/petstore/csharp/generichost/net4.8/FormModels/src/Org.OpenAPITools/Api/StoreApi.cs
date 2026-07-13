@@ -500,7 +500,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<StoreApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="DeleteOrderApiResponse"/>
@@ -699,7 +699,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<StoreApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetInventoryApiResponse"/>
@@ -927,7 +927,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<StoreApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="GetOrderByIdApiResponse"/>
@@ -1192,7 +1192,7 @@ namespace Org.OpenAPITools.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<StoreApi> Logger { get; }
+            public ILogger<> Logger { get; }
 
             /// <summary>
             /// The <see cref="PlaceOrderApiResponse"/>

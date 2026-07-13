@@ -85,9 +85,9 @@ std::string Order::StatusEnumToString(Order::StatusEnum value)
     switch (value)
     {
         case StatusEnum::UNSPECIFIED: return "UNSPECIFIED";
-        case StatusEnum::PLACED: return "placed";
-        case StatusEnum::APPROVED: return "approved";
-        case StatusEnum::DELIVERED: return "delivered";
+        case StatusEnum::PLACED: return "PLACED";
+        case StatusEnum::APPROVED: return "APPROVED";
+        case StatusEnum::DELIVERED: return "DELIVERED";
         default: return {};
     }
 }
@@ -98,15 +98,15 @@ Order::StatusEnum Order::StatusEnumFromString(const std::string& str)
     {
         return StatusEnum::UNSPECIFIED;
     }
-    if (str == "placed")
+    if (str == "PLACED")
     {
         return StatusEnum::PLACED;
     }
-    if (str == "approved")
+    if (str == "APPROVED")
     {
         return StatusEnum::APPROVED;
     }
-    if (str == "delivered")
+    if (str == "DELIVERED")
     {
         return StatusEnum::DELIVERED;
     }
