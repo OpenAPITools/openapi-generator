@@ -95,6 +95,7 @@ Class | Method | HTTP request | Description
  - [Category](Category.md)
  - [Order](Order.md)
  - [Pet](Pet.md)
+ - [PetStatus](PetStatus.md)
  - [Tag](Tag.md)
  - [User](User.md)
 

@@ -14,6 +14,8 @@ package org.openapitools.client.api
 import org.openapitools.client.model.ApiResponse
 import java.io.File
 import org.openapitools.client.model.Pet
+import org.openapitools.client.model.PetStatus.*
+import org.openapitools.client.model.PetStatus
 import org.openapitools.client.core.JsonSupport.{*, given}
 import org.openapitools.client.core.FormSerializable
 import org.openapitools.client.core.FormStyleFormat
@@ -98,11 +100,13 @@ case class PetApi[Auth <: org.openapitools.client.core.Authorization] private (b
    *   code 400 :  (Invalid status value)
    * 
    * @param status Status values that need to be considered for filter
+   * @param statusList Status values as referenced enums (regression coverage for arrays of enums in query parameters)
    */
-  def findPetsByStatus(status: Seq[String]): sttp.client4.Request[Either[ResponseException[String], Seq[Pet]]] =
+  def findPetsByStatus(status: Seq[String], statusList: Seq[PetStatus]): sttp.client4.Request[Either[ResponseException[String], Seq[Pet]]] =
     val requestURL =
       uri"$baseUrl/pet/findByStatus"
         .addParams(FormSerializable.serialize("status", status, FormStyleFormat.FORM, false): _*)
+        .addParams(FormSerializable.serialize("statusList", statusList, FormStyleFormat.FORM, true): _*)
 
     basicRequest
       .method(Method.GET, requestURL)
