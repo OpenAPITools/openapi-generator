@@ -1,0 +1,34 @@
+openapi: 3.0.3
+info:
+  title: asciidoc pipe escaping test
+  version: '1.0'
+paths:
+  /things:
+    get:
+      operationId: getThing
+      parameters:
+        - name: code
+          in: query
+          required: false
+          description: "Accepts AAA|BBBBB"
+          schema:
+            type: string
+            pattern: "^([0-9A-Z]{3})|([0-9A-Z]{5})$"
+        - name: preEscapedCode
+          in: query
+          required: false
+          schema:
+            type: string
+            pattern: "^A\\|B$"
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        code:
+          type: string
+          description: "Accepts AAA|BBBBB"
+          pattern: "^([0-9A-Z]{3})|([0-9A-Z]{5})$"

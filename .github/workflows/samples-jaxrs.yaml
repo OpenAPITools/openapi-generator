@@ -23,6 +23,7 @@ jobs:
           - samples/server/petstore/jaxrs-spec-withxml
           - samples/server/petstore/jaxrs-spec-interface
           - samples/server/petstore/jaxrs-spec-interface-response
+          - samples/server/petstore/jaxrs-spec-oneof-interface
           - samples/server/petstore/jaxrs-datelib-j8
           - samples/server/petstore/jaxrs-resteasy/default
           - samples/server/petstore/jaxrs-resteasy/eap

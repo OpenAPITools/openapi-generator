@@ -384,6 +384,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
     }
 
+    @Override
+    public String toExampleValue(Schema schema) {
+        if (schema.getExample() != null) {
+            return super.toExampleValue(schema);
+        }
+        return null;
+    }
+
     /**
      * returns the OpenAPI type for the property
      *

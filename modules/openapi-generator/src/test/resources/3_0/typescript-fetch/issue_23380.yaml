@@ -1,0 +1,37 @@
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /missions:
+    post:
+      operationId: createMission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mission:
+                  $ref: '#/components/schemas/Mission'
+              required:
+                - mission
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Mission:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        TaskName:
+          type: string
+          readOnly: true
+        single_car:
+          type: object
+          readOnly: true
