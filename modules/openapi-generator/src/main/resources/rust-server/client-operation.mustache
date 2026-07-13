@@ -191,7 +191,10 @@
 {{#responses}}
             {{{code}}} => {
 {{#headers}}
-                let response_{{{name}}} = match response.headers().get(HeaderName::from_static("{{{nameInLowerCase}}}")) {
+{{#-first}}
+                let (header, body) = response.into_parts();
+{{/-first}}
+                let response_{{{name}}} = match header.headers.get(HeaderName::from_static("{{{nameInLowerCase}}}")) {
                     Some(response_{{{name}}}) => {
                         let response_{{{name}}} = response_{{{name}}}.clone();
                         let response_{{{name}}} = match TryInto::<header::IntoHeaderValue<{{{dataType}}}>>::try_into(response_{{{name}}}) {
@@ -217,14 +220,25 @@
 
 {{/headers}}
 {{#dataType}}
-                let body = response.into_body();
+{{#headers}}{{#-first}}
                 let body = http_body_util::BodyExt::collect(body)
+{{/-first}}{{/headers}}
+{{^headers}}
+{{#vendorExtensions.x-response-content-types}}
+{{#-first}}
+                let (header, body) = response.into_parts();
+                let body = http_body_util::BodyExt::collect(body)
+{{/-first}}
+{{/vendorExtensions.x-response-content-types}}
+{{^vendorExtensions.x-response-content-types}}
+                let body = http_body_util::BodyExt::collect(response.into_body())
+{{/vendorExtensions.x-response-content-types}}
+{{/headers}}
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
 
-{{>client-response-body-instance}}
-
+{{>client-response-body}}
 
                 Ok({{{operationId}}}Response::{{#exts}}{{x-response-id}}{{/exts}}
 {{^headers}}

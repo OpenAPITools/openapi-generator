@@ -148,6 +148,7 @@ use openapi_v3::{
     MergePatchJsonGetResponse,
     MultigetGetResponse,
     MultipleAuthSchemeGetResponse,
+    MultipleResponseContentTypesResponse,
     OneOfGetResponse,
     OverrideServerGetResponse,
     ParamgetGetResponse,
@@ -275,6 +276,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<MultipleAuthSchemeGetResponse, ApiError>
     {
         info!("multiple_auth_scheme_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Test multiple content types in a single response
+    async fn multiple_response_content_types(
+        &self,
+        object_param: models::ObjectParam,
+        context: &C) -> Result<MultipleResponseContentTypesResponse, ApiError>
+    {
+        info!("multiple_response_content_types({:?}) - X-Span-ID: {:?}", object_param, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
