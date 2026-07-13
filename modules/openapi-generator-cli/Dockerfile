@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.9_9-jre-focal
+FROM eclipse-temurin:17.0.19_10-jre-noble
 
 ADD target/openapi-generator-cli.jar /opt/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar
 

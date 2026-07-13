@@ -11,7 +11,7 @@ keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
 requires-python = ">=3.9"
 
 dependencies = [
-  "urllib3 (>=2.1.0,<3.0.0)",
+  "urllib3 (>=2.6.3,<3.0.0)",
   "python-dateutil (>=2.8.2)",
   "pem (>=19.3.0)",
   "pycryptodome (>=3.9.0)",
@@ -26,7 +26,7 @@ Repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
 requires-poetry = ">=2.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = ">= 7.2.1"
+pytest = ">= 8.4.2"
 pytest-cov = ">= 2.8.1"
 tox = ">= 3.9.0"
 flake8 = ">= 4.0.0"

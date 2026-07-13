@@ -362,7 +362,6 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
         if (is_null($double)) {
             throw new InvalidArgumentException('non-nullable double cannot be null');
         }
-
         if (($double > 50.2)) {
             throw new InvalidArgumentException('invalid value for $double when calling NumberPropertiesOnly., must be smaller than or equal to 50.2.');
         }

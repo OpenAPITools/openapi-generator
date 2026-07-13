@@ -58,6 +58,7 @@ The following generators are available:
 * [python-pydantic-v1](generators/python-pydantic-v1.md)  
 * [r](generators/r.md)  
 * [ruby](generators/ruby.md)  
+* [ruby-nextgen (beta)](generators/ruby-nextgen.md)  
 * [rust](generators/rust.md)  
 * [scala-akka](generators/scala-akka.md)  
 * [scala-gatling](generators/scala-gatling.md)  

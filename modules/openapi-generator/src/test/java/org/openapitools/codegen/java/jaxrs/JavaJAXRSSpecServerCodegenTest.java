@@ -1371,6 +1371,167 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         }
     }
 
+    /**
+     * With {@code useOneOfInterfaces=true} a oneOf schema is generated as a Java interface, and the
+     * concrete subtypes implement it. With {@code useSealed=true} the interface is {@code sealed} and
+     * {@code permits} its subtypes, which become {@code final} and {@code implements} the interface.
+     * The discriminator property is declared only on a shared non-discriminator base (acyclic pattern),
+     * so the interface getter type must resolve to the enum model (PetType) from the mapped children.
+     * Assertions use {@code assertFileContains} rather than {@code JavaFileAssert} because the latter
+     * parses the source with a JavaParser language level that predates the sealed/permits keywords.
+     */
+    @Test
+    public void testOneOfSealedInterfaceGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"),
+                "public sealed interface PetRequest",
+                "permits CatRequest, DogRequest",
+                "PetType getPetType();");
+        assertFileNotContains(Paths.get(modelDir + "PetRequest.java"), "class PetRequest");
+
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"),
+                "public final class CatRequest",
+                "implements PetRequest",
+                "public PetType getPetType()");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"), "extends PetRequest");
+
+        assertFileContains(Paths.get(modelDir + "DogRequest.java"),
+                "public final class DogRequest",
+                "implements PetRequest",
+                "public PetType getPetType()");
+        assertFileNotContains(Paths.get(modelDir + "DogRequest.java"), "extends PetRequest");
+    }
+
+    /**
+     * With {@code useSealed=true} an allOf class hierarchy driven by a parent discriminator is
+     * generated as a sealed parent class that permits its subclasses; the subclasses extend the
+     * parent and become final. A middle tier with its own discriminator stays open downwards but
+     * closed to outsiders: it is sealed over its own subclasses while extending its parent. A
+     * standalone model with no subtypes becomes final, and the generated pom targets Java 17
+     * (sealed types need JDK 17+).
+     */
+    @Test
+    public void testSealedClassHierarchyGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useSealed", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/sealed_hierarchy.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String outputDir = output.getAbsolutePath().replace("\\", "/");
+        String modelDir = outputDir + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "Pet.java"),
+                "public sealed class Pet",
+                "permits Cat, Dog");
+        assertFileContains(Paths.get(modelDir + "Cat.java"),
+                "public sealed class Cat",
+                "extends Pet",
+                "permits PersianCat");
+        assertFileNotContains(Paths.get(modelDir + "Cat.java"), "final class Cat");
+        assertFileContains(Paths.get(modelDir + "PersianCat.java"),
+                "public final class PersianCat",
+                "extends Cat");
+        assertFileContains(Paths.get(modelDir + "Dog.java"),
+                "public final class Dog",
+                "extends Pet");
+        assertFileContains(Paths.get(modelDir + "Toy.java"), "public final class Toy");
+        assertFileNotContains(Paths.get(modelDir + "Toy.java"), "sealed ", "permits ");
+
+        assertFileContains(Paths.get(outputDir + "/pom.xml"), "<java.version>17</java.version>");
+    }
+
+    /**
+     * {@code useSealed=true} without {@code useOneOfInterfaces}: the oneOf container is rendered as
+     * a plain class whose oneOf members do not extend it, so it must not carry a sealed/permits
+     * clause over them (the generated code would not compile). Like any other model without
+     * subclasses it becomes final.
+     */
+    @Test
+    public void testUseSealedWithoutOneOfInterfaces() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useSealed", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"), "public final class PetRequest");
+        assertFileNotContains(Paths.get(modelDir + "PetRequest.java"), "sealed ", "permits ");
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"), "public final class CatRequest");
+        assertFileContains(Paths.get(modelDir + "DogRequest.java"), "public final class DogRequest");
+        assertFileContains(Paths.get(modelDir + "PetBase.java"), "public final class PetBase");
+    }
+
+    /**
+     * Without {@code useSealed} the output is unchanged: no sealed/final/permits modifiers are
+     * emitted (even though the permits list is populated on the models) and the generated pom
+     * still targets Java 1.8.
+     */
+    @Test
+    public void testWithoutUseSealedOutputIsUnchanged() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String outputDir = output.getAbsolutePath().replace("\\", "/");
+        String modelDir = outputDir + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"), "public interface PetRequest");
+        assertFileNotContains(Paths.get(modelDir + "PetRequest.java"), "sealed ", "permits ");
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"), "public class CatRequest");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"), "final class");
+
+        assertFileContains(Paths.get(outputDir + "/pom.xml"), "<java.version>1.8</java.version>");
+    }
+
     @Test
     public void testGenerateJsonNullableListFieldsHelperMethodReferences_issue23251() throws Exception {
         Map<String, Object> properties = new HashMap<>();
@@ -2105,5 +2266,162 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/ItemsApi.java");
         return Files.readString(output.toPath().resolve("src/gen/java/org/openapitools/api/ItemsApi.java"));
+    }
+
+    /**
+     * With {@code useOneOfInterfaces=true} a oneOf schema is generated as a Java interface, and the
+     * concrete subtypes implement (not extend) it. The discriminator property is declared only on a
+     * shared non-discriminator base (acyclic pattern), so the interface getter type resolves to the
+     * enum model (PetType) from the mapped children rather than falling back to String.
+     */
+    @Test
+    public void testOneOfInterfaceGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        // The oneOf schema becomes an interface declaring the discriminator getter with the resolved
+        // enum type rather than String.
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"),
+                "public interface PetRequest",
+                "PetType getPetType();");
+        // an interface is not a class and must not extend a parent
+        assertFileNotContains(Paths.get(modelDir + "PetRequest.java"), "class PetRequest");
+
+        // The concrete subtypes implement (not extend) the interface, with a matching getter return type,
+        // so there is no cyclical extends/implements and no return-type clash.
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"),
+                "public class CatRequest",
+                "implements PetRequest",
+                "public PetType getPetType()");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"), "extends PetRequest");
+
+        assertFileContains(Paths.get(modelDir + "DogRequest.java"),
+                "public class DogRequest",
+                "implements PetRequest",
+                "public PetType getPetType()");
+        assertFileNotContains(Paths.get(modelDir + "DogRequest.java"), "extends PetRequest");
+
+        // The @JsonTypeName of each subtype is the discriminator mapping value (CAT/DOG), resolved from
+        // the oneOf interface it implements, not the class name - so polymorphic (de)serialization keys
+        // off the discriminator value and round-trips with the @JsonSubTypes mapping on the interface.
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"), "@JsonTypeName(\"CAT\")");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"), "@JsonTypeName(\"CatRequest\")");
+        assertFileContains(Paths.get(modelDir + "DogRequest.java"), "@JsonTypeName(\"DOG\")");
+        assertFileNotContains(Paths.get(modelDir + "DogRequest.java"), "@JsonTypeName(\"DogRequest\")");
+    }
+
+    @Test
+    public void generatesEmailAnnotationWhenBeanValidationEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        Path person = Paths.get(outputPath + "/src/gen/java/org/openapitools/model/PersonWithEmail.java");
+        // format: email string is validated with jakarta.validation.constraints.@Email,
+        // covered by the wildcard "import {javaxPackage}.validation.constraints.*;"
+        assertFileContains(person, "@Email");
+        assertFileContains(person, "import javax.validation.constraints.*;");
+    }
+
+    @Test
+    public void generatesJakartaEmailAnnotationWhenBeanValidationAndJakartaEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(true);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        Path person = Paths.get(outputPath + "/src/gen/java/org/openapitools/model/PersonWithEmail.java");
+        assertFileContains(person, "@Email");
+        assertFileContains(person, "import jakarta.validation.constraints.*;");
+    }
+
+    @Test
+    public void doesNotGenerateEmailAnnotationWhenBeanValidationDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(false);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        Path person = Paths.get(outputPath + "/src/gen/java/org/openapitools/model/PersonWithEmail.java");
+        Path api = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/PersonApi.java");
+        assertFileNotContains(person, "@Email");
+        assertFileNotContains(api, "@Email");
+    }
+
+    @Test
+    public void generatesEmailAnnotationOnQueryParameterWhenBeanValidationEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // a format: email query parameter is validated with @Email alongside @NotNull
+        Path api = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/PersonApi.java");
+        assertFileContains(api, "import javax.validation.constraints.*;");
+        assertFileContains(api, "@QueryParam(\"email\")", "@Email", "String email");
     }
 }

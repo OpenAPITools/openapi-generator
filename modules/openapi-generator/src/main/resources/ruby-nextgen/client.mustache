@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+module {{moduleName}}
+  class Client
+    attr_reader :configuration, :connection
+
+    def initialize(base_url: nil, **options, &block)
+      @configuration = Configuration.new(base_url: base_url, **options, &block)
+      @connection = Connection.new(@configuration)
+    end
+{{#rbNamespaces}}
+
+    def {{accessor}}
+      @{{accessor}} ||= {{moduleName}}::{{#apiNamespacePresent}}{{apiNamespace}}::{{/apiNamespacePresent}}{{className}}.new(@connection)
+    end
+{{/rbNamespaces}}
+  end
+end
