@@ -405,7 +405,6 @@ abstract class GenerateTask : DefaultTask() {
      */
     @get:InputFiles
     @get:Optional
-    @get:SkipWhenEmpty
     @get:PathSensitive(PathSensitivity.RELATIVE)
     val inputSpecFiles: ConfigurableFileCollection = project.objects.fileCollection()
 
