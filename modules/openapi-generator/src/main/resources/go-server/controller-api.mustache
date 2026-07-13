@@ -5,9 +5,9 @@ package {{packageName}}
 import (
 	{{#hasBodyParams}}
 	"encoding/json"
+	"errors"
 	{{/hasBodyParams}}
 	{{#hasOptionalBodyParams}}
-	"errors"
 	"io"
 	{{/hasOptionalBodyParams}}
 	"net/http"
@@ -567,6 +567,16 @@ func (c *{{classname}}Controller) {{operationId}}(w http.ResponseWriter, r *http
 		}
 
 		{{paramName}}Param = param
+		{{#isArray}}
+		defer func() {
+			for _, f := range param {
+				f.Close()
+			}
+		}()
+		{{/isArray}}
+		{{^isArray}}
+		defer param.Close()
+		{{/isArray}}
 	}
 	{{/isFile}}
 	{{#isLong}}{{#isArray}}
@@ -614,6 +624,11 @@ func (c *{{classname}}Controller) {{operationId}}(w http.ResponseWriter, r *http
 	d.DisallowUnknownFields()
 	{{/isAdditionalPropertiesTrue}}
 	if err := d.Decode(&{{paramName}}Param); err != nil {{^required}}&& !errors.Is(err, io.EOF) {{/required}}{
+		var requiredErr *RequiredError
+		if errors.As(err, &requiredErr) {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
