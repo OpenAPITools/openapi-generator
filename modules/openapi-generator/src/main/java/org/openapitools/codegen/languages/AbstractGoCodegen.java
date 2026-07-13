@@ -394,7 +394,23 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(unaliasSchema(inner));
+            if (inner != null) {
+                inner = unaliasSchema(inner);
+            }
+            String typDecl;
+            if (inner != null) {
+                typDecl = getTypeDeclaration(inner);
+            } else {
+                typDecl = "interface{}";
+            }
+
+            // when nullable and the type of the map isn't nullable already (maps, slices, ...): make it a pointer
+            if (inner != null && Boolean.TRUE.equals(inner.getNullable()) && !typDecl.startsWith("map") && !typDecl.startsWith("[]")) {
+                typDecl = "*" + typDecl;
+            }
+
+            return getSchemaType(p) + "[string]" + typDecl;
+
         }
 
         //return super.getTypeDeclaration(p);
