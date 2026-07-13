@@ -49,7 +49,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public static final String PUB_PUBLISH_TO = "pubPublishTo";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
     public static final String USE_OPTIONAL = "useOptional";
-    public static final String USE_FINAL_PROPERTIES = "useFinalProperties";
     public static final String PATCH_ONLY = "patchOnly";
 
     @Setter protected String pubLibrary = "openapi.api";
@@ -63,7 +62,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Setter protected String pubPublishTo = null;
     @Setter protected boolean useEnumExtension = false;
     @Setter protected boolean useOptional = false;
-    @Setter protected boolean useFinalProperties = false;
     @Setter protected boolean patchOnly = false;
     @Setter protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
@@ -208,7 +206,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         addOption(PUB_PUBLISH_TO, "Publish_to in generated pubspec", pubPublishTo);
         addOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums", String.valueOf(useEnumExtension));
         addOption(USE_OPTIONAL, "Use Optional<T> to distinguish absent, null, and present for optional fields (Dart 3+)", String.valueOf(useOptional));
-        addOption(USE_FINAL_PROPERTIES, "Add 'final' to class properties, thus making them immutable", String.valueOf(useFinalProperties));
         addOption(PATCH_ONLY, "Only apply Optional<T> to PATCH operation request bodies (requires useOptional=true)", String.valueOf(patchOnly));
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
     }
@@ -320,12 +317,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             this.setUseOptional(convertPropertyToBooleanAndWriteBack(USE_OPTIONAL));
         } else {
             additionalProperties.put(USE_OPTIONAL, useOptional);
-        }
-
-        if (additionalProperties.containsKey(USE_FINAL_PROPERTIES)) {
-            this.setUseFinalProperties(convertPropertyToBooleanAndWriteBack(USE_FINAL_PROPERTIES));
-        } else {
-            additionalProperties.put(USE_FINAL_PROPERTIES, useFinalProperties);
         }
 
         if (additionalProperties.containsKey(PATCH_ONLY)) {
