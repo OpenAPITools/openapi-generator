@@ -534,8 +534,9 @@ public class MergedSpecBuilder {
         for (String version : versions) {
             if (!isWellFormedVersion(version)) {
                 throw new RuntimeException(String.format(Locale.ROOT,
-                        "Malformed OpenAPI version '%s' in a source spec. Expected a numeric dotted version "
-                                + "such as '3.0.3' or '3.1.0'.", version));
+                        "Malformed OpenAPI version '%s' in a source spec. Expected exactly three numeric "
+                                + "components (MAJOR.MINOR.PATCH) without leading zeroes, such as '3.0.3' or '3.1.0'.",
+                        version));
             }
         }
         String firstMajorMinor = majorMinor(versions.get(0));
@@ -559,12 +560,15 @@ public class MergedSpecBuilder {
     }
 
     /**
-     * Returns {@code true} if {@code version} is a well-formed numeric dotted version with at least
-     * a major and minor segment (e.g. {@code "3.0"} or {@code "3.1.0"}). Any non-numeric segment
-     * (such as the {@code x} in {@code "3.x.3"}) makes it invalid.
+     * Returns {@code true} if {@code version} is a well-formed OpenAPI version: exactly three ASCII
+     * numeric components (MAJOR.MINOR.PATCH, per semver) with no leading zeroes, e.g. {@code "3.0.3"}
+     * or {@code "3.1.0"}. Values with the wrong number of components ({@code "3.0"},
+     * {@code "3.0.3.1"}), non-numeric segments ({@code "3.x.3"}), or leading zeroes ({@code "3.01.0"})
+     * are rejected.
      */
     private boolean isWellFormedVersion(String version) {
-        return version != null && version.matches("\\d+(\\.\\d+)+");
+        return version != null
+                && version.matches("(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)");
     }
 
     /** Returns the {@code major.minor} portion of a dot-separated version string (e.g. "3.1"). */

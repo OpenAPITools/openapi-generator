@@ -1150,21 +1150,24 @@ public class MergedSpecBuilderTest {
 
     @Test
     public void shouldRejectMalformedVersion() {
-        // A non-numeric segment (e.g. '3.x.3') must fail rather than being normalized to '3.0'.
-        OpenAPI a = new OpenAPI();
-        a.setOpenapi("3.x.3");
-        a.setPaths(new io.swagger.v3.oas.models.Paths());
-        a.getPaths().addPathItem("/a",
-                new PathItem().get(new io.swagger.v3.oas.models.Operation().operationId("getA")));
+        // Non-numeric, too few / too many components, and leading zeroes must all be rejected
+        // rather than being normalized and emitted as the merged document's openapi value.
+        for (String badVersion : new String[]{"3.x.3", "3.0", "3.0.3.1", "3.01.0", "3"}) {
+            OpenAPI a = new OpenAPI();
+            a.setOpenapi(badVersion);
+            a.setPaths(new io.swagger.v3.oas.models.Paths());
+            a.getPaths().addPathItem("/a",
+                    new PathItem().get(new io.swagger.v3.oas.models.Operation().operationId("getA")));
 
-        MergedSpecBuilder builder = new MergedSpecBuilder("dummy", "_merged")
-                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP);
-        try {
-            builder.mergeSpecs(Collections.singletonList(a), Collections.emptyList());
-            fail("Expected RuntimeException for a malformed OpenAPI version");
-        } catch (RuntimeException e) {
-            assertTrue(e.getMessage().contains("Malformed OpenAPI version"),
-                    "Exception must explain that the version is malformed");
+            MergedSpecBuilder builder = new MergedSpecBuilder("dummy", "_merged")
+                    .withMergeMode(MergedSpecBuilder.MergeMode.DEEP);
+            try {
+                builder.mergeSpecs(Collections.singletonList(a), Collections.emptyList());
+                fail("Expected RuntimeException for malformed OpenAPI version '" + badVersion + "'");
+            } catch (RuntimeException e) {
+                assertTrue(e.getMessage().contains("Malformed OpenAPI version"),
+                        "Exception must explain that version '" + badVersion + "' is malformed");
+            }
         }
     }
 }
