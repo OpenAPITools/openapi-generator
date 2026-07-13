@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 
+import org.apache.hc.client5.http.config.Configurable;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.cookie.BasicCookieStore;
 import org.apache.hc.client5.http.cookie.Cookie;
@@ -528,12 +529,17 @@ public class ApiClient extends JavaTimeFormatter {
    * Set the connect timeout (in milliseconds).
    * A value of 0 means the HTTP client's default connect timeout is used,
    * otherwise values must be between 1 and {@link Integer#MAX_VALUE}.
-   * The timeout is applied to each request via its request configuration
-   * and takes precedence over the defaults of the underlying HTTP client.
+   * The timeout is applied to each request via its request configuration;
+   * other request configuration defaults of the underlying HTTP client
+   * are preserved.
    * @param connectionTimeout Connection timeout in milliseconds
    * @return API client
+   * @throws IllegalArgumentException if connectionTimeout is negative
    */
   public ApiClient setConnectTimeout(int connectionTimeout) {
+    if (connectionTimeout < 0) {
+      throw new IllegalArgumentException("connectionTimeout must not be negative");
+    }
     this.connectionTimeout = connectionTimeout;
     return this;
   }
@@ -551,12 +557,17 @@ public class ApiClient extends JavaTimeFormatter {
    * while waiting for data after the connection is established.
    * A value of 0 means the HTTP client's default response timeout is used,
    * otherwise values must be between 1 and {@link Integer#MAX_VALUE}.
-   * The timeout is applied to each request via its request configuration
-   * and takes precedence over the defaults of the underlying HTTP client.
+   * The timeout is applied to each request via its request configuration;
+   * other request configuration defaults of the underlying HTTP client
+   * are preserved.
    * @param readTimeout Read timeout in milliseconds
    * @return API client
+   * @throws IllegalArgumentException if readTimeout is negative
    */
   public ApiClient setReadTimeout(int readTimeout) {
+    if (readTimeout < 0) {
+      throw new IllegalArgumentException("readTimeout must not be negative");
+    }
     this.readTimeout = readTimeout;
     return this;
   }
@@ -1138,7 +1149,10 @@ public class ApiClient extends JavaTimeFormatter {
     context.setCookieStore(store);
 
     if (connectionTimeout > 0 || readTimeout > 0) {
-      RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
+      // start from the default request configuration of the underlying HTTP client, if
+      // accessible, so that only the configured timeouts are overridden
+      RequestConfig defaultConfig = httpClient instanceof Configurable ? ((Configurable) httpClient).getConfig() : null;
+      RequestConfig.Builder requestConfigBuilder = defaultConfig == null ? RequestConfig.custom() : RequestConfig.copy(defaultConfig);
       if (connectionTimeout > 0) {
         requestConfigBuilder.setConnectTimeout(Timeout.ofMilliseconds(connectionTimeout));
       }
