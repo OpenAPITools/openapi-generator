@@ -26,6 +26,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
@@ -902,6 +903,125 @@ public class PythonClientCodegenTest {
         assertFileContains(unmappedModel, "validate_by_name=True");
         TestUtils.assertFileNotContains(unmappedModel,
                 "AliasChoices", "_ModelWrapValidatorHandler", "__preprocess_input_names");
+    }
+
+    @Test
+    public void testLegacyModelToDictRendering() throws IOException {
+        final DefaultCodegen defaultCodegen = new PythonClientCodegen();
+        addModelAttributeNameMappings(defaultCodegen);
+        final String defaultOutputPath = generateFiles(defaultCodegen,
+                "src/test/resources/3_0/python/legacy-model-dictionaries.yaml");
+        final Path defaultModel = Paths.get(
+                defaultOutputPath + "openapi_client/models/legacy_model.py");
+        final Path defaultNestedModel = Paths.get(
+                defaultOutputPath + "openapi_client/models/nested_model.py");
+        final Path defaultWrapper = Paths.get(
+                defaultOutputPath + "openapi_client/models/one_of_model.py");
+        final Path defaultApiClient = Paths.get(
+                defaultOutputPath + "openapi_client/api_client.py");
+
+        assertFileContains(defaultModel,
+                "return json.dumps(to_jsonable_python(self.to_dict()))",
+                "def to_dict(self) -> Dict[str, Any]:");
+        assertFileContains(defaultWrapper,
+                "def to_dict(self) -> Optional[Union[");
+        assertFileContains(defaultApiClient,
+                "if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):",
+                "obj_dict = obj.to_dict()");
+        TestUtils.assertFileNotContains(defaultModel,
+                "_OPENAPI_GENERATOR_TO_DICT", "__openapi_generator_modern_projection",
+                "serialize: bool");
+        assertFileContains(defaultNestedModel, "alias=\"camelCase\"");
+        TestUtils.assertFileNotContains(defaultNestedModel,
+                "validation_alias=AliasChoices(\"camelCase\", \"camel_case\")");
+        TestUtils.assertFileNotContains(defaultWrapper,
+                "_OPENAPI_GENERATOR_TO_DICT", "__openapi_generator_modern_projection",
+                "serialize: bool");
+        TestUtils.assertFileNotContains(defaultApiClient, "_OPENAPI_GENERATOR_TO_DICT");
+
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(
+                PythonClientCodegen.COMPATIBLE_WITH_PYTHON_LEGACY, true);
+        addModelAttributeNameMappings(codegen);
+        final String outputPath = generateFiles(codegen,
+                "src/test/resources/3_0/python/legacy-model-dictionaries.yaml");
+        final Path model = Paths.get(outputPath + "openapi_client/models/legacy_model.py");
+        final Path nestedModel = Paths.get(
+                outputPath + "openapi_client/models/nested_model.py");
+        final Path apiClient = Paths.get(outputPath + "openapi_client/api_client.py");
+
+        assertFileContains(model,
+                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                "def _to_openapi_value(value: Any) -> Any:",
+                "def to_dict(self, serialize: bool = False) -> Dict[str, Any]:",
+                "_to_legacy_value(getattr(self, \"renamed\", None), serialize)",
+                "def __openapi_generator_modern_projection(self) -> Dict[str, Any]:",
+                "del __openapi_generator_modern_projection",
+                "to_openapi_dict = _get_openapi_to_dict(self)",
+                "return json.dumps(to_jsonable_python(to_openapi_dict(self)))",
+                "return json.dumps(to_jsonable_python(self.to_dict()))");
+        TestUtils.assertFileNotContains(model,
+                "_legacy_model_to_dict_impl: ClassVar", "def _to_openapi_dict(");
+        assertFileContains(nestedModel,
+                "camel_case: Optional[StrictStr]",
+                "validation_alias=AliasChoices(\"camelCase\", \"camel_case\")",
+                "serialization_alias=\"camelCase\"",
+                "def __preprocess_input_names(");
+        TestUtils.assertFileNotContains(nestedModel,
+                "_ModelWrapValidatorHandler", "def __validate_input_names(");
+
+        for (String wrapper : Arrays.asList("one_of_model.py", "any_of_model.py")) {
+            final Path wrapperModel = Paths.get(outputPath + "openapi_client/models/" + wrapper);
+            assertFileContains(wrapperModel,
+                    "def to_dict(self, serialize: bool = False) -> Any:",
+                    "def __openapi_generator_modern_projection(self) -> Any:",
+                    "del __openapi_generator_modern_projection");
+            TestUtils.assertFileNotContains(wrapperModel,
+                    "_legacy_model_to_dict_impl: ClassVar", "def _to_openapi_dict(");
+        }
+        assertFileContains(apiClient,
+                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "to_dict = getattr(obj, 'to_dict', None)",
+                "to_openapi_dict = _get_openapi_to_dict(obj)",
+                "if to_openapi_dict is not None:",
+                "obj_dict = to_openapi_dict(obj)",
+                "elif callable(to_dict):",
+                "obj_dict = to_dict()");
+        TestUtils.assertFileNotContains(model,
+                "openapi_types", "attribute_map");
+    }
+
+    @Test
+    public void testLegacyModelToDictSupportsModelOnlyGeneration() throws IOException {
+        final String oldModels = GlobalSettings.getProperty(CodegenConstants.MODELS);
+        try {
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "LegacyModel");
+            final PythonClientCodegen codegen = new PythonClientCodegen();
+            codegen.setCompatibleWithPythonLegacy(true);
+            addModelAttributeNameMappings(codegen);
+
+            final String outputPath = generateFiles(codegen,
+                    "src/test/resources/3_0/python/legacy-model-dictionaries.yaml");
+            final Path model = Paths.get(
+                    outputPath + "openapi_client/models/legacy_model.py");
+
+            assertFileContains(model,
+                    "def _get_openapi_to_dict(value: Any) -> Any:",
+                    "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                    "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                    "def _to_openapi_value(value: Any) -> Any:");
+            TestUtils.assertFileNotContains(model, "_legacy_model_dict import");
+            Assert.assertFalse(Files.exists(Paths.get(
+                    outputPath + "openapi_client/_legacy_model_dict.py")));
+        } finally {
+            if (oldModels == null) {
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
+            } else {
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModels);
+            }
+        }
     }
 
     @Test

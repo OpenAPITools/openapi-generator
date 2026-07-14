@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |buildSystem|Build system to use in pyproject.toml (setuptools, hatchling).| |setuptools|
+|compatibleWithPythonLegacy|Enable compatibility with python-legacy. Currently, generated model field aliases preserve normalized Python constructor names while accepting wire names, and to_dict() emits every declared field, using None for missing attributes, under public names by default and wire names with serialize=True. Container conversion is limited to immediate list elements and dictionary values, matching python-legacy. JSON and request serialization remain unchanged.| |false|
 |dateFormat|date format for query parameters| |%Y-%m-%d|
 |datetimeFormat|datetime format for query parameters| |%Y-%m-%dT%H:%M:%S%z|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
