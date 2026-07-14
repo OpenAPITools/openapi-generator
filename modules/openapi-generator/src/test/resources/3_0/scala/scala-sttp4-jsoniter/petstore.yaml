@@ -147,6 +147,28 @@ paths:
             type: array
             items:
               type: string
+        - name: colors
+          in: query
+          description: Unique coat colors to filter by (regression coverage for sets of referenced enums in query parameters)
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/PetColor'
+        - name: uniqueTags
+          in: query
+          description: Deduplicated tags to filter by (regression coverage for sets of primitives in query parameters)
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
       responses:
         '200':
           description: successful operation
@@ -653,6 +675,14 @@ components:
       name: api_key
       in: header
   schemas:
+    PetColor:
+      title: Pet color
+      description: coat color of a pet
+      type: string
+      enum:
+        - black
+        - white
+        - brown
     PetStatus:
       title: Pet status
       description: pet status in the store
