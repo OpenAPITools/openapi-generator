@@ -182,7 +182,10 @@ object FormSerializable:
       inline format: FormStyleFormat,
       inline explode: Boolean
   ): Seq[(String, String)] = {
-    inline format match
+    // an empty collection carries no value: omit it entirely rather than emit `name=`
+    // (matches explode=true, which already yields no entries for an empty collection)
+    if values.isEmpty then Seq.empty[(String, String)]
+    else inline format match
       case FormStyleFormat.FORM =>
         inline if explode then values.map(s => (paramName, s.asString))
         else Seq(paramName -> values.map(_.asString).mkString(","))
