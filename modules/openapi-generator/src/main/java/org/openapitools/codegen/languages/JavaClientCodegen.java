@@ -1012,10 +1012,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     op.vendorExtensions.put("x-java-text-plain-string", true);
                 }
                 if (isLibrary(NATIVE)) {
-                    if (mapsToInputStream(op.returnType)) {
+                    if ((op.isResponseBinary || op.isResponseFile) && mapsToInputStream(op.returnType)) {
                         op.vendorExtensions.put("x-java-native-response-input-stream", true);
                     }
-                    if (op.bodyParam != null && mapsToInputStream(op.bodyParam.dataType)) {
+                    if (op.bodyParam != null
+                            && (op.bodyParam.isBinary || op.bodyParam.isFile)
+                            && mapsToInputStream(op.bodyParam.dataType)) {
                         op.vendorExtensions.put("x-java-native-body-input-stream", true);
                     }
                 }

@@ -3917,7 +3917,38 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test
+    public void issue24057NativeNonBinaryInputStreamMappingKeepsJsonHandling() {
+        Path apiFile = generateIssue24057Native(
+                false,
+                Collections.emptyMap(),
+                Map.of("Payload", "InputStream"));
+
+        assertFileContains(
+                apiFile,
+                "byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(inputStream);",
+                "InputStream responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<InputStream>() {})"
+        );
+        assertFileNotContains(
+                apiFile,
+                "InputStream responseValue = localVarResponseBody;",
+                "HttpRequest.BodyPublishers.ofInputStream(() -> inputStream)"
+        );
+    }
+
     private Path generateIssue24057Native(boolean asyncNative, boolean mapStreams) {
+        return generateIssue24057Native(
+                asyncNative,
+                mapStreams ? Map.of(
+                        "file", "InputStream",
+                        "binary", "InputStream") : Collections.emptyMap(),
+                Collections.emptyMap());
+    }
+
+    private Path generateIssue24057Native(
+            boolean asyncNative,
+            Map<String, String> typeMappings,
+            Map<String, String> schemaMappings) {
         Path output = newTempFolder();
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
@@ -3931,12 +3962,14 @@ public class JavaClientCodegenTest {
                 .setInputSpec("src/test/resources/3_0/java/native/issue24057.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
-        if (mapStreams) {
-            configurator
-                    .setTypeMappings(Map.of(
-                            "file", "InputStream",
-                            "binary", "InputStream"))
-                    .setImportMappings(Map.of("InputStream", "java.io.InputStream"));
+        if (!typeMappings.isEmpty()) {
+            configurator.setTypeMappings(typeMappings);
+        }
+        if (!schemaMappings.isEmpty()) {
+            configurator.setSchemaMappings(schemaMappings);
+        }
+        if (!typeMappings.isEmpty() || !schemaMappings.isEmpty()) {
+            configurator.setImportMappings(Map.of("InputStream", "java.io.InputStream"));
         }
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();

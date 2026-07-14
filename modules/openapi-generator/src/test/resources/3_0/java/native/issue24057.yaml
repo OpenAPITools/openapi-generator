@@ -37,8 +37,12 @@ paths:
             schema:
               $ref: '#/components/schemas/Payload'
       responses:
-        '204':
-          description: Created
+        '200':
+          description: Created payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payload'
 components:
   schemas:
     Payload:
