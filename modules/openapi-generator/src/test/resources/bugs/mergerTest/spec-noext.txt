@@ -1,0 +1,1 @@
+This is not a spec file. It should be silently ignored by MergedSpecBuilder.

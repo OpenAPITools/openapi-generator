@@ -19,9 +19,11 @@ package org.openapitools.generator.gradle.plugin.tasks
 import org.gradle.api.Action
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.logging.Logging
 import org.gradle.api.provider.ListProperty
@@ -393,6 +395,41 @@ abstract class GenerateTask : DefaultTask() {
     abstract val inputSpecRootDirectory: DirectoryProperty
 
     /**
+     * An explicit collection of spec files to merge, in the order they are declared.
+     *
+     * When set, the generator merges exactly these files rather than scanning a directory.
+     * Use with [mergeMode] and [mergeConflictStrategy]. The merged output is written to
+     * [mergedFileOutputDir].
+     *
+     * Takes precedence over [inputSpecRootDirectory] if both are set.
+     */
+    @get:InputFiles
+    @get:Optional
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val inputSpecFiles: ConfigurableFileCollection = project.objects.fileCollection()
+
+    /**
+     * The declared order of [inputSpecFiles], tracked as an explicit task input.
+     *
+     * [inputSpecFiles] is an [InputFiles] collection, whose up-to-date checks are order-insensitive.
+     * Because the merge honors a first-wins/conflict contract that depends on file ordering,
+     * this derived ordered list is exposed as an [Input] so that reordering the declared files
+     * invalidates the task and forces a fresh merge instead of reusing a stale merged spec.
+     */
+    @get:Input
+    @get:Optional
+    val inputSpecFilesOrder: List<String>
+        get() = inputSpecFiles.files.map { it.name }
+
+    /**
+     * Directory where the merged spec file is written when [inputSpecFiles] is used.
+     * Must be set when [inputSpecFiles] is non-empty.
+     */
+    @get:OutputDirectory
+    @get:Optional
+    abstract val mergedFileOutputDir: DirectoryProperty
+
+    /**
      * Skip bundling all spec files into a merged spec file, if true.
      */
     @get:Input
@@ -405,6 +442,44 @@ abstract class GenerateTask : DefaultTask() {
     @get:Input
     @get:Optional
     abstract val mergedFileName: Property<String>
+
+    /**
+     * Title to use in the info section of the merged spec.
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergedFileInfoName: Property<String>
+
+    /**
+     * Description to use in the info section of the merged spec.
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergedFileInfoDescription: Property<String>
+
+    /**
+     * Version to use in the info section of the merged spec.
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergedFileInfoVersion: Property<String>
+
+    /**
+     * How multiple spec files are merged. Accepted values: "REF" (default, original $ref-based
+     * shallow merge, backward-compatible) or "DEEP" (full inline merge with component
+     * deduplication and conflict detection).
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergeMode: Property<String>
+
+    /**
+     * Strategy when two specs define the same component name or path+method with conflicting
+     * definitions. Accepted values: "WARN" (default) or "FAIL". Only applies when mergeMode is "DEEP".
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergeConflictStrategy: Property<String>
 
     /**
      * The remote Open API 2.0/3.x specification URL location.
@@ -873,6 +948,11 @@ abstract class GenerateTask : DefaultTask() {
     init {
         inputSpecRootDirectorySkipMerge.convention(false)
         mergedFileName.convention("merged")
+        mergedFileInfoName.convention("merged spec")
+        mergedFileInfoDescription.convention("merged spec")
+        mergedFileInfoVersion.convention("1.0.0")
+        mergeMode.convention("REF")
+        mergeConflictStrategy.convention("WARN")
     }
 
     @Suppress("unused")
@@ -891,22 +971,91 @@ abstract class GenerateTask : DefaultTask() {
             logger.warn("Using remoteInputSpec may result in stale build caches if the remote content changes.")
         }
 
-        inputSpecRootDirectory.orNull?.let { inputDir ->
-            if (!inputSpecRootDirectorySkipMerge.get()) {
-                finalResolvedInputSpec = MergedSpecBuilder(
-                    inputDir.asFile.absolutePath,
-                    mergedFileName.get()
-                ).buildMergedSpec()
-                logger.info("Merge input spec used: {}", finalResolvedInputSpec)
-            }
-        }
-
+        // Clean up the output directory BEFORE merging. When mergedFileOutputDir overlaps outputDir,
+        // running cleanup after the merge would delete the freshly written merged spec before the
+        // worker can read it. Doing it here preserves the merged input spec.
         cleanupOutput.orNull?.let { cleanup ->
             if (cleanup && outputDir.isPresent) {
                 fs.delete { delete(outputDir) }
                 logger.lifecycle("Cleaned up output directory ${outputDir.get().asFile.path} before code generation.")
             }
         }
+
+        inputSpecRootDirectory.orNull?.let { inputDir ->
+            // Explicit inputSpecFiles takes precedence over the root directory. When both are set,
+            // skip the directory merge entirely so a bad/conflicting root directory cannot abort the
+            // build before the declared file list is used, and so its (unwanted) merged output is not
+            // written.
+            if (!inputSpecFiles.isEmpty) {
+                logger.info(
+                    "Both inputSpecRootDirectory and inputSpecFiles are set; ignoring inputSpecRootDirectory " +
+                            "and merging the explicit inputSpecFiles list instead."
+                )
+            } else if (!inputSpecRootDirectorySkipMerge.get()) {
+                val resolvedMergeMode = try {
+                    MergedSpecBuilder.MergeMode.valueOf(mergeMode.get().uppercase())
+                } catch (e: IllegalArgumentException) {
+                    throw GradleException("Invalid mergeMode value '${mergeMode.get()}'. Valid values are: REF, DEEP")
+                }
+
+                val builder = MergedSpecBuilder(
+                    inputDir.asFile.absolutePath,
+                    mergedFileName.get(),
+                    mergedFileInfoName.get(),
+                    mergedFileInfoDescription.get(),
+                    mergedFileInfoVersion.get(),
+                    null
+                ).withMergeMode(resolvedMergeMode)
+
+                if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                    try {
+                        builder.withConflictStrategy(
+                            MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.get().uppercase())
+                        )
+                    } catch (e: IllegalArgumentException) {
+                        throw GradleException("Invalid mergeConflictStrategy value '${mergeConflictStrategy.get()}'. Valid values are: WARN, FAIL")
+                    }
+                }
+
+                finalResolvedInputSpec = builder.buildMergedSpec()
+                logger.info("Merge input spec used: {}", finalResolvedInputSpec)
+            }
+        }
+
+        inputSpecFiles.takeIf { !it.isEmpty }?.let { files ->
+            val outputDirForMerge = mergedFileOutputDir.orNull?.asFile
+                ?: throw GradleException("mergedFileOutputDir must be set when using inputSpecFiles")
+
+            val resolvedMergeMode = try {
+                MergedSpecBuilder.MergeMode.valueOf(mergeMode.get().uppercase())
+            } catch (e: IllegalArgumentException) {
+                throw GradleException("Invalid mergeMode value '${mergeMode.get()}'. Valid values are: REF, DEEP")
+            }
+
+            val builder = MergedSpecBuilder(
+                files.map { it.absolutePath },
+                outputDirForMerge.absolutePath,
+                mergedFileName.get(),
+                mergedFileInfoName.get(),
+                mergedFileInfoDescription.get(),
+                mergedFileInfoVersion.get(),
+                null
+            ).withMergeMode(resolvedMergeMode)
+
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                try {
+                    builder.withConflictStrategy(
+                        MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.get().uppercase())
+                    )
+                } catch (e: IllegalArgumentException) {
+                    throw GradleException("Invalid mergeConflictStrategy value '${mergeConflictStrategy.get()}'. Valid values are: WARN, FAIL")
+                }
+            }
+
+            finalResolvedInputSpec = builder.buildMergedSpec()
+            logger.info("Merged spec from explicit file list: {}", finalResolvedInputSpec)
+        }
+
 
 // Submit generation work using the configured isolation mode.
 // "classloader" (default): worker runs inside the Gradle daemon JVM with a separate ClassLoader; no startup
@@ -1065,7 +1214,7 @@ abstract class GenerateTask : DefaultTask() {
     fun setInputSpecAsString(path: String) {
         if (path.isRemoteUri()) {
             remoteInputSpec.set(path)
-            inputSpec.set(null as File?)  // Clear local file to prevent conflicts
+            inputSpec.set(null as RegularFile?)  // Clear local file to prevent conflicts
         } else {
             inputSpec.set(layout.projectDirectory.file(path))
             remoteInputSpec.set(null as String?)  // Clear remote URL to prevent conflicts

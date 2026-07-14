@@ -17,7 +17,9 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
@@ -74,11 +76,51 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val inputSpecRootDirectory: DirectoryProperty = project.objects.directoryProperty()
 
     /**
+     * An explicit ordered list of spec files to merge.
+     *
+     * When set, the generator merges exactly these files in the given order, rather than scanning a
+     * directory. Use with [mergeMode] and [mergeConflictStrategy]. The merged output is written to
+     * [mergedFileOutputDir]. Takes precedence over [inputSpecRootDirectory] if both are set.
+     */
+    val inputSpecFiles: ConfigurableFileCollection = project.objects.fileCollection()
+
+    /**
+     * Directory where the merged spec file is written when [inputSpecFiles] is used.
+     * Must be set when [inputSpecFiles] is non-empty.
+     */
+    val mergedFileOutputDir: DirectoryProperty = project.objects.directoryProperty()
+
+    /**
      * Skip bundling all spec files into a merged spec file, if true.
      *
      * Default false.
      */
     val inputSpecRootDirectorySkipMerge = project.objects.property<Boolean>()
+
+    /**
+     * Name of the file that will contain all merged specs (used with inputSpecRootDirectory).
+     *
+     * Default: "merged"
+     */
+    val mergedFileName = project.objects.property<String>()
+    val mergedFileInfoName = project.objects.property<String>()
+    val mergedFileInfoDescription = project.objects.property<String>()
+    val mergedFileInfoVersion = project.objects.property<String>()
+
+    /**
+     * How multiple spec files are merged. Accepted values: "REF" (default, original $ref-based
+     * shallow merge, backward-compatible) or "DEEP" (full inline merge with component
+     * deduplication and conflict detection).
+     */
+    val mergeMode = project.objects.property<String>()
+
+    /**
+     * Strategy when two specs define the same component name or path+method with conflicting
+     * (non-identical) definitions. Accepted values: "WARN" (default, keep first definition and
+     * log a warning) or "FAIL" (throw an exception and abort the build). Only applies when
+     * mergeMode is "DEEP".
+     */
+    val mergeConflictStrategy = project.objects.property<String>()
 
     /**
      * The remote Open API 2.0/3.x specification URL location.
@@ -449,6 +491,12 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     fun applyDefaults() {
         releaseNote.convention("Minor update")
         inputSpecRootDirectorySkipMerge.convention(false)
+        mergedFileName.convention("merged")
+        mergedFileInfoName.convention("merged spec")
+        mergedFileInfoDescription.convention("merged spec")
+        mergedFileInfoVersion.convention("1.0.0")
+        mergeMode.convention("REF")
+        mergeConflictStrategy.convention("WARN")
         modelNamePrefix.convention("")
         modelNameSuffix.convention("")
         apiNameSuffix.convention("")
@@ -482,7 +530,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     fun setInputSpec(path: String) {
         if (path.isRemoteUri()) {
             remoteInputSpec.set(path)
-            inputSpec.set(null as File?)  // Clear local file to prevent conflicts
+            inputSpec.set(null as RegularFile?)  // Clear local file to prevent conflicts
         } else {
             inputSpec.set(project.layout.projectDirectory.file(path))
             remoteInputSpec.set(null as String?)  // Clear remote URL to prevent conflicts
