@@ -45,6 +45,7 @@ docs/Model/FormatTest.md
 docs/Model/Fruit.md
 docs/Model/HasOnlyReadOnly.md
 docs/Model/HealthCheckResult.md
+docs/Model/Lizard.md
 docs/Model/Mammal.md
 docs/Model/MapTest.md
 docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -65,7 +66,10 @@ docs/Model/OuterObjectWithEnumProperty.md
 docs/Model/ParentWithNullable.md
 docs/Model/Pet.md
 docs/Model/ReadOnlyFirst.md
+docs/Model/Reptile.md
 docs/Model/SingleRefType.md
+docs/Model/Smoothie.md
+docs/Model/Snake.md
 docs/Model/SpecialModelName.md
 docs/Model/Tag.md
 docs/Model/TestInlineFreeformAdditionalPropertiesRequest.md
@@ -121,6 +125,7 @@ src/Model/FormatTest.php
 src/Model/Fruit.php
 src/Model/HasOnlyReadOnly.php
 src/Model/HealthCheckResult.php
+src/Model/Lizard.php
 src/Model/Mammal.php
 src/Model/MapTest.php
 src/Model/MixedPropertiesAndAdditionalPropertiesClass.php
@@ -142,7 +147,10 @@ src/Model/OuterObjectWithEnumProperty.php
 src/Model/ParentWithNullable.php
 src/Model/Pet.php
 src/Model/ReadOnlyFirst.php
+src/Model/Reptile.php
 src/Model/SingleRefType.php
+src/Model/Smoothie.php
+src/Model/Snake.php
 src/Model/SpecialModelName.php
 src/Model/Tag.php
 src/Model/TestInlineFreeformAdditionalPropertiesRequest.php
@@ -151,3 +159,7 @@ src/Model/Whale.php
 src/Model/Zebra.php
 src/Model/Zoo.php
 src/ObjectSerializer.php
+tests/Model/LizardTest.php
+tests/Model/ReptileTest.php
+tests/Model/SmoothieTest.php
+tests/Model/SnakeTest.php
