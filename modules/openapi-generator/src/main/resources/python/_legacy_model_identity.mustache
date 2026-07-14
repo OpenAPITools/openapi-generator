@@ -1,0 +1,28 @@
+_OPENAPI_GENERATOR_TO_DICT = "_openapi_generator_to_dict"
+
+
+def _get_openapi_to_dict(value: Any) -> Any:
+    # Reciprocal function references preserve inherited generated methods
+    # without reserving model member names. Checking both directions also
+    # rejects overrides whose decorators copy function attributes.
+    to_dict = getattr(value, "to_dict", None)
+    type_to_dict = getattr(type(value), "to_dict", None)
+    if (
+        not callable(to_dict)
+        or getattr(to_dict, "__func__", None) is not type_to_dict
+    ):
+        return None
+
+    openapi_to_dict = getattr(
+        type_to_dict, _OPENAPI_GENERATOR_TO_DICT, None
+    )
+    if (
+        not callable(openapi_to_dict)
+        or getattr(
+            openapi_to_dict,
+            _OPENAPI_GENERATOR_TO_DICT,
+            None,
+        ) is not type_to_dict
+    ):
+        return None
+    return openapi_to_dict

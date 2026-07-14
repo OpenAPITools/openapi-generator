@@ -129,15 +129,17 @@ class _$$ExtensibleSerializer implements PrimitiveSerializer<$Extensible> {
         case r'@schemaLocation':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.atSchemaLocation = valueDes;
           break;
         case r'@baseType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.atBaseType = valueDes;
           break;
         case r'@type':

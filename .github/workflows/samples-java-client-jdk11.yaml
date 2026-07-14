@@ -87,6 +87,7 @@ jobs:
           - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-with-xml
           - samples/client/petstore/java/microprofile-rest-client-3.0-mutiny
           - samples/client/petstore/java/microprofile-rest-client-with-useSingleRequestParameter
+          - samples/client/petstore/java/microprofile-oneof-interface
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
           - samples/client/petstore/java/feign-hc5
@@ -120,7 +121,7 @@ jobs:
           java-version: 11
           cache: gradle
       - name: Cache maven dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         env:
           cache-name: maven-repository
         with:
@@ -132,7 +133,7 @@ jobs:
         run: mvn clean package --no-transfer-progress
 
       - name: Cache gradle dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         env:
           cache-name: gradle-caches
         with:
@@ -140,7 +141,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
 
       - name: Cache gradle wrapper
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         env:
           cache-name: gradle-wrapper
         with:

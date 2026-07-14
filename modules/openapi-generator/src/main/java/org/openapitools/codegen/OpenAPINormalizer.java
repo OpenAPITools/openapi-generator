@@ -980,10 +980,39 @@ public class OpenAPINormalizer {
 
             return schema;
         } else if (ModelUtils.hasProperties(schema)) {
+            // OAS 3.1: if the type array includes "null", extract it and set nullable:true
+            // on the parent schema before normalizing its child properties.
+            // We intentionally do NOT call the full processNormalize31Spec here because
+            // that method can replace a JsonSchema with properties (but no explicit type)
+            // with an empty schema, discarding all properties.
+            if (getRule(NORMALIZE_31SPEC) && schema.getTypes() != null && schema.getTypes().contains("null")) {
+                schema.setNullable(true);
+                schema.getTypes().remove("null");
+                if (schema.getTypes().size() == 1) {
+                    schema.setType(String.valueOf(schema.getTypes().iterator().next()));
+                }
+            }
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);
-            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
+            Schema additionalProperties = (Schema) schema.getAdditionalProperties();
+            if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, additionalProperties)) {
+                // OAS 3.1 allows a map value schema of `type: "null"` (e.g.
+                // `additionalProperties: { type: "null" }`). There's no OAS 3.0 equivalent type,
+                // so generators emit a fictional `Null` / `ModelNull` value type that fails to
+                // compile. Normalize it to an any-type nullable schema so the map value is
+                // generated as a normal (nullable) object instead.
+                Schema anyTypeNullable = new Schema();
+                anyTypeNullable.setNullable(true);
+                schema.setAdditionalProperties(anyTypeNullable);
+            } else {
+                Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
+                if (getRule(NORMALIZE_31SPEC)) {
+                    // capture the normalized value schema (e.g. an OAS 3.1 `type: [array, "null"]`
+                    // value is rewritten to a proper array schema), which would otherwise be lost.
+                    schema.setAdditionalProperties(normalized);
+                }
+            }
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof IntegerSchema) {

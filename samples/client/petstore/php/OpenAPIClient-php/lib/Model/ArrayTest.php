@@ -333,7 +333,6 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($array_of_string)) {
             throw new \InvalidArgumentException('non-nullable array_of_string cannot be null');
         }
-
         if ((count($array_of_string) > 3)) {
             throw new \InvalidArgumentException('invalid value for $array_of_string when calling ArrayTest., number of items must be less than or equal to 3.');
         }

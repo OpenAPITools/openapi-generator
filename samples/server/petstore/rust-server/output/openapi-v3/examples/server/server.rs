@@ -148,12 +148,14 @@ use openapi_v3::{
     MergePatchJsonGetResponse,
     MultigetGetResponse,
     MultipleAuthSchemeGetResponse,
+    MultipleResponseContentTypesResponse,
     OneOfGetResponse,
     OverrideServerGetResponse,
     ParamgetGetResponse,
     QueryExampleGetResponse,
     ReadonlyAuthSchemeGetResponse,
     RegisterCallbackPostResponse,
+    RequiredBinaryStreamPutResponse,
     RequiredOctetStreamPutResponse,
     ResponsesWithHeadersGetResponse,
     Rfc7807GetResponse,
@@ -277,6 +279,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
+    /// Test multiple content types in a single response
+    async fn multiple_response_content_types(
+        &self,
+        object_param: models::ObjectParam,
+        context: &C) -> Result<MultipleResponseContentTypesResponse, ApiError>
+    {
+        info!("multiple_response_content_types({:?}) - X-Span-ID: {:?}", object_param, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
     async fn one_of_get(
         &self,
         context: &C) -> Result<OneOfGetResponse, ApiError>
@@ -330,6 +342,15 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<RegisterCallbackPostResponse, ApiError>
     {
         info!("register_callback_post(\"{}\") - X-Span-ID: {:?}", url, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    async fn required_binary_stream_put(
+        &self,
+        body: swagger::ByteArray,
+        context: &C) -> Result<RequiredBinaryStreamPutResponse, ApiError>
+    {
+        info!("required_binary_stream_put({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 

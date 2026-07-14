@@ -27,7 +27,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
     DiscriminatorAllOfSub
     """
     additional_properties: Dict[str, Any] = {}
-    __properties = ["elementType"]
+    __properties = ["element'\"\\Type"]
 
     class Config:
         """Pydantic configuration"""
@@ -71,7 +71,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
             return DiscriminatorAllOfSub.parse_obj(obj)
 
         _obj = DiscriminatorAllOfSub.parse_obj({
-            "element_type": obj.get("elementType")
+            "element_type": obj.get("element'\"\\Type")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

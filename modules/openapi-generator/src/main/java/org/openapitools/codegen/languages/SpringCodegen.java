@@ -960,7 +960,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             final List<Map<String, String>> tags = new ArrayList<>();
                             for (final String tag : operation.getTags()) {
                                 final Map<String, String> value = new HashMap<>();
-                                value.put("tag", tag);
+                                value.put("tag", escapeText(tag));
                                 tags.add(value);
                             }
                             if (operation.getTags().size() > 0) {
@@ -1026,13 +1026,15 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
+                normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_OPERATION_EXTRA_ANNOTATION.getName());
+                normalizeOperationParameterVendorExtensions(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
             }
             // The tag for the controller is the first tag of the first operation
             final CodegenOperation firstOperation = ops.get(0);
             final Tag firstTag = firstOperation.tags.get(0);
             final String firstTagName = firstTag.getName();
             // But use a sensible tag name if there is none
-            objs.put("tagName", "default".equals(firstTagName) ? firstOperation.baseName : firstTagName);
+            objs.put("tagName", escapeText("default".equals(firstTagName) ? firstOperation.baseName : firstTagName));
             objs.put("tagDescription", escapeText(firstTag.getDescription()));
 
             // Add clientRegistrationId for spring-http-interface with OAuth
@@ -1215,6 +1217,11 @@ public class SpringCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonSetter");
                 model.imports.add("Nulls");
             }
+        }
+        // Optional + nullable with openApiNullable: emit @JsonInclude(NON_ABSENT) so that
+        // JsonNullable.undefined() is excluded from serialized output.
+        if (openApiNullable && !property.required && property.isNullable) {
+            model.imports.add("JsonInclude");
         }
     }
 

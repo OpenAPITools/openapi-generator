@@ -589,10 +589,10 @@ export class FakeApi extends runtime.BaseAPI {
      * Creates request options for testBodyWithBinary without sending the request
      */
     async testBodyWithBinaryRequestOpts(requestParameters: TestBodyWithBinaryRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['body'] == null) {
+        if (requestParameters['body'] === undefined) {
             throw new runtime.RequiredError(
                 'body',
-                'Required parameter "body" was null or undefined when calling testBodyWithBinary().'
+                'Required parameter "body" was undefined when calling testBodyWithBinary().'
             );
         }
 

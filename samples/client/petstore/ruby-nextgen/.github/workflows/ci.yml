@@ -1,0 +1,74 @@
+---
+name: CI
+
+# Minimal token permissions: only source checkout is needed (works on private repos too).
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+  # Run workflow manually
+  workflow_dispatch:
+
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Rubocop
+        run: bundle exec rubocop
+
+  rspec:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - '4.0'
+          - '3.4'
+          - '3.3'
+          - '3.2'
+          - '3.1'
+          - '3.0'
+          - 'jruby'
+          - 'truffleruby'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # JRuby 10.x is built for Java 21; the runner ships an older default JDK.
+      - name: Setup Java
+        if: startsWith(matrix.ruby, 'jruby')
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: Run RSpec
+        run: bundle exec rspec

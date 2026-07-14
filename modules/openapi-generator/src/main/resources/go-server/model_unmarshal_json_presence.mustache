@@ -1,0 +1,64 @@
+// UnmarshalJSON validates required property keys then unmarshals into {{classname}}
+func (o *{{classname}}) UnmarshalJSON(data []byte) (err error) {
+	// Presence is checked against required fields that exist on this struct,
+	// including fields promoted from embedded allOf parents.
+	requiredProperties := []string{
+{{#vendorExtensions.presenceCheckRequiredVars}}
+		"{{baseName}}",
+{{/vendorExtensions.presenceCheckRequiredVars}}
+	}
+
+	requiredNullableProperties := map[string]bool{
+{{#vendorExtensions.presenceCheckRequiredVars}}
+		"{{baseName}}": {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}},
+{{/vendorExtensions.presenceCheckRequiredVars}}
+	}
+
+	{{^isAdditionalPropertiesTrue}}
+	allowedJsonKeys := map[string]struct{}{
+{{#vendorExtensions.allowedJsonKeys}}
+		"{{.}}": {},
+{{/vendorExtensions.allowedJsonKeys}}
+	}
+
+	{{/isAdditionalPropertiesTrue}}
+	allProperties := make(map[string]json.RawMessage)
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		value, exists := allProperties[requiredProperty]
+		if !exists {
+			return &RequiredError{Field: requiredProperty}
+		}
+		if string(value) == "null" && !requiredNullableProperties[requiredProperty] {
+			return &RequiredError{Field: requiredProperty}
+		}
+	}
+
+	{{^isAdditionalPropertiesTrue}}
+	for key := range allProperties {
+		if _, exists := allowedJsonKeys[key]; !exists {
+			return fmt.Errorf("json: unknown field %q", key)
+		}
+	}
+
+	{{/isAdditionalPropertiesTrue}}
+	var decoded {{classname}}
+
+{{#vendorExtensions.decodeVars}}
+	if value, exists := allProperties["{{baseName}}"]; exists {
+		if err = json.Unmarshal(value, &decoded.{{name}}); err != nil {
+			return err
+		}
+	}
+{{/vendorExtensions.decodeVars}}
+
+	*o = decoded
+
+	return nil
+}

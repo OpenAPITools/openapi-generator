@@ -10,7 +10,7 @@
 [![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator)
 [![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#https://github.com/OpenAPITools/openapi-generator)
 [![Conan Center](https://shields.io/conan/v/openapi-generator)](https://conan.io/center/recipes/openapi-generator)
-[![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.openapi-generator.tech/scans)
+[![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://community.develocity.cloud/scans?search.rootProjectNames=openapi-generator-project)
 </div>
 
 <div align="center">
@@ -77,6 +77,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img align="left" src="https://openapi-generator.tech/img/companies/socialwick.png" width="128" height="128">](https://socialwick.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img align="left" src="https://openapi-generator.tech/img/companies/fbpostlikes.png" width="128" height="128">](https://fbpostlikes.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img align="left" src="https://openapi-generator.tech/img/companies/buyfans.png" width="128" height="128">](https://buy.fans/buy-tiktok-likes/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/socialboom.png" width="128" height="128">](https://socialboom.io/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 
 <br clear="left">
 
@@ -1099,6 +1100,7 @@ Here is a list of template creators:
    * R: @ramnov
    * Ruby (Faraday): @meganemura @dkliban
    * Ruby (HTTPX): @honeyryderchuck
+   * Ruby (ruby-nextgen): @n-rodriguez
    * Rust: @farcaller
    * Rust (rust-server): @metaswitch
    * Scala (scalaz & http4s): @tbrown1979
@@ -1269,7 +1271,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | JMeter                | @kannkyo (2021/01)                                                                                                                                                                                                                                    |
 | Jetbrains HTTP Client | @jlengrand (2023/01)                                                                                                                                                                                                                                  |
 | Julia                 | @tanmaykm (2023/01)                                                                                                                                                                                                                                   |
-| Kotlin                | @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03) @stefankoppier (2022/06) @e5l (2024/10) @dennisameling (2026/02)                                         |
+| Kotlin                | @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03) @stefankoppier (2022/06) @e5l (2024/10)                                    |
 | Lua                   | @daurnimator (2017/08)                                                                                                                                                                                                                                |
 | N4JS                  | @mmews-n4 (2023/03)                                                                                                                                                                                      |
 | Nim                   |                                                                                                                                                                                                                                                       |
@@ -1285,7 +1287,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Rust                  | @frol (2017/07) @farcaller (2017/08) @richardwhiuk (2019/07) @paladinzh (2020/05) @jacob-pro (2022/10) @dsteeley (2025/07)                                                                                                                                               |
 | Scala                 | @clasnake (2017/07), @shijinkui  (2018/01), @ramzimaalej (2018/03), @chameleon82 (2020/03), @Bouillie (2020/04) @fish86 (2023/06)                                                               |
 | Swift                 | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @4brunu (2019/11) @dydus0x14 (2023/06)                                                                                                                                                           |
-| TypeScript            | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) @amakhrov (2020/02) @davidgamero (2022/03) @mkusaka (2022/04) @joscha (2024/10) @dennisameling (2026/02)   |
+| TypeScript            | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) @amakhrov (2020/02) @davidgamero (2022/03) @mkusaka (2022/04) @joscha (2024/10)  |
 | Xojo                  | @Topheee (2023/04)                                                                                                                                                                                                                                    |
 
 

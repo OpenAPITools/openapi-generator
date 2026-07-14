@@ -1143,6 +1143,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         supportingFiles.add(new SupportingFile("IApi.mustache", sourceFolder + File.separator + packageName + File.separator + apiPackage(), getInterfacePrefix() + "Api.cs"));
 
+        String loggingFolder = sourceFolder + File.separator + packageName + File.separator + "Logging";
+        supportingFiles.add(new SupportingFile("libraries" + File.separator + GENERICHOST + File.separator + "RestLogEvents.mustache", loggingFolder, "RestLogEvents.cs"));
+
         // extensions
         String extensionsFolder = sourceFolder + File.separator + packageName + File.separator + "Extensions";
         supportingFiles.add(new SupportingFile("IHttpClientBuilderExtensions.mustache", extensionsFolder, "IHttpClientBuilderExtensions.cs"));

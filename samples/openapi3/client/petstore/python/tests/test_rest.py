@@ -119,7 +119,7 @@ class TestMultipleResponseTypes(unittest.TestCase):
             returned = self.fake_api.upload_file_with_additional_properties(
                 file=(self.test_file_path, f.read()),
                 count=100,
-                object=petstore_api.TestObjectForMultipartRequestsRequestMarker(
+                object=petstore_api.UploadFileWithAdditionalPropertiesRequestObject(
                     name="foo"
                 ),
             )

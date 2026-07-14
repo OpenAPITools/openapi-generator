@@ -19,6 +19,7 @@ on:
       - samples/client/others/java/restclient-useAbstractionForFiles/**
       - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/petstore/java/jersey3-jackson3/**
+      - samples/client/petstore/java/microprofile-oneof-sealed/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
@@ -37,6 +38,7 @@ on:
       - samples/client/others/java/restclient-useAbstractionForFiles/**
       - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/petstore/java/jersey3-jackson3/**
+      - samples/client/petstore/java/microprofile-oneof-sealed/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -70,6 +72,7 @@ jobs:
           - samples/client/others/java/restclient-useAbstractionForFiles
           - samples/client/petstore/java/jersey3-oneOf
           - samples/client/petstore/java/jersey3-jackson3
+          - samples/client/petstore/java/microprofile-oneof-sealed
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v5
@@ -78,7 +81,7 @@ jobs:
           java-version: 17
           cache: gradle
       - name: Cache maven dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         env:
           cache-name: maven-repository
         with:
@@ -91,7 +94,7 @@ jobs:
         run: mvn clean package --no-transfer-progress
 
       - name: Cache gradle dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         env:
           cache-name: gradle-caches
         with:
@@ -99,7 +102,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
 
       - name: Cache gradle wrapper
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         env:
           cache-name: gradle-wrapper
         with:
@@ -108,4 +111,6 @@ jobs:
 
       - name: Build
         working-directory: ${{ matrix.sample }}
+        # the microprofile library does not generate a Gradle build; skip samples without a wrapper
+        if: ${{ hashFiles(format('{0}/gradlew', matrix.sample)) != '' }}
         run: /bin/sh gradlew build -x test --no-daemon

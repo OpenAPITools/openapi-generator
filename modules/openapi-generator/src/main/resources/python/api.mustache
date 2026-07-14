@@ -12,6 +12,9 @@ from typing_extensions import Annotated
 from {{packageName}}.api_client import ApiClient, RequestSerialized
 from {{packageName}}.api_response import ApiResponse
 from {{packageName}}.rest import RESTResponseType
+{{#supportHttpxSync}}
+from {{packageName}}.sync_helper import run_sync
+{{/supportHttpxSync}}
 
 
 {{#operations}}
@@ -23,9 +26,63 @@ class {{classname}}:
     """
 
     def __init__(self, api_client=None) -> None:
+{{#useIndependentImplicitClients}}
+        # api_client remains publicly assignable. Retain the client acquired at
+        # construction so reassignment cannot transfer or discard ownership.
+        if api_client is None:
+            api_client, owns_api_client = ApiClient._get_default_or_new()
+        else:
+            owns_api_client = False
+{{/useIndependentImplicitClients}}
+{{^useIndependentImplicitClients}}
         if api_client is None:
             api_client = ApiClient.get_default()
+{{/useIndependentImplicitClients}}
         self.api_client = api_client
+{{#useIndependentImplicitClients}}
+        self._owned_api_client: Optional[ApiClient] = (
+            api_client if owns_api_client else None
+        )
+
+{{#async}}
+    async def close(self) -> None:
+        owned_api_client = self._owned_api_client
+        self._owned_api_client = None
+        if owned_api_client is not None:
+            await owned_api_client.close()
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.close()
+{{#supportHttpxSync}}
+
+    def close_sync(self) -> None:
+        run_sync(self.close())
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close_sync()
+{{/supportHttpxSync}}
+{{/async}}
+{{^async}}
+
+    def close(self) -> None:
+        owned_api_client = self._owned_api_client
+        self._owned_api_client = None
+        if owned_api_client is not None:
+            owned_api_client.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+{{/async}}
+{{/useIndependentImplicitClients}}
 {{#operation}}
 
 
@@ -70,6 +127,71 @@ class {{classname}}:
         return response_data.response
 
 
+{{#supportHttpxSync}}
+    @validate_call
+    def {{operationId}}_sync{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}} (synchronous)
+
+        Synchronous variant of :meth:`{{operationId}}`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.{{operationId}}(
+                {{#allParams}}
+                {{paramName}}={{paramName}},
+                {{/allParams}}
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def {{operationId}}_sync_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}} (synchronous)
+
+        Synchronous variant of :meth:`{{operationId}}_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.{{operationId}}_with_http_info(
+                {{#allParams}}
+                {{paramName}}={{paramName}},
+                {{/allParams}}
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def {{operationId}}_sync_without_preload_content{{>partial_api_args}} -> RESTResponseType:
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}} (synchronous)
+
+        Synchronous variant of :meth:`{{operationId}}_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.{{operationId}}_without_preload_content(
+                {{#allParams}}
+                {{paramName}}={{paramName}},
+                {{/allParams}}
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+{{/supportHttpxSync}}
     def _{{operationId}}_serialize(
         self,
         {{#allParams}}

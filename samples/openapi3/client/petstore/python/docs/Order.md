@@ -7,8 +7,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | [optional] 
 **pet_id** | **int** |  | [optional] 
-**quantity** | **int** |  | [optional] 
-**ship_date** | **datetime** |  | [optional] 
+**_field_validator** | **int** |  | [optional]
+**datetime** | **datetime** |  | [optional]
 **status** | **str** | Order Status | [optional] 
 **complete** | **bool** |  | [optional] [default to False]
 

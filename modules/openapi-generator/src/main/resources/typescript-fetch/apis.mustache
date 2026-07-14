@@ -25,7 +25,7 @@ import {
 {{#allParams.0}}
 export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request {
 {{#allParams}}
-    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{#hasReadOnly}}Omit<{{{dataType}}}, {{#readOnlyVars}}'{{baseName}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{{dataType}}}{{/hasReadOnly}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{#hasReadOnly}}Omit<{{{dataType}}}, {{#readOnlyVars}}'{{name}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{{dataType}}}{{/hasReadOnly}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/allParams}}
 }
 
@@ -118,10 +118,10 @@ export class {{classname}} extends runtime.BaseAPI {
     async {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.RequestOpts> {
         {{#allParams}}
         {{#required}}
-        if (requestParameters['{{paramName}}'] == null) {
+        if (requestParameters['{{paramName}}'] {{#isBodyParam}}{{#isNullable}}=== undefined{{/isNullable}}{{^isNullable}}== null{{/isNullable}}{{/isBodyParam}}{{^isBodyParam}}== null{{/isBodyParam}}) {
             throw new runtime.RequiredError(
                 '{{paramName}}',
-                'Required parameter "{{paramName}}" was null or undefined when calling {{nickname}}().'
+                'Required parameter "{{paramName}}" was {{#isBodyParam}}{{#isNullable}}undefined{{/isNullable}}{{^isNullable}}null or undefined{{/isNullable}}{{/isBodyParam}}{{^isBodyParam}}null or undefined{{/isBodyParam}} when calling {{nickname}}().'
             );
         }
 
@@ -279,7 +279,7 @@ export class {{classname}} extends runtime.BaseAPI {
             {{^isEnumRef}}
             {{^withoutRuntimeChecks}}
             {{^isContainer}}
-            formParams.append('{{baseName}}', new Blob([JSON.stringify({{{dataType}}}ToJSON(requestParameters['{{paramName}}']))], { type: "application/json", }));
+            formParams.append('{{baseName}}', new Blob([JSON.stringify({{#isFreeFormObject}}runtime.anyToJSON{{/isFreeFormObject}}{{^isFreeFormObject}}{{{dataType}}}ToJSON{{/isFreeFormObject}}(requestParameters['{{paramName}}']))], { type: "application/json", }));
             {{/isContainer}}
             {{#isContainer}}
             formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters['{{paramName}}'])], { type: "application/json", }));

@@ -104,29 +104,29 @@ class ObjectWithDuplicateInlineEnum {
 }
 
 
-class ObjectWithDuplicateInlineEnumAttributeEnum {
-  /// Instantiate a new enum with the provided [value].
-  const ObjectWithDuplicateInlineEnumAttributeEnum._(this.value);
+enum ObjectWithDuplicateInlineEnumAttributeEnum {
+  valueOne._(r'value_one'),
+  valueTwo._(r'value_two'),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const ObjectWithDuplicateInlineEnumAttributeEnum._(this._value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String _value;
 
   @override
-  String toString() => value;
+  String toString() => _value;
 
-  String toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  String toJson() => _value;
 
-  static const valueOne = ObjectWithDuplicateInlineEnumAttributeEnum._(r'value_one');
-  static const valueTwo = ObjectWithDuplicateInlineEnumAttributeEnum._(r'value_two');
-
-  /// List of all possible values in this [enum][ObjectWithDuplicateInlineEnumAttributeEnum].
-  static const values = <ObjectWithDuplicateInlineEnumAttributeEnum>[
-    valueOne,
-    valueTwo,
-  ];
-
+  /// Returns the instance of [ObjectWithDuplicateInlineEnumAttributeEnum] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static ObjectWithDuplicateInlineEnumAttributeEnum? fromJson(dynamic value) => ObjectWithDuplicateInlineEnumAttributeEnumTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [ObjectWithDuplicateInlineEnumAttributeEnum]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<ObjectWithDuplicateInlineEnumAttributeEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ObjectWithDuplicateInlineEnumAttributeEnum>[];
     if (json is List && json.isNotEmpty) {
@@ -148,9 +148,10 @@ class ObjectWithDuplicateInlineEnumAttributeEnumTypeTransformer {
 
   const ObjectWithDuplicateInlineEnumAttributeEnumTypeTransformer._();
 
-  String encode(ObjectWithDuplicateInlineEnumAttributeEnum data) => data.value;
+  String encode(ObjectWithDuplicateInlineEnumAttributeEnum data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a ObjectWithDuplicateInlineEnumAttributeEnum.
+  /// Returns the instance of [ObjectWithDuplicateInlineEnumAttributeEnum] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -159,6 +160,9 @@ class ObjectWithDuplicateInlineEnumAttributeEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   ObjectWithDuplicateInlineEnumAttributeEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data is ObjectWithDuplicateInlineEnumAttributeEnum) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case r'value_one': return ObjectWithDuplicateInlineEnumAttributeEnum.valueOne;
@@ -172,7 +176,7 @@ class ObjectWithDuplicateInlineEnumAttributeEnumTypeTransformer {
     return null;
   }
 
-  /// Singleton [ObjectWithDuplicateInlineEnumAttributeEnumTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static ObjectWithDuplicateInlineEnumAttributeEnumTypeTransformer? _instance;
 }
 

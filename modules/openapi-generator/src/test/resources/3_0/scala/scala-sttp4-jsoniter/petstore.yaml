@@ -98,6 +98,16 @@ paths:
                 - pending
                 - sold
               default: available
+        - name: statusList
+          in: query
+          description: Status values as referenced enums (regression coverage for arrays of enums in query parameters)
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/PetStatus'
       responses:
         '200':
           description: successful operation
@@ -643,6 +653,14 @@ components:
       name: api_key
       in: header
   schemas:
+    PetStatus:
+      title: Pet status
+      description: pet status in the store
+      type: string
+      enum:
+        - available
+        - pending
+        - sold
     Order:
       title: Pet Order
       description: An order for a pets from the pet store
