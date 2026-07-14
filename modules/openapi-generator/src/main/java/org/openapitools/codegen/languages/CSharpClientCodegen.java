@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -29,6 +30,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1026,7 +1028,66 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             SortParametersByRequiredFlag(op.allParams);
         }
 
+        if (GENERICHOST.equals(getLibrary())) {
+            addGenericHostSelectedSecurityRequirementNames(op, operation);
+        }
+
         return op;
+    }
+
+    private void addGenericHostSelectedSecurityRequirementNames(CodegenOperation op, Operation operation) {
+        List<SecurityRequirement> securityRequirements = operation.getSecurity() != null
+                ? operation.getSecurity()
+                : openAPI.getSecurity();
+
+        if (securityRequirements == null || securityRequirements.isEmpty()) {
+            return;
+        }
+
+        SecurityRequirement selectedSecurityRequirement = securityRequirements.get(0);
+
+        if (selectedSecurityRequirement == null || selectedSecurityRequirement.isEmpty()) {
+            op.vendorExtensions.put("x-csharp-generichost-selected-auth-names", Collections.emptySet());
+            return;
+        }
+
+        op.vendorExtensions.put("x-csharp-generichost-selected-auth-names", selectedSecurityRequirement.keySet());
+    }
+
+    private void filterGenericHostAuthMethodsForSelectedSecurityRequirement(CodegenOperation op) {
+        if (op.authMethods == null || op.authMethods.isEmpty()) {
+            return;
+        }
+
+        Object selectedAuthNamesObject = op.vendorExtensions.get("x-csharp-generichost-selected-auth-names");
+
+        if (!(selectedAuthNamesObject instanceof Set<?>)) {
+            return;
+        }
+
+        Set<?> selectedAuthNames = (Set<?>) selectedAuthNamesObject;
+
+        op.authMethods = op.authMethods.stream()
+                .filter(authMethod -> selectedAuthNames.contains(authMethod.name))
+                .collect(Collectors.toList());
+
+        op.hasAuthMethods = !op.authMethods.isEmpty();
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationsMap operationsMap = super.postProcessOperationsWithModels(objs, allModels);
+
+        if (GENERICHOST.equals(getLibrary())
+                && operationsMap != null
+                && operationsMap.getOperations() != null
+                && operationsMap.getOperations().getOperation() != null) {
+            for (CodegenOperation op : operationsMap.getOperations().getOperation()) {
+                filterGenericHostAuthMethodsForSelectedSecurityRequirement(op);
+            }
+        }
+
+        return operationsMap;
     }
 
     public void addSupportingFiles(final String clientPackageDir, final String packageFolder,

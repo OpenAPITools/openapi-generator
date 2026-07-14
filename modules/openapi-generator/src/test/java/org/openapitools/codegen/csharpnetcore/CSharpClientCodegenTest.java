@@ -293,4 +293,36 @@ public class CSharpClientCodegenTest {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
+
+    @Test
+    public void testGenericHostUsesOnlyFirstSecurityRequirementForOrApiKeys() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/csharp/security-or-api-key.yaml");
+
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File defaultApi = files.get(Paths.get(output.getAbsolutePath(),
+                "src", "Org.OpenAPITools", "Api", "DefaultApi.cs").toString());
+
+        assertNotNull(defaultApi);
+        assertFileContains(defaultApi.toPath(), "ApiKeyProvider.GetAsync(\"X-API-Key\"");
+        assertFileContains(defaultApi.toPath(), "UseInHeader(httpRequestMessageLocalVar)");
+        assertFileNotContains(defaultApi.toPath(), "ApiKeyProvider.GetAsync(\"api-key\"");
+        assertFileNotContains(defaultApi.toPath(), "UseInQuery(");
+    }
 }
