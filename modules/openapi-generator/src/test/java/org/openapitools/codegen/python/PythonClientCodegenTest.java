@@ -155,6 +155,59 @@ public class PythonClientCodegenTest {
         Assert.assertEquals("'\\\\'", defaultValue);
     }
 
+    @Test(description = "test string enum default is quoted")
+    public void testStringEnumDefaultIsQuoted() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        StringSchema schema = new StringSchema();
+        schema.setEnum(Arrays.asList("uploadTime", "duration", "fileSize"));
+        schema.setDefault("uploadTime");
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals("'uploadTime'", defaultValue);
+    }
+
+    @Test(description = "test string enum default with special chars is quoted")
+    public void testStringEnumDefaultFalseIsQuoted() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        StringSchema schema = new StringSchema();
+        schema.setEnum(Arrays.asList("true", "false"));
+        schema.setDefault("false");
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals("'false'", defaultValue);
+    }
+
+    /**
+     * Exposes protected helpers for unit tests without setAccessible() (forbiddenapis).
+     */
+    private static final class TestablePythonClientCodegen extends PythonClientCodegen {
+        String unwrapPythonStringLiteralForTest(String value) {
+            return unwrapPythonStringLiteral(value);
+        }
+
+        String getEnumDefaultValueForTest(String defaultValue, String dataType) {
+            return getEnumDefaultValue(defaultValue, dataType);
+        }
+    }
+
+    @Test(description = "multiline string enum default with apostrophe/backslash is quoted and unwraps for enum matching")
+    public void testMultilineStringEnumDefaultUnwrapsEscapes() {
+        final TestablePythonClientCodegen codegen = new TestablePythonClientCodegen();
+        // Multiline forces triple quotes; apostrophe/backslash are escaped by formatPythonStringLiteral.
+        final String multilineDefault = "line1\\it's\nline2";
+        StringSchema schema = new StringSchema();
+        schema.setEnum(Arrays.asList(multilineDefault, "other"));
+        schema.setDefault(multilineDefault);
+
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals("'''line1\\\\it\\'s\nline2'''", defaultValue);
+
+        // Triple-quoted unwrap must reverse the same escapes as the single-quoted path so
+        // getEnumDefaultValue() can match against enumVars (see issue review on #23774).
+        Assert.assertEquals(multilineDefault, codegen.unwrapPythonStringLiteralForTest(defaultValue));
+        Assert.assertEquals(
+                codegen.toEnumValue(multilineDefault, "str"),
+                codegen.getEnumDefaultValueForTest(defaultValue, "str"));
+    }
+
     @Test(description = "convert a python model with dots")
     public void modelTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/v1beta3.yaml");

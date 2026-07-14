@@ -73,6 +73,36 @@ public class PythonFastapiCodegenTest {
     }
 
     @Test
+    public void testStringEnumQueryParameterDefaultsAreQuoted() throws IOException {
+        // Regression for https://github.com/OpenAPITools/openapi-generator/issues/23774
+        // Repro spec: src/test/resources/3_0/parameter-test-spec.yaml (query_default_enum, etc.)
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-fastapi")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .setInputSpec("src/test/resources/3_0/parameter-test-spec.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        final String apiFile = output + "/src/openapi_server/apis/default_api.py";
+        TestUtils.assertFileContains(Paths.get(apiFile),
+                "= Query('available', description=\"query default\", alias=\"query_default\"),");
+        TestUtils.assertFileContains(Paths.get(apiFile),
+                "= Query('B', description=\"query default enum\", alias=\"query_default_enum\"),");
+        TestUtils.assertFileContains(Paths.get(apiFile),
+                "= Header('B', description=\"header default enum\"),");
+        TestUtils.assertFileContains(Paths.get(apiFile),
+                "= Cookie('B', description=\"cookie default enum\"),");
+        TestUtils.assertFileNotContains(Paths.get(apiFile), "= Query(B, description=\"query default enum\"");
+        TestUtils.assertFileNotContains(Paths.get(apiFile), "= Header(B, description=\"header default enum\"");
+        TestUtils.assertFileNotContains(Paths.get(apiFile), "= Cookie(B, description=\"cookie default enum\"");
+    }
+
+    @Test
     public void testRegexPatternCheckedForArrayItems() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
