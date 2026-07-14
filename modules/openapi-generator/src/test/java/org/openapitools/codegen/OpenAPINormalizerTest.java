@@ -1953,5 +1953,30 @@ public class OpenAPINormalizerTest {
                 "ImpliedObject must not be marked nullable (no null type was declared)");
     }
 
+    @Test
+    public void testOpenAPINormalizer31SpecNullMapAdditionalProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_23945.yaml");
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("NullableMaps");
+
+        // `additionalProperties: { type: "null" }` must not keep the OAS 3.1 `null` type (which makes
+        // generators emit a fictional `Null` / `ModelNull` value type); it is normalized to an
+        // any-type nullable schema so the map value generates as a normal (nullable) object.
+        Schema stringMapValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("stringMap"));
+        assertNull(stringMapValue.getType());
+        assertNull(stringMapValue.getTypes());
+        assertTrue(stringMapValue.getNullable());
+
+        // `additionalProperties: { type: [array, "null"], items: ... }` is normalized to a proper
+        // (nullable) array value schema rather than being left half-converted.
+        Schema errorsValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("errorsByKey"));
+        assertEquals(errorsValue.getType(), "array");
+        assertTrue(errorsValue.getNullable());
+        assertNotNull(errorsValue.getItems());
+    }
+
 }
 
