@@ -666,6 +666,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [Arduino](https://www.arduino.cc/)
 - [ASKUL](https://www.askul.co.jp)
+- [AM GmbH](https://www.am-gmbh.de)
 - [Amazon Web Services (AWS)](https://aws.amazon.com/)
 - [b<>com](https://b-com.com/en)
 - [百度营销](https://e.baidu.com)
