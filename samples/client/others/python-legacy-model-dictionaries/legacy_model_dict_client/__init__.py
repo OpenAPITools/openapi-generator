@@ -18,6 +18,7 @@ __version__ = "1.0.0"
 
 # Define package exports
 __all__ = [
+    "DefaultApi",
     "ApiResponse",
     "ApiClient",
     "Configuration",
@@ -36,6 +37,7 @@ __all__ = [
 ]
 
 # import apis into sdk package
+from legacy_model_dict_client.api.default_api import DefaultApi as DefaultApi
 
 # import ApiClient
 from legacy_model_dict_client.api_response import ApiResponse as ApiResponse

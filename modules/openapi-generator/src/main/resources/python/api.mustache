@@ -86,10 +86,42 @@ class {{classname}}:
 {{#operation}}
 
 
+{{#compatibleWithPythonLegacyApi}}
+{{^async}}
+{{!
+Synchronous urllib3 legacy flags can return a future or raw response. Keep the ordinary data
+annotation precise because Kubernetes Watch inspects it:
+https://github.com/kubernetes-client/python/blob/6cc5456d79dd8c0ccc9e275a0811aeb025714bea/kubernetes/watch/watch.py#L36-L48
+}}
+    @validate_call
+    def {{operationId}}{{>partial_api_args_legacy}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
+{{/async}}
+{{#async}}
+    @validate_call
+    async def {{operationId}}{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
+{{/async}}
+{{/compatibleWithPythonLegacyApi}}
+{{^compatibleWithPythonLegacyApi}}
     @validate_call
     {{#async}}async {{/async}}def {{operationId}}{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
+{{/compatibleWithPythonLegacyApi}}
 {{>partial_api}}
-
+{{#compatibleWithPythonLegacyApi}}
+{{^async}}
+        return self.api_client._call_with_legacy_options(
+            _param,
+            _response_types_map,
+            async_req,
+            _preload_content,
+            _request_timeout,
+{{!
+python-legacy ordinary wrappers always forced data-only:
+https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/api.mustache#L69-L70
+}}
+            True,
+        )
+{{/async}}
+{{#async}}
         response_data = {{#async}}await {{/async}}self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
@@ -99,12 +131,48 @@ class {{classname}}:
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+{{/async}}
+{{/compatibleWithPythonLegacyApi}}
+{{^compatibleWithPythonLegacyApi}}
+        response_data = {{#async}}await {{/async}}self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        {{#async}}await {{/async}}response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+{{/compatibleWithPythonLegacyApi}}
 
 
+{{#compatibleWithPythonLegacyApi}}
+{{^async}}
+    @validate_call
+    def {{operationId}}_with_http_info{{>partial_api_args_legacy}} -> Tuple[{{{returnType}}}{{^returnType}}None{{/returnType}}, int, Any]:
+{{/async}}
+{{#async}}
+    @validate_call
+    async def {{operationId}}_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
+{{/async}}
+{{/compatibleWithPythonLegacyApi}}
+{{^compatibleWithPythonLegacyApi}}
     @validate_call
     {{#async}}async {{/async}}def {{operationId}}_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
+{{/compatibleWithPythonLegacyApi}}
 {{>partial_api}}
-
+{{#compatibleWithPythonLegacyApi}}
+{{^async}}
+        return self.api_client._call_with_legacy_options(
+            _param,
+            _response_types_map,
+            async_req,
+            _preload_content,
+            _request_timeout,
+            _return_http_data_only,
+        )
+{{/async}}
+{{#async}}
         response_data = {{#async}}await {{/async}}self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
@@ -114,18 +182,32 @@ class {{classname}}:
             response_data=response_data,
             response_types_map=_response_types_map,
         )
+{{/async}}
+{{/compatibleWithPythonLegacyApi}}
+{{^compatibleWithPythonLegacyApi}}
+        response_data = {{#async}}await {{/async}}self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        {{#async}}await {{/async}}response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+{{/compatibleWithPythonLegacyApi}}
 
+{{^compatibleWithPythonLegacyApi}}
 
     @validate_call
     {{#async}}async {{/async}}def {{operationId}}_without_preload_content{{>partial_api_args}} -> RESTResponseType:
 {{>partial_api}}
-
         response_data = {{#async}}await {{/async}}self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
 
+{{/compatibleWithPythonLegacyApi}}
 
 {{#supportHttpxSync}}
     @validate_call
