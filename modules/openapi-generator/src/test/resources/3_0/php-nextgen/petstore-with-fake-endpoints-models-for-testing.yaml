@@ -2387,9 +2387,10 @@ components:
 
     Zoo:
       type: object
-      description: A model that uses oneOf schemas as property types.
+      description: A model that uses oneOf and anyOf schemas as property types.
       required:
         - favoriteMammal
+        - favoriteReptile
       properties:
         favoriteMammal:
           # required, discriminated oneOf -> non-nullable PHP union
@@ -2405,4 +2406,45 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mammal'
+        favoriteReptile:
+          # required, discriminated anyOf -> non-nullable PHP union
+          $ref: '#/components/schemas/Reptile'
+        drink:
+          # optional, discriminator-less anyOf -> nullable PHP union
+          $ref: '#/components/schemas/Smoothie'
+
+    Lizard:
+      type: object
+      required:
+        - reptileType
+      properties:
+        lovesRocks:
+          type: boolean
+        reptileType:
+          type: string
+
+    Snake:
+      type: object
+      required:
+        - reptileType
+      properties:
+        venomous:
+          type: boolean
+        reptileType:
+          type: string
+
+    Reptile:
+      anyOf:
+        - $ref: '#/components/schemas/Lizard'
+        - $ref: '#/components/schemas/Snake'
+      discriminator:
+        propertyName: reptileType
+        mapping:
+          lizard: '#/components/schemas/Lizard'
+          snake: '#/components/schemas/Snake'
+
+    Smoothie:
+      anyOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
 
