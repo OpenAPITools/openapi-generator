@@ -884,7 +884,7 @@ abstract class GenerateTask : DefaultTask() {
     abstract val generateApiDocumentation: Property<Boolean>
 
     /**
-     * To write all log messages (not just errors) to STDOUT
+     * To write all log messages (not just errors) to STDERR
      */
     @get:Optional
     @get:Input
@@ -1006,7 +1006,11 @@ abstract class GenerateTask : DefaultTask() {
         get() {
             if (!inputSpecRootDirectory.isPresent) return null
             if (inputSpecRootDirectorySkipMerge.getOrElse(false)) return null
-            return "${mergedFileInfoName.orNull}|${mergedFileInfoDescription.orNull}|${mergedFileInfoVersion.orNull}"
+            // Encode each value as "<len>:<value>" (or "-" for null). The length prefix keeps the
+            // "|" separator unambiguous when a value contains "|"; the "-" sentinel distinguishes a
+            // null from the literal string "null" (which encodes as "4:null").
+            return listOf(mergedFileInfoName.orNull, mergedFileInfoDescription.orNull, mergedFileInfoVersion.orNull)
+                .joinToString("|") { value -> value?.let { "${it.length}:$it" } ?: "-" }
         }
 
     init {

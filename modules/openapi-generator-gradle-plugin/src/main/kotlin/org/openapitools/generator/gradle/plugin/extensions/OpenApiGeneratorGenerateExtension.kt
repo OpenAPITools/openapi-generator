@@ -444,7 +444,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
-     * To write all log messages (not just errors) to STDOUT. Defaults to `false`.
+     * To write all log messages (not just errors) to STDERR. Defaults to `false`.
      */
     val logToStderr = project.objects.property<Boolean>()
 
