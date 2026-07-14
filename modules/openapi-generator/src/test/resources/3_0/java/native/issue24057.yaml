@@ -1,0 +1,48 @@
+openapi: 3.0.3
+info:
+  title: Native InputStream mapping regression
+  version: 1.0.0
+paths:
+  /download:
+    get:
+      operationId: download
+      responses:
+        '200':
+          description: Binary response
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /upload:
+    post:
+      operationId: upload
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '204':
+          description: Uploaded
+  /payload:
+    post:
+      operationId: createPayload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payload'
+      responses:
+        '204':
+          description: Created
+components:
+  schemas:
+    Payload:
+      type: object
+      properties:
+        value:
+          type: string

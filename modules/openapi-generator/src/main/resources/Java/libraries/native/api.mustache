@@ -492,6 +492,11 @@ public class {{classname}} {
           );
         }
 
+        {{#vendorExtensions.x-java-native-response-input-stream}}
+        {{{returnType}}} responseValue = localVarResponseBody;
+        localVarResponseBody = null;
+        {{/vendorExtensions.x-java-native-response-input-stream}}
+        {{^vendorExtensions.x-java-native-response-input-stream}}
         {{^isResponseFile}}{{#isResponseBinary}}
         Byte[] responseValue = localVarResponseBody.readAllBytes();
         {{/isResponseBinary}}{{/isResponseFile}}
@@ -503,6 +508,7 @@ public class {{classname}} {
         String responseBody = new String(localVarResponseBody.readAllBytes());
         {{{returnType}}} responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {});
         {{/isResponseFile}}{{/isResponseBinary}}
+        {{/vendorExtensions.x-java-native-response-input-stream}}
 
         return new ApiResponse<{{{returnType}}}>(
             localVarResponse.statusCode(),
@@ -582,6 +588,11 @@ public class {{classname}} {
                       )
                   );
                 }
+                {{#vendorExtensions.x-java-native-response-input-stream}}
+                {{{returnType}}} responseValue = localVarResponseBody;
+                localVarResponseBody = null;
+                {{/vendorExtensions.x-java-native-response-input-stream}}
+                {{^vendorExtensions.x-java-native-response-input-stream}}
                 {{^isResponseFile}}{{#isResponseBinary}}
                 Byte[] responseValue = localVarResponseBody.readAllBytes();
                 {{/isResponseBinary}}{{/isResponseFile}}
@@ -592,6 +603,7 @@ public class {{classname}} {
                 String responseBody = new String(localVarResponseBody.readAllBytes());
                 {{{returnType}}} responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {});
                 {{/isResponseFile}}{{/isResponseBinary}}
+                {{/vendorExtensions.x-java-native-response-input-stream}}
                 return CompletableFuture.completedFuture(
                     new ApiResponse<{{{returnType}}}>(
                         localVarResponse.statusCode(),
@@ -723,6 +735,19 @@ public class {{classname}} {
     localVarRequestBuilder.header("Accept-Encoding", "gzip");
     {{/useGzipFeature}}
 
+    {{#vendorExtensions.x-java-native-body-input-stream}}
+    {{#bodyParam}}
+    {{#useGzipFeature}}
+    Supplier<InputStream> localVarRequestBodySupplier = () -> {{paramName}};
+    localVarRequestBuilder.header("Content-Encoding", "gzip");
+    localVarRequestBuilder.method("{{httpMethod}}", ApiClient.gzipRequestBody(localVarRequestBodySupplier));
+    {{/useGzipFeature}}
+    {{^useGzipFeature}}
+    localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofInputStream(() -> {{paramName}}));
+    {{/useGzipFeature}}
+    {{/bodyParam}}
+    {{/vendorExtensions.x-java-native-body-input-stream}}
+    {{^vendorExtensions.x-java-native-body-input-stream}}
     {{#bodyParam}}
     {{#isString}}
     {{#useGzipFeature}}
@@ -750,6 +775,7 @@ public class {{classname}} {
     }
     {{/isString}}
     {{/bodyParam}}
+    {{/vendorExtensions.x-java-native-body-input-stream}}
     {{^bodyParam}}
     {{#hasFormParams}}
     {{#isMultipart}}

@@ -3871,6 +3871,79 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void issue24057NativeInputStreamSync() {
+        Path apiFile = generateIssue24057Native(false, true);
+
+        assertFileContains(
+                apiFile,
+                "public InputStream download() throws ApiException {",
+                "InputStream responseValue = localVarResponseBody;",
+                "localVarResponseBody = null;",
+                "HttpRequest.BodyPublishers.ofInputStream(() -> body)"
+        );
+        assertFileNotContains(
+                apiFile,
+                "File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);",
+                "memberVarObjectMapper.writeValueAsBytes(body)"
+        );
+    }
+
+    @Test
+    public void issue24057NativeInputStreamAsync() {
+        Path apiFile = generateIssue24057Native(true, true);
+
+        assertFileContains(
+                apiFile,
+                "public CompletableFuture<InputStream> download() throws ApiException {",
+                "InputStream responseValue = localVarResponseBody;",
+                "localVarResponseBody = null;",
+                "HttpRequest.BodyPublishers.ofInputStream(() -> body)"
+        );
+        assertFileNotContains(
+                apiFile,
+                "File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);",
+                "memberVarObjectMapper.writeValueAsBytes(body)"
+        );
+    }
+
+    @Test
+    public void issue24057NativeDefaultMappingAndJsonControls() {
+        Path apiFile = generateIssue24057Native(false, false);
+
+        assertFileContains(
+                apiFile,
+                "File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);",
+                "memberVarObjectMapper.writeValueAsBytes(payload)"
+        );
+    }
+
+    private Path generateIssue24057Native(boolean asyncNative, boolean mapStreams) {
+        Path output = newTempFolder();
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put("asyncNative", asyncNative);
+        properties.put(JavaClientCodegen.SUPPORT_STREAMING, true);
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue24057.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        if (mapStreams) {
+            configurator
+                    .setTypeMappings(Map.of(
+                            "file", "InputStream",
+                            "binary", "InputStream"))
+                    .setImportMappings(Map.of("InputStream", "java.io.InputStream"));
+        }
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+    }
+
+    @Test
     public void annotationLibraryDoesNotCauseImportConflicts() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         properties.put("annotationLibrary", "none");
