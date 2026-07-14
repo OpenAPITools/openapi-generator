@@ -667,6 +667,27 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(modelPath, "json['required_property'] === undefined ? undefined : json['required_property'] === null ? null :");
     }
 
+    @Test(description = "Required nullable bodies should reject undefined but accept null (fix #23493)")
+    public void testRequiredNullableBodyRejectsOnlyUndefined() throws Exception {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/issue_23493.yaml"
+        );
+
+        Path apiPath = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(apiPath,
+                "if (requestParameters['body'] === undefined)",
+                "Required parameter \"body\" was undefined when calling nullableBody().",
+                "body: boolean | null;",
+                "body: requestParameters['body'] as any");
+        TestUtils.assertFileContains(apiPath,
+                "if (requestParameters['body'] == null)",
+                "Required parameter \"body\" was null or undefined when calling nonNullableBody().");
+        TestUtils.assertFileContains(apiPath,
+                "if (requestParameters['requiredNullableQuery'] == null)",
+                "Required parameter \"requiredNullableQuery\" was null or undefined when calling nullableBody().");
+    }
+
     @Test(description = "Verify Omit uses the camelCase property name instead of the baseName for readOnly fields")
     public void testIssue23380_OmitUsesCorrectPropertyName() throws Exception {
         File output = generate(
