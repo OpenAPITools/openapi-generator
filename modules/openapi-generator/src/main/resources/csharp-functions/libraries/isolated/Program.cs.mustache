@@ -1,0 +1,51 @@
+using Microsoft.Extensions.Hosting;
+{{#aspNetCoreIntegration}}
+{{#useNewtonsoft}}
+using Microsoft.Extensions.DependencyInjection;
+{{/useNewtonsoft}}
+{{/aspNetCoreIntegration}}
+{{^aspNetCoreIntegration}}
+{{#useNewtonsoft}}
+using Microsoft.Azure.Functions.Worker;
+using Azure.Core.Serialization;
+{{/useNewtonsoft}}
+{{/aspNetCoreIntegration}}
+
+namespace {{packageName}}
+{
+    /// <summary>
+    /// Host entry point for the Azure Functions .NET isolated worker.
+    /// The OpenAPI/Swagger endpoints are contributed by the
+    /// Microsoft.Azure.Functions.Worker.Extensions.OpenApi extension.
+    /// </summary>
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var host = new HostBuilder()
+                {{#aspNetCoreIntegration}}
+                .ConfigureFunctionsWebApplication(){{#useNewtonsoft}}
+                .ConfigureServices(services =>
+                {
+                    // Serialize IActionResult results with Newtonsoft.Json.
+                    services.AddMvc().AddNewtonsoftJson();
+                }){{/useNewtonsoft}}
+                {{/aspNetCoreIntegration}}
+                {{^aspNetCoreIntegration}}
+                {{#useNewtonsoft}}
+                .ConfigureFunctionsWorkerDefaults(builder => { }, options =>
+                {
+                    // Serialize with Newtonsoft.Json so the model attributes are honored.
+                    options.Serializer = new NewtonsoftJsonObjectSerializer();
+                })
+                {{/useNewtonsoft}}
+                {{^useNewtonsoft}}
+                .ConfigureFunctionsWorkerDefaults()
+                {{/useNewtonsoft}}
+                {{/aspNetCoreIntegration}}
+                .Build();
+
+            host.Run();
+        }
+    }
+}

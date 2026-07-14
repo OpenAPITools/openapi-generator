@@ -1,0 +1,64 @@
+using System.Net;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.Azure.Functions.Worker;
+{{#aspNetCoreIntegration}}
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+{{/aspNetCoreIntegration}}
+{{^aspNetCoreIntegration}}
+using Microsoft.Azure.Functions.Worker.Http;
+{{/aspNetCoreIntegration}}
+{{#generateOpenApiAttributes}}
+using System.Collections.Generic;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.OpenApi.Models;
+{{/generateOpenApiAttributes}}
+using {{packageName}}.Models;
+
+namespace {{apiPackage}}
+{ {{#operations}}
+    public partial {{#classModifier}}{{classModifier}} {{/classModifier}}class {{classname}}
+    { {{#operation}}
+        [Function("{{classname}}_{{operationId}}")]
+        {{#generateOpenApiAttributes}}
+        [OpenApiOperation(operationId: "{{operationId}}"{{#tags}}{{#-first}}, tags: new[] { {{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/tags}}, Summary = "{{summary}}")]
+        {{#pathParams}}
+        [OpenApiParameter(name: "{{baseName}}", In = ParameterLocation.Path, Required = true, Type = typeof({{{vendorExtensions.x-oai-type}}}))]
+        {{/pathParams}}
+        {{#queryParams}}
+        [OpenApiParameter(name: "{{baseName}}", In = ParameterLocation.Query, Required = {{#required}}true{{/required}}{{^required}}false{{/required}}, Type = typeof({{{vendorExtensions.x-oai-type}}}))]
+        {{/queryParams}}
+        {{#headerParams}}
+        [OpenApiParameter(name: "{{baseName}}", In = ParameterLocation.Header, Required = {{#required}}true{{/required}}{{^required}}false{{/required}}, Type = typeof({{{vendorExtensions.x-oai-type}}}))]
+        {{/headerParams}}
+        {{#cookieParams}}
+        [OpenApiParameter(name: "{{baseName}}", In = ParameterLocation.Cookie, Required = {{#required}}true{{/required}}{{^required}}false{{/required}}, Type = typeof({{{vendorExtensions.x-oai-type}}}))]
+        {{/cookieParams}}
+        {{#bodyParam}}
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof({{{vendorExtensions.x-oai-type}}}), Required = {{#required}}true{{/required}}{{^required}}false{{/required}})]
+        {{/bodyParam}}
+        {{#responses}}
+        {{^isDefault}}
+        {{#dataType}}
+        [OpenApiResponseWithBody(statusCode: (HttpStatusCode){{code}}, contentType: "application/json", bodyType: typeof({{{vendorExtensions.x-oai-type}}}))]
+        {{/dataType}}
+        {{^dataType}}
+        [OpenApiResponseWithoutBody(statusCode: (HttpStatusCode){{code}})]
+        {{/dataType}}
+        {{/isDefault}}
+        {{/responses}}
+        {{/generateOpenApiAttributes}}
+        public async Task<{{#aspNetCoreIntegration}}IActionResult{{/aspNetCoreIntegration}}{{^aspNetCoreIntegration}}HttpResponseData{{/aspNetCoreIntegration}}> _{{operationId}}([HttpTrigger(AuthorizationLevel.Anonymous, "{{httpMethod}}", Route = "{{{apiBasePath}}}{{{path}}}")] {{#aspNetCoreIntegration}}HttpRequest{{/aspNetCoreIntegration}}{{^aspNetCoreIntegration}}HttpRequestData{{/aspNetCoreIntegration}} req, FunctionContext context{{#allParams}}{{#isPathParam}}, {{>pathParam}}{{/isPathParam}}{{/allParams}}){{^generateBody}};{{/generateBody}}
+        {{#generateBody}}
+        {
+            var method = this.GetType().GetMethod("{{operationId}}");
+            return method != null
+                ? (await ((Task<{{#aspNetCoreIntegration}}IActionResult{{/aspNetCoreIntegration}}{{^aspNetCoreIntegration}}HttpResponseData{{/aspNetCoreIntegration}}>)method.Invoke(this, new object[] { req, context{{#allParams}}{{#isPathParam}}, {{>paramName}}{{/isPathParam}}{{/allParams}} })).ConfigureAwait(false))
+                : {{#aspNetCoreIntegration}}new StatusCodeResult((int)HttpStatusCode.NotImplemented){{/aspNetCoreIntegration}}{{^aspNetCoreIntegration}}req.CreateResponse(HttpStatusCode.NotImplemented){{/aspNetCoreIntegration}};
+        }
+        {{/generateBody}}
+        {{/operation}}
+    }
+{{/operations}}
+}

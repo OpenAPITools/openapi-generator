@@ -34,6 +34,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.UUID.randomUUID;
 import static org.openapitools.codegen.CodegenConstants.X_CSHARP_VALUE_TYPE;
@@ -62,6 +64,15 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
     public static final String NET_60_OR_LATER = "net60OrLater";
+    public static final String ISOLATED_WORKER = "isolatedWorker";
+    public static final String ASPNETCORE_INTEGRATION = "aspNetCoreIntegration";
+    public static final String GENERATE_OPENAPI_ATTRIBUTES = "generateOpenApiAttributes";
+    // Value of azureFunctionsVersion that opts into the .NET isolated worker model.
+    public static final String AZURE_FUNCTIONS_V4_ISOLATED = "v4-isolated";
+    // openapi-generator "library" name that selects the isolated worker template overrides.
+    public static final String ISOLATED_LIBRARY = "isolated";
+    // The only .NET (LTS) target supported by the isolated worker model for now.
+    public static final String ISOLATED_NET_VERSION = "10.0";
 
     @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
@@ -84,6 +95,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     private boolean useFrameworkReference = false;
     private boolean useNewtonsoft = true;
     private String newtonsoftVersion = "3.0.0";
+    private boolean isIsolatedWorker = false;
 
     public CSharpFunctionsServerCodegen() {
         super();
@@ -174,11 +186,13 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         netCoreVersion.addEnum("3.1", ".NET Core 3.1");
         netCoreVersion.addEnum("5.0", ".NET Core 5.0");
         netCoreVersion.addEnum("6.0", ".NET Core 6.0");
+        netCoreVersion.addEnum(ISOLATED_NET_VERSION, ".NET 10.0 (isolated worker only)");
         netCoreVersion.setDefault("3.1");
         netCoreVersion.setOptValue(netCoreVersion.getDefault());
         cliOptions.add(netCoreVersion);
 
-        azureFunctionsVersion.addEnum("v4", "Azure Functions v4");
+        azureFunctionsVersion.addEnum("v4", "Azure Functions v4 (in-process model)");
+        azureFunctionsVersion.addEnum(AZURE_FUNCTIONS_V4_ISOLATED, "Azure Functions v4 (.NET isolated worker model, net10.0)");
         azureFunctionsVersion.addEnum("v3", "Azure Functions v3");
         azureFunctionsVersion.setDefault("v4");
         azureFunctionsVersion.setOptValue(azureFunctionsVersion.getDefault());
@@ -212,6 +226,18 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         addSwitch(USE_NEWTONSOFT,
                 "Uses the Newtonsoft JSON library.",
                 useNewtonsoft);
+
+        addSwitch(ASPNETCORE_INTEGRATION,
+                "For the isolated worker (azureFunctionsVersion=v4-isolated) only: use ASP.NET Core integration " +
+                        "(HttpRequest/IActionResult). Set false for the built-in model (HttpRequestData/HttpResponseData). " +
+                        "Ignored for the in-process model.",
+                true);
+
+        addSwitch(GENERATE_OPENAPI_ATTRIBUTES,
+                "For the isolated worker (azureFunctionsVersion=v4-isolated) only: emit OpenAPI metadata attributes " +
+                        "([OpenApiOperation], [OpenApiParameter], [OpenApiRequestBody], [OpenApiResponseWithBody]) on the " +
+                        "generated functions. Requires the Microsoft.Azure.Functions.Worker.Extensions.OpenApi package.",
+                false);
 
         addOption(NEWTONSOFT_VERSION,
                 "Version for Newtonsoft.Json for .NET Core 3.0+",
@@ -393,6 +419,19 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("host.json.mustache", packageFolder, "host.json"));
         supportingFiles.add(new SupportingFile("local.settings.json.mustache", packageFolder, "local.settings.json"));
 
+        if (isIsolatedWorker) {
+            // buildTarget=library produces an abstract class assembly that a separate function
+            // host project references, so it must be a Library and must not own the host entry
+            // point. buildTarget=program produces a standalone worker that needs a Program.cs.
+            isLibrary = "library".equals(String.valueOf(additionalProperties.get(BUILD_TARGET)));
+            additionalProperties.put("isLibrary", isLibrary);
+
+            if (!isLibrary) {
+                // The standalone isolated worker runs as its own process and needs a host entry point.
+                supportingFiles.add(new SupportingFile("Program.cs.mustache", packageFolder, "Program.cs"));
+            }
+        }
+
         this.setTypeMapping();
     }
 
@@ -488,9 +527,76 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
                         operation.vendorExtensions.put("x-aspnetcore-consumes", consumesString.toString());
                     }
                 }
+
+                // When emitting OpenAPI metadata attributes, the model type names used inside
+                // typeof(...) must be fully qualified (multiple specs compiled into one assembly
+                // can define the same model name) and must be a usable concrete type (aliased
+                // array responses can resolve to a bare "List"). Compute a safe type per
+                // parameter/body/response and expose it as x-oai-type for the templates.
+                if (Boolean.TRUE.equals(additionalProperties.get(GENERATE_OPENAPI_ATTRIBUTES))) {
+                    Set<String> modelNames = new HashSet<>();
+                    for (ModelMap modelMap : allModels) {
+                        CodegenModel model = modelMap.getModel();
+                        if (model != null && model.classname != null) {
+                            modelNames.add(model.classname);
+                        }
+                    }
+                    for (CodegenOperation operation : ops) {
+                        // Set the extension on the exact parameter lists the template iterates
+                        // (pathParams/queryParams/... hold different CodegenParameter instances than
+                        // allParams, so setting it only on allParams would not reach the template).
+                        List<CodegenParameter> attributeParams = new ArrayList<>();
+                        attributeParams.addAll(operation.pathParams);
+                        attributeParams.addAll(operation.queryParams);
+                        attributeParams.addAll(operation.headerParams);
+                        attributeParams.addAll(operation.cookieParams);
+                        if (operation.bodyParam != null) {
+                            attributeParams.add(operation.bodyParam);
+                        }
+                        for (CodegenParameter param : attributeParams) {
+                            param.vendorExtensions.put("x-oai-type", qualifyOpenApiAttributeType(param.dataType, modelNames));
+                        }
+                        for (CodegenResponse response : operation.responses) {
+                            if (response.dataType != null && !response.dataType.isEmpty()) {
+                                response.vendorExtensions.put("x-oai-type", qualifyOpenApiAttributeType(response.dataType, modelNames));
+                            }
+                        }
+                    }
+                }
             }
         }
         return objs;
+    }
+
+    // C# collection type names that are invalid as a bare typeof(...) argument (no type parameter).
+    private static final Set<String> BARE_GENERIC_CONTAINERS = new HashSet<>(Arrays.asList(
+            "List", "Collection", "ICollection", "IList", "IEnumerable", "Dictionary", "IDictionary"));
+    private static final Pattern IDENTIFIER = Pattern.compile("[A-Za-z_][A-Za-z0-9_]*");
+
+    /**
+     * Produce a type string safe to use inside a C# {@code typeof(...)} in the OpenAPI attributes.
+     * Model type names are fully qualified with the model namespace (so identically named models
+     * from different specs compiled into one assembly do not collide), primitives and container
+     * keywords are left as-is, and a container that resolved without a type argument (e.g. a bare
+     * {@code List} from an aliased array response) falls back to {@code object}.
+     */
+    private String qualifyOpenApiAttributeType(String dataType, Set<String> modelNames) {
+        if (dataType == null || dataType.trim().isEmpty()) {
+            return "object";
+        }
+        String trimmed = dataType.trim();
+        if (BARE_GENERIC_CONTAINERS.contains(trimmed)) {
+            return "object";
+        }
+        Matcher matcher = IDENTIFIER.matcher(dataType);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            String token = matcher.group();
+            String replacement = modelNames.contains(token) ? modelPackage + "." + token : token;
+            matcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 
     @Override
@@ -585,6 +691,11 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         setCliOption(azureFunctionsVersion);
         String functionsSDKVersion = "3.0.13";
 
+        if (AZURE_FUNCTIONS_V4_ISOLATED.equals(azureFunctionsVersion.getOptValue())) {
+            setIsolatedWorker();
+            return;
+        }
+
         if ("v4".equals(azureFunctionsVersion.getOptValue())) {
             functionsSDKVersion = "4.0.1";
 
@@ -600,6 +711,64 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         String targetFrameworkVersion = "net" + netCoreVersion.getOptValue();
         additionalProperties.put(TARGET_FRAMEWORK, targetFrameworkVersion);
         setAdditionalPropertyForFramework();
+    }
+
+    /**
+     * Configure the generator for the Azure Functions .NET isolated worker model.
+     * <p>
+     * The user opts in via {@code azureFunctionsVersion=v4-isolated}. Internally this selects the
+     * {@code isolated} template library (so the divergent isolated templates shadow the shared root
+     * templates) and forces the only currently supported LTS target framework, net10.0. The
+     * {@code <AzureFunctionsVersion>} MSBuild property has no {@code -isolated} variant, so the
+     * suffix is stripped back to {@code v4}; the isolated bit is carried by the worker packages and
+     * by {@code FUNCTIONS_WORKER_RUNTIME=dotnet-isolated} in local.settings.json.
+     */
+    private void setIsolatedWorker() {
+        isIsolatedWorker = true;
+
+        // Select the isolated template overrides via the openapi-generator library mechanism.
+        // Set the field directly (rather than setLibrary) so we don't have to register a public
+        // --library option that would compete with the azureFunctionsVersion switch.
+        this.library = ISOLATED_LIBRARY;
+
+        // The isolated worker only supports the net10.0 LTS target for now.
+        if (additionalProperties.containsKey(NET_CORE_VERSION)
+                && !ISOLATED_NET_VERSION.equals(additionalProperties.get(NET_CORE_VERSION))) {
+            LOGGER.warn("netCoreVersion: {} is not supported by the Azure Functions isolated worker model. Using {}.",
+                    additionalProperties.get(NET_CORE_VERSION), ISOLATED_NET_VERSION);
+        }
+        netCoreVersion.setOptValue(ISOLATED_NET_VERSION);
+        additionalProperties.put(NET_CORE_VERSION, ISOLATED_NET_VERSION);
+
+        // Strip the "-isolated" suffix so the csproj emits <AzureFunctionsVersion>v4</...>.
+        additionalProperties.put(AZURE_FUNCTIONS_VERSION, "v4");
+        additionalProperties.put(ISOLATED_WORKER, true);
+
+        // The isolated worker serializes with System.Text.Json by default, but honors an explicit
+        // useNewtonsoft=true (the isolated templates switch serializer accordingly). Only default
+        // the flag when the user did not set it, so we don't clobber an explicit choice.
+        if (!additionalProperties.containsKey(USE_NEWTONSOFT)) {
+            additionalProperties.put(USE_NEWTONSOFT, false);
+        }
+
+        // The isolated worker uses ASP.NET Core integration (HttpRequest/IActionResult) by default,
+        // which can be opted out of for the built-in model (HttpRequestData/HttpResponseData).
+        boolean aspNetCoreIntegration = true;
+        if (additionalProperties.containsKey(ASPNETCORE_INTEGRATION)) {
+            aspNetCoreIntegration = convertPropertyToBooleanAndWriteBack(ASPNETCORE_INTEGRATION);
+        }
+        additionalProperties.put(ASPNETCORE_INTEGRATION, aspNetCoreIntegration);
+
+        // OpenAPI metadata attributes on the generated functions are opt-in (default off).
+        boolean generateOpenApiAttributes = false;
+        if (additionalProperties.containsKey(GENERATE_OPENAPI_ATTRIBUTES)) {
+            generateOpenApiAttributes = convertPropertyToBooleanAndWriteBack(GENERATE_OPENAPI_ATTRIBUTES);
+        }
+        additionalProperties.put(GENERATE_OPENAPI_ATTRIBUTES, generateOpenApiAttributes);
+
+        //set .NET target version (net10.0)
+        additionalProperties.put(TARGET_FRAMEWORK, "net" + ISOLATED_NET_VERSION);
+        additionalProperties.put(NET_60_OR_LATER, true);
     }
 
     private void setAdditionalPropertyForFramework() {
