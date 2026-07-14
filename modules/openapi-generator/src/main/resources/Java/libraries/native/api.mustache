@@ -386,7 +386,7 @@ public class {{classname}} {
       {{#vendorExtensions.x-java-native-response-input-stream}}
       CompletableFuture<ApiResponse<{{{returnType}}}>> localVarHttpInfoFuture =
           {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
-      CompletableFuture<{{{returnType}}}> localVarResult = new CompletableFuture<{{{returnType}}}>() {
+      class LocalVarResultFuture extends CompletableFuture<{{{returnType}}}> {
         @Override
         public boolean cancel(boolean mayInterruptIfRunning) {
           boolean localVarCancelled = super.cancel(mayInterruptIfRunning);
@@ -395,19 +395,26 @@ public class {{classname}} {
           }
           return localVarCancelled;
         }
-      };
-      localVarHttpInfoFuture.whenComplete((localVarApiResponse, localVarThrowable) -> {
-        if (localVarThrowable != null) {
-          localVarResult.completeExceptionally(localVarThrowable);
-        } else {
-          {{{returnType}}} localVarResponseBody = localVarApiResponse.getData();
-          if (!localVarResult.complete(localVarResponseBody) && localVarResponseBody != null) {
+
+        boolean completeResponse({{{returnType}}} localVarResponseBody) {
+          boolean localVarCompleted = super.complete(localVarResponseBody);
+          if (!localVarCompleted && localVarResponseBody != null) {
             try {
               localVarResponseBody.close();
             } catch (IOException ignored) {
               // The result is already terminal, so cleanup failure has no receiver.
             }
           }
+          return localVarCompleted;
+        }
+      }
+      LocalVarResultFuture localVarResult = new LocalVarResultFuture();
+      localVarHttpInfoFuture.whenComplete((localVarApiResponse, localVarThrowable) -> {
+        if (localVarThrowable != null) {
+          localVarResult.completeExceptionally(localVarThrowable);
+        } else {
+          {{{returnType}}} localVarResponseBody = localVarApiResponse.getData();
+          localVarResult.completeResponse(localVarResponseBody);
         }
       });
       return localVarResult;

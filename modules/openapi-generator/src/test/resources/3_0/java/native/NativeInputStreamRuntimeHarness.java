@@ -28,6 +28,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.Authenticator;
 import java.net.CookieHandler;
 import java.net.ProxySelector;
@@ -82,9 +84,31 @@ public final class NativeInputStreamRuntimeHarness {
     check(returned.cancel(true), "convenience future did not accept cancellation");
     await(context.httpClient.transport.cancelRequested, "convenience cancellation did not reach transport");
 
+    TrackingInputStream outerUndeliverableBody = new TrackingInputStream(PAYLOAD);
+    check(!completeConvenienceResponse(returned, outerUndeliverableBody),
+        "cancelled convenience future accepted a late response stream");
+    await(outerUndeliverableBody.closed, "convenience delivery bridge did not close its late response stream");
+    check(outerUndeliverableBody.closeCount.get() == 1,
+        "convenience delivery bridge closed its late response stream more than once");
+
     check(context.httpClient.transport.complete(response(responseBody)), "transport did not complete");
     await(responseBody.closed, "convenience cancellation leaked the undeliverable response stream");
     check(responseBody.closeCount.get() == 1, "convenience cancellation closed the stream more than once");
+  }
+
+  private static boolean completeConvenienceResponse(
+      CompletableFuture<InputStream> returned, InputStream responseBody) throws Exception {
+    Method completeResponse = returned.getClass().getDeclaredMethod("completeResponse", InputStream.class);
+    completeResponse.setAccessible(true);
+    try {
+      return (Boolean) completeResponse.invoke(returned, responseBody);
+    } catch (InvocationTargetException e) {
+      Throwable cause = e.getCause();
+      if (cause instanceof Exception) {
+        throw (Exception) cause;
+      }
+      throw new AssertionError("convenience delivery bridge failed", cause);
+    }
   }
 
   private static void asyncWithHttpInfoCancellationDuringProcessingClosesStream() throws Exception {
