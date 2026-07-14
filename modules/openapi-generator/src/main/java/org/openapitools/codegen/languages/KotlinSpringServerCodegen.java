@@ -1622,6 +1622,19 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     }
                 });
 
+                // Flow<String> is broken — StringDecoder intercepts String and returns the entire
+                // JSON array as a single blob instead of using Jackson. Fix by switching
+                // array-of-string operations to List<String> (with suspend).
+                // See https://github.com/spring-projects/spring-framework/issues/22662
+                // Note: check operation.returnType (set by doDataTypeAssignment) which holds the
+                // unwrapped inner type, e.g. "kotlin.String" for List<kotlin.String> arrays.
+                // The declarative-http-interface library forces useFlowForArrayReturnType=false,
+                // so this condition only fires for the spring-boot coroutines path.
+                if (reactive && useFlowForArrayReturnType
+                        && operation.isArray && "kotlin.String".equals(operation.returnType)) {
+                    operation.vendorExtensions.put("x-reactive-array-string-return", true);
+                }
+
                 // Generate sealed response interface metadata if enabled
                 if (useSealedResponseInterfaces && responses != null && !responses.isEmpty()) {
                     // Generate sealed interface name from operation ID

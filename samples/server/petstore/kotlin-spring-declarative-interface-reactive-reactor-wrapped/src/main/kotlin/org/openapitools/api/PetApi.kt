@@ -21,7 +21,6 @@ import org.springframework.validation.annotation.Validated
 import jakarta.validation.Valid
 import jakarta.validation.constraints.*
 
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 import kotlin.collections.List
@@ -58,7 +57,7 @@ interface PetApi {
     )
     fun findPetsByStatus(
         @NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
-    ): Mono<ResponseEntity<Flux<Pet>>>
+    ): Mono<ResponseEntity<List<Pet>>>
 
 
     @HttpExchange(
@@ -68,7 +67,7 @@ interface PetApi {
     )
     fun findPetsByTags(
         @NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
-    ): Mono<ResponseEntity<Flux<Pet>>>
+    ): Mono<ResponseEntity<List<Pet>>>
 
 
     @HttpExchange(

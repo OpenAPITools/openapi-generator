@@ -406,13 +406,13 @@ public class KotlinSpringServerCodegenTest {
                 "ApiUtil");
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
-                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<List<kotlin.String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
                 "exchange");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+                "import kotlinx.coroutines.flow.Flow", "suspend fun", "ResponseEntity<List<kotlin.String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-                "suspend fun", "ApiUtil");
+                "ApiUtil");
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
                 "import kotlinx.coroutines.flow.Flow", "requestBody: Flow<kotlin.Long>");
@@ -1327,8 +1327,7 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
-                "import reactor.core.publisher.Flux\n"
-                        + "import reactor.core.publisher.Mono",
+                "import reactor.core.publisher.Mono",
                 "    @HttpExchange(\n"
                         + "        // \"/store/inventory\"\n"
                         + "        url = PATH_GET_INVENTORY,\n"
@@ -1441,8 +1440,7 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
-                "import reactor.core.publisher.Flux\n"
-                        + "import reactor.core.publisher.Mono",
+                "import reactor.core.publisher.Mono",
                 "    fun getInventory(\n"
                         + "    ): Mono<Map<String, kotlin.Int>>",
                 "    fun deleteOrder(\n"
@@ -3177,21 +3175,21 @@ public class KotlinSpringServerCodegenTest {
         );
 
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
-                "List<kotlin.String>");
+                "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
                 "Flow<kotlin.String>");
     }
 
@@ -3223,21 +3221,21 @@ public class KotlinSpringServerCodegenTest {
         );
 
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
-                "List<kotlin.String>");
+                "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
                 "Flow<kotlin.String>");
     }
 
@@ -4198,6 +4196,88 @@ public class KotlinSpringServerCodegenTest {
             assertFileContains(petApi.toPath(), "getDelegate().findPetsByStatus(");
             assertFileContains(petApi.toPath(), "pageable)");
         }
+    }
+
+    @Test(description = "reactive spring-boot: array-of-string returns List<String> with suspend, not Flow<String> (issue #22662)")
+    public void reactiveArrayOfStringReturnsListNotFlow() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+
+        List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_7118.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = files.stream()
+                .filter(f -> f.getName().equals("UsersApi.kt"))
+                .findFirst()
+                .orElseThrow()
+                .toPath();
+
+        assertFileContains(apiPath, "suspend fun", "List<kotlin.String>", "Set<kotlin.String>");
+        // neither the list nor the uniqueItems (Set) operation must leak Flow<...> or a raw/nested container
+        assertFileNotContains(apiPath, "Flow<kotlin.String>", "Flow<kotlin.collections.Set", "kotlin.collections.Set<");
+    }
+
+    @Test(description = "declarative http interface reactor: array-of-string returns Mono<List<String>>, not Flux<String> (issue #22662)")
+    public void declarativeReactorArrayOfStringReturnsMono() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DECLARATIVE_INTERFACE_REACTIVE_MODE, "reactor");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_7118.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = files.stream()
+                .filter(f -> f.getName().equals("UsersApi.kt"))
+                .findFirst()
+                .orElseThrow()
+                .toPath();
+
+        assertFileContains(apiPath, "Mono<List<kotlin.String>>", "Mono<Set<kotlin.String>>");
+        assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
+                "kotlin.collections.Set<", "Mono<set<");
+    }
+
+    @Test(description = "declarative http interface reactor + ResponseEntity: array-of-string returns Mono<ResponseEntity<List<String>>> (issue #22662)")
+    public void declarativeReactorArrayOfStringReturnsMonoResponseEntity() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DECLARATIVE_INTERFACE_REACTIVE_MODE, "reactor");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_7118.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = files.stream()
+                .filter(f -> f.getName().equals("UsersApi.kt"))
+                .findFirst()
+                .orElseThrow()
+                .toPath();
+
+        assertFileContains(apiPath, "Mono<ResponseEntity<List<kotlin.String>>>", "Mono<ResponseEntity<Set<kotlin.String>>>");
+        assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
+                "kotlin.collections.Set<", "Mono<ResponseEntity<set<");
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {
