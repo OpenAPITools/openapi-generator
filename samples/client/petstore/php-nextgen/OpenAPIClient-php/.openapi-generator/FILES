@@ -159,7 +159,3 @@ src/Model/Whale.php
 src/Model/Zebra.php
 src/Model/Zoo.php
 src/ObjectSerializer.php
-tests/Model/LizardTest.php
-tests/Model/ReptileTest.php
-tests/Model/SmoothieTest.php
-tests/Model/SnakeTest.php
