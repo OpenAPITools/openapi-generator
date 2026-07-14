@@ -114,6 +114,48 @@ public class RustServerCodegenTest {
     }
 
     /**
+     * Test that the /multiple-response-content-types operation in openapi-v3.yaml still
+     * produces the classic x-produces-json vendor extension for its single-content-type
+     * 201 response (no OneOf wrapper), and produces a swagger::OneOf2 return type with
+     * Content-Type dispatch code for its two-content-type 403 response, as required by
+     * issue #24097.
+     */
+    @Test
+    public void testMultipleResponseContentTypes() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/openapi-v3.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path clientModPath = Path.of(target.toString(), "/src/client/mod.rs");
+        TestUtils.assertFileExists(clientModPath);
+
+        // Single-type 201 response must deserialize directly into the model, with no
+        // OneOf wrapper, i.e. the classic x-produces-json behavior.
+        TestUtils.assertFileContains(clientModPath,
+                "let body = serde_json::from_str::<models::AnyOfObject>(body)\n" +
+                "                    .map_err(|e| ApiError(format!(\"Response body did not match the schema: {e}\")))?;\n\n" +
+                "                Ok(MultipleResponseContentTypesResponse::Created\n" +
+                "                    (body)\n" +
+                "                )");
+
+        // Two-content-type 403 response must use a OneOf2 return type.
+        TestUtils.assertFileContains(clientModPath, "swagger::OneOf2::<");
+        // Both variant content types must appear as case-insensitive match arms in the dispatch
+        // code (HTTP media types are case-insensitive per RFC 7231).
+        TestUtils.assertFileContains(clientModPath, "ct.eq_ignore_ascii_case(\"text/plain\")");
+        TestUtils.assertFileContains(clientModPath, "ct.eq_ignore_ascii_case(\"application/json\")");
+        // Content-Type header must be read for dispatch.
+        TestUtils.assertFileContains(clientModPath, "CONTENT_TYPE");
+
+        target.toFile().deleteOnExit();
+    }
+
+    /**
      * Test that binary/byte request bodies are passed through as raw bytes rather than being
      * coerced to UTF-8, which panics on any non-UTF-8 payload (see issue #24094).
      */

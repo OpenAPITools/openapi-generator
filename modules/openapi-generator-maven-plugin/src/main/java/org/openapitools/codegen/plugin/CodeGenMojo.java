@@ -145,6 +145,37 @@ public class CodeGenMojo extends AbstractMojo {
     private String mergedFileInfoVersion;
 
     /**
+     * Explicit ordered list of spec files to merge. When set, these files are merged in the given
+     * order instead of scanning inputSpecRootDirectory. Takes precedence over inputSpecRootDirectory.
+     * Use with mergedFileOutputDir (required), mergeMode, and mergeConflictStrategy.
+     */
+    @Parameter(name = "inputSpecFiles", property = "openapi.generator.maven.plugin.inputSpecFiles")
+    private List<String> inputSpecFiles;
+
+    /**
+     * Directory where the merged spec file is written when inputSpecFiles is used.
+     * Required when inputSpecFiles is set.
+     */
+    @Parameter(name = "mergedFileOutputDir", property = "openapi.generator.maven.plugin.mergedFileOutputDir")
+    private File mergedFileOutputDir;
+
+    /**
+     * Strategy when two specs define the same component name or path+method with different
+     * definitions. Accepted values: WARN (default, keep the first definition and log a warning)
+     * or FAIL (abort the build with an error). Only applies when mergeMode is DEEP.
+     */
+    @Parameter(name = "mergeConflictStrategy", property = "openapi.generator.maven.plugin.mergeConflictStrategy", defaultValue = "WARN")
+    private String mergeConflictStrategy;
+
+    /**
+     * How multiple spec files are merged. Accepted values: REF (default, original $ref-based
+     * shallow merge, backward-compatible) or DEEP (full inline merge with component
+     * deduplication and conflict detection).
+     */
+    @Parameter(name = "mergeMode", property = "openapi.generator.maven.plugin.mergeMode", defaultValue = "REF")
+    private String mergeMode;
+
+    /**
      * Git host, e.g. gitlab.com.
      */
     @Parameter(name = "gitHost", property = "openapi.generator.maven.plugin.gitHost")
@@ -580,18 +611,66 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
-        if (StringUtils.isBlank(inputSpec) && StringUtils.isBlank(inputSpecRootDirectory)) {
-            LOGGER.error("inputSpec or inputSpecRootDirectory must be specified");
-            throw new MojoExecutionException("inputSpec or inputSpecRootDirectory must be specified");
+        if (StringUtils.isBlank(inputSpec) && StringUtils.isBlank(inputSpecRootDirectory) && (inputSpecFiles == null || inputSpecFiles.isEmpty())) {
+            LOGGER.error("inputSpec, inputSpecRootDirectory, or inputSpecFiles must be specified");
+            throw new MojoExecutionException("inputSpec, inputSpecRootDirectory, or inputSpecFiles must be specified");
         }
 
-        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+        if (inputSpecFiles != null && !inputSpecFiles.isEmpty()) {
+            if (mergedFileOutputDir == null) {
+                throw new MojoExecutionException("mergedFileOutputDir must be set when inputSpecFiles is used");
+            }
+            MergedSpecBuilder.MergeMode resolvedMergeMode;
+            try {
+                resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                throw new MojoExecutionException("Invalid mergeMode value '" + mergeMode
+                        + "'. Valid values are: REF, DEEP");
+            }
+
+            MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecFiles, mergedFileOutputDir.getAbsolutePath(),
+                    mergedFileName, mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
+                    .withMergeMode(resolvedMergeMode);
+
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                try {
+                    builder.withConflictStrategy(
+                            MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(Locale.ROOT)));
+                } catch (IllegalArgumentException e) {
+                    throw new MojoExecutionException("Invalid mergeConflictStrategy value '" + mergeConflictStrategy
+                            + "'. Valid values are: WARN, FAIL");
+                }
+            }
+
+            inputSpec = builder.buildMergedSpec();
+            LOGGER.info("Merged input spec from explicit file list: {}", inputSpec);
+        } else if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
             // make sure the path can be processed correct under Windows OS
             inputSpecRootDirectory = inputSpecRootDirectory.replaceAll("\\\\", "/");
 
-            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
+            MergedSpecBuilder.MergeMode resolvedMergeMode;
+            try {
+                resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                throw new MojoExecutionException("Invalid mergeMode value '" + mergeMode
+                        + "'. Valid values are: REF, DEEP");
+            }
+
+            MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
                     mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
-                    .buildMergedSpec();
+                    .withMergeMode(resolvedMergeMode);
+
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                try {
+                    builder.withConflictStrategy(
+                            MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(Locale.ROOT)));
+                } catch (IllegalArgumentException e) {
+                    throw new MojoExecutionException("Invalid mergeConflictStrategy value '" + mergeConflictStrategy
+                            + "'. Valid values are: WARN, FAIL");
+                }
+            }
+
+            inputSpec = builder.buildMergedSpec();
             LOGGER.info("Merge input spec would be used - {}", inputSpec);
         }
 

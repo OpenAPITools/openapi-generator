@@ -101,6 +101,11 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         languageSpecificPrimitives.add("Dict");
         typeMapping.put("array", "List");
         typeMapping.put("map", "Dict");
+        // Binary response body: map OAS file/binary to built-in bytes (not the invalid Py2 type `file`).
+        // Multipart upload fields remain UploadFile via overrideFileFormParamTyping (#23793).
+        // See https://github.com/OpenAPITools/openapi-generator/issues/20775
+        typeMapping.put("file", "bytes");
+        typeMapping.put("binary", "bytes");
 
         outputFolder = "generated-code" + File.separator + NAME;
         modelTemplateFiles.put("model.mustache", ".py");

@@ -50,6 +50,7 @@ use crate::{Api,
      MergePatchJsonGetResponse,
      MultigetGetResponse,
      MultipleAuthSchemeGetResponse,
+     MultipleResponseContentTypesResponse,
      OneOfGetResponse,
      OverrideServerGetResponse,
      ParamgetGetResponse,
@@ -529,8 +530,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -540,14 +541,13 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 let body = serde_json::from_str::<models::AnyOfObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(AnyOfGetResponse::Success
                     (body)
                 )
             }
             201 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -557,14 +557,13 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 let body = serde_json::from_str::<models::Model12345AnyOfObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(AnyOfGetResponse::AlternateSuccess
                     (body)
                 )
             }
             202 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -573,7 +572,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::AnyOfGet202Response>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(AnyOfGetResponse::AnyOfSuccess
                     (body)
@@ -792,8 +790,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -802,7 +800,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::AdditionalPropertiesReferencedAnyOfObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(ExamplesTestResponse::OK
                     (body)
@@ -1191,8 +1188,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1201,7 +1198,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::AnotherXmlObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(MergePatchJsonGetResponse::Merge
                     (body)
@@ -1271,8 +1267,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1282,14 +1278,13 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 let body = serde_json::from_str::<models::AnotherXmlObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(MultigetGetResponse::JSONRsp
                     (body)
                 )
             }
             201 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1301,28 +1296,26 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 let body = serde_xml_rs::from_str::<models::MultigetGet201Response>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(MultigetGetResponse::XMLRsp
                     (body)
                 )
             }
             202 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
 
                 let body = swagger::ByteArray(body.to_vec());
 
-
                 Ok(MultigetGetResponse::OctetRsp
                     (body)
                 )
             }
             203 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1331,14 +1324,13 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = body.to_string();
 
-
                 Ok(MultigetGetResponse::StringRsp
                     (body)
                 )
             }
             204 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1347,15 +1339,14 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::AnotherXmlObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(MultigetGetResponse::DuplicateResponseLongText
                     (body)
                 )
             }
             205 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1364,15 +1355,14 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::AnotherXmlObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(MultigetGetResponse::DuplicateResponseLongText_2
                     (body)
                 )
             }
             206 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1381,7 +1371,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::AnotherXmlObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(MultigetGetResponse::DuplicateResponseLongText_3
                     (body)
@@ -1492,6 +1481,135 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
+    async fn multiple_response_content_types(
+        &self,
+        param_object_param: models::ObjectParam,
+        context: &C) -> Result<MultipleResponseContentTypesResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
+        let mut uri = format!(
+            "{}/multiple-response-content-types",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(BoxBody::new(http_body_util::Empty::new())) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
+        };
+
+        // Consumes basic body
+        // Body parameter
+        let body = serde_json::to_string(&param_object_param).expect("impossible to fail to serialize");
+        *request.body_mut() = body_from_string(body);
+
+        let header = "application/json";
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
+        });
+
+        let response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
+
+        match response.status().as_u16() {
+            201 => {
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
+
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                let body = serde_json::from_str::<models::AnyOfObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+
+                Ok(MultipleResponseContentTypesResponse::Created
+                    (body)
+                )
+            }
+            403 => {
+
+                let (header, body) = response.into_parts();
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
+
+                // Body has multiple variant schemas
+                let content_type = if let Some(content_type) = header.headers.get(CONTENT_TYPE) {
+                    content_type.to_str()
+                } else {
+                    return Err(ApiError(String::from("Missing content type header")));
+                };
+
+                let content_type = content_type.map(|s|
+                    s.split(';').next().expect("Splitting content type header failed").trim());
+
+                let body = match content_type {
+                    Ok(ct) if ct.eq_ignore_ascii_case("text/plain") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = body.to_string();
+                        swagger::OneOf2::<String, models::AnyOfObject>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<models::AnyOfObject>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<String, models::AnyOfObject>::B(body)
+                    },
+                    e => {
+                        return Err(ApiError(format!("Unexpected content type: {:?}", e)));
+                    }
+                };
+
+                Ok(MultipleResponseContentTypesResponse::Forbidden
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
+                    }
+                )))
+            }
+        }
+    }
+
+    #[allow(clippy::vec_init_then_push)]
     async fn one_of_get(
         &self,
         context: &C) -> Result<OneOfGetResponse, ApiError>
@@ -1537,8 +1655,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1547,7 +1665,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::OneOfGet200Response>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(OneOfGetResponse::Success
                     (body)
@@ -1700,8 +1817,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1710,7 +1827,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::AnotherXmlObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(ParamgetGetResponse::JSONRsp
                     (body)
@@ -2165,7 +2281,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let response_success_info = match response.headers().get(HeaderName::from_static("success-info")) {
+                let (header, body) = response.into_parts();
+                let response_success_info = match header.headers.get(HeaderName::from_static("success-info")) {
                     Some(response_success_info) => {
                         let response_success_info = response_success_info.clone();
                         let response_success_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_success_info) {
@@ -2179,7 +2296,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     None => return Err(ApiError(String::from("Required response header Success-Info for response 200 was not found."))),
                 };
 
-                let response_bool_header = match response.headers().get(HeaderName::from_static("bool-header")) {
+                let response_bool_header = match header.headers.get(HeaderName::from_static("bool-header")) {
                     Some(response_bool_header) => {
                         let response_bool_header = response_bool_header.clone();
                         let response_bool_header = match TryInto::<header::IntoHeaderValue<bool>>::try_into(response_bool_header) {
@@ -2193,7 +2310,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     None => None,
                 };
 
-                let response_object_header = match response.headers().get(HeaderName::from_static("object-header")) {
+                let response_object_header = match header.headers.get(HeaderName::from_static("object-header")) {
                     Some(response_object_header) => {
                         let response_object_header = response_object_header.clone();
                         let response_object_header = match TryInto::<header::IntoHeaderValue<models::ObjectHeader>>::try_into(response_object_header) {
@@ -2207,8 +2324,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     None => None,
                 };
 
-                let body = response.into_body();
+
                 let body = http_body_util::BodyExt::collect(body)
+
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -2217,7 +2335,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<String>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(ResponsesWithHeadersGetResponse::Success
                     {
@@ -2229,7 +2346,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 )
             }
             412 => {
-                let response_further_info = match response.headers().get(HeaderName::from_static("further-info")) {
+                let (header, body) = response.into_parts();
+                let response_further_info = match header.headers.get(HeaderName::from_static("further-info")) {
                     Some(response_further_info) => {
                         let response_further_info = response_further_info.clone();
                         let response_further_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_further_info) {
@@ -2243,7 +2361,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     None => None,
                 };
 
-                let response_failure_info = match response.headers().get(HeaderName::from_static("failure-info")) {
+                let response_failure_info = match header.headers.get(HeaderName::from_static("failure-info")) {
                     Some(response_failure_info) => {
                         let response_failure_info = response_failure_info.clone();
                         let response_failure_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_failure_info) {
@@ -2329,8 +2447,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             204 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -2339,15 +2457,14 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::ObjectWithArrayOfObjects>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(Rfc7807GetResponse::OK
                     (body)
                 )
             }
             404 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -2357,14 +2474,13 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 let body = serde_json::from_str::<models::ObjectWithArrayOfObjects>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(Rfc7807GetResponse::NotFound
                     (body)
                 )
             }
             406 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -2375,7 +2491,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<models::ObjectWithArrayOfObjects>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(Rfc7807GetResponse::NotAcceptable
                     (body)
@@ -2629,8 +2744,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -2639,7 +2754,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<uuid::Uuid>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(UuidGetResponse::DuplicateResponseLongText
                     (body)
@@ -2804,8 +2918,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             201 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -2816,7 +2930,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<models::AnotherXmlObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(XmlOtherPostResponse::OK
                     (body)
@@ -3364,8 +3477,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -3374,7 +3487,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<String>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(GetRepoInfoResponse::OK
                     (body)

@@ -21,7 +21,8 @@ type Category struct {
 	Name string `json:"name,omitempty" validate:"regexp=^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$"`
 }
 
-// AssertCategoryRequired checks if the required fields are not zero-ed
+// AssertCategoryRequired checks complex required fields (models, arrays, maps) and embedded parents.
+// Primitive required fields are validated for JSON request bodies in UnmarshalJSON so zero values remain valid.
 func AssertCategoryRequired(obj Category) error {
 	return nil
 }
