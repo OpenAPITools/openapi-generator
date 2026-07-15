@@ -499,15 +499,17 @@ class ObjectSerializer
             }
             return $data;
         } else {
+            // A oneOf/anyOf schema is not a value object: resolve the raw data to one of its member
+            // types before the object-model normalization below, which would corrupt non-object
+            // members (json_decode nulls a scalar, and the array-to-object cast breaks array members).
+            if (is_subclass_of($class, '\OpenAPI\Client\Model\ComposedInterface')) {
+                return self::deserializeComposed($data, $class, $httpHeaders);
+            }
+
             $data = is_string($data) ? json_decode($data) : $data;
 
             if (is_array($data)) {
                 $data = (object) $data;
-            }
-
-            // A oneOf/anyOf schema is not a value object: resolve the data to one of its member types.
-            if (is_subclass_of($class, '\OpenAPI\Client\Model\ComposedInterface')) {
-                return self::deserializeComposed($data, $class, $httpHeaders);
             }
 
             // If a discriminator is defined and points to a valid subclass, use it.
@@ -552,27 +554,37 @@ class ObjectSerializer
      * Otherwise each member type is tried in turn and the first one that yields a valid model
      * (or a non-null primitive) is returned.
      *
-     * @param mixed         $data        the data already decoded to an object
+     * @param mixed         $data        the raw data to resolve to a member type
      * @param string        $class       a class name implementing ComposedInterface
      * @param string[]|null $httpHeaders HTTP headers
      *
-     * @return mixed an instance of one of the `oneOf` member types
+     * @return mixed an instance of one of the composed (`oneOf`/`anyOf`) member types
      */
     private static function deserializeComposed(mixed $data, string $class, ?array $httpHeaders): mixed
     {
+        // $data is still raw (see deserialize()): decode a throwaway copy only to read the
+        // discriminator. Each member type below is deserialized from the original $data so
+        // primitive and array members keep their own type handling instead of being coerced here.
+        $probe = is_string($data) ? json_decode($data) : $data;
+        if (is_array($probe)) {
+            $probe = (object) $probe;
+        }
+
         $discriminator = $class::getComposedDiscriminator();
-        if ($discriminator !== null && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
+        if ($discriminator !== null && is_object($probe) && isset($probe->{$discriminator}) && is_string($probe->{$discriminator})) {
             $mappings = $class::getComposedDiscriminatorMappings();
-            if (isset($mappings[$data->{$discriminator}])) {
-                return self::deserialize($data, $mappings[$data->{$discriminator}], $httpHeaders);
+            if (isset($mappings[$probe->{$discriminator}])) {
+                return self::deserialize($data, $mappings[$probe->{$discriminator}], $httpHeaders);
             }
         }
 
         foreach ($class::getComposedTypes() as $type) {
             try {
                 $instance = self::deserialize($data, $type, $httpHeaders);
-            } catch (\Exception | \TypeError $e) {
-                // The data does not match this member type, try the next one.
+            } catch (\Throwable $e) {
+                // Any failure means the data does not match this member type; try the next one.
+                // The broad catch is intentional: a real failure is not hidden, since the loop
+                // throws below when no member type matches.
                 continue;
             }
 
