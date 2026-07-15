@@ -19,17 +19,15 @@
 
 
 /**
- * TestEnumParametersRequestEnumFormString
+ * EnumTestEnumNumber
  */
 namespace OpenAPI\Server\Model;
 
 /**
- * TestEnumParametersRequestEnumFormString
- * @description Form parameter enum test (string)
+ * EnumTestEnumNumber
  */
-enum TestEnumParametersRequestEnumFormString: string
+enum EnumTestEnumNumber: float
 {
-        case ABC = '_abc';
-        case EFG = '-efg';
-        case XYZ = '(xyz)';
+        case NUMBER_1_DOT_1 = 1.1;
+        case MINUS_1_DOT_2 = -1.2;
 }
