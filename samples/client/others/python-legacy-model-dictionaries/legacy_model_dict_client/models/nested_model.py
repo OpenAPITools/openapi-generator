@@ -96,9 +96,24 @@ def _to_openapi_value(value: Any) -> Any:
 class NestedModel(BaseModel):
     """
     NestedModel
+
+    Attributes:
+      openapi_types (dict): The key is attribute name
+                            and the value is attribute type.
+      attribute_map (dict): The key is attribute name
+                            and the value is json key in definition.
     """ # noqa: E501
     camel_case: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("camelCase", "camel_case"), serialization_alias="camelCase")
     nested_read_only_value: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("nestedReadOnlyValue", "nested_read_only_value"), serialization_alias="nestedReadOnlyValue")
+    openapi_types: ClassVar[Dict[str, str]] = {
+        "camel_case": "str",
+        "nested_read_only_value": "str"
+    }
+
+    attribute_map: ClassVar[Dict[str, str]] = {
+        "camel_case": "camelCase",
+        "nested_read_only_value": "nestedReadOnlyValue"
+    }
     __properties: ClassVar[List[str]] = ["camelCase", "nestedReadOnlyValue"]
 
     @classmethod
@@ -122,13 +137,33 @@ class NestedModel(BaseModel):
         validate_by_name=True,
         validate_by_alias=True,
         validate_assignment=True,
+        extra="forbid",
         protected_namespaces=(),
     )
 
 
     def to_str(self) -> str:
-        """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.model_dump(by_alias=True))
+        """Returns the string representation of the model"""
+        return pprint.pformat(self.to_dict())
+
+    def __repr__(self) -> str:
+        """For print and pprint"""
+        return self.to_str()
+
+    def __eq__(self, other: object) -> bool:
+        """Returns true if both objects are equal"""
+        if not isinstance(other, NestedModel):
+            return False
+
+        return self.to_dict() == other.to_dict()
+
+    def __ne__(self, other: object) -> bool:
+        """Returns true if both objects are not equal"""
+        if not isinstance(other, NestedModel):
+            return True
+
+        return not (self == other)
+
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""

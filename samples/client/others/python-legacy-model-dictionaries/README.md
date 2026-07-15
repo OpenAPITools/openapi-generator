@@ -55,6 +55,27 @@ import legacy_model_dict_client
 from legacy_model_dict_client.rest import ApiException
 from pprint import pprint
 
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = legacy_model_dict_client.Configuration(
+    host = "http://localhost"
+)
+
+
+
+# Enter a context with an instance of the API client
+with legacy_model_dict_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = legacy_model_dict_client.DefaultApi(api_client)
+
+    try:
+        # List legacy models
+        api_response = api_instance.list_legacy_models()
+        print("The response of DefaultApi->list_legacy_models:\n")
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling DefaultApi->list_legacy_models: %s\n" % e)
+
 ```
 
 ## Documentation for API Endpoints
@@ -63,6 +84,7 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DefaultApi* | [**list_legacy_models**](docs/DefaultApi.md#list_legacy_models) | **GET** /legacy-models | List legacy models
 
 
 ## Documentation For Models
@@ -82,6 +104,7 @@ Endpoints do not require authorization.
 
 
 ## Author
+
 
 
 

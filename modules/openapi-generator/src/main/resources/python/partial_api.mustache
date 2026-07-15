@@ -8,6 +8,19 @@
         :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
         {{/allParams}}
+{{#compatibleWithPythonLegacyApi}}
+{{^async}}
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _return_http_data_only: only affects with_http_info; ordinary
+                                       methods always return data only.
+        :type _return_http_data_only: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+{{/async}}
+{{/compatibleWithPythonLegacyApi}}
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

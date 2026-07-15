@@ -21,6 +21,9 @@ import os
 import re
 import tempfile
 import uuid
+import atexit
+from multiprocessing.pool import ThreadPool
+from threading import Lock
 
 from urllib.parse import quote
 from typing import Tuple, Optional, List, Dict, Union, Any
@@ -87,6 +90,7 @@ class ApiClient:
         the API.
     :param cookie: a cookie to include in the header when making calls
         to the API
+    :param pool_threads: number of threads for legacy async requests.
     """
 
     PRIMITIVE_TYPES = (float, bool, bytes, str, int)
@@ -109,7 +113,8 @@ class ApiClient:
         configuration=None,
         header_name=None,
         header_value=None,
-        cookie=None
+        cookie=None,
+        pool_threads=1
     ) -> None:
         # use default configuration if none is provided
         if configuration is None:
@@ -121,15 +126,84 @@ class ApiClient:
         if header_name is not None:
             self.default_headers[header_name] = header_value
         self.cookie = cookie
+        self.pool_threads = pool_threads
+        self._pool_lock = Lock()
         # Set default User-Agent.
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
         self.client_side_validation = configuration.client_side_validation
+
+    def close(self):
+        # Pool creation, submission, and close share one lock so an async
+        # request cannot lose its pool while another thread closes the client.
+        with self._pool_lock:
+            if self._pool is not None:
+                self._pool.close()
+                self._pool.join()
+                self._pool = None
+                if hasattr(atexit, 'unregister'):
+                    atexit.unregister(self.close)
+
+    def _get_pool(self):
+        if self._pool is None:
+            atexit.register(self.close)
+            self._pool = ThreadPool(self.pool_threads)
+        return self._pool
+
+    @property
+    def pool(self):
+        """Create the thread pool only for legacy async requests."""
+        with self._pool_lock:
+            return self._get_pool()
+
+    def _call_with_legacy_options(
+        self,
+        request: RequestSerialized,
+        response_types_map: Dict[str, Optional[str]],
+        async_req: Optional[bool],
+        preload_content: bool,
+        request_timeout: Any,
+        return_http_data_only: bool,
+    ) -> Any:
+        def call():
+            response_data = self.call_api(
+                *request,
+                _request_timeout=request_timeout,
+            )
+            if not preload_content:
+                # python-legacy raised non-2xx responses in the REST layer
+                # before returning raw data:
+                # https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/rest.mustache#L213-L226
+                if not 200 <= response_data.status <= 299:
+                    response_data.read()
+                    raise ApiException.from_response(
+                        http_resp=response_data,
+                        body=None,
+                        data=None,
+                    )
+                return response_data.response
+            response_data.read()
+            api_response = self.response_deserialize(
+                response_data=response_data,
+                response_types_map=response_types_map,
+            )
+            if return_http_data_only:
+                return api_response.data
+            return (
+                api_response.data,
+                api_response.status_code,
+                response_data.getheaders(),
+            )
+
+        if async_req:
+            with self._pool_lock:
+                return self._get_pool().apply_async(call)
+        return call()
 
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        pass
+        self.close()
 
     @property
     def user_agent(self):

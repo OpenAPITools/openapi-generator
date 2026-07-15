@@ -42,6 +42,19 @@ if TYPE_CHECKING:
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
     {{#description}}{{{description}}}{{/description}}{{^description}}{{{classname}}}{{/description}}
+{{#compatibleWithPythonLegacy}}
+{{!
+python-legacy generic models exposed metadata and value helpers:
+https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/model.mustache#L37-L55
+https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/model.mustache#L203-L255
+}}
+
+    Attributes:
+      openapi_types (dict): The key is attribute name
+                            and the value is attribute type.
+      attribute_map (dict): The key is attribute name
+                            and the value is json key in definition.
+{{/compatibleWithPythonLegacy}}
     """ # noqa: E501
 {{#vars}}
     {{name}}: {{{vendorExtensions.x-py-typing}}}
@@ -49,6 +62,19 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#isAdditionalPropertiesTrue}}
     additional_properties: Dict[str, Any] = {}
 {{/isAdditionalPropertiesTrue}}
+{{#compatibleWithPythonLegacy}}
+    openapi_types: ClassVar[Dict[str, str]] = {
+{{#allVars}}
+        {{#vendorExtensions.x-py-public-name-literal}}{{{vendorExtensions.x-py-public-name-literal}}}{{/vendorExtensions.x-py-public-name-literal}}{{^vendorExtensions.x-py-public-name-literal}}{{#lambda.pythonStringLiteral}}{{{name}}}{{/lambda.pythonStringLiteral}}{{/vendorExtensions.x-py-public-name-literal}}: {{#lambda.pythonStringLiteral}}{{{dataType}}}{{/lambda.pythonStringLiteral}}{{^-last}},{{/-last}}
+{{/allVars}}
+    }
+
+    attribute_map: ClassVar[Dict[str, str]] = {
+{{#allVars}}
+        {{#vendorExtensions.x-py-public-name-literal}}{{{vendorExtensions.x-py-public-name-literal}}}{{/vendorExtensions.x-py-public-name-literal}}{{^vendorExtensions.x-py-public-name-literal}}{{#lambda.pythonStringLiteral}}{{{name}}}{{/lambda.pythonStringLiteral}}{{/vendorExtensions.x-py-public-name-literal}}: {{{vendorExtensions.x-py-wire-name-literal}}}{{^-last}},{{/-last}}
+{{/allVars}}
+    }
+{{/compatibleWithPythonLegacy}}
     __properties: ClassVar[List[str]] = [{{#allVars}}{{{vendorExtensions.x-py-wire-name-literal}}}{{^-last}}, {{/-last}}{{/allVars}}]
 {{#vars}}
     {{#vendorExtensions.x-regex}}
@@ -170,6 +196,13 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         validate_by_name=True,
         validate_by_alias=True,
         validate_assignment=True,
+{{#compatibleWithPythonLegacy}}
+{{!
+python-legacy generated explicit constructor parameters, so unknown kwargs failed:
+https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/model.mustache#L64-L100
+}}
+        extra="forbid",
+{{/compatibleWithPythonLegacy}}
         protected_namespaces=(),
     )
 
@@ -196,8 +229,43 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{/discriminator}}
 {{/hasChildren}}
     def to_str(self) -> str:
+{{#compatibleWithPythonLegacy}}
+        """Returns the string representation of the model"""
+        return pprint.pformat(self.to_dict())
+{{/compatibleWithPythonLegacy}}
+{{^compatibleWithPythonLegacy}}
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
+{{/compatibleWithPythonLegacy}}
+{{#compatibleWithPythonLegacy}}
+
+    def __repr__(self) -> str:
+        """For print and pprint"""
+        return self.to_str()
+
+    def __eq__(self, other: object) -> bool:
+        """Returns true if both objects are equal"""
+        if not isinstance(other, {{classname}}):
+            return False
+
+{{#isAdditionalPropertiesTrue}}
+        return (
+            self.to_dict() == other.to_dict()
+            and self.additional_properties == other.additional_properties
+        )
+{{/isAdditionalPropertiesTrue}}
+{{^isAdditionalPropertiesTrue}}
+        return self.to_dict() == other.to_dict()
+{{/isAdditionalPropertiesTrue}}
+
+    def __ne__(self, other: object) -> bool:
+        """Returns true if both objects are not equal"""
+        if not isinstance(other, {{classname}}):
+            return True
+
+        return not (self == other)
+
+{{/compatibleWithPythonLegacy}}
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""

@@ -96,9 +96,22 @@ def _to_openapi_value(value: Any) -> Any:
 class AdditionalPropertiesModel(BaseModel):
     """
     AdditionalPropertiesModel
+
+    Attributes:
+      openapi_types (dict): The key is attribute name
+                            and the value is attribute type.
+      attribute_map (dict): The key is attribute name
+                            and the value is json key in definition.
     """ # noqa: E501
     declared_value: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("declaredValue", "declared_value"), serialization_alias="declaredValue")
     additional_properties: Dict[str, Any] = {}
+    openapi_types: ClassVar[Dict[str, str]] = {
+        "declared_value": "str"
+    }
+
+    attribute_map: ClassVar[Dict[str, str]] = {
+        "declared_value": "declaredValue"
+    }
     __properties: ClassVar[List[str]] = ["declaredValue"]
 
     @classmethod
@@ -119,13 +132,36 @@ class AdditionalPropertiesModel(BaseModel):
         validate_by_name=True,
         validate_by_alias=True,
         validate_assignment=True,
+        extra="forbid",
         protected_namespaces=(),
     )
 
 
     def to_str(self) -> str:
-        """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.model_dump(by_alias=True))
+        """Returns the string representation of the model"""
+        return pprint.pformat(self.to_dict())
+
+    def __repr__(self) -> str:
+        """For print and pprint"""
+        return self.to_str()
+
+    def __eq__(self, other: object) -> bool:
+        """Returns true if both objects are equal"""
+        if not isinstance(other, AdditionalPropertiesModel):
+            return False
+
+        return (
+            self.to_dict() == other.to_dict()
+            and self.additional_properties == other.additional_properties
+        )
+
+    def __ne__(self, other: object) -> bool:
+        """Returns true if both objects are not equal"""
+        if not isinstance(other, AdditionalPropertiesModel):
+            return True
+
+        return not (self == other)
+
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""

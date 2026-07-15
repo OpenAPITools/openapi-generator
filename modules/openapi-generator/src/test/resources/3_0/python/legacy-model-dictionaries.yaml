@@ -2,7 +2,20 @@ openapi: 3.0.0
 info:
   title: Legacy model dictionaries
   version: 1.0.0
-paths: {}
+paths:
+  /legacy-models:
+    get:
+      operationId: listLegacyModels
+      summary: List legacy models
+      responses:
+        '200':
+          description: Legacy model list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LegacyModel'
 components:
   schemas:
     NestedModel:

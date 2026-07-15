@@ -1,9 +1,48 @@
+from contextlib import contextmanager
 import functools
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+import threading
 import unittest
-from typing import Any
+from typing import Any, Iterator
 
 import legacy_model_dict_client as client
+from legacy_model_dict_client.exceptions import NotFoundException
+from pydantic import ValidationError
+
+
+class _LegacyModelsHandler(BaseHTTPRequestHandler):
+    def do_GET(self) -> None:
+        if self.path.startswith("/missing/"):
+            self.send_error(404, "missing")
+            return
+
+        body = json.dumps(
+            [{"ordinary": "response", "unknown": "ignored"}]
+        ).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("X-Test-Header", "legacy")
+        self.send_header("X-Test-Header", "duplicate")
+        self.end_headers()
+        self.wfile.write(body)
+
+    def log_message(self, format: str, *args: Any) -> None:
+        pass
+
+
+@contextmanager
+def _legacy_models_server() -> Iterator[str]:
+    server = ThreadingHTTPServer(("127.0.0.1", 0), _LegacyModelsHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        yield "http://127.0.0.1:%d" % server.server_address[1]
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join()
 
 
 class TestLegacyModelDictionaries(unittest.TestCase):
@@ -109,6 +148,22 @@ class TestLegacyModelDictionaries(unittest.TestCase):
             self.transport_model_dict,
         )
 
+    def test_legacy_model_surface(self) -> None:
+        self.assertEqual(client.LegacyModel.openapi_types["_continue"], "str")
+        self.assertEqual(
+            client.LegacyModel.attribute_map["_continue"],
+            "continue",
+        )
+        self.assertEqual(repr(self.model), self.model.to_str())
+        self.assertEqual(self.model, self.model.model_copy())
+        self.assertNotEqual(
+            self.model,
+            self.model.model_copy(update={"renamed": "other"}),
+        )
+
+        with self.assertRaises(ValidationError):
+            client.LegacyModel(unexpected="value")  # type: ignore[call-arg]
+
     def test_wire_names_remain_inputs(self) -> None:
         model = client.LegacyModel.model_validate(
             {
@@ -138,8 +193,13 @@ class TestLegacyModelDictionaries(unittest.TestCase):
     def test_additional_properties_remain_transport_only(self) -> None:
         model = client.AdditionalPropertiesModel(declared_value="declared")
         model.additional_properties["dynamic"] = self.nested
+        other = client.AdditionalPropertiesModel(
+            declared_value="declared",
+        )
+        other.additional_properties["dynamic"] = "other"
 
         self.assertEqual(model.to_dict(), {"declared_value": "declared"})
+        self.assertNotEqual(model, other)
         self.assertEqual(
             model.to_dict(serialize=True),
             {"declaredValue": "declared"},
@@ -323,3 +383,91 @@ class TestLegacyModelDictionaries(unittest.TestCase):
             client.ApiClient().sanitize_for_serialization(model),
             self.transport_model_dict,
         )
+
+    def test_legacy_operation_shapes(self) -> None:
+        with _legacy_models_server() as host:
+            configuration = client.Configuration(host=host, no_proxy="*")
+            with client.ApiClient(configuration) as api_client:
+                api = client.DefaultApi(api_client)
+                expected = [client.LegacyModel(renamed="response")]
+
+                self.assertEqual(
+                    api.list_legacy_models(_request_timeout=1),
+                    expected,
+                )
+                self.assertEqual(
+                    api.list_legacy_models(
+                        _return_http_data_only=False,
+                    ),
+                    expected,
+                )
+
+                future: Any = api.list_legacy_models(async_req=True)
+                self.assertEqual(future.get(), expected)
+
+                raw_response: Any = api.list_legacy_models(
+                    _preload_content=False,
+                )
+                self.assertEqual(raw_response.status, 200)
+                self.assertEqual(
+                    json.loads(raw_response.data),
+                    [{"ordinary": "response", "unknown": "ignored"}],
+                )
+                raw_response.close()
+
+                data, status, headers = (
+                    api.list_legacy_models_with_http_info(
+                        _request_timeout=(1, 2),
+                    )
+                )
+                self.assertEqual(data, expected)
+                self.assertEqual(status, 200)
+                self.assertEqual(
+                    headers.getlist("X-Test-Header"),
+                    ["legacy", "duplicate"],
+                )
+                self.assertEqual(
+                    api.list_legacy_models_with_http_info(
+                        _return_http_data_only=True,
+                    ),
+                    expected,
+                )
+
+                raw_data: Any = api.list_legacy_models_with_http_info(
+                    _preload_content=False,
+                )
+                self.assertEqual(raw_data.status, 200)
+                self.assertEqual(
+                    raw_data.headers.getlist("X-Test-Header"),
+                    ["legacy", "duplicate"],
+                )
+                raw_data.close()
+
+                raw_future: Any = (
+                    api.list_legacy_models_with_http_info(
+                        async_req=True,
+                        _preload_content=False,
+                    )
+                )
+                async_raw_data = raw_future.get()
+                self.assertEqual(async_raw_data.status, 200)
+                async_raw_data.close()
+
+    def test_raw_operation_errors(self) -> None:
+        with _legacy_models_server() as host:
+            configuration = client.Configuration(
+                host=host + "/missing",
+                no_proxy="*",
+            )
+            with client.ApiClient(configuration) as api_client:
+                api = client.DefaultApi(api_client)
+
+                with self.assertRaises(NotFoundException):
+                    api.list_legacy_models(_preload_content=False)
+
+                future: Any = api.list_legacy_models(
+                    async_req=True,
+                    _preload_content=False,
+                )
+                with self.assertRaises(NotFoundException):
+                    future.get()
