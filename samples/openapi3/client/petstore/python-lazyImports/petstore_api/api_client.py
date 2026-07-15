@@ -302,6 +302,10 @@ class ApiClient:
             # if not found, look for '1XX', '2XX', etc.
             response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
 
+
+        if not response_type and 'default' in response_types_map:
+            response_type = response_types_map['default']
+
         # deserialize response data
         response_text = None
         return_data = None

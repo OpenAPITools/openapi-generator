@@ -112,6 +112,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -178,6 +179,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -244,6 +246,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -381,6 +384,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -447,6 +451,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -513,6 +518,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -645,6 +651,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -711,6 +718,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -777,6 +785,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1711,6 +1720,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1773,6 +1783,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1835,6 +1846,7 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': None,
         }
         response_data = self.api_client.call_api(
             *_param,
