@@ -1550,6 +1550,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
                 }
                 Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
+                System.out.println(defaultProperties);
                 for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
                     String key = defaultProperty.getKey();
                     JsonNode value = defaultProperty.getValue();
@@ -1571,10 +1572,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
                     } else if(ModelUtils.isEnumSchema(propertySchema)) {
                         defaultPropertyExpression = String.join(
-                                ".",
-                                cp.datatypeWithEnum,
-                                sanitizeName(camelize(key)) + "Enum",
-                                toEnumVarName(value.asText(), cp.dataType)
+                                ".",cp.datatypeWithEnum, toEnumName(key), toEnumVarName(value.asText(), cp.dataType)
                         );
                     } else if(ModelUtils.isURISchema(propertySchema)) {
                         defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
