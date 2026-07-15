@@ -149,6 +149,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                 collectComposedTypeHint(m.getModel(), composedTypeHints);
             }
         }
+        flattenComposedTypeHints(composedTypeHints);
 
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             entry.setValue(postProcessModelsMap(entry.getValue(), composedTypeHints));
@@ -184,6 +185,38 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         }
 
         composedTypeHints.put("\\" + modelPackage + "\\" + model.classname, String.join("|", memberTypes));
+    }
+
+    /**
+     * Expand each composed type's union hint transitively: a member that is itself a composed type
+     * is replaced by its own leaf members. {@see ObjectSerializer::deserializeComposed()} unwraps
+     * nested composition down to the leaf instance, so a property typed with an intermediate
+     * composed member would otherwise reject the leaf the deserializer actually returns.
+     */
+    private void flattenComposedTypeHints(Map<String, String> composedTypeHints) {
+        Map<String, String> resolved = new HashMap<>();
+        for (String composedType : composedTypeHints.keySet()) {
+            Set<String> leaves = new LinkedHashSet<>();
+            collectLeafTypes(composedType, composedTypeHints, new LinkedHashSet<>(), leaves);
+            resolved.put(composedType, String.join("|", leaves));
+        }
+        composedTypeHints.putAll(resolved);
+    }
+
+    /**
+     * Accumulate into {@code leaves} the non-composed member types reachable from {@code type}. A
+     * member that is itself a composed type (a key in {@code composedTypeHints}) is expanded
+     * recursively; {@code visiting} guards against cycles in self-referential schemas.
+     */
+    private void collectLeafTypes(String type, Map<String, String> composedTypeHints, Set<String> visiting, Set<String> leaves) {
+        if (!composedTypeHints.containsKey(type) || !visiting.add(type)) {
+            leaves.add(type);
+            return;
+        }
+        for (String member : composedTypeHints.get(type).split("\\|")) {
+            collectLeafTypes(member, composedTypeHints, visiting, leaves);
+        }
+        visiting.remove(type);
     }
 
     /**
@@ -325,6 +358,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         for (ModelMap m : allModels) {
             collectComposedTypeHint(m.getModel(), composedTypeHints);
         }
+        flattenComposedTypeHints(composedTypeHints);
 
         OperationMap operations = objs.getOperations();
         for (CodegenOperation operation : operations.getOperation()) {
