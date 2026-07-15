@@ -14,8 +14,11 @@ package org.openapitools.client.api
 import org.openapitools.client.model.ApiResponse
 import java.io.File
 import org.openapitools.client.model.Pet
+import org.openapitools.client.model.PetColor.*
+import org.openapitools.client.model.PetColor
 import org.openapitools.client.model.PetStatus.*
 import org.openapitools.client.model.PetStatus
+import scala.collection.immutable.Set
 import org.openapitools.client.core.JsonSupport.{*, given}
 import org.openapitools.client.core.FormSerializable
 import org.openapitools.client.core.FormStyleFormat
@@ -121,11 +124,15 @@ case class PetApi[Auth <: org.openapitools.client.core.Authorization] private (b
    *   code 400 :  (Invalid tag value)
    * 
    * @param tags Tags to filter by
+   * @param colors Unique coat colors to filter by (regression coverage for sets of referenced enums in query parameters)
+   * @param uniqueTags Deduplicated tags to filter by (regression coverage for sets of primitives in query parameters)
    */
-  def findPetsByTags(tags: Seq[String]): sttp.client4.Request[Either[ResponseException[String], Seq[Pet]]] =
+  def findPetsByTags(tags: Seq[String], colors: Set[PetColor], uniqueTags: Set[String]): sttp.client4.Request[Either[ResponseException[String], Seq[Pet]]] =
     val requestURL =
       uri"$baseUrl/pet/findByTags"
         .addParams(FormSerializable.serialize("tags", tags, FormStyleFormat.FORM, false): _*)
+        .addParams(FormSerializable.serialize("colors", colors, FormStyleFormat.FORM, false): _*)
+        .addParams(FormSerializable.serialize("uniqueTags", uniqueTags, FormStyleFormat.FORM, true): _*)
 
     basicRequest
       .method(Method.GET, requestURL)
