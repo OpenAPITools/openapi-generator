@@ -1550,7 +1550,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
                 }
                 Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
-                System.out.println(defaultProperties);
                 for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
                     String key = defaultProperty.getKey();
                     JsonNode value = defaultProperty.getValue();
