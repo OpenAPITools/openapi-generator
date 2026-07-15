@@ -339,7 +339,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 optionalAcceptNullable));
 
         cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
-        cliOptions.add(new CliOption(TYPE_INFO_DEFAULT_IMPLS, TYPE_INFO_DEFAULT_IMPLS_DESC));
+        cliOptions.add(new CliOption(TYPE_INFO_DEFAULT_IMPLS, TYPE_INFO_DEFAULT_IMPLS_DESC).defaultValue("empty map"));
         cliOptions.add(CliOption.newString(SPRING_API_VERSION, "Value for 'version' attribute in @RequestMapping (for Spring 7 and above)."));
         cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR,
             "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.")
