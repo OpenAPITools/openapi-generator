@@ -490,14 +490,13 @@ class ObjectSerializer
             }
             return $data;
         } else {
-            // A oneOf/anyOf schema is not a value object: resolve the raw data to one of its member
-            // types before the object-model normalization below, which would corrupt non-object
-            // members (json_decode nulls a scalar, and the array-to-object cast breaks array members).
+            $data = is_string($data) ? json_decode($data) : $data;
+
+            // A oneOf/anyOf schema is not a value object: dispatch here, after json_decode (so
+            // members get the decoded value) but before the array-to-object cast (which breaks arrays).
             if (is_subclass_of($class, '\{{modelPackage}}\ComposedInterface')) {
                 return self::deserializeComposed($data, $class, $httpHeaders);
             }
-
-            $data = is_string($data) ? json_decode($data) : $data;
 
             if (is_array($data)) {
                 $data = (object) $data;
@@ -545,7 +544,7 @@ class ObjectSerializer
      * Otherwise each member type is tried in turn and the first one that yields a valid model
      * (or a non-null primitive) is returned.
      *
-     * @param mixed         $data        the raw data to resolve to a member type
+     * @param mixed         $data        the decoded data to resolve to a member type
      * @param string        $class       a class name implementing ComposedInterface
      * @param string[]|null $httpHeaders HTTP headers
      *
@@ -553,13 +552,10 @@ class ObjectSerializer
      */
     private static function deserializeComposed(mixed $data, string $class, ?array $httpHeaders): mixed
     {
-        // $data is still raw (see deserialize()): decode a throwaway copy only to read the
-        // discriminator. Each member type below is deserialized from the original $data so
-        // primitive and array members keep their own type handling instead of being coerced here.
-        $probe = is_string($data) ? json_decode($data) : $data;
-        if (is_array($probe)) {
-            $probe = (object) $probe;
-        }
+        // $data is already decoded (see deserialize()). Read the discriminator from an object view
+        // of it, but deserialize each member from the original $data so array and scalar members
+        // keep their own type handling instead of being coerced to an object here.
+        $probe = is_array($data) ? (object) $data : $data;
 
         $discriminator = $class::getComposedDiscriminator();
         if ($discriminator !== null && is_object($probe) && isset($probe->{$discriminator}) && is_string($probe->{$discriminator})) {
