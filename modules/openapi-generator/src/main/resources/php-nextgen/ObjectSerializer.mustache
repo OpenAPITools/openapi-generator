@@ -562,8 +562,10 @@ class ObjectSerializer
         foreach ($class::getComposedTypes() as $type) {
             try {
                 $instance = self::deserialize($data, $type, $httpHeaders);
-            } catch (\Exception | \TypeError $e) {
-                // The data does not match this member type, try the next one.
+            } catch (\Throwable $e) {
+                // Any failure means the data does not match this member type; try the next one.
+                // The broad catch is intentional: a real failure is not hidden, since the loop
+                // throws below when no member type matches.
                 continue;
             }
 
