@@ -10,12 +10,8 @@ import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.*;
 
 import java.util.*;
 import javax.annotation.Generated;
@@ -24,9 +20,6 @@ import javax.annotation.Generated;
  * Cat
  */
 
-@JacksonXmlRootElement(localName = "Cat")
-@XmlRootElement(name = "Cat")
-@XmlAccessorType(XmlAccessType.FIELD)
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Cat implements Animal {
 
@@ -44,7 +37,6 @@ public class Cat implements Animal {
   
   @Schema(name = "declawed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("declawed")
-  @JacksonXmlProperty(localName = "declawed")
   public Boolean getDeclawed() {
     return declawed;
   }

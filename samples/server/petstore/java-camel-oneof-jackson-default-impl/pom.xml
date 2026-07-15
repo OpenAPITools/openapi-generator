@@ -137,15 +137,7 @@ Do not edit the class manually.
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jackson</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-jacksonxml</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-jaxb</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-direct</artifactId>

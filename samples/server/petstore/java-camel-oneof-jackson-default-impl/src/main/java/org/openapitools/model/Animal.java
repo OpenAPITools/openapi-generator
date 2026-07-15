@@ -14,20 +14,13 @@ import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.*;
 
 import java.util.*;
 import javax.annotation.Generated;
 
 
-@JacksonXmlRootElement(localName = "Animal")
-@XmlRootElement(name = "Animal")
-@XmlAccessorType(XmlAccessType.FIELD)
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog.class)
 @JsonSubTypes({

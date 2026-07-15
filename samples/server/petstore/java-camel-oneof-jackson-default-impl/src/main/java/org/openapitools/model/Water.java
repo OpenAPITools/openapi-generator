@@ -13,12 +13,8 @@ import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.*;
 
 import java.util.*;
 import javax.annotation.Generated;
@@ -27,9 +23,6 @@ import javax.annotation.Generated;
  * Water
  */
 
-@JacksonXmlRootElement(localName = "Water")
-@XmlRootElement(name = "Water")
-@XmlAccessorType(XmlAccessType.FIELD)
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Water implements Beverage {
 
@@ -60,7 +53,6 @@ public class Water implements Beverage {
   @NotNull 
   @Schema(name = "beverageType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("beverageType")
-  @JacksonXmlProperty(localName = "beverageType")
   public String getBeverageType() {
     return beverageType;
   }
@@ -81,7 +73,6 @@ public class Water implements Beverage {
   
   @Schema(name = "sparkling", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("sparkling")
-  @JacksonXmlProperty(localName = "sparkling")
   public Boolean getSparkling() {
     return sparkling;
   }

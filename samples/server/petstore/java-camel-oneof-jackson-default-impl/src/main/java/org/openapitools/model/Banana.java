@@ -13,12 +13,8 @@ import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.*;
 
 import java.util.*;
 import javax.annotation.Generated;
@@ -27,9 +23,6 @@ import javax.annotation.Generated;
  * Banana
  */
 
-@JacksonXmlRootElement(localName = "Banana")
-@XmlRootElement(name = "Banana")
-@XmlAccessorType(XmlAccessType.FIELD)
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Banana implements Fruit {
 
@@ -60,7 +53,6 @@ public class Banana implements Fruit {
   @NotNull 
   @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("fruitType")
-  @JacksonXmlProperty(localName = "fruitType")
   public String getFruitType() {
     return fruitType;
   }
@@ -81,7 +73,6 @@ public class Banana implements Fruit {
   
   @Schema(name = "length", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("length")
-  @JacksonXmlProperty(localName = "length")
   public Integer getLength() {
     return length;
   }

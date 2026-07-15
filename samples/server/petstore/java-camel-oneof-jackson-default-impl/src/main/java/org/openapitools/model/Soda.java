@@ -13,12 +13,8 @@ import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.*;
 
 import java.util.*;
 import javax.annotation.Generated;
@@ -27,9 +23,6 @@ import javax.annotation.Generated;
  * Soda
  */
 
-@JacksonXmlRootElement(localName = "Soda")
-@XmlRootElement(name = "Soda")
-@XmlAccessorType(XmlAccessType.FIELD)
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Soda implements Beverage {
 
@@ -60,7 +53,6 @@ public class Soda implements Beverage {
   @NotNull 
   @Schema(name = "beverageType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("beverageType")
-  @JacksonXmlProperty(localName = "beverageType")
   public String getBeverageType() {
     return beverageType;
   }
@@ -81,7 +73,6 @@ public class Soda implements Beverage {
   
   @Schema(name = "sugarGrams", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("sugarGrams")
-  @JacksonXmlProperty(localName = "sugarGrams")
   public Integer getSugarGrams() {
     return sugarGrams;
   }
