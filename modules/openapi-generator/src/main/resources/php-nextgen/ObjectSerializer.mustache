@@ -547,7 +547,7 @@ class ObjectSerializer
      * @param string        $class       a class name implementing ComposedInterface
      * @param string[]|null $httpHeaders HTTP headers
      *
-     * @return mixed an instance of one of the `oneOf` member types
+     * @return mixed an instance of one of the composed (`oneOf`/`anyOf`) member types
      */
     private static function deserializeComposed(mixed $data, string $class, ?array $httpHeaders): mixed
     {
