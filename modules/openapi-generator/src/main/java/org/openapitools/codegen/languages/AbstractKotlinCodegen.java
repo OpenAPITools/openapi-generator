@@ -1350,6 +1350,18 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableList<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
+        } else if (returnType.startsWith("kotlin.collections.MutableSet")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableSet<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("Set");
+            }
+        } else if (returnType.startsWith("kotlin.collections.Set")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Set<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("Set");
+            }
         } else if (returnType.startsWith("kotlin.collections.Map")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {

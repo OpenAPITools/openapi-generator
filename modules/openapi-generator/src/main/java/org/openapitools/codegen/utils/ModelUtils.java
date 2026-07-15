@@ -2393,6 +2393,16 @@ public class ModelUtils {
     }
 
     /**
+     * Returns true if the schema contains a $ref
+     *
+     * @param schema the schema
+     * @return true if $ref is set
+     */
+    public static boolean hasRef(Schema schema) {
+        return schema != null && schema.get$ref() != null;
+    }
+
+    /**
      * Returns schema type.
      * For 3.1 spec, return the first one.
      *
