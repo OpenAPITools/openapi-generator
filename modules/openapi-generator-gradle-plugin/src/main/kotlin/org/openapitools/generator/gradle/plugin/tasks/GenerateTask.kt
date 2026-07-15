@@ -82,6 +82,9 @@ interface OpenApiWorkParameters : WorkParameters {
     val enablePostProcessFile: Property<Boolean>
     val skipValidateSpec: Property<Boolean>
     val generateAliasAsModel: Property<Boolean>
+    val strictSpec: Property<Boolean>
+    val minimalUpdate: Property<Boolean>
+    val generateRecursiveDependentModels: Property<Boolean>
     val engine: Property<String>
     val dryRun: Property<Boolean>
 
@@ -158,6 +161,7 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
             params.generateModelDocumentation.orNull?.let { GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, it.toString()) }
             params.generateModelTests.orNull?.let { GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, it.toString()) }
             params.generateApiTests.orNull?.let { GlobalSettings.setProperty(CodegenConstants.API_TESTS, it.toString()) }
+            params.generateRecursiveDependentModels.orNull?.let { GlobalSettings.setProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, it.toString()) }
 
             // Apply Configurator Settings
             params.resolvedInputSpec.orNull?.let { configurator.setInputSpec(it) }
@@ -197,6 +201,8 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
             params.logToStderr.orNull?.let { configurator.setLogToStderr(it) }
             params.enablePostProcessFile.orNull?.let { configurator.setEnablePostProcessFile(it) }
             params.skipValidateSpec.orNull?.let { configurator.setValidateSpec(!it) }
+            params.strictSpec.orNull?.let { configurator.setStrictSpecBehavior(it) }
+            params.minimalUpdate.orNull?.let { configurator.setEnableMinimalUpdate(it) }
             params.generateAliasAsModel.orNull?.let { configurator.setGenerateAliasAsModel(it) }
 
             params.engine.orNull?.let {
@@ -344,8 +350,11 @@ abstract class GenerateTask : DefaultTask() {
     abstract val generatorName: Property<String>
 
     /**
-     * This is the configuration for reference paths where schemas for openapi generation are stored
-     * The directory which contains the additional schema files
+     * Optional directory containing additional schema files referenced via `$ref` in the input specification.
+     *
+     * Declaring this directory tells Gradle to track all files inside it for up-to-date checks.
+     * Without it, changes to `$ref`-referenced schemas will not trigger re-generation because
+     * Gradle only watches [inputSpec] by default.
      */
     @get:Optional
     @get:InputDirectory
@@ -430,39 +439,18 @@ abstract class GenerateTask : DefaultTask() {
     abstract val mergedFileOutputDir: DirectoryProperty
 
     /**
-     * Skip bundling all spec files into a merged spec file, if true.
+     * Skip bundling all spec files into a merged spec file, if true. Defaults to `false`.
      */
     @get:Input
     @get:Optional
     abstract val inputSpecRootDirectorySkipMerge: Property<Boolean>
 
     /**
-     * Name of the file that will contain all merged specs
+     * Name of the file that will contain all merged specs. Defaults to `"merged"`.
      */
     @get:Input
     @get:Optional
     abstract val mergedFileName: Property<String>
-
-    /**
-     * Title to use in the info section of the merged spec.
-     */
-    @get:Input
-    @get:Optional
-    abstract val mergedFileInfoName: Property<String>
-
-    /**
-     * Description to use in the info section of the merged spec.
-     */
-    @get:Input
-    @get:Optional
-    abstract val mergedFileInfoDescription: Property<String>
-
-    /**
-     * Version to use in the info section of the merged spec.
-     */
-    @get:Input
-    @get:Optional
-    abstract val mergedFileInfoVersion: Property<String>
 
     /**
      * How multiple spec files are merged. Accepted values: "REF" (default, original $ref-based
@@ -497,7 +485,10 @@ abstract class GenerateTask : DefaultTask() {
     abstract val templateDir: DirectoryProperty
 
     /**
-     * Resource path containing template files.
+     * A classpath resource path (or file-system directory path) holding custom Mustache templates.
+     *
+     * Takes precedence over [templateDir] when both are configured. Use this when templates are
+     * packaged inside a JAR on the classpath rather than as loose files on disk.
      */
     @get:Optional
     @get:Input
@@ -650,7 +641,11 @@ abstract class GenerateTask : DefaultTask() {
     abstract val inlineSchemaNameMappings: MapProperty<String, String>
 
     /**
-     * Specifies options for inline schemas
+     * Key/value options controlling how inline schemas are handled during generation.
+     *
+     * Common keys: `RESOLVE_INLINE_ENUMS` (promote inline enums to top-level models),
+     * `ARRAY_ITEMS_SUFFIX`, `MAP_ITEMS_SUFFIX`. Run `config-help -g {generatorName}` for the
+     * full list of supported options.
      */
     @get:Optional
     @get:Input
@@ -692,7 +687,12 @@ abstract class GenerateTask : DefaultTask() {
     abstract val operationIdNameMappings: MapProperty<String, String>
 
     /**
-     * Specifies mappings (rules) in OpenAPI normalizer
+     * Key/value rules passed to the OpenAPI normalizer, which pre-processes the parsed spec
+     * before code generation begins.
+     *
+     * Example rules: `REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true`,
+     * `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true`. See the OpenAPI Generator docs for
+     * the full list of normalizer rules.
      */
     @get:Optional
     @get:Input
@@ -791,7 +791,7 @@ abstract class GenerateTask : DefaultTask() {
     abstract val removeOperationIdPrefix: Property<Boolean>
 
     /**
-     * Remove examples defined in the operation
+     * Skip examples defined in the operation
      */
     @get:Optional
     @get:Input
@@ -884,7 +884,7 @@ abstract class GenerateTask : DefaultTask() {
     abstract val generateApiDocumentation: Property<Boolean>
 
     /**
-     * To write all log messages (not just errors) to STDOUT
+     * To write all log messages (not just errors) to STDERR
      */
     @get:Optional
     @get:Input
@@ -945,6 +945,74 @@ abstract class GenerateTask : DefaultTask() {
     @get:Input
     abstract val dryRun: Property<Boolean>
 
+    /**
+     * When `true`, applies strict validation against the OpenAPI specification, failing on any deviation.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     */
+    @get:Optional
+    @get:Input
+    abstract val strictSpec: Property<Boolean>
+
+    /**
+     * When `true`, only writes output files that have changed relative to an existing generated output.
+     * Reduces unnecessary file churn in version control.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     */
+    @get:Optional
+    @get:Input
+    abstract val minimalUpdate: Property<Boolean>
+
+    /**
+     * When `true`, recursively generates all models that the selected models depend on,
+     * even if those dependent models were not explicitly listed for generation.
+     * Only relevant when [modelFilesConstrainedTo] is configured.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     */
+    @get:Optional
+    @get:Input
+    abstract val generateRecursiveDependentModels: Property<Boolean>
+
+    /**
+     * Title placed in the `info.title` field of the merged spec. Defaults to `"merged spec"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    @get:Internal
+    abstract val mergedFileInfoName: Property<String>
+
+    /**
+     * Description placed in the `info.description` field of the merged spec. Defaults to `"merged spec"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    @get:Internal
+    abstract val mergedFileInfoDescription: Property<String>
+
+    /**
+     * Version placed in the `info.version` field of the merged spec. Defaults to `"1.0.0"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    @get:Internal
+    abstract val mergedFileInfoVersion: Property<String>
+
+    /**
+     * Combines [mergedFileInfoName], [mergedFileInfoDescription], and [mergedFileInfoVersion] into a
+     * single fingerprint value that is only visible to Gradle's up-to-date/caching logic when merge
+     * mode is actually active (i.e. [inputSpecRootDirectory] is set and [inputSpecRootDirectorySkipMerge]
+     * is false). Returns `null` — and is therefore skipped by `@Optional` — when merge is inactive,
+     * preventing unnecessary cache invalidation for tasks that never use the merge feature.
+     */
+    @get:Input
+    @get:Optional
+    val effectiveMergedSpecInfo: String?
+        get() {
+            if (!inputSpecRootDirectory.isPresent) return null
+            if (inputSpecRootDirectorySkipMerge.getOrElse(false)) return null
+            // Encode each value as "<len>:<value>" (or "-" for null). The length prefix keeps the
+            // "|" separator unambiguous when a value contains "|"; the "-" sentinel distinguishes a
+            // null from the literal string "null" (which encodes as "4:null").
+            return listOf(mergedFileInfoName.orNull, mergedFileInfoDescription.orNull, mergedFileInfoVersion.orNull)
+                .joinToString("|") { value -> value?.let { "${it.length}:$it" } ?: "-" }
+        }
+
     init {
         inputSpecRootDirectorySkipMerge.convention(false)
         mergedFileName.convention("merged")
@@ -953,6 +1021,10 @@ abstract class GenerateTask : DefaultTask() {
         mergedFileInfoVersion.convention("1.0.0")
         mergeMode.convention("REF")
         mergeConflictStrategy.convention("WARN")
+        // No convention for strictSpec/minimalUpdate/generateRecursiveDependentModels:
+        // the worker uses orNull?.let to skip calling the configurator when these are unset,
+        // allowing config-file values to win. A convention(false) would make orNull always
+        // return false and unconditionally override any config-file setting.
     }
 
     @Suppress("unused")
@@ -1125,6 +1197,9 @@ abstract class GenerateTask : DefaultTask() {
                 parameters.enablePostProcessFile.set(enablePostProcessFile)
                 parameters.skipValidateSpec.set(skipValidateSpec)
                 parameters.generateAliasAsModel.set(generateAliasAsModel)
+                parameters.strictSpec.set(strictSpec)
+                parameters.minimalUpdate.set(minimalUpdate)
+                parameters.generateRecursiveDependentModels.set(generateRecursiveDependentModels)
                 parameters.engine.set(engine)
                 parameters.dryRun.set(dryRun)
 

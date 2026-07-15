@@ -137,6 +137,8 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     nameMappings.set(generate.nameMappings)
                     modelNameMappings.set(generate.modelNameMappings)
                     parameterNameMappings.set(generate.parameterNameMappings)
+                    enumNameMappings.set(generate.enumNameMappings)
+                    operationIdNameMappings.set(generate.operationIdNameMappings)
                     openapiNormalizer.set(generate.openapiNormalizer)
                     invokerPackage.set(generate.invokerPackage)
                     groupId.set(generate.groupId)
@@ -167,6 +169,9 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     engine.set(generate.engine)
                     cleanupOutput.set(generate.cleanupOutput)
                     dryRun.set(generate.dryRun)
+                    strictSpec.set(generate.strictSpec)
+                    minimalUpdate.set(generate.minimalUpdate)
+                    generateRecursiveDependentModels.set(generate.generateRecursiveDependentModels)
                     workerIsolation.set(generate.workerIsolation)
                     maxWorkerHeapSize.set(generate.maxWorkerHeapSize)
                 }

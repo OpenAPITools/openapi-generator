@@ -80,6 +80,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Component
     private BuildContext buildContext = new DefaultBuildContext();
 
+    /**
+     * Enable verbose output during code generation.
+     */
     @Parameter(name = "verbose", defaultValue = "false")
     private boolean verbose;
 
@@ -98,6 +101,10 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
     private File output;
 
+    /**
+     * When {@code true}, the output directory is deleted and recreated before code generation.
+     * Useful for ensuring no stale generated files remain between runs.
+     */
     @Parameter(name = "cleanupOutput", property = "openapi.generator.maven.plugin.cleanupOutput", defaultValue = "false")
     private boolean cleanupOutput;
 

@@ -45,6 +45,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
 
     /**
      * Whether an input specification should be validated upon generation.
+     * Defaults to `true`.
      */
     val validateSpec = project.objects.property<Boolean>()
 
@@ -98,13 +99,27 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val inputSpecRootDirectorySkipMerge = project.objects.property<Boolean>()
 
     /**
-     * Name of the file that will contain all merged specs (used with inputSpecRootDirectory).
-     *
-     * Default: "merged"
+     * The name of the merged spec file produced when [inputSpecRootDirectory] is used.
+     * Defaults to `"merged"`.
      */
     val mergedFileName = project.objects.property<String>()
+
+    /**
+     * Title placed in the `info.title` field of the merged spec. Defaults to `"merged spec"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
     val mergedFileInfoName = project.objects.property<String>()
+
+    /**
+     * Description placed in the `info.description` field of the merged spec. Defaults to `"merged spec"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
     val mergedFileInfoDescription = project.objects.property<String>()
+
+    /**
+     * Version placed in the `info.version` field of the merged spec. Defaults to `"1.0.0"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
     val mergedFileInfoVersion = project.objects.property<String>()
 
     /**
@@ -241,7 +256,11 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies options for inline schemas
+     * Key/value options controlling how inline schemas are handled during generation.
+     *
+     * Common keys: `RESOLVE_INLINE_ENUMS` (promote inline enums to top-level models),
+     * `ARRAY_ITEMS_SUFFIX`, `MAP_ITEMS_SUFFIX`. Run `config-help -g {generatorName}` for the
+     * full list of supported options.
      */
     val inlineSchemaOptions = project.objects.mapProperty<String, String>()
 
@@ -271,7 +290,12 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val operationIdNameMappings = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies mappings (rules) in OpenAPI normalizer
+     * Key/value rules passed to the OpenAPI normalizer, which pre-processes the parsed spec
+     * before code generation begins.
+     *
+     * Example rules: `REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true`,
+     * `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true`. See the OpenAPI Generator docs for
+     * the full list of normalizer rules.
      */
     val openapiNormalizer = project.objects.mapProperty<String, String>()
 
@@ -382,6 +406,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      *
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
+     * Defaults to `true`.
      */
     val generateModelTests = project.objects.property<Boolean>()
 
@@ -392,6 +417,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      *
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
+     * Defaults to `true`.
      */
     val generateModelDocumentation = project.objects.property<Boolean>()
 
@@ -402,6 +428,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      *
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
+     * Defaults to `true`.
      */
     val generateApiTests = project.objects.property<Boolean>()
 
@@ -412,11 +439,12 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      *
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
+     * Defaults to `true`.
      */
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
-     * To write all log messages (not just errors) to STDOUT
+     * To write all log messages (not just errors) to STDERR. Defaults to `false`.
      */
     val logToStderr = project.objects.property<Boolean>()
 
@@ -425,11 +453,13 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      * This only enables the post-processor. To define the post-processing command, define an environment variable such as
      * LANG_POST_PROCESS_FILE (e.g. GO_POST_PROCESS_FILE, SCALA_POST_PROCESS_FILE). Please open an issue if your target
      * generator does not support this functionality.
+     * Defaults to `false`.
      */
     val enablePostProcessFile = project.objects.property<Boolean>()
 
     /**
      * To skip spec validation. When true, we will skip the default behavior of validating a spec before generation.
+     * Defaults to `false`.
      */
     val skipValidateSpec = project.objects.property<Boolean>()
 
@@ -437,6 +467,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      * To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those
      * definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions.
      * When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
+     * Defaults to `false`.
      */
     val generateAliasAsModel = project.objects.property<Boolean>()
 
@@ -452,14 +483,36 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
 
     /**
      * Defines whether the output dir should be cleaned up before generating the output.
-     *
+     * Defaults to `false`.
      */
     val cleanupOutput = project.objects.property<Boolean>()
 
     /**
      * Defines whether the generator should run in dry-run mode.
+     * Defaults to `false`.
      */
     val dryRun = project.objects.property<Boolean>()
+
+    /**
+     * When `true`, applies strict validation against the OpenAPI specification, failing on any deviation.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     */
+    val strictSpec = project.objects.property<Boolean>()
+
+    /**
+     * When `true`, only writes output files that have changed relative to an existing generated output.
+     * Reduces unnecessary file churn in version control.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     */
+    val minimalUpdate = project.objects.property<Boolean>()
+
+    /**
+     * When `true`, recursively generates all models that the selected models depend on,
+     * even if those dependent models were not explicitly listed for generation.
+     * Only relevant when [modelFilesConstrainedTo] is configured.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     */
+    val generateRecursiveDependentModels = project.objects.property<Boolean>()
 
     /**
      * Controls how the code generation worker is isolated from the Gradle daemon.
@@ -492,9 +545,6 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
         releaseNote.convention("Minor update")
         inputSpecRootDirectorySkipMerge.convention(false)
         mergedFileName.convention("merged")
-        mergedFileInfoName.convention("merged spec")
-        mergedFileInfoDescription.convention("merged spec")
-        mergedFileInfoVersion.convention("1.0.0")
         mergeMode.convention("REF")
         mergeConflictStrategy.convention("WARN")
         modelNamePrefix.convention("")
@@ -513,6 +563,13 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
         generateAliasAsModel.convention(false)
         cleanupOutput.convention(false)
         dryRun.convention(false)
+        mergedFileInfoName.convention("merged spec")
+        mergedFileInfoDescription.convention("merged spec")
+        mergedFileInfoVersion.convention("1.0.0")
+        // No convention for strictSpec/minimalUpdate/generateRecursiveDependentModels:
+        // the worker uses orNull?.let to skip calling the configurator when these are unset,
+        // allowing config-file values to win. A convention(false) would make orNull always
+        // return false and unconditionally override any config-file setting.
     }
 
     // ========================================================================
