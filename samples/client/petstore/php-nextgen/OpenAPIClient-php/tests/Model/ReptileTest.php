@@ -76,31 +76,4 @@ class ReptileTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
-
-    /**
-     * Test attribute "loves_rocks"
-     */
-    public function testPropertyLovesRocks()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "reptile_type"
-     */
-    public function testPropertyReptileType()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "venomous"
-     */
-    public function testPropertyVenomous()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
 }
