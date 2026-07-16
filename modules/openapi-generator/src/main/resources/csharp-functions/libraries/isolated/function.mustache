@@ -49,7 +49,7 @@ namespace {{apiPackage}}
         {{/isDefault}}
         {{/responses}}
         {{/generateOpenApiAttributes}}
-        public async Task<{{#aspNetCoreIntegration}}IActionResult{{/aspNetCoreIntegration}}{{^aspNetCoreIntegration}}HttpResponseData{{/aspNetCoreIntegration}}> _{{operationId}}([HttpTrigger(AuthorizationLevel.Anonymous, "{{httpMethod}}", Route = "{{{apiBasePath}}}{{{path}}}")] {{#aspNetCoreIntegration}}HttpRequest{{/aspNetCoreIntegration}}{{^aspNetCoreIntegration}}HttpRequestData{{/aspNetCoreIntegration}} req, FunctionContext context{{#allParams}}{{#isPathParam}}, {{>pathParam}}{{/isPathParam}}{{/allParams}}){{^generateBody}};{{/generateBody}}
+        public async Task<{{#aspNetCoreIntegration}}IActionResult{{/aspNetCoreIntegration}}{{^aspNetCoreIntegration}}HttpResponseData{{/aspNetCoreIntegration}}> _{{operationId}}([HttpTrigger(AuthorizationLevel.Anonymous, "{{httpMethod}}", Route = "{{#apiBasePath}}{{{apiBasePath}}}/{{/apiBasePath}}{{{path}}}")] {{#aspNetCoreIntegration}}HttpRequest{{/aspNetCoreIntegration}}{{^aspNetCoreIntegration}}HttpRequestData{{/aspNetCoreIntegration}} req, FunctionContext context{{#allParams}}{{#isPathParam}}, {{>pathParam}}{{/isPathParam}}{{/allParams}}){{^generateBody}};{{/generateBody}}
         {{#generateBody}}
         {
             var method = this.GetType().GetMethod("{{operationId}}");

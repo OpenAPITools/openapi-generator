@@ -18,7 +18,7 @@ namespace Org.OpenAPITools.Functions
         [OpenApiParameter(name: "orderId", In = ParameterLocation.Path, Required = true, Type = typeof(string))]
         [OpenApiResponseWithoutBody(statusCode: (HttpStatusCode)400)]
         [OpenApiResponseWithoutBody(statusCode: (HttpStatusCode)404)]
-        public async Task<IActionResult> _DeleteOrder([HttpTrigger(AuthorizationLevel.Anonymous, "Delete", Route = "v2store/order/{orderId}")] HttpRequest req, FunctionContext context, string orderId)
+        public async Task<IActionResult> _DeleteOrder([HttpTrigger(AuthorizationLevel.Anonymous, "Delete", Route = "v2/store/order/{orderId}")] HttpRequest req, FunctionContext context, string orderId)
         {
             var method = this.GetType().GetMethod("DeleteOrder");
             return method != null
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Functions
         [Function("StoreApi_GetInventory")]
         [OpenApiOperation(operationId: "GetInventory", tags: new[] { "store" }, Summary = "Returns pet inventories by status")]
         [OpenApiResponseWithBody(statusCode: (HttpStatusCode)200, contentType: "application/json", bodyType: typeof(Dictionary<string, int>))]
-        public async Task<IActionResult> _GetInventory([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2store/inventory")] HttpRequest req, FunctionContext context)
+        public async Task<IActionResult> _GetInventory([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2/store/inventory")] HttpRequest req, FunctionContext context)
         {
             var method = this.GetType().GetMethod("GetInventory");
             return method != null
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Functions
         [OpenApiResponseWithBody(statusCode: (HttpStatusCode)200, contentType: "application/json", bodyType: typeof(Org.OpenAPITools.Models.Order))]
         [OpenApiResponseWithoutBody(statusCode: (HttpStatusCode)400)]
         [OpenApiResponseWithoutBody(statusCode: (HttpStatusCode)404)]
-        public async Task<IActionResult> _GetOrderById([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2store/order/{orderId}")] HttpRequest req, FunctionContext context, [Range(1, 5)]long orderId)
+        public async Task<IActionResult> _GetOrderById([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2/store/order/{orderId}")] HttpRequest req, FunctionContext context, [Range(1, 5)]long orderId)
         {
             var method = this.GetType().GetMethod("GetOrderById");
             return method != null
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Functions
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Org.OpenAPITools.Models.Order), Required = true)]
         [OpenApiResponseWithBody(statusCode: (HttpStatusCode)200, contentType: "application/json", bodyType: typeof(Org.OpenAPITools.Models.Order))]
         [OpenApiResponseWithoutBody(statusCode: (HttpStatusCode)400)]
-        public async Task<IActionResult> _PlaceOrder([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2store/order")] HttpRequest req, FunctionContext context)
+        public async Task<IActionResult> _PlaceOrder([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2/store/order")] HttpRequest req, FunctionContext context)
         {
             var method = this.GetType().GetMethod("PlaceOrder");
             return method != null

@@ -11,7 +11,7 @@ namespace Org.OpenAPITools.Functions
     public partial class StoreApi
     { 
         [Function("StoreApi_DeleteOrder")]
-        public async Task<IActionResult> _DeleteOrder([HttpTrigger(AuthorizationLevel.Anonymous, "Delete", Route = "v2store/order/{orderId}")] HttpRequest req, FunctionContext context, string orderId)
+        public async Task<IActionResult> _DeleteOrder([HttpTrigger(AuthorizationLevel.Anonymous, "Delete", Route = "v2/store/order/{orderId}")] HttpRequest req, FunctionContext context, string orderId)
         {
             var method = this.GetType().GetMethod("DeleteOrder");
             return method != null
@@ -20,7 +20,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [Function("StoreApi_GetInventory")]
-        public async Task<IActionResult> _GetInventory([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2store/inventory")] HttpRequest req, FunctionContext context)
+        public async Task<IActionResult> _GetInventory([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2/store/inventory")] HttpRequest req, FunctionContext context)
         {
             var method = this.GetType().GetMethod("GetInventory");
             return method != null
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [Function("StoreApi_GetOrderById")]
-        public async Task<IActionResult> _GetOrderById([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2store/order/{orderId}")] HttpRequest req, FunctionContext context, [Range(1, 5)]long orderId)
+        public async Task<IActionResult> _GetOrderById([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2/store/order/{orderId}")] HttpRequest req, FunctionContext context, [Range(1, 5)]long orderId)
         {
             var method = this.GetType().GetMethod("GetOrderById");
             return method != null
@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [Function("StoreApi_PlaceOrder")]
-        public async Task<IActionResult> _PlaceOrder([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2store/order")] HttpRequest req, FunctionContext context)
+        public async Task<IActionResult> _PlaceOrder([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2/store/order")] HttpRequest req, FunctionContext context)
         {
             var method = this.GetType().GetMethod("PlaceOrder");
             return method != null

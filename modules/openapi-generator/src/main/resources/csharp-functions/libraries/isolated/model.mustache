@@ -127,7 +127,7 @@ namespace {{modelPackage}}
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return {{#vars}}{{^isContainer}}
+            return {{#vars}}{{#-first}}{{#parent}}base.Equals(other) && {{/parent}}{{/-first}}{{^isContainer}}
                 (
                     {{name}} == other.{{name}} ||
                     {{^vendorExtensions.x-is-value-type}}{{name}} != null &&{{/vendorExtensions.x-is-value-type}}
@@ -138,7 +138,7 @@ namespace {{modelPackage}}
                     {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
                     other.{{name}} != null &&
                     {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(other.{{name}})
-                ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(other){{/parent}}{{^parent}}false{{/parent}}{{/vars}};
         }
 
         /// <summary>
@@ -149,7 +149,12 @@ namespace {{modelPackage}}
         {
             unchecked // Overflow is fine, just wrap
             {
+                {{#parent}}
+                var hashCode = base.GetHashCode();
+                {{/parent}}
+                {{^parent}}
                 var hashCode = 41;
+                {{/parent}}
                 // Suitable nullity checks etc, of course :)
                 {{#vars}}
                     {{^vendorExtensions.x-is-value-type}}if ({{name}} != null){{/vendorExtensions.x-is-value-type}}

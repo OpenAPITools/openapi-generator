@@ -11,7 +11,7 @@ namespace Org.OpenAPITools.Functions
     public partial class UserApi
     { 
         [Function("UserApi_CreateUser")]
-        public async Task<IActionResult> _CreateUser([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2user")] HttpRequest req, FunctionContext context)
+        public async Task<IActionResult> _CreateUser([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2/user")] HttpRequest req, FunctionContext context)
         {
             var method = this.GetType().GetMethod("CreateUser");
             return method != null
@@ -20,7 +20,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [Function("UserApi_CreateUsersWithArrayInput")]
-        public async Task<IActionResult> _CreateUsersWithArrayInput([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2user/createWithArray")] HttpRequest req, FunctionContext context)
+        public async Task<IActionResult> _CreateUsersWithArrayInput([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2/user/createWithArray")] HttpRequest req, FunctionContext context)
         {
             var method = this.GetType().GetMethod("CreateUsersWithArrayInput");
             return method != null
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [Function("UserApi_CreateUsersWithListInput")]
-        public async Task<IActionResult> _CreateUsersWithListInput([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2user/createWithList")] HttpRequest req, FunctionContext context)
+        public async Task<IActionResult> _CreateUsersWithListInput([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2/user/createWithList")] HttpRequest req, FunctionContext context)
         {
             var method = this.GetType().GetMethod("CreateUsersWithListInput");
             return method != null
@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [Function("UserApi_DeleteUser")]
-        public async Task<IActionResult> _DeleteUser([HttpTrigger(AuthorizationLevel.Anonymous, "Delete", Route = "v2user/{username}")] HttpRequest req, FunctionContext context, string username)
+        public async Task<IActionResult> _DeleteUser([HttpTrigger(AuthorizationLevel.Anonymous, "Delete", Route = "v2/user/{username}")] HttpRequest req, FunctionContext context, string username)
         {
             var method = this.GetType().GetMethod("DeleteUser");
             return method != null
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [Function("UserApi_GetUserByName")]
-        public async Task<IActionResult> _GetUserByName([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2user/{username}")] HttpRequest req, FunctionContext context, string username)
+        public async Task<IActionResult> _GetUserByName([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2/user/{username}")] HttpRequest req, FunctionContext context, string username)
         {
             var method = this.GetType().GetMethod("GetUserByName");
             return method != null
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [Function("UserApi_LoginUser")]
-        public async Task<IActionResult> _LoginUser([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2user/login")] HttpRequest req, FunctionContext context)
+        public async Task<IActionResult> _LoginUser([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2/user/login")] HttpRequest req, FunctionContext context)
         {
             var method = this.GetType().GetMethod("LoginUser");
             return method != null
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [Function("UserApi_LogoutUser")]
-        public async Task<IActionResult> _LogoutUser([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2user/logout")] HttpRequest req, FunctionContext context)
+        public async Task<IActionResult> _LogoutUser([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2/user/logout")] HttpRequest req, FunctionContext context)
         {
             var method = this.GetType().GetMethod("LogoutUser");
             return method != null
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [Function("UserApi_UpdateUser")]
-        public async Task<IActionResult> _UpdateUser([HttpTrigger(AuthorizationLevel.Anonymous, "Put", Route = "v2user/{username}")] HttpRequest req, FunctionContext context, string username)
+        public async Task<IActionResult> _UpdateUser([HttpTrigger(AuthorizationLevel.Anonymous, "Put", Route = "v2/user/{username}")] HttpRequest req, FunctionContext context, string username)
         {
             var method = this.GetType().GetMethod("UpdateUser");
             return method != null
