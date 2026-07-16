@@ -10,6 +10,7 @@ import org.springframework.lang.Nullable;
 import org.openapitools.model.Pet;
 import org.openapitools.model.ResponseObjectWithDifferentFieldNames;
 import java.util.Set;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;

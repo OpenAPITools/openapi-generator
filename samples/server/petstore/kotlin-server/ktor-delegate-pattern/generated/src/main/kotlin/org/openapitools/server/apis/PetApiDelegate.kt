@@ -18,6 +18,7 @@ import org.openapitools.server.infrastructure.APINotImplementedException
 import org.openapitools.server.infrastructure.BadParameterException
 import org.openapitools.server.models.ModelApiResponse
 import org.openapitools.server.models.Pet
+import io.ktor.http.content.PartData.FileItem
 
 interface PetApiDelegate {
 

@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import org.springframework.lang.Nullable;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

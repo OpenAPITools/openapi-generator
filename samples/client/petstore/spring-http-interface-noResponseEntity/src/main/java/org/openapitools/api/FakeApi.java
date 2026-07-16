@@ -17,6 +17,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.model.OuterCompositeDto;
 import org.openapitools.model.UserDto;
 import org.openapitools.model.XmlItemDto;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;

@@ -13,6 +13,7 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.openapitools.model.Pet;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
+import org.springframework.core.io.Resource;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

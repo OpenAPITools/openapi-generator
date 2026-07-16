@@ -19,6 +19,7 @@ import org.openapitools.model.OuterCompositeDto;
 import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
 import org.openapitools.model.UserDto;
 import org.openapitools.model.XmlItemDto;
+import org.springframework.core.io.Resource;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

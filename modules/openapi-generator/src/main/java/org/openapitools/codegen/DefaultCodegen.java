@@ -4834,6 +4834,19 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        // Ensure imports are added for parameters whose type was resolved via schemaMapping.
+        // When --schema-mappings is used, the parameter dataType is set to the mapped type name
+        // (e.g. "MyCustomKey") but this token is never added to the local imports set, because
+        // the schema is treated as an alias of a simple type and codegenProperty.complexType is null.
+        // We need the token in op.imports so that DefaultGenerator.getAllImportsMappings() can
+        // look it up in importMapping and emit the correct fully-qualified import statement.
+        for (CodegenParameter p : allParams) {
+            if (p.dataType != null && importMapping.containsKey(p.dataType)
+                    && !op.imports.contains(p.dataType)) {
+                op.imports.add(p.dataType);
+            }
+        }
+
         op.bodyParam = bodyParam;
         op.httpMethod = httpMethod.toUpperCase(Locale.ROOT);
 

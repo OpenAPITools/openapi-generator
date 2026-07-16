@@ -8,6 +8,7 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.openapitools.model.Pet;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

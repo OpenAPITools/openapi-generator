@@ -32,6 +32,7 @@ import org.openapitools.server.infrastructure.APINotImplementedException
 import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.models.ModelApiResponse
 import org.openapitools.server.models.Pet
+import io.ktor.http.content.PartData.FileItem
 
 fun Route.PetApi() {
     authenticate("petstore_auth") {
