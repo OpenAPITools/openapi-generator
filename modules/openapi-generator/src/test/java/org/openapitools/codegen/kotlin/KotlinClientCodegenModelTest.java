@@ -1092,7 +1092,6 @@ public class KotlinClientCodegenModelTest {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("kotlin")
                 .addAdditionalProperty("serializationLibrary", "jackson")
-                .addAdditionalProperty("removeDiscriminatorFromChildModels", true)
                 .setInputSpec("src/test/resources/3_1/polymorphism-allof-and-oneof-discriminator.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
