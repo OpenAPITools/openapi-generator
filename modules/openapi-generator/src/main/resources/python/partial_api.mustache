@@ -50,7 +50,7 @@
             {{/isWildcard}}
             {{#isWildcard}}
             {{#dataType}}
-            'default': {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}},
+            'default': "{{dataType}}",
             {{/dataType}}
             {{/isWildcard}}
             {{/responses}}
