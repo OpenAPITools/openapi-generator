@@ -23,7 +23,7 @@ namespace Org.OpenAPITools.Converters
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             var s = value as string;
-            if (s == null)
+            if (string.IsNullOrEmpty(s))
             {
                 return null;
             }

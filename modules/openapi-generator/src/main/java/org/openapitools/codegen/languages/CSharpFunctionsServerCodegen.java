@@ -563,6 +563,10 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
                             if (response.dataType != null && !response.dataType.isEmpty()) {
                                 response.vendorExtensions.put("x-oai-type", qualifyOpenApiAttributeType(response.dataType, modelNames));
                             }
+                            // Only concrete numeric status codes cast cleanly to HttpStatusCode;
+                            // range codes such as "2XX" would emit invalid C# ((HttpStatusCode)2XX).
+                            response.vendorExtensions.put("x-oai-numeric-code",
+                                    response.code != null && response.code.matches("[0-9]{3}"));
                         }
                     }
                 }

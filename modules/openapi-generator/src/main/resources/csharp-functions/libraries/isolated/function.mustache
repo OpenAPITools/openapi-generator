@@ -22,7 +22,7 @@ namespace {{apiPackage}}
     { {{#operation}}
         [Function("{{classname}}_{{operationId}}")]
         {{#generateOpenApiAttributes}}
-        [OpenApiOperation(operationId: "{{operationId}}"{{#tags}}{{#-first}}, tags: new[] { {{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/tags}}, Summary = "{{summary}}")]
+        [OpenApiOperation(operationId: "{{operationId}}"{{#tags}}{{#-first}}, tags: new[] { {{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/tags}}, Summary = "{{{summary}}}")]
         {{#pathParams}}
         [OpenApiParameter(name: "{{baseName}}", In = ParameterLocation.Path, Required = true, Type = typeof({{{vendorExtensions.x-oai-type}}}))]
         {{/pathParams}}
@@ -40,12 +40,14 @@ namespace {{apiPackage}}
         {{/bodyParam}}
         {{#responses}}
         {{^isDefault}}
+        {{#vendorExtensions.x-oai-numeric-code}}
         {{#dataType}}
         [OpenApiResponseWithBody(statusCode: (HttpStatusCode){{code}}, contentType: "application/json", bodyType: typeof({{{vendorExtensions.x-oai-type}}}))]
         {{/dataType}}
         {{^dataType}}
         [OpenApiResponseWithoutBody(statusCode: (HttpStatusCode){{code}})]
         {{/dataType}}
+        {{/vendorExtensions.x-oai-numeric-code}}
         {{/isDefault}}
         {{/responses}}
         {{/generateOpenApiAttributes}}
