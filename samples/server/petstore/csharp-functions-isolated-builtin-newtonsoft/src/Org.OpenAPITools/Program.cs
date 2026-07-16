@@ -14,7 +14,7 @@ namespace Org.OpenAPITools
         public static void Main(string[] args)
         {
             var host = new HostBuilder()
-                .ConfigureFunctionsWorkerDefaults(builder => { }, options =>
+                .ConfigureFunctionsWorkerDefaults(options =>
                 {
                     // Serialize with Newtonsoft.Json so the model attributes are honored.
                     options.Serializer = new NewtonsoftJsonObjectSerializer();

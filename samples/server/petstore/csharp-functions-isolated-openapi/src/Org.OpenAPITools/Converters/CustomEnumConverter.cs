@@ -23,12 +23,12 @@ namespace Org.OpenAPITools.Converters
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             var s = value as string;
-            if (string.IsNullOrEmpty(s))
+            if (s == null)
             {
                 return null;
             }
 
-            return JsonSerializer.Deserialize<T>(@"""" + value.ToString() + @"""");
+            return JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(s));
         }
     }
 }

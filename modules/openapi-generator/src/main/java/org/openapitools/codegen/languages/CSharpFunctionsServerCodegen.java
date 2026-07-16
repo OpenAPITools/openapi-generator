@@ -379,6 +379,18 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
             newtonsoftVersion = (String) additionalProperties.get(NEWTONSOFT_VERSION);
         }
 
+        // Resolve the Azure Functions version (and, for the isolated worker, the
+        // buildTarget=library selection) before the modifier checks below, because
+        // buildTarget=library changes the model class modifier and async behavior.
+        setAzureFunctionsVersion();
+        if (isIsolatedWorker) {
+            // buildTarget=library produces an abstract class assembly that a separate function
+            // host project references, so it must be a Library and must not own the host entry
+            // point. buildTarget=program produces a standalone worker that needs a Program.cs.
+            isLibrary = "library".equals(String.valueOf(additionalProperties.get(BUILD_TARGET)));
+            additionalProperties.put("isLibrary", isLibrary);
+        }
+
         // Check for the modifiers etc.
         // The order of the checks is important.
         setClassModifier();
@@ -402,7 +414,6 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         String packageFolder = sourceFolder + File.separator + packageName;
 
         // determine the ASP.NET core version setting
-        setAzureFunctionsVersion();
         setNetCoreVersion(packageFolder);
         setUseNewtonsoft();
 
@@ -419,17 +430,9 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("host.json.mustache", packageFolder, "host.json"));
         supportingFiles.add(new SupportingFile("local.settings.json.mustache", packageFolder, "local.settings.json"));
 
-        if (isIsolatedWorker) {
-            // buildTarget=library produces an abstract class assembly that a separate function
-            // host project references, so it must be a Library and must not own the host entry
-            // point. buildTarget=program produces a standalone worker that needs a Program.cs.
-            isLibrary = "library".equals(String.valueOf(additionalProperties.get(BUILD_TARGET)));
-            additionalProperties.put("isLibrary", isLibrary);
-
-            if (!isLibrary) {
-                // The standalone isolated worker runs as its own process and needs a host entry point.
-                supportingFiles.add(new SupportingFile("Program.cs.mustache", packageFolder, "Program.cs"));
-            }
+        if (isIsolatedWorker && !isLibrary) {
+            // The standalone isolated worker runs as its own process and needs a host entry point.
+            supportingFiles.add(new SupportingFile("Program.cs.mustache", packageFolder, "Program.cs"));
         }
 
         this.setTypeMapping();

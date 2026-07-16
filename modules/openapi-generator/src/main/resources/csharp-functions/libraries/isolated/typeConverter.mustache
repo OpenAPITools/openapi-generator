@@ -28,16 +28,16 @@ namespace {{packageName}}.Converters
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             var s = value as string;
-            if (string.IsNullOrEmpty(s))
+            if (s == null)
             {
                 return null;
             }
 
             {{#useNewtonsoft}}
-            return JsonConvert.DeserializeObject<T>(@"""" + value.ToString() + @"""");
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(s));
             {{/useNewtonsoft}}
             {{^useNewtonsoft}}
-            return JsonSerializer.Deserialize<T>(@"""" + value.ToString() + @"""");
+            return JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(s));
             {{/useNewtonsoft}}
         }
     }
