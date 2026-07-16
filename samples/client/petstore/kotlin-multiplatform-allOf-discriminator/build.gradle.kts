@@ -1,17 +1,17 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    kotlin("multiplatform") version "2.2.20" // kotlin_version
-    kotlin("plugin.serialization") version "2.2.20" // kotlin_version
+    kotlin("multiplatform") version "2.4.0" // kotlin_version
+    kotlin("plugin.serialization") version "2.4.0" // kotlin_version
 }
 
 group = "org.openapitools"
 version = "1.0.0"
 
-val kotlin_version = "2.2.20"
-val coroutines_version = "1.10.2"
-val serialization_version = "1.9.0"
-val ktor_version = "3.2.3"
+val kotlin_version = "2.4.0"
+val coroutines_version = "1.11.0"
+val serialization_version = "1.11.0"
+val ktor_version = "3.5.1"
 
 repositories {
     mavenCentral()
@@ -38,7 +38,7 @@ kotlin {
                 api("io.ktor:ktor-client-content-negotiation:$ktor_version")
                 api("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
 
-                api("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
             }
         }
 
@@ -71,12 +71,6 @@ kotlin {
         jsMain {
             dependencies {
                 api("io.ktor:ktor-client-js:$ktor_version")
-            }
-        }
-
-        all {
-            languageSettings {
-                optIn("kotlin.time.ExperimentalTime")
             }
         }
     }
