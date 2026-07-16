@@ -157,6 +157,47 @@ public class PureCloudPythonClientCodegen extends PythonClientCodegen {
                 parameter.dataType = "Empty";
             }
         }
+        // DEVTOOLING-1755: Fix Regex Patterns
+        // Python now requires double backslash in regex patterns.
+        // Although openapi-generator preserves double backslash when processing the Platform API Swagger specification,
+        // the double backslash is transformed into a single backslash when the pattern property value is inserted via the mustache template.
+        // Modify openapi-generator to change double backslash to quadruple backslash so that proper value is used in Python SDK source code.
+        fixPatternParameter(parameter);
+    }
+
+    // DEVTOOLING-1755: Fix Regex Patterns
+    public void fixPatternParameter(CodegenParameter parameter){
+        if(parameter.pattern != null) {
+            parameter.pattern = parameter.pattern.replace("\\", "\\\\");
+            if(parameter.vendorExtensions != null && parameter.vendorExtensions.get("x-regex") != null) {
+                String veRegex = String.valueOf(parameter.vendorExtensions.get("x-regex"));
+                if(veRegex != null) {
+                    veRegex = veRegex.replace("\\", "\\\\");
+                    parameter.vendorExtensions.put("x-regex", veRegex);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        // DEVTOOLING-1755: Fix Regex Patterns
+        fixPatternModelProperty(property);
+    }
+
+    // DEVTOOLING-1755: Fix Regex Patterns
+    public void fixPatternModelProperty(CodegenProperty property){
+        if(property.pattern != null) {
+            property.pattern = property.pattern.replace("\\", "\\\\");
+            if(property.vendorExtensions != null && property.vendorExtensions.get("x-regex") != null) {
+                String veRegex = String.valueOf(property.vendorExtensions.get("x-regex"));
+                if(veRegex != null) {
+                    veRegex = veRegex.replace("\\", "\\\\");
+                    property.vendorExtensions.put("x-regex", veRegex);
+                }
+            }
+        }
     }
 
     private boolean isEmpty(String jsonSchema) {
