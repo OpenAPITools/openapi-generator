@@ -6,8 +6,11 @@ using System.Text.Json;
 namespace Org.OpenAPITools.Converters
 {
     /// <summary>
-    /// Custom string to enum converter that defers to the configured JSON serializer so that
-    /// the enum's wire values are honored.
+    /// Custom string to enum converter that round-trips through the JSON serializer so that the
+    /// enum's wire values (declared via [JsonStringEnumMemberName] / [EnumMember]) are honored.
+    /// The generated enum types carry their own [JsonConverter] attribute, which takes precedence
+    /// over any converters registered on JsonSerializerOptions, so the default serializer options
+    /// used here still produce the correct mapping.
     /// </summary>
     public class CustomEnumConverter<T> : TypeConverter
     {
