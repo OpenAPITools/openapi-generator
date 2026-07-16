@@ -447,7 +447,7 @@ public class KotlinSpringServerCodegenTest {
                 "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>?"
                         + "    )");
         assertFileContains(files.get("NonNullableMultipartfileApiController.kt").toPath(),
-                "file: org.springframework.http.codec.multipart.Part"
+                "file: org.springframework.http.codec.multipart.Part?"
                         + "    )");
         assertFileContains(files.get("NonNullableMultipartfileArrayApiController.kt").toPath(),
                 "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>"
@@ -1070,12 +1070,16 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(arrayFile,
                 "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>");
         assertFileContains(singleFile,
-                "file: org.springframework.http.codec.multipart.Part");
+                "file: org.springframework.http.codec.multipart.Part?");
         assertFileContains(mixedFile,
                 "status: MultipartMixedStatus",
                 "file: org.springframework.http.codec.multipart.Part",
                 "marker: MultipartMixedRequestMarker?",
                 "statusArray: kotlin.collections.List<MultipartMixedStatus>?");
+        assertFileNotContains(arrayFile,
+                "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>?");
+        assertFileNotContains(mixedFile,
+                "file: org.springframework.http.codec.multipart.Part?");
         assertFileNotContains(arrayFile, "org.springframework.web.multipart.MultipartFile");
         assertFileNotContains(singleFile, "org.springframework.web.multipart.MultipartFile");
         assertFileNotContains(mixedFile, "org.springframework.web.multipart.MultipartFile");
