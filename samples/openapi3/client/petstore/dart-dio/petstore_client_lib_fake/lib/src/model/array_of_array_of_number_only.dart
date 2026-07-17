@@ -74,8 +74,9 @@ class _$ArrayOfArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayO
         case r'ArrayArrayNumber':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])]),
-          ) as BuiltList<BuiltList<num>>;
+            specifiedType: const FullType.nullable(BuiltList, [FullType(BuiltList, [FullType(num)])]),
+          ) as BuiltList<BuiltList<num>>?;
+          if (valueDes == null) continue;
           result.arrayArrayNumber.replace(valueDes);
           break;
         default:

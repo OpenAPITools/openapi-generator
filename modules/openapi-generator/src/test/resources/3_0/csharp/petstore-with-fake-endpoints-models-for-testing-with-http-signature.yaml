@@ -73,6 +73,9 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+        - petstore_auth2:
+            - 'write:pets'
+            - 'read:pets'
       requestBody:
         $ref: '#/components/requestBodies/Pet'
     put:
@@ -1423,6 +1426,14 @@ components:
       required: true
   securitySchemes:
     petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
+          scopes:
+            'write:pets': modify pets in your account
+            'read:pets': read your pets
+    petstore_auth2:
       type: oauth2
       flows:
         implicit:

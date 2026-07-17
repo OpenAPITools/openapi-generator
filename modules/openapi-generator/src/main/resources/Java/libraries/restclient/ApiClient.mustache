@@ -4,7 +4,12 @@ package {{invokerPackage}};
 
 {{#withXml}}
 import {{jacksonPackage}}.dataformat.xml.XmlMapper;
+{{^useJackson3}}
 import {{jacksonPackage}}.dataformat.xml.ser.ToXmlGenerator;
+{{/useJackson3}}
+{{#useJackson3}}
+import {{jacksonPackage}}.dataformat.xml.XmlWriteFeature;
+{{/useJackson3}}
 {{/withXml}}
 
 import {{jacksonPackage}}.databind.DeserializationFeature;
@@ -30,7 +35,12 @@ import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConve
 
 import java.util.function.Consumer;
 {{#openApiNullable}}
+{{^useJackson3}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/useJackson3}}
+{{#useJackson3}}
+import org.openapitools.jackson.nullable.JsonNullableJackson3Module;
+{{/useJackson3}}
 {{/openApiNullable}}
 {{#generateClientAsBean}}
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +79,12 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.function.Supplier;
 
+{{#useJspecify}}
+import org.jspecify.annotations.Nullable;
+{{/useJspecify}}
+{{^useJspecify}}
 import {{javaxPackage}}.annotation.Nullable;
+{{/useJspecify}}
 
 {{#jsr310}}
 import java.time.OffsetDateTime;
@@ -192,6 +207,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             {{^failOnUnknownProperties}}
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             {{/failOnUnknownProperties}}
+            {{#openApiNullable}}
+            .addModule(new JsonNullableJackson3Module())
+            {{/openApiNullable}}
             .build();
     }
     {{/useJackson3}}
@@ -230,18 +248,28 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     */
     public static RestClient.Builder buildRestClientBuilder({{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper) {
         {{#withXml}}
+        {{#useJackson3}}
+        XmlMapper xmlMapper = XmlMapper.builder()
+                .enable(XmlWriteFeature.WRITE_XML_DECLARATION)
+                {{#openApiNullable}}
+                .addModule(new JsonNullableJackson3Module())
+                {{/openApiNullable}}
+                .build();
+        {{/useJackson3}}
+        {{^useJackson3}}
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         {{#openApiNullable}}
         xmlMapper.registerModule(new JsonNullableModule());
         {{/openApiNullable}}
+        {{/useJackson3}}
         {{/withXml}}
 
         {{#useJackson3}}
         Consumer<HttpMessageConverters.ClientBuilder> messageConverters = builder -> {
-            builder.withJsonConverter(new JacksonJsonHttpMessageConverter(mapper));
+            builder.addCustomConverter(new JacksonJsonHttpMessageConverter(mapper));
             {{#withXml}}
-            builder.withXmlConverter(new JacksonXmlHttpMessageConverter(xmlMapper));
+            builder.addCustomConverter(new JacksonXmlHttpMessageConverter(xmlMapper));
             {{/withXml}}
         };
 
@@ -713,10 +741,10 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     /**
      * Select the Content-Type header's value from the given array:
      *     if JSON exists in the given array, use it;
-     *     otherwise use the first one of the array.
+     *     otherwise use the first non-wildcard one of the array.
      *
      * @param contentTypes The Content-Type array to select from
-     * @return MediaType The Content-Type header to use. If the given array is empty, null will be returned.
+     * @return MediaType The Content-Type header to use. If the given array is empty, null will be returned; if it only contains wildcard media types, JSON will be used.
      */
     public MediaType selectHeaderContentType(String[] contentTypes) {
         if (contentTypes.length == 0) {
@@ -725,10 +753,20 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         for (String contentType : contentTypes) {
             MediaType mediaType = MediaType.parseMediaType(contentType);
             if (isJsonMime(mediaType)) {
+                // A wildcard media type (e.g. "*/*" or "application/*") is treated as
+                // JSON-compatible but cannot be used as a request Content-Type header,
+                // so fall back to concrete JSON in that case.
+                return mediaType.isWildcardType() || mediaType.isWildcardSubtype() ? MediaType.APPLICATION_JSON : mediaType;
+            }
+        }
+        // No JSON type found; use the first concrete (non-wildcard) media type instead.
+        for (String contentType : contentTypes) {
+            MediaType mediaType = MediaType.parseMediaType(contentType);
+            if (!mediaType.isWildcardType() && !mediaType.isWildcardSubtype()) {
                 return mediaType;
             }
         }
-        return MediaType.parseMediaType(contentTypes[0]);
+        return MediaType.APPLICATION_JSON;
     }
 
     /**

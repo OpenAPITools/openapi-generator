@@ -10,12 +10,12 @@
 [![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator)
 [![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#https://github.com/OpenAPITools/openapi-generator)
 [![Conan Center](https://shields.io/conan/v/openapi-generator)](https://conan.io/center/recipes/openapi-generator)
-[![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.openapi-generator.tech/scans)
+[![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://community.develocity.cloud/scans?search.rootProjectNames=openapi-generator-project)
 </div>
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.22.0`):
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.24.0`):
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/master?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 
@@ -43,47 +43,52 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 
 #### Thank you to our bronze sponsors!
 
-[![NamSor](https://openapi-generator.tech/img/companies/namsor.png)](https://www.namsor.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[![LightBow](https://openapi-generator.tech/img/companies/lightbow.png)](https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/docspring.png" width="128" height="128">](https://docspring.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/datadog.png" width="128" height="128">](https://datadoghq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/thales.jpg" width="128" height="128">](https://cpl.thalesgroup.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/apideck.jpg" width="128" height="128">](https://www.apideck.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/pexa.png" width="128" height="128">](https://www.pexa.com.au/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/numary.png" width="128" height="128">](https://www.numary.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/onesignal.png" width="128" height="128">](https://www.onesignal.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/virtualansoftware.png" width="128" height="128">](https://www.virtualansoftware.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/mergedev.jpeg" width="128" height="128">](https://www.merge.dev/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/burkert.jpg" width="128" height="128">](https://www.burkert.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/finbourne.png" width="128" height="128">](https://www.finbourne.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/bumpsh.png" width="128" height="128">](https://bump.sh/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/bileto.png" width="128" height="128">](https://www.bileto.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/bairesdev.png" width="128" height="128">](https://www.bairesdev.com/sponsoring-open-source-projects/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/dmtech.jpeg" width="128" height="128">](https://www.dmtech.de/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/adyen.png" width="128" height="128">](https://adyen.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/fornex.png" width="128" height="128">](https://fornex.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/alloyautomation.png" width="128" height="128">](https://runalloy.com/signup?utm_source=github&utm_medium=referral&utm_campaign=1524_openapigenerator)
-[<img src="https://openapi-generator.tech/img/companies/ssstwitter.png" width="128" height="128">](https://ssstwitter.com/?utm_source=github&utm_medium=referral&utm_campaign=sponsor)
-[<img src="https://openapi-generator.tech/img/companies/svix.png" width="128" height="128">](https://www.svix.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/litslink.png" width="128" height="128">](https://litslink.com/services/artificial-intelligence?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/designli.jpg" width="128" height="128">](https://designli.co?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/itm.png" width="128" height="128">](https://opensource.muenchen.de?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/kong.png" width="128" height="128">](https://konghq.com/products/kong-konnect?utm_medium=referral&utm_source=github&utm_campaign=platform&utm_content=openapi-generator)
-[<img src="https://openapi-generator.tech/img/companies/route4me.png" width="128" height="128">](https://route4me.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/dm.png" width="128" height="128">](https://www.dotcom-monitor.com/sponsoring-open-source-projects/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/clickit.jpg" width="128" height="128">](https://www.clickittech.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/unified_to.jpg" width="128" height="128">](https://unified.to/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/savetwt.jpg" width="128" height="128">](https://savetwt.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/serpapi.png" width="128" height="128">](https://serpapi.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/socialwick.png" width="128" height="128">](https://socialwick.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img src="https://openapi-generator.tech/img/companies/fbpostlikes.png" width="128" height="128">](https://fbpostlikes.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/namsor.png" width="128" height="128">](https://www.namsor.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/lightbow.png" width="128" height="128">](https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/docspring.png" width="128" height="128">](https://docspring.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/datadog.png" width="128" height="128">](https://datadoghq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/thales.jpg" width="128" height="128">](https://cpl.thalesgroup.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/apideck.jpg" width="128" height="128">](https://www.apideck.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/pexa.png" width="128" height="128">](https://www.pexa.com.au/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/numary.png" width="128" height="128">](https://www.numary.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/onesignal.png" width="128" height="128">](https://www.onesignal.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/virtualansoftware.png" width="128" height="128">](https://www.virtualansoftware.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/mergedev.jpeg" width="128" height="128">](https://www.merge.dev/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/burkert.jpg" width="128" height="128">](https://www.burkert.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/finbourne.png" width="128" height="128">](https://www.finbourne.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/bumpsh.png" width="128" height="128">](https://bump.sh/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/bileto.png" width="128" height="128">](https://www.bileto.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/bairesdev.png" width="128" height="128">](https://www.bairesdev.com/sponsoring-open-source-projects/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/dmtech.jpeg" width="128" height="128">](https://www.dmtech.de/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/adyen.png" width="128" height="128">](https://adyen.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/fornex.png" width="128" height="128">](https://fornex.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/alloyautomation.png" width="128" height="128">](https://runalloy.com/signup?utm_source=github&utm_medium=referral&utm_campaign=1524_openapigenerator)
+[<img align="left" src="https://openapi-generator.tech/img/companies/ssstwitter.png" width="128" height="128">](https://ssstwitter.com/?utm_source=github&utm_medium=referral&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/svix.png" width="128" height="128">](https://www.svix.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/litslink.png" width="128" height="128">](https://litslink.com/services/artificial-intelligence?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/designli.jpg" width="128" height="128">](https://designli.co?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/itm.png" width="128" height="128">](https://opensource.muenchen.de?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/kong.png" width="128" height="128">](https://konghq.com/products/kong-konnect?utm_medium=referral&utm_source=github&utm_campaign=platform&utm_content=openapi-generator)
+[<img align="left" src="https://openapi-generator.tech/img/companies/route4me.png" width="128" height="128">](https://route4me.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/dm.png" width="128" height="128">](https://www.dotcom-monitor.com/sponsoring-open-source-projects/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/clickit.jpg" width="128" height="128">](https://www.clickittech.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/unified_to.jpg" width="128" height="128">](https://unified.to/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship) [<img align="left" src="https://openapi-generator.tech/img/companies/savetwt.jpg" width="128" height="128">](https://savetwt.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/serpapi.png" width="128" height="128">](https://serpapi.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/socialwick.png" width="128" height="128">](https://socialwick.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/fbpostlikes.png" width="128" height="128">](https://fbpostlikes.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/buyfans.png" width="128" height="128">](https://buy.fans/buy-tiktok-likes/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/socialboom.png" width="128" height="128">](https://socialboom.io/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+
+<br clear="left">
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS, Checkly for sponsoring the API monitoring and Gradle for sponsoring Develocity
 
-[<img src="https://openapi-generator.tech/img/companies/godaddy.png" width="150">](https://www.godaddy.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[![Linode](https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png)](https://www.linode.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRAhEYadUyZYzGUotZiSdXkVMqqLGuohyixLl4eUpUV6pAbUULL" width="150">](https://checklyhq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Gradle_logo.png/320px-Gradle_logo.png" width="150">](https://gradle.org?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://openapi-generator.tech/img/companies/godaddy.png" width="150">](https://www.godaddy.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png" width="150">](https://www.linode.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRAhEYadUyZYzGUotZiSdXkVMqqLGuohyixLl4eUpUV6pAbUULL" width="150">](https://checklyhq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Gradle_logo.png/320px-Gradle_logo.png" width="150">](https://gradle.org?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+
+<br clear="left">
 
 ## Overview
 
@@ -150,8 +155,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 7.22.0 (upcoming minor release) [SNAPSHOT](https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-to-test-with-the-latest-master-of-openapi-generator) | 24.04.2026   | Minor release with breaking changes (with fallback) |
-| [7.21.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.21.0) (latest stable release)                                                    | 24.03.2026   | Minor release with breaking changes (with fallback) |
+| 7.24.0 (upcoming minor release) [SNAPSHOT](https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-to-test-with-the-latest-master-of-openapi-generator) | 08.07.2026   | Minor release with breaking changes (with fallback) |
+| [7.23.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.23.0) (latest stable release)                                                    | 28.04.2026   | Minor release with breaking changes (with fallback) |
 | [6.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.6.0)                                                    | 11.05.2023   | Minor release with breaking changes (with fallback) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
@@ -214,16 +219,16 @@ See the different versions of the [openapi-generator-cli](https://search.maven.o
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 11 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.21.0/openapi-generator-cli-7.21.0.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.23.0/openapi-generator-cli-7.23.0.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.21.0/openapi-generator-cli-7.21.0.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.23.0/openapi-generator-cli-7.23.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.21.0/openapi-generator-cli-7.21.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.23.0/openapi-generator-cli-7.23.0.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -458,7 +463,7 @@ openapi-generator-cli version
 To use a specific version of "openapi-generator-cli"
 
 ```sh
-openapi-generator-cli version-manager set 7.21.0
+openapi-generator-cli version-manager set 7.23.0
 ```
 
 Or install it as dev-dependency:
@@ -482,7 +487,7 @@ pip install openapi-generator-cli
 
 To install a specific version
 ```
-pip install openapi-generator-cli==7.21.0
+pip install openapi-generator-cli==7.23.0
 ```
 
 You can also install with [jdk4py](https://github.com/activeviam/jdk4py) instead of java binary. (python>=3.10 is required)
@@ -508,7 +513,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.21.0/openapi-generator-cli-7.21.0.jar)
+You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.23.0/openapi-generator-cli-7.23.0.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
@@ -656,12 +661,13 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Airthings](https://www.airthings.com/)
 - [Aleri Solutions Gmbh](https://www.aleri.de/)
 - [Allianz](https://www.allianz.com)
+- [AM GmbH](https://www.am-gmbh.de)
+- [Amazon Web Services (AWS)](https://aws.amazon.com/)
 - [Angular.Schule](https://angular.schule/)
 - [Aqovia](https://aqovia.com/)
-- [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [Arduino](https://www.arduino.cc/)
 - [ASKUL](https://www.askul.co.jp)
-- [Amazon Web Services (AWS)](https://aws.amazon.com/)
+- [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [b<>com](https://b-com.com/en)
 - [百度营销](https://e.baidu.com)
 - [Bandwidth](https://dev.bandwidth.com)
@@ -1095,6 +1101,7 @@ Here is a list of template creators:
    * R: @ramnov
    * Ruby (Faraday): @meganemura @dkliban
    * Ruby (HTTPX): @honeyryderchuck
+   * Ruby (ruby-nextgen): @n-rodriguez
    * Rust: @farcaller
    * Rust (rust-server): @metaswitch
    * Scala (scalaz & http4s): @tbrown1979
@@ -1260,12 +1267,12 @@ If you want to join the committee, please kindly apply by sending an email to te
 | GraphQL               | @renepardon (2018/12)                                                                                                                                                                                                                                 |
 | Groovy                |                                                                                                                                                                                                                                                       |
 | Haskell               |                                                                                                                                                                                                                                                       |
-| Java                  | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @martin-mfg (2023/08)                                                                 |
-| Java Spring           | @cachescrubber (2022/02) @welshm (2022/02) @MelleD (2022/02) @atextor (2022/02) @manedev79 (2022/02) @javisst (2022/02) @borsch (2022/02) @banlevente (2022/02) @Zomzog (2022/09) @martin-mfg (2023/08)                                                                     |
+| Java                  | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @martin-mfg (2023/08) @KannaKim (2026/07)                                                                 |
+| Java Spring           | @cachescrubber (2022/02) @welshm (2022/02) @MelleD (2022/02) @atextor (2022/02) @manedev79 (2022/02) @javisst (2022/02) @borsch (2022/02) @banlevente (2022/02) @Zomzog (2022/09) @martin-mfg (2023/08) @KannaKim (2026/07)                                                                    |
 | JMeter                | @kannkyo (2021/01)                                                                                                                                                                                                                                    |
 | Jetbrains HTTP Client | @jlengrand (2023/01)                                                                                                                                                                                                                                  |
 | Julia                 | @tanmaykm (2023/01)                                                                                                                                                                                                                                   |
-| Kotlin                | @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03) @stefankoppier (2022/06) @e5l (2024/10) @dennisameling (2026/02)                                         |
+| Kotlin                | @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03) @stefankoppier (2022/06) @e5l (2024/10)                                    |
 | Lua                   | @daurnimator (2017/08)                                                                                                                                                                                                                                |
 | N4JS                  | @mmews-n4 (2023/03)                                                                                                                                                                                      |
 | Nim                   |                                                                                                                                                                                                                                                       |
@@ -1275,13 +1282,13 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Perl                  | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06)                                                                                                                                                                   |
 | PHP                   | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), [@ybelenko](https://github.com/ybelenko) (2018/07), @renepardon (2018/12)                                                                                      |
 | PowerShell            | @wing328 (2020/05)                                                                                                                                                                                                                                    |
-| Python                | @cbornet (2017/09) @tomplus (2018/10) @krjakbrjak (2023/02) @fa0311 (2023/10) @multani (2023/10) |
+| Python                | @cbornet (2017/09) @tomplus (2018/10) @krjakbrjak (2023/02) @fa0311 (2023/10) |
 | R                     | @Ramanth (2019/07) @saigiridhar21 (2019/07)                                                                                                                                                                                                           |
 | Ruby                  | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02)                                                                                                                                                                                                  |
 | Rust                  | @frol (2017/07) @farcaller (2017/08) @richardwhiuk (2019/07) @paladinzh (2020/05) @jacob-pro (2022/10) @dsteeley (2025/07)                                                                                                                                               |
 | Scala                 | @clasnake (2017/07), @shijinkui  (2018/01), @ramzimaalej (2018/03), @chameleon82 (2020/03), @Bouillie (2020/04) @fish86 (2023/06)                                                               |
 | Swift                 | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @4brunu (2019/11) @dydus0x14 (2023/06)                                                                                                                                                           |
-| TypeScript            | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) @amakhrov (2020/02) @davidgamero (2022/03) @mkusaka (2022/04) @joscha (2024/10) @dennisameling (2026/02)   |
+| TypeScript            | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) @amakhrov (2020/02) @davidgamero (2022/03) @mkusaka (2022/04) @joscha (2024/10) @KannaKim (2026/07) |
 | Xojo                  | @Topheee (2023/04)                                                                                                                                                                                                                                    |
 
 

@@ -142,7 +142,7 @@ export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof 
  * Check if a given object implements the EnumTest interface.
  */
 export function instanceOfEnumTest(value: object): value is EnumTest {
-    if (!('enumStringRequired' in value) || value['enumStringRequired'] === undefined) return false;
+    if ((!('enumStringRequired' in (value as Record<string, any>)) && !('enum_string_required' in (value as Record<string, any>))) || ((value as Record<string, any>)['enumStringRequired'] === undefined && (value as Record<string, any>)['enum_string_required'] === undefined)) return false;
     return true;
 }
 
@@ -160,7 +160,7 @@ export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'enumStringRequired': json['enum_string_required'],
         'enumInteger': json['enum_integer'] == null ? undefined : json['enum_integer'],
         'enumNumber': json['enum_number'] == null ? undefined : json['enum_number'],
-        'outerEnum': json['outerEnum'] == null ? undefined : OuterEnumFromJSON(json['outerEnum']),
+        'outerEnum': json['outerEnum'] === undefined ? undefined : json['outerEnum'] === null ? null : OuterEnumFromJSON(json['outerEnum']),
         'outerEnumInteger': json['outerEnumInteger'] == null ? undefined : OuterEnumIntegerFromJSON(json['outerEnumInteger']),
         'outerEnumDefaultValue': json['outerEnumDefaultValue'] == null ? undefined : OuterEnumDefaultValueFromJSON(json['outerEnumDefaultValue']),
         'outerEnumIntegerDefaultValue': json['outerEnumIntegerDefaultValue'] == null ? undefined : OuterEnumIntegerDefaultValueFromJSON(json['outerEnumIntegerDefaultValue']),

@@ -32,3 +32,13 @@ components:
         nickname:
           type: string
           nullable: true
+    ComplexNestedArrayNullableModel:
+      type: object
+      properties:
+        matrix:
+          type: array
+          items:
+            type: array
+            nullable: true
+            items:
+              $ref: '#/components/schemas/NullableRequiredModel'

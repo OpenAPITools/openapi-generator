@@ -374,6 +374,8 @@ public class DartModelTest {
                 {"hello", "hello"},
                 {"FOO", "FOO"},
                 {"FOO_BAR", "FOO_BAR"},
+                {"FOO2", "FOO2"},
+                {"FOO_BAR2", "FOO_BAR2"},
                 {"FOO_BAR_BAZ_", "FOO_BAR_BAZ_"},
                 {"123hello", "n123hello"},
                 {"_hello", "hello"},
@@ -418,6 +420,8 @@ public class DartModelTest {
                 new EnumVarName("hello", "hello", "String"),
                 new EnumVarName("FOO", "FOO", "String"),
                 new EnumVarName("FOO_BAR", "FOO_BAR", "String"),
+                new EnumVarName("FOO2", "FOO2", "String"),
+                new EnumVarName("FOO_BAR2", "FOO_BAR2", "String"),
                 new EnumVarName("FOO_BAR_BAZ_", "FOO_BAR_BAZ_", "String"),
                 new EnumVarName("123hello", "n123hello", "String"),
                 new EnumVarName("_hello", "hello", "String"),
@@ -715,5 +719,29 @@ public class DartModelTest {
         CodegenParameter filterParam = op.queryParams.get(0);
         Assert.assertFalse(filterParam.dataType.startsWith("Optional<"),
                 "Query parameter should not be wrapped with Optional");
+    }
+
+    @Test(description = "array items can be nullable")
+    public void arrayItemsCanBeNullable() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/array-nullable-items.yaml");
+        final DefaultCodegen codegen = new DartClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("ArrayWithNullableItemsModel")
+                .getProperties()
+                .get("foo");
+
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "List<String?>");
+    }
+
+    @Test(description = "nested array items can be nullable")
+    public void nestedArrayItemsCanBeNullable() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/nested-array-nullable-items.yaml");
+        final DefaultCodegen codegen = new DartClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("NestedArrayWithNullableItemsModel")
+                .getProperties()
+                .get("foo");
+
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "List<List<String?>>");
     }
 }

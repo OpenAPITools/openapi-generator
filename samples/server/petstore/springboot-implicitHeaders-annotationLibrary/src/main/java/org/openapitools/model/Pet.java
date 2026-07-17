@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -24,19 +25,20 @@ import javax.annotation.Generated;
  * A pet for sale in the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Pet {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Category category;
 
   private String name;
 
-  @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -76,6 +78,7 @@ public class Pet {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private @Nullable StatusEnum status;
 

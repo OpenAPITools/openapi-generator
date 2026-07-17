@@ -416,7 +416,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         name = name.replaceAll("^_", "");
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (name.matches("^[A-Z_][A-Z0-9_]*$")) {
             return name;
         }
 
@@ -554,13 +554,17 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
+        return getTypeDeclaration(p, false);
+    }
+
+    private String getTypeDeclaration(Schema p, boolean includeNullableSuffix) {
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        String typeDeclaration;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = ModelUtils.getSchemaItems(schema);
-            return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
-        }
-        if (ModelUtils.isMapSchema(target)) {
+            typeDeclaration = getSchemaType(target) + "<" + getTypeDeclaration(items, true) + ">";
+        } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
             Schema<?> inner = ModelUtils.getAdditionalProperties(target);
@@ -569,9 +573,16 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 inner = new StringSchema().description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
-            return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
+            typeDeclaration = getSchemaType(target) + "<String, " + getTypeDeclaration(inner, true) + ">";
+        } else {
+            typeDeclaration = super.getTypeDeclaration(p);
         }
-        return super.getTypeDeclaration(p);
+
+        if (includeNullableSuffix && ModelUtils.isNullable(schema)) {
+            return typeDeclaration + "?";
+        }
+
+        return typeDeclaration;
     }
 
     @Override

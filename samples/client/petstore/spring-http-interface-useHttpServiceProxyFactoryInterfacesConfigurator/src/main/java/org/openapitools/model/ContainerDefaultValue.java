@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
@@ -12,7 +13,9 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -22,19 +25,17 @@ import jakarta.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
-  
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
-  
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
-  
   private List<String> requiredArray = new ArrayList<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValue() {
@@ -93,7 +94,7 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
@@ -121,7 +122,7 @@ public class ContainerDefaultValue {
    * Get requiredArray
    * @return requiredArray
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("required_array")
   public List<String> getRequiredArray() {
     return requiredArray;

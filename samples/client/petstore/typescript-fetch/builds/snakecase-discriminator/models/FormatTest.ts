@@ -122,7 +122,7 @@ export interface FormatTest {
  */
 export function instanceOfFormatTest(value: object): value is FormatTest {
     if (!('number' in value) || value['number'] === undefined) return false;
-    if (!('_byte' in value) || value['_byte'] === undefined) return false;
+    if ((!('_byte' in (value as Record<string, any>)) && !('byte' in (value as Record<string, any>))) || ((value as Record<string, any>)['_byte'] === undefined && (value as Record<string, any>)['byte'] === undefined)) return false;
     if (!('date' in value) || value['date'] === undefined) return false;
     if (!('password' in value) || value['password'] === undefined) return false;
     return true;

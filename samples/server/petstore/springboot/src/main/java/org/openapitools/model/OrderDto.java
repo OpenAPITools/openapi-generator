@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -9,37 +10,42 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * OrderDto
  */
 
 @JsonTypeName("Order")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class OrderDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long petId;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer quantity;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime shipDate;
 
   /**
    * Order Status
    */
-  public enum StatusEnum {
+  public enum StatusEnum implements ValuedEnum<String> {
     PLACED("placed"),
     
     APPROVED("approved"),
@@ -73,8 +79,10 @@ public class OrderDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable StatusEnum status;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean complete = false;
 
   public OrderDto id(@Nullable Long id) {

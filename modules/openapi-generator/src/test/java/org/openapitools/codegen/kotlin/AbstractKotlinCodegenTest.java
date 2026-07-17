@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
+import static org.openapitools.codegen.languages.AbstractKotlinCodegen.KotlinEnumNamingType.bestEffortBacktick;
 import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 import static org.testng.Assert.*;
 
@@ -81,6 +83,81 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
+    public void bestEffortBacktickEnumConverter() {
+        codegen.setEnumPropertyNaming(bestEffortBacktick.name());
+
+        // Already a valid plain Kotlin identifier — no backticks needed
+        assertEquals(codegen.toEnumVarName("validName", null), "validName");
+        assertEquals(codegen.toEnumVarName("snake_case", null), "snake_case");
+
+        // Contains characters invalid in a plain identifier — wrap in backticks
+        assertEquals(codegen.toEnumVarName("long Name", null), "`long Name`");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "`long-Name`");
+        assertEquals(codegen.toEnumVarName("not1long Name", null), "`not1long Name`");
+        assertEquals(codegen.toEnumVarName("data/*", null), "`data/*`");
+
+        // Starts with a digit — not a valid plain identifier, wrap in backticks
+        assertEquals(codegen.toEnumVarName("1long Name", null), "`1long Name`");
+
+        // Kotlin reserved word — wrap in backticks to make it valid
+        assertEquals(codegen.toEnumVarName("fun", null), "`fun`");
+        assertEquals(codegen.toEnumVarName("class", null), "`class`");
+
+        // Emoji — Unicode Symbol category, not a letter, so invalid as plain identifier; valid inside backticks
+        assertEquals(codegen.toEnumVarName("🎉", null), "`🎉`");
+
+        // Dollar sign is valid in plain Kotlin identifiers — no backticks needed
+        assertEquals(codegen.toEnumVarName("$price", null), "$price");
+
+        // Contains a literal backtick — cannot use backtick escaping, fall back to sanitization
+        assertEquals(codegen.toEnumVarName("foo`bar", null), "fooBacktickBar");
+    }
+
+    @Test(description = "bestEffortBacktick preserves original values as backtick identifiers in ComplexEnum")
+    public void testComplexEnumFromSpecWithBestEffortBacktick() {
+        codegen.setEnumPropertyNaming(bestEffortBacktick.name());
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue10591-enum-defaultValue.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        Schema complexEnumSchema = openAPI.getComponents().getSchemas().get("ComplexEnum");
+        CodegenModel cm = codegen.fromModel("ComplexEnum", complexEnumSchema);
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.allowableValues.get("enumVars");
+        List<String> names = enumVars.stream()
+                .map(e -> (String) e.get("name"))
+                .collect(Collectors.toList());
+
+        // Already valid plain Kotlin identifiers — used as-is
+        assertTrue(names.contains("active"));
+        assertTrue(names.contains("inactive"));
+        assertTrue(names.contains("$yolo"));
+
+        // Contain a hyphen — wrapped in backticks
+        assertTrue(names.contains("`in-progress`"));
+        assertTrue(names.contains("`not-started`"));
+
+        // Sort/order enum values containing a comma — wrapped in backticks
+        assertTrue(names.contains("`name,asc`"));
+        assertTrue(names.contains("`name,desc`"));
+        assertTrue(names.contains("`id,asc`"));
+        assertTrue(names.contains("`id,desc`"));
+
+        // Contains a space — wrapped in backticks
+        assertTrue(names.contains("`not started`"));
+
+        // Kotlin reserved word — wrapped in backticks
+        assertTrue(names.contains("`class`"));
+
+        // Contains a literal backtick — cannot use backtick escaping, falls back to sanitization
+        assertTrue(names.contains("fooBacktickBar"));
+
+        // Contains emoji — wrapped in backticks
+        assertTrue(names.contains("`🎉`"));
+    }
+
+    @Test
     public void pascalCaseEnumConverter() {
         codegen.setEnumPropertyNaming(PascalCase.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "LongName");
@@ -95,6 +172,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("1", "kotlin.Double"), "1.0");
         assertEquals(codegen.toEnumValue("1.3", "kotlin.Double"), "1.3");
         assertEquals(codegen.toEnumValue("1337", "kotlin.Long"), "1337");
+        assertEquals(codegen.toEnumValue("true", "kotlin.Boolean"), "true");
         assertEquals(codegen.toEnumValue("5", "kotlin.Float"), "5f");
         assertEquals(codegen.toEnumValue("1.0", "kotlin.Float"), "1.0f");
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
@@ -162,8 +240,23 @@ public class AbstractKotlinCodegenTest {
 
     @Test
     public void convertApiNameWithSuffix() {
-        codegen.setApiSuffix("Test");
+        codegen.setApiNameSuffix("Test");
         assertEquals(codegen.toApiName("Fake"), "FakeTest");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithPrefix() {
+        codegen.setApiNamePrefix("Prefix");
+        assertEquals(codegen.toApiName("Fake"), "PrefixFakeApi");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithPrefixAndSuffix() {
+        codegen.setApiNamePrefix("Prefix");
+        codegen.setApiNameSuffix("Suffix");
+        assertEquals(codegen.toApiName("Fake"), "PrefixFakeSuffix");
         assertEquals(codegen.toApiName(""), "DefaultApi");
     }
 
@@ -399,6 +492,30 @@ public class AbstractKotlinCodegenTest {
         Assert.assertEquals(nullableMap.getDataType(), "kotlin.collections.Map<kotlin.String, kotlin.String?>");
         Assert.assertEquals(notNullableMap.getDataType(), "kotlin.collections.Map<kotlin.String, kotlin.String>");
         Assert.assertEquals(defaultMap.getDataType(), "kotlin.collections.Map<kotlin.String, kotlin.String>");
+    }
+
+    @Test
+    public void schemaMappingWithNullableAllOfRendersNullableType() {
+        // When a schema is substituted via schemaMapping and a property wraps it with
+        // "nullable: true + allOf: [$ref]", the Kotlin property must be nullable (isNullable=true)
+        // and use the mapped FQN as its data type.
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/schema-mapping-nullable-allof.yaml");
+        codegen.schemaMapping().put("ExternalModel", "com.example.ExternalModel");
+        codegen.setOpenAPI(openAPI);
+
+        Schema myObjectSchema = openAPI.getComponents().getSchemas().get("MyObject");
+        CodegenModel cm = codegen.fromModel("MyObject", myObjectSchema);
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
+
+        CodegenProperty optionalRef = cm.vars.stream()
+                .filter(v -> "optionalRef".equals(v.name))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("optionalRef property not found in MyObject"));
+
+        Assert.assertTrue(optionalRef.isNullable,
+                "optionalRef must be nullable because the schema uses nullable:true");
+        Assert.assertEquals(optionalRef.dataType, "com.example.ExternalModel",
+                "dataType must be the mapped FQN, not the raw schema name");
     }
 
     @Test

@@ -78,8 +78,8 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 
     publishing {
         publications {
@@ -102,8 +102,8 @@ ext {
     jackson_version = "2.21.1"
     jackson_annotations_version = "2.21"
     jackson_databind_version = "2.21.1"
-    jackson_databind_nullable_version = "0.2.9"
-    jakarta_annotation_version = "2.1.0"
+    jackson_databind_nullable_version = "0.2.10"
+    jakarta_annotation_version = "3.0.0"
     jersey_version = "3.0.4"
     junit_version = "5.8.2"
 }

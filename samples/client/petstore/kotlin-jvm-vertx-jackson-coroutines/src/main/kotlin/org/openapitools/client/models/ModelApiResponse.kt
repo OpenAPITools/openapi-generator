@@ -37,12 +37,15 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class ModelApiResponse (
 
+    @param:JsonProperty("code")
     @get:JsonProperty("code")
     val code: kotlin.Int? = null,
 
+    @param:JsonProperty("type")
     @get:JsonProperty("type")
     val type: kotlin.String? = null,
 
+    @param:JsonProperty("message")
     @get:JsonProperty("message")
     val message: kotlin.String? = null
 

@@ -93,8 +93,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="EquilateralTriangle" />
     /// </summary>
-    public class EquilateralTriangleJsonConverter : JsonConverter<EquilateralTriangle>
+    public partial class EquilateralTriangleJsonConverter : JsonConverter<EquilateralTriangle>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EquilateralTriangleJsonConverter" /> class.
+        /// </summary>
+        public EquilateralTriangleJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="EquilateralTriangle" />
         /// </summary>

@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.7
-- Generator version: 7.22.0-SNAPSHOT
+- Generator version: 7.24.0-SNAPSHOT
 
 
 
@@ -103,6 +103,7 @@ cargo run --example openapi-v3-client ParamgetGet
 cargo run --example openapi-v3-client QueryExampleGet
 cargo run --example openapi-v3-client ReadonlyAuthSchemeGet
 cargo run --example openapi-v3-client RegisterCallbackPost
+cargo run --example openapi-v3-client RequiredBinaryStreamPut
 cargo run --example openapi-v3-client RequiredOctetStreamPut
 cargo run --example openapi-v3-client ResponsesWithHeadersGet
 cargo run --example openapi-v3-client Rfc7807Get
@@ -170,6 +171,7 @@ Method | HTTP request | Description
 [**queryExampleGet**](docs/default_api.md#queryExampleGet) | **GET** /query-example | Test required query params with and without examples
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **POST** /register-callback | 
+[****](docs/default_api.md#) | **PUT** /required_binary_stream | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
 [****](docs/default_api.md#) | **GET** /responses_with_headers | 
 [****](docs/default_api.md#) | **GET** /rfc7807 | 

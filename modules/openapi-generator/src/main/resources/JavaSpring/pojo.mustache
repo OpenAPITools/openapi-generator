@@ -33,7 +33,7 @@
 {{>generatedAnnotation}}
 
 {{#vendorExtensions.x-class-extra-annotation}}
-{{{vendorExtensions.x-class-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}} extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
 {{#serializableModel}}
@@ -61,11 +61,20 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
+  {{#jackson}}
+  {{^required}}
+  {{^isNullable}}
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  {{/isNullable}}
+  {{/required}}
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{/jackson}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
   {{#isContainer}}
-  {{#useBeanValidation}}@Valid{{/useBeanValidation}}
   {{#openApiNullable}}
   private {{>nullableAnnotation}}{{#isNullable}}{{>nullableDataTypeBeanValidation}} {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();{{/isNullable}}{{^required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}{{#required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}
   {{/openApiNullable}}
@@ -243,6 +252,11 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
+  {{#jackson}}
+  {{#vendorExtensions.x-has-json-setter-nulls-skip}}
+  @JsonSetter(nulls = Nulls.SKIP)
+  {{/vendorExtensions.x-has-json-setter-nulls-skip}}
+  {{/jackson}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}

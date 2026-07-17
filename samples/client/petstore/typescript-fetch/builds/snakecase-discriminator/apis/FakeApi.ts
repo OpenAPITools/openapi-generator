@@ -12,39 +12,52 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Client,
-  EnumClass,
-  FakeBigDecimalMap200Response,
-  FileSchemaTestClass,
-  HealthCheckResult,
-  OuterComposite,
-  OuterObjectWithEnumProperty,
-  Pet,
-  User,
-} from '../models/index';
 import {
+    type Client,
     ClientFromJSON,
     ClientToJSON,
+} from '../models/Client';
+import {
+    type EnumClass,
     EnumClassFromJSON,
     EnumClassToJSON,
+} from '../models/EnumClass';
+import {
+    type FakeBigDecimalMap200Response,
     FakeBigDecimalMap200ResponseFromJSON,
     FakeBigDecimalMap200ResponseToJSON,
+} from '../models/FakeBigDecimalMap200Response';
+import {
+    type FileSchemaTestClass,
     FileSchemaTestClassFromJSON,
     FileSchemaTestClassToJSON,
+} from '../models/FileSchemaTestClass';
+import {
+    type HealthCheckResult,
     HealthCheckResultFromJSON,
     HealthCheckResultToJSON,
+} from '../models/HealthCheckResult';
+import {
+    type OuterComposite,
     OuterCompositeFromJSON,
     OuterCompositeToJSON,
+} from '../models/OuterComposite';
+import {
+    type OuterObjectWithEnumProperty,
     OuterObjectWithEnumPropertyFromJSON,
     OuterObjectWithEnumPropertyToJSON,
+} from '../models/OuterObjectWithEnumProperty';
+import {
+    type Pet,
     PetFromJSON,
     PetToJSON,
+} from '../models/Pet';
+import {
+    type User,
     UserFromJSON,
     UserToJSON,
-} from '../models/index';
+} from '../models/User';
 
 export interface FakeHttpSignatureTestRequest {
     pet: Pet;
@@ -502,10 +515,10 @@ export class FakeApi extends runtime.BaseAPI {
      * Creates request options for testBodyWithBinary without sending the request
      */
     async testBodyWithBinaryRequestOpts(requestParameters: TestBodyWithBinaryRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['body'] == null) {
+        if (requestParameters['body'] === undefined) {
             throw new runtime.RequiredError(
                 'body',
-                'Required parameter "body" was null or undefined when calling testBodyWithBinary().'
+                'Required parameter "body" was undefined when calling testBodyWithBinary().'
             );
         }
 

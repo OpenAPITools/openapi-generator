@@ -36,6 +36,9 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/JavaInflector/}.
+ */
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);

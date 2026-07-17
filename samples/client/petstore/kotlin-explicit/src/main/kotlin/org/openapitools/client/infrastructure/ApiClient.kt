@@ -119,6 +119,9 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
         public val builder: OkHttpClient.Builder = OkHttpClient.Builder()
     }
 
+    public var userCredentialsProvider: () -> Pair<String?, String?> = { username to password }
+    public var accessTokenProvider: () -> String? = { accessToken }
+
     /**
      * Guess Content-Type header from the given byteArray (defaults to "application/octet-stream").
      *
@@ -285,7 +288,7 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
 
     @OptIn(ExperimentalStdlibApi::class)
     protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JSON_MEDIA_TYPE): T? {
-        val body = response.body
+        val body = response.body ?: return null
 
         if (T::class.java == Unit::class.java) {
             // No need to parse the body when we're not interested in the body
@@ -357,8 +360,8 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
 
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
         if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken "
+            accessTokenProvider()?.let { token ->
+                requestConfig.headers[AUTHORIZATION] = "Bearer $token "
             }
         }
         if (requestConfig.headers["api_key"].isNullOrEmpty()) {
@@ -466,11 +469,11 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime -> parseDateToQueryString(value)
-        is OffsetTime -> parseDateToQueryString(value)
-        is LocalDateTime -> parseDateToQueryString(value)
-        is LocalDate -> parseDateToQueryString(value)
-        is LocalTime -> parseDateToQueryString(value)
+        is OffsetDateTime -> parseDateToQueryString<OffsetDateTime>(value)
+        is OffsetTime -> parseDateToQueryString<OffsetTime>(value)
+        is LocalDateTime -> parseDateToQueryString<LocalDateTime>(value)
+        is LocalDate -> parseDateToQueryString<LocalDate>(value)
+        is LocalTime -> parseDateToQueryString<LocalTime>(value)
         else -> value.toString()
     }
 

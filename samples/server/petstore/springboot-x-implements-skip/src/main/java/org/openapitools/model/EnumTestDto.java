@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -29,7 +30,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class EnumTestDto {
 
   /**
@@ -69,6 +70,7 @@ public class EnumTestDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumStringEnum enumString;
 
   /**
@@ -145,6 +147,7 @@ public class EnumTestDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumIntegerEnum enumInteger;
 
   /**
@@ -182,14 +185,19 @@ public class EnumTestDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumNumberEnum enumNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<OuterEnumDto> outerEnum = JsonNullable.<OuterEnumDto>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable OuterEnumIntegerDto outerEnumInteger;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private OuterEnumDefaultValueDto outerEnumDefaultValue = OuterEnumDefaultValueDto.PLACED;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private OuterEnumIntegerDefaultValueDto outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValueDto.NUMBER_0;
 
   public EnumTestDto() {

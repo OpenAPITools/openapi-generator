@@ -11,9 +11,16 @@ import os
 import re
 import tempfile
 import uuid
+{{#compatibleWithPythonLegacyApi}}
+{{^async}}
+import atexit
+from multiprocessing.pool import ThreadPool
+from threading import Lock
+{{/async}}
+{{/compatibleWithPythonLegacyApi}}
 
 from urllib.parse import quote
-from typing import Tuple, Optional, List, Dict, Union
+from typing import Tuple, Optional, List, Dict, Union{{#compatibleWithPythonLegacy}}, Any{{/compatibleWithPythonLegacy}}
 from pydantic import SecretStr
 {{#tornado}}
 import tornado.gen
@@ -33,6 +40,12 @@ from {{packageName}}.exceptions import (
     ServiceException
 )
 
+{{#compatibleWithPythonLegacy}}
+
+{{>_legacy_model_identity}}
+
+
+{{/compatibleWithPythonLegacy}}
 RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
 
 class ApiClient:
@@ -49,6 +62,11 @@ class ApiClient:
         the API.
     :param cookie: a cookie to include in the header when making calls
         to the API
+{{#compatibleWithPythonLegacyApi}}
+{{^async}}
+    :param pool_threads: number of threads for legacy async requests.
+{{/async}}
+{{/compatibleWithPythonLegacyApi}}
     """
 
     PRIMITIVE_TYPES = (float, bool, bytes, str, int)
@@ -71,11 +89,17 @@ class ApiClient:
         configuration=None,
         header_name=None,
         header_value=None,
-        cookie=None
+        cookie=None{{#compatibleWithPythonLegacyApi}}{{^async}},
+        pool_threads=1{{/async}}{{/compatibleWithPythonLegacyApi}}
     ) -> None:
         # use default configuration if none is provided
         if configuration is None:
+{{#useIndependentImplicitClients}}
+            configuration = Configuration.get_default_copy()
+{{/useIndependentImplicitClients}}
+{{^useIndependentImplicitClients}}
             configuration = Configuration.get_default()
+{{/useIndependentImplicitClients}}
         self.configuration = configuration
 
         self.rest_client = rest.RESTClientObject(configuration)
@@ -83,6 +107,12 @@ class ApiClient:
         if header_name is not None:
             self.default_headers[header_name] = header_value
         self.cookie = cookie
+{{#compatibleWithPythonLegacyApi}}
+{{^async}}
+        self.pool_threads = pool_threads
+        self._pool_lock = Lock()
+{{/async}}
+{{/compatibleWithPythonLegacyApi}}
         # Set default User-Agent.
         self.user_agent = '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/python{{/httpUserAgent}}'
         self.client_side_validation = configuration.client_side_validation
@@ -98,11 +128,107 @@ class ApiClient:
         await self.rest_client.close()
 {{/async}}
 {{^async}}
+{{#compatibleWithPythonLegacyApi}}
+    def close(self):
+        # Pool creation, submission, and close share one lock so an async
+        # request cannot lose its pool while another thread closes the client.
+        with self._pool_lock:
+            if self._pool is not None:
+                self._pool.close()
+                self._pool.join()
+                self._pool = None
+                if hasattr(atexit, 'unregister'):
+                    atexit.unregister(self.close)
+{{#useIndependentImplicitClients}}
+        self.rest_client.close()
+
+{{/useIndependentImplicitClients}}
+
+    def _get_pool(self):
+        if self._pool is None:
+            atexit.register(self.close)
+            self._pool = ThreadPool(self.pool_threads)
+        return self._pool
+
+    @property
+    def pool(self):
+        """Create the thread pool only for legacy async requests."""
+        with self._pool_lock:
+            return self._get_pool()
+
+{{!
+python-legacy scheduled one prepared request and selected raw, data-only, or
+tuple output in ApiClient:
+https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/api_client.mustache#L350-L417
+https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/api_client.mustache#L207-L237
+}}
+    def _call_with_legacy_options(
+        self,
+        request: RequestSerialized,
+        response_types_map: Dict[str, Optional[str]],
+        async_req: Optional[bool],
+        preload_content: bool,
+        request_timeout: Any,
+        return_http_data_only: bool,
+    ) -> Any:
+        def call():
+            response_data = self.call_api(
+                *request,
+                _request_timeout=request_timeout,
+            )
+            if not preload_content:
+                # python-legacy raised non-2xx responses in the REST layer
+                # before returning raw data:
+                # https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/rest.mustache#L213-L226
+                if not 200 <= response_data.status <= 299:
+                    response_data.read()
+                    raise ApiException.from_response(
+                        http_resp=response_data,
+                        body=None,
+                        data=None,
+                    )
+                return response_data.response
+            response_data.read()
+            api_response = self.response_deserialize(
+                response_data=response_data,
+                response_types_map=response_types_map,
+            )
+            if return_http_data_only:
+                return api_response.data
+            return (
+                api_response.data,
+                api_response.status_code,
+                response_data.getheaders(),
+            )
+
+        if async_req:
+            with self._pool_lock:
+                return self._get_pool().apply_async(call)
+        return call()
+
+{{/compatibleWithPythonLegacyApi}}
+{{^compatibleWithPythonLegacyApi}}
+{{#useIndependentImplicitClients}}
+    def close(self):
+        self.rest_client.close()
+
+{{/useIndependentImplicitClients}}
+{{/compatibleWithPythonLegacyApi}}
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
+{{#compatibleWithPythonLegacyApi}}
+        self.close()
+{{/compatibleWithPythonLegacyApi}}
+{{^compatibleWithPythonLegacyApi}}
+{{#useIndependentImplicitClients}}
+        self.close()
+{{/useIndependentImplicitClients}}
+{{^useIndependentImplicitClients}}
         pass
+{{/useIndependentImplicitClients}}
+{{/compatibleWithPythonLegacyApi}}
 {{/async}}
 
     @property
@@ -120,8 +246,21 @@ class ApiClient:
 
     _default = None
 
+{{#useIndependentImplicitClients}}
+    @classmethod
+    def _get_default_or_new(cls):
+        if cls._default is not None:
+            return cls._default, False
+        return cls(), True
+
+{{/useIndependentImplicitClients}}
     @classmethod
     def get_default(cls):
+{{#useIndependentImplicitClients}}
+        """Return the registered default ApiClient, or a new client."""
+        return cls._get_default_or_new()[0]
+{{/useIndependentImplicitClients}}
+{{^useIndependentImplicitClients}}
         """Return new instance of ApiClient.
 
         This method returns newly created, based on default constructor,
@@ -133,6 +272,7 @@ class ApiClient:
         if cls._default is None:
             cls._default = ApiClient()
         return cls._default
+{{/useIndependentImplicitClients}}
 
     @classmethod
     def set_default(cls, default):
@@ -379,28 +519,34 @@ class ApiClient:
             return obj.isoformat()
         elif isinstance(obj, decimal.Decimal):
             return str(obj)
-
         elif isinstance(obj, dict):
-            obj_dict = obj
+            return {
+                key: self.sanitize_for_serialization(val)
+                for key, val in obj.items()
+            }
+
+        # Convert model obj to dict except
+        # attributes `openapi_types`, `attribute_map`
+        # and attributes which value is not None.
+        # Convert attribute name to json key in
+        # model definition for request.
+{{#compatibleWithPythonLegacy}}
+        to_dict = getattr(obj, 'to_dict', None)
+        to_openapi_dict = _get_openapi_to_dict(obj)
+        if to_openapi_dict is not None:
+            obj_dict = to_openapi_dict(obj)
+        elif callable(to_dict):
+            obj_dict = to_dict()
+{{/compatibleWithPythonLegacy}}
+{{^compatibleWithPythonLegacy}}
+        if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):
+            obj_dict = obj.to_dict()
+{{/compatibleWithPythonLegacy}}
         else:
-            # Convert model obj to dict except
-            # attributes `openapi_types`, `attribute_map`
-            # and attributes which value is not None.
-            # Convert attribute name to json key in
-            # model definition for request.
-            if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):
-                obj_dict = obj.to_dict()
-            else:
-                obj_dict = obj.__dict__
+            obj_dict = obj.__dict__
 
-        if isinstance(obj_dict, list):
-            # here we handle instances that can either be a list or something else, and only became a real list by calling to_dict()
-            return self.sanitize_for_serialization(obj_dict)
+        return self.sanitize_for_serialization(obj_dict)
 
-        return {
-            key: self.sanitize_for_serialization(val)
-            for key, val in obj_dict.items()
-        }
 
     def deserialize(self, response_text: str, response_type: str, content_type: Optional[str]):
         """Deserializes response into an object.
@@ -684,7 +830,16 @@ class ApiClient:
         :param auth_setting: auth settings for the endpoint
         """
         if auth_setting['in'] == 'cookie':
-            headers['Cookie'] = auth_setting['value']
+            if not 'Cookie' in headers:
+                headers['Cookie'] = ""
+            else:
+                headers['Cookie'] += "; "
+            # Account for cookie value containing spaces and special characters
+            cookie_value = str(auth_setting['value'])
+            if not re.match("^\".*\"$", cookie_value):
+                cookie_value = cookie_value.replace("\"", "\\\"")
+                cookie_value = f"\"{cookie_value}\""
+            headers['Cookie'] += f"{auth_setting['key']}={cookie_value}"
         elif auth_setting['in'] == 'header':
             if auth_setting['type'] != 'http-signature':
                 headers[auth_setting['key']] = auth_setting['value']

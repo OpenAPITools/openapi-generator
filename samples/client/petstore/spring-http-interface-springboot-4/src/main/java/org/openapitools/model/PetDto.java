@@ -2,10 +2,13 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -16,7 +19,9 @@ import org.openapitools.model.TagDto;
 import org.springframework.lang.Nullable;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -27,20 +32,21 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class PetDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable CategoryDto category;
 
   private String name;
 
-  
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  
-  private List<TagDto> tags = new ArrayList<>();
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -79,6 +85,7 @@ public class PetDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private @Nullable StatusEnum status;
 
@@ -101,6 +108,7 @@ public class PetDto {
     return id;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
@@ -115,12 +123,13 @@ public class PetDto {
    * Get category
    * @return category
    */
-  
+  @Valid 
   @JsonProperty("category")
   public @Nullable CategoryDto getCategory() {
     return category;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("category")
   public void setCategory(@Nullable CategoryDto category) {
     this.category = category;
@@ -135,7 +144,7 @@ public class PetDto {
    * Get name
    * @return name
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -163,7 +172,7 @@ public class PetDto {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -175,7 +184,7 @@ public class PetDto {
     this.photoUrls = photoUrls;
   }
 
-  public PetDto tags(List<TagDto> tags) {
+  public PetDto tags(List<@Valid TagDto> tags) {
     this.tags = tags;
     return this;
   }
@@ -192,14 +201,15 @@ public class PetDto {
    * Get tags
    * @return tags
    */
-  
+  @Valid 
   @JsonProperty("tags")
-  public List<TagDto> getTags() {
+  public List<@Valid TagDto> getTags() {
     return tags;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("tags")
-  public void setTags(List<TagDto> tags) {
+  public void setTags(List<@Valid TagDto> tags) {
     this.tags = tags;
   }
 
@@ -223,6 +233,7 @@ public class PetDto {
   /**
    * @deprecated
    */
+  @JsonSetter(nulls = Nulls.SKIP)
   @Deprecated
   @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {

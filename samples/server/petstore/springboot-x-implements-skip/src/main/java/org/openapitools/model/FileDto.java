@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -22,9 +23,10 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "File", description = "Must be named `File` for test.")
 @JsonTypeName("File")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class FileDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String sourceURI;
 
   public FileDto sourceURI(@Nullable String sourceURI) {

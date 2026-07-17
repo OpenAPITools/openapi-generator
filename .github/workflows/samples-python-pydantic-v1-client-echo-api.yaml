@@ -17,18 +17,18 @@ jobs:
           # clients
           - samples/client/echo_api/python-pydantic-v1/
         python-version:
-          - "3.8"
-          - "3.9"
           - "3.10"
           - "3.11"
           - "3.12"
+          - "3.13"
+          #- "3.14"
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Setup node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
       - name: Run echo server
         run: |
           git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server

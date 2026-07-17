@@ -40,6 +40,9 @@ import java.util.*;
 import static java.util.UUID.randomUUID;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/powershell/}.
+ */
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
     @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
@@ -1509,15 +1512,17 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
-        System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
-        System.out.println("# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
+            System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
+            System.out.println("# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override
@@ -1527,7 +1532,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toEnumVarName(String name, String datatype) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "EMPTY";
         }
 
@@ -1536,8 +1541,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             return (getSymbolName(name)).toUpperCase(Locale.ROOT);
         }
 
-        // number
-        if ("Int16".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype) ||
+        if (name.matches("^\\d.*") || // any data type (including string) starting with a number
+                // numeric data type
+                "Int16".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype) ||
                 "UInt16".equals(datatype) || "UInt32".equals(datatype) || "UInt64".equals(datatype) ||
                 "Double".equals(datatype) || "Single".equals(datatype) || "Decimal".equals(datatype)) {
             String varName = name;

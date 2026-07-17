@@ -51,10 +51,10 @@
 {{/discriminator}}{{^discriminator}}        let container = try decoder.singleValueContainer()
         {{#oneOf}}
         {{#-first}}
-        if let value = try? container.decode({{.}}.self) {
+        if let value = try? container.decode({{.}}.self){{#enumUnknownDefaultCase}}, (value as? UnknownCaseCheckable)?.containsUnknownDefaultOpenApiCase != true{{/enumUnknownDefaultCase}} {
         {{/-first}}
         {{^-first}}
-        } else if let value = try? container.decode({{.}}.self) {
+        } else if let value = try? container.decode({{.}}.self){{#enumUnknownDefaultCase}}, (value as? UnknownCaseCheckable)?.containsUnknownDefaultOpenApiCase != true{{/enumUnknownDefaultCase}} {
         {{/-first}}
             self = .type{{.}}(value)
         {{/oneOf}}

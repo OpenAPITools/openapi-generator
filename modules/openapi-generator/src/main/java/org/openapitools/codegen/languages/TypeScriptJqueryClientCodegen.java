@@ -31,6 +31,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-jquery/}.
+ */
 public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptJqueryClientCodegen.class);
 

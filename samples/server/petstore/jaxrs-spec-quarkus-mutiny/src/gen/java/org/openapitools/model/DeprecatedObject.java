@@ -12,10 +12,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 
+@Deprecated
 
-@org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
+
+@org.eclipse.microprofile.openapi.annotations.media.Schema(description="", deprecated = true)
 @JsonTypeName("DeprecatedObject")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class DeprecatedObject  implements Serializable {
   private String name;
 

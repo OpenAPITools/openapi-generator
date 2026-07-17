@@ -170,18 +170,28 @@ module {{moduleName}}
       {{/hasValidation}}
       {{/allParams}}
       # resource path
-      local_var_path = '{{{path}}}'{{#pathParams}}.sub('{' + '{{baseName}}' + '}', CGI.escape({{paramName}}.to_s){{^strictSpecBehavior}}.gsub('%2F', '/'){{/strictSpecBehavior}}){{/pathParams}}
+      local_var_path = '{{{path}}}'{{#pathParams}}.sub({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, CGI.escape({{paramName}}.to_s){{^strictSpecBehavior}}.gsub('%2F', '/'){{/strictSpecBehavior}}){{/pathParams}}
 
       # query parameters
       query_params = opts[:query_params] || {}
       {{#queryParams}}
       {{#required}}
+      {{#queryIsJsonMimeType}}
+      query_params[:'{{{baseName}}}'] = {{{paramName}}}.to_json
+      {{/queryIsJsonMimeType}}
+      {{^queryIsJsonMimeType}}
       query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
+      {{/queryIsJsonMimeType}}
       {{/required}}
       {{/queryParams}}
       {{#queryParams}}
       {{^required}}
+      {{#queryIsJsonMimeType}}
+      query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'].to_json if !opts[:'{{{paramName}}}'].nil?
+      {{/queryIsJsonMimeType}}
+      {{^queryIsJsonMimeType}}
       query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if !opts[:'{{{paramName}}}'].nil?
+      {{/queryIsJsonMimeType}}
       {{/required}}
       {{/queryParams}}
 

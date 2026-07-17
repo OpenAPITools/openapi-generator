@@ -435,6 +435,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         final CopyContent copyContent = new CopyContent();
+        final CacheLambda.CacheContent cacheContent = new CacheLambda.CacheContent();
 
         return super.addMustacheLambdas()
                 .put("camelcase_sanitize_param", new CamelCaseAndSanitizeLambda().generator(this).escapeAsParamName(true))
@@ -454,6 +455,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 .put("copyText", new CopyLambda(copyContent, WhiteSpaceStrategy.Strip, WhiteSpaceStrategy.StripLineBreakIfPresent))
                 .put("paste", new PasteLambda(copyContent, false))
                 .put("pasteOnce", new PasteLambda(copyContent, true))
+                .put("cache", new CacheLambda(cacheContent))
+                .put("recall", new RecallLambda(cacheContent, false))
+                .put("recallOnce", new RecallLambda(cacheContent, true))
                 .put("uniqueLines", new UniqueLambda("\n", false))
                 .put("unique", new UniqueLambda("\n", true))
                 .put("camel_case", new CamelCaseLambda())
@@ -464,6 +468,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        // OAS 3.1: the 'null' type replaces the nullable flag. Convert null-typed properties
+        // to a nullable Object so that C# code generation remains consistent.
+        if ("null".equals(property.openApiType)) {
+            property.dataType = typeMapping.get("object");
+            property.datatypeWithEnum = property.dataType;
+            property.baseType = typeMapping.get("object");
+            property.isNullable = true;
+        }
+
         if (property.isInnerEnum && property.items != null) {
             // format maps of inner enums to include the classname eg: Dictionary<string, MapTest.InnerEnum>
             property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);

@@ -799,10 +799,12 @@ components:
           type: string
           format: uuid
     UserOrPet:
+      description: A schema that can be either a User or a Pet
       oneOf:
         - $ref: "#/components/schemas/User"
         - $ref: "#/components/schemas/Pet"
     UserOrPetOrArrayString:
+      description: A schema that can be either a User, a Pet, or an array of strings
       oneOf:
         - $ref: "#/components/schemas/User"
         - $ref: "#/components/schemas/Pet"

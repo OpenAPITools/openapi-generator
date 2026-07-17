@@ -45,6 +45,9 @@ import static java.util.Objects.nonNull;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-fetch/}.
+ */
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -89,6 +92,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_ENTITY_ID = "x-entityId";
     private static final String X_OPERATION_RETURN_PASSTHROUGH = "x-operationReturnPassthrough";
     private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
+    private static final String X_TYPESCRIPT_FETCH_API_EXAMPLE = "x-typescriptFetchApiExample";
+    private static final String BLOB_API_EXAMPLE = "new Blob(['example file content'], { type: 'application/octet-stream' })";
 
     protected boolean sagasAndRecords = false;
     @Getter @Setter
@@ -413,9 +418,44 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+        if (isBinaryFormArray(parameter)) {
+            parameter.isFile = true;
             parameter.isCollectionFormatMulti = true;
         }
+    }
+
+    private void addMultipartFileArrayApiExampleValues(OperationsMap operations) {
+        for (CodegenOperation operation : operations.getOperations().getOperation()) {
+            if (operation.allParams == null || operation.allParams.stream().noneMatch(TypeScriptFetchClientCodegen::isBinaryFormArray)) {
+                continue;
+            }
+
+            for (CodegenParameter parameter : operation.allParams) {
+                setApiExampleValue(parameter);
+            }
+        }
+    }
+
+    private void setApiExampleValue(CodegenParameter parameter) {
+        String example = toApiExampleValue(parameter);
+        if (example != null) {
+            parameter.vendorExtensions.put(X_TYPESCRIPT_FETCH_API_EXAMPLE, example);
+        }
+    }
+
+    private String toApiExampleValue(CodegenParameter parameter) {
+        if (isBinaryFormArray(parameter)) {
+            return "[" + BLOB_API_EXAMPLE + "]";
+        } else if (parameter.isFile || parameter.isBinary) {
+            return BLOB_API_EXAMPLE;
+        } else if (parameter.isString) {
+            String example = parameter.example;
+            if (example == null) {
+                example = parameter.paramName + "_example";
+            }
+            return "'" + escapeText(example) + "'";
+        }
+        return null;
     }
 
     @Override
@@ -457,6 +497,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 if (codegenModel.isEntity) {
                     entityModelClassnames.add(codegenModel.classname);
                 }
+            }
+        }
+
+        // Build a set of classnames that are oneOf models (union types)
+        Set<String> oneOfModelNames = allModels.stream()
+                .filter(m -> !m.oneOf.isEmpty())
+                .map(m -> m.classname)
+                .collect(Collectors.toSet());
+
+        // Mark models whose parent is a oneOf model — these cannot use
+        // "interface X extends Parent" because TypeScript does not allow
+        // an interface to extend a union type.  They use
+        // "type X = Parent & { ... }" instead.
+        for (ExtendedCodegenModel m : allModels) {
+            if (m.parent != null && oneOfModelNames.contains(m.parent)) {
+                m.parentIsOneOf = true;
             }
         }
 
@@ -549,10 +605,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        // in case ECMAScript 6 is supported add another tsconfig for an ESM (ECMAScript Module)
-        if (supportsES6) {
-            supportingFiles.add(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
-        }
+
+        // by default ECMAScript 6 is supported add another tsconfig for an ESM (ECMAScript Module)
+        supportingFiles.add(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+
         supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
@@ -727,6 +783,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
+        this.addMultipartFileArrayApiExampleValues(operations);
 
         return operations;
     }
@@ -938,6 +995,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             existingClassNames.add(className);
             existingRecordClassNames.add(className + "Record");
             im.put("className", className);
+            im.put("classFileName", convertUsingFileNamingConvention(className));
         }
 
         if (this.getSagasAndRecords()) {
@@ -1382,6 +1440,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.xmlName = cp.xmlName;
             this.xmlNamespace = cp.xmlNamespace;
             this.isXmlWrapped = cp.isXmlWrapped;
+            this.setHasSanitizedName(cp.getHasSanitizedName());
         }
 
         @Override
@@ -1545,6 +1604,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public Set<CodegenProperty> oneOfPrimitives = new HashSet<>();
         @Getter @Setter
         public CodegenDiscriminator.MappedModel selfReferencingDiscriminatorMapping;
+        @Getter @Setter
+        public boolean parentIsOneOf; // true when this model's parent is a oneOf union type
 
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;

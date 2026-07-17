@@ -394,7 +394,23 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(unaliasSchema(inner));
+            if (inner != null) {
+                inner = unaliasSchema(inner);
+            }
+            String typDecl;
+            if (inner != null) {
+                typDecl = getTypeDeclaration(inner);
+            } else {
+                typDecl = "interface{}";
+            }
+
+            // when nullable and the type of the map isn't nullable already (maps, slices, ...): make it a pointer
+            if (inner != null && Boolean.TRUE.equals(inner.getNullable()) && !typDecl.startsWith("map") && !typDecl.startsWith("[]")) {
+                typDecl = "*" + typDecl;
+            }
+
+            return getSchemaType(p) + "[string]" + typDecl;
+
         }
 
         //return super.getTypeDeclaration(p);
@@ -892,6 +908,18 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return input.replace("\"", "");
     }
 
+    /**
+     * checks if the data should be classified as "string" in enum
+     * In the future, we may rename this function to "isEnumString"
+     *
+     * @param dataType data type
+     * @return true if it's a enum string
+     */
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "string".equalsIgnoreCase(dataType);
+    }
+
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
@@ -907,6 +935,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public String toEnumValue(String value, String datatype) {
         if (isNumberType(datatype) || "bool".equals(datatype)) {
+            return value;
+        } else if (isDataTypeString(datatype) && value.indexOf("\"") == 0 && value.lastIndexOf("\"") == value.length() - 1) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";

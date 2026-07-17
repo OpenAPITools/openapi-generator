@@ -40,6 +40,8 @@ namespace Example
             config.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
+            // Configure OAuth2 access token for authorization: petstore_auth2
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -92,7 +94,7 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth), [petstore_auth2](../README.md#petstore_auth2), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 

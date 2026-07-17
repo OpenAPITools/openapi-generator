@@ -18,9 +18,10 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 
+import org.apache.hc.client5.http.config.Configurable;
+import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.cookie.BasicCookieStore;
 import org.apache.hc.client5.http.cookie.Cookie;
 import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
@@ -43,6 +44,7 @@ import org.apache.hc.core5.http.io.entity.FileEntity;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.hc.core5.util.Timeout;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -82,7 +84,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -141,6 +143,7 @@ public class ApiClient extends JavaTimeFormatter {
   protected Map<String, String> serverVariables = null;
   protected boolean debugging = false;
   protected int connectionTimeout = 0;
+  protected int readTimeout = 0;
 
   protected CloseableHttpClient httpClient;
   protected ObjectMapper objectMapper;
@@ -524,15 +527,50 @@ public class ApiClient extends JavaTimeFormatter {
 
   /**
    * Set the connect timeout (in milliseconds).
-   * A value of 0 means no timeout, otherwise values must be between 1 and
-   * {@link Integer#MAX_VALUE}.
+   * A value of 0 means the HTTP client's default connect timeout is used,
+   * otherwise values must be between 1 and {@link Integer#MAX_VALUE}.
+   * The timeout is applied to each request via its request configuration;
+   * other request configuration defaults of the underlying HTTP client
+   * are preserved.
    * @param connectionTimeout Connection timeout in milliseconds
    * @return API client
+   * @throws IllegalArgumentException if connectionTimeout is negative
    */
-   public ApiClient setConnectTimeout(int connectionTimeout) {
-     this.connectionTimeout = connectionTimeout;
-     return this;
-   }
+  public ApiClient setConnectTimeout(int connectionTimeout) {
+    if (connectionTimeout < 0) {
+      throw new IllegalArgumentException("connectionTimeout must not be negative");
+    }
+    this.connectionTimeout = connectionTimeout;
+    return this;
+  }
+
+  /**
+   * Read timeout (in milliseconds).
+   * @return Read timeout
+   */
+  public int getReadTimeout() {
+    return readTimeout;
+  }
+
+  /**
+   * Set the read timeout (in milliseconds), i.e. the response timeout
+   * while waiting for data after the connection is established.
+   * A value of 0 means the HTTP client's default response timeout is used,
+   * otherwise values must be between 1 and {@link Integer#MAX_VALUE}.
+   * The timeout is applied to each request via its request configuration;
+   * other request configuration defaults of the underlying HTTP client
+   * are preserved.
+   * @param readTimeout Read timeout in milliseconds
+   * @return API client
+   * @throws IllegalArgumentException if readTimeout is negative
+   */
+  public ApiClient setReadTimeout(int readTimeout) {
+    if (readTimeout < 0) {
+      throw new IllegalArgumentException("readTimeout must not be negative");
+    }
+    this.readTimeout = readTimeout;
+    return this;
+  }
 
   /**
    * Get the date format used to parse/format date parameters.
@@ -1109,6 +1147,20 @@ public class ApiClient extends JavaTimeFormatter {
 
     HttpClientContext context = HttpClientContext.create();
     context.setCookieStore(store);
+
+    if (connectionTimeout > 0 || readTimeout > 0) {
+      // start from the default request configuration of the underlying HTTP client, if
+      // accessible, so that only the configured timeouts are overridden
+      RequestConfig defaultConfig = httpClient instanceof Configurable ? ((Configurable) httpClient).getConfig() : null;
+      RequestConfig.Builder requestConfigBuilder = defaultConfig == null ? RequestConfig.custom() : RequestConfig.copy(defaultConfig);
+      if (connectionTimeout > 0) {
+        requestConfigBuilder.setConnectTimeout(Timeout.ofMilliseconds(connectionTimeout));
+      }
+      if (readTimeout > 0) {
+        requestConfigBuilder.setResponseTimeout(Timeout.ofMilliseconds(readTimeout));
+      }
+      context.setRequestConfig(requestConfigBuilder.build());
+    }
 
     ContentType contentTypeObj = getContentType(contentType);
     if (body != null || !formParams.isEmpty()) {

@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -15,13 +16,13 @@ import org.openapitools.model.ParentWithNullableDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * ChildWithNullableDto
@@ -29,9 +30,10 @@ import jakarta.annotation.Generated;
 
 
 @JsonTypeName("ChildWithNullable")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ChildWithNullableDto extends ParentWithNullableDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String otherProperty;
 
   public ChildWithNullableDto otherProperty(@Nullable String otherProperty) {

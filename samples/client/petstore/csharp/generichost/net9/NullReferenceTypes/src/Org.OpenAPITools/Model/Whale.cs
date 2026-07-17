@@ -116,8 +116,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Whale" />
     /// </summary>
-    public class WhaleJsonConverter : JsonConverter<Whale>
+    public partial class WhaleJsonConverter : JsonConverter<Whale>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WhaleJsonConverter" /> class.
+        /// </summary>
+        public WhaleJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Whale" />
         /// </summary>

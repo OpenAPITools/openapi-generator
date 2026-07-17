@@ -1,8 +1,11 @@
 /**
  * {{{description}}}
-{{#vars}}
+{{#requiredVars}}
  * @param {{name}} {{{description}}}
-{{/vars}}
+{{/requiredVars}}
+{{#optionalVars}}
+ * @param {{name}} {{{description}}}
+{{/optionalVars}}
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
 {{#additionalModelTypeAnnotations}}
@@ -45,7 +48,7 @@
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
-    enum class {{{nameInPascalCase}}}(@get:JsonValue val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
+    enum class {{{nameInPascalCase}}}(@get:JsonValue {{#useEnumValueInterface}}{{^isContainer}}override {{/isContainer}}{{/useEnumValueInterface}}val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}} {{/vendorExtensions.x-kotlin-implements}}{
 {{#allowableValues}}{{#enumVars}}
         {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}};
 
@@ -54,7 +57,7 @@
             @JsonCreator
             fun forValue(value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}): {{{nameInPascalCase}}} {
                 return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{classname}}'")
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{nameInPascalCase}}'")
             }
         }
     }

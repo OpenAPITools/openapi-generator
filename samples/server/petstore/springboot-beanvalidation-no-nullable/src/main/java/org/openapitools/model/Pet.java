@@ -2,9 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,19 +30,20 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Pet {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Category category;
 
   private String name;
 
-  @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -79,6 +83,7 @@ public class Pet {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private @Nullable StatusEnum status;
 
@@ -110,6 +115,7 @@ public class Pet {
     return id;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
@@ -131,6 +137,7 @@ public class Pet {
     return category;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("category")
   public void setCategory(@Nullable Category category) {
     this.category = category;
@@ -211,6 +218,7 @@ public class Pet {
     return tags;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("tags")
   public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
@@ -237,6 +245,7 @@ public class Pet {
   /**
    * @deprecated
    */
+  @JsonSetter(nulls = Nulls.SKIP)
   @Deprecated
   @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {

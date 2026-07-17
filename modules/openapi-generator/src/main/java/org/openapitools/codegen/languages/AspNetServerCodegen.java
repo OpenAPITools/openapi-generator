@@ -39,6 +39,9 @@ import java.util.*;
 import static java.util.UUID.randomUUID;
 import static org.openapitools.codegen.CodegenConstants.X_CSHARP_VALUE_TYPE;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/aspnetcore/}.
+ */
 public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
@@ -464,7 +467,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
                     packageFolder + File.separator + "Properties", "launchSettings.json"));
             // wwwroot files.
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
                     packageFolder + File.separator + "wwwroot", "openapi-original.json"));
@@ -673,15 +675,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setClassModifier() {
-        // CHeck for class modifier if not present set the default value.
+        // Check for class modifier if not present set the default value.
         setCliOption(classModifier);
-
-        // If class modifier is abstract then the methods need to be abstract too.
-        if ("abstract".equals(classModifier.getOptValue())) {
-            operationModifier.setOptValue(classModifier.getOptValue());
-            additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
-            LOGGER.warn("classModifier is {} so forcing operationModifier to {}", classModifier.getOptValue(), operationModifier.getOptValue());
-        }
     }
 
     private void setOperationModifier() {

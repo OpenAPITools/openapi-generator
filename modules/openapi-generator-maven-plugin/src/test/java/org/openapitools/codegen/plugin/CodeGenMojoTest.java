@@ -83,6 +83,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertEquals("remote.org.openapitools.client.api", getVariableValueFromObject(mojo, "apiPackage"));
         assertEquals("remote.org.openapitools.client.model", getVariableValueFromObject(mojo, "modelPackage"));
         assertEquals("remote.org.openapitools.client", getVariableValueFromObject(mojo, "invokerPackage"));
+        assertEquals(Boolean.TRUE, getVariableValueFromObject(mojo, "quiet"));
 
         Map<String, Object> configOptions = (Map<String, Object>) getVariableValueFromObject(mojo, "configOptions");
         assertNotNull(configOptions);
@@ -269,7 +270,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         MojoExecutionException e = assertThrows(MojoExecutionException.class, mojo::execute);
 
         // THEN
-        assertEquals("inputSpec or inputSpecRootDirectory must be specified", e.getMessage());
+        assertEquals("inputSpec, inputSpecRootDirectory, or inputSpecFiles must be specified", e.getMessage());
     }
 
     public void testInputSpecRootDirectoryDoesNotRequireInputSpec() throws Exception {
@@ -277,7 +278,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         final Path tempDir = newTempFolder();
         CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/default", "file", "executionId");
         mojo.inputSpec = null;
-        mojo.inputSpecRootDirectory = "src/test/resources/default";
+        mojo.inputSpecRootDirectory = new File("src/test/resources/default").getAbsolutePath();
 
         // WHEN
         mojo.execute();

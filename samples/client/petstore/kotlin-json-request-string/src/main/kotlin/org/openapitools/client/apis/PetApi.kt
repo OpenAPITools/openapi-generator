@@ -344,7 +344,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (lastUpdated != null) {
-                    put("lastUpdated", listOf(parseDateToQueryString(lastUpdated)))
+                    put("lastUpdated", listOf(parseDateToQueryString<java.time.OffsetDateTime>(lastUpdated)))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

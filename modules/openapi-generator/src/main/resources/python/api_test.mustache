@@ -41,6 +41,17 @@ class {{#operations}}Test{{classname}}(unittest.{{#async}}IsolatedAsyncio{{/asyn
         """
         pass
 
+{{#supportHttpxSync}}
+    def test_{{operationId}}_sync(self) -> None:
+        """Test case for {{{operationId}}} (synchronous)
+
+{{#summary}}
+        {{{.}}}
+{{/summary}}
+        """
+        pass
+
+{{/supportHttpxSync}}
    {{/operation}}
 {{/operations}}
 

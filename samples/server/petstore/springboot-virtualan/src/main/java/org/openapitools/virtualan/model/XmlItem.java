@@ -2,6 +2,7 @@ package org.openapitools.virtualan.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
@@ -23,74 +24,94 @@ import jakarta.annotation.Generated;
  * XmlItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class XmlItem {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String attributeString;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal attributeNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer attributeInteger;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Boolean attributeBoolean;
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> wrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String nameString;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal nameNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer nameInteger;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Boolean nameBoolean;
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> nameArray = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String prefixString;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal prefixNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer prefixInteger;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Boolean prefixBoolean;
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> prefixArray = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String namespaceString;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal namespaceNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer namespaceInteger;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Boolean namespaceBoolean;
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> namespaceArray = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String prefixNsString;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal prefixNsNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer prefixNsInteger;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Boolean prefixNsBoolean;
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> prefixNsArray = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(@Nullable String attributeString) {

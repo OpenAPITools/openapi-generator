@@ -21,19 +21,15 @@ import jakarta.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
-  @Valid
   private @Nullable List<String> nullableArray;
 
-  @Valid
   private List<String> nullableRequiredArray;
 
-  @Valid
   private List<String> requiredArray = new ArrayList<>();
 
-  @Valid
   private @Nullable List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
 
   public ContainerDefaultValue() {

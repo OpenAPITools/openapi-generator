@@ -30,6 +30,9 @@ import java.util.List;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/Groovy/}.
+ */
 public class GroovyClientCodegen extends AbstractJavaCodegen {
 
     public GroovyClientCodegen() {

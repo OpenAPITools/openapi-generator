@@ -1,0 +1,48 @@
+openapi: 3.0.3
+info:
+  title: oneOf with enum discriminator
+  version: "1.0"
+paths: {}
+components:
+  schemas:
+    Vehicle:
+      type: object
+      required:
+        - vehicleType
+      properties:
+        vehicleType:
+          $ref: '#/components/schemas/VehicleType'
+      oneOf:
+        - $ref: '#/components/schemas/Car'
+        - $ref: '#/components/schemas/Truck'
+      discriminator:
+        propertyName: vehicleType
+        mapping:
+          CAR: '#/components/schemas/Car'
+          TRUCK: '#/components/schemas/Truck'
+    Car:
+      type: object
+      required:
+        - vehicleType
+        - numDoors
+      properties:
+        vehicleType:
+          $ref: '#/components/schemas/VehicleType'
+        numDoors:
+          type: integer
+    Truck:
+      type: object
+      required:
+        - vehicleType
+        - payloadCapacity
+      properties:
+        vehicleType:
+          $ref: '#/components/schemas/VehicleType'
+        payloadCapacity:
+          type: number
+
+    VehicleType:
+      type: string
+      enum:
+        - CAR
+        - TRUCK

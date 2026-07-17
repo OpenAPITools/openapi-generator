@@ -133,13 +133,6 @@ Route::PATCH('/v2/fake', [\OpenAPI\Server\Http\Controllers\FakeController::class
 Route::POST('/v2/fake', [\OpenAPI\Server\Http\Controllers\FakeController::class, 'testEndpointParameters'])->name('fake.test.endpoint.parameters');
 
 /**
- * GET testEnumParameters
- * Summary: To test enum parameters
- * Notes: To test enum parameters
- */
-Route::GET('/v2/fake', [\OpenAPI\Server\Http\Controllers\FakeController::class, 'testEnumParameters'])->name('fake.test.enum.parameters');
-
-/**
  * DELETE testGroupParameters
  * Summary: Fake endpoint to test group parameters (optional)
  * Notes: Fake endpoint to test group parameters (optional)

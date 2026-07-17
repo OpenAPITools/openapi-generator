@@ -25,7 +25,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -61,7 +61,7 @@ public class UserApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -76,7 +76,7 @@ public class UserApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/user", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/user", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -131,7 +131,7 @@ public class UserApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -146,7 +146,7 @@ public class UserApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/user/createWithArray", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/user/createWithArray", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -201,7 +201,7 @@ public class UserApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -216,7 +216,7 @@ public class UserApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/user/createWithList", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/user/createWithList", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -274,7 +274,7 @@ public class UserApi {
 
         pathParams.put("username", username);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -287,7 +287,7 @@ public class UserApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/user/{username}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/user/{username}", HttpMethod.DELETE, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -350,7 +350,7 @@ public class UserApi {
 
         pathParams.put("username", username);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -365,7 +365,7 @@ public class UserApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/user/{username}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/user/{username}", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -476,13 +476,13 @@ public class UserApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
@@ -494,7 +494,7 @@ public class UserApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/user/login", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/user/login", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -552,7 +552,7 @@ public class UserApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -565,7 +565,7 @@ public class UserApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/user/logout", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/user/logout", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -664,7 +664,7 @@ public class UserApi {
 
         pathParams.put("username", username);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -679,7 +679,7 @@ public class UserApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/user/{username}", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/user/{username}", HttpMethod.PUT, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

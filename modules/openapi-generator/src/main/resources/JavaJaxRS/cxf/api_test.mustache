@@ -4,9 +4,16 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
+{{#generateSpringBootApplication}}
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
+{{/generateSpringBootApplication}}
+{{^generateSpringBootApplication}}
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
+{{/generateSpringBootApplication}}
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.Valid;
@@ -24,7 +31,17 @@ import org.apache.cxf.transport.common.gzip.GZIPOutInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 {{/useLoggingFeature}}
 
+{{#useJackson3}}
+import {{jacksonPackage}}.jakarta.rs.json.JacksonJsonProvider;
+{{/useJackson3}}
+{{^useJackson3}}
+{{#useJakartaEe}}
+import {{jacksonPackage}}.jakarta.rs.json.JacksonJsonProvider;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+{{/useJakartaEe}}
+{{/useJackson3}}
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +85,7 @@ public class {{classname}}Test {
 
     private {{classname}} api;
 
-    @Before
+    {{#generateSpringBootApplication}}@Before{{/generateSpringBootApplication}}{{^generateSpringBootApplication}}@BeforeEach{{/generateSpringBootApplication}}
     public void setup() {
         JacksonJsonProvider provider = new JacksonJsonProvider();
         List providers = new ArrayList();

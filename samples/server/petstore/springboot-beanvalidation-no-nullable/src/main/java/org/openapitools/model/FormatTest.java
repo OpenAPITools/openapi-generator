@@ -2,9 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -26,37 +29,47 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class FormatTest {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer integer;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer int32;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long int64;
 
   private BigDecimal number;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Float _float;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Double _double;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String string;
 
   private byte[] _byte;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable org.springframework.core.io.Resource binary;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dateTime;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable UUID uuid;
 
   private String password;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal bigDecimal;
 
   public FormatTest() {
@@ -91,6 +104,7 @@ public class FormatTest {
     return integer;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("integer")
   public void setInteger(@Nullable Integer integer) {
     this.integer = integer;
@@ -114,6 +128,7 @@ public class FormatTest {
     return int32;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("int32")
   public void setInt32(@Nullable Integer int32) {
     this.int32 = int32;
@@ -135,6 +150,7 @@ public class FormatTest {
     return int64;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("int64")
   public void setInt64(@Nullable Long int64) {
     this.int64 = int64;
@@ -181,6 +197,7 @@ public class FormatTest {
     return _float;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("float")
   public void setFloat(@Nullable Float _float) {
     this._float = _float;
@@ -204,6 +221,7 @@ public class FormatTest {
     return _double;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("double")
   public void setDouble(@Nullable Double _double) {
     this._double = _double;
@@ -218,13 +236,14 @@ public class FormatTest {
    * Get string
    * @return string
    */
-  @Pattern(regexp = "/[a-z]/i") 
+  @Pattern(regexp = "[a-zA-Z]") 
   @Schema(name = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("string")
   public @Nullable String getString() {
     return string;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("string")
   public void setString(@Nullable String string) {
     this.string = string;
@@ -267,6 +286,7 @@ public class FormatTest {
     return binary;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("binary")
   public void setBinary(@Nullable org.springframework.core.io.Resource binary) {
     this.binary = binary;
@@ -309,6 +329,7 @@ public class FormatTest {
     return dateTime;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("dateTime")
   public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
@@ -330,6 +351,7 @@ public class FormatTest {
     return uuid;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("uuid")
   public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
@@ -372,6 +394,7 @@ public class FormatTest {
     return bigDecimal;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("BigDecimal")
   public void setBigDecimal(@Nullable BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;

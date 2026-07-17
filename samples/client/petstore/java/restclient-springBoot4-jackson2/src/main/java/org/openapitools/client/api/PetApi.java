@@ -24,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -62,7 +62,7 @@ public class PetApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
@@ -79,7 +79,7 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/pet", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/pet", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

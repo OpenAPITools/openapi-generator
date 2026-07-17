@@ -1812,6 +1812,12 @@ components:
       - 0
       - 1
       - 2
+    OuterEnumStringStartingWithNumber:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - '2'
     OuterEnumDefaultValue:
       type: string
       enum:

@@ -17,20 +17,63 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from collections.abc import Mapping as _Mapping
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictStr, model_validator as _model_validator
+from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
+from typing import TYPE_CHECKING
 
 class SecondRef(BaseModel):
     """
     SecondRef
     """ # noqa: E501
     category: Optional[StrictStr] = None
-    circular_ref: Optional[CircularReferenceModel] = None
+    circular_ref: Optional[CircularReferenceModel] = Field(default=None, validation_alias=AliasChoices("circular_ref", "_circular_ref"), serialization_alias="circular_ref", alias="_circular_ref")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["category", "circular_ref"]
+
+    @classmethod
+    def __preprocess_input_names(
+        cls,
+        obj: Any,
+        remove_hidden_storage_names: bool = True,
+    ) -> Any:
+        if not isinstance(obj, _Mapping):
+            return obj
+        obj = dict(obj)
+        if (
+            "circular_ref" in obj
+            and "_circular_ref" in obj
+        ):
+            raise ValueError(
+                "%s received both %r and %r"
+                % (
+                    cls.__name__,
+                    "circular_ref",
+                    "_circular_ref",
+                )
+            )
+        if "circular_ref" not in obj and "_circular_ref" in obj:
+            obj["circular_ref"] = obj["_circular_ref"]
+        obj.pop("_circular_ref", None)
+        return obj
+
+    # Pydantic passes the model instance to wrap validators during assignment:
+    # https://docs.pydantic.dev/2.11/migration/#changes-to-validators
+    # Private names also keep inherited model validators distinct:
+    # https://docs.pydantic.dev/2.11/concepts/validators/#on-inheritance
+    @_model_validator(mode="wrap")
+    @classmethod
+    def __validate_input_names(
+        cls,
+        obj: Any,
+        handler: _ModelWrapValidatorHandler[Self],
+    ) -> Self:
+        if not isinstance(obj, cls):
+            obj = cls.__preprocess_input_names(obj)
+        return handler(obj)
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -92,6 +135,14 @@ class SecondRef(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        obj = _cast(
+            Dict[str, Any],
+            cls.__preprocess_input_names(
+                obj,
+                remove_hidden_storage_names=True,
+            ),
+        )
+
         _obj = cls.model_validate({
             "category": obj.get("category"),
             "circular_ref": CircularReferenceModel.from_dict(obj["circular_ref"]) if obj.get("circular_ref") is not None else None
@@ -103,7 +154,35 @@ class SecondRef(BaseModel):
 
         return _obj
 
+    if TYPE_CHECKING:
+
+        @property
+        def _circular_ref(self) -> _SecondRef_circular_ref_public_type:
+            return self.circular_ref
+
+        @_circular_ref.setter
+        def _circular_ref(self, value: _SecondRef_circular_ref_public_type) -> None:
+            self.circular_ref = value
+
 from petstore_api.models.circular_reference_model import CircularReferenceModel
 # TODO: Rewrite to not use raise_errors
 SecondRef.model_rebuild(raise_errors=False)
+
+if TYPE_CHECKING:
+    _SecondRef_circular_ref_public_type = Optional[CircularReferenceModel]
+
+# Install forwarding properties after Pydantic has consumed the class
+# namespace and resolved any postponed model annotations.
+setattr(
+    SecondRef,
+    "_circular_ref",
+    property(
+        lambda self: self.circular_ref,
+        lambda self, value: setattr(
+            self,
+            "circular_ref",
+            value,
+        ),
+    ),
+)
 

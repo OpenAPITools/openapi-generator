@@ -28,6 +28,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using {{packageName}}.{{clientPackage}};
+using {{packageName}}.Logging;
 {{#hasImport}}
 using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
@@ -61,11 +62,11 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>&gt;</returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse"/>&gt;</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        Task<{{interfacePrefix}}{{operationId}}ApiResponse> {{operationId}}Async({{>OperationSignature}});
+        Task<{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> {{operationId}}Async({{>OperationSignature}});
 
         /// <summary>
         /// {{summary}}
@@ -77,25 +78,31 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>{{nrt?}}&gt;</returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse"/>{{nrt?}}&gt;</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        Task<{{interfacePrefix}}{{operationId}}ApiResponse{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}});
+        Task<{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}});
         {{^-last}}
 
         {{/-last}}
         {{/operation}}
     }
     {{#operation}}
-    {{^vendorExtensions.x-duplicates}}
+    {{#lambda.copy}}
+    {{#lambda.trim}}
+    {{#vendorExtensions.x-duplicates}}
+    {{classname}}
+    {{/vendorExtensions.x-duplicates}}
+    {{/lambda.trim}}
+    {{/lambda.copy}}
     {{#responses}}
     {{#-first}}
 
     /// <summary>
-    /// The <see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>
+    /// The <see cref="{{interfacePrefix}}{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse"/>
     /// </summary>
-    {{>visibility}} interface {{interfacePrefix}}{{operationId}}ApiResponse : {{#lambda.joinWithComma}}{{packageName}}.{{clientPackage}}.{{interfacePrefix}}ApiResponse  {{#responses}}{{#dataType}}{{interfacePrefix}}{{vendorExtensions.x-http-status}}<{{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}>  {{/dataType}}{{/responses}}{{/lambda.joinWithComma}}
+    {{>visibility}} interface {{interfacePrefix}}{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse : {{#lambda.joinWithComma}}{{packageName}}.{{clientPackage}}.{{interfacePrefix}}ApiResponse  {{#responses}}{{#dataType}}{{interfacePrefix}}{{vendorExtensions.x-http-status}}<{{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}>  {{/dataType}}{{/responses}}{{/lambda.joinWithComma}}
     {
         {{#responses}}
         {{#vendorExtensions.x-http-status-is-default}}
@@ -119,7 +126,6 @@ namespace {{packageName}}.{{apiPackage}}
     }
     {{/-first}}
     {{/responses}}
-    {{/vendorExtensions.x-duplicates}}
     {{/operation}}
 
     /// <summary>
@@ -139,7 +145,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         public event EventHandler<ExceptionEventArgs>{{nrt?}} OnError{{operationId}};
 
-        internal void ExecuteOn{{operationId}}({{#vendorExtensions.x-duplicates}}{{.}}{{/vendorExtensions.x-duplicates}}{{^vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}.{{operationId}}ApiResponse apiResponse)
+        internal void ExecuteOn{{operationId}}({{classname}}.{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponse)
         {
             On{{operationId}}?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
@@ -159,11 +165,6 @@ namespace {{packageName}}.{{apiPackage}}
     {{>visibility}} sealed partial class {{classname}} : {{interfacePrefix}}{{classname}}
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
-        /// <summary>
-        /// The logger factory
-        /// </summary>
-        public ILoggerFactory LoggerFactory { get; }
 
         /// <summary>
         /// The logger
@@ -222,7 +223,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        public {{classname}}(ILogger<{{classname}}> logger, ILoggerFactory loggerFactory, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}}{{#hasApiKeyMethods}},
+        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}}{{#hasApiKeyMethods}},
             TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}},
             TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}},
             TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}},
@@ -231,8 +232,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{packageName}}.{{clientPackage}}.CookieContainer cookieContainer{{/vendorExtensions.x-set-cookie}}{{/lambda.uniqueLines}}{{/operation}}{{/net80OrLater}})
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            LoggerFactory = loggerFactory;
-            Logger = LoggerFactory.CreateLogger<{{classname}}>();
+            Logger = logger;
             HttpClient = httpClient;
             Events = {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}};{{#hasApiKeyMethods}}
             ApiKeyProvider = apiKeyProvider;{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
@@ -288,7 +288,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}{{interfacePrefix}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
+        private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
             bool suppressDefaultLog = false;
             After{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
@@ -303,7 +303,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  {{interfacePrefix}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  {{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -341,8 +341,8 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>&gt;</returns>
-        public async Task<{{interfacePrefix}}{{operationId}}ApiResponse{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}})
+        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse"/>&gt;</returns>
+        public async Task<{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}})
         {
             try
             {
@@ -362,8 +362,8 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>&gt;</returns>
-        public async Task<{{interfacePrefix}}{{operationId}}ApiResponse> {{operationId}}Async({{>OperationSignature}})
+        /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse"/>&gt;</returns>
+        public async Task<{{interfacePrefix}}{{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> {{operationId}}Async({{>OperationSignature}})
         {
             {{#lambda.trimLineBreaks}}
             UriBuilder uriBuilderLocalVar = new UriBuilder();
@@ -388,7 +388,7 @@ namespace {{packageName}}.{{apiPackage}}
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "{{{path}}}"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "{{{path}}}");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "{{{path}}}");
                     {{/servers}}
                     {{#servers}}
                     {{#-first}}
@@ -452,23 +452,6 @@ namespace {{packageName}}.{{apiPackage}}
 
                     {{/-last}}
                     {{/queryParams}}
-                    {{#constantParams}}
-                    {{#isHeaderParam}}
-                    // Set client side default value of Header Param "{{baseName}}".
-                    httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
-                    {{/isHeaderParam}}
-                    {{/constantParams}}
-                    {{#headerParams}}
-                    {{#required}}
-                    httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
-
-                    {{/required}}
-                    {{^required}}
-                    if ({{paramName}}.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
-
-                    {{/required}}
-                    {{/headerParams}}
                     {{#formParams}}
                     {{#-first}}
                     {{#isMultipart}}
@@ -561,18 +544,65 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/formParams}}
                     {{#bodyParam}}
                     {{#required}}
-                    httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                    httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is {{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
                     {{/required}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
-                        httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is System.IO.Stream stream
-                            ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
+                    {
+                      httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is {{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
+                    }
                     {{/required}}
 
                     {{/bodyParam}}
+
+                    {{#constantParams}}
+                    {{#isHeaderParam}}
+                    // Set client side default value of Header Param "{{baseName}}".                    
+                    if (ClientUtils.IsContentHeader("{{baseName}}"))
+                    {
+                        httpRequestMessageLocalVar.Content.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
+                    }
+                    else
+                    {
+                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
+                    }
+
+                    {{/isHeaderParam}}
+                    {{/constantParams}}
+                    {{#headerParams}}
+                    {{#required}}
+                    // Set client side default value of Header Param "{{baseName}}".                    
+                    if (ClientUtils.IsContentHeader("{{baseName}}"))
+                    {
+                        httpRequestMessageLocalVar.Content?.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
+                    }
+                    else
+                    {
+                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
+                    }
+
+                    {{/required}}
+                    {{^required}}
+                    if ({{paramName}}.IsSet)
+                    {
+                      // Set client side default value of Header Param "{{baseName}}".                    
+                      if (ClientUtils.IsContentHeader("{{baseName}}"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
+                      }
+                    }
+
+                    {{/required}}
+                    {{/headerParams}}
+
                     {{#authMethods}}
                     {{#-first}}
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
@@ -686,8 +716,7 @@ namespace {{packageName}}.{{apiPackage}}
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        ILogger<{{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<{{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse>();
-                        {{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar;
+                        {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar;
 
                         switch ((int)httpResponseMessageLocalVar.StatusCode) {
                             {{#responses}}
@@ -701,7 +730,7 @@ namespace {{packageName}}.{{apiPackage}}
                             {
                                 byte[] responseBytesArrayLocalVar = await httpResponseMessageLocalVar.Content.ReadAsByteArrayAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
                                 System.IO.Stream responseContentStreamLocalVar = new System.IO.MemoryStream(responseBytesArrayLocalVar);
-                                apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentStreamLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new{{^net60OrLater}} {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{/net60OrLater}}(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentStreamLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -710,7 +739,7 @@ namespace {{packageName}}.{{apiPackage}}
                             {{/responses}}
                             default: {
                                 string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
-                                apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
+                                apiResponseLocalVar = new{{^net60OrLater}} {{#vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse{{/net60OrLater}}(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                                 break;
                             }
@@ -773,22 +802,34 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/lambda.trimLineBreaks}}
         }
-        {{^vendorExtensions.x-duplicates}}
+        {{#lambda.copy}}
+        {{#lambda.trim}}
+        {{#vendorExtensions.x-duplicates}}
+        {{classname}}
+        {{/vendorExtensions.x-duplicates}}
+        {{/lambda.trim}}
+        {{/lambda.copy}}
+        {{#lambda.cache}}
+        classname
+        {{#lambda.trim}}
+        {{classname}}
+        {{/lambda.trim}}
+        {{/lambda.cache}}
         {{#responses}}
         {{#-first}}
 
         /// <summary>
-        /// The <see cref="{{operationId}}ApiResponse"/>
+        /// The <see cref="{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse"/>
         /// </summary>
-        {{>visibility}} partial class {{operationId}}ApiResponse : {{packageName}}.{{clientPackage}}.ApiResponse, {{interfacePrefix}}{{operationId}}ApiResponse
+        {{>visibility}} partial class {{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse : {{packageName}}.{{clientPackage}}.ApiResponse, {{interfacePrefix}}{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse
         {
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<{{operationId}}ApiResponse> Logger { get; }
+            public ILogger<{{#lambda.recall}}classname{{/lambda.recall}}> Logger { get; }
 
             /// <summary>
-            /// The <see cref="{{operationId}}ApiResponse"/>
+            /// The <see cref="{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse"/>
             /// </summary>
             /// <param name="logger"></param>
             /// <param name="httpRequestMessage"></param>
@@ -797,14 +838,14 @@ namespace {{packageName}}.{{apiPackage}}
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public {{operationId}}ApiResponse(ILogger<{{operationId}}ApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public {{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse(ILogger<{{classname}}> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
             /// <summary>
-            /// The <see cref="{{operationId}}ApiResponse"/>
+            /// The <see cref="{{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse"/>
             /// </summary>
             /// <param name="logger"></param>
             /// <param name="httpRequestMessage"></param>
@@ -813,7 +854,7 @@ namespace {{packageName}}.{{apiPackage}}
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public {{operationId}}ApiResponse(ILogger<{{operationId}}ApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            public {{#lambda.paste}}{{/lambda.paste}}{{operationId}}ApiResponse(ILogger<{{classname}}> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -902,7 +943,6 @@ namespace {{packageName}}.{{apiPackage}}
         }
         {{/-first}}
         {{/responses}}
-        {{/vendorExtensions.x-duplicates}}
         {{/operation}}
     }
     {{/operations}}

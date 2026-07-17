@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class DefaultApi {
   private ApiClient apiClient;
 
@@ -78,8 +78,9 @@ public class DefaultApi {
   public ApiResponse<Void> rootPostWithHttpInfo(@jakarta.annotation.Nullable PostRequest postRequest) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("DefaultApi.rootPost", "/", "POST", new ArrayList<>(), postRequest,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
 }

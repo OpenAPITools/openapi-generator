@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -13,15 +14,16 @@ import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * ParentWithNullableDto
@@ -36,13 +38,13 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = ChildWithNullableDto.class, name = "ChildWithNullable")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ParentWithNullableDto {
 
   /**
    * Gets or Sets type
    */
-  public enum TypeEnum {
+  public enum TypeEnum implements ValuedEnum<String> {
     CHILD_WITH_NULLABLE("ChildWithNullable");
 
     private final String value;
@@ -72,8 +74,10 @@ public class ParentWithNullableDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable TypeEnum type;
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullableDto type(@Nullable TypeEnum type) {

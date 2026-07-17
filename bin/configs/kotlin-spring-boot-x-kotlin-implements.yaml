@@ -11,7 +11,7 @@ additionalProperties:
   skipDefaultInterface: true
   interfaceOnly: true
   serializableModel: true
-  beanValidations: true
+  useBeanValidation: true
   includeHttpRequestContext: true
   schemaImplements:
     Pet: com.some.pack.WithId

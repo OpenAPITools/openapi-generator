@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("TypeHolderDefault")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class TypeHolderDefaultDto {
 
   private String stringItem = "what";
@@ -36,7 +36,6 @@ public class TypeHolderDefaultDto {
 
   private Boolean boolItem = true;
 
-  @Valid
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefaultDto() {

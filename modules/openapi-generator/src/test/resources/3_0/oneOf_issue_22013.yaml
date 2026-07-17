@@ -1,0 +1,49 @@
+openapi: 3.0.1
+info:
+  title: some
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local server
+paths:
+  "/someEndponint":
+    get:
+      summary: Get the specified device job of a single device
+      description: |
+        Obtain a specified device job of a single device
+
+      operationId: someEndpoint
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/main'
+
+components:
+  schemas:
+    main:
+      oneOf:
+        - "$ref": "#/components/schemas/A"
+        - "$ref": "#/components/schemas/B"
+      discriminator:
+        propertyName: jobType
+        mapping:
+          A: "#/components/schemas/A"
+          B: "#/components/schemas/B"
+    A:
+      type: object
+      properties:
+        jobType:
+          type: string
+        propertyA:
+          type: string
+
+    B:
+      type: object
+      properties:
+        jobType:
+          type: string
+        propertyB:
+          type: string

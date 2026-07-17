@@ -371,28 +371,24 @@ class ApiClient:
             return obj.isoformat()
         elif isinstance(obj, decimal.Decimal):
             return str(obj)
-
         elif isinstance(obj, dict):
-            obj_dict = obj
+            return {
+                key: self.sanitize_for_serialization(val)
+                for key, val in obj.items()
+            }
+
+        # Convert model obj to dict except
+        # attributes `openapi_types`, `attribute_map`
+        # and attributes which value is not None.
+        # Convert attribute name to json key in
+        # model definition for request.
+        if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):
+            obj_dict = obj.to_dict()
         else:
-            # Convert model obj to dict except
-            # attributes `openapi_types`, `attribute_map`
-            # and attributes which value is not None.
-            # Convert attribute name to json key in
-            # model definition for request.
-            if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):
-                obj_dict = obj.to_dict()
-            else:
-                obj_dict = obj.__dict__
+            obj_dict = obj.__dict__
 
-        if isinstance(obj_dict, list):
-            # here we handle instances that can either be a list or something else, and only became a real list by calling to_dict()
-            return self.sanitize_for_serialization(obj_dict)
+        return self.sanitize_for_serialization(obj_dict)
 
-        return {
-            key: self.sanitize_for_serialization(val)
-            for key, val in obj_dict.items()
-        }
 
     def deserialize(self, response_text: str, response_type: str, content_type: Optional[str]):
         """Deserializes response into an object.
@@ -676,7 +672,16 @@ class ApiClient:
         :param auth_setting: auth settings for the endpoint
         """
         if auth_setting['in'] == 'cookie':
-            headers['Cookie'] = auth_setting['value']
+            if not 'Cookie' in headers:
+                headers['Cookie'] = ""
+            else:
+                headers['Cookie'] += "; "
+            # Account for cookie value containing spaces and special characters
+            cookie_value = str(auth_setting['value'])
+            if not re.match("^\".*\"$", cookie_value):
+                cookie_value = cookie_value.replace("\"", "\\\"")
+                cookie_value = f"\"{cookie_value}\""
+            headers['Cookie'] += f"{auth_setting['key']}={cookie_value}"
         elif auth_setting['in'] == 'header':
             if auth_setting['type'] != 'http-signature':
                 headers[auth_setting['key']] = auth_setting['value']

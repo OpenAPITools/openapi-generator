@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -25,15 +26,18 @@ import jakarta.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public final class Bar extends Entity implements BarRefOrValue {
 
   private String id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String barPropA;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String fooPropB;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable FooRefOrValue foo;
 
   public Bar() {

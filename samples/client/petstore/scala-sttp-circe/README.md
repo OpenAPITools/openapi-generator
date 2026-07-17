@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.22.0-SNAPSHOT
+  - Generator version: 7.24.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -78,6 +78,7 @@ Class | Method | HTTP request | Description
 *StoreApi* | **deleteOrder** | **DELETE** /store/order/${orderId} | Delete purchase order by ID
 *StoreApi* | **getInventory** | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | **getOrderById** | **GET** /store/order/${orderId} | Find purchase order by ID
+*StoreApi* | **getStoreStats** | **GET** /store/stats | Returns store statistics as a free-form JSON object
 *StoreApi* | **placeOrder** | **POST** /store/order | Place an order for a pet
 *UserApi* | **createUser** | **POST** /user | Create user
 *UserApi* | **createUsersWithArrayInput** | **POST** /user/createWithArray | Creates list of users with given input array
@@ -91,13 +92,19 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [Animal](Animal.md)
  - [ApiResponse](ApiResponse.md)
+ - [Cat](Cat.md)
  - [Category](Category.md)
+ - [Collar](Collar.md)
+ - [Dog](Dog.md)
  - [EnumTest](EnumTest.md)
+ - [Kennel](Kennel.md)
  - [Order](Order.md)
  - [Pet](Pet.md)
  - [PropertyNameMapping](PropertyNameMapping.md)
  - [Tag](Tag.md)
+ - [Treat](Treat.md)
  - [User](User.md)
 
 

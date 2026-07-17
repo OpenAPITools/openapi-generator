@@ -3,6 +3,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.BaseApi;
 
+import org.openapitools.client.model.User;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class UserApi extends BaseApi {
 
     public UserApi() {
@@ -44,10 +45,11 @@ public class UserApi extends BaseApi {
      * 
      * <p><b>200</b> - OK
      * @param username The name of the user (required)
+     * @return User
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void userGet(List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> username) throws RestClientException {
-        userGetWithHttpInfo(username);
+    public User userGet(List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> username) throws RestClientException {
+        return userGetWithHttpInfo(username).getBody();
     }
 
     /**
@@ -55,10 +57,10 @@ public class UserApi extends BaseApi {
      * 
      * <p><b>200</b> - OK
      * @param username The name of the user (required)
-     * @return ResponseEntity&lt;Void&gt;
+     * @return ResponseEntity&lt;User&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> userGetWithHttpInfo(List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> username) throws RestClientException {
+    public ResponseEntity<User> userGetWithHttpInfo(List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> username) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'username' is set
@@ -75,14 +77,16 @@ public class UserApi extends BaseApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = {  };
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = {  };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        ParameterizedTypeReference<User> localReturnType = new ParameterizedTypeReference<User>() {};
         return apiClient.invokeAPI("/user", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 
@@ -97,7 +101,9 @@ public class UserApi extends BaseApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = {  };
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = {  };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);

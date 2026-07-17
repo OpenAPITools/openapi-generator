@@ -41,6 +41,7 @@ import java.util.HashSet;
  * basic asciidoc markup generator.
  *
  * @see <a href="https://asciidoctor.org">asciidoctor</a>
+ * <p>Mustache templates are located in {@code src/main/resources/asciidoc-documentation/}.
  */
 public class AsciidocDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -146,6 +147,27 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
                 LOGGER.debug("{}. file not found, skip link for: {}", ++notFoundLinkCount, filePathToLinkTo);
                 out.write("\n// file not found, no " + linkName + " link :" + relativeFileName + "[]\n");
             }
+        }
+    }
+
+    /**
+     * Lambda escaping AsciiDoc table cell separators ("|") in rendered content, so
+     * that free-form values (descriptions, defaults, patterns, enum values, ...)
+     * cannot break the layout of the table they are placed in. Use:
+     *
+     * <pre>
+     * {{#tablecellcontent}}{{description}}{{/tablecellcontent}}
+     * </pre>
+     */
+    public static class TableCellContentLambda implements Mustache.Lambda {
+        // Only escape a "|" that isn't already escaped, so values that legitimately
+        // contain a backslash-escaped pipe (e.g. a regex pattern using "\|" to match
+        // a literal pipe character) aren't mangled with a redundant backslash.
+        private static final java.util.regex.Pattern UNESCAPED_PIPE = java.util.regex.Pattern.compile("(?<!\\\\)\\|");
+
+        @Override
+        public void execute(final Template.Fragment frag, final Writer out) throws IOException {
+            out.write(UNESCAPED_PIPE.matcher(frag.execute()).replaceAll("\\\\|"));
         }
     }
 
@@ -274,6 +296,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         languageSpecificPrimitives = new HashSet<>();
         importMapping = new HashMap<>();
 
+        additionalProperties.put("tablecellcontent", new TableCellContentLambda());
     }
 
     @Override

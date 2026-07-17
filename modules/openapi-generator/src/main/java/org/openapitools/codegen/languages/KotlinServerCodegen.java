@@ -17,14 +17,35 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.models.Operation;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenDiscriminator;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -34,9 +55,14 @@ import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/kotlin-server/} (root templates shared across all libraries) and
+ * {@code src/main/resources/kotlin-server/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
@@ -65,7 +91,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
-    private boolean useTags = false;
+    private boolean useTags = true;
+    /**
+     * All resource paths seen across every tag, collected during the first pass
+     * ({@link #addOperationToGroup}).  Used in {@link #postProcessOperationsWithModels} to
+     * detect cross-tag path shadowing for the jaxrs-spec library.
+     */
+    private final Set<String> allResourcePaths = new HashSet<>();
     private boolean useCoroutines = false;
     private boolean useMutiny = false;
     private boolean returnResponse = false;
@@ -74,38 +106,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     @Getter
     @Setter
     private boolean fixJacksonJsonTypeInfoInheritance = true;
-
-    // This is here to potentially warn the user when an option is not supported by the target framework.
-    private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
-            .put(Constants.KTOR, Arrays.asList(
-                    Constants.AUTOMATIC_HEAD_REQUESTS,
-                    Constants.CONDITIONAL_HEADERS,
-                    Constants.HSTS,
-                    Constants.CORS,
-                    Constants.COMPRESSION,
-                    Constants.RESOURCES,
-                    Constants.METRICS,
-                    Constants.OMIT_GRADLE_WRAPPER
-            ))
-            .put(Constants.KTOR2, Arrays.asList(
-                    Constants.AUTOMATIC_HEAD_REQUESTS,
-                    Constants.CONDITIONAL_HEADERS,
-                    Constants.HSTS,
-                    Constants.CORS,
-                    Constants.COMPRESSION,
-                    Constants.RESOURCES,
-                    Constants.METRICS,
-                    Constants.OMIT_GRADLE_WRAPPER
-            ))
-            .put(Constants.JAXRS_SPEC, Arrays.asList(
-                    USE_BEANVALIDATION,
-                    USE_TAGS,
-                    Constants.USE_COROUTINES,
-                    Constants.USE_MUTINY,
-                    Constants.RETURN_RESPONSE,
-                    Constants.INTERFACE_ONLY
-            ))
-            .build();
+    @Getter
+    @Setter
+    private Boolean delegatePatternEnabled = false;
 
     /**
      * Constructs an instance of `KotlinServerCodegen`.
@@ -173,13 +176,14 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
         addSwitch(Constants.INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
         addSwitch(USE_BEANVALIDATION, Constants.USE_BEANVALIDATION_DESC, useBeanValidation);
-        addSwitch(USE_TAGS, USE_TAGS_DESC, useTags);
+        addSwitch(USE_TAGS, Constants.USE_TAGS_DESC, useTags);
         addSwitch(Constants.USE_COROUTINES, Constants.USE_COROUTINES_DESC, useCoroutines);
         addSwitch(Constants.USE_MUTINY, Constants.USE_MUTINY_DESC, useMutiny);
         addSwitch(Constants.RETURN_RESPONSE, Constants.RETURN_RESPONSE_DESC, returnResponse);
         addSwitch(Constants.OMIT_GRADLE_WRAPPER, Constants.OMIT_GRADLE_WRAPPER_DESC, omitGradleWrapper);
         addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
         addSwitch(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE, Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC, fixJacksonJsonTypeInfoInheritance);
+        addSwitch(Constants.DELEGATE_PATTERN, Constants.DELEGATE_PATTERN_DESC, getDelegatePatternEnabled());
     }
 
     @Override
@@ -313,6 +317,17 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         } else {
             additionalProperties.put(Constants.METRICS, getMetricsFeatureEnabled());
         }
+        if(isKtor()){
+            if (additionalProperties.containsKey(Constants.DELEGATE_PATTERN)) {
+                setDelegatePatternEnabled(convertPropertyToBooleanAndWriteBack(Constants.DELEGATE_PATTERN));
+            } else {
+                additionalProperties.put(Constants.DELEGATE_PATTERN, getDelegatePatternEnabled());
+            }
+            if (delegatePatternEnabled) {
+                typeMapping.put("file", "io.ktor.http.content.PartData.FileItem");
+                importMapping.put("io.ktor.http.content.PartData.FileItem", "io.ktor.http.content.PartData.FileItem");
+            }
+        }
 
         boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS);
         String packageFolder = (sourceFolder + File.separator + packageName).replace(".", File.separator);
@@ -336,9 +351,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         if (isKtor2Or3()) {
             additionalProperties.put(Constants.IS_KTOR, true);
 
-            supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
-            supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
-
+            if(!delegatePatternEnabled) {
+                supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
+                supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
+            }
             if (generateApis && resourcesFeatureEnabled) {
                 supportingFiles.add(new SupportingFile("Paths.kt.mustache", packageFolder, "Paths.kt"));
             }
@@ -352,6 +368,16 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
             if (!getOmitGradleWrapper()) {
                 supportingFiles.add(new SupportingFile("gradle-wrapper.properties", "gradle" + File.separator + "wrapper", "gradle-wrapper.properties"));
+            }
+            if(isKtor()){
+                supportingFiles.add(new SupportingFile("AllApis.kt.mustache", packageFolder, "AllApis.kt"));
+                if(delegatePatternEnabled){
+                    apiTemplateFiles.put("apiDelegate.mustache", "Delegate.kt");
+                    supportingFiles.add(new SupportingFile("Delegates.kt.mustache", infrastructureFolder, "Delegates.kt"));
+                    supportingFiles.add(new SupportingFile("AppDelegates.kt.mustache", infrastructureFolder, "AppDelegates.kt"));
+                    supportingFiles.add(new SupportingFile("BadParameterException.kt.mustache", infrastructureFolder, "BadParameterException.kt"));
+                    supportingFiles.add(new SupportingFile("APINotImplementedException.kt.mustache", infrastructureFolder, "APINotImplementedException.kt"));
+                }
             }
 
         } else if (isJavalin()) {
@@ -406,6 +432,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String IS_KTOR = "isKtor";
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE = "fixJacksonJsonTypeInfoInheritance";
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC = "When true (default), ensures Jackson polymorphism works correctly by: (1) always setting visible=true on @JsonTypeInfo, and (2) adding the discriminator property to child models with appropriate default values. When false, visible is only set to true if all children already define the discriminator property.";
+        public static final String USE_TAGS = "useTags";
+        public static final String USE_TAGS_DESC = "use tags for creating interface and controller classnames.";
+        public static final String DELEGATE_PATTERN = "delegatePattern";
+        public static final String DELEGATE_PATTERN_DESC = "Whether to generate the server files using the delegate pattern. This option is currently supported only when using ktor library.";
     }
 
     @Override
@@ -693,36 +723,49 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F     #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+            System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F     #");
+            System.out.println("################################################################################");
+        }
+    }
+
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (useTags) {
+            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+        } else {
+            String basePath = StringUtils.substringBefore(resourcePath.startsWith("/") ? resourcePath.substring(1) : resourcePath, "/");
+            if (StringUtils.isEmpty(basePath) || basePath.chars().anyMatch(ch -> ch == '{' || ch == '}')) {
+                basePath = "default";
+            }
+            super.addOperationToGroup(basePath, resourcePath, operation, co, operations);
+        }
+
+        allResourcePaths.add(resourcePath);
     }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
-        // For JAXRS_SPEC library, compute commonPath similar to JavaJaxRS generators
         if (operations != null && Objects.equals(library, Constants.JAXRS_SPEC)) {
-            String commonPath = null;
             List<CodegenOperation> ops = operations.getOperation();
-            for (CodegenOperation operation : ops) {
-                if (commonPath == null) {
-                    commonPath = operation.path;
-                } else {
-                    commonPath = getCommonPath(commonPath, operation.path);
-                }
+
+            String commonPath = computeCommonPath(ops);
+
+            if (commonPath != null && !commonPath.isEmpty() && !"/".equals(commonPath)
+                    && wouldShadowOtherTags(commonPath, ops, allResourcePaths)) {
+                commonPath = null;
             }
-            for (CodegenOperation co : ops) {
-                co.path = StringUtils.removeStart(co.path, commonPath);
-                co.subresourceOperation = co.path.length() > 1;
-            }
-            objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
+
+            applyCommonPath(ops, commonPath, objs);
         }
+
         // The following processing breaks the JAX-RS spec, so we only do this for the other libs.
         if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
             List<CodegenOperation> ops = operations.getOperation();
@@ -780,25 +823,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             });
         }
 
-        return objs;
-    }
+        handleImplicitHeaders(objs);
 
-    @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if (Objects.equals(library, Constants.JAXRS_SPEC) && additionalProperties.containsKey(USE_TAGS) && !useTags) {
-            String basePath = StringUtils.substringBefore(StringUtils.removeStart(resourcePath, "/"), "/");
-            if (!StringUtils.isEmpty(basePath)) {
-                co.subresourceOperation = !co.path.isEmpty();
-            }
-            co.baseName = basePath;
-            if (StringUtils.isEmpty(co.baseName) || StringUtils.containsAny(co.baseName, "{", "}")) {
-                co.baseName = "default";
-            }
-            final List<CodegenOperation> opList = operations.computeIfAbsent(co.baseName, k -> new ArrayList<>());
-            opList.add(co);
-        } else {
-            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
-        }
+        return objs;
     }
 
     private boolean isJavalin() {
@@ -811,8 +838,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
      */
     private boolean usesJacksonSerialization() {
         return Constants.JAVALIN5.equals(library) ||
-               Constants.JAVALIN6.equals(library) ||
-               Constants.JAXRS_SPEC.equals(library);
+                Constants.JAVALIN6.equals(library) ||
+                Constants.JAXRS_SPEC.equals(library);
     }
 
     private boolean isKtor2Or3() {
@@ -830,6 +857,55 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     private boolean isKtor2() {
         return Constants.KTOR2.equals(library);
+    }
+
+    /** Computes the longest common path prefix shared by all operations. */
+    private static String computeCommonPath(List<CodegenOperation> ops) {
+        String commonPath = null;
+        for (CodegenOperation operation : ops) {
+            if (commonPath == null) {
+                commonPath = operation.path;
+            } else {
+                commonPath = getCommonPath(commonPath, operation.path);
+            }
+        }
+        return commonPath;
+    }
+
+    /** Strips {@code commonPath} from operation paths and writes it to {@code objs}; null means shadowing was detected. */
+    private static void applyCommonPath(List<CodegenOperation> ops, String commonPath, OperationsMap objs) {
+        if (commonPath == null) {
+            for (CodegenOperation co : ops) {
+                co.subresourceOperation = co.path.length() > 1;
+            }
+            objs.put("commonPath", StringUtils.EMPTY);
+        } else {
+            for (CodegenOperation co : ops) {
+                co.path = StringUtils.removeStart(co.path, commonPath);
+                co.subresourceOperation = co.path.length() > 1;
+            }
+            objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
+        }
+    }
+
+    /** Returns {@code true} if using {@code commonPath} as the class-level {@code @Path} would shadow routes of another tag. */
+    private static boolean wouldShadowOtherTags(String commonPath, List<CodegenOperation> ops, Set<String> allResourcePaths) {
+        if (allResourcePaths == null || allResourcePaths.isEmpty()) {
+            return false;
+        }
+        Set<String> currentTagPaths = new HashSet<>();
+        for (CodegenOperation co : ops) {
+            currentTagPaths.add(co.path);
+        }
+        for (String path : allResourcePaths) {
+            if (currentTagPaths.contains(path)) {
+                continue;
+            }
+            if (path.startsWith(commonPath + "/") || path.equals(commonPath)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static String getCommonPath(String path1, String path2) {

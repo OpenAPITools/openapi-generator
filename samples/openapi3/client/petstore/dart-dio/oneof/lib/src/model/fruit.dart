@@ -86,8 +86,9 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
         case r'color':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.color = valueDes;
           break;
         default:

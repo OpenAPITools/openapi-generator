@@ -9,61 +9,88 @@ require "../spec_helper"
 {{#model}}
 Spectator.describe {{moduleName}}::{{classname}} do
 {{^oneOf}}
-
-  describe "test an instance of {{classname}}" do
-    skip "should create an instance of {{classname}}" do
-      #instance = {{moduleName}}::{{classname}}.new
-      #expect(instance).to be_instance_of({{moduleName}}::{{classname}})
+{{^isEnum}}
+{{^anyOf}}
+{{#vendorExtensions.x-cr-not-json-serializable}}
+  describe "JSON contract" do
+    # This model holds a non-JSON-serialisable property (e.g. a ::File field), so a
+    # from_json round-trip cannot be compiled. Assert the JSON contract is present instead.
+    it "defines from_json" do
+      expect({{moduleName}}::{{classname}}.responds_to?(:from_json)).to be_true
     end
   end
-{{#vars}}
-  describe "test attribute '{{{name}}}'" do
-    skip "should work" do
-      {{#isEnum}}
-      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
-      # validator = Petstore::EnumTest::EnumAttributeValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
-      # validator.allowable_values.each do |value|
-      #   expect { instance.{{name}} = value }.not_to raise_error
-      # end
-      {{/isEnum}}
-      {{^isEnum}}
-      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
-      {{/isEnum}}
+{{/vendorExtensions.x-cr-not-json-serializable}}
+{{^vendorExtensions.x-cr-not-json-serializable}}
+{{#vendorExtensions.x-cr-discriminator-map}}
+  describe "polymorphic JSON" do
+    # A discriminated base type dispatches to a mapped subtype, so it cannot be built from a
+    # document that omits the discriminator field.
+    it "requires the discriminator to deserialise" do
+      expect { {{moduleName}}::{{classname}}.from_json("{}") }.to raise_error
+    end
+  end
+{{/vendorExtensions.x-cr-discriminator-map}}
+{{^vendorExtensions.x-cr-discriminator-map}}
+{{^hasRequired}}
+  describe "JSON round-trip" do
+    it "parses an empty JSON object and re-serialises to valid JSON" do
+      instance = {{moduleName}}::{{classname}}.from_json("{}")
+      expect(instance).to be_a({{moduleName}}::{{classname}})
+      expect(JSON.parse(instance.to_json)).to be_a(JSON::Any)
     end
   end
 
-{{/vars}}
+  describe "#to_h" do
+    it "returns a Hash representation" do
+      instance = {{moduleName}}::{{classname}}.from_json("{}")
+      expect(instance.to_h).to be_a(Hash(String, JSON::Any))
+    end
+  end
+{{/hasRequired}}
+{{#hasRequired}}
+  describe "required-field enforcement" do
+    # A required, non-nilable property without a default makes JSON::Serializable
+    # reject a document that omits it. (Assumes at least one required field has no
+    # default; models where every required field has a default are not present in
+    # the generated samples.)
+    it "raises when required properties are missing" do
+      expect { {{moduleName}}::{{classname}}.from_json("{}") }.to raise_error(JSON::SerializableError)
+    end
+  end
+{{/hasRequired}}
+{{/vendorExtensions.x-cr-discriminator-map}}
+{{/vendorExtensions.x-cr-not-json-serializable}}
+{{/anyOf}}
+{{#anyOf}}
+{{#-first}}
+  describe "union (anyOf)" do
+    it "is (de)serialisable as a union alias" do
+      expect({{moduleName}}::{{classname}}.responds_to?(:from_json)).to be_true
+    end
+  end
+{{/-first}}
+{{/anyOf}}
+{{/isEnum}}
+{{#isEnum}}
+  describe "JSON round-trip" do
+    it "parses an allowed value" do
+      value = {{moduleName}}::{{classname}}.from_json(%({{#allowableValues}}{{#enumVars}}{{#-first}}{{{value}}}{{/-first}}{{/enumVars}}{{/allowableValues}}))
+      expect(value).to be_a({{moduleName}}::{{classname}})
+    end
+  end
+{{/isEnum}}
 {{/oneOf}}
 {{#oneOf}}
 {{#-first}}
   describe ".openapi_one_of" do
     it "lists the items referenced in the oneOf array" do
-      expect(described_class.openapi_one_of).to_not be_empty
+      expect({{moduleName}}::{{classname}}.openapi_one_of).to_not be_empty
     end
   end
 
-  {{#discriminator}}
-  {{#propertyName}}
-  describe ".openapi_discriminator_name" do
-    it "returns the value of the "discriminator" property" do
-      expect(described_class.openapi_discriminator_name).to_not be_empty
-    end
-  end
-
-  {{/propertyName}}
-  {{#mappedModels}}
-  {{#-first}}
-  describe ".openapi_discriminator_mapping" do
-    it "returns the key/values of the "mapping" property" do
-      expect(described_class.openapi_discriminator_mapping.values.sort).to eq(described_class.openapi_one_of.sort)
-    end
-  end
-
-  {{/-first}}
-  {{/mappedModels}}
-  {{/discriminator}}
   describe ".build" do
-    skip "returns the correct model" do
+    it "is defined on the oneOf union type" do
+      expect({{moduleName}}::{{classname}}.responds_to?(:build)).to be_true
     end
   end
 {{/-first}}

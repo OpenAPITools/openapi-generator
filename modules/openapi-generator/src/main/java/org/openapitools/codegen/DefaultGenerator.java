@@ -404,6 +404,17 @@ public class DefaultGenerator implements Generator {
         }
     }
 
+    /**
+     * Returns {@code true} if the named schema should be generated even when it appears in
+     * schemaMappings or importMappings. This is the case when the schema name is explicitly
+     * listed in {@code forcedGenerateSchemas} or when the wildcard
+     * {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS} ({@code "*"}) is present.
+     */
+    private boolean isNotForcedGenerate(String schemaName) {
+        return !config.forcedGenerateSchemas().contains(CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS)
+                && !config.forcedGenerateSchemas().contains(schemaName);
+    }
+
     private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelDocTemplateFiles().keySet()) {
             String docExtension = config.getDocExtension();
@@ -467,8 +478,8 @@ public class DefaultGenerator implements Generator {
         for (String name : modelKeys) {
             processedModels.add(name);
             try {
-                //don't generate models that have an import mapping
-                if (config.schemaMapping().containsKey(name)) {
+                //don't generate models that have an import mapping or are in the list of schemas to always generate
+                if (config.schemaMapping().containsKey(name) && isNotForcedGenerate(name)) {
                     LOGGER.info("Model {} not generated due to schema mapping", name);
                     continue;
                 }
@@ -549,8 +560,8 @@ public class DefaultGenerator implements Generator {
             ModelsMap models = allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             try {
-                //don't generate models that have a schema mapping
-                if (config.schemaMapping().containsKey(modelName)) {
+                //don't generate models that have a schema mapping or are in the list of schemas to always generate
+                if (config.schemaMapping().containsKey(modelName) && isNotForcedGenerate(modelName)) {
                     continue;
                 }
 
@@ -568,6 +579,20 @@ public class DefaultGenerator implements Generator {
                         }
                     }
                     allModels.add(modelTemplate);
+                }
+
+                // Don't generate model files for types that were explicitly type-mapped
+                // AND whose mapped name has a corresponding import mapping.
+                // This indicates the user wants to replace the schema type with an
+                // external type (e.g. --type-mappings Address=CustomAddress
+                // --import-mappings CustomAddress=package:custom/address.dart).
+                // The model metadata is still kept in allModels for use by supporting file templates.
+                if (config.typeMapping().containsKey(modelName)) {
+                    String mappedTypeName = config.typeMapping().get(modelName);
+                    if (config.importMapping().containsKey(mappedTypeName)) {
+                        LOGGER.info("Model {} (type-mapped to {}) not generated due to import mapping", modelName, mappedTypeName);
+                        continue;
+                    }
                 }
 
                 // to generate model files

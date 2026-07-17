@@ -2,12 +2,17 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -18,11 +23,13 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ReadOnlyFirst")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ReadOnlyFirstDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String bar;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String baz;
 
   public ReadOnlyFirstDto bar(@Nullable String bar) {
@@ -40,6 +47,7 @@ public class ReadOnlyFirstDto {
     return bar;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("bar")
   public void setBar(@Nullable String bar) {
     this.bar = bar;
@@ -60,6 +68,7 @@ public class ReadOnlyFirstDto {
     return baz;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("baz")
   public void setBaz(@Nullable String baz) {
     this.baz = baz;

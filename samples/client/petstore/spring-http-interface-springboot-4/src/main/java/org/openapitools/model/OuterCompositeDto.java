@@ -2,13 +2,18 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -19,13 +24,16 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("OuterComposite")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class OuterCompositeDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal myNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String myString;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Boolean myBoolean;
 
   public OuterCompositeDto myNumber(@Nullable BigDecimal myNumber) {
@@ -37,12 +45,13 @@ public class OuterCompositeDto {
    * Get myNumber
    * @return myNumber
    */
-  
+  @Valid 
   @JsonProperty("my_number")
   public @Nullable BigDecimal getMyNumber() {
     return myNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_number")
   public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -63,6 +72,7 @@ public class OuterCompositeDto {
     return myString;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_string")
   public void setMyString(@Nullable String myString) {
     this.myString = myString;
@@ -83,6 +93,7 @@ public class OuterCompositeDto {
     return myBoolean;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_boolean")
   public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;

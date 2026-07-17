@@ -7,7 +7,7 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '2.2.20'
+    ext.kotlin_version = '2.4.0'
     ext.spotless_version = "7.2.1"
 
     repositories {
@@ -16,7 +16,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotless_version"
-        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:2.2.20-2.0.3"
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:2.3.10"
     }
 }
 
@@ -59,7 +59,7 @@ dependencies {
     implementation "com.squareup.moshi:moshi:1.15.2"
     implementation "com.squareup.moshi:moshi-adapters:1.15.2"
     ksp "com.squareup.moshi:moshi-kotlin-codegen:1.15.2"
-    implementation "com.squareup.okhttp3:okhttp:5.1.0"
+    implementation "com.squareup.okhttp3:okhttp:5.4.0"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
 

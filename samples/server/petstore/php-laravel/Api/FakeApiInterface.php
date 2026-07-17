@@ -232,37 +232,6 @@ interface FakeApiInterface {
 
 
     /**
-     * Operation testEnumParameters
-     *
-     * To test enum parameters
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumHeaderStringArray
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumHeaderString
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumQueryStringArray
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumQueryString
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter $enumQueryInteger
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumQueryDouble
-     * @param null | \OpenAPI\Server\Model\EnumClass[] $enumQueryModelArray
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumFormStringArray
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumFormString
-     * @return \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
-     */
-    public function testEnumParameters(
-            ?array $enumHeaderStringArray,
-            ?\OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumHeaderString,
-            ?array $enumQueryStringArray,
-            ?\OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumQueryString,
-            ?\OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter $enumQueryInteger,
-            ?\OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumQueryDouble,
-            ?array $enumQueryModelArray,
-            ?array $enumFormStringArray,
-            ?\OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumFormString,
-    ):
-        \OpenAPI\Server\Model\NoContent400 | 
-        \OpenAPI\Server\Model\NoContent404
-    ;
-
-
-    /**
      * Operation testGroupParameters
      *
      * Fake endpoint to test group parameters (optional)

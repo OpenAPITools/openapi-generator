@@ -351,7 +351,7 @@ public class ExampleGenerator {
         }
 
         processedModels.add(name);
-        Map<String, Object> values = new HashMap<>();
+        Map<String, Object> values = new LinkedHashMap<>();
         LOGGER.debug("Resolving model '{}' to example", name);
         if (schema.getExample() != null) {
             LOGGER.debug("Using example from spec: {}", schema.getExample());
@@ -406,14 +406,27 @@ public class ExampleGenerator {
      */
     private void resolveAllOfSchemaProperties(String mediaType, Schema schema, Set<String> processedModels, Map<String, Object> values) {
         List<Schema> interfaces = schema.getAllOf();
+        if (interfaces == null) {
+            return;
+        }
+
         for (Schema composed : interfaces) {
-            traverseSchemaProperties(mediaType, composed, processedModels, values);
             if (composed.get$ref() != null) {
                 String ref = ModelUtils.getSimpleRef(composed.get$ref());
+
+                if (processedModels.contains(ref)) {
+                    LOGGER.warn("Circular reference detected in allOf for $ref: {}. Skipping.", ref);
+                    continue;
+                }
+
                 Schema resolved = ModelUtils.getSchema(openAPI, ref);
                 if (resolved != null) {
+                    processedModels.add(ref);
                     traverseSchemaProperties(mediaType, resolved, processedModels, values);
+                    processedModels.remove(ref);
                 }
+            } else {
+                traverseSchemaProperties(mediaType, composed, processedModels, values);
             }
         }
     }

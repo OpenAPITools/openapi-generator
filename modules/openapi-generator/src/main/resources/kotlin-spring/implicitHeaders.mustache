@@ -1,0 +1,14 @@
+{{#swagger2AnnotationLibrary}}
+    @Parameters(value = [
+        {{#implicitHeadersParams}}
+        Parameter(name = "{{{baseName}}}"{{#isDeprecated}}, deprecated = true{{/isDeprecated}}, description = "{{{description}}}"{{#required}}, required = true{{/required}}, `in` = ParameterIn.HEADER){{^-last}},{{/-last}}
+        {{/implicitHeadersParams}}
+    ])
+{{/swagger2AnnotationLibrary}}
+{{#swagger1AnnotationLibrary}}
+    @ApiImplicitParams(value = [
+        {{#implicitHeadersParams}}
+        ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{^-last}},{{/-last}}
+        {{/implicitHeadersParams}}
+    ])
+{{/swagger1AnnotationLibrary}}

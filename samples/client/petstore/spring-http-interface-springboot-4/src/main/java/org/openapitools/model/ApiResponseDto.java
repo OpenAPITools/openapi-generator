@@ -2,12 +2,17 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -18,13 +23,16 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ApiResponseDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer code;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String type;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String message;
 
   public ApiResponseDto code(@Nullable Integer code) {
@@ -42,6 +50,7 @@ public class ApiResponseDto {
     return code;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("code")
   public void setCode(@Nullable Integer code) {
     this.code = code;
@@ -62,6 +71,7 @@ public class ApiResponseDto {
     return type;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("type")
   public void setType(@Nullable String type) {
     this.type = type;
@@ -82,6 +92,7 @@ public class ApiResponseDto {
     return message;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("message")
   public void setMessage(@Nullable String message) {
     this.message = message;

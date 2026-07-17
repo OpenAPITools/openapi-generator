@@ -27,15 +27,16 @@ jobs:
           - samples/server/petstore/go-chi-server/
           - samples/server/others/go-server/no-body-path-params/
           - samples/server/others/go-server/optional-body/
+          - samples/server/others/go-server/required-zero-value/
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-go@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
           go-version: "stable"
       - run: go version
       - name: Run test
         working-directory: ${{ matrix.sample }}
-        run: go test -mod=mod -v
+        run: go test -mod=mod ./... -v
 
   verify:
     name: Verify generated Go files with Go tests
@@ -48,9 +49,9 @@ jobs:
         go-version:
           - "1.18"
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: ${{ matrix.go-version }}
       - name: Install Dependencies

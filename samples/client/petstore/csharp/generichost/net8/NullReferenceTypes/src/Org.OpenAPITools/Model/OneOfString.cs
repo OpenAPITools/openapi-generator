@@ -81,8 +81,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="OneOfString" />
     /// </summary>
-    public class OneOfStringJsonConverter : JsonConverter<OneOfString>
+    public partial class OneOfStringJsonConverter : JsonConverter<OneOfString>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OneOfStringJsonConverter" /> class.
+        /// </summary>
+        public OneOfStringJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="OneOfString" />
         /// </summary>

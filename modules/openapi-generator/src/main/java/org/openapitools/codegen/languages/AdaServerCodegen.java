@@ -31,6 +31,9 @@ import java.io.Writer;
 import java.util.EnumSet;
 import java.util.Locale;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/Ada/}.
+ */
 public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
     public AdaServerCodegen() {

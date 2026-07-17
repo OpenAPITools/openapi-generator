@@ -37,6 +37,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-axios/}.
+ */
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
 
     public static final String NPM_REPOSITORY = "npmRepository";
@@ -51,7 +54,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html).";
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
     public static final String AXIOS_VERSION = "axiosVersion";
-    public static final String DEFAULT_AXIOS_VERSION = "^1.13.5";
+    public static final String DEFAULT_AXIOS_VERSION = "^1.16.0";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
 
     @Getter @Setter
@@ -227,7 +230,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+        if (isBinaryFormArray(parameter)) {
+            parameter.isFile = true;
             parameter.isCollectionFormatMulti = true;
         }
     }

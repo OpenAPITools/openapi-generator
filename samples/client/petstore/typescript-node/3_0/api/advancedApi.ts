@@ -114,7 +114,7 @@ export class AdvancedApi {
      */
     public async getGroupsGroupId (groupId: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Group;  }> {
         const localVarPath = this.basePath + '/groups/{groupId}'
-            .replace('{' + 'groupId' + '}', encodeURIComponent(String(groupId)));
+            .replace('{groupId}', encodeURIComponent(String(groupId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/json'];
@@ -185,7 +185,7 @@ export class AdvancedApi {
      */
     public async getUsersUserId (userId: number, strCode?: string, strCode2?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: User;  }> {
         const localVarPath = this.basePath + '/users/{userId}'
-            .replace('{' + 'userId' + '}', encodeURIComponent(String(userId)));
+            .replace('{userId}', encodeURIComponent(String(userId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/json'];

@@ -42,10 +42,16 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/crystal/}.
+ */
 public class CrystalClientCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(CrystalClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
+
+    private java.util.Set<String> resourceSegments = java.util.Collections.emptySet();
+    private String apiBasePrefix = "";
 
     @Setter protected String shardName = "openapi_client";
     @Setter protected String moduleName = "OpenAPIClient";
@@ -59,8 +65,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Setter protected String shardAuthor = "";
     @Setter protected String shardAuthorEmail = "";
     @Setter protected String paramsEncoder = "Crest::NestedParamsEncoder";
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    @Setter protected String apiNamespace = "Api";
     protected List<String> primitiveTypes = new ArrayList<String>();
 
     public static final String SHARD_NAME = "shardName";
@@ -73,6 +78,12 @@ public class CrystalClientCodegen extends DefaultCodegen {
     public static final String SHARD_AUTHOR = "shardAuthor";
     public static final String SHARD_AUTHOR_EMAIL = "shardAuthorEmail";
     public static final String PARAMS_ENCODER = "paramsEncoder";
+    public static final String API_NAMESPACE = "apiNamespace";
+
+    // Generated infrastructure classes that live at the moduleName root; a model named like one
+    // of these would clash, so toModelName renames it.
+    private static final Set<String> RESERVED_MODEL_NAMES = new HashSet<>(Arrays.asList(
+        "Client", "Connection", "Configuration", "Response", "ApiError", "Serializable", "Validation"));
 
     public CrystalClientCodegen() {
         super();
@@ -124,10 +135,6 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         modelTestTemplateFiles.put("model_test.mustache", ".cr");
         apiTestTemplateFiles.put("api_test.mustache", ".cr");
-
-        // TODO support auto-generated doc
-        // modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        // apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
@@ -208,6 +215,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         cliOptions.add(new CliOption(SHARD_AUTHOR_EMAIL, "shard author email (only one is supported)."));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(PARAMS_ENCODER, "params_encoder setting (e.g. Crest::NestedParamsEncoder, Crest::EnumeratedFlatParamsEncoder, Crest::ZeroEnumeratedFlatParamsEncoder").defaultValue("Crest::NestedParamsEncoder"));
+        cliOptions.add(new CliOption(API_NAMESPACE, "sub-namespace the api resource classes are nested under, to separate them from same-named models (e.g. \"Api\" -> Foo::Api::Pet). Set to an empty string to nest the api classes directly under moduleName (e.g. when moduleName already ends with \"Api\").").defaultValue("Api"));
     }
 
     @Override
@@ -280,9 +288,15 @@ public class CrystalClientCodegen extends DefaultCodegen {
             additionalProperties.put(PARAMS_ENCODER, paramsEncoder);
         }
 
-        // make api and model doc path available in mustache template
-        additionalProperties.put("apiDocPath", apiDocPath);
-        additionalProperties.put("modelDocPath", modelDocPath);
+        // apiNamespace: the sub-namespace api classes are nested under (default "Api").
+        // An empty value nests api classes directly under moduleName (no extra namespace).
+        if (additionalProperties.containsKey(API_NAMESPACE)) {
+            setApiNamespace((String) additionalProperties.get(API_NAMESPACE));
+        }
+        additionalProperties.put(API_NAMESPACE, apiNamespace);
+        // explicit boolean: jmustache treats an empty string section as truthy, so guard the
+        // api namespace `module` wrapper on this instead of on {{#apiNamespace}}.
+        additionalProperties.put("apiNamespacePresent", apiNamespace != null && !apiNamespace.isEmpty());
 
         // use constant model/api package (folder path)
         setModelPackage("models");
@@ -292,8 +306,11 @@ public class CrystalClientCodegen extends DefaultCodegen {
         String shardFolder = srcFolder + File.separator + shardName;
         supportingFiles.add(new SupportingFile("api_error.mustache", shardFolder, "api_error.cr"));
         supportingFiles.add(new SupportingFile("configuration.mustache", shardFolder, "configuration.cr"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", shardFolder, "api_client.cr"));
-        supportingFiles.add(new SupportingFile("recursive_hash.mustache", shardFolder, "recursive_hash.cr"));
+        supportingFiles.add(new SupportingFile("response.mustache", shardFolder, "response.cr"));
+        supportingFiles.add(new SupportingFile("connection.mustache", shardFolder, "connection.cr"));
+        supportingFiles.add(new SupportingFile("client.mustache", shardFolder, "client.cr"));
+        supportingFiles.add(new SupportingFile("serializable.mustache", shardFolder, "serializable.cr"));
+        supportingFiles.add(new SupportingFile("validation.mustache", shardFolder, "validation.cr"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -305,6 +322,62 @@ public class CrystalClientCodegen extends DefaultCodegen {
         // add lambda for mustache templates
         additionalProperties.put("lambdaPrefixWithHash", new PrefixWithHashLambda());
         additionalProperties.put("lambdaPascalcase", new PascalCaseLambda());
+    }
+
+    @Override
+    public void preprocessOpenAPI(io.swagger.v3.oas.models.OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+        java.util.Set<String> paths = openAPI.getPaths() == null
+            ? java.util.Collections.emptySet() : openAPI.getPaths().keySet();
+        this.resourceSegments = org.openapitools.codegen.languages.crystal.CrystalApiRouting.resourceSegments(paths);
+        this.apiBasePrefix = additionalProperties.containsKey("apiBasePath")
+            ? stripSlashes((String) additionalProperties.get("apiBasePath"))
+            : org.openapitools.codegen.languages.crystal.CrystalApiRouting.commonBasePrefix(paths);
+    }
+
+    private static String stripSlashes(String s) {
+        return s.replaceAll("^/+", "").replaceAll("/+$", "");
+    }
+
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, io.swagger.v3.oas.models.Operation operation,
+                                    CodegenOperation co, java.util.Map<String, java.util.List<CodegenOperation>> operations) {
+        org.openapitools.codegen.languages.crystal.CrystalApiRouting.Route r =
+            org.openapitools.codegen.languages.crystal.CrystalApiRouting.route(
+                co.path, co.httpMethod, co.operationId, resourceSegments, apiBasePrefix);
+        String groupKey = r.resource == null ? r.namespace : r.namespace + "/" + r.resource;
+        co.operationId = toOperationId(r.action);
+        co.vendorExtensions.put("x-cr-namespace", r.namespace);
+        if (r.resource != null) co.vendorExtensions.put("x-cr-resource", r.resource);
+
+        java.util.List<CodegenOperation> opList = operations.computeIfAbsent(groupKey, k -> new java.util.ArrayList<>());
+        // operationId uniqueness within the group (verb suffix on collision);
+        // re-scan after each mutation so 2+ prior collisions are handled correctly.
+        String unique = co.operationId;
+        int counter = 0;
+        boolean clash = uniqueClash(opList, unique);
+        while (clash) {
+            unique = co.operationId + "_" + co.httpMethod.toLowerCase(java.util.Locale.ROOT)
+                     + (counter == 0 ? "" : "_" + counter);
+            counter++;
+            clash = uniqueClash(opList, unique);
+        }
+        if (!unique.equals(co.operationId)) {
+            LOGGER.warn("Crystal: action collision, renamed `{}` -> `{}`", co.operationId, unique);
+            co.operationId = unique;
+        }
+        co.operationIdSnakeCase = underscore(co.operationId);
+        co.operationIdCamelCase = camelize(co.operationId);
+        opList.add(co);
+        co.baseName = groupKey;
+    }
+
+    /** Returns true if any operation in {@code opList} already uses {@code candidate} as its operationId. */
+    private static boolean uniqueClash(java.util.List<CodegenOperation> opList, String candidate) {
+        for (CodegenOperation op : opList) {
+            if (op.operationId.equals(candidate)) return true;
+        }
+        return false;
     }
 
     @Override
@@ -340,16 +413,6 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public String modelTestFileFolder() {
         return outputFolder + File.separator + specFolder + File.separator + modelPackage.replace("/", File.separator);
-    }
-
-    @Override
-    public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
-    }
-
-    @Override
-    public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
     }
 
     @Override
@@ -406,6 +469,14 @@ public class CrystalClientCodegen extends DefaultCodegen {
             return modelName;
         }
 
+        // model name cannot clash with a generated infrastructure class that lives at the
+        // moduleName root (Client, Connection, ...). Rename it (e.g. "Client" -> ModelClient).
+        if (RESERVED_MODEL_NAMES.contains(modelName)) {
+            String renamed = camelize("Model" + modelName);
+            LOGGER.warn("{} clashes with a generated class and cannot be used as model name. Renamed to {}", name, renamed);
+            return renamed;
+        }
+
         // model name starts with number
         if (modelName.matches("^\\d.*")) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", modelName, camelize("model_" + modelName));
@@ -444,16 +515,16 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public String toApiFilename(final String name) {
-        // replace - with _ e.g. created-at => created_at
-        String filename = name;
-        if (apiNameSuffix != null && apiNameSuffix.length() > 0) {
-            filename = filename + "_" + apiNameSuffix;
+        // If the name contains '/', it's a namespaced group key (e.g. "dcim/cable-terminations")
+        // produced by addOperationToGroup — sanitize, convert each segment to underscore and join with File.separator.
+        if (name.contains("/")) {
+            String[] parts = name.split("/");
+            java.util.List<String> us = new java.util.ArrayList<>();
+            for (String p : parts) us.add(underscore(sanitizeName(p.replace('-', '_'))));
+            return String.join(File.separator, us);
         }
-
-        filename = filename.replaceAll("-", "_");
-
-        // e.g. PhoneNumberApi.cr => phone_number_api.cr
-        return underscore(filename);
+        // Single-segment group key or legacy name: sanitize and underscore it directly.
+        return underscore(sanitizeName(name.replace('-', '_')));
     }
 
     @Override
@@ -473,12 +544,24 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public String toApiName(String name) {
-        return super.toApiName(name);
+        // Group key format: "namespace" or "namespace/resource" (may contain hyphens or other non-word chars)
+        // Sanitize each segment to produce valid Crystal identifiers.
+        String[] parts = name.split("/");
+        StringBuilder cls = new StringBuilder();
+        if (apiNamespace != null && !apiNamespace.isEmpty()) cls.append(apiNamespace);
+        for (String p : parts) {
+            if (cls.length() > 0) cls.append("::");
+            cls.append(camelize(sanitizeName(p.replace('-', '_'))));
+        }
+        return cls.toString();   // e.g. Api::Dcim::CableTerminations (or Dcim::CableTerminations when apiNamespace is empty)
     }
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("Integer".equals(datatype) || "Float".equals(datatype)) {
+        if ("Integer".equals(datatype) || "Float".equals(datatype)
+                || "Int32".equals(datatype) || "Int64".equals(datatype)
+                || "Float32".equals(datatype) || "Float64".equals(datatype)
+                || "BigDecimal".equals(datatype)) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";
@@ -527,8 +610,139 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
+        // flag models that hold a non-JSON-serializable property (e.g. ::File), so the
+        // generated model spec uses a lighter assertion instead of a from_json round-trip
+        // (JSON::Serializable cannot deserialise a ::File field, which fails to compile).
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            boolean notJsonSerializable = false;
+            for (CodegenProperty p : cm.getAllVars()) {
+                if (p.dataType != null && p.dataType.contains("::File")) {
+                    notJsonSerializable = true;
+                    break;
+                }
+            }
+            if (notJsonSerializable) {
+                cm.vendorExtensions.put("x-cr-not-json-serializable", Boolean.TRUE);
+            }
+        }
+        // process enum in models (sets isEnum flags on properties)
+        ModelsMap processed = postProcessModelsEnum(objs);
+        // flag each property that needs the unified validates macro (must run AFTER postProcessModelsEnum)
+        for (ModelMap mo : processed.getModels()) {
+            CodegenModel cm = mo.getModel();
+            for (CodegenProperty p : cm.vars) {
+                if (p.isEnum || p.hasValidation) {
+                    p.vendorExtensions.put("x-cr-validated", Boolean.TRUE);
+                }
+            }
+
+            // Scalar default values for optional properties: emit the spec default instead of nil.
+            // Restricted to plain scalars (string/number/bool) excluding date/time, whose default
+            // rendering isn't guaranteed to be valid Crystal.
+            for (CodegenProperty p : cm.optionalVars) {
+                // Only emit plain scalar literals. Skip: containers; date/time (rendering not
+                // guaranteed valid Crystal); and any default rendered as a constant reference
+                // (contains "::", e.g. a referenced enum's `EnumName::CONST` — named enums are
+                // plain aliases here so that constant doesn't exist).
+                if (p.defaultValue != null && !p.isContainer && !p.isDate && !p.isDateTime
+                        && !p.isEnum && !p.defaultValue.contains("::")) {
+                    p.vendorExtensions.put("x-cr-default", p.defaultValue);
+                }
+            }
+
+            // Models that allow additional properties (additionalProperties: true or a schema)
+            // capture + round-trip unknown keys via JSON::Serializable::Unmapped instead of
+            // silently dropping them.
+            if (cm.getAdditionalPropertiesType() != null) {
+                cm.vendorExtensions.put("x-cr-additional-properties", Boolean.TRUE);
+            }
+
+            // Polymorphic deserialization: when a model declares a discriminator with a concrete
+            // mapping, emit Crystal's use_json_discriminator/use_yaml_discriminator so deserialising
+            // the base type dispatches to the mapped subtype.
+            org.openapitools.codegen.CodegenDiscriminator disc = cm.getDiscriminator();
+            if (disc != null && disc.getMappedModels() != null && !disc.getMappedModels().isEmpty()) {
+                List<String> entries = new ArrayList<>();
+                for (org.openapitools.codegen.CodegenDiscriminator.MappedModel mm : disc.getMappedModels()) {
+                    entries.add("\"" + mm.getMappingName() + "\" => " + mm.getModelName());
+                }
+                String prop = disc.getPropertyBaseName() != null ? disc.getPropertyBaseName() : disc.getPropertyName();
+                cm.vendorExtensions.put("x-cr-discriminator-prop", prop);
+                cm.vendorExtensions.put("x-cr-discriminator-map", "{" + String.join(", ", entries) + "}");
+            }
+        }
+        return processed;
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+
+        // Build a name -> model index so parent relationships can be resolved here (parentModel
+        // is not yet populated during postProcessModels).
+        Map<String, CodegenModel> byName = new HashMap<>();
+        for (ModelsMap mm : processed.values()) {
+            for (ModelMap mo : mm.getModels()) {
+                CodegenModel cm = mo.getModel();
+                if (cm != null) byName.put(cm.classname, cm);
+            }
+        }
+
+        for (CodegenModel cm : byName.values()) {
+            if (cm.parent == null) continue;
+            CodegenModel parent = byName.get(cm.parent);
+            if (parent == null) continue;
+
+            // Crystal forbids re-annotating an ivar already defined in a superclass, and
+            // JSON::Serializable inherits the parent's fields, so a child must NOT re-declare
+            // inherited properties. Mark them so the template skips their declaration/validation.
+            Set<String> inheritedBaseNames = new HashSet<>();
+            for (CodegenProperty pp : parent.getAllVars()) inheritedBaseNames.add(pp.baseName);
+
+            List<CodegenProperty> all = new ArrayList<>(cm.vars);
+            all.addAll(cm.requiredVars);
+            all.addAll(cm.optionalVars);
+            for (CodegenProperty p : all) {
+                p.vendorExtensions.put("x-cr-inherited", inheritedBaseNames.contains(p.baseName));
+            }
+
+            // Arguments passed to `super(...)` from the child constructor, in the parent's own
+            // constructor order (required vars then optional vars). The child accepts these as
+            // plain (non-@) params with the same names.
+            List<String> superArgs = new ArrayList<>();
+            for (CodegenProperty pp : parent.requiredVars) superArgs.add(pp.name);
+            for (CodegenProperty pp : parent.optionalVars) superArgs.add(pp.name);
+            cm.vendorExtensions.put("x-cr-parent-args", String.join(", ", superArgs));
+        }
+
+        return processed;
+    }
+
+    /**
+     * Qualify bare model-name tokens in a Crystal type string with the module name, so that inside
+     * an api resource class they resolve to the model and not to a same-named resource class.
+     * e.g. with module "Foo": "Array(Pet)" -> "Array(Foo::Pet)". Primitives (Int32, String, Array,
+     * Hash, ...) and already-qualified names are left untouched.
+     */
+    private String qualifyModelTypes(String type, Set<String> modelNames) {
+        if (type == null || type.isEmpty() || modelNames.isEmpty()) return type;
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("[A-Za-z_][A-Za-z0-9_]*").matcher(type);
+        StringBuilder out = new StringBuilder();
+        int last = 0;
+        while (m.find()) {
+            out.append(type, last, m.start());
+            String tok = m.group();
+            boolean alreadyQualified = m.start() >= 1 && type.charAt(m.start() - 1) == ':';
+            if (modelNames.contains(tok) && !alreadyQualified) {
+                out.append(moduleName).append("::").append(tok);
+            } else {
+                out.append(tok);
+            }
+            last = m.end();
+        }
+        out.append(type.substring(last));
+        return out.toString();
     }
 
     @Override
@@ -573,6 +787,42 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        OperationMap operations0 = objs.getOperations();
+        String classname = (operations0 != null) ? operations0.getClassname() : "";
+
+        // The api classname is "<apiNamespace>::<rest>" (toApiName prefixes the configured
+        // api namespace, default "Api"). The template opens that namespace as an explicit
+        // nested `module <apiNamespace>`, so it needs the bare resource path with the prefix
+        // stripped. Defining it via an explicit `module` (rather than `class Api::<rest>`)
+        // makes the fully-qualified path actually exist even when moduleName itself ends with
+        // "Api"; with apiNamespace="" the api classes nest directly under moduleName.
+        String apiNsPrefix = (apiNamespace == null || apiNamespace.isEmpty()) ? "" : apiNamespace + "::";
+        String innerClass = (!apiNsPrefix.isEmpty() && classname.startsWith(apiNsPrefix))
+            ? classname.substring(apiNsPrefix.length()) : classname;
+        if (operations0 != null) {
+            operations0.put("x-cr-api-inner-class", innerClass);
+        }
+
+        // Compute specHelperPath: relative path from the spec test file back to spec_helper.cr.
+        // The spec file lives at spec/<apiPackage>/<namespace>/<resource>_spec.cr, i.e. one
+        // directory level for api/ plus one per "::" in the (prefix-free) resource class path.
+        // "Pet"          -> 0 "::" -> 1 level  -> "../spec_helper"
+        // "Store::Order" -> 1 "::" -> 2 levels -> "../../spec_helper"
+        int colonPairs = 0;
+        int idx = innerClass.indexOf("::");
+        while (idx != -1) {
+            colonPairs++;
+            idx = innerClass.indexOf("::", idx + 2);
+        }
+        int totalLevels = colonPairs + 1;
+        StringBuilder specHelperPath = new StringBuilder();
+        for (int i = 0; i < totalLevels; i++) {
+            specHelperPath.append("../");
+        }
+        specHelperPath.append("spec_helper");
+        objs.put("specHelperPath", specHelperPath.toString());
+
         if (isSkipOperationExample()) {
             return objs;
         }
@@ -583,6 +833,61 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
+            boolean hasHeaderParams = op.headerParams != null && !op.headerParams.isEmpty();
+            boolean hasCookieParams = op.cookieParams != null && !op.cookieParams.isEmpty();
+            boolean hasNamed = (op.queryParams != null && !op.queryParams.isEmpty())
+                            || hasHeaderParams || hasCookieParams;
+            op.vendorExtensions.put("x-cr-has-named-params", hasNamed);
+            op.vendorExtensions.put("x-cr-has-header-params", hasHeaderParams);
+            op.vendorExtensions.put("x-cr-has-cookie-params", hasCookieParams);
+            // an operation needs a `header:` hash if it has header params and/or cookie params
+            // (cookie params are sent via a combined Cookie header).
+            op.vendorExtensions.put("x-cr-has-header-or-cookie", hasHeaderParams || hasCookieParams);
+
+            // raw body: an operation whose response media type isn't JSON (text/plain, binary, ...)
+            // returns the body untouched instead of JSON-decoding it.
+            boolean rawBody = op.produces != null && !op.produces.isEmpty()
+                && op.produces.stream().noneMatch(p -> {
+                    String mt = p.get("mediaType");
+                    return mt != null && mt.toLowerCase(Locale.ROOT).contains("json");
+                });
+            op.vendorExtensions.put("x-cr-raw-body", rawBody);
+
+            // collectionFormat: array query params that aren't "multi" must be joined into a single
+            // value with the right separator (csv/ssv/tsv/pipes); "multi" is left as an array and
+            // serialised key=a&key=b by the configured params encoder.
+            if (op.queryParams != null) {
+                for (CodegenParameter p : op.queryParams) {
+                    if (!p.isArray || p.collectionFormat == null) continue;
+                    String sep;
+                    switch (p.collectionFormat) {
+                        case "ssv": sep = " "; break;
+                        case "tsv": sep = "\\t"; break;
+                        case "pipes": case "pipe": sep = "|"; break;
+                        case "csv": sep = ","; break;
+                        default: sep = null; // "multi" (or unknown) -> no join
+                    }
+                    if (sep != null) p.vendorExtensions.put("x-cr-join-sep", sep);
+                }
+            }
+            // Inside an api resource class (e.g. Api::Pet) the unqualified name `Pet` resolves to
+            // the class itself, shadowing a same-named model. Qualify model types in the method
+            // signature and body with the module so they resolve to the model (Foo::Pet).
+            op.vendorExtensions.put("x-cr-return-type", qualifyModelTypes(op.returnType, modelMaps.keySet()));
+            // The template reads param types from the per-kind lists (pathParams, queryParams, ...),
+            // which are distinct objects from allParams, so qualify each of those.
+            for (List<CodegenParameter> pl : Arrays.asList(op.pathParams, op.queryParams,
+                    op.headerParams, op.formParams, op.cookieParams, op.allParams)) {
+                if (pl == null) continue;
+                for (CodegenParameter p : pl) {
+                    p.vendorExtensions.put("x-cr-data-type", qualifyModelTypes(p.dataType, modelMaps.keySet()));
+                }
+            }
+            if (op.bodyParam != null) {
+                op.bodyParam.vendorExtensions.put("x-cr-data-type",
+                    qualifyModelTypes(op.bodyParam.dataType, modelMaps.keySet()));
+            }
+
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-crystal-example", constructExampleCode(p, modelMaps, processedModelMaps));
             }
@@ -805,13 +1110,33 @@ public class CrystalClientCodegen extends DefaultCodegen {
     public String getTypeDeclaration(Schema schema) {
         if (ModelUtils.isArraySchema(schema)) {
             Schema inner = ModelUtils.getSchemaItems(schema);
+            // unresolved element type (e.g. nested array with no `items`) would emit a
+            // bare `Array(Array)` which Crystal reads as Array(Array(T)) and cannot
+            // (de)serialise; fall back to JSON::Any so the type stays valid and round-trippable
+            if (inner == null) {
+                return getSchemaType(schema) + "(JSON::Any)";
+            }
             return getSchemaType(schema) + "(" + getTypeDeclaration(inner) + ")";
         } else if (ModelUtils.isMapSchema(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
+            if (inner == null) {
+                return getSchemaType(schema) + "(String, JSON::Any)";
+            }
             return getSchemaType(schema) + "(String, " + getTypeDeclaration(inner) + ")";
         }
 
-        return super.getTypeDeclaration(schema);
+        // A schema whose element type cannot be resolved (e.g. an inner `array`/`object`
+        // with no items/additionalProperties) falls through to a bare collection name
+        // ("Array"/"Set"/"Hash"), which Crystal treats as the uninstantiated generic
+        // Array(T) and cannot (de)serialise. Pin the element type to JSON::Any.
+        String decl = super.getTypeDeclaration(schema);
+        if ("Array".equals(decl) || "Set".equals(decl)) {
+            return decl + "(JSON::Any)";
+        }
+        if ("Hash".equals(decl)) {
+            return decl + "(String, JSON::Any)";
+        }
+        return decl;
     }
 
     @Override
@@ -928,6 +1253,111 @@ public class CrystalClientCodegen extends DefaultCodegen {
         if ("cr".equals(FilenameUtils.getExtension(file.toString()))) {
             this.executePostProcessor(new String[]{crystalPostProcessFile, file.toString()});
         }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        Map<String, Map<String, Object>> nsMap = new TreeMap<>();
+        Map<String, Set<String>> resourcesByNs = new TreeMap<>();
+
+        org.openapitools.codegen.model.ApiInfoMap apiInfo =
+            (org.openapitools.codegen.model.ApiInfoMap) objs.get("apiInfo");
+        if (apiInfo != null) {
+            List<org.openapitools.codegen.model.OperationsMap> apis = apiInfo.getApis();
+            if (apis != null) {
+                for (org.openapitools.codegen.model.OperationsMap operationsMap : apis) {
+                    org.openapitools.codegen.model.OperationMap opMap = operationsMap.getOperations();
+                    if (opMap == null) continue;
+                    List<CodegenOperation> ops = opMap.getOperation();
+                    if (ops == null) continue;
+                    for (CodegenOperation co : ops) {
+                        String ns = (String) co.vendorExtensions.get("x-cr-namespace");
+                        String res = (String) co.vendorExtensions.get("x-cr-resource");
+                        if (ns == null) continue;
+                        nsMap.computeIfAbsent(ns, k -> {
+                            Map<String, Object> m = new HashMap<>();
+                            m.put("name", underscore(sanitizeName(ns.replace('-', '_'))));
+                            m.put("className", toApiName(ns));
+                            return m;
+                        });
+                        if (res != null) {
+                            resourcesByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(res);
+                        }
+                    }
+                }
+            }
+        }
+
+        List<Map<String, Object>> nsList = new ArrayList<>();
+        for (Map.Entry<String, Map<String, Object>> e : nsMap.entrySet()) {
+            List<Map<String, Object>> resList = new ArrayList<>();
+            for (String res : resourcesByNs.getOrDefault(e.getKey(), Collections.emptySet())) {
+                Map<String, Object> rm = new HashMap<>();
+                rm.put("accessor", underscore(sanitizeName(res.replace('-', '_'))));
+                rm.put("className", toApiName(e.getKey() + "/" + res));
+                resList.add(rm);
+            }
+            e.getValue().put("resources", resList);
+            nsList.add(e.getValue());
+        }
+        additionalProperties.put("crNamespaces", nsList);
+        objs.put("crNamespaces", nsList);
+
+        orderModelsByInheritance(objs);
+
+        return super.postProcessSupportingFileData(objs);
+    }
+
+    /**
+     * Crystal resolves a superclass at the point a subclass is parsed, so a model file
+     * must be {@code require}d after the file defining its parent. The default model order
+     * is alphabetical, which breaks e.g. {@code class Child < Parent} when "child" sorts
+     * before "parent". Reorder the model list used by the shard entrypoint so every parent
+     * precedes its children (inheritance is acyclic, so a topological order always exists).
+     */
+    @SuppressWarnings("unchecked")
+    private void orderModelsByInheritance(Map<String, Object> objs) {
+        Object modelsObj = objs.get("models");
+        if (!(modelsObj instanceof List)) return;
+        List<Object> models = (List<Object>) modelsObj;
+
+        Map<String, Object> entryByName = new LinkedHashMap<>();
+        Map<String, String> parentByName = new HashMap<>();
+        for (Object entry : models) {
+            if (!(entry instanceof Map)) return; // unexpected shape: leave as-is
+            Object m = ((Map<String, Object>) entry).get("model");
+            if (!(m instanceof CodegenModel)) return;
+            CodegenModel cm = (CodegenModel) m;
+            entryByName.put(cm.classname, entry);
+            String parent = cm.parentModel != null ? cm.parentModel.classname : cm.parent;
+            if (parent != null) parentByName.put(cm.classname, parent);
+        }
+
+        List<Object> ordered = new ArrayList<>(models.size());
+        Set<String> placed = new HashSet<>();
+        for (String name : entryByName.keySet()) {
+            placeModelAfterParent(name, entryByName, parentByName, placed, ordered);
+        }
+
+        if (ordered.size() == models.size()) {
+            models.clear();
+            models.addAll(ordered);
+        }
+    }
+
+    private void placeModelAfterParent(String name, Map<String, Object> entryByName,
+                                       Map<String, String> parentByName, Set<String> placed,
+                                       List<Object> ordered) {
+        if (name == null || placed.contains(name)) return;
+        Object entry = entryByName.get(name);
+        if (entry == null) return; // parent isn't a generated model (e.g. a primitive/container)
+        placed.add(name); // mark before recursing so a malformed cycle can't loop forever
+        String parent = parentByName.get(name);
+        if (parent != null) {
+            placeModelAfterParent(parent, entryByName, parentByName, placed, ordered);
+        }
+        ordered.add(entry);
     }
 
     @Override

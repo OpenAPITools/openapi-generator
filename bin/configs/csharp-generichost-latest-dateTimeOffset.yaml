@@ -8,3 +8,5 @@ additionalProperties:
   modelPropertySorting: alphabetical
   operationParameterSorting: alphabetical
   useDateTimeOffset: true
+  treatWarningsAsErrors: true
+  warningsNotAsErrors: CS0612

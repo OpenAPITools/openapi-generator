@@ -118,10 +118,12 @@ org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen
 org.openapitools.codegen.languages.PythonBluePlanetServerCodegen
 org.openapitools.codegen.languages.RClientCodegen
 org.openapitools.codegen.languages.RubyClientCodegen
+org.openapitools.codegen.languages.RubyNextgenClientCodegen
 org.openapitools.codegen.languages.RubyOnRailsServerCodegen
 org.openapitools.codegen.languages.RubySinatraServerCodegen
 org.openapitools.codegen.languages.RustAxumServerCodegen
 org.openapitools.codegen.languages.RustClientCodegen
+org.openapitools.codegen.languages.RustSalvoServerCodegen
 org.openapitools.codegen.languages.RustServerCodegen
 org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaAkkaClientCodegen

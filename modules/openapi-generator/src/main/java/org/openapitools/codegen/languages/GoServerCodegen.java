@@ -31,9 +31,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/go-server/}.
+ */
 public class GoServerCodegen extends AbstractGoCodegen {
 
     /**
@@ -291,6 +295,86 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("error.mustache", sourceFolder, "error.go"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        for (ModelsMap modelsMap : objs.values()) {
+            List<Map<String, String>> imports = modelsMap.getImports();
+            if (imports == null) {
+                imports = new ArrayList<>();
+                modelsMap.setImports(imports);
+            }
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                configureModelRequiredValidation(modelMap.getModel(), imports);
+            }
+        }
+
+        return objs;
+    }
+
+    /**
+     * Configures UnmarshalJSON presence checks and AssertRequired helpers for request-body models.
+     * Runs in {@link #postProcessAllModels} so {@code parentModel} is populated for allOf embedding.
+     */
+    private void configureModelRequiredValidation(CodegenModel model, List<Map<String, String>> imports) {
+        if (model == null || model.isEnum) {
+            return;
+        }
+
+        // Parent embedding must be wired regardless of required fields.
+        // Otherwise allOf child models without required properties silently
+        // drop their parent from the generated Go struct.
+        boolean hasEmbeddedParent = model.parentModel != null;
+        if (hasEmbeddedParent) {
+            model.vendorExtensions.put("x-go-embed-parent-classname", model.parentModel.classname);
+        }
+        model.vendorExtensions.put("x-go-has-parent", hasEmbeddedParent);
+
+        Map<String, CodegenProperty> decodeVarsByBaseName = new LinkedHashMap<>();
+        for (CodegenProperty v : model.allVars) {
+            decodeVarsByBaseName.put(v.baseName, v);
+        }
+        for (CodegenProperty v : model.vars) {
+            decodeVarsByBaseName.put(v.baseName, v);
+        }
+        List<CodegenProperty> decodeVars = new ArrayList<>(decodeVarsByBaseName.values());
+        model.vendorExtensions.put("decodeVars", decodeVars);
+
+        List<CodegenProperty> presenceCheckRequiredVars = decodeVars.stream()
+                .filter(v -> v.required && !v.isReadOnly)
+                .collect(Collectors.toList());
+
+        model.vendorExtensions.put("presenceCheckRequiredVars", presenceCheckRequiredVars);
+        boolean hasPresenceCheckRequiredVars = !presenceCheckRequiredVars.isEmpty();
+
+        model.vendorExtensions.put("hasPresenceCheckRequiredVars", hasPresenceCheckRequiredVars);
+
+        if (hasPresenceCheckRequiredVars) {
+            imports.add(createMapping("import", "encoding/json"));
+            if (!model.isAdditionalPropertiesTrue) {
+                imports.add(createMapping("import", "fmt"));
+            }
+        }
+
+        List<String> allowedJsonKeys = decodeVars.stream()
+                .map(v -> v.baseName)
+                .collect(Collectors.toList());
+        model.vendorExtensions.put("allowedJsonKeys", allowedJsonKeys);
+
+        boolean hasRequiredAssertVars = model.vars.stream()
+                .anyMatch(v -> v.required && !v.isReadOnly && !v.isNullable
+                        && (v.isModel || v.isArray || v.isMap));
+        model.vendorExtensions.put("hasRequiredAssertVars", hasRequiredAssertVars);
+        if (hasRequiredAssertVars) {
+            List<CodegenProperty> assertRequiredVars = model.vars.stream()
+                    .filter(v -> v.required && !v.isReadOnly && !v.isNullable
+                            && (v.isModel || v.isArray || v.isMap))
+                    .collect(Collectors.toList());
+            model.vendorExtensions.put("assertRequiredVars", assertRequiredVars);
+        }
     }
 
     @Override

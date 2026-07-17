@@ -31,10 +31,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename. If not provided, uses the version from the OpenAPI specification file. If that's also not present, uses the default value of the artifactVersion option.| |1.0.0|
 |async|use async Callable controllers| |false|
+|autoXSpringPaginated|Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected. Only applies when library=spring-boot.| |false|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
+|clientRegistrationId|Client registration ID for OAuth2 in Spring HTTP Interface (@ClientRegistrationId annotation). Requires library=spring-http-interface and useSpringBoot4=true (Spring Security 7).| |null|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
 |containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
@@ -51,10 +53,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |documentationProvider|Select the OpenAPI documentation provider.|<dl><dt>**none**</dt><dd>Do not publish an OpenAPI specification.</dd><dt>**source**</dt><dd>Publish the original input OpenAPI specification.</dd><dt>**springdoc**</dt><dd>Generate an OpenAPI 3 specification using SpringDoc.</dd></dl>|springdoc|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumPropertyNaming|Naming convention for enum properties: 'MACRO_CASE', 'legacy' and 'original'| |MACRO_CASE|
-|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |generateBuilders|Whether to generate builders for models| |false|
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |generateGenericResponseEntity|Use a generic type for the `ResponseEntity` wrapping return values of generated API methods. If enabled, method are generated with return type ResponseEntity&lt;?&gt;| |false|
+|generatePageableConstraintValidation|Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library=spring-boot.| |false|
+|generateSortValidation|Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library=spring-boot.| |false|
 |generatedConstructorWithRequiredArgs|Whether to generate constructors with required args for models| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hateoas|Use Spring HATEOAS library to allow adding HATEOAS links| |false|
@@ -94,17 +98,20 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |springApiVersion|Value for 'version' attribute in @RequestMapping (for Spring 7 and above).| |null|
+|substituteGenericPagedModel|Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' pagination-metadata property) and replace their generated references with PagedModel&lt;T&gt;. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata schema are suppressed from code generation.| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
-|useDeductionForOneOfInterfaces|whether to use deduction for generated oneOf interfaces| |false|
+|useDeductionForOneOfInterfaces|Annotate discriminator-free oneOf interfaces with Jackson's @JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype is resolved from the JSON field set rather than a type-tag property. Has no effect when a discriminator is present (name-based resolution is used instead). Requires subtypes to have structurally distinct sets of properties.| |false|
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
+|useEnumValueInterface|Generate a ValuedEnum&lt;T&gt; interface in the config package and make all generated enums implement it, providing a common typed way to access the underlying enum value. Use `importMappings.ValuedEnum` to substitute a custom/library-provided interface instead of generating one.| |false|
 |useFeignClientContextId|Whether to generate Feign client with contextId parameter.| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useHttpServiceProxyFactoryInterfacesConfigurator|Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.| |false|
-|useJackson3|Set it in order to use jackson 3 dependencies (only allowed when `useSpringBoot4` is set and incompatible with `openApiNullable`).| |false|
+|useJackson3|Set it in order to use jackson 3 dependencies (only allowed when `useSpringBoot4` is set).| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
+|useJspecify|Use Jspecify for null checks| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |true|
 |useOptional|Use Optional container for optional parameters| |false|
 |useResponseEntity|Use the `ResponseEntity` type to wrap return values of generated API methods. If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition| |true|
@@ -129,10 +136,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-tags|Specify multiple swagger tags for operation|OPERATION|null
 |x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
-|x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
-|x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
-|x-operation-extra-annotation|List of custom annotations to be added to operation|OPERATION|null
-|x-spring-paginated|Add `org.springframework.data.domain.Pageable` to controller method. Can be used to handle `page`, `size` and `sort` query parameters. If these query parameters are also specified in the operation spec, they will be removed from the controller method as their values can be obtained from the `Pageable` object.|OPERATION|false
+|x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
+|x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
+|x-operation-extra-annotation|Custom annotation(s) to be added to operation; accepts a string or list of strings|OPERATION|null
+|x-spring-paginated|Add `org.springframework.data.domain.Pageable` to controller method. Can be used to handle `page`, `size` and `sort` query parameters. If these query parameters are also specified in the operation spec, they will be removed from the controller method as their values can be obtained from the `Pageable` object. Only applies when `library=spring-boot`; ignored for client libraries (spring-cloud, spring-declarative-http-interface).|OPERATION|false
 |x-version-param|Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false|OPERATION_PARAMETER|null
 |x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
 |x-size-message|Add this property whenever you need to customize the invalidation error message for the size or length of a variable|FIELD, OPERATION_PARAMETER|null

@@ -28,6 +28,7 @@ import org.mockito.Mockito;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
@@ -38,10 +39,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -531,6 +529,24 @@ public class AbstractJavaCodegenTest {
 
         // dateLibrary <> java8
         Assert.assertEquals(defaultValue, "1984-12-19T03:39:57-09:00");
+
+        // Test default value for time-local format
+        StringSchema timeLocalSchema = new StringSchema();
+        timeLocalSchema.setFormat("time-local");
+        timeLocalSchema.setDefault(LocalTime.parse("10:15:30"));
+        defaultValue = codegen.toDefaultValue(timeLocalSchema);
+
+        // dateLibrary <> java8
+        Assert.assertEquals(defaultValue, "10:15:30");
+
+        // Test default value for date-time-local format
+        StringSchema dateTimeLocalSchema = new StringSchema();
+        dateTimeLocalSchema.setFormat("date-time-local");
+        dateTimeLocalSchema.setDefault(LocalDateTime.parse("2007-12-03T10:15:30"));
+        defaultValue = codegen.toDefaultValue(dateTimeLocalSchema);
+
+        // dateLibrary <> java8
+        Assert.assertEquals(defaultValue, "2007-12-03T10:15:30");
     }
 
     @Test
@@ -593,6 +609,45 @@ public class AbstractJavaCodegenTest {
         numberSchema.setFormat("double");
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), numberSchema);
         Assert.assertEquals(defaultValue, doubleValue + "d");
+
+        // Test default value for time-local format
+        StringSchema timeLocalSchema = new StringSchema();
+        timeLocalSchema.setFormat("time-local");
+        timeLocalSchema.setDefault("10:15:30");
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", timeLocalSchema), timeLocalSchema);
+        Assert.assertEquals(defaultValue, "LocalTime.parse(\"10:15:30\")");
+
+        // Test default value for date-time-local format
+        StringSchema dateTimeLocalSchema = new StringSchema();
+        dateTimeLocalSchema.setFormat("date-time-local");
+        dateTimeLocalSchema.setDefault("2007-12-03T10:15:30");
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", dateTimeLocalSchema), dateTimeLocalSchema);
+        Assert.assertEquals(defaultValue, "LocalDateTime.parse(\"2007-12-03T10:15:30\")");
+    }
+
+    @Test
+    public void toDefaultValueForComposedObjectWithDefaultTest() {
+        // A `$ref` to an object schema combined with a sibling `default` is parsed as a composed (allOf)
+        // schema, so the object's properties live in the `allOf` members. The default must still be rendered
+        // as a compilable fluent builder expression rather than the raw JSON object (see #23795).
+        codegen.setDateLibrary("java8");
+        codegen.setOpenAPI(new OpenAPI().components(new Components()
+                .addSchemas("Nested", new ObjectSchema()
+                        .addProperty("one", new StringSchema())
+                        .addProperty("two", new StringSchema()))));
+
+        Map<String, Object> defaultValue = new LinkedHashMap<>();
+        defaultValue.put("one", "one");
+        defaultValue.put("two", "two");
+
+        Schema<?> composed = new ComposedSchema()
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/Nested"));
+        composed.setDefault(defaultValue);
+
+        CodegenProperty cp = codegen.fromProperty("test", composed);
+        String rendered = codegen.toDefaultValue(cp, composed);
+
+        Assert.assertEquals(rendered, "new " + cp.datatypeWithEnum + "().one(\"one\").two(\"two\")");
     }
 
     @Test
@@ -967,6 +1022,21 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema<>().type("integer").maximum(BigDecimal.TEN));
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Max(10)Integer>");
+    }
+
+    @Test
+    public void annotationsContainerPatternMessageTest() {
+        codegen.setUseBeanValidation(true);
+
+        Schema<?> itemSchema = new Schema<>()
+                .type("string")
+                .pattern("^[a-z]$");
+        itemSchema.addExtension("x-pattern-message", "Custom message for list");
+
+        Schema<?> schema = new ArraySchema().items(itemSchema);
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue,
+                "List<@Pattern(regexp = \"^[a-z]$\", message=\"Custom message for list\")String>");
     }
 
     @Test

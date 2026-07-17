@@ -38,7 +38,7 @@ import {{invokerPackage}}.JSON;
 {{/swagger2AnnotationLibrary}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
-{{{vendorExtensions.x-class-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
 {{#serializableModel}}
@@ -434,6 +434,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       }
       {{/isString}}
       {{#isModel}}
+      {{^isEnum}}
       {{#required}}
       {{#isNullable}}
       if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
@@ -450,6 +451,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
       }
       {{/required}}
+      {{/isEnum}}
       {{/isModel}}
       {{#isEnum}}
       {{#required}}

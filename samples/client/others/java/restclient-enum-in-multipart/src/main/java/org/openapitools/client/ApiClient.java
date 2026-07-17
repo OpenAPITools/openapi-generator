@@ -63,7 +63,7 @@ import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -590,10 +590,10 @@ public class ApiClient extends JavaTimeFormatter {
     /**
      * Select the Content-Type header's value from the given array:
      *     if JSON exists in the given array, use it;
-     *     otherwise use the first one of the array.
+     *     otherwise use the first non-wildcard one of the array.
      *
      * @param contentTypes The Content-Type array to select from
-     * @return MediaType The Content-Type header to use. If the given array is empty, null will be returned.
+     * @return MediaType The Content-Type header to use. If the given array is empty, null will be returned; if it only contains wildcard media types, JSON will be used.
      */
     public MediaType selectHeaderContentType(String[] contentTypes) {
         if (contentTypes.length == 0) {
@@ -602,10 +602,20 @@ public class ApiClient extends JavaTimeFormatter {
         for (String contentType : contentTypes) {
             MediaType mediaType = MediaType.parseMediaType(contentType);
             if (isJsonMime(mediaType)) {
+                // A wildcard media type (e.g. "*/*" or "application/*") is treated as
+                // JSON-compatible but cannot be used as a request Content-Type header,
+                // so fall back to concrete JSON in that case.
+                return mediaType.isWildcardType() || mediaType.isWildcardSubtype() ? MediaType.APPLICATION_JSON : mediaType;
+            }
+        }
+        // No JSON type found; use the first concrete (non-wildcard) media type instead.
+        for (String contentType : contentTypes) {
+            MediaType mediaType = MediaType.parseMediaType(contentType);
+            if (!mediaType.isWildcardType() && !mediaType.isWildcardSubtype()) {
                 return mediaType;
             }
         }
-        return MediaType.parseMediaType(contentTypes[0]);
+        return MediaType.APPLICATION_JSON;
     }
 
     /**

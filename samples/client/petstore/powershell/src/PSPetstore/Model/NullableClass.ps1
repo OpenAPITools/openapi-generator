@@ -90,18 +90,18 @@ function Initialize-PSNullableClass {
 
 
         $PSO = [PSCustomObject]@{
-            "integer_prop" = ${IntegerProp}
-            "number_prop" = ${NumberProp}
-            "boolean_prop" = ${BooleanProp}
-            "string_prop" = ${StringProp}
-            "date_prop" = ${DateProp}
-            "datetime_prop" = ${DatetimeProp}
-            "array_nullable_prop" = ${ArrayNullableProp}
-            "array_and_items_nullable_prop" = ${ArrayAndItemsNullableProp}
-            "array_items_nullable" = ${ArrayItemsNullable}
-            "object_nullable_prop" = ${ObjectNullableProp}
-            "object_and_items_nullable_prop" = ${ObjectAndItemsNullableProp}
-            "object_items_nullable" = ${ObjectItemsNullable}
+            'integer_prop' = ${IntegerProp}
+            'number_prop' = ${NumberProp}
+            'boolean_prop' = ${BooleanProp}
+            'string_prop' = ${StringProp}
+            'date_prop' = ${DateProp}
+            'datetime_prop' = ${DatetimeProp}
+            'array_nullable_prop' = ${ArrayNullableProp}
+            'array_and_items_nullable_prop' = ${ArrayAndItemsNullableProp}
+            'array_items_nullable' = ${ArrayItemsNullable}
+            'object_nullable_prop' = ${ObjectNullableProp}
+            'object_and_items_nullable_prop' = ${ObjectAndItemsNullableProp}
+            'object_items_nullable' = ${ObjectItemsNullable}
         }
 
 
@@ -140,7 +140,7 @@ function ConvertFrom-PSJsonToNullableClass {
         $PSNullableClassAdditionalProperties = @{}
 
         # check if Json contains properties not defined in PSNullableClass
-        $AllProperties = ("integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable")
+        $AllProperties = ('integer_prop', 'number_prop', 'boolean_prop', 'string_prop', 'date_prop', 'datetime_prop', 'array_nullable_prop', 'array_and_items_nullable_prop', 'array_items_nullable', 'object_nullable_prop', 'object_and_items_nullable_prop', 'object_items_nullable')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             # store undefined properties in additionalProperties
             if (!($AllProperties.Contains($name))) {
@@ -148,92 +148,92 @@ function ConvertFrom-PSJsonToNullableClass {
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "integer_prop"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'integer_prop'))) { #optional property not found
             $IntegerProp = $null
         } else {
-            $IntegerProp = $JsonParameters.PSobject.Properties["integer_prop"].value
+            $IntegerProp = $JsonParameters.PSobject.Properties['integer_prop'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "number_prop"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'number_prop'))) { #optional property not found
             $NumberProp = $null
         } else {
-            $NumberProp = $JsonParameters.PSobject.Properties["number_prop"].value
+            $NumberProp = $JsonParameters.PSobject.Properties['number_prop'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "boolean_prop"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'boolean_prop'))) { #optional property not found
             $BooleanProp = $null
         } else {
-            $BooleanProp = $JsonParameters.PSobject.Properties["boolean_prop"].value
+            $BooleanProp = $JsonParameters.PSobject.Properties['boolean_prop'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "string_prop"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'string_prop'))) { #optional property not found
             $StringProp = $null
         } else {
-            $StringProp = $JsonParameters.PSobject.Properties["string_prop"].value
+            $StringProp = $JsonParameters.PSobject.Properties['string_prop'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "date_prop"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'date_prop'))) { #optional property not found
             $DateProp = $null
         } else {
-            $DateProp = $JsonParameters.PSobject.Properties["date_prop"].value
+            $DateProp = $JsonParameters.PSobject.Properties['date_prop'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "datetime_prop"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'datetime_prop'))) { #optional property not found
             $DatetimeProp = $null
         } else {
-            $DatetimeProp = $JsonParameters.PSobject.Properties["datetime_prop"].value
+            $DatetimeProp = $JsonParameters.PSobject.Properties['datetime_prop'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_nullable_prop"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_nullable_prop'))) { #optional property not found
             $ArrayNullableProp = $null
         } else {
-            $ArrayNullableProp = $JsonParameters.PSobject.Properties["array_nullable_prop"].value
+            $ArrayNullableProp = $JsonParameters.PSobject.Properties['array_nullable_prop'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_and_items_nullable_prop"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_and_items_nullable_prop'))) { #optional property not found
             $ArrayAndItemsNullableProp = $null
         } else {
-            $ArrayAndItemsNullableProp = $JsonParameters.PSobject.Properties["array_and_items_nullable_prop"].value
+            $ArrayAndItemsNullableProp = $JsonParameters.PSobject.Properties['array_and_items_nullable_prop'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_items_nullable"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_items_nullable'))) { #optional property not found
             $ArrayItemsNullable = $null
         } else {
-            $ArrayItemsNullable = $JsonParameters.PSobject.Properties["array_items_nullable"].value
+            $ArrayItemsNullable = $JsonParameters.PSobject.Properties['array_items_nullable'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "object_nullable_prop"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'object_nullable_prop'))) { #optional property not found
             $ObjectNullableProp = $null
         } else {
-            $ObjectNullableProp = $JsonParameters.PSobject.Properties["object_nullable_prop"].value
+            $ObjectNullableProp = $JsonParameters.PSobject.Properties['object_nullable_prop'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "object_and_items_nullable_prop"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'object_and_items_nullable_prop'))) { #optional property not found
             $ObjectAndItemsNullableProp = $null
         } else {
-            $ObjectAndItemsNullableProp = $JsonParameters.PSobject.Properties["object_and_items_nullable_prop"].value
+            $ObjectAndItemsNullableProp = $JsonParameters.PSobject.Properties['object_and_items_nullable_prop'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "object_items_nullable"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'object_items_nullable'))) { #optional property not found
             $ObjectItemsNullable = $null
         } else {
-            $ObjectItemsNullable = $JsonParameters.PSobject.Properties["object_items_nullable"].value
+            $ObjectItemsNullable = $JsonParameters.PSobject.Properties['object_items_nullable'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "integer_prop" = ${IntegerProp}
-            "number_prop" = ${NumberProp}
-            "boolean_prop" = ${BooleanProp}
-            "string_prop" = ${StringProp}
-            "date_prop" = ${DateProp}
-            "datetime_prop" = ${DatetimeProp}
-            "array_nullable_prop" = ${ArrayNullableProp}
-            "array_and_items_nullable_prop" = ${ArrayAndItemsNullableProp}
-            "array_items_nullable" = ${ArrayItemsNullable}
-            "object_nullable_prop" = ${ObjectNullableProp}
-            "object_and_items_nullable_prop" = ${ObjectAndItemsNullableProp}
-            "object_items_nullable" = ${ObjectItemsNullable}
-            "AdditionalProperties" = $PSNullableClassAdditionalProperties
+            'integer_prop' = ${IntegerProp}
+            'number_prop' = ${NumberProp}
+            'boolean_prop' = ${BooleanProp}
+            'string_prop' = ${StringProp}
+            'date_prop' = ${DateProp}
+            'datetime_prop' = ${DatetimeProp}
+            'array_nullable_prop' = ${ArrayNullableProp}
+            'array_and_items_nullable_prop' = ${ArrayAndItemsNullableProp}
+            'array_items_nullable' = ${ArrayItemsNullable}
+            'object_nullable_prop' = ${ObjectNullableProp}
+            'object_and_items_nullable_prop' = ${ObjectAndItemsNullableProp}
+            'object_items_nullable' = ${ObjectItemsNullable}
+            'AdditionalProperties' = $PSNullableClassAdditionalProperties
         }
 
         return $PSO

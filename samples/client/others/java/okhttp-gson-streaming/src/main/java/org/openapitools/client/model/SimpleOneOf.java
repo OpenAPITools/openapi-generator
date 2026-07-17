@@ -51,7 +51,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
     private static final Logger log = Logger.getLogger(SimpleOneOf.class.getName());
 
@@ -202,6 +202,7 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }
@@ -213,6 +214,7 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
      * @return The actual instance of `Integer`
      * @throws ClassCastException if the instance is not `Integer`
      */
+    @SuppressWarnings("unchecked")
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }

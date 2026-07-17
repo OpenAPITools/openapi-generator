@@ -17,12 +17,35 @@ package org.openapitools.codegen.cpphttplib;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.CppHttplibServerCodegen;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import io.swagger.v3.oas.models.media.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @SuppressWarnings("static-method")
 public class CppHttplibServerCodegenModelTest {
+
+    /**
+     * Wraps a single model the way {@link org.openapitools.codegen.DefaultGenerator}
+     * does before calling {@code postProcessAllModels}, so tests can exercise the full
+     * enum vendor-extension pipeline (identifier + original-value derivation), not just
+     * the intermediate state produced by {@code fromModel}.
+     */
+    private Map<String, ModelsMap> wrapForPostProcessAllModels(String name, CodegenModel model) {
+        final ModelMap modelMap = new ModelMap();
+        modelMap.setModel(model);
+        final ModelsMap modelsMap = new ModelsMap();
+        modelsMap.setModels(Collections.singletonList(modelMap));
+        final HashMap<String, ModelsMap> allModels = new HashMap<>();
+        allModels.put(name, modelsMap);
+        return allModels;
+    }
     @Test(description = "convert model with enum property")
     public void enumPropertyTest() {
         final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
@@ -135,6 +158,31 @@ public class CppHttplibServerCodegenModelTest {
             "isArrayOfEnum vendor extension should be true");
     }
 
+    @Test(description = "the enum class declared for an array-of-enum property must use valid, "
+            + "upper-cased C++ identifiers, sourced from items (which setEnumVendorExtensions() derives)")
+    public void arrayOfEnumsDeclaresValidUpperCaseIdentifiersTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.processOpts();
+
+        ObjectSchema schema = new ObjectSchema();
+        StringSchema enumItemSchema = new StringSchema();
+        // lower-case spec values, like issue #24052's Pet.status, exercise the
+        // identifier-vs-serialized-value distinction for array items too.
+        enumItemSchema.setEnum(java.util.Arrays.asList("red", "green", "blue"));
+        schema.addProperty("colors", new ArraySchema().items(enumItemSchema));
+
+        final CodegenModel model = codegen.fromModel("ModelWithColorArray", schema);
+        final CodegenModel processedModel = codegen.postProcessAllModels(
+                wrapForPostProcessAllModels("ModelWithColorArray", model))
+                .get("ModelWithColorArray").getModels().get(0).getModel();
+
+        CodegenProperty arrayProp = processedModel.vars.get(0);
+        // model-header.mustache declares `enum class {{enumName}} { {{items.allowableValues.values}} };`
+        // for array-of-enum properties, so items must independently hold valid C++ identifiers.
+        List<?> declaredIdentifiers = (List<?>) arrayProp.items.allowableValues.get("values");
+        Assert.assertEquals(declaredIdentifiers, java.util.Arrays.asList("UNSPECIFIED", "RED", "GREEN", "BLUE"));
+    }
+
     @Test(description = "convert model with map property")
     public void mapPropertyTest() {
         final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
@@ -166,17 +214,54 @@ public class CppHttplibServerCodegenModelTest {
         schema.addProperty("userStatus", statusSchema);
 
         final CodegenModel model = codegen.fromModel("UserStatusModel", schema);
-
         Assert.assertEquals(model.vars.size(), 1);
-        CodegenProperty statusProp = model.vars.get(0);
-        Assert.assertTrue(statusProp.isEnum);
+        Assert.assertTrue(model.vars.get(0).isEnum);
+
+        // The C++ identifier (numeric prefixing + upper-casing) is only finalized during
+        // postProcessAllModels, since that's the single place both the identifier and the
+        // original spec value are derived together (see enumSerializationUsesOriginalSpecValueTest).
+        final CodegenModel processedModel = codegen.postProcessAllModels(
+                wrapForPostProcessAllModels("UserStatusModel", model))
+                .get("UserStatusModel").getModels().get(0).getModel();
+        CodegenProperty statusProp = processedModel.vars.get(0);
         Assert.assertTrue((boolean) statusProp.vendorExtensions.getOrDefault("isEnum", false));
-        // Numeric enum values should be converted to valid C++ names (prefixed with underscore)
-        java.util.List<?> enumValues = (java.util.List<?>) statusProp.vendorExtensions.getOrDefault("values", statusProp._enum);
+        List<?> enumValues = (List<?>) statusProp.vendorExtensions.get("values");
         Assert.assertNotNull(enumValues);
         // Check that numeric values are properly converted
         Assert.assertTrue(enumValues.stream().anyMatch(v -> v.toString().startsWith("_")),
             "Numeric enum values should be prefixed with underscore");
+    }
+
+    @Test(description = "issue #24052: enum (de)serialization must use the original spec value, not the derived C++ identifier")
+    public void enumSerializationUsesOriginalSpecValueTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.processOpts();
+
+        ObjectSchema schema = new ObjectSchema();
+        StringSchema statusSchema = new StringSchema();
+        statusSchema.setEnum(java.util.Arrays.asList("available", "pending", "sold"));
+        schema.addProperty("status", statusSchema);
+
+        final CodegenModel model = codegen.fromModel("Pet", schema);
+        final CodegenModel processedModel = codegen.postProcessAllModels(
+                wrapForPostProcessAllModels("Pet", model))
+                .get("Pet").getModels().get(0).getModel();
+
+        CodegenProperty statusProp = processedModel.vars.get(0);
+        @SuppressWarnings("unchecked")
+        List<Map<String, String>> enumCases = (List<Map<String, String>>) statusProp.vendorExtensions.get("enumCases");
+        Assert.assertNotNull(enumCases);
+
+        Map<String, String> availableCase = enumCases.stream()
+                .filter(c -> "available".equals(c.get("value")))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(availableCase,
+                "expected an enumCases entry whose value is the original spec text \"available\": " + enumCases);
+        // The C++ identifier is upper-cased for enum naming conventions...
+        Assert.assertEquals(availableCase.get("name"), "AVAILABLE");
+        // ...but the serialized value must remain exactly what the OpenAPI spec declared.
+        Assert.assertEquals(availableCase.get("value"), "available");
     }
 
     @Test(description = "convert enum model")

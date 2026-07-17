@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -20,10 +22,9 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("NullableMapProperty")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class NullableMapPropertyDto {
 
-  
   private @Nullable Map<String, String> languageValues;
 
   public NullableMapPropertyDto languageValues(@Nullable Map<String, String> languageValues) {

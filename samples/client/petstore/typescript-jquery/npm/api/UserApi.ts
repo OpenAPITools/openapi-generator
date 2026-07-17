@@ -247,7 +247,7 @@ export class UserApi {
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
-        let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+        let localVarPath = this.basePath + '/user/{username}'.replace('{username}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -308,7 +308,7 @@ export class UserApi {
     { response: JQueryXHR; body: models.User;  },
     { response: JQueryXHR; errorThrown: string }
     > {
-        let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+        let localVarPath = this.basePath + '/user/{username}'.replace('{username}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -502,7 +502,7 @@ export class UserApi {
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
-        let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+        let localVarPath = this.basePath + '/user/{username}'.replace('{username}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
         let headerParams: any = {};

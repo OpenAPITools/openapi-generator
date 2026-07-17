@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -13,32 +14,30 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * ContainerDefaultValueDto
  */
 
 @JsonTypeName("ContainerDefaultValue")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
-  @Valid
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
-  @Valid
   private List<String> requiredArray = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValueDto() {

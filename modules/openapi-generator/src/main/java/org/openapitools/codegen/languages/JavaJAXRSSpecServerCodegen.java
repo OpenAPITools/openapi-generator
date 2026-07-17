@@ -17,7 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import java.util.Locale;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,14 +28,23 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/JavaJaxRS/spec/} (root templates shared across all libraries) and
+ * {@code src/main/resources/JavaJaxRS/spec/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
@@ -46,6 +57,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_MUTINY = "useMutiny";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
     public static final String GENERATE_JSON_CREATOR = "generateJsonCreator";
+    public static final String USE_JAKARTA_SECURITY_ANNOTATIONS = "useJakartaSecurityAnnotations";
+    public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
+    public static final String USE_SEALED = "useSealed";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -61,6 +75,15 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useSwaggerV3Annotations = false;
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
+    private boolean useJakartaSecurityAnnotations = false;
+
+    @Setter
+    private boolean useEnumCaseInsensitive = false;
+
+    @Setter
+    protected boolean useSealed = false;
+
+    private final JakartaSecurityAnnotationProcessor jakartaSecurityAnnotationProcessor = new JakartaSecurityAnnotationProcessor();
 
     @Getter @Setter
     protected boolean generateJsonCreator = true;
@@ -140,7 +163,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
         cliOptions.add(CliOption.newBoolean(USE_MUTINY, "Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.", useMutiny));
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_SECURITY_ANNOTATIONS, "Whether to generate Jakarta security annotations (@RolesAllowed, @PermitAll). Requires useJakartaEe=true. Currently only supported when library is set to quarkus.", useJakartaSecurityAnnotations));
         cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate @JsonCreator constructor for required properties.", generateJsonCreator));
+        cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
+        cliOptions.add(CliOption.newBoolean(USE_SEALED, "Whether to generate sealed model interfaces and classes.", useSealed));
     }
 
     @Override
@@ -183,6 +209,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         convertPropertyToBooleanAndWriteBack(GENERATE_JSON_CREATOR, this::setGenerateJsonCreator);
+        convertPropertyToBooleanAndWriteBack(USE_ENUM_CASE_INSENSITIVE, this::setUseEnumCaseInsensitive);
+        convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
 
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
             openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
@@ -200,6 +228,18 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         super.processOpts();
+
+        // We need to call super.processOpts() before evaluating the `library`, otherwise `library` is null when set via `configOptions` instead of via `library.set("quarkus")` in Gradle
+        if (QUARKUS_LIBRARY.equals(library)) {
+            convertPropertyToBooleanAndWriteBack(USE_JAKARTA_SECURITY_ANNOTATIONS, value -> useJakartaSecurityAnnotations = value);
+        }
+
+        if (useJakartaSecurityAnnotations && !useJakartaEe) {
+            throw new IllegalArgumentException(
+                    "Flag '" + USE_JAKARTA_SECURITY_ANNOTATIONS + "' requires '" + USE_JAKARTA_EE
+                            + "=true'. The generated annotation '@jakarta.annotation.security.RolesAllowed' "
+                            + "is incompatible with the javax.* namespace.");
+        }
 
         // expose flags to templates
         additionalProperties.put(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
@@ -328,10 +368,107 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        return super.postProcessModels(objs);
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         removeImport(objs, "java.util.List");
+        if (QUARKUS_LIBRARY.equals(library) && !returnResponse && !returnJbossResponse && useJakartaEe) {
+            for (CodegenOperation op : objs.getOperations().getOperation()) {
+                op.responses.stream()
+                        .filter(r -> r.is2xx && r.code.matches("\\d+"))
+                        .findFirst()
+                        .ifPresent(r -> op.vendorExtensions.put("x-java-success-response-code", r.code));
+            }
+            boolean hasAnnotations = objs.getOperations().getOperation().stream()
+                    .anyMatch(op -> op.vendorExtensions.containsKey("x-java-success-response-code"));
+            // Always set explicitly so Mustache does not fall through to the global additionalProperties
+            // value when this file has no annotated operations.
+            objs.put("hasResponseStatusAnnotations", hasAnnotations);
+            if (hasAnnotations) {
+                // Global flag used by pom.mustache, which is rendered once per project.
+                additionalProperties.put("hasResponseStatusAnnotations", true);
+            }
+        }
         return objs;
     }
 
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+
+        // Index the discriminators of the generated oneOf interfaces by classname. A child of a oneOf
+        // interface (useOneOfInterfaces) inherits a shared base via allOf and therefore has no Java
+        // parentModel carrying the discriminator - the discriminator lives on the interface it implements.
+        Map<String, CodegenDiscriminator> oneOfInterfaceDiscriminators = new HashMap<>();
+        for (ModelsMap modelsMap : result.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (Boolean.TRUE.equals(model.getVendorExtensions().get("x-is-one-of-interface"))
+                        && model.getDiscriminator() != null) {
+                    oneOfInterfaceDiscriminators.put(model.classname, model.getDiscriminator());
+                }
+            }
+        }
+
+        for (ModelsMap modelsMap : result.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                // Resolve the @JsonTypeName mapping value from the Java parent's discriminator, if any,
+                // otherwise from the discriminator of the oneOf interface the model implements.
+                CodegenDiscriminator discriminator = model.parentModel != null
+                        ? model.parentModel.getDiscriminator()
+                        : discriminatorOfImplementedOneOfInterface(model, oneOfInterfaceDiscriminators);
+                if (discriminator != null) {
+                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+                        if (mappedModel.getSchemaName().equals(model.schemaName)) {
+                            model.getVendorExtensions().put("x-discriminator-value", mappedModel.getMappingName());
+                            break;
+                        }
+                    }
+                }
+                // A oneOf container rendered as a plain class (useOneOfInterfaces disabled or the model
+                // not selected for interface generation) must not be sealed over its oneOf members: they
+                // do not extend it, so a permits clause would not compile. Only child-derived permits
+                // (subclasses that actually extend the model) may remain.
+                if (useSealed && !Boolean.TRUE.equals(model.getVendorExtensions().get("x-is-one-of-interface"))) {
+                    model.permits.removeAll(model.oneOf);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns the discriminator of the oneOf interface (produced by useOneOfInterfaces) that the given
+     * model implements, or {@code null} if the model does not implement such an interface. The interface
+     * name is read from the model's {@code x-implements} vendor extension.
+     */
+    @SuppressWarnings("unchecked")
+    private CodegenDiscriminator discriminatorOfImplementedOneOfInterface(
+            CodegenModel model, Map<String, CodegenDiscriminator> oneOfInterfaceDiscriminators) {
+        Object implementsExtension = model.getVendorExtensions().get("x-implements");
+        if (!(implementsExtension instanceof Collection)) {
+            return null;
+        }
+        for (Object intf : (Collection<Object>) implementsExtension) {
+            CodegenDiscriminator discriminator = oneOfInterfaceDiscriminators.get(String.valueOf(intf));
+            if (discriminator != null) {
+                return discriminator;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        if (QUARKUS_LIBRARY.equals(getLibrary()) && useJakartaSecurityAnnotations) {
+            jakartaSecurityAnnotationProcessor.applyTo(op, operation, openAPI);
+        }
+        return op;
+    }
 }

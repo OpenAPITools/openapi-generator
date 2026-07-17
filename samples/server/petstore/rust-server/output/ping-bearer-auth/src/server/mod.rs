@@ -219,6 +219,39 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
 
             // PingGet - GET /ping
             hyper::Method::GET if path.matched(paths::ID_PING) => {
+                handle_ping_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            _ if path.matched(paths::ID_PING) => method_not_allowed(),
+                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
+                        .body(BoxBody::new(http_body_util::Empty::new()))
+                        .expect("Unable to create Not Found response"))
+            }
+        }
+        Box::pin(run(
+            self.api_impl.clone(),
+            req,
+            self.validation
+        ))
+    }
+}
+
+#[allow(unused_variables)]
+async fn handle_ping_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -255,20 +288,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
-
-            _ if path.matched(paths::ID_PING) => method_not_allowed(),
-                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
-                        .body(BoxBody::new(http_body_util::Empty::new()))
-                        .expect("Unable to create Not Found response"))
-            }
-        }
-        Box::pin(run(
-            self.api_impl.clone(),
-            req,
-            self.validation
-        ))
-    }
 }
 
 /// Request parser for `Api`.

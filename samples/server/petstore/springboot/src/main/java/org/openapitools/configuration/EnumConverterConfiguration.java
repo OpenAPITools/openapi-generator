@@ -1,7 +1,13 @@
 package org.openapitools.configuration;
 
+import java.math.BigDecimal;
+import java.net.URI;
+import java.util.UUID;
+
 import org.openapitools.model.EnumClassDto;
 import org.openapitools.model.OuterEnumDto;
+
+import javax.annotation.Generated;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +20,7 @@ import org.springframework.core.convert.converter.Converter;
  * correct conversion if the OpenAPI specification is using an `enumPropertyNaming` other than
  * `original` or the specification has an integer enum.
  */
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 @Configuration(value = "org.openapitools.configuration.enumConverterConfiguration")
 public class EnumConverterConfiguration {
 

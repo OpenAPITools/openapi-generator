@@ -26,10 +26,10 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
 import static org.testng.Assert.*;
 
 public class OpenAPINormalizerTest {
@@ -227,7 +227,7 @@ public class OpenAPINormalizerTest {
         assertNull(anyOfParam.getSchema().getAnyOf());
         assertEquals(anyOfParam.getSchema().getType(), "string");
         assertEquals(anyOfParam.getSchema().getEnum(), Arrays.asList("anyof 1", "anyof 2"));
-        assertEquals(anyOfParam.getSchema().getExtensions().get("x-enum-descriptions"), Arrays.asList("title 1", "title 2"));
+        assertEquals(anyOfParam.getSchema().getExtensions().get(X_ENUM_DESCRIPTIONS), Arrays.asList("title 1", "title 2"));
 
         Schema combinedRefsEnum = openAPI.getComponents().getSchemas().get("combinedRefsEnum");
 
@@ -597,6 +597,38 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testNormalize31BinaryContentMediaType() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/binary-schema.yaml");
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        openAPINormalizer.normalize();
+
+        Map<String, Schema> properties = ModelUtils.getSchema(openAPI, "UploadBody").getProperties();
+
+        Schema file = properties.get("file");
+        assertEquals(file.getType(), "string");
+        assertEquals(file.getFormat(), "binary");
+
+        Schema nullableFile = properties.get("nullableFile");
+        assertEquals(nullableFile.getType(), "string");
+        assertEquals(nullableFile.getFormat(), "binary");
+        assertTrue(nullableFile.getNullable());
+
+        Schema inferredFile = properties.get("inferredFile");
+        assertEquals(ModelUtils.getType(inferredFile), "string");
+        assertEquals(inferredFile.getType(), "string");
+        assertEquals(inferredFile.getFormat(), "binary");
+
+        Schema encodedFile = properties.get("encodedFile");
+        assertEquals(encodedFile.getType(), "string");
+        assertNull(encodedFile.getFormat());
+
+        Schema image = properties.get("image");
+        assertEquals(image.getType(), "string");
+        assertNull(image.getFormat());
+    }
+
+    @Test
     public void testNormalize31Parameters() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/common-parameters.yaml");
 
@@ -796,46 +828,61 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
 
-    static OpenAPINormalizer.Filter parseFilter(String filters) {
+    static OpenAPINormalizer.Filter parseOperationsFilter(String filters) {
         OpenAPINormalizer.Filter filter = new OpenAPINormalizer.Filter(filters);
         filter.parse();
         return filter;
     }
 
     @Test
-    public void testFilterParsing() {
+    public void testOperationsFilterParsing() {
         OpenAPINormalizer.Filter filter;
 
         // no filter
-        filter = parseFilter(" ");
+        filter = parseOperationsFilter(" ");
         assertFalse(filter.hasFilter());
 
         // invalid filter
         assertThrows(IllegalArgumentException.class, () ->
-                parseFilter("operationId:"));
+                parseOperationsFilter("operationId:"));
 
         assertThrows(IllegalArgumentException.class, () ->
-                parseFilter("invalid:invalid:"));
+                parseOperationsFilter("invalid:invalid:"));
 
         // extra spaces are trimmed
-        filter = parseFilter("method:\n\t\t\t\tget");
+        filter = parseOperationsFilter("method:\n\t\t\t\tget");
         assertTrue(filter.hasFilter());
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.METHOD), Set.of("get"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.OPERATION_ID));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.TAG));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.PATH));
+        // Verify also compatibility fields
         assertEquals(filter.methodFilters, Set.of("get"));
         assertTrue(filter.operationIdFilters.isEmpty());
         assertTrue(filter.tagFilters.isEmpty());
         assertTrue(filter.pathStartingWithFilters.isEmpty());
 
         // multiple values separated by pipe
-        filter = parseFilter("operationId:\n\t\t\t\tdelete|\n\t\tlist\t");
+        filter = parseOperationsFilter("operationId:\n\t\t\t\tdelete|\n\t\tlist\t");
         assertTrue(filter.hasFilter());
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.METHOD));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.OPERATION_ID), Set.of("delete", "list"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.TAG));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.PATH));
+        // Verify also compatibility fields
         assertTrue(filter.methodFilters.isEmpty());
         assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
         assertTrue(filter.tagFilters.isEmpty());
         assertTrue(filter.pathStartingWithFilters.isEmpty());
 
         // multiple filters
-        filter = parseFilter("operationId:delete|list;path:/v1");
+        filter = parseOperationsFilter("operationId:delete|list;path:/v1");
         assertTrue(filter.hasFilter());
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.METHOD));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.OPERATION_ID), Set.of("delete", "list"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.TAG));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.PATH), Set.of("/v1"));
+        // Verify also compatibility fields
         assertTrue(filter.methodFilters.isEmpty());
         assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
         assertTrue(filter.tagFilters.isEmpty());
@@ -844,7 +891,10 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testMultiFilterParsing() {
-        OpenAPINormalizer.Filter filter = parseFilter("operationId: delete| list ;  tag : testA |testB ");
+        OpenAPINormalizer.Filter filter = parseOperationsFilter("operationId: delete| list ;  tag : testA |testB ");
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.OPERATION_ID), Set.of("delete", "list"));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.TAG), Set.of("testA", "testB"));
+        // Verify also compatibility fields
         assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
         assertEquals(filter.tagFilters, Set.of("testA", "testB"));
     }
@@ -872,7 +922,7 @@ public class OpenAPINormalizerTest {
         Map<String, String> options = Map.of("FILTER", "role:admin");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options) {
             @Override
-            protected Filter createFilter(OpenAPI openApi, String filters) {
+            protected OpenAPINormalizer.Filter createFilter(OpenAPI openApi, String filters) {
                 return new CustomRoleFilter(filters);
             }
         };
@@ -914,7 +964,7 @@ public class OpenAPINormalizerTest {
             new OpenAPINormalizer(openAPI, options).normalize();
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "FILTER rule [tag ; invalid] must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Error: filter with no value not supported :[tag]");
+            assertEquals(e.getMessage(), "FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Input: `tag ; invalid`. Error: filter with no value not supported :[tag]");
         }
     }
 
@@ -927,10 +977,291 @@ public class OpenAPINormalizerTest {
             new OpenAPINormalizer(openAPI, options).normalize();
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "FILTER rule [method:get ; unknown:test] must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Error: filter not supported :[unknown:test]");
+            assertEquals(e.getMessage(), "FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Input: `method:get ; unknown:test`. Error: filter not supported :[unknown:test]");
         }
     }
 
+    @Test
+    public void testSecuritySchemesFilter() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/all_security_schemes.yaml");
+        Map<String, String> options = Map.of("SECURITY_SCHEMES_FILTER", "key:api_key1 ; type:oauth2");
+
+        new OpenAPINormalizer(openAPI, options).normalize();
+
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("api_key1"), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("api_key2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("http1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("http2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("mutualTLS1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("mutualTLS2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("oauth2_1"), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("oauth2_2"), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect2"), false);
+
+        // Check how we clean up the references to the removed security schemes
+        // Global security requirements
+        assertTrue(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getSecurity().stream().filter(map -> map.isEmpty()).count(), 1);
+
+        // Paths
+        assertTrue(openAPI.getPaths().get("/api_keys").getGet().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getPaths().get("/api_keys").getGet().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key2")));
+        assertTrue(openAPI.getPaths().get("/api_key1").getHead().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getPaths().get("/api_key2").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(openAPI.getPaths().get("/httpschemes").getGet().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getPaths().get("/httpschemes").getGet().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getPaths().get("/http1").getHead().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getPaths().get("/http2").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getPaths().get("/mutualTLSschemes").getGet().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getPaths().get("/mutualTLSschemes").getGet().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertFalse(openAPI.getPaths().get("/mutualTLS1").getHead().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getPaths().get("/mutualTLS2").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(openAPI.getPaths().get("/oauth2schemes").getGet().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getPaths().get("/oauth2schemes").getGet().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertTrue(openAPI.getPaths().get("/oauth2_1").getHead().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getPaths().get("/oauth2_2").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(openAPI.getPaths().get("/openidconnectschemes").getGet().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getPaths().get("/openidconnectschemes").getGet().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect2")));
+        assertFalse(openAPI.getPaths().get("/openIdConnect1").getHead().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getPaths().get("/openIdConnect2").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // One of security requirements becomes empty after clean up - we should remove it
+        assertEquals(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().size(), 1);
+        // Another requirement should contain only api_key1 and oauth2_1 schemes
+        assertEquals(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).size(), 2);
+        assertTrue(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0)
+                .containsKey("api_key1"));
+        assertTrue(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0)
+                .containsKey("oauth2_1"));
+        assertEquals(
+                openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).get("oauth2_1").size(),
+                1);
+        assertEquals(
+                openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).get("oauth2_1").get(0),
+                "read:pets");
+        // Callbacks defined inline
+        assertTrue(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .filter(map -> map.isEmpty()).count(), 1);
+
+        // Webhooks
+        assertTrue(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .filter(map -> map.isEmpty()).count(), 1);
+
+        // Callbacks from Components
+        assertTrue(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream().filter(map -> map.isEmpty())
+                .count(), 1);
+
+        // Path items from Components
+        // Get operation
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                .filter(map -> map.isEmpty()).count(), 1);
+
+        // The same for POST operation
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                .filter(map -> map.isEmpty()).count(), 1);
+    }
+
+    @Test
+    public void testSecuritySchemesFilterAndBearerAuthName() {
+        // We expect that api_key1 scheme will be converted to bearer auth at first and
+        // then the filter will be applied
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/all_security_schemes.yaml");
+        Map<String, String> options = Map.of("SECURITY_SCHEMES_FILTER", "key:api_key1",
+                "SET_BEARER_AUTH_FOR_NAME", "api_key1");
+
+        new OpenAPINormalizer(openAPI, options).normalize();
+
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("api_key1"), true);
+        SecurityScheme scheme = openAPI.getComponents().getSecuritySchemes().get("api_key1");
+        assertEquals(scheme.getType(), SecurityScheme.Type.HTTP);
+        assertEquals(scheme.getScheme(), "bearer");
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("api_key2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("http1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("http2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("mutualTLS1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("mutualTLS2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("oauth2_1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("oauth2_2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect2"), false);
+    }
 
     @Test
     public void testComposedSchemaDoesNotThrow() {
@@ -1403,30 +1734,30 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_x_internal_test.yaml");
         Schema parentSchema = openAPI.getComponents().getSchemas().get("ParentSchema");
         Schema inlineProperty = (Schema) parentSchema.getProperties().get("inlineXInternalProperty");
-        
+
         // Before normalization: x-internal should be present on inline property
         assertNotNull(inlineProperty.getExtensions());
         assertEquals(inlineProperty.getExtensions().get("x-internal"), true);
-        
+
         // Run normalizer with REMOVE_X_INTERNAL=true
         Map<String, String> options = new HashMap<>();
         options.put("REMOVE_X_INTERNAL", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
-        
+
         // After normalization: x-internal should be removed from inline property
         Schema parentSchemaAfter = openAPI.getComponents().getSchemas().get("ParentSchema");
         Schema inlinePropertyAfter = (Schema) parentSchemaAfter.getProperties().get("inlineXInternalProperty");
-        
+
         // x-internal extension should be removed (null or not present in map)
         if (inlinePropertyAfter.getExtensions() != null) {
             assertNull(inlinePropertyAfter.getExtensions().get("x-internal"));
         }
-        
+
         // The property itself should still exist (we're removing the flag, not the property)
         assertNotNull(inlinePropertyAfter);
         assertEquals(inlinePropertyAfter.getType(), "object");
-        
+
         // Nested properties should still exist
         assertNotNull(inlinePropertyAfter.getProperties());
         assertNotNull(inlinePropertyAfter.getProperties().get("nestedField"));
@@ -1502,4 +1833,150 @@ public class OpenAPINormalizerTest {
         }
     }
 
+    @Test
+    public void testReplaceOneOfByDiscriminatorMapping() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_23527.yaml");
+
+        Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema geoJsonObject = openAPI.getComponents().getSchemas().get("GeoJsonObject");
+        Map<String, String> mapping = geoJsonObject.getDiscriminator().getMapping();
+        assertEquals(mapping, Map.of("MultiPolygon", "#/components/schemas/Multi-Polygon", "Polygon", "#/components/schemas/Polygon" ));
+    }
+
+    @Test
+    public void testIssue14769() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_14769.yaml");
+        Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+        Schema vehicle = openAPI.getComponents().getSchemas().get("Vehicle");
+        Map<String, String> mapping = vehicle.getDiscriminator().getMapping();
+        assertEquals(mapping, Map.of("car", "#/components/schemas/Car", "plane", "#/components/schemas/Plane" ));
+        Schema car = openAPI.getComponents().getSchemas().get("Car");
+        assertNull(car.getProperties());
+        assertEquals(car.getAllOf().size(), 2);
+        assertEquals(((Schema)car.getAllOf().get(0)).get$ref(), "#/components/schemas/Vehicle");
+        assertEquals(((Schema)car.getAllOf().get(1)).getProperties().size(), 1);
+        assertEquals(((Schema)car.getAllOf().get(1)).getProperties().keySet(), Set.of("has_4_wheel_drive"));
+    }
+
+    @Test
+    public void oneOfIssue23276() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_23276.yaml");
+        Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+        Schema payload = (Schema)openAPI.getComponents().getSchemas().get("DeviceLifecycleEvent").getProperties().get("payload");
+        // inline oneOf are not converted
+        assertNotNull(payload.getOneOf());
+    }
+
+    @Test
+    public void testLooseNullDefinitions() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/bugs/issue_anyof_bare_nullable_object.yaml");
+
+        Schema<?> order = openAPI.getComponents().getSchemas().get("Order");
+        assertEquals(((Schema) order.getProperties().get("shippingAddress").getAnyOf().get(0)).get$ref(),  "#/components/schemas/Address");
+        assertEquals(((Schema) order.getProperties().get("shippingAddress").getAnyOf().get(1)).getNullable(), true);
+        assertEquals(((Schema) order.getProperties().get("shippingAddress").getAnyOf().get(1)).getType(), "object");
+
+        Map<String, String> options = Map.of("LOOSE_NULL_DEFINITIONS", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema<?> order2 = openAPI.getComponents().getSchemas().get("Order");
+        assertEquals(order2.getProperties().get("shippingAddress").get$ref(),  null);
+        assertEquals(order2.getProperties().get("shippingAddress").getNullable(), true);
+        assertEquals( ((Schema) order2.getProperties().get("shippingAddress").getAllOf().get(0)).get$ref(), "#/components/schemas/Address");
+
+        // reset to false after tests
+        ModelUtils.looseNullDefinitions = false;
+    }
+
+    /**
+     * Verify that a schema defined as type:[object,"null"] WITH properties (OAS 3.1 style)
+     * is correctly normalized so that nullable:true is set on the schema itself.
+     * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
+     */
+    @Test
+    public void testIssue24139NullableObjectWithPropertiesGetsNullableTrue() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24139.yaml");
+
+        // Before normalization: NestedNullable has types=[object,null], nullable is not yet set
+        Schema<?> nestedNullableBefore = openAPI.getComponents().getSchemas().get("NestedNullable");
+        assertNotNull(nestedNullableBefore);
+        assertNotNull(nestedNullableBefore.getProperties());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        // After normalization: nullable must be true and type must be "object"
+        Schema<?> nestedNullableAfter = openAPI.getComponents().getSchemas().get("NestedNullable");
+        assertNotNull(nestedNullableAfter);
+        assertEquals(nestedNullableAfter.getNullable(), Boolean.TRUE,
+                "NestedNullable with type:[object,\"null\"] should have nullable:true after normalization");
+        assertEquals(nestedNullableAfter.getType(), "object");
+        assertNotNull(nestedNullableAfter.getProperties(),
+                "NestedNullable properties must be preserved after normalization");
+    }
+
+    /**
+     * Regression test: an OAS 3.1 schema with properties but NO explicit type declaration
+     * must keep its properties after NORMALIZE_31SPEC normalization.
+     * Regression for a potential regression introduced by the fix for issue 24139.
+     */
+    @Test
+    public void testIssue24139ImpliedObjectSchemaKeepsProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24139.yaml");
+
+        Schema<?> impliedBefore = openAPI.getComponents().getSchemas().get("ImpliedObject");
+        assertNotNull(impliedBefore);
+        assertNotNull(impliedBefore.getProperties());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema<?> impliedAfter = openAPI.getComponents().getSchemas().get("ImpliedObject");
+        assertNotNull(impliedAfter);
+        assertNotNull(impliedAfter.getProperties(),
+                "ImpliedObject (no explicit type, just properties) must keep its properties after normalization");
+        assertNotNull(impliedAfter.getProperties().get("name"),
+                "ImpliedObject.name property must be preserved after normalization");
+        assertNull(impliedAfter.getNullable(),
+                "ImpliedObject must not be marked nullable (no null type was declared)");
+    }
+
+    @Test
+    public void testOpenAPINormalizer31SpecNullMapAdditionalProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_23945.yaml");
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("NullableMaps");
+
+        // `additionalProperties: { type: "null" }` must not keep the OAS 3.1 `null` type (which makes
+        // generators emit a fictional `Null` / `ModelNull` value type); it is normalized to an
+        // any-type nullable schema so the map value generates as a normal (nullable) object.
+        Schema stringMapValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("stringMap"));
+        assertNull(stringMapValue.getType());
+        assertNull(stringMapValue.getTypes());
+        assertTrue(stringMapValue.getNullable());
+
+        // `additionalProperties: { type: [array, "null"], items: ... }` is normalized to a proper
+        // (nullable) array value schema rather than being left half-converted.
+        Schema errorsValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("errorsByKey"));
+        assertEquals(errorsValue.getType(), "array");
+        assertTrue(errorsValue.getNullable());
+        assertNotNull(errorsValue.getItems());
+    }
+
 }
+

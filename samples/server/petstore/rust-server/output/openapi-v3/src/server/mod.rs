@@ -36,12 +36,14 @@ use crate::{Api,
      MergePatchJsonGetResponse,
      MultigetGetResponse,
      MultipleAuthSchemeGetResponse,
+     MultipleResponseContentTypesResponse,
      OneOfGetResponse,
      OverrideServerGetResponse,
      ParamgetGetResponse,
      QueryExampleGetResponse,
      ReadonlyAuthSchemeGetResponse,
      RegisterCallbackPostResponse,
+     RequiredBinaryStreamPutResponse,
      RequiredOctetStreamPutResponse,
      ResponsesWithHeadersGetResponse,
      Rfc7807GetResponse,
@@ -80,6 +82,7 @@ mod paths {
             r"^/merge-patch-json$",
             r"^/multiget$",
             r"^/multiple-path-params-with-very-long-path-to-test-formatting/(?P<path_param_a>[^/?#]*)/(?P<path_param_b>[^/?#]*)$",
+            r"^/multiple-response-content-types$",
             r"^/multiple_auth_scheme$",
             r"^/one-of$",
             r"^/operation-two-first-letter-headers$",
@@ -90,6 +93,7 @@ mod paths {
             r"^/register-callback$",
             r"^/repos$",
             r"^/repos/(?P<repoId>[^/?#]*)$",
+            r"^/required_binary_stream$",
             r"^/required_octet_stream$",
             r"^/responses_with_headers$",
             r"^/rfc7807$",
@@ -125,30 +129,32 @@ mod paths {
             regex::Regex::new(r"^/multiple-path-params-with-very-long-path-to-test-formatting/(?P<path_param_a>[^/?#]*)/(?P<path_param_b>[^/?#]*)$")
                 .expect("Unable to create regex for MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B");
     }
-    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 12;
-    pub(crate) static ID_ONE_OF: usize = 13;
-    pub(crate) static ID_OPERATION_TWO_FIRST_LETTER_HEADERS: usize = 14;
-    pub(crate) static ID_OVERRIDE_SERVER: usize = 15;
-    pub(crate) static ID_PARAMGET: usize = 16;
-    pub(crate) static ID_QUERY_EXAMPLE: usize = 17;
-    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 18;
-    pub(crate) static ID_REGISTER_CALLBACK: usize = 19;
-    pub(crate) static ID_REPOS: usize = 20;
-    pub(crate) static ID_REPOS_REPOID: usize = 21;
+    pub(crate) static ID_MULTIPLE_RESPONSE_CONTENT_TYPES: usize = 12;
+    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 13;
+    pub(crate) static ID_ONE_OF: usize = 14;
+    pub(crate) static ID_OPERATION_TWO_FIRST_LETTER_HEADERS: usize = 15;
+    pub(crate) static ID_OVERRIDE_SERVER: usize = 16;
+    pub(crate) static ID_PARAMGET: usize = 17;
+    pub(crate) static ID_QUERY_EXAMPLE: usize = 18;
+    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 19;
+    pub(crate) static ID_REGISTER_CALLBACK: usize = 20;
+    pub(crate) static ID_REPOS: usize = 21;
+    pub(crate) static ID_REPOS_REPOID: usize = 22;
     lazy_static! {
         pub static ref REGEX_REPOS_REPOID: regex::Regex =
             #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
                 .expect("Unable to create regex for REPOS_REPOID");
     }
-    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 22;
-    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 23;
-    pub(crate) static ID_RFC7807: usize = 24;
-    pub(crate) static ID_UNTYPED_PROPERTY: usize = 25;
-    pub(crate) static ID_UUID: usize = 26;
-    pub(crate) static ID_XML: usize = 27;
-    pub(crate) static ID_XML_EXTRA: usize = 28;
-    pub(crate) static ID_XML_OTHER: usize = 29;
+    pub(crate) static ID_REQUIRED_BINARY_STREAM: usize = 23;
+    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 24;
+    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 25;
+    pub(crate) static ID_RFC7807: usize = 26;
+    pub(crate) static ID_UNTYPED_PROPERTY: usize = 27;
+    pub(crate) static ID_UUID: usize = 28;
+    pub(crate) static ID_XML: usize = 29;
+    pub(crate) static ID_XML_EXTRA: usize = 30;
+    pub(crate) static ID_XML_OTHER: usize = 31;
 }
 
 
@@ -328,6 +334,235 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
 
             // AnyOfGet - GET /any-of
             hyper::Method::GET if path.matched(paths::ID_ANY_OF) => {
+                handle_any_of_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // CallbackWithHeaderPost - POST /callback-with-header
+            hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => {
+                handle_callback_with_header_post(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // ComplexQueryParamGet - GET /complex-query-param
+            hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => {
+                handle_complex_query_param_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // ExamplesTest - GET /examples-test
+            hyper::Method::GET if path.matched(paths::ID_EXAMPLES_TEST) => {
+                handle_examples_test(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // FormTest - POST /form-test
+            hyper::Method::POST if path.matched(paths::ID_FORM_TEST) => {
+                handle_form_test(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // GetWithBooleanParameter - GET /get-with-bool
+            hyper::Method::GET if path.matched(paths::ID_GET_WITH_BOOL) => {
+                handle_get_with_boolean_parameter(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // JsonComplexQueryParamGet - GET /json-complex-query-param
+            hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => {
+                handle_json_complex_query_param_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // MandatoryRequestHeaderGet - GET /mandatory-request-header
+            hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => {
+                handle_mandatory_request_header_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // MergePatchJsonGet - GET /merge-patch-json
+            hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => {
+                handle_merge_patch_json_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // MultigetGet - GET /multiget
+            hyper::Method::GET if path.matched(paths::ID_MULTIGET) => {
+                handle_multiget_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // MultipleAuthSchemeGet - GET /multiple_auth_scheme
+            hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => {
+                handle_multiple_auth_scheme_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // MultipleResponseContentTypes - POST /multiple-response-content-types
+            hyper::Method::POST if path.matched(paths::ID_MULTIPLE_RESPONSE_CONTENT_TYPES) => {
+                handle_multiple_response_content_types(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // OneOfGet - GET /one-of
+            hyper::Method::GET if path.matched(paths::ID_ONE_OF) => {
+                handle_one_of_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // OverrideServerGet - GET /override-server
+            hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => {
+                handle_override_server_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // ParamgetGet - GET /paramget
+            hyper::Method::GET if path.matched(paths::ID_PARAMGET) => {
+                handle_paramget_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // QueryExampleGet - GET /query-example
+            hyper::Method::GET if path.matched(paths::ID_QUERY_EXAMPLE) => {
+                handle_query_example_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
+            hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => {
+                handle_readonly_auth_scheme_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // RegisterCallbackPost - POST /register-callback
+            hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => {
+                handle_register_callback_post(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // RequiredBinaryStreamPut - PUT /required_binary_stream
+            hyper::Method::PUT if path.matched(paths::ID_REQUIRED_BINARY_STREAM) => {
+                handle_required_binary_stream_put(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // RequiredOctetStreamPut - PUT /required_octet_stream
+            hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => {
+                handle_required_octet_stream_put(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // ResponsesWithHeadersGet - GET /responses_with_headers
+            hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => {
+                handle_responses_with_headers_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // Rfc7807Get - GET /rfc7807
+            hyper::Method::GET if path.matched(paths::ID_RFC7807) => {
+                handle_rfc7807_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // TwoFirstLetterHeaders - POST /operation-two-first-letter-headers
+            hyper::Method::POST if path.matched(paths::ID_OPERATION_TWO_FIRST_LETTER_HEADERS) => {
+                handle_two_first_letter_headers(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // UntypedPropertyGet - GET /untyped_property
+            hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => {
+                handle_untyped_property_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // UuidGet - GET /uuid
+            hyper::Method::GET if path.matched(paths::ID_UUID) => {
+                handle_uuid_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // XmlExtraPost - POST /xml_extra
+            hyper::Method::POST if path.matched(paths::ID_XML_EXTRA) => {
+                handle_xml_extra_post(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // XmlOtherPost - POST /xml_other
+            hyper::Method::POST if path.matched(paths::ID_XML_OTHER) => {
+                handle_xml_other_post(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // XmlOtherPut - PUT /xml_other
+            hyper::Method::PUT if path.matched(paths::ID_XML_OTHER) => {
+                handle_xml_other_put(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // XmlPost - POST /xml
+            hyper::Method::POST if path.matched(paths::ID_XML) => {
+                handle_xml_post(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // XmlPut - PUT /xml
+            hyper::Method::PUT if path.matched(paths::ID_XML) => {
+                handle_xml_put(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
+            hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => {
+                handle_enum_in_path_path_param_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet - GET /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}
+            hyper::Method::GET if path.matched(paths::ID_MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B) => {
+                handle_multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // CreateRepo - POST /repos
+            hyper::Method::POST if path.matched(paths::ID_REPOS) => {
+                handle_create_repo(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // GetRepoInfo - GET /repos/{repoId}
+            hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => {
+                handle_get_repo_info(api_impl, uri, headers, body, context, validation).await
+            },
+
+            _ if path.matched(paths::ID_ANY_OF) => method_not_allowed(),
+            _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
+            _ if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_EXAMPLES_TEST) => method_not_allowed(),
+            _ if path.matched(paths::ID_FORM_TEST) => method_not_allowed(),
+            _ if path.matched(paths::ID_GET_WITH_BOOL) => method_not_allowed(),
+            _ if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => method_not_allowed(),
+            _ if path.matched(paths::ID_MERGE_PATCH_JSON) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIGET) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIPLE_RESPONSE_CONTENT_TYPES) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => method_not_allowed(),
+            _ if path.matched(paths::ID_ONE_OF) => method_not_allowed(),
+            _ if path.matched(paths::ID_OPERATION_TWO_FIRST_LETTER_HEADERS) => method_not_allowed(),
+            _ if path.matched(paths::ID_OVERRIDE_SERVER) => method_not_allowed(),
+            _ if path.matched(paths::ID_PARAMGET) => method_not_allowed(),
+            _ if path.matched(paths::ID_QUERY_EXAMPLE) => method_not_allowed(),
+            _ if path.matched(paths::ID_READONLY_AUTH_SCHEME) => method_not_allowed(),
+            _ if path.matched(paths::ID_REGISTER_CALLBACK) => method_not_allowed(),
+            _ if path.matched(paths::ID_REPOS) => method_not_allowed(),
+            _ if path.matched(paths::ID_REPOS_REPOID) => method_not_allowed(),
+            _ if path.matched(paths::ID_REQUIRED_BINARY_STREAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => method_not_allowed(),
+            _ if path.matched(paths::ID_RFC7807) => method_not_allowed(),
+            _ if path.matched(paths::ID_UNTYPED_PROPERTY) => method_not_allowed(),
+            _ if path.matched(paths::ID_UUID) => method_not_allowed(),
+            _ if path.matched(paths::ID_XML) => method_not_allowed(),
+            _ if path.matched(paths::ID_XML_EXTRA) => method_not_allowed(),
+            _ if path.matched(paths::ID_XML_OTHER) => method_not_allowed(),
+                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
+                        .body(BoxBody::new(http_body_util::Empty::new()))
+                        .expect("Unable to create Not Found response"))
+            }
+        }
+        Box::pin(run(
+            self.api_impl.clone(),
+            req,
+            self.validation
+        ))
+    }
+}
+
+#[allow(unused_variables)]
+async fn handle_any_of_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_any_of = query_params.iter().filter(|e| e.0 == "any-of").map(|e| e.1.clone())
@@ -397,10 +632,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // CallbackWithHeaderPost - POST /callback-with-header
-            hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => {
+#[allow(unused_variables)]
+async fn handle_callback_with_header_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.clone())
@@ -455,10 +704,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // ComplexQueryParamGet - GET /complex-query-param
-            hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => {
+#[allow(unused_variables)]
+async fn handle_complex_query_param_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.clone())
@@ -497,10 +760,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // ExamplesTest - GET /examples-test
-            hyper::Method::GET if path.matched(paths::ID_EXAMPLES_TEST) => {
+#[allow(unused_variables)]
+async fn handle_examples_test<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_ids = query_params.iter().filter(|e| e.0 == "ids").map(|e| e.1.clone())
@@ -546,10 +823,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // FormTest - POST /form-test
-            hyper::Method::POST if path.matched(paths::ID_FORM_TEST) => {
+#[allow(unused_variables)]
+async fn handle_form_test<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -561,7 +852,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                     Vec::new();
                                 let param_enum_field =
                                     models::FormTestRequestEnumField::OneEnum;
-
 
                                 let result = api_impl.form_test(
                                             param_required_array.as_ref(),
@@ -597,10 +887,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // GetWithBooleanParameter - GET /get-with-bool
-            hyper::Method::GET if path.matched(paths::ID_GET_WITH_BOOL) => {
+#[allow(unused_variables)]
+async fn handle_get_with_boolean_parameter<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_iambool = query_params.iter().filter(|e| e.0 == "iambool").map(|e| e.1.clone())
@@ -655,10 +959,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // JsonComplexQueryParamGet - GET /json-complex-query-param
-            hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => {
+#[allow(unused_variables)]
+async fn handle_json_complex_query_param_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.clone())
@@ -706,10 +1024,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // MandatoryRequestHeaderGet - GET /mandatory-request-header
-            hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => {
+#[allow(unused_variables)]
+async fn handle_mandatory_request_header_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Header parameters
                 let param_x_header = headers.get(HeaderName::from_static("x-header"));
 
@@ -760,10 +1092,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // MergePatchJsonGet - GET /merge-patch-json
-            hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => {
+#[allow(unused_variables)]
+async fn handle_merge_patch_json_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.merge_patch_json_get(
                                         &context
                                     ).await;
@@ -797,10 +1143,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // MultigetGet - GET /multiget
-            hyper::Method::GET if path.matched(paths::ID_MULTIGET) => {
+#[allow(unused_variables)]
+async fn handle_multiget_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.multiget_get(
                                         &context
                                     ).await;
@@ -904,10 +1264,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // MultipleAuthSchemeGet - GET /multiple_auth_scheme
-            hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => {
+#[allow(unused_variables)]
+async fn handle_multiple_auth_scheme_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -964,10 +1338,144 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // OneOfGet - GET /one-of
-            hyper::Method::GET if path.matched(paths::ID_ONE_OF) => {
+#[allow(unused_variables)]
+async fn handle_multiple_response_content_types<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                // Handle body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                let result = http_body_util::BodyExt::collect(body).await.map(|f| f.to_bytes().to_vec());
+                match result {
+                     Ok(body) => {
+                                let mut unused_elements : Vec<String> = vec![];
+                                let param_object_param: Option<models::ObjectParam> = if !body.is_empty() {
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {path}");
+                                            unused_elements.push(path.to_string());
+                                    }) {
+                                        Ok(param_object_param) => param_object_param,
+                                        Err(e) => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter ObjectParam - doesn't match schema: {e}")))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter ObjectParam due to schema")),
+                                    }
+
+                                } else {
+                                    None
+                                };
+                                let param_object_param = match param_object_param {
+                                    Some(param_object_param) => param_object_param,
+                                    None => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(BoxBody::new("Missing required body parameter ObjectParam".to_string()))
+                                                        .expect("Unable to create Bad Request response for missing body parameter ObjectParam")),
+                                };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_object_param, "ObjectParam", validation);
+
+                                let result = api_impl.multiple_response_content_types(
+                                            param_object_param,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        if !unused_elements.is_empty() {
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
+                                                    .expect("Unable to create Warning header value"));
+                                        }
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                MultipleResponseContentTypesResponse::Created
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+
+                                                },
+                                                MultipleResponseContentTypesResponse::Forbidden
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(403).expect("Unable to turn 403 into a StatusCode");
+    match body {
+        swagger::OneOf2::<String, models::AnyOfObject>::A(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("text/plain"));
+                                                    // Plain text Body
+                                                    *response.body_mut() = body_from_string(body);
+        },
+        swagger::OneOf2::<String, models::AnyOfObject>::B(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+        },
+    };
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+                            },
+                            Err(e) => Ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(body_from_string(format!("Unable to read body: {}", e.into())))
+                                                .expect("Unable to create Bad Request response due to unable to read body")),
+                        }
+}
+
+#[allow(unused_variables)]
+async fn handle_one_of_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.one_of_get(
                                         &context
                                     ).await;
@@ -1001,10 +1509,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // OverrideServerGet - GET /override-server
-            hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => {
+#[allow(unused_variables)]
+async fn handle_override_server_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.override_server_get(
                                         &context
                                     ).await;
@@ -1031,10 +1553,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // ParamgetGet - GET /paramget
-            hyper::Method::GET if path.matched(paths::ID_PARAMGET) => {
+#[allow(unused_variables)]
+async fn handle_paramget_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_uuid = query_params.iter().filter(|e| e.0 == "uuid").map(|e| e.1.clone())
@@ -1129,10 +1665,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // QueryExampleGet - GET /query-example
-            hyper::Method::GET if path.matched(paths::ID_QUERY_EXAMPLE) => {
+#[allow(unused_variables)]
+async fn handle_query_example_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_required_no_example = query_params.iter().filter(|e| e.0 == "required_no_example").map(|e| e.1.clone())
@@ -1212,10 +1762,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
-            hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => {
+#[allow(unused_variables)]
+async fn handle_readonly_auth_scheme_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -1271,10 +1835,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // RegisterCallbackPost - POST /register-callback
-            hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => {
+#[allow(unused_variables)]
+async fn handle_register_callback_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.clone())
@@ -1329,10 +1907,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // RequiredOctetStreamPut - PUT /required_octet_stream
-            hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => {
+#[allow(unused_variables)]
+async fn handle_required_binary_stream_put<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1352,6 +1944,75 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
 
+                                let result = api_impl.required_binary_stream_put(
+                                            param_body,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                RequiredBinaryStreamPutResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+                            },
+                            Err(e) => Ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(body_from_string(format!("Unable to read body: {}", e.into())))
+                                                .expect("Unable to create Bad Request response due to unable to read body")),
+                        }
+}
+
+#[allow(unused_variables)]
+async fn handle_required_octet_stream_put<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                // Handle body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                let result = http_body_util::BodyExt::collect(body).await.map(|f| f.to_bytes().to_vec());
+                match result {
+                     Ok(body) => {
+                                let param_body: Option<swagger::ByteArray> = if !body.is_empty() {
+                                    Some(swagger::ByteArray(body.to_vec()))
+                                } else {
+                                    None
+                                };
+                                let param_body = match param_body {
+                                    Some(param_body) => param_body,
+                                    None => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(BoxBody::new("Missing required body parameter body".to_string()))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body")),
+                                };
 
                                 let result = api_impl.required_octet_stream_put(
                                             param_body,
@@ -1386,10 +2047,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // ResponsesWithHeadersGet - GET /responses_with_headers
-            hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => {
+#[allow(unused_variables)]
+async fn handle_responses_with_headers_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.responses_with_headers_get(
                                         &context
                                     ).await;
@@ -1520,10 +2195,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // Rfc7807Get - GET /rfc7807
-            hyper::Method::GET if path.matched(paths::ID_RFC7807) => {
+#[allow(unused_variables)]
+async fn handle_rfc7807_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.rfc7807_get(
                                         &context
                                     ).await;
@@ -1581,10 +2270,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // TwoFirstLetterHeaders - POST /operation-two-first-letter-headers
-            hyper::Method::POST if path.matched(paths::ID_OPERATION_TWO_FIRST_LETTER_HEADERS) => {
+#[allow(unused_variables)]
+async fn handle_two_first_letter_headers<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Header parameters
                 let param_x_header_one = headers.get(HeaderName::from_static("x-header-one"));
 
@@ -1651,10 +2354,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // UntypedPropertyGet - GET /untyped_property
-            hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => {
+#[allow(unused_variables)]
+async fn handle_untyped_property_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1674,7 +2391,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_object_untyped_props, "ObjectUntypedProps", validation);
-
 
                                 let result = api_impl.untyped_property_get(
                                             param_object_untyped_props,
@@ -1715,10 +2431,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // UuidGet - GET /uuid
-            hyper::Method::GET if path.matched(paths::ID_UUID) => {
+#[allow(unused_variables)]
+async fn handle_uuid_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.uuid_get(
                                         &context
                                     ).await;
@@ -1752,10 +2482,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // XmlExtraPost - POST /xml_extra
-            hyper::Method::POST if path.matched(paths::ID_XML_EXTRA) => {
+#[allow(unused_variables)]
+async fn handle_xml_extra_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1775,7 +2519,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_duplicate_xml_object, "DuplicateXmlObject", validation);
-
 
                                 let result = api_impl.xml_extra_post(
                                             param_duplicate_xml_object,
@@ -1821,10 +2564,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // XmlOtherPost - POST /xml_other
-            hyper::Method::POST if path.matched(paths::ID_XML_OTHER) => {
+#[allow(unused_variables)]
+async fn handle_xml_other_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1844,7 +2601,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_another_xml_object, "AnotherXmlObject", validation);
-
 
                                 let result = api_impl.xml_other_post(
                                             param_another_xml_object,
@@ -1900,10 +2656,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // XmlOtherPut - PUT /xml_other
-            hyper::Method::PUT if path.matched(paths::ID_XML_OTHER) => {
+#[allow(unused_variables)]
+async fn handle_xml_other_put<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1923,7 +2693,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_another_xml_array, "AnotherXmlArray", validation);
-
 
                                 let result = api_impl.xml_other_put(
                                             param_another_xml_array,
@@ -1969,10 +2738,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // XmlPost - POST /xml
-            hyper::Method::POST if path.matched(paths::ID_XML) => {
+#[allow(unused_variables)]
+async fn handle_xml_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1992,7 +2775,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_xml_array, "XmlArray", validation);
-
 
                                 let result = api_impl.xml_post(
                                             param_xml_array,
@@ -2038,10 +2820,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // XmlPut - PUT /xml
-            hyper::Method::PUT if path.matched(paths::ID_XML) => {
+#[allow(unused_variables)]
+async fn handle_xml_put<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2061,7 +2857,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_xml_object, "XmlObject", validation);
-
 
                                 let result = api_impl.xml_put(
                                             param_xml_object,
@@ -2107,10 +2902,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
-            hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => {
+#[allow(unused_variables)]
+async fn handle_enum_in_path_path_param_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -2161,10 +2970,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet - GET /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}
-            hyper::Method::GET if path.matched(paths::ID_MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B) => {
+#[allow(unused_variables)]
+async fn handle_multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -2230,10 +3053,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // CreateRepo - POST /repos
-            hyper::Method::POST if path.matched(paths::ID_REPOS) => {
+#[allow(unused_variables)]
+async fn handle_create_repo<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2266,7 +3103,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_object_param, "ObjectParam", validation);
-
 
                                 let result = api_impl.create_repo(
                                             param_object_param,
@@ -2307,10 +3143,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // GetRepoInfo - GET /repos/{repoId}
-            hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => {
+#[allow(unused_variables)]
+async fn handle_get_repo_info<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -2368,49 +3218,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
-
-            _ if path.matched(paths::ID_ANY_OF) => method_not_allowed(),
-            _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
-            _ if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => method_not_allowed(),
-            _ if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => method_not_allowed(),
-            _ if path.matched(paths::ID_EXAMPLES_TEST) => method_not_allowed(),
-            _ if path.matched(paths::ID_FORM_TEST) => method_not_allowed(),
-            _ if path.matched(paths::ID_GET_WITH_BOOL) => method_not_allowed(),
-            _ if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => method_not_allowed(),
-            _ if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => method_not_allowed(),
-            _ if path.matched(paths::ID_MERGE_PATCH_JSON) => method_not_allowed(),
-            _ if path.matched(paths::ID_MULTIGET) => method_not_allowed(),
-            _ if path.matched(paths::ID_MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B) => method_not_allowed(),
-            _ if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => method_not_allowed(),
-            _ if path.matched(paths::ID_ONE_OF) => method_not_allowed(),
-            _ if path.matched(paths::ID_OPERATION_TWO_FIRST_LETTER_HEADERS) => method_not_allowed(),
-            _ if path.matched(paths::ID_OVERRIDE_SERVER) => method_not_allowed(),
-            _ if path.matched(paths::ID_PARAMGET) => method_not_allowed(),
-            _ if path.matched(paths::ID_QUERY_EXAMPLE) => method_not_allowed(),
-            _ if path.matched(paths::ID_READONLY_AUTH_SCHEME) => method_not_allowed(),
-            _ if path.matched(paths::ID_REGISTER_CALLBACK) => method_not_allowed(),
-            _ if path.matched(paths::ID_REPOS) => method_not_allowed(),
-            _ if path.matched(paths::ID_REPOS_REPOID) => method_not_allowed(),
-            _ if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => method_not_allowed(),
-            _ if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => method_not_allowed(),
-            _ if path.matched(paths::ID_RFC7807) => method_not_allowed(),
-            _ if path.matched(paths::ID_UNTYPED_PROPERTY) => method_not_allowed(),
-            _ if path.matched(paths::ID_UUID) => method_not_allowed(),
-            _ if path.matched(paths::ID_XML) => method_not_allowed(),
-            _ if path.matched(paths::ID_XML_EXTRA) => method_not_allowed(),
-            _ if path.matched(paths::ID_XML_OTHER) => method_not_allowed(),
-                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
-                        .body(BoxBody::new(http_body_util::Empty::new()))
-                        .expect("Unable to create Not Found response"))
-            }
-        }
-        Box::pin(run(
-            self.api_impl.clone(),
-            req,
-            self.validation
-        ))
-    }
 }
 
 /// Request parser for `Api`.
@@ -2441,6 +3248,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             hyper::Method::GET if path.matched(paths::ID_MULTIGET) => Some("MultigetGet"),
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
             hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Some("MultipleAuthSchemeGet"),
+            // MultipleResponseContentTypes - POST /multiple-response-content-types
+            hyper::Method::POST if path.matched(paths::ID_MULTIPLE_RESPONSE_CONTENT_TYPES) => Some("MultipleResponseContentTypes"),
             // OneOfGet - GET /one-of
             hyper::Method::GET if path.matched(paths::ID_ONE_OF) => Some("OneOfGet"),
             // OverrideServerGet - GET /override-server
@@ -2453,6 +3262,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => Some("ReadonlyAuthSchemeGet"),
             // RegisterCallbackPost - POST /register-callback
             hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => Some("RegisterCallbackPost"),
+            // RequiredBinaryStreamPut - PUT /required_binary_stream
+            hyper::Method::PUT if path.matched(paths::ID_REQUIRED_BINARY_STREAM) => Some("RequiredBinaryStreamPut"),
             // RequiredOctetStreamPut - PUT /required_octet_stream
             hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Some("RequiredOctetStreamPut"),
             // ResponsesWithHeadersGet - GET /responses_with_headers

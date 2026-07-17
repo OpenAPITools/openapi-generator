@@ -33,11 +33,11 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/fake")
+@Path("")
 
 
 @io.swagger.annotations.Api(description = "the Fake API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class FakeApi  {
    private final FakeApiService delegate;
 
@@ -63,7 +63,7 @@ public class FakeApi  {
    }
 
     @javax.ws.rs.POST
-    @Path("/create_xml_item")
+    @Path("/fake/create_xml_item")
     @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
     
     @io.swagger.annotations.ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", response = Void.class, tags={ "fake", })
@@ -75,7 +75,7 @@ public class FakeApi  {
         return delegate.createXmlItem(xmlItem, securityContext);
     }
     @javax.ws.rs.POST
-    @Path("/outer/boolean")
+    @Path("/fake/outer/boolean")
     
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
@@ -87,7 +87,7 @@ public class FakeApi  {
         return delegate.fakeOuterBooleanSerialize(body, securityContext);
     }
     @javax.ws.rs.POST
-    @Path("/outer/composite")
+    @Path("/fake/outer/composite")
     
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
@@ -99,7 +99,7 @@ public class FakeApi  {
         return delegate.fakeOuterCompositeSerialize(body, securityContext);
     }
     @javax.ws.rs.POST
-    @Path("/outer/number")
+    @Path("/fake/outer/number")
     
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
@@ -111,7 +111,7 @@ public class FakeApi  {
         return delegate.fakeOuterNumberSerialize(body, securityContext);
     }
     @javax.ws.rs.POST
-    @Path("/outer/string")
+    @Path("/fake/outer/string")
     
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
@@ -123,7 +123,7 @@ public class FakeApi  {
         return delegate.fakeOuterStringSerialize(body, securityContext);
     }
     @javax.ws.rs.PUT
-    @Path("/body-with-file-schema")
+    @Path("/fake/body-with-file-schema")
     @Consumes({ "application/json" })
     
     @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake", })
@@ -135,7 +135,7 @@ public class FakeApi  {
         return delegate.testBodyWithFileSchema(body, securityContext);
     }
     @javax.ws.rs.PUT
-    @Path("/body-with-query-params")
+    @Path("/fake/body-with-query-params")
     @Consumes({ "application/json" })
     
     @io.swagger.annotations.ApiOperation(value = "", notes = "", response = Void.class, tags={ "fake", })
@@ -147,7 +147,7 @@ public class FakeApi  {
         return delegate.testBodyWithQueryParams(query, body, securityContext);
     }
     @javax.ws.rs.PATCH
-    
+    @Path("/fake")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
@@ -159,7 +159,7 @@ public class FakeApi  {
         return delegate.testClientModel(body, securityContext);
     }
     @javax.ws.rs.POST
-    
+    @Path("/fake")
     @Consumes({ "application/x-www-form-urlencoded" })
     
     @io.swagger.annotations.ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", response = Void.class, authorizations = {
@@ -175,7 +175,7 @@ public class FakeApi  {
         return delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binaryBodypart, date, dateTime, password, paramCallback, securityContext);
     }
     @javax.ws.rs.GET
-    
+    @Path("/fake")
     @Consumes({ "application/x-www-form-urlencoded" })
     
     @io.swagger.annotations.ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake", })
@@ -188,7 +188,7 @@ public class FakeApi  {
         return delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, securityContext);
     }
     @javax.ws.rs.DELETE
-    
+    @Path("/fake")
     
     
     @io.swagger.annotations.ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake", })
@@ -200,7 +200,7 @@ public class FakeApi  {
         return delegate.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, securityContext);
     }
     @javax.ws.rs.POST
-    @Path("/inline-additionalProperties")
+    @Path("/fake/inline-additionalProperties")
     @Consumes({ "application/json" })
     
     @io.swagger.annotations.ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake", })
@@ -212,7 +212,7 @@ public class FakeApi  {
         return delegate.testInlineAdditionalProperties(param, securityContext);
     }
     @javax.ws.rs.GET
-    @Path("/jsonFormData")
+    @Path("/fake/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
     
     @io.swagger.annotations.ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake", })
@@ -224,7 +224,7 @@ public class FakeApi  {
         return delegate.testJsonFormData(param, param2, securityContext);
     }
     @javax.ws.rs.PUT
-    @Path("/test-query-parameters")
+    @Path("/fake/test-query-parameters")
     
     
     @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake", })

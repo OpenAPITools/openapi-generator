@@ -38,6 +38,9 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-nestjs/}.
+ */
 public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNestjsClientCodegen.class);
 
@@ -309,7 +312,11 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
                         // Add the more complicated component instead of just the brace.
                         CodegenParameter parameter = findPathParameterByName(op, parameterName.toString());
-                        pathBuffer.append(toVarName(parameterName.toString()));
+                        if (parameter != null) {
+                            pathBuffer.append(parameter.paramName);
+                        } else {
+                            pathBuffer.append(toVarName(parameterName.toString()));
+                        }
                         if (parameter != null && parameter.isDateTime) {
                             pathBuffer.append(".toISOString()");
                         }

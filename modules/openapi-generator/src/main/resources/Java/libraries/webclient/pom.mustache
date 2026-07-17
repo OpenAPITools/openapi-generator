@@ -86,6 +86,7 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
         {{/swagger2AnnotationLibrary}}
+        {{^useJspecify}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -94,6 +95,7 @@
             <version>3.0.2</version>
         </dependency>
 
+        {{/useJspecify}}
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-core</artifactId>
@@ -162,6 +164,15 @@
             <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
+        {{^useSpringBoot4}}
+        {{#useJspecify}}
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        {{/useJspecify}}
+        {{/useSpringBoot4}}
 
         <!-- test dependencies -->
         <dependency>
@@ -186,7 +197,7 @@
         <jackson-version>2.21.1</jackson-version>
         {{/useJackson3}}
         {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         {{/openApiNullable}}
         {{#useJakartaEe}}
         {{^useSpringBoot4}}

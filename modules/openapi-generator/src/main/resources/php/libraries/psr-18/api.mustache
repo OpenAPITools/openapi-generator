@@ -598,7 +598,7 @@ use function sprintf;
         {{/collectionFormat}}
         if (${{paramName}} !== null) {
             $resourcePath = str_replace(
-                '{' . '{{baseName}}' . '}',
+                {{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>,
                 ObjectSerializer::toPathValue(${{paramName}}),
                 $resourcePath
             );
@@ -612,7 +612,7 @@ use function sprintf;
 
         $formData = $formDataProcessor->prepare([
         {{/-first}}
-            '{{paramName}}' => ${{paramName}},
+            '{{baseName}}' => ${{paramName}},
         {{#-last}}
         ]);
 

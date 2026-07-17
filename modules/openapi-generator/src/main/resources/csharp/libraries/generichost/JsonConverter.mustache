@@ -1,21 +1,31 @@
     /// <summary>
     /// A Json converter for type <see cref="{{classname}}" />
     /// </summary>
-    {{>visibility}} class {{classname}}JsonConverter : JsonConverter<{{classname}}>
+    {{>visibility}} partial class {{classname}}JsonConverter : JsonConverter<{{classname}}>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}JsonConverter" /> class.
+        /// </summary>
+        public {{classname}}JsonConverter()
+        {
+            OnCreated();
+        }
+
         {{#allVars}}
         {{#isDateTime}}
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public static string {{name}}Format { get; set; } = "{{{dateTimeFormat}}}";
+        public string {{name}}Format { get; private set; } = "{{{dateTimeFormat}}}";
 
         {{/isDateTime}}
         {{#isDate}}
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public static string {{name}}Format { get; set; } = "{{{dateFormat}}}";
+        public string {{name}}Format { get; private set; } = "{{{dateFormat}}}";
 
         {{/isDate}}
         {{/allVars}}
@@ -230,13 +240,24 @@
                         {{/isNumeric}}
                         {{^isNumeric}}
                             string{{nrt?}} {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue = utf8JsonReader.GetString();
+                            {{! A nullable enum may be explicitly null in the payload; still mark the Option as set so a present-but-null value is not rejected as missing. }}
                             {{^isInnerEnum}}
+                            {{#isNullable}}
+                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue == null ? null : {{{datatypeWithEnum}}}ValueConverter.FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue));
+                            {{/isNullable}}
+                            {{^isNullable}}
                             if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue != null)
                                 {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{{datatypeWithEnum}}}ValueConverter.FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue));
+                            {{/isNullable}}
                             {{/isInnerEnum}}
                             {{#isInnerEnum}}
+                            {{#isNullable}}
+                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue == null ? null : {{classname}}.{{{datatypeWithEnum}}}FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue));
+                            {{/isNullable}}
+                            {{^isNullable}}
                             if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue != null)
                                 {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{classname}}.{{{datatypeWithEnum}}}FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue));
+                            {{/isNullable}}
                             {{/isInnerEnum}}
                         {{/isNumeric}}
                         {{/isMap}}

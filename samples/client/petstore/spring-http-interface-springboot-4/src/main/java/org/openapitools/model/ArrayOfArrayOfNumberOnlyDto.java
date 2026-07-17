@@ -2,16 +2,21 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -22,10 +27,10 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnlyDto {
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   public ArrayOfArrayOfNumberOnlyDto arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
@@ -45,12 +50,13 @@ public class ArrayOfArrayOfNumberOnlyDto {
    * Get arrayArrayNumber
    * @return arrayArrayNumber
    */
-  
+  @Valid 
   @JsonProperty("ArrayArrayNumber")
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("ArrayArrayNumber")
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;

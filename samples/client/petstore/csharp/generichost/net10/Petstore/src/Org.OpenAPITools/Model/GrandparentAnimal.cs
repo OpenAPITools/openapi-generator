@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="GrandparentAnimal" />
     /// </summary>
-    public class GrandparentAnimalJsonConverter : JsonConverter<GrandparentAnimal>
+    public partial class GrandparentAnimalJsonConverter : JsonConverter<GrandparentAnimal>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GrandparentAnimalJsonConverter" /> class.
+        /// </summary>
+        public GrandparentAnimalJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="GrandparentAnimal" />
         /// </summary>

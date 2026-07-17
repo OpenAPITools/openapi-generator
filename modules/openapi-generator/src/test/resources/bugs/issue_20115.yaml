@@ -1,0 +1,44 @@
+openapi: 3.0.1
+info:
+  title: Issue 20115 reproducer
+  version: 1.0.0
+paths:
+  /upload:
+    post:
+      operationId: uploadCsv
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                csv_file:
+                  type: string
+                  format: binary
+                  description: The CSV file to upload
+                collection_name:
+                  type: string
+                  description: Name of the collection
+              required:
+                - csv_file
+                - collection_name
+      responses:
+        '200':
+          description: OK
+  /upload-optional:
+    post:
+      operationId: uploadOptional
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: Optional image upload
+      responses:
+        '200':
+          description: OK

@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -36,39 +37,45 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 
 @JsonTypeName("NullableClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class NullableClassDto {
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<BigDecimal> numberProp = JsonNullable.<BigDecimal>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Boolean> booleanProp = JsonNullable.<Boolean>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> stringProp = JsonNullable.<String>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private JsonNullable<LocalDate> dateProp = JsonNullable.<LocalDate>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private JsonNullable<OffsetDateTime> datetimeProp = JsonNullable.<OffsetDateTime>undefined();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<Object>> arrayNullableProp = JsonNullable.<List<Object>>undefined();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Object> arrayItemsNullable = new ArrayList<>();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Map<String, Object>> objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClassDto integerProp(Integer integerProp) {

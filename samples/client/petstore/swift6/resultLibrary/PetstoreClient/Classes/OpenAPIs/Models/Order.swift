@@ -56,3 +56,10 @@ internal struct Order: Sendable, Codable {
 
 
 extension Order: Identifiable {}
+
+extension Order: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        if status == .unknownDefaultOpenApi { return true }
+        return false
+    }
+}

@@ -176,17 +176,17 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     public const {{#lambda.uppercase}}{{discriminator.propertyName}}_{{#lambda.snakecase}}{{mappingName}}{{/lambda.snakecase}}{{/lambda.uppercase}} = '{{mappingName}}';
 {{/discriminator.mappedModels}}
 {{/discriminator}}
-{{^discriminator}}
     {{#vars}}
     {{#isEnum}}
+    {{^isDiscriminator}}
     {{#allowableValues}}
     {{#enumVars}}
     public const {{enumName}}_{{{name}}} = {{{value}}};
     {{/enumVars}}
     {{/allowableValues}}
+    {{/isDiscriminator}}
     {{/isEnum}}
     {{/vars}}
-{{/discriminator}}
 
     {{#vars}}
     {{#isEnum}}
@@ -198,15 +198,15 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     public static function {{getter}}AllowableValues()
     {
         return [
-{{#discriminator}}
+{{#isDiscriminator}}
 {{#discriminator.mappedModels}}
             self::{{#lambda.uppercase}}{{discriminator.propertyName}}_{{#lambda.snakecase}}{{mappingName}}{{/lambda.snakecase}}{{/lambda.uppercase}},{{^-last}}
 {{/-last}}{{/discriminator.mappedModels}}
-{{/discriminator}}
-{{^discriminator}}
+{{/isDiscriminator}}
+{{^isDiscriminator}}
             {{#allowableValues}}{{#enumVars}}self::{{enumName}}_{{{name}}},{{^-last}}
             {{/-last}}{{/enumVars}}{{/allowableValues}}
-{{/discriminator}}
+{{/isDiscriminator}}
         ];
     }
 
@@ -274,8 +274,8 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
 
         {{#vars}}
         {{#required}}
-        if ($this->container['{{name}}'] === null) {
-            $invalidProperties[] = "'{{name}}' can't be null";
+        if ($this->container['{{name}}'] === null{{#isNullable}} && !$this->isNullableSetToNull('{{name}}'){{/isNullable}}) {
+            $invalidProperties[] = "'{{name}}' {{^isNullable}}can't be null"{{/isNullable}}{{#isNullable}}is required"{{/isNullable}};
         }
         {{/required}}
         {{#isEnum}}
@@ -292,44 +292,46 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
+{{#isString}}
         {{#maxLength}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(mb_strlen($this->container['{{name}}']) > {{maxLength}})) {
+        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}(mb_strlen($this->container['{{name}}']) > {{maxLength}})) {
             $invalidProperties[] = "invalid value for '{{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
         }
 
         {{/maxLength}}
         {{#minLength}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(mb_strlen($this->container['{{name}}']) < {{minLength}})) {
+        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}(mb_strlen($this->container['{{name}}']) < {{minLength}})) {
             $invalidProperties[] = "invalid value for '{{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
         }
 
         {{/minLength}}
+{{/isString}}
         {{#maximum}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}($this->container['{{name}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
+        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}($this->container['{{name}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
             $invalidProperties[] = "invalid value for '{{name}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.";
         }
 
         {{/maximum}}
         {{#minimum}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}($this->container['{{name}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}})) {
+        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}($this->container['{{name}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}})) {
             $invalidProperties[] = "invalid value for '{{name}}', must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.";
         }
 
         {{/minimum}}
         {{#pattern}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}!preg_match("{{{pattern}}}", $this->container['{{name}}'])) {
+        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}!preg_match("{{{pattern}}}", $this->container['{{name}}'])) {
             $invalidProperties[] = "invalid value for '{{name}}', must be conform to the pattern {{{pattern}}}.";
         }
 
         {{/pattern}}
         {{#maxItems}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(count($this->container['{{name}}']) > {{maxItems}})) {
+        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}(count($this->container['{{name}}']) > {{maxItems}})) {
             $invalidProperties[] = "invalid value for '{{name}}', number of items must be less than or equal to {{{maxItems}}}.";
         }
 
         {{/maxItems}}
         {{#minItems}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(count($this->container['{{name}}']) < {{minItems}})) {
+        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}(count($this->container['{{name}}']) < {{minItems}})) {
             $invalidProperties[] = "invalid value for '{{name}}', number of items must be greater than or equal to {{{minItems}}}.";
         }
 
@@ -352,7 +354,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     /**
      * Gets {{name}}
      *
-     * @return {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}}
+     * @return {{{exts.x-php-prop-doc-type}}}
     {{#deprecated}}
      * @deprecated
     {{/deprecated}}
@@ -365,7 +367,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     /**
      * Sets {{name}}
      *
-     * @param {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{name}}{{#description}} {{{.}}}{{/description}}{{^description}} {{{name}}}{{/description}}
+     * @param {{{exts.x-php-prop-doc-type}}} ${{name}}{{#description}} {{{.}}}{{/description}}{{^description}} {{{name}}}{{/description}}
      *
      * @return $this
     {{#deprecated}}
@@ -421,6 +423,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
+{{#isString}}
         {{#maxLength}}
         if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}(mb_strlen(${{name}}) > {{maxLength}})) {
             throw new InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
@@ -430,6 +433,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
             throw new InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
         }
         {{/minLength}}
+{{/isString}}
         {{#maximum}}
         if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}(${{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
             throw new InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');
@@ -463,7 +467,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param integer $offset Offset
+     * @param int|string $offset Offset
      *
      * @return boolean
      */
@@ -475,7 +479,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     /**
      * Gets offset.
      *
-     * @param integer $offset Offset
+     * @param int|string $offset Offset
      *
      * @return mixed|null
      */
@@ -488,7 +492,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     /**
      * Sets value based on offset.
      *
-     * @param int|null $offset Offset
+     * @param int|string|null $offset Offset
      * @param mixed    $value  Value to be set
      *
      * @return void
@@ -505,7 +509,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     /**
      * Unsets offset.
      *
-     * @param integer $offset Offset
+     * @param int|string $offset Offset
      *
      * @return void
      */

@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * TypeHolderExample
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class TypeHolderExample {
 
   private String stringItem;
@@ -34,7 +34,6 @@ public class TypeHolderExample {
 
   private Boolean boolItem;
 
-  
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample() {

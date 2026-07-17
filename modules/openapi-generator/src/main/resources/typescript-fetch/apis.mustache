@@ -2,30 +2,30 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-
 import * as runtime from '../runtime{{importFileExtension}}';
-{{#imports.0}}
+{{#withoutRuntimeChecks}}
 import type {
-  {{#imports}}
-  {{className}},
-  {{/imports}}
-} from '../models/index{{importFileExtension}}';
-{{^withoutRuntimeChecks}}
-import {
-    {{#imports}}
-    {{className}}FromJSON,
-    {{className}}ToJSON,
-    {{/imports}}
+{{#imports}}
+    {{className}},
+{{/imports}}
 } from '../models/index{{importFileExtension}}';
 {{/withoutRuntimeChecks}}
-{{/imports.0}}
+{{^withoutRuntimeChecks}}
+{{#imports}}
+import {
+    type {{className}},
+    {{className}}FromJSON,
+    {{className}}ToJSON,
+} from '../models/{{classFileName}}{{importFileExtension}}';
+{{/imports}}
+{{/withoutRuntimeChecks}}
 
 {{#operations}}
 {{#operation}}
 {{#allParams.0}}
 export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request {
 {{#allParams}}
-    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{#hasReadOnly}}Omit<{{{dataType}}}, {{#readOnlyVars}}'{{baseName}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{{dataType}}}{{/hasReadOnly}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{#hasReadOnly}}Omit<{{{dataType}}}, {{#readOnlyVars}}'{{name}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{{dataType}}}{{/hasReadOnly}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/allParams}}
 }
 
@@ -118,10 +118,10 @@ export class {{classname}} extends runtime.BaseAPI {
     async {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.RequestOpts> {
         {{#allParams}}
         {{#required}}
-        if (requestParameters['{{paramName}}'] == null) {
+        if (requestParameters['{{paramName}}'] {{#isBodyParam}}{{#isNullable}}=== undefined{{/isNullable}}{{^isNullable}}== null{{/isNullable}}{{/isBodyParam}}{{^isBodyParam}}== null{{/isBodyParam}}) {
             throw new runtime.RequiredError(
                 '{{paramName}}',
-                'Required parameter "{{paramName}}" was null or undefined when calling {{nickname}}().'
+                'Required parameter "{{paramName}}" was {{#isBodyParam}}{{#isNullable}}undefined{{/isNullable}}{{^isNullable}}null or undefined{{/isNullable}}{{/isBodyParam}}{{^isBodyParam}}null or undefined{{/isBodyParam}} when calling {{nickname}}().'
             );
         }
 
@@ -278,7 +278,12 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/isEnumRef}}
             {{^isEnumRef}}
             {{^withoutRuntimeChecks}}
-            formParams.append('{{baseName}}', new Blob([JSON.stringify({{{dataType}}}ToJSON(requestParameters['{{paramName}}']))], { type: "application/json", }));
+            {{^isContainer}}
+            formParams.append('{{baseName}}', new Blob([JSON.stringify({{#isFreeFormObject}}runtime.anyToJSON{{/isFreeFormObject}}{{^isFreeFormObject}}{{{dataType}}}ToJSON{{/isFreeFormObject}}(requestParameters['{{paramName}}']))], { type: "application/json", }));
+            {{/isContainer}}
+            {{#isContainer}}
+            formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters['{{paramName}}'])], { type: "application/json", }));
+            {{/isContainer}}
             {{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}
             formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters['{{paramName}}'])], { type: "application/json", }));
             {{/withoutRuntimeChecks}}
@@ -295,21 +300,21 @@ export class {{classname}} extends runtime.BaseAPI {
         {{#pathParams}}
         {{#isDateTimeType}}
         if (requestParameters['{{paramName}}'] instanceof Date) {
-            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(requestParameters['{{paramName}}'].toISOString()));
+            urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(requestParameters['{{paramName}}'].toISOString()));
         } else {
-            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])));
+            urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(String(requestParameters['{{paramName}}'])));
         }
         {{/isDateTimeType}}
         {{^isDateTimeType}}
         {{#isDateType}}
         if (requestParameters['{{paramName}}'] instanceof Date) {
-            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(requestParameters['{{paramName}}'].toISOString().substring(0,10)));
+            urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(requestParameters['{{paramName}}'].toISOString().substring(0,10)));
         } else {
-            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])));
+            urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(String(requestParameters['{{paramName}}'])));
         }
         {{/isDateType}}
         {{^isDateType}}
-        urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])));
+        urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(String(requestParameters['{{paramName}}'])));
         {{/isDateType}}
         {{/isDateTimeType}}
         {{/pathParams}}

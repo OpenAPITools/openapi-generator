@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
@@ -21,16 +22,16 @@ import jakarta.annotation.Generated;
  * ArrayTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ArrayTest {
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> arrayOfString = new ArrayList<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
