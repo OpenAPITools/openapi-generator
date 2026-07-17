@@ -3983,7 +3983,17 @@ public class DefaultCodegen implements CodegenConfig {
         if (referencedSchema != p && referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
 
+            property._enum = new ArrayList<>();
+            for (Object i : _enum) {
+                if (i == null) {
+                    property.isNullable = true;
+                    continue;
+                }
+                property._enum.add(String.valueOf(i));
+            }
+            property.isEnum = true;
             property.isEnumRef = true;
+            property.isInnerEnum = true;
 
             Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
@@ -7525,8 +7535,12 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (arrayInnerProperty.baseType != null && arrayInnerProperty.enumName != null) {
                 codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(arrayInnerProperty.baseType, arrayInnerProperty.enumName);
+            } else if (arrayInnerProperty._enum != null) {
+                // Enum values are present but enumName couldn't be computed (e.g. inline enum with generic property name)
+                codegenParameter.datatypeWithEnum = codegenParameter.dataType;
             } else {
-                LOGGER.warn("Could not compute datatypeWithEnum from {}, {}", arrayInnerProperty.baseType, arrayInnerProperty.enumName);
+                // Non-enum array item — no datatypeWithEnum replacement needed
+                codegenParameter.datatypeWithEnum = codegenParameter.dataType;
             }
             // end of hoisting
 

@@ -45,7 +45,7 @@ public class ExamplesUtils {
             return examples;
         }
 
-        once(LOGGER).warn("No application/json content media type found in response. Response examples can currently only be generated for application/json media type.");
+        LOGGER.debug("No application/json content media type found in response. Response examples can currently only be generated for application/json media type.");
 
         return Collections.emptyMap();
     }

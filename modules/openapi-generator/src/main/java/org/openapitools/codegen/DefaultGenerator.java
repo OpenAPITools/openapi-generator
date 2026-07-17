@@ -1515,16 +1515,31 @@ public class DefaultGenerator implements Generator {
         for (Map.Entry<String, PathItem> webhooksEntry : webhooks.entrySet()) {
             String resourceKey = webhooksEntry.getKey();
             PathItem path = webhooksEntry.getValue();
-            processOperation(resourceKey, "get", path.getGet(), ops, path);
-            processOperation(resourceKey, "head", path.getHead(), ops, path);
-            processOperation(resourceKey, "put", path.getPut(), ops, path);
-            processOperation(resourceKey, "post", path.getPost(), ops, path);
-            processOperation(resourceKey, "delete", path.getDelete(), ops, path);
-            processOperation(resourceKey, "patch", path.getPatch(), ops, path);
-            processOperation(resourceKey, "options", path.getOptions(), ops, path);
-            processOperation(resourceKey, "trace", path.getTrace(), ops, path);
+            processWebhookOperation(resourceKey, "get", path.getGet(), ops, path);
+            processWebhookOperation(resourceKey, "head", path.getHead(), ops, path);
+            processWebhookOperation(resourceKey, "put", path.getPut(), ops, path);
+            processWebhookOperation(resourceKey, "post", path.getPost(), ops, path);
+            processWebhookOperation(resourceKey, "delete", path.getDelete(), ops, path);
+            processWebhookOperation(resourceKey, "patch", path.getPatch(), ops, path);
+            processWebhookOperation(resourceKey, "options", path.getOptions(), ops, path);
+            processWebhookOperation(resourceKey, "trace", path.getTrace(), ops, path);
         }
         return ops;
+    }
+
+    private void processWebhookOperation(String resourceKey, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
+        if (operation == null) {
+            return;
+        }
+        // Set operationId from the webhook key if missing to avoid auto-generation warning
+        if (StringUtils.isBlank(operation.getOperationId())) {
+            operation.setOperationId(resourceKey);
+        }
+        // Tag webhook operations with "Webhooks" so they don't collide with untagged path operations
+        if (operation.getTags() == null || operation.getTags().isEmpty()) {
+            operation.addTagsItem("Webhooks");
+        }
+        processOperation(resourceKey, httpMethod, operation, operations, path);
     }
 
     private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
