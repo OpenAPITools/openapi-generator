@@ -7108,6 +7108,15 @@ public class SpringCodegenTest {
                 // required field must NOT be annotated with @Nullable
                 .fileContains("private String name;")
                 .fileDoesNotContain("private @Nullable String name;");
+
+        // A non-required request parameter carrying a default value must NOT be @Nullable:
+        // Spring's @RequestParam(defaultValue = ...) supplies a non-null value when the
+        // request value is absent, so annotating it @Nullable would be an incorrect contract.
+        // A non-required parameter without a default stays @Nullable.
+        JavaFileAssert.assertThat(files.get("JobApi.java"))
+                .assertMethod("listJobs")
+                .assertParameter("limit").assertParameterAnnotations().doesNotContainWithName("Nullable").toParameter().toMethod()
+                .assertParameter("filter").assertParameterAnnotations().containsWithName("Nullable");
     }
 
     // -------------------------------------------------------------------------
