@@ -1136,25 +1136,30 @@ abstract class GenerateTask : DefaultTask() {
 //   exits, and Gradle reuses the same worker daemon across tasks that share the same classpath,
 //   so startup cost is amortized — typically paid only once per parallel slot.
         val isolation = workerIsolation.getOrElse("classloader").lowercase()
+        val quietMode = quiet.getOrElse(false)
         val workQueue = when (isolation) {
             "process" -> {
-                val heapMsg = maxWorkerHeapSize.orNull?.let { " (maxHeapSize=$it)" } ?: ""
-                logger.lifecycle(
-                    "[openApiGenerate] Worker isolation: process$heapMsg " +
-                            "(isolated JVM per task, no Metaspace leak - " +
-                            "use workerIsolation = \"classloader\" to skip per-task JVM startup cost at the cost of increased Metaspace usage)"
-                )
+                if (!quietMode) {
+                    val heapMsg = maxWorkerHeapSize.orNull?.let { " (maxHeapSize=$it)" } ?: ""
+                    logger.lifecycle(
+                        "[openApiGenerate] Worker isolation: process$heapMsg " +
+                                "(isolated JVM per task, no Metaspace leak - " +
+                                "use workerIsolation = \"classloader\" to skip per-task JVM startup cost at the cost of increased Metaspace usage)"
+                    )
+                }
                 workerExecutor.processIsolation {
                     maxWorkerHeapSize.orNull?.let { forkOptions.maxHeapSize = it }
                 }
             }
 
             "classloader" -> {
-                logger.lifecycle(
-                    "[openApiGenerate] Worker isolation: classloader " +
-                            "(fast startup, but generator classes accumulate in Gradle daemon Metaspace - " +
-                            "consider workerIsolation = \"process\" if you hit metaspace pressure)"
-                )
+                if (!quietMode) {
+                    logger.lifecycle(
+                        "[openApiGenerate] Worker isolation: classloader " +
+                                "(fast startup, but generator classes accumulate in Gradle daemon Metaspace - " +
+                                "consider workerIsolation = \"process\" if you hit metaspace pressure)"
+                    )
+                }
                 workerExecutor.classLoaderIsolation()
             }
 
