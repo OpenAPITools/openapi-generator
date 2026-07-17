@@ -13,6 +13,7 @@ The following generators are available:
 * [c](generators/c.md)  
 * [clojure](generators/clojure.md)  
 * [cpp-boost-beast-client](generators/cpp-boost-beast-client.md)  
+* [cpp-oatpp-client](generators/cpp-oatpp-client.md)
 * [cpp-qt-client](generators/cpp-qt-client.md)  
 * [cpp-restsdk](generators/cpp-restsdk.md)  
 * [cpp-tiny (beta)](generators/cpp-tiny.md)  
@@ -66,10 +67,12 @@ The following generators are available:
 * [scala-pekko](generators/scala-pekko.md)  
 * [scala-sttp](generators/scala-sttp.md)  
 * [scala-sttp4 (beta)](generators/scala-sttp4.md)  
+* [scala-sttp4-jsoniter (beta)](generators/scala-sttp4-jsoniter.md)
 * [scalaz](generators/scalaz.md)  
 * [swift-combine](generators/swift-combine.md)  
-* [swift5](generators/swift5.md)  
-* [swift6 (beta)](generators/swift6.md)  
+* [swift5 (deprecated)](generators/swift5.md)
+* [swift6](generators/swift6.md)
+* [terraform-provider (experimental)](generators/terraform-provider.md)
 * [typescript (experimental)](generators/typescript.md)  
 * [typescript-angular](generators/typescript-angular.md)  
 * [typescript-aurelia](generators/typescript-aurelia.md)  
@@ -89,6 +92,8 @@ The following generators are available:
 * [ada-server](generators/ada-server.md)  
 * [aspnet-fastendpoints](generators/aspnet-fastendpoints.md)  
 * [aspnetcore](generators/aspnetcore.md)  
+* [cpp-httplib-server](generators/cpp-httplib-server.md)
+* [cpp-oatpp-server](generators/cpp-oatpp-server.md)
 * [cpp-pistache-server](generators/cpp-pistache-server.md)  
 * [cpp-qt-qhttpengine-server](generators/cpp-qt-qhttpengine-server.md)  
 * [cpp-restbed-server](generators/cpp-restbed-server.md)  
@@ -105,6 +110,7 @@ The following generators are available:
 * [haskell](generators/haskell.md)  
 * [haskell-yesod (beta)](generators/haskell-yesod.md)  
 * [java-camel](generators/java-camel.md)  
+* [java-dubbo (beta)](generators/java-dubbo.md)
 * [java-helidon-server (beta)](generators/java-helidon-server.md)  
 * [java-inflector](generators/java-inflector.md)  
 * [java-micronaut-server (beta)](generators/java-micronaut-server.md)  
@@ -145,14 +151,16 @@ The following generators are available:
 * [rust-axum (beta)](generators/rust-axum.md)  
 * [rust-salvo (beta)](generators/rust-salvo.md)  
 * [rust-server](generators/rust-server.md)  
+* [rust-server-deprecated](generators/rust-server-deprecated.md)
 * [scala-akka-http-server (beta)](generators/scala-akka-http-server.md)  
 * [scala-cask](generators/scala-cask.md)  
 * [scala-finch-deprecated (deprecated)](generators/scala-finch-deprecated.md)  
 * [scala-http4s-server](generators/scala-http4s-server.md)  
-* [scala-lagom-server](generators/scala-lagom-server.md)  
+* [scala-lagom-server-deprecated (deprecated)](generators/scala-lagom-server-deprecated.md)
 * [scala-play-server](generators/scala-play-server.md)  
 * [scalatra](generators/scalatra.md)  
 * [spring](generators/spring.md)  
+* [typescript-nestjs-server (beta)](generators/typescript-nestjs-server.md)
 
 
 ## DOCUMENTATION generators
@@ -180,6 +188,4 @@ The following generators are available:
 
 ## CONFIG generators
 * [apache2](generators/apache2.md)  
-
-
 

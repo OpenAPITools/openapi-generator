@@ -1,6 +1,6 @@
 #define BOOST_TEST_INCLUDED
 #include <list>
-#include <boost/property_tree/ptree.hpp>
+#include <boost/json.hpp>
 #include <boost/test/unit_test.hpp>
 #include <sstream>
 
@@ -30,14 +30,14 @@ BOOST_AUTO_TEST_CASE(toJsonString) {
 BOOST_AUTO_TEST_CASE(fromJsonString) {
   const std::string json = R"JSON(
 {
-    "id": "3",
+    "id": 3,
     "username": "TheUser",
     "firstName": "My Name",
     "lastName": "My Last Name",
     "email": "user@example.com",
     "password": "pa55word",
     "phone": "0987654321",
-    "userStatus": "3"
+    "userStatus": 3
 })JSON";
 
   User user;
@@ -64,9 +64,10 @@ BOOST_AUTO_TEST_CASE(toAndFromPropertyTree) {
   user.setPhone("1111122222333");
   user.setUserStatus(23);
 
-  const auto pt = user.toPropertyTree();
+  const auto newUser = User(user.toJsonValue());
 
-  const auto newUser = User(pt);
+  BOOST_TEST(newUser.getId() == 7L);
+  BOOST_TEST(newUser.getUsername() == "User1");
 
   Approvals::verify(user.toJsonString(true));
 }

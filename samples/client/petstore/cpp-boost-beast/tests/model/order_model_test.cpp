@@ -1,6 +1,6 @@
 #define BOOST_TEST_INCLUDED
 #include <list>
-#include <boost/property_tree/ptree.hpp>
+#include <boost/json.hpp>
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/unit_test.hpp>
 #include <sstream>
@@ -29,12 +29,12 @@ BOOST_AUTO_TEST_CASE(toJsonString) {
 BOOST_AUTO_TEST_CASE(fromJsonString) {
   const std::string json = R"JSON(
 {
-    "id": "22",
-    "petId": "32",
-    "quantity": "1",
+    "id": 22,
+    "petId": 32,
+    "quantity": 1,
     "shipDate": "999999",
     "status": "placed",
-    "complete": "true"
+    "complete": true
 }
 )JSON";
 
@@ -92,9 +92,7 @@ BOOST_AUTO_TEST_CASE(toAndFromPropertyTree) {
   order.setStatus("approved");
   order.setComplete(false);
 
-  const auto pt = order.toPropertyTree();
-
-  const auto newOrder = Order(pt);
+  const auto newOrder = Order(order.toJsonValue());
 
   BOOST_TEST(newOrder.getId() == 1L);
   BOOST_TEST(newOrder.getPetId() == 2L);

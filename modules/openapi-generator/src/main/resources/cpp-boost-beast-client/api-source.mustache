@@ -13,7 +13,7 @@
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/property_tree/json_parser.hpp>
+#include <boost/json.hpp>
 
 
 #include "{{classname}}.h"
@@ -191,15 +191,23 @@ const char* {{classname}}Exception::what() const noexcept
         {{/isArray}}
         {{#isMap}}
         if (not responseBody.empty()) {
-            std::stringstream responseStream(responseBody);
-            boost::property_tree::ptree pt;
-            boost::property_tree::read_json(responseStream, pt);
+            const auto& responseObject = boost::json::parse(responseBody).as_object();
             {{#additionalProperties}}
-            for (const auto& kv : pt) {
-                result.insert(std::make_pair(kv.first, boost::lexical_cast<{{{dataType}}}>(kv.second.data())));
+            for (const auto& kv : responseObject) {
+                {{#isModel}}
+                result.emplace(kv.key_c_str(), std::make_shared<{{baseType}}>(kv.value()));
+                {{/isModel}}
+                {{^isModel}}
+                {{#isFreeFormObject}}
+                result.emplace(kv.key_c_str(), kv.value());
+                {{/isFreeFormObject}}
+                {{^isFreeFormObject}}
+                result.emplace(kv.key_c_str(), boost::json::value_to<{{{dataType}}}>(kv.value()));
+                {{/isFreeFormObject}}
+                {{/isModel}}
             }
+            {{/additionalProperties}}
         }
-        {{/additionalProperties}}
         {{/isMap}}
         {{/returnType}}
         {{/is2xx}}
@@ -330,12 +338,20 @@ const char* {{classname}}Exception::what() const noexcept
         {{/isArray}}
         {{#isMap}}
         if (not responseBody.empty()) {
-            std::stringstream responseStream(responseBody);
-            boost::property_tree::ptree pt;
-            boost::property_tree::read_json(responseStream, pt);
+            const auto& responseObject = boost::json::parse(responseBody).as_object();
             {{#additionalProperties}}
-            for (const auto& kv : pt) {
-                result.insert(std::make_pair(kv.first, boost::lexical_cast<{{{dataType}}}>(kv.second.data())));
+            for (const auto& kv : responseObject) {
+                {{#isModel}}
+                result.emplace(kv.key_c_str(), std::make_shared<{{baseType}}>(kv.value()));
+                {{/isModel}}
+                {{^isModel}}
+                {{#isFreeFormObject}}
+                result.emplace(kv.key_c_str(), kv.value());
+                {{/isFreeFormObject}}
+                {{^isFreeFormObject}}
+                result.emplace(kv.key_c_str(), boost::json::value_to<{{{dataType}}}>(kv.value()));
+                {{/isFreeFormObject}}
+                {{/isModel}}
             }
             {{/additionalProperties}}
         }

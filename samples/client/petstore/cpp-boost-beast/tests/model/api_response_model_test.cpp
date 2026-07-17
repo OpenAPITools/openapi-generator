@@ -1,6 +1,6 @@
 #define BOOST_TEST_INCLUDED
 #include <list>
-#include <boost/property_tree/ptree.hpp>
+#include <boost/json.hpp>
 #include <boost/test/unit_test.hpp>
 #include <sstream>
 
@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_CASE(toJsonString) {
 BOOST_AUTO_TEST_CASE(fromJsonString) {
   const std::string json = R"JSON(
 {
-    "code": "200",
+    "code": 200,
     "type": "Ok",
     "message": "Nice!"
 }
@@ -66,9 +66,7 @@ BOOST_AUTO_TEST_CASE(toAndFromPropertyTree) {
   apiResponse.setType("Ack");
   apiResponse.setMessage("cool");
 
-  const auto pt = apiResponse.toPropertyTree();
-
-  const auto newApiResponse = ApiResponse(pt);
+  const auto newApiResponse = ApiResponse(apiResponse.toJsonValue());
 
   BOOST_TEST(newApiResponse.getCode() == 200);
   BOOST_TEST(newApiResponse.getType() == "Ack");

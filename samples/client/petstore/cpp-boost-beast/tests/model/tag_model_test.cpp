@@ -1,6 +1,6 @@
 #define BOOST_TEST_INCLUDED
 #include <list>
-#include <boost/property_tree/ptree.hpp>
+#include <boost/json.hpp>
 #include <boost/test/unit_test.hpp>
 #include <sstream>
 
@@ -62,9 +62,7 @@ BOOST_AUTO_TEST_CASE(ToAndFromPropertyTree) {
   tag.setId(42);
   tag.setName("AnotherTag");
 
-  const auto pt = tag.toPropertyTree();
-
-  const auto newTag = Tag(pt);
+  const auto newTag = Tag(tag.toJsonValue());
 
   BOOST_TEST(newTag.getId() == 42);
   BOOST_TEST(newTag.getName() == "AnotherTag");

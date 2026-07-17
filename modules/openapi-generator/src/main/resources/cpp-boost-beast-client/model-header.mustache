@@ -8,7 +8,6 @@
 #ifndef BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
 #define BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
 
-
 {{#imports}}{{{this}}}
 {{/imports}}
 #include <memory>
@@ -16,7 +15,7 @@
 {{#hasEnums}}
 #include <array>
 {{/hasEnums}}
-#include <boost/property_tree/ptree.hpp>
+#include <boost/json.hpp>
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -26,19 +25,19 @@ namespace {{this}} {
 /// {{description}}
 /// </summary>
 {{#circularReferences}}
-class  {{{this}}};
+class {{{this}}};
 {{/circularReferences}}
 class {{declspec}} {{classname}} {{#interfaces}}{{#-first}}:{{/-first}}{{^-first}},{{/-first}} public {{{this}}}{{/interfaces}}
 {
 public:
     {{classname}}() = default;
-    explicit {{classname}}(boost::property_tree::ptree const& pt);
+    explicit {{classname}}(boost::json::value const& value);
     virtual ~{{classname}}() = default;
 
     std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree() const;
-    void fromPropertyTree(boost::property_tree::ptree const& pt);
+    boost::json::value toJsonValue() const;
+    void fromJsonValue(boost::json::value const& value);
 
     /////////////////////////////////////////////
     /// {{classname}} members
@@ -56,11 +55,8 @@ protected:
     // Override these for customization //
     //////////////////////////////////////
 
-    virtual std::string toJsonString_internal(bool prettyJson = false) const;
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal() const;
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
+    virtual boost::json::object toJsonObject_internal() const;
+    virtual void fromJsonObject_internal(boost::json::object const& object);
 
 protected:
     {{#vars}}
@@ -89,7 +85,6 @@ protected:
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data);
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json);
-
 
 {{#modelNamespaceDeclarations}}
 }

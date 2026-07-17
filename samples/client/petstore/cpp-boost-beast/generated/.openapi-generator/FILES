@@ -9,6 +9,7 @@ api/StoreApi.cpp
 api/StoreApi.h
 api/UserApi.cpp
 api/UserApi.h
+model/AnyType.h
 model/ApiResponse.cpp
 model/ApiResponse.h
 model/Category.cpp

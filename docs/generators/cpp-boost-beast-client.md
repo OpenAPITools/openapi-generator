@@ -174,8 +174,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |File|✓|OAS2
 |Uuid|✗|
 |Array|✓|OAS2,OAS3
-|Null|✗|OAS3
-|AnyType|✗|OAS2,OAS3
+|Null|✓|OAS3
+|AnyType|✓|OAS2,OAS3
 |Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2

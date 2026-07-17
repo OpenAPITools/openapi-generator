@@ -1,12 +1,16 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.14)
 
 project(BoostBeastClientTests)
+
+if (POLICY CMP0167)
+    cmake_policy(SET CMP0167 OLD)
+endif ()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Boost 1.66 REQUIRED COMPONENTS unit_test_framework)
+find_package(Boost 1.75 REQUIRED COMPONENTS unit_test_framework)
 if (NOT Boost_FOUND)
     message(FATAL_ERROR "Cannot find Boost libraries")
 endif ()

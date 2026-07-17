@@ -3,257 +3,297 @@
 
 #include "{{classname}}.h"
 
-#include <string>
-#include <vector>
-#include <sstream>
 #include <stdexcept>
+#include <sstream>
+#include <string>
+#include <iterator>
+#include <utility>
+#include <vector>
 {{#hasEnums}}
 #include <algorithm>
 {{/hasEnums}}
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-
-using boost::property_tree::ptree;
-using boost::property_tree::read_json;
-using boost::property_tree::write_json;
+#include <boost/json.hpp>
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 
-{{classname}}::{{classname}}(boost::property_tree::ptree const& pt)
+namespace {
+void writePrettyJson(std::ostream& output, boost::json::value const& value, std::string& indent)
 {
-        fromPropertyTree(pt);
+    if (value.is_object()) {
+        const auto& object = value.as_object();
+        if (object.empty()) {
+            output << "{}";
+            return;
+        }
+
+        output << "{\n";
+        indent.append(4, ' ');
+        for (auto iterator = object.begin(); iterator != object.end(); ++iterator) {
+            output << indent << boost::json::serialize(iterator->key()) << ": ";
+            writePrettyJson(output, iterator->value(), indent);
+            if (std::next(iterator) != object.end()) {
+                output << ',';
+            }
+            output << '\n';
+        }
+        indent.resize(indent.size() - 4);
+        output << indent << '}';
+        return;
+    }
+
+    if (value.is_array()) {
+        const auto& array = value.as_array();
+        if (array.empty()) {
+            output << "[]";
+            return;
+        }
+
+        output << "[\n";
+        indent.append(4, ' ');
+        for (auto iterator = array.begin(); iterator != array.end(); ++iterator) {
+            output << indent;
+            writePrettyJson(output, *iterator, indent);
+            if (std::next(iterator) != array.end()) {
+                output << ',';
+            }
+            output << '\n';
+        }
+        indent.resize(indent.size() - 4);
+        output << indent << ']';
+        return;
+    }
+
+    output << boost::json::serialize(value);
+}
+}
+
+{{classname}}::{{classname}}(boost::json::value const& value)
+{
+    fromJsonValue(value);
 }
 
 std::string {{classname}}::toJsonString(bool prettyJson /* = false */) const
 {
-    return toJsonString_internal(prettyJson);
+    const auto value = toJsonValue();
+    if (!prettyJson) {
+        return boost::json::serialize(value);
+    }
+
+    std::ostringstream output;
+    std::string indent;
+    writePrettyJson(output, value, indent);
+    return output.str();
 }
 
 void {{classname}}::fromJsonString(std::string const& jsonString)
 {
-    fromJsonString_internal(jsonString);
+    fromJsonValue(boost::json::parse(jsonString));
 }
 
-boost::property_tree::ptree {{classname}}::toPropertyTree() const
+boost::json::value {{classname}}::toJsonValue() const
 {
-    return toPropertyTree_internal();
+    return boost::json::value(toJsonObject_internal());
 }
 
-void {{classname}}::fromPropertyTree(boost::property_tree::ptree const& pt)
+void {{classname}}::fromJsonValue(boost::json::value const& value)
 {
-    fromPropertyTree_internal(pt);
+    if (!value.is_object()) {
+        throw std::invalid_argument("Expected a JSON object for {{classname}}");
+    }
+    fromJsonObject_internal(value.as_object());
 }
 
-std::string {{classname}}::toJsonString_internal(bool prettyJson) const
+boost::json::object {{classname}}::toJsonObject_internal() const
 {
-	std::stringstream ss;
-	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
-}
-
-void {{classname}}::fromJsonString_internal(std::string const& jsonString)
-{
-	std::stringstream ss(jsonString);
-	ptree pt;
-	read_json(ss,pt);
-	this->fromPropertyTree(pt);
-}
-
-ptree {{classname}}::toPropertyTree_internal() const
-{
-	ptree pt;
-	ptree tmp_node;
-	{{#vars}}
-	{{^isContainer}}
-	{{#isPrimitiveType}}
-	pt.put("{{baseName}}", m_{{name}});
-	{{/isPrimitiveType}}
-	{{^isPrimitiveType}}
-	{{#isString}}
-	pt.put("{{baseName}}", m_{{name}});
-	{{/isString}}
-	{{#isDate}}
-	pt.put("{{baseName}}", m_{{name}});
-	{{/isDate}}
-	{{#isDateTime}}
-	pt.put("{{baseName}}", m_{{name}});
-	{{/isDateTime}}
-	{{#isModel}}
-	if (m_{{name}} != nullptr) {
-		pt.add_child("{{baseName}}", m_{{name}}->toPropertyTree());
-	}
-	{{/isModel}}
-	{{/isPrimitiveType}}
-	{{/isContainer}}
-	{{#isContainer}}
-	{{#isMap}}
-	// generate tree for {{name}} (map)
-	if (!m_{{name}}.empty()) {
-		for (const auto &childEntry : m_{{name}}) {
+    boost::json::object object;
+    {{#vars}}
+    {{^isContainer}}
+    {{#isFreeFormObject}}
+    object["{{baseName}}"] = m_{{name}};
+    {{/isFreeFormObject}}
+    {{^isFreeFormObject}}
+    {{#isAnyType}}
+    object["{{baseName}}"] = m_{{name}};
+    {{/isAnyType}}
+    {{^isAnyType}}
+    {{#isNull}}
+    object["{{baseName}}"] = nullptr;
+    {{/isNull}}
+    {{^isNull}}
+    {{#isPrimitiveType}}
+    object["{{baseName}}"] = m_{{name}};
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{#isString}}
+    object["{{baseName}}"] = m_{{name}};
+    {{/isString}}
+    {{^isString}}
+    {{#isDate}}
+    object["{{baseName}}"] = m_{{name}};
+    {{/isDate}}
+    {{#isDateTime}}
+    object["{{baseName}}"] = m_{{name}};
+    {{/isDateTime}}
+    {{#isEnum}}
+    object["{{baseName}}"] = m_{{name}};
+    {{/isEnum}}
+    {{#isEnumRef}}
+    object["{{baseName}}"] = m_{{name}};
+    {{/isEnumRef}}
+    {{#isModel}}
+    if (m_{{name}} != nullptr) {
+        object["{{baseName}}"] = m_{{name}}->toJsonValue();
+    }
+    {{/isModel}}
+    {{/isString}}
+    {{/isPrimitiveType}}
+    {{/isNull}}
+    {{/isAnyType}}
+    {{/isFreeFormObject}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#isMap}}
+    {
+        boost::json::object mapObject;
+        for (const auto& childEntry : m_{{name}}) {
             {{#items}}
             {{#isModel}}
-            tmp_node.push_back(std::make_pair(childEntry.first, childEntry.second->toPropertyTree()));
+            mapObject[childEntry.first] = childEntry.second == nullptr
+                ? boost::json::value(nullptr)
+                : childEntry.second->toJsonValue();
             {{/isModel}}
             {{^isModel}}
-            ptree {{name}}_node;
-            {{name}}_node.put("", childEntry.second);
-            tmp_node.push_back(std::make_pair(childEntry.first, {{name}}_node));
+            {{#isContainer}}
+            mapObject[childEntry.first] = boost::json::value_from(childEntry.second);
+            {{/isContainer}}
+            {{^isContainer}}
+            mapObject[childEntry.first] = childEntry.second;
+            {{/isContainer}}
             {{/isModel}}
             {{/items}}
-		}
-		pt.add_child("{{baseName}}", tmp_node);
-		tmp_node.clear();
-	}
-	{{/isMap}}
-	{{^isMap}}
-	// generate tree for {{name}} (array)
-	if (!m_{{name}}.empty()) {
-		for (const auto &childEntry : m_{{name}}) {
+        }
+        object["{{baseName}}"] = std::move(mapObject);
+    }
+    {{/isMap}}
+    {{^isMap}}
+    {
+        boost::json::array array;
+        for (const auto& childEntry : m_{{name}}) {
             {{#items}}
             {{#isModel}}
-            tmp_node.push_back(std::make_pair("", childEntry->toPropertyTree()));
+            array.emplace_back(childEntry == nullptr
+                ? boost::json::value(nullptr)
+                : childEntry->toJsonValue());
             {{/isModel}}
             {{^isModel}}
-            ptree {{name}}_node;
-            {{name}}_node.put("", childEntry);
-            tmp_node.push_back(std::make_pair("", {{name}}_node));
+            {{#isContainer}}
+            array.emplace_back(boost::json::value_from(childEntry));
+            {{/isContainer}}
+            {{^isContainer}}
+            array.emplace_back(childEntry);
+            {{/isContainer}}
             {{/isModel}}
             {{/items}}
-		}
-		pt.add_child("{{baseName}}", tmp_node);
-		tmp_node.clear();
-	}
-	{{/isMap}}
-	{{/isContainer}}
-	{{/vars}}
-	return pt;
+        }
+        object["{{baseName}}"] = std::move(array);
+    }
+    {{/isMap}}
+    {{/isContainer}}
+    {{/vars}}
+    return object;
 }
 
-void {{classname}}::fromPropertyTree_internal(ptree const &pt)
+void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
 {
-	ptree tmp_node;
-	{{#vars}}
-	{{^isContainer}}
-	{{^isEnum}}
-	{{#isPrimitiveType}}
-	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
-	{{/isPrimitiveType}}
-	{{^isPrimitiveType}}
-	{{#isString}}
-	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
-	{{/isString}}
-	{{#isDate}}
-	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
-	{{/isDate}}
-	{{#isDateTime}}
-	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
-	{{/isDateTime}}
-	{{/isPrimitiveType}}
-	{{/isEnum}}
-	{{#isEnum}}
-	{{setter}}(pt.get("{{baseName}}", {{{defaultValue}}}));
-	{{/isEnum}}
-	{{#isModel}}
-	if (pt.get_child_optional("{{baseName}}")) {
-		m_{{name}} = {{{defaultValue}}};
-		m_{{name}}->fromPropertyTree(pt.get_child("{{baseName}}"));
-	}
-	{{/isModel}}
-	{{/isContainer}}
-	{{#isContainer}}
-	{{#isMap}}
-	// read all key-value pairs of {{name}} into member map
-	if (pt.get_child_optional("{{baseName}}")) {
-		for (const auto &childTree : pt.get_child("{{baseName}}")) {
-		    {{#mostInnerItems}}
-            {{{dataType}}} val =
-            {{#isNumeric}}
-                {{^isFloat}}
-                {{^isLong}}
-                {{^isInteger}}
-                std::stod(childTree.second.data());
-                {{/isInteger}}
-                {{/isLong}}
-                {{/isFloat}}
-                {{#isDouble}}
-                std::stod(childTree.second.data());
-                {{/isDouble}}
-                {{#isFloat}}
-                std::stof(childTree.second.data());
-                {{/isFloat}}
-                {{#isInteger}}
-                std::stoi(childTree.second.data());
-                {{/isInteger}}
-                {{#isLong}}
-                std::stol(childTree.second.data());
-                {{/isLong}}
-            {{/isNumeric}}
-            {{#isString}}
-                childTree.second.data();
-            {{/isString}}
+    {{#vars}}
+    {{^isContainer}}
+    {
+        const auto {{name}}It = object.find("{{baseName}}");
+        if ({{name}}It != object.end()) {
+            {{#isFreeFormObject}}
+            m_{{name}} = {{name}}It->value();
+            {{/isFreeFormObject}}
+            {{^isFreeFormObject}}
+            {{#isAnyType}}
+            m_{{name}} = {{name}}It->value();
+            {{/isAnyType}}
+            {{^isAnyType}}
+            {{#isNull}}
+            m_{{name}} = nullptr;
+            {{/isNull}}
+            {{^isNull}}
             {{#isModel}}
-                std::make_shared<{{baseType}}>(childTree.second);
+            if (!{{name}}It->value().is_null()) {
+                m_{{name}} = std::make_shared<{{baseType}}>({{name}}It->value());
+            }
             {{/isModel}}
-            m_{{name}}[childTree.first] = std::move(val);
-		    {{/mostInnerItems}}
-		}
-	}
-	{{/isMap}}
-	{{^isMap}}
-	{{^isModelContainer}}
-	// push all items of {{name}} into member vector
-	if (pt.get_child_optional("{{baseName}}")) {
-		for (const auto &childTree : pt.get_child("{{baseName}}")) {
-		    {{#mostInnerItems}}
-            {{{dataType}}} val =
-            {{#isNumeric}}
-                {{^isFloat}}
-                {{^isLong}}
-                {{^isInteger}}
-                std::stod(childTree.second.data());
-                {{/isInteger}}
-                {{/isLong}}
-                {{/isFloat}}
-                {{#isDouble}}
-                std::stod(childTree.second.data());
-                {{/isDouble}}
-                {{#isFloat}}
-                std::stof(childTree.second.data());
-                {{/isFloat}}
-                {{#isInteger}}
-                std::stoi(childTree.second.data());
-                {{/isInteger}}
-                {{#isLong}}
-                std::stol(childTree.second.data());
-                {{/isLong}}
-            {{/isNumeric}}
-            {{#isString}}
-                childTree.second.data();
-            {{/isString}}
-            {{#isModel}}
-                std::make_shared<{{baseType}}>(childTree.second);
+            {{^isModel}}
+            m_{{name}} = boost::json::value_to<{{{dataType}}}>({{name}}It->value());
             {{/isModel}}
-            m_{{name}}.emplace_back(std::move(val));
-		    {{/mostInnerItems}}
-		}
-	}
-	{{/isModelContainer}}
-	{{#isModelContainer}}
-	// generate new {{complexType}} Object for each item and assign it to the current
-	if (pt.get_child_optional("{{baseName}}")) {
-		for (const auto &childTree : pt.get_child("{{baseName}}")) {
-		{{#mostInnerItems}}
-			m_{{name}}.emplace_back({{{defaultValue}}});
-			m_{{name}}.back()->fromPropertyTree(childTree.second);
-		{{/mostInnerItems}}
-		}
-	}
-	{{/isModelContainer}}
-	{{/isMap}}
-	{{/isContainer}}
-	{{/vars}}
+            {{/isNull}}
+            {{/isAnyType}}
+            {{/isFreeFormObject}}
+        }
+    }
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#isMap}}
+    {
+        const auto {{name}}It = object.find("{{baseName}}");
+        if ({{name}}It != object.end() && {{name}}It->value().is_object()) {
+            for (const auto& childEntry : {{name}}It->value().as_object()) {
+                {{#mostInnerItems}}
+                {{#isModel}}
+                if (!childEntry.value().is_null()) {
+                    m_{{vendorExtensions.x-container-property-name}}[childEntry.key_c_str()] = std::make_shared<{{baseType}}>(childEntry.value());
+                }
+                {{/isModel}}
+                {{^isModel}}
+                {{#isFreeFormObject}}
+                m_{{vendorExtensions.x-container-property-name}}[childEntry.key_c_str()] = childEntry.value();
+                {{/isFreeFormObject}}
+                {{^isFreeFormObject}}
+                {{#isAnyType}}
+                m_{{vendorExtensions.x-container-property-name}}[childEntry.key_c_str()] = childEntry.value();
+                {{/isAnyType}}
+                {{^isAnyType}}
+                m_{{vendorExtensions.x-container-property-name}}[childEntry.key_c_str()] = boost::json::value_to<{{{dataType}}}>(childEntry.value());
+                {{/isAnyType}}
+                {{/isFreeFormObject}}
+                {{/isModel}}
+                {{/mostInnerItems}}
+            }
+        }
+    }
+    {{/isMap}}
+    {{^isMap}}
+    {
+        const auto {{name}}It = object.find("{{baseName}}");
+        if ({{name}}It != object.end() && {{name}}It->value().is_array()) {
+            for (const auto& childEntry : {{name}}It->value().as_array()) {
+                {{#mostInnerItems}}
+                {{#isModel}}
+                if (!childEntry.is_null()) {
+                    m_{{name}}.emplace_back(std::make_shared<{{baseType}}>(childEntry));
+                }
+                {{/isModel}}
+                {{^isModel}}
+                {{#isFreeFormObject}}
+                m_{{name}}.emplace_back(childEntry);
+                {{/isFreeFormObject}}
+                {{^isFreeFormObject}}
+                m_{{name}}.emplace_back(boost::json::value_to<{{{dataType}}}>(childEntry));
+                {{/isFreeFormObject}}
+                {{/isModel}}
+                {{/mostInnerItems}}
+            }
+        }
+    }
+    {{/isMap}}
+    {{/isContainer}}
+    {{/vars}}
 }
 
 {{#vars}}
@@ -264,36 +304,30 @@ void {{classname}}::fromPropertyTree_internal(ptree const &pt)
 
 void {{classname}}::{{setter}}({{{dataType}}} value)
 {
-	{{#isEnum}}if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) != m_{{enumName}}.end()) {
-		{{/isEnum}}m_{{name}} = value;{{#isEnum}}
-	} else {
-		throw std::runtime_error("Value " + value + " not allowed");
-	}{{/isEnum}}
+    {{#isEnum}}if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) != m_{{enumName}}.end()) {
+        {{/isEnum}}m_{{name}} = value;{{#isEnum}}
+    } else {
+        throw std::runtime_error("Value " + value + " not allowed");
+    }{{/isEnum}}
 }
 {{/vars}}
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data)
 {
-    std::stringstream output;
-    output << '[';
-    for (std::size_t i = 0; i < data.size(); ++i) {
-        output << data[i]->toJsonString(false);
-        if (i < data.size() - 1) {
-            output << ", ";
-        }
+    boost::json::array array;
+    for (const auto& item : data) {
+        array.emplace_back(item == nullptr ? boost::json::value(nullptr) : item->toJsonValue());
     }
-    output << ']';
-    return output.str();
+    return boost::json::serialize(array);
 }
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json)
 {
-std::stringstream sstream(json);
-    boost::property_tree::ptree pt;
-    boost::property_tree::json_parser::read_json(sstream,pt);
-
-    for (const auto& child: pt) {
-        vec.emplace_back(std::make_shared<{{{classname}}}>(child.second));
+    const auto array = boost::json::parse(json).as_array();
+    for (const auto& item : array) {
+        if (!item.is_null()) {
+            vec.emplace_back(std::make_shared<{{{classname}}}>(item));
+        }
     }
 }
 

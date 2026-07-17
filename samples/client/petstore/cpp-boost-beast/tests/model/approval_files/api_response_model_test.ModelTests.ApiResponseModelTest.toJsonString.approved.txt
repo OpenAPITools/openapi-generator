@@ -1,6 +1,5 @@
 {
-    "code": "404",
+    "code": 404,
     "type": "Error",
     "message": "Not available"
 }
-

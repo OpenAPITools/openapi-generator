@@ -12,9 +12,12 @@ org.openapitools.codegen.languages.CrystalClientCodegen
 org.openapitools.codegen.languages.CLibcurlClientCodegen
 org.openapitools.codegen.languages.ClojureClientCodegen
 org.openapitools.codegen.languages.ConfluenceWikiCodegen
+org.openapitools.codegen.languages.CppHttplibServerCodegen
 org.openapitools.codegen.languages.CppBoostBeastClientCodegen
+org.openapitools.codegen.languages.CppOatppClientCodegen
 org.openapitools.codegen.languages.CppQtClientCodegen
 org.openapitools.codegen.languages.CppQtQHttpEngineServerCodegen
+org.openapitools.codegen.languages.CppOatppServerCodegen
 org.openapitools.codegen.languages.CppPistacheServerCodegen
 org.openapitools.codegen.languages.CppRestbedServerCodegen
 org.openapitools.codegen.languages.CppRestbedServerDeprecatedCodegen
@@ -47,6 +50,7 @@ org.openapitools.codegen.languages.HaskellHttpClientCodegen
 org.openapitools.codegen.languages.HaskellServantCodegen
 org.openapitools.codegen.languages.HaskellYesodServerCodegen
 org.openapitools.codegen.languages.JavaClientCodegen
+org.openapitools.codegen.languages.JavaDubboServerCodegen
 org.openapitools.codegen.languages.JavaCXFClientCodegen
 org.openapitools.codegen.languages.JavaHelidonClientCodegen
 org.openapitools.codegen.languages.JavaHelidonServerCodegen
@@ -125,6 +129,7 @@ org.openapitools.codegen.languages.RustAxumServerCodegen
 org.openapitools.codegen.languages.RustClientCodegen
 org.openapitools.codegen.languages.RustSalvoServerCodegen
 org.openapitools.codegen.languages.RustServerCodegen
+org.openapitools.codegen.languages.RustServerCodegenDeprecated
 org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaAkkaClientCodegen
 org.openapitools.codegen.languages.ScalaCaskServerCodegen
@@ -138,6 +143,7 @@ org.openapitools.codegen.languages.ScalaLagomServerCodegen
 org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen
 org.openapitools.codegen.languages.ScalaSttpClientCodegen
 org.openapitools.codegen.languages.ScalaSttp4ClientCodegen
+org.openapitools.codegen.languages.ScalaSttp4JsoniterClientCodegen
 org.openapitools.codegen.languages.ScalazClientCodegen
 org.openapitools.codegen.languages.SpringCodegen
 org.openapitools.codegen.languages.StaticDocCodegen
@@ -146,6 +152,7 @@ org.openapitools.codegen.languages.StaticHtml2Generator
 org.openapitools.codegen.languages.Swift5ClientCodegen
 org.openapitools.codegen.languages.Swift6ClientCodegen
 org.openapitools.codegen.languages.SwiftCombineClientCodegen
+org.openapitools.codegen.languages.TerraformProviderCodegen
 org.openapitools.codegen.languages.TypeScriptClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
 org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen
@@ -154,6 +161,7 @@ org.openapitools.codegen.languages.TypeScriptFetchClientCodegen
 org.openapitools.codegen.languages.TypeScriptInversifyClientCodegen
 org.openapitools.codegen.languages.TypeScriptJqueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen
+org.openapitools.codegen.languages.TypeScriptNestjsServerCodegen
 org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
 org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen

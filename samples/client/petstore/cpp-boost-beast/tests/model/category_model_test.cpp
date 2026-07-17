@@ -1,6 +1,6 @@
 #define BOOST_TEST_INCLUDED
 #include <list>
-#include <boost/property_tree/ptree.hpp>
+#include <boost/json.hpp>
 #include <boost/test/unit_test.hpp>
 #include <sstream>
 
@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(toJsonString) {
 BOOST_AUTO_TEST_CASE(fromJsonString) {
   const std::string json = R"JSON(
 {
-    "id": "23",
+    "id": 23,
     "name": "categoryB"
 }
 )JSON";
@@ -63,9 +63,7 @@ BOOST_AUTO_TEST_CASE(fromAndToPropertyTree) {
   category.setId(23);
   category.setName("categoryX");
 
-  const auto pt = category.toPropertyTree();
-
-  const auto newCategory = Category(pt);
+  const auto newCategory = Category(category.toJsonValue());
   BOOST_TEST(newCategory.getId() == 23);
   BOOST_TEST(newCategory.getName() == "categoryX");
 }

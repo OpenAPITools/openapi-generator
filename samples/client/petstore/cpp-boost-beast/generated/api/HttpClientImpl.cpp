@@ -5,6 +5,7 @@
 #include <boost/beast/http.hpp>
 #include <boost/beast/http/message.hpp>
 #include <boost/beast/version.hpp>
+#include <boost/json/src.hpp>
 #include <boost/system/system_error.hpp>
 
 #include <sstream>

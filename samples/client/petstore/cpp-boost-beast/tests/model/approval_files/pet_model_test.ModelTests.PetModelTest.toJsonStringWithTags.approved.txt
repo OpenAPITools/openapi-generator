@@ -1,16 +1,16 @@
 {
-    "id": "1",
+    "id": 1,
     "name": "MyName",
+    "photoUrls": [],
     "tags": [
         {
-            "id": "1",
+            "id": 1,
             "name": "tag1"
         },
         {
-            "id": "2",
+            "id": 2,
             "name": "tag2"
         }
     ],
     "status": ""
 }
-

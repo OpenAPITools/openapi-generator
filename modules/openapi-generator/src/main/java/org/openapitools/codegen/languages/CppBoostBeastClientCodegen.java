@@ -1,8 +1,6 @@
 package org.openapitools.codegen.languages;
 
 
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.JsonSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -51,6 +49,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
+                .includeDataTypeFeatures(
+                        DataTypeFeature.AnyType,
+                        DataTypeFeature.Null
+                )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
@@ -96,7 +98,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         typeMapping.put("array", "std::vector");
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "std::string");
-        typeMapping.put("object", "boost::property_tree::ptree");
+        typeMapping.put("object", "boost::json::value");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
@@ -108,7 +110,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         importMapping.put("std::string", "#include <string>");
         importMapping.put("int32_t", "#include <cstdint>");
         importMapping.put("int64_t", "#include <cstdint>");
-        importMapping.put("boost::property_tree::ptree", "#include <boost/property_tree/ptree.hpp>");
+        importMapping.put("boost::json::value", "#include <boost/json.hpp>");
+        importMapping.put("std::nullptr_t", "#include <cstddef>");
+        importMapping.put("Null", "#include <cstddef>");
         importMapping.put("AnyType", "#include \"AnyType.h\"");
     }
 
@@ -214,7 +218,18 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         if (codegenModel.hasEnums) {
             codegenModel.imports.add("#include <vector>");
         }
+        addContainerPropertyNames(codegenModel.vars);
         return codegenModel;
+    }
+
+    private void addContainerPropertyNames(List<CodegenProperty> properties) {
+        for (CodegenProperty property : properties) {
+            CodegenProperty item = property.items;
+            while (item != null) {
+                item.vendorExtensions.put("x-container-property-name", property.name);
+                item = item.items;
+            }
+        }
     }
 
     @Override
@@ -302,10 +317,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             if (inner != null) {
                 return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
             }
-            return "std::vector<boost::property_tree::ptree>";
+            return "std::vector<boost::json::value>";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
+            String innerType = inner == null ? "boost::json::value" : getTypeDeclaration(inner);
+            return getSchemaType(p) + "<std::string, " + innerType + ">";
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "std::string";
         } else if (ModelUtils.isStringSchema(p)
@@ -315,10 +331,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             return toModelName(openAPIType);
         } else if (ModelUtils.isNullType(p)) {
             // Handle OpenAPI 3.1 null type
-            return "nullptr";
+            return "std::nullptr_t";
         } else if (ModelUtils.isAnyType(p) || ModelUtils.isFreeFormObject(p, openAPI)) {
-            // Use boost::property_tree::ptree for generic/untyped schemas (OpenAPI 3.1 JsonSchema)
-            return "boost::property_tree::ptree";
+            return "boost::json::value";
         }
 
         return "std::shared_ptr<" + openAPIType + ">";
@@ -385,18 +400,20 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 return "\"\"";
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
-            return "std::map<std::string, " + inner + ">()";
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            String innerType = inner == null ? "boost::json::value" : getTypeDeclaration(inner);
+            return "std::map<std::string, " + innerType + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             // Use getItems() directly to handle OpenAPI 3.1 JsonSchema
             Schema inner = p.getItems();
-            String innerType = inner != null ? getSchemaType(inner) : "Object";
-            if (!languageSpecificPrimitives.contains(innerType)) {
-                innerType = "std::shared_ptr<" + innerType + ">";
-            }
+            String innerType = inner != null ? getTypeDeclaration(inner) : "boost::json::value";
             return "std::vector<" + innerType + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
             return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
+        } else if (ModelUtils.isNullType(p)) {
+            return "nullptr";
+        } else if (ModelUtils.isAnyType(p) || ModelUtils.isFreeFormObject(p, openAPI)) {
+            return "boost::json::value()";
         }
 
         return "nullptr";
@@ -404,9 +421,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     
     @Override
     public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
-        // Override for properties using boost::property_tree::ptree directly (not shared_ptr)
-        if (codegenProperty != null && "boost::property_tree::ptree".equals(codegenProperty.dataType)) {
-            return "boost::property_tree::ptree()";
+        if (codegenProperty != null && "boost::json::value".equals(codegenProperty.dataType)) {
+            return "boost::json::value()";
         }
         return super.toDefaultValue(codegenProperty, schema);
     }
@@ -419,7 +435,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         boolean isArray = parameter.isArray == Boolean.TRUE;
         boolean isString = parameter.isString == Boolean.TRUE;
 
-        if (!isPrimitiveType && !isArray && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
+        if (!isPrimitiveType && !isArray && !isString && !parameter.dataType.startsWith("std::shared_ptr")
+                && !"boost::json::value".equals(parameter.dataType)
+                && !"std::nullptr_t".equals(parameter.dataType)) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
             parameter.defaultValue = "std::make_shared<" + parameter.dataType + ">()";
         }

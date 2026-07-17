@@ -1,16 +1,8 @@
 #define BOOST_TEST_INCLUDED
-#include <list>
 #include "../ApprovalTests.hpp"
-// silence warning from json_parser.hpp
-#ifndef BOOST_BIND_GLOBAL_PLACEHOLDERS
-# define BOOST_BIND_GLOBAL_PLACEHOLDERS
-#endif
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/property_tree/ptree.hpp>
+#include <boost/json.hpp>
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/unit_test.hpp>
-#include <initializer_list>
-#include <sstream>
 
 #include "model/Category.h"
 #include "model/Pet.h"
@@ -18,19 +10,6 @@
 
 using namespace ApprovalTests;
 using namespace org::openapitools::client::model;
-
-template <class T>
-boost::property_tree::ptree
-createPropertyTreeSubArray(const std::initializer_list<T> &data) {
-  boost::property_tree::ptree tmp_node;
-  for (const auto &tag : data) {
-    boost::property_tree::ptree tagEntry;
-    tagEntry.put("", tag);
-    tmp_node.push_back(std::make_pair("", tagEntry));
-  }
-
-  return tmp_node;
-}
 
 BOOST_AUTO_TEST_SUITE(PetModelTest)
 
@@ -74,7 +53,7 @@ BOOST_AUTO_TEST_CASE(fromJsonString) {
   Pet pet;
   std::string json = R"JSON(
 {
-    "id": "23",
+    "id": 23,
     "name": "ThePet",
     "status": "available"
 })JSON";
@@ -108,18 +87,14 @@ BOOST_AUTO_TEST_CASE(test_createJsonStringFromPetVector) {
 }
 
 BOOST_AUTO_TEST_CASE(fromJsonAndPropertyTree) {
-  std::stringstream json_stream;
-  json_stream << R"JSON(
+  const std::string json = R"JSON(
 {
-    "id": "23",
+    "id": 23,
     "name": "ThePet",
     "status": "available"
 })JSON";
 
-  boost::property_tree::ptree pt;
-  boost::property_tree::read_json(json_stream, pt);
-
-  Pet pet{pt};
+  Pet pet{boost::json::parse(json)};
 
   BOOST_TEST(pet.getId() == 23);
   BOOST_TEST(pet.getName() == "ThePet");
@@ -127,38 +102,34 @@ BOOST_AUTO_TEST_CASE(fromJsonAndPropertyTree) {
 }
 
 BOOST_AUTO_TEST_CASE(fromPropertyTree) {
+  boost::json::object object;
+  object["id"] = 11;
+  object["status"] = "available";
+  object["name"] = "Fluffy";
 
-  boost::property_tree::ptree pt;
+  boost::json::array tags;
+  boost::json::object tag1;
+  tag1["name"] = "tag1";
+  tag1["id"] = 1;
+  tags.emplace_back(std::move(tag1));
+  boost::json::object tag2;
+  tag2["name"] = "tag2";
+  tag2["id"] = 2;
+  tags.emplace_back(std::move(tag2));
+  object["tags"] = std::move(tags);
 
-  pt.add("id", 11);
-  pt.add("status", "available");
-  pt.add("name", "Fluffy");
+  boost::json::array photoUrls;
+  photoUrls.emplace_back("www.example.com/photo1");
+  photoUrls.emplace_back("www.example.com/photo2");
+  object["photoUrls"] = std::move(photoUrls);
 
-  boost::property_tree::ptree tags;
-  boost::property_tree::ptree tagPt1;
-  tagPt1.add("name", "tag1");
-  tagPt1.add("id", 1);
-  tags.push_back(std::make_pair("", tagPt1));
-  boost::property_tree::ptree tagPt2;
-  tagPt2.add("name", "tag2");
-  tagPt2.add("id", 2);
-  tags.push_back(std::make_pair("", tagPt2));
-  pt.add_child("tags", tags);
-
-  pt.add_child("photoUrls",
-               createPropertyTreeSubArray(
-                   {"www.example.com/photo1", "www.example.com/photo2"}));
-
-  pt.add("category.name", "Category1");
-  pt.add("category.id", 0);
+  boost::json::object category;
+  category["name"] = "Category1";
+  category["id"] = 0;
+  object["category"] = std::move(category);
 
   Pet pet;
-  pet.fromPropertyTree(pt);
-
-  std::stringstream stringstream;
-  write_json(stringstream, pt, true);
-
-  // Approvals::verify(stringstream.str());
+  pet.fromJsonValue(object);
   Approvals::verify(pet.toJsonString(true));
 }
 
@@ -180,21 +151,22 @@ BOOST_AUTO_TEST_CASE(toPropertyTree) {
   category->setName("Category1");
   pet.setCategory(category);
 
-  auto pt = pet.toPropertyTree();
+  const auto value = pet.toJsonValue();
+  const auto& object = value.as_object();
 
-  BOOST_TEST(pt.get<int64_t>("id") == 0);
-  BOOST_TEST(pt.get<std::string>("name") == "");
-  BOOST_TEST(pt.get<std::string>("status") == "");
+  BOOST_TEST(object.at("id").as_int64() == 0);
+  BOOST_TEST(object.at("name").as_string() == "");
+  BOOST_TEST(object.at("status").as_string() == "");
 
-  auto tagsFromPt = pt.get_child("tags");
-  BOOST_TEST(tagsFromPt.size() == 1);
+  const auto& tagsFromJson = object.at("tags").as_array();
+  BOOST_TEST(tagsFromJson.size() == 1);
 
-  auto photoUrlsFromPt = pt.get_child("photoUrls");
-  BOOST_TEST(photoUrlsFromPt.size() == 2);
+  const auto& photoUrlsFromJson = object.at("photoUrls").as_array();
+  BOOST_TEST(photoUrlsFromJson.size() == 2);
 
   BOOST_TEST(pet.getCategory()->getName() == "Category1");
-  auto categoryFromPt = pt.get_child("category");
-  BOOST_TEST(categoryFromPt.get<std::string>("name") == "Category1");
+  const auto& categoryFromJson = object.at("category").as_object();
+  BOOST_TEST(categoryFromJson.at("name").as_string() == "Category1");
 }
 
 BOOST_AUTO_TEST_CASE(photoUrls) {
@@ -210,15 +182,15 @@ BOOST_AUTO_TEST_CASE(photoUrls) {
 BOOST_AUTO_TEST_CASE(fromJsonWithTags) {
   std::string json_str = R"JSON(
 {
-    "id": "1",
+    "id": 1,
     "name": "MyName",
     "tags": [
         {
-            "id": "1",
+            "id": 1,
             "name": "tag1"
         },
         {
-            "id": "2",
+            "id": 2,
             "name": "tag2"
         }
     ],

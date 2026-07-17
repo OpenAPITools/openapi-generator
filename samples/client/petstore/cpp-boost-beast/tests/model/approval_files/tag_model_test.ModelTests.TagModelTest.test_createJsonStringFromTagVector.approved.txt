@@ -1,1 +1,1 @@
-[{"id":"23","name":"HelloTag"}, {"id":"42","name":"MyTag"}, {"id":"13","name":"OtherTag"}]
+[{"id":23,"name":"HelloTag"},{"id":42,"name":"MyTag"},{"id":13,"name":"OtherTag"}]

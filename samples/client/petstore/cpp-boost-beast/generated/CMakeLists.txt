@@ -1,5 +1,11 @@
+cmake_minimum_required(VERSION 3.14)
+project(openapi-client VERSION 1.0.0 LANGUAGES CXX)
 
-find_package(Boost 1.66 REQUIRED)
+if (POLICY CMP0167)
+    cmake_policy(SET CMP0167 OLD)
+endif ()
+
+find_package(Boost 1.75 REQUIRED)
 find_package(OpenSSL REQUIRED)
 
 
@@ -21,25 +27,34 @@ set_property(TARGET ${LIBRARY_NAME} PROPERTY CXX_EXTENSIONS OFF)
 target_sources(${LIBRARY_NAME} PRIVATE
 # models
     model/ApiResponse.cpp
+    model/ApiResponse.h
     model/Category.cpp
+    model/Category.h
     model/Order.cpp
+    model/Order.h
     model/Pet.cpp
+    model/Pet.h
     model/Tag.cpp
+    model/Tag.h
     model/User.cpp
+    model/User.h
 # apis
     api/PetApi.cpp
+    api/PetApi.h
     api/StoreApi.cpp
+    api/StoreApi.h
     api/UserApi.cpp
+    api/UserApi.h
 # other
+    api/HttpClient.h
     api/HttpClientImpl.cpp
+    api/HttpClientImpl.h
+    model/AnyType.h
 )
 
 
-target_link_libraries(${LIBRARY_NAME} PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(${LIBRARY_NAME} PUBLIC Boost::boost OpenSSL::SSL OpenSSL::Crypto)
 
 target_include_directories(${LIBRARY_NAME} PUBLIC model api ${CMAKE_CURRENT_LIST_DIR})
-
-# silence warnings from boost/property_tree/json_parser.hpp
-target_compile_definitions(${LIBRARY_NAME} PRIVATE BOOST_BIND_GLOBAL_PLACEHOLDERS)
 
 install(TARGETS ${LIBRARY_NAME} RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)

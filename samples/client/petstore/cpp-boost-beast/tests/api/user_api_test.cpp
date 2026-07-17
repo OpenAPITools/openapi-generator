@@ -1,7 +1,6 @@
 #define BOOST_TEST_INCLUDED
 #include <list>
 #include "../ApprovalTests.hpp"
-#include <boost/property_tree/ptree.hpp>
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/unit_test.hpp>
 
