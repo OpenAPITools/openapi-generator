@@ -100,6 +100,19 @@ BOOST_AUTO_TEST_CASE(loginUser) {
 
 }
 
+BOOST_AUTO_TEST_CASE(loginUser_encodes_query_values) {
+    auto recordingClient = std::make_shared<RecordingClient>(
+        boost::beast::http::status::ok, "token");
+    std::shared_ptr<HttpClient> client = recordingClient;
+    UserApi recordingApi(client);
+
+    recordingApi.loginUser("me &", "p=a ss");
+
+    BOOST_REQUIRE_EQUAL(
+        recordingClient->target(),
+        "/v2/user/login?username=me%20%26&password=p%3Da%20ss");
+}
+
 BOOST_AUTO_TEST_CASE(logoutUser) {
 
     // Nothing to assert. Should not throw any exception

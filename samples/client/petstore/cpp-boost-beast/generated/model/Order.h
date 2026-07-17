@@ -31,10 +31,12 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
+
 /// <summary>
 /// An order for a pets from the pet store
 /// </summary>
-class  Order 
+class  Order
 {
 public:
     Order() = default;
@@ -92,6 +94,7 @@ protected:
 
     virtual boost::json::object toJsonObject_internal() const;
     virtual void fromJsonObject_internal(boost::json::object const& object);
+
 
 protected:
     int64_t m_Id = 0L;

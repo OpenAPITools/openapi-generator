@@ -14,6 +14,9 @@
 
 #include "Order.h"
 
+#include <cstddef>
+#include <map>
+#include <memory>
 #include <stdexcept>
 #include <sstream>
 #include <string>
@@ -29,6 +32,101 @@ namespace client {
 namespace model {
 
 namespace {
+template <typename Target>
+struct JsonValueConverter
+{
+    static boost::json::value toJsonValue(const Target& sourceValue)
+    {
+        return boost::json::value_from(sourceValue);
+    }
+
+    static Target fromJsonValue(const boost::json::value& jsonValue)
+    {
+        return boost::json::value_to<Target>(jsonValue);
+    }
+};
+
+template <>
+struct JsonValueConverter<std::nullptr_t>
+{
+    static boost::json::value toJsonValue(std::nullptr_t)
+    {
+        return nullptr;
+    }
+
+    static std::nullptr_t fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (!jsonValue.is_null()) {
+            throw std::invalid_argument("Expected a null JSON value");
+        }
+        return nullptr;
+    }
+};
+
+template <typename ModelType>
+struct JsonValueConverter<std::shared_ptr<ModelType>>
+{
+    static boost::json::value toJsonValue(const std::shared_ptr<ModelType>& model)
+    {
+        return model == nullptr ? boost::json::value(nullptr) : model->toJsonValue();
+    }
+
+    static std::shared_ptr<ModelType> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (jsonValue.is_null()) {
+            return nullptr;
+        }
+        return std::make_shared<ModelType>(jsonValue);
+    }
+};
+
+template <typename Element>
+struct JsonValueConverter<std::vector<Element>>
+{
+    static boost::json::value toJsonValue(const std::vector<Element>& sourceValues)
+    {
+        boost::json::array jsonValues;
+        for (const auto& sourceValue : sourceValues) {
+            jsonValues.emplace_back(JsonValueConverter<Element>::toJsonValue(sourceValue));
+        }
+        return jsonValues;
+    }
+
+    static std::vector<Element> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        const auto& jsonValues = jsonValue.as_array();
+        std::vector<Element> convertedValues;
+        convertedValues.reserve(jsonValues.size());
+        for (const auto& jsonElement : jsonValues) {
+            convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));
+        }
+        return convertedValues;
+    }
+};
+
+template <typename MappedValue>
+struct JsonValueConverter<std::map<std::string, MappedValue>>
+{
+    static boost::json::value toJsonValue(const std::map<std::string, MappedValue>& sourceValues)
+    {
+        boost::json::object jsonValues;
+        for (const auto& sourceEntry : sourceValues) {
+            jsonValues[sourceEntry.first] = JsonValueConverter<MappedValue>::toJsonValue(sourceEntry.second);
+        }
+        return jsonValues;
+    }
+
+    static std::map<std::string, MappedValue> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        std::map<std::string, MappedValue> convertedValues;
+        for (const auto& jsonEntry : jsonValue.as_object()) {
+            const std::string entryKey(jsonEntry.key().data(), jsonEntry.key().size());
+            convertedValues.emplace(entryKey, JsonValueConverter<MappedValue>::fromJsonValue(jsonEntry.value()));
+        }
+        return convertedValues;
+    }
+};
+
 void writePrettyJson(std::ostream& output, boost::json::value const& value, std::string& indent)
 {
     if (value.is_object()) {
@@ -118,12 +216,12 @@ void Order::fromJsonValue(boost::json::value const& value)
 boost::json::object Order::toJsonObject_internal() const
 {
     boost::json::object object;
-    object["id"] = m_Id;
-    object["petId"] = m_PetId;
-    object["quantity"] = m_Quantity;
-    object["shipDate"] = m_ShipDate;
-    object["status"] = m_Status;
-    object["complete"] = m_Complete;
+    object["id"] = JsonValueConverter<int64_t>::toJsonValue(m_Id);
+    object["petId"] = JsonValueConverter<int64_t>::toJsonValue(m_PetId);
+    object["quantity"] = JsonValueConverter<int32_t>::toJsonValue(m_Quantity);
+    object["shipDate"] = JsonValueConverter<std::string>::toJsonValue(m_ShipDate);
+    object["status"] = JsonValueConverter<std::string>::toJsonValue(m_Status);
+    object["complete"] = JsonValueConverter<bool>::toJsonValue(m_Complete);
     return object;
 }
 
@@ -132,37 +230,37 @@ void Order::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
-            m_Id = boost::json::value_to<int64_t>(IdIt->value());
+            m_Id = JsonValueConverter<int64_t>::fromJsonValue(IdIt->value());
         }
     }
     {
         const auto PetIdIt = object.find("petId");
         if (PetIdIt != object.end()) {
-            m_PetId = boost::json::value_to<int64_t>(PetIdIt->value());
+            m_PetId = JsonValueConverter<int64_t>::fromJsonValue(PetIdIt->value());
         }
     }
     {
         const auto QuantityIt = object.find("quantity");
         if (QuantityIt != object.end()) {
-            m_Quantity = boost::json::value_to<int32_t>(QuantityIt->value());
+            m_Quantity = JsonValueConverter<int32_t>::fromJsonValue(QuantityIt->value());
         }
     }
     {
         const auto ShipDateIt = object.find("shipDate");
         if (ShipDateIt != object.end()) {
-            m_ShipDate = boost::json::value_to<std::string>(ShipDateIt->value());
+            m_ShipDate = JsonValueConverter<std::string>::fromJsonValue(ShipDateIt->value());
         }
     }
     {
         const auto StatusIt = object.find("status");
         if (StatusIt != object.end()) {
-            m_Status = boost::json::value_to<std::string>(StatusIt->value());
+            m_Status = JsonValueConverter<std::string>::fromJsonValue(StatusIt->value());
         }
     }
     {
         const auto CompleteIt = object.find("complete");
         if (CompleteIt != object.end()) {
-            m_Complete = boost::json::value_to<bool>(CompleteIt->value());
+            m_Complete = JsonValueConverter<bool>::fromJsonValue(CompleteIt->value());
         }
     }
 }
@@ -174,7 +272,7 @@ int64_t Order::getId() const
 
 void Order::setId(int64_t value)
 {
-    m_Id = value;
+        m_Id = std::move(value);
 }
 int64_t Order::getPetId() const
 {
@@ -183,7 +281,7 @@ int64_t Order::getPetId() const
 
 void Order::setPetId(int64_t value)
 {
-    m_PetId = value;
+        m_PetId = std::move(value);
 }
 int32_t Order::getQuantity() const
 {
@@ -192,7 +290,7 @@ int32_t Order::getQuantity() const
 
 void Order::setQuantity(int32_t value)
 {
-    m_Quantity = value;
+        m_Quantity = std::move(value);
 }
 std::string Order::getShipDate() const
 {
@@ -201,7 +299,7 @@ std::string Order::getShipDate() const
 
 void Order::setShipDate(std::string value)
 {
-    m_ShipDate = value;
+        m_ShipDate = std::move(value);
 }
 std::string Order::getStatus() const
 {
@@ -210,11 +308,10 @@ std::string Order::getStatus() const
 
 void Order::setStatus(std::string value)
 {
-    if (std::find(m_StatusEnum.begin(), m_StatusEnum.end(), value) != m_StatusEnum.end()) {
-        m_Status = value;
-    } else {
+    if (std::find(m_StatusEnum.begin(), m_StatusEnum.end(), value) == m_StatusEnum.end()) {
         throw std::runtime_error("Value " + value + " not allowed");
     }
+    m_Status = std::move(value);
 }
 bool Order::isComplete() const
 {
@@ -223,26 +320,17 @@ bool Order::isComplete() const
 
 void Order::setComplete(bool value)
 {
-    m_Complete = value;
+        m_Complete = std::move(value);
 }
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Order>>& data)
 {
-    boost::json::array array;
-    for (const auto& item : data) {
-        array.emplace_back(item == nullptr ? boost::json::value(nullptr) : item->toJsonValue());
-    }
-    return boost::json::serialize(array);
+    return boost::json::serialize(JsonValueConverter<std::vector<std::shared_ptr<Order>>>::toJsonValue(data));
 }
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<Order>>& vec, const std::string& json)
 {
-    const auto array = boost::json::parse(json).as_array();
-    for (const auto& item : array) {
-        if (!item.is_null()) {
-            vec.emplace_back(std::make_shared<Order>(item));
-        }
-    }
+    vec = JsonValueConverter<std::vector<std::shared_ptr<Order>>>::fromJsonValue(boost::json::parse(json));
 }
 
 }

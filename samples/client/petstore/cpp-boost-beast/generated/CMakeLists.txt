@@ -6,7 +6,36 @@ if (POLICY CMP0167)
 endif ()
 
 find_package(Boost 1.75 REQUIRED)
-find_package(OpenSSL REQUIRED)
+set(THREADS_TARGET_PREDEFINED FALSE)
+if (TARGET Threads::Threads)
+    set(THREADS_TARGET_PREDEFINED TRUE)
+endif ()
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+
+if (NOT THREADS_TARGET_PREDEFINED)
+    set_property(TARGET Threads::Threads PROPERTY IMPORTED_GLOBAL TRUE)
+endif ()
+
+set(OPENSSL_SSL_TARGET_PREDEFINED FALSE)
+set(OPENSSL_CRYPTO_TARGET_PREDEFINED FALSE)
+if (TARGET OpenSSL::SSL)
+    set(OPENSSL_SSL_TARGET_PREDEFINED TRUE)
+endif ()
+if (TARGET OpenSSL::Crypto)
+    set(OPENSSL_CRYPTO_TARGET_PREDEFINED TRUE)
+endif ()
+
+find_package(OpenSSL 1.1.0 REQUIRED COMPONENTS SSL Crypto)
+
+# Imported targets created in this subdirectory are otherwise invisible to
+# sibling consumers when this project is included with add_subdirectory().
+if (NOT OPENSSL_SSL_TARGET_PREDEFINED)
+    set_property(TARGET OpenSSL::SSL PROPERTY IMPORTED_GLOBAL TRUE)
+endif ()
+if (NOT OPENSSL_CRYPTO_TARGET_PREDEFINED)
+    set_property(TARGET OpenSSL::Crypto PROPERTY IMPORTED_GLOBAL TRUE)
+endif ()
 
 
 if (MSVC)
@@ -53,8 +82,12 @@ target_sources(${LIBRARY_NAME} PRIVATE
 )
 
 
-target_link_libraries(${LIBRARY_NAME} PUBLIC Boost::boost OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(${LIBRARY_NAME}
+    PUBLIC Boost::boost OpenSSL::SSL Threads::Threads)
 
-target_include_directories(${LIBRARY_NAME} PUBLIC model api ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(${LIBRARY_NAME} PUBLIC
+    model
+    api
+    ${CMAKE_CURRENT_LIST_DIR})
 
 install(TARGETS ${LIBRARY_NAME} RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)

@@ -12,10 +12,13 @@
 
 
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <map>
 #include <array>
 #include <algorithm>
+#include <utility>
+#include <vector>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/beast/http/status.hpp>
@@ -61,14 +64,310 @@ std::string selectPreferredContentType(const std::vector<std::string>& contentTy
     return contentTypes.at(0);
 }
 
+inline std::string normalizeMediaType(const std::string& contentType) {
+    const auto parameterSeparator = contentType.find(';');
+    std::string mediaType = contentType.substr(0, parameterSeparator);
+    boost::algorithm::trim(mediaType);
+    boost::algorithm::to_lower(mediaType);
+    return mediaType;
+}
+
+inline bool isJsonContentType(const std::string& contentType) {
+    const std::string mediaType = normalizeMediaType(contentType);
+    return mediaType == "application/json"
+        || (mediaType.size() > 5 && mediaType.compare(mediaType.size() - 5, 5, "+json") == 0);
+}
+}
+
+struct FormParameter {
+    FormParameter(std::string parameterName, std::string parameterValue, bool file)
+        : name(std::move(parameterName)), value(std::move(parameterValue)), isFile(file) {
+    }
+
+    std::string name;
+    std::string value;
+    bool isFile;
+};
+
+inline std::string toFormParameterValue(const std::string& value) {
+    return value;
+}
+
+inline std::string toFormParameterValue(bool value) {
+    return value ? "true" : "false";
+}
+
+inline std::string toRawBodyValue(const std::string& value) {
+    return value;
+}
+
+inline std::string toRawBodyValue(bool value) {
+    return value ? "true" : "false";
+}
+
+template<typename T>
+std::string toRawBodyValue(const T& value) {
+    return boost::lexical_cast<std::string>(value);
+}
+
+template<typename T>
+std::string toFormParameterValue(const T& value) {
+    return boost::lexical_cast<std::string>(value);
+}
+
+template<typename T>
+std::string toFormParameterValue(const std::vector<T>& values) {
+    std::stringstream serializedValues;
+    const char* separator = "";
+    for (const auto& value : values) {
+        serializedValues << separator << toFormParameterValue(value);
+        separator = ",";
+    }
+    return serializedValues.str();
+}
+
+inline std::string percentEncodeFormValue(const std::string& value) {
+    static const char hexDigits[] = "0123456789ABCDEF";
+    std::string encodedValue;
+    encodedValue.reserve(value.size());
+    for (const unsigned char character : value) {
+        if ((character >= 'a' && character <= 'z')
+            || (character >= 'A' && character <= 'Z')
+            || (character >= '0' && character <= '9')
+            || character == '-' || character == '.' || character == '_'
+            || character == '~') {
+            encodedValue.push_back(static_cast<char>(character));
+        } else if (character == ' ') {
+            encodedValue.push_back('+');
+        } else {
+            encodedValue.push_back('%');
+            encodedValue.push_back(hexDigits[(character >> 4) & 0x0F]);
+            encodedValue.push_back(hexDigits[character & 0x0F]);
+        }
+    }
+    return encodedValue;
+}
+
+inline std::string percentEncodeQueryValue(const std::string& value) {
+    static const char hexDigits[] = "0123456789ABCDEF";
+    std::string encodedValue;
+    encodedValue.reserve(value.size());
+    for (const unsigned char character : value) {
+        if ((character >= 'a' && character <= 'z')
+            || (character >= 'A' && character <= 'Z')
+            || (character >= '0' && character <= '9')
+            || character == '-' || character == '.' || character == '_'
+            || character == '~') {
+            encodedValue.push_back(static_cast<char>(character));
+        } else {
+            encodedValue.push_back('%');
+            encodedValue.push_back(hexDigits[(character >> 4) & 0x0F]);
+            encodedValue.push_back(hexDigits[character & 0x0F]);
+        }
+    }
+    return encodedValue;
+}
+
+template<typename T>
+std::string serializeQueryParameterValue(const T& value) {
+    return percentEncodeQueryValue(toFormParameterValue(value));
+}
+
+template<typename T>
+std::string serializeQueryParameterValue(const std::vector<T>& values) {
+    std::stringstream serializedValues;
+    const char* separator = "";
+    for (const auto& value : values) {
+        serializedValues << separator
+                         << percentEncodeQueryValue(toFormParameterValue(value));
+        separator = ",";
+    }
+    return serializedValues.str();
+}
+
+inline std::string serializeUrlEncodedFormData(const std::vector<FormParameter>& formParameters) {
+    std::stringstream serializedFormData;
+    const char* separator = "";
+    for (const auto& formParameter : formParameters) {
+        serializedFormData << separator
+                           << percentEncodeFormValue(formParameter.name)
+                           << '='
+                           << percentEncodeFormValue(formParameter.value);
+        separator = "&";
+    }
+    return serializedFormData.str();
+}
+
+inline std::string selectMultipartBoundary(const std::vector<FormParameter>& formParameters) {
+    std::string boundary = "OpenAPIGeneratorBoundary";
+    for (;;) {
+        const auto collision = std::find_if(
+            formParameters.cbegin(),
+            formParameters.cend(),
+            [&boundary](const FormParameter& formParameter) {
+                return formParameter.value.find(boundary) != std::string::npos;
+            });
+        if (collision == formParameters.cend()) {
+            return boundary;
+        }
+        boundary.push_back('X');
+    }
+}
+
+inline std::string escapeMultipartParameter(const std::string& value) {
+    std::string escapedValue;
+    escapedValue.reserve(value.size());
+    for (const char character : value) {
+        if (character == '\\' || character == '"') {
+            escapedValue.push_back('\\');
+        }
+        escapedValue.push_back(character);
+    }
+    return escapedValue;
+}
+
+inline std::string serializeMultipartFormData(
+    const std::vector<FormParameter>& formParameters,
+    const std::string& boundary) {
+    std::stringstream serializedFormData;
+    for (const auto& formParameter : formParameters) {
+        serializedFormData << "--" << boundary << "\r\n"
+                           << "Content-Disposition: form-data; name=\""
+                           << escapeMultipartParameter(formParameter.name) << '"';
+        if (formParameter.isFile) {
+            serializedFormData << "; filename=\""
+                               << escapeMultipartParameter(formParameter.name) << '"';
+        }
+        serializedFormData << "\r\n";
+        if (formParameter.isFile) {
+            serializedFormData << "Content-Type: application/octet-stream\r\n";
+        }
+        serializedFormData << "\r\n" << formParameter.value << "\r\n";
+    }
+    serializedFormData << "--" << boundary << "--\r\n";
+    return serializedFormData.str();
+}
+
+namespace {
+
 std::string base64encodeImpl(const std::string& str) {
 #if BOOST_VERSION < 107100
     return boost::beast::detail::base64_encode(str);
 #else
-    // todo
-    return str;
+    std::string encoded;
+    encoded.resize(boost::beast::detail::base64::encoded_size(str.size()));
+    if (!str.empty()) {
+        encoded.resize(boost::beast::detail::base64::encode(&encoded[0], str.data(), str.size()));
+    }
+    return encoded;
 #endif
 }
+
+template<typename T>
+boost::json::value toRequestJsonValue(const T& requestValue);
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::shared_ptr<T>& requestValue);
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::vector<T>& requestValues);
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestValues);
+
+template<typename T>
+boost::json::value toRequestJsonValue(const T& requestValue) {
+    return boost::json::value_from(requestValue);
+}
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::shared_ptr<T>& requestValue) {
+    return requestValue == nullptr ? boost::json::value(nullptr) : requestValue->toJsonValue();
+}
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::vector<T>& requestValues) {
+    boost::json::array requestArray;
+    requestArray.reserve(requestValues.size());
+    for (const auto& requestValue : requestValues) {
+        requestArray.emplace_back(toRequestJsonValue(requestValue));
+    }
+    return requestArray;
+}
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestValues) {
+    boost::json::object requestObject;
+    for (const auto& requestEntry : requestValues) {
+        requestObject.emplace(requestEntry.first, toRequestJsonValue(requestEntry.second));
+    }
+    return requestObject;
+}
+
+template<typename T>
+struct ResponseJsonValueConverter {
+    static T convert(const boost::json::value& responseValue) {
+        return boost::json::value_to<T>(responseValue);
+    }
+};
+
+template<>
+struct ResponseJsonValueConverter<boost::json::value> {
+    static boost::json::value convert(const boost::json::value& responseValue) {
+        return responseValue;
+    }
+};
+
+template<typename T>
+struct ResponseJsonValueConverter<std::shared_ptr<T>> {
+    static std::shared_ptr<T> convert(const boost::json::value& responseValue) {
+        return responseValue.is_null() ? nullptr : std::make_shared<T>(responseValue);
+    }
+};
+
+template<typename T>
+struct ResponseJsonValueConverter<std::vector<T>> {
+    static std::vector<T> convert(const boost::json::value& responseValue) {
+        const auto& responseArray = responseValue.as_array();
+        std::vector<T> convertedValues;
+        convertedValues.reserve(responseArray.size());
+        for (const auto& arrayValue : responseArray) {
+            convertedValues.emplace_back(ResponseJsonValueConverter<T>::convert(arrayValue));
+        }
+        return convertedValues;
+    }
+};
+
+template<typename T>
+struct ResponseJsonValueConverter<std::map<std::string, T>> {
+    static std::map<std::string, T> convert(const boost::json::value& responseValue) {
+        const auto& responseObject = responseValue.as_object();
+        std::map<std::string, T> convertedValues;
+        for (const auto& objectEntry : responseObject) {
+            convertedValues.emplace(
+                objectEntry.key_c_str(),
+                ResponseJsonValueConverter<T>::convert(objectEntry.value()));
+        }
+        return convertedValues;
+    }
+};
+
+template<typename T>
+struct ResponseBodyDeserializer {
+    static void deserialize(T& convertedResponse, const std::string& responseBody, bool tolerateEmptyBody) {
+        if (tolerateEmptyBody && responseBody.empty()) {
+            return;
+        }
+        convertedResponse = ResponseJsonValueConverter<T>::convert(boost::json::parse(responseBody));
+    }
+};
+
+template<>
+struct ResponseBodyDeserializer<std::string> {
+    static void deserialize(std::string& convertedResponse, const std::string& responseBody, bool) {
+        convertedResponse = responseBody;
+    }
+};
 }
 
 StoreApiException::StoreApiException(boost::beast::http::status statusCode, std::string what)
@@ -90,13 +389,12 @@ const char* StoreApiException::what() const noexcept
 void
 StoreApi::deleteOrder(
     const std::string& orderId) {
-    std::string requestBody;
+    std::string serializedRequestBody;
     std::string path = m_context + "/store/order/%1%";
     std::map<std::string, std::string> headers;
     // path params
     const auto formattedPath = boost::format(path) % orderId;
     path = formattedPath.str();
-
 
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -105,7 +403,7 @@ StoreApi::deleteOrder(
         std::tie(statusCode, responseBody) =
             m_client->execute("DELETE",
                               path,
-                              requestBody,
+                              serializedRequestBody,
                               headers);
     }
     catch(const std::exception& e) {
@@ -128,7 +426,7 @@ StoreApi::deleteOrder(
 std::shared_ptr<Order>
 StoreApi::getOrderById(
     const int64_t& orderId) {
-    std::string requestBody;
+    std::string serializedRequestBody;
     std::string path = m_context + "/store/order/%1%";
     std::map<std::string, std::string> headers;
     // path params
@@ -138,14 +436,13 @@ StoreApi::getOrderById(
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
     setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
 
-
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
     try {
         std::tie(statusCode, responseBody) =
             m_client->execute("GET",
                 path,
-                requestBody,
+                serializedRequestBody,
                 headers);
     }
     catch(const std::exception& e) {
@@ -155,9 +452,13 @@ StoreApi::getOrderById(
         handleUncaughtException();
     }
 
-    std::shared_ptr<Order> result = std::make_shared<Order>();
+    std::shared_ptr<Order> deserializedResponse = std::make_shared<Order>();
     if (statusCode == boost::beast::http::status(200)) {
-        result->fromJsonString(responseBody);
+        ResponseBodyDeserializer<std::shared_ptr<Order>>::deserialize(
+            deserializedResponse,
+            responseBody,
+            false);
+        return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
         throw StoreApiException(statusCode, "Invalid ID supplied");
@@ -166,19 +467,18 @@ StoreApi::getOrderById(
         throw StoreApiException(statusCode, "Order not found");
     }
 
-    return result;
+    return deserializedResponse;
 }
 
 std::map<std::string, int32_t>
 StoreApi::getInventory(
     ) {
-    std::string requestBody;
+    std::string serializedRequestBody;
     std::string path = m_context + "/store/inventory";
     std::map<std::string, std::string> headers;
 
     static const std::vector<std::string> acceptTypes{ "application/json", };
     setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
-
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -186,7 +486,7 @@ StoreApi::getInventory(
         std::tie(statusCode, responseBody) =
             m_client->execute("GET",
                               path,
-                              requestBody,
+                              serializedRequestBody,
                               headers);
     }
     catch(const std::exception& e) {
@@ -196,32 +496,35 @@ StoreApi::getInventory(
         handleUncaughtException();
     }
 
-    std::map<std::string, int32_t> result = std::map<std::string, int32_t>();
+    std::map<std::string, int32_t> deserializedResponse = std::map<std::string, int32_t>();
     if (statusCode == boost::beast::http::status(200)) {
-        if (not responseBody.empty()) {
-            const auto& responseObject = boost::json::parse(responseBody).as_object();
-            for (const auto& kv : responseObject) {
-                result.emplace(kv.key_c_str(), boost::json::value_to<int32_t>(kv.value()));
-            }
-        }
+        ResponseBodyDeserializer<std::map<std::string, int32_t>>::deserialize(
+            deserializedResponse,
+            responseBody,
+            true);
+        return deserializedResponse;
     }
 
-    return result;
+    return deserializedResponse;
 }
 std::shared_ptr<Order>
 StoreApi::placeOrder(
     const std::shared_ptr<Order>& order) {
-    std::string requestBody;
+    std::string serializedRequestBody;
     std::string path = m_context + "/store/order";
     std::map<std::string, std::string> headers;
+    static const std::vector<std::string> contentTypes{ "application/json", };
+    std::string requestContentType = selectPreferredContentType(contentTypes);
+    headers["Content-Type"] = requestContentType;
     // Body params
-    requestBody = order->toJsonString();
+    if (isJsonContentType(requestContentType)) {
+        serializedRequestBody = boost::json::serialize(toRequestJsonValue(order));
+    } else {
+        throw std::invalid_argument("Content type '" + requestContentType + "' does not support structured request bodies");
+    }
 
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
     setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
-
-    static const std::vector<std::string> contentTypes{ "application/json", };
-    setPreferredMediaTypeHeader(headers, "ContentType", contentTypes);
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -229,7 +532,7 @@ StoreApi::placeOrder(
         std::tie(statusCode, responseBody) =
             m_client->execute("POST",
                               path,
-                              requestBody,
+                              serializedRequestBody,
                               headers);
     }
     catch(const std::exception& e) {
@@ -239,15 +542,19 @@ StoreApi::placeOrder(
         handleUncaughtException();
     }
 
-    std::shared_ptr<Order> result = std::make_shared<Order>();
+    std::shared_ptr<Order> deserializedResponse = std::make_shared<Order>();
     if (statusCode == boost::beast::http::status(200)) {
-        result->fromJsonString(responseBody);
+        ResponseBodyDeserializer<std::shared_ptr<Order>>::deserialize(
+            deserializedResponse,
+            responseBody,
+            false);
+        return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
         throw StoreApiException(statusCode, "Invalid Order");
     }
 
-    return result;
+    return deserializedResponse;
 }
 
 
@@ -260,8 +567,8 @@ void StoreApi::setPreferredMediaTypeHeader(std::map<std::string, std::string>& h
     headers[headerName] = contentType;
 }
 
-void StoreApi::handleStdException(const std::exception& e) {
-    throw e;
+void StoreApi::handleStdException(const std::exception&) {
+    throw;
 }
 
 void StoreApi::handleUncaughtException() {

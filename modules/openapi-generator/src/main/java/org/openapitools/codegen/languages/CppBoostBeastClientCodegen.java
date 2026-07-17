@@ -20,6 +20,11 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
+    private static final String X_CODEGEN_DEFAULT_RESPONSE_IS_RETURN_COMPATIBLE =
+            "x-codegen-default-response-is-return-compatible";
+    private static final String X_CODEGEN_EMPTY_BODY_TOLERANT = "x-codegen-empty-body-tolerant";
+    private static final String X_CODEGEN_HAS_DEFAULT_RESPONSE = "x-codegen-has-default-response";
+    private static final String X_CODEGEN_IS_RAW_BODY = "x-codegen-is-raw-body";
     private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
 
     public CodegenType getTag() {
@@ -250,6 +255,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         List<CodegenOperation> newOpList = new ArrayList<>();
 
         for (CodegenOperation op : operationList) {
+            addApiResponseMetadata(op);
             String path = op.path;
 
             String[] items = path.split("/", -1);
@@ -297,6 +303,21 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         }
         operations.put("operation", newOpList);
         return objs;
+    }
+
+    private void addApiResponseMetadata(CodegenOperation operation) {
+        boolean hasDefaultResponse = false;
+        for (CodegenResponse response : operation.responses) {
+            response.vendorExtensions.put(X_CODEGEN_EMPTY_BODY_TOLERANT,
+                    response.isMap || response.isFreeFormObject || response.isAnyType);
+
+            if (response.isDefault) {
+                hasDefaultResponse = true;
+                response.vendorExtensions.put(X_CODEGEN_DEFAULT_RESPONSE_IS_RETURN_COMPATIBLE,
+                        operation.returnType != null && Objects.equals(operation.returnType, response.dataType));
+            }
+        }
+        operation.vendorExtensions.put(X_CODEGEN_HAS_DEFAULT_RESPONSE, hasDefaultResponse);
     }
 
     /**
@@ -433,9 +454,13 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
         boolean isArray = parameter.isArray == Boolean.TRUE;
+        boolean isMap = parameter.isMap == Boolean.TRUE;
         boolean isString = parameter.isString == Boolean.TRUE;
+        parameter.vendorExtensions.put(X_CODEGEN_IS_RAW_BODY,
+                isPrimitiveType || isString || parameter.isByteArray || parameter.isBinary
+                        || "std::string".equals(parameter.dataType));
 
-        if (!isPrimitiveType && !isArray && !isString && !parameter.dataType.startsWith("std::shared_ptr")
+        if (!isPrimitiveType && !isArray && !isMap && !isString && !parameter.dataType.startsWith("std::shared_ptr")
                 && !"boost::json::value".equals(parameter.dataType)
                 && !"std::nullptr_t".equals(parameter.dataType)) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";

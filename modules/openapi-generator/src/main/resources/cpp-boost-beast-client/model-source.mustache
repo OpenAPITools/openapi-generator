@@ -3,6 +3,9 @@
 
 #include "{{classname}}.h"
 
+#include <cstddef>
+#include <map>
+#include <memory>
 #include <stdexcept>
 #include <sstream>
 #include <string>
@@ -19,6 +22,101 @@ namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 
 namespace {
+template <typename Target>
+struct JsonValueConverter
+{
+    static boost::json::value toJsonValue(const Target& sourceValue)
+    {
+        return boost::json::value_from(sourceValue);
+    }
+
+    static Target fromJsonValue(const boost::json::value& jsonValue)
+    {
+        return boost::json::value_to<Target>(jsonValue);
+    }
+};
+
+template <>
+struct JsonValueConverter<std::nullptr_t>
+{
+    static boost::json::value toJsonValue(std::nullptr_t)
+    {
+        return nullptr;
+    }
+
+    static std::nullptr_t fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (!jsonValue.is_null()) {
+            throw std::invalid_argument("Expected a null JSON value");
+        }
+        return nullptr;
+    }
+};
+
+template <typename ModelType>
+struct JsonValueConverter<std::shared_ptr<ModelType>>
+{
+    static boost::json::value toJsonValue(const std::shared_ptr<ModelType>& model)
+    {
+        return model == nullptr ? boost::json::value(nullptr) : model->toJsonValue();
+    }
+
+    static std::shared_ptr<ModelType> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (jsonValue.is_null()) {
+            return nullptr;
+        }
+        return std::make_shared<ModelType>(jsonValue);
+    }
+};
+
+template <typename Element>
+struct JsonValueConverter<std::vector<Element>>
+{
+    static boost::json::value toJsonValue(const std::vector<Element>& sourceValues)
+    {
+        boost::json::array jsonValues;
+        for (const auto& sourceValue : sourceValues) {
+            jsonValues.emplace_back(JsonValueConverter<Element>::toJsonValue(sourceValue));
+        }
+        return jsonValues;
+    }
+
+    static std::vector<Element> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        const auto& jsonValues = jsonValue.as_array();
+        std::vector<Element> convertedValues;
+        convertedValues.reserve(jsonValues.size());
+        for (const auto& jsonElement : jsonValues) {
+            convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));
+        }
+        return convertedValues;
+    }
+};
+
+template <typename MappedValue>
+struct JsonValueConverter<std::map<std::string, MappedValue>>
+{
+    static boost::json::value toJsonValue(const std::map<std::string, MappedValue>& sourceValues)
+    {
+        boost::json::object jsonValues;
+        for (const auto& sourceEntry : sourceValues) {
+            jsonValues[sourceEntry.first] = JsonValueConverter<MappedValue>::toJsonValue(sourceEntry.second);
+        }
+        return jsonValues;
+    }
+
+    static std::map<std::string, MappedValue> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        std::map<std::string, MappedValue> convertedValues;
+        for (const auto& jsonEntry : jsonValue.as_object()) {
+            const std::string entryKey(jsonEntry.key().data(), jsonEntry.key().size());
+            convertedValues.emplace(entryKey, JsonValueConverter<MappedValue>::fromJsonValue(jsonEntry.value()));
+        }
+        return convertedValues;
+    }
+};
+
 void writePrettyJson(std::ostream& output, boost::json::value const& value, std::string& indent)
 {
     if (value.is_object()) {
@@ -107,228 +205,97 @@ void {{classname}}::fromJsonValue(boost::json::value const& value)
 
 boost::json::object {{classname}}::toJsonObject_internal() const
 {
+    {{#parent}}
+    boost::json::object object = {{{parent}}}::toJsonObject_internal();
+    {{/parent}}
+    {{^parent}}
     boost::json::object object;
+    {{/parent}}
     {{#vars}}
-    {{^isContainer}}
-    {{#isFreeFormObject}}
-    object["{{baseName}}"] = m_{{name}};
-    {{/isFreeFormObject}}
-    {{^isFreeFormObject}}
-    {{#isAnyType}}
-    object["{{baseName}}"] = m_{{name}};
-    {{/isAnyType}}
-    {{^isAnyType}}
-    {{#isNull}}
-    object["{{baseName}}"] = nullptr;
-    {{/isNull}}
-    {{^isNull}}
-    {{#isPrimitiveType}}
-    object["{{baseName}}"] = m_{{name}};
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
-    {{#isString}}
-    object["{{baseName}}"] = m_{{name}};
-    {{/isString}}
-    {{^isString}}
-    {{#isDate}}
-    object["{{baseName}}"] = m_{{name}};
-    {{/isDate}}
-    {{#isDateTime}}
-    object["{{baseName}}"] = m_{{name}};
-    {{/isDateTime}}
-    {{#isEnum}}
-    object["{{baseName}}"] = m_{{name}};
-    {{/isEnum}}
-    {{#isEnumRef}}
-    object["{{baseName}}"] = m_{{name}};
-    {{/isEnumRef}}
+    {{#parent}}
+    if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+    {{/parent}}
     {{#isModel}}
-    if (m_{{name}} != nullptr) {
-        object["{{baseName}}"] = m_{{name}}->toJsonValue();
-    }
+        const auto {{name}}Value = {{getter}}();
+        if ({{name}}Value != nullptr) {
+            object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{name}}Value);
+        }
     {{/isModel}}
-    {{/isString}}
-    {{/isPrimitiveType}}
-    {{/isNull}}
-    {{/isAnyType}}
-    {{/isFreeFormObject}}
-    {{/isContainer}}
-    {{#isContainer}}
-    {{#isMap}}
-    {
-        boost::json::object mapObject;
-        for (const auto& childEntry : m_{{name}}) {
-            {{#items}}
-            {{#isModel}}
-            mapObject[childEntry.first] = childEntry.second == nullptr
-                ? boost::json::value(nullptr)
-                : childEntry.second->toJsonValue();
-            {{/isModel}}
-            {{^isModel}}
-            {{#isContainer}}
-            mapObject[childEntry.first] = boost::json::value_from(childEntry.second);
-            {{/isContainer}}
-            {{^isContainer}}
-            mapObject[childEntry.first] = childEntry.second;
-            {{/isContainer}}
-            {{/isModel}}
-            {{/items}}
-        }
-        object["{{baseName}}"] = std::move(mapObject);
+    {{^isModel}}
+    {{^parent}}
+    object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue(m_{{name}});
+    {{/parent}}
+    {{#parent}}
+    object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
+    {{/parent}}
+    {{/isModel}}
+    {{#parent}}
     }
-    {{/isMap}}
-    {{^isMap}}
-    {
-        boost::json::array array;
-        for (const auto& childEntry : m_{{name}}) {
-            {{#items}}
-            {{#isModel}}
-            array.emplace_back(childEntry == nullptr
-                ? boost::json::value(nullptr)
-                : childEntry->toJsonValue());
-            {{/isModel}}
-            {{^isModel}}
-            {{#isContainer}}
-            array.emplace_back(boost::json::value_from(childEntry));
-            {{/isContainer}}
-            {{^isContainer}}
-            array.emplace_back(childEntry);
-            {{/isContainer}}
-            {{/isModel}}
-            {{/items}}
-        }
-        object["{{baseName}}"] = std::move(array);
-    }
-    {{/isMap}}
-    {{/isContainer}}
+    {{/parent}}
     {{/vars}}
     return object;
 }
 
 void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
 {
+    {{#parent}}
+    {{{parent}}}::fromJsonObject_internal(object);
+    {{/parent}}
     {{#vars}}
-    {{^isContainer}}
+    {{#parent}}
+    if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+    {{/parent}}
     {
         const auto {{name}}It = object.find("{{baseName}}");
         if ({{name}}It != object.end()) {
-            {{#isFreeFormObject}}
-            m_{{name}} = {{name}}It->value();
-            {{/isFreeFormObject}}
-            {{^isFreeFormObject}}
-            {{#isAnyType}}
-            m_{{name}} = {{name}}It->value();
-            {{/isAnyType}}
-            {{^isAnyType}}
-            {{#isNull}}
-            m_{{name}} = nullptr;
-            {{/isNull}}
-            {{^isNull}}
-            {{#isModel}}
-            if (!{{name}}It->value().is_null()) {
-                m_{{name}} = std::make_shared<{{baseType}}>({{name}}It->value());
-            }
-            {{/isModel}}
-            {{^isModel}}
-            m_{{name}} = boost::json::value_to<{{{dataType}}}>({{name}}It->value());
-            {{/isModel}}
-            {{/isNull}}
-            {{/isAnyType}}
-            {{/isFreeFormObject}}
+            {{#parent}}
+            {{setter}}(JsonValueConverter<{{{dataType}}}>::fromJsonValue({{name}}It->value()));
+            {{/parent}}
+            {{^parent}}
+            m_{{name}} = JsonValueConverter<{{{dataType}}}>::fromJsonValue({{name}}It->value());
+            {{/parent}}
         }
     }
-    {{/isContainer}}
-    {{#isContainer}}
-    {{#isMap}}
-    {
-        const auto {{name}}It = object.find("{{baseName}}");
-        if ({{name}}It != object.end() && {{name}}It->value().is_object()) {
-            for (const auto& childEntry : {{name}}It->value().as_object()) {
-                {{#mostInnerItems}}
-                {{#isModel}}
-                if (!childEntry.value().is_null()) {
-                    m_{{vendorExtensions.x-container-property-name}}[childEntry.key_c_str()] = std::make_shared<{{baseType}}>(childEntry.value());
-                }
-                {{/isModel}}
-                {{^isModel}}
-                {{#isFreeFormObject}}
-                m_{{vendorExtensions.x-container-property-name}}[childEntry.key_c_str()] = childEntry.value();
-                {{/isFreeFormObject}}
-                {{^isFreeFormObject}}
-                {{#isAnyType}}
-                m_{{vendorExtensions.x-container-property-name}}[childEntry.key_c_str()] = childEntry.value();
-                {{/isAnyType}}
-                {{^isAnyType}}
-                m_{{vendorExtensions.x-container-property-name}}[childEntry.key_c_str()] = boost::json::value_to<{{{dataType}}}>(childEntry.value());
-                {{/isAnyType}}
-                {{/isFreeFormObject}}
-                {{/isModel}}
-                {{/mostInnerItems}}
-            }
-        }
+    {{#parent}}
     }
-    {{/isMap}}
-    {{^isMap}}
-    {
-        const auto {{name}}It = object.find("{{baseName}}");
-        if ({{name}}It != object.end() && {{name}}It->value().is_array()) {
-            for (const auto& childEntry : {{name}}It->value().as_array()) {
-                {{#mostInnerItems}}
-                {{#isModel}}
-                if (!childEntry.is_null()) {
-                    m_{{name}}.emplace_back(std::make_shared<{{baseType}}>(childEntry));
-                }
-                {{/isModel}}
-                {{^isModel}}
-                {{#isFreeFormObject}}
-                m_{{name}}.emplace_back(childEntry);
-                {{/isFreeFormObject}}
-                {{^isFreeFormObject}}
-                m_{{name}}.emplace_back(boost::json::value_to<{{{dataType}}}>(childEntry));
-                {{/isFreeFormObject}}
-                {{/isModel}}
-                {{/mostInnerItems}}
-            }
-        }
-    }
-    {{/isMap}}
-    {{/isContainer}}
+    {{/parent}}
     {{/vars}}
 }
 
 {{#vars}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
+    {{#parent}}
+    return read{{name}}Property<{{{parent}}}>({{classname}}{{name}}PropertyIsInherited<{{{parent}}}>(), m_{{name}});
+    {{/parent}}
+    {{^parent}}
     return m_{{name}};
+    {{/parent}}
 }
 
 void {{classname}}::{{setter}}({{{dataType}}} value)
 {
-    {{#isEnum}}if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) != m_{{enumName}}.end()) {
-        {{/isEnum}}m_{{name}} = value;{{#isEnum}}
-    } else {
+    {{#isEnum}}if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) == m_{{enumName}}.end()) {
         throw std::runtime_error("Value " + value + " not allowed");
-    }{{/isEnum}}
+    }
+    {{/isEnum}}
+    {{#parent}}
+    write{{name}}Property<{{{parent}}}>({{classname}}{{name}}PropertyIsInherited<{{{parent}}}>(), m_{{name}}, std::move(value));
+    {{/parent}}
+    {{^parent}}
+    m_{{name}} = std::move(value);
+    {{/parent}}
 }
 {{/vars}}
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data)
 {
-    boost::json::array array;
-    for (const auto& item : data) {
-        array.emplace_back(item == nullptr ? boost::json::value(nullptr) : item->toJsonValue());
-    }
-    return boost::json::serialize(array);
+    return boost::json::serialize(JsonValueConverter<std::vector<std::shared_ptr<{{classname}}>>>::toJsonValue(data));
 }
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json)
 {
-    const auto array = boost::json::parse(json).as_array();
-    for (const auto& item : array) {
-        if (!item.is_null()) {
-            vec.emplace_back(std::make_shared<{{{classname}}}>(item));
-        }
-    }
+    vec = JsonValueConverter<std::vector<std::shared_ptr<{{{classname}}}>>>::fromJsonValue(boost::json::parse(json));
 }
 
 {{#modelNamespaceDeclarations}}

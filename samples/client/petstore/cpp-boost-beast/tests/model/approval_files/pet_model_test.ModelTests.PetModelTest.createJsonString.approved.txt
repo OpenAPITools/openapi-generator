@@ -1,3 +1,0 @@
-[{"id":"23","name":"ThePet","status":"available"}
-, {"id":"42","name":"TheOtherPet","status":"available"}
-]

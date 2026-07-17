@@ -1,6 +1,7 @@
 
 #include <boost/asio.hpp>
 #include <boost/asio/connect.hpp>
+#include <boost/asio/ssl.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/beast/http/message.hpp>
@@ -8,10 +9,126 @@
 #include <boost/json/src.hpp>
 #include <boost/system/system_error.hpp>
 
-#include <sstream>
+#include <openssl/err.h>
+#include <openssl/ssl.h>
+
+#include <chrono>
+#include <functional>
+#include <stdexcept>
 #include <string>
+#include <utility>
 
 #include "api/HttpClientImpl.h"
+
+
+namespace {
+
+using OperationCompletion =
+    std::function<void(const boost::beast::error_code &)>;
+
+void throwOperationError(const boost::beast::error_code &operationError,
+                         const char *operationName) {
+    if (operationError) {
+        throw boost::system::system_error(operationError, operationName);
+    }
+}
+
+void throwTimeout(const char *operationName) {
+    const boost::beast::error_code timeoutError = boost::beast::error::timeout;
+    throw boost::system::system_error(timeoutError, operationName);
+}
+
+void throwOpenSslError(const char *operationName) {
+    const unsigned long openSslErrorValue = ::ERR_get_error();
+    ::ERR_clear_error();
+    if (openSslErrorValue == 0) {
+        throw std::runtime_error(
+            std::string(operationName) +
+            " failed without an OpenSSL error code");
+    }
+
+    const boost::beast::error_code openSslError(
+        static_cast<int>(openSslErrorValue),
+        boost::asio::error::get_ssl_category());
+    throw boost::system::system_error(openSslError, operationName);
+}
+
+template <typename InitiateOperation>
+boost::beast::error_code runAsyncOperation(
+    boost::asio::io_context &ioContext,
+    const char *operationName,
+    InitiateOperation initiateOperation) {
+    boost::beast::error_code operationError;
+    bool operationCompleted = false;
+
+    ioContext.restart();
+    initiateOperation(OperationCompletion(
+        [&operationError, &operationCompleted](
+            const boost::beast::error_code &completionError) {
+            operationError = completionError;
+            operationCompleted = true;
+        }));
+    ioContext.run();
+
+    if (!operationCompleted) {
+        throw std::runtime_error(
+            std::string(operationName) + " did not invoke its completion handler");
+    }
+
+    return operationError;
+}
+
+template <typename InitiateOperation, typename CancelOperation>
+boost::beast::error_code runTimedOperation(
+    boost::asio::io_context &ioContext,
+    const std::chrono::milliseconds operationTimeout,
+    const char *operationName,
+    InitiateOperation initiateOperation,
+    CancelOperation cancelOperation) {
+    boost::asio::steady_timer deadlineTimer(ioContext);
+    boost::beast::error_code operationError;
+    boost::beast::error_code timerError;
+    bool operationCompleted = false;
+    bool timeoutExpired = false;
+
+    ioContext.restart();
+    deadlineTimer.expires_after(operationTimeout);
+    deadlineTimer.async_wait(
+        [&operationCompleted, &timeoutExpired, &timerError, cancelOperation](
+            const boost::beast::error_code &deadlineError) {
+            if (deadlineError == boost::asio::error::operation_aborted ||
+                operationCompleted) {
+                return;
+            }
+
+            timerError = deadlineError;
+            timeoutExpired = !deadlineError;
+            cancelOperation();
+        });
+
+    initiateOperation(OperationCompletion(
+        [&deadlineTimer, &operationError, &operationCompleted](
+            const boost::beast::error_code &completionError) {
+            operationError = completionError;
+            operationCompleted = true;
+            deadlineTimer.cancel();
+        }));
+
+    ioContext.run();
+
+    if (timeoutExpired) {
+        throwTimeout(operationName);
+    }
+    throwOperationError(timerError, operationName);
+    if (!operationCompleted) {
+        throw std::runtime_error(
+            std::string(operationName) + " did not invoke its completion handler");
+    }
+
+    return operationError;
+}
+
+} // namespace
 
 
 namespace org {
@@ -22,86 +139,338 @@ namespace api {
 HttpClientImpl::HttpClientImpl(const std::string &host,
                                const std::string &port,
                                const int httpVersion /* = 11 */)
-  : m_host(host), m_port(port), m_httpVersion(httpVersion)
+  : HttpClientImpl(host,
+                   port,
+                   Transport::Http,
+                   httpVersion,
+                   std::chrono::milliseconds(30000))
 {
+}
+
+HttpClientImpl::HttpClientImpl(
+    const std::string &host,
+    const std::string &port,
+    const Transport transport,
+    const int httpVersion /* = 11 */,
+    const std::chrono::milliseconds operationTimeout /* = 30000ms */)
+  : m_host(host),
+    m_port(port),
+    m_httpVersion(httpVersion),
+    m_transport(transport),
+    m_operationTimeout(operationTimeout)
+{
+    if (m_host.empty()) {
+        throw std::invalid_argument("host must not be empty");
+    }
+    if (m_port.empty()) {
+        throw std::invalid_argument("port must not be empty");
+    }
+    if (m_httpVersion != 10 && m_httpVersion != 11) {
+        throw std::invalid_argument("httpVersion must be 10 or 11");
+    }
+    if (m_transport != Transport::Http && m_transport != Transport::Https) {
+        throw std::invalid_argument("transport must be HTTP or HTTPS");
+    }
+    if (m_operationTimeout <= std::chrono::milliseconds::zero()) {
+        throw std::invalid_argument("operationTimeout must be greater than zero");
+    }
 }
 
 std::pair<boost::beast::http::status, std::string>
 HttpClientImpl::execute(const std::string &verb,
                         const std::string &target,
                         const std::string &body,
-                        const std::map<std::string, std::string> headers) {
+                        const std::map<std::string, std::string> &headers) {
+    HttpRequest request = prepareRequest(verb, target, body, headers);
 
+    if (m_transport == Transport::Https) {
+        return executeHttpsRequest(request);
+    }
+
+    return executeHttpRequest(request);
+}
+
+HttpClientImpl::HttpResponse
+HttpClientImpl::executeHttpRequest(HttpRequest &request) {
     boost::asio::ip::tcp::socket socket = connectSocket();
-
-    boost::beast::http::request<boost::beast::http::string_body> req =
-      prepareRequest(verb, target, body, headers);
-    sendRequest(socket, req);
+    sendRequest(socket, request);
 
     const auto response = receiveResponse(socket);
-
     closeSocket(socket);
     return response;
 }
 
-boost::asio::ip::tcp::socket HttpClientImpl::connectSocket() {
-    boost::asio::ip::tcp::resolver resolver(m_ioc);
-    auto const results = resolver.resolve(m_host, m_port);
+HttpClientImpl::HttpResponse
+HttpClientImpl::executeHttpsRequest(HttpRequest &request) {
+    boost::asio::ssl::context tlsContext(boost::asio::ssl::context::tls_client);
+    configureTlsContext(tlsContext);
 
+    TlsStream tlsStream(m_ioc, tlsContext);
+    ::ERR_clear_error();
+    if (!SSL_set_tlsext_host_name(tlsStream.native_handle(), m_host.c_str())) {
+        throwOpenSslError("set TLS SNI hostname");
+    }
+    tlsStream.set_verify_callback(
+        boost::asio::ssl::host_name_verification(m_host));
+
+    const auto resolvedEndpoints = resolveHost();
+    boost::beast::tcp_stream &tcpStream =
+        boost::beast::get_lowest_layer(tlsStream);
+
+    tcpStream.expires_after(m_operationTimeout);
+    throwOperationError(
+        runAsyncOperation(
+            m_ioc,
+            "connect",
+            [&tcpStream, &resolvedEndpoints](
+                const OperationCompletion &operationCompletion) {
+                tcpStream.async_connect(
+                    resolvedEndpoints,
+                    [operationCompletion](
+                        const boost::beast::error_code &connectError,
+                        const boost::asio::ip::tcp::endpoint &) {
+                        operationCompletion(connectError);
+                    });
+            }),
+        "connect");
+
+    tcpStream.expires_after(m_operationTimeout);
+    throwOperationError(
+        runAsyncOperation(
+            m_ioc,
+            "TLS handshake",
+            [&tlsStream](const OperationCompletion &operationCompletion) {
+                tlsStream.async_handshake(
+                    boost::asio::ssl::stream_base::client,
+                    operationCompletion);
+            }),
+        "TLS handshake");
+
+    tcpStream.expires_after(m_operationTimeout);
+    throwOperationError(
+        runAsyncOperation(
+            m_ioc,
+            "write",
+            [&tlsStream, &request](
+                const OperationCompletion &operationCompletion) {
+                boost::beast::http::async_write(
+                    tlsStream,
+                    request,
+                    [operationCompletion](
+                        const boost::beast::error_code &writeError,
+                        const std::size_t) {
+                        operationCompletion(writeError);
+                    });
+            }),
+        "write");
+
+    boost::beast::flat_buffer responseBuffer;
+    boost::beast::http::response<boost::beast::http::dynamic_body> response;
+    tcpStream.expires_after(m_operationTimeout);
+    throwOperationError(
+        runAsyncOperation(
+            m_ioc,
+            "read",
+            [&tlsStream, &responseBuffer, &response](
+                const OperationCompletion &operationCompletion) {
+                boost::beast::http::async_read(
+                    tlsStream,
+                    responseBuffer,
+                    response,
+                    [operationCompletion](
+                        const boost::beast::error_code &readError,
+                        const std::size_t) {
+                        operationCompletion(readError);
+                    });
+            }),
+        "read");
+
+    tcpStream.expires_after(m_operationTimeout);
+    const boost::beast::error_code shutdownError = runAsyncOperation(
+        m_ioc,
+        "TLS shutdown",
+        [&tlsStream](const OperationCompletion &operationCompletion) {
+            tlsStream.async_shutdown(operationCompletion);
+        });
+
+    // Once Beast has parsed a complete HTTP message, a peer that omits
+    // close_notify cannot truncate the accepted response body.
+    if (shutdownError &&
+        shutdownError != boost::asio::ssl::error::stream_truncated &&
+        shutdownError != boost::asio::error::eof) {
+        throwOperationError(shutdownError, "TLS shutdown");
+    }
+
+    const std::string responseBody(
+        boost::asio::buffers_begin(response.body().data()),
+        boost::asio::buffers_end(response.body().data()));
+    return HttpResponse(response.result(), responseBody);
+}
+
+boost::asio::ip::tcp::resolver::results_type
+HttpClientImpl::resolveHost() {
+    boost::asio::ip::tcp::resolver resolver(m_ioc);
+    boost::asio::ip::tcp::resolver::results_type resolvedEndpoints;
+
+    throwOperationError(
+        runTimedOperation(
+            m_ioc,
+            m_operationTimeout,
+            "resolve",
+            [this, &resolver, &resolvedEndpoints](
+                const OperationCompletion &operationCompletion) {
+                resolver.async_resolve(
+                    m_host,
+                    m_port,
+                    [&resolvedEndpoints, operationCompletion](
+                        const boost::beast::error_code &resolveError,
+                        boost::asio::ip::tcp::resolver::results_type endpoints) {
+                        if (!resolveError) {
+                            resolvedEndpoints = std::move(endpoints);
+                        }
+                        operationCompletion(resolveError);
+                    });
+            },
+            [&resolver]() {
+                resolver.cancel();
+            }),
+        "resolve");
+
+    return resolvedEndpoints;
+}
+
+boost::asio::ip::tcp::socket HttpClientImpl::connectSocket() {
+    const auto resolvedEndpoints = resolveHost();
     boost::asio::ip::tcp::socket socket(m_ioc);
-    boost::asio::connect(socket, results);
+
+    throwOperationError(
+        runTimedOperation(
+            m_ioc,
+            m_operationTimeout,
+            "connect",
+            [&socket, &resolvedEndpoints](
+                const OperationCompletion &operationCompletion) {
+                boost::asio::async_connect(
+                    socket,
+                    resolvedEndpoints,
+                    [operationCompletion](
+                        const boost::beast::error_code &connectError,
+                        const boost::asio::ip::tcp::endpoint &) {
+                        operationCompletion(connectError);
+                    });
+            },
+            [&socket]() {
+                boost::beast::error_code closeError;
+                socket.close(closeError);
+            }),
+        "connect");
+
     return socket;
 }
 
-boost::beast::http::request<boost::beast::http::string_body>
+HttpClientImpl::HttpRequest
 HttpClientImpl::prepareRequest(const std::string &verb,
                                const std::string &target,
                                const std::string &body,
-                               const std::map<std::string, std::string> headers) {
-    boost::beast::http::request<boost::beast::http::string_body> req{
+                               const std::map<std::string, std::string> &headers) {
+    HttpRequest request{
         boost::beast::http::string_to_verb(verb), target, m_httpVersion};
 
-    req.set(boost::beast::http::field::host, m_host + ":" + m_port);
-    req.body() = body;
-    req.set(boost::beast::http::field::user_agent, BOOST_BEAST_VERSION_STRING);
-    for (const auto & header : headers) {
-        req.set(header.first, header.second);
+    request.set(boost::beast::http::field::host, m_host + ":" + m_port);
+    request.body() = body;
+    request.set(
+        boost::beast::http::field::user_agent,
+        BOOST_BEAST_VERSION_STRING);
+    for (const auto &header : headers) {
+        request.set(header.first, header.second);
     }
 
-    req.prepare_payload();
+    request.prepare_payload();
 
-    return req;
+    return request;
 }
 
 void HttpClientImpl::sendRequest(
     boost::asio::ip::tcp::socket &socket,
-    boost::beast::http::request<boost::beast::http::string_body> &request) {
-    boost::beast::http::write(socket, request);
+    HttpRequest &request) {
+    throwOperationError(
+        runTimedOperation(
+            m_ioc,
+            m_operationTimeout,
+            "write",
+            [&socket, &request](
+                const OperationCompletion &operationCompletion) {
+                boost::beast::http::async_write(
+                    socket,
+                    request,
+                    [operationCompletion](
+                        const boost::beast::error_code &writeError,
+                        const std::size_t) {
+                        operationCompletion(writeError);
+                    });
+            },
+            [&socket]() {
+                boost::beast::error_code closeError;
+                socket.close(closeError);
+            }),
+        "write");
 }
 
-std::pair<boost::beast::http::status, std::string>
+HttpClientImpl::HttpResponse
 HttpClientImpl::receiveResponse(boost::asio::ip::tcp::socket &socket) {
-    boost::beast::flat_buffer buffer;
-    boost::beast::http::response<boost::beast::http::dynamic_body> res;
+    boost::beast::flat_buffer responseBuffer;
+    boost::beast::http::response<boost::beast::http::dynamic_body> response;
 
-    boost::beast::http::read(socket, buffer, res);
+    throwOperationError(
+        runTimedOperation(
+            m_ioc,
+            m_operationTimeout,
+            "read",
+            [&socket, &responseBuffer, &response](
+                const OperationCompletion &operationCompletion) {
+                boost::beast::http::async_read(
+                    socket,
+                    responseBuffer,
+                    response,
+                    [operationCompletion](
+                        const boost::beast::error_code &readError,
+                        const std::size_t) {
+                        operationCompletion(readError);
+                    });
+            },
+            [&socket]() {
+                boost::beast::error_code closeError;
+                socket.close(closeError);
+            }),
+        "read");
 
-    const auto status = res.result();
-    std::string body { boost::asio::buffers_begin(res.body().data()),
-                       boost::asio::buffers_end(res.body().data()) };
-
-    return std::pair<boost::beast::http::status, std::string>(
-        status,
-        body);
+    const std::string responseBody(
+        boost::asio::buffers_begin(response.body().data()),
+        boost::asio::buffers_end(response.body().data()));
+    return HttpResponse(response.result(), responseBody);
 }
 
 void HttpClientImpl::closeSocket(boost::asio::ip::tcp::socket &socket) {
-    boost::beast::error_code ec;
-    socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+    boost::beast::error_code shutdownError;
+    socket.shutdown(
+        boost::asio::ip::tcp::socket::shutdown_both,
+        shutdownError);
 
     // not_connected happens sometimes so don't bother reporting it.
-    if (ec && ec != boost::beast::errc::not_connected)
-      throw boost::system::system_error(ec);
+    if (shutdownError && shutdownError != boost::beast::errc::not_connected) {
+        throw boost::system::system_error(shutdownError);
+    }
+}
+
+void HttpClientImpl::configureTlsContext(
+    boost::asio::ssl::context &tlsContext) {
+    ::ERR_clear_error();
+    if (SSL_CTX_set_min_proto_version(
+            tlsContext.native_handle(), TLS1_2_VERSION) != 1) {
+        throwOpenSslError("set minimum TLS protocol version");
+    }
+    tlsContext.set_default_verify_paths();
+    tlsContext.set_verify_mode(boost::asio::ssl::verify_peer);
 }
 
 

@@ -19,9 +19,11 @@
 #ifndef BOOST_BEAST_OPENAPI_CLIENT_UserApi_
 #define BOOST_BEAST_OPENAPI_CLIENT_UserApi_
 
+#include <exception>
+#include <map>
 #include <memory>
 #include <string>
-#include <exception>
+#include <vector>
 
 #include <boost/beast/core.hpp>
 

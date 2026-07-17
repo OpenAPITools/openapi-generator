@@ -12,7 +12,7 @@ resources:
       statusCode: 200
       headers:
         Content-Type: "application/json"
-      staticData: '{ "id": "0", "name": "doggie", "category":[{"id":0, "name":""}], "photoUrls":[""], "tags":[{"id":0, "name":""}], "status": "available" }'
+      staticData: '{ "id": 0, "name": "doggie", "category":{"id":0, "name":""}, "photoUrls":[""], "tags":[{"id":0, "name":""}], "status": "available" }'
   - path: "/v2/pet/1"
     method: GET
     response:
@@ -32,7 +32,7 @@ resources:
       statusCode: 200
       headers:
         Content-Type: "application/json"
-      staticData: '{ "id": "1", "name": "cat", "status": "available" }'
+      staticData: '{ "id": 1, "name": "cat", "status": "available" }'
   - path: "/v2/pet"
     method: PUT
     requestHeaders:
@@ -107,20 +107,20 @@ resources:
       headers:
         Content-Type: "application/json"
       staticData: |
-        [{"id":"0","category":{"id":"0","name":""},"name":"doggie","photoUrls":[""],"tags":[{"id":"0","name":""}],"status":"available"}]
+        [{"id":0,"category":{"id":0,"name":""},"name":"doggie","photoUrls":[""],"tags":[{"id":0,"name":""}],"status":"available"}]
   - path: "/v2/pet"
     method: POST
     requestHeaders:
       Accept: "application/json"
     requestBody:
       value: |
-        {"id":"0","category":{"id":"0","name":""},"name":"doggie","photoUrls":[""],"tags":[{"id":"0","name":""}],"status":"available"}
+        {"id":0,"category":{"id":0,"name":""},"name":"doggie","photoUrls":[""],"tags":[{"id":0,"name":""}],"status":"available"}
     response:
       statusCode: 200
       headers:
         Content-Type: "application/json"
       staticData: |
-        {"id":"0","category":{"id":"0","name":""},"name":"doggie","photoUrls":[""],"tags":[{"id":"0","name":""}],"status":"available"}
+        {"id":0,"category":{"id":0,"name":""},"name":"doggie","photoUrls":[""],"tags":[{"id":0,"name":""}],"status":"available"}
   - path: "/v2/store/order/0"
     method: GET
     response:
@@ -128,20 +128,20 @@ resources:
       headers:
         Content-Type: "application/json"
       staticData: |
-        {"id":"0","petId":"0","quantity":"0","shipData":"","status":"placed","complete":"false"}
+        {"id":0,"petId":0,"quantity":0,"shipDate":"","status":"placed","complete":false}
   - path: "/v2/store/order"
     method: POST
     requestHeaders:
       Accept: "application/json"
     requestBody:
       value: |
-        {"id":"0","petId":"0","quantity":"0","shipData":"","status":"placed","complete":"false"}
+        {"id":0,"petId":0,"quantity":0,"shipDate":"","status":"","complete":false}
     response:
       statusCode: 200
       headers:
         Content-Type: "application/json"
       staticData: |
-        {"id":"0","petId":"0","quantity":"0","shipData":"","status":"placed","complete":"false"}
+        {"id":0,"petId":0,"quantity":0,"shipDate":"","status":"placed","complete":false}
   - path: "/v2/store/order/order_id_ok"
     method: DELETE
     response:
@@ -195,5 +195,4 @@ resources:
       headers:
         Content-Type: "application/json"
       staticData: |
-        {"id":"0","username":"myName","firstName":"","lastName":"","email":"","password":"","phone":"","userStatus":"0"}
-
+        {"id":0,"username":"myName","firstName":"","lastName":"","email":"","password":"","phone":"","userStatus":0}

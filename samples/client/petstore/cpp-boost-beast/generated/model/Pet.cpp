@@ -14,6 +14,9 @@
 
 #include "Pet.h"
 
+#include <cstddef>
+#include <map>
+#include <memory>
 #include <stdexcept>
 #include <sstream>
 #include <string>
@@ -29,6 +32,101 @@ namespace client {
 namespace model {
 
 namespace {
+template <typename Target>
+struct JsonValueConverter
+{
+    static boost::json::value toJsonValue(const Target& sourceValue)
+    {
+        return boost::json::value_from(sourceValue);
+    }
+
+    static Target fromJsonValue(const boost::json::value& jsonValue)
+    {
+        return boost::json::value_to<Target>(jsonValue);
+    }
+};
+
+template <>
+struct JsonValueConverter<std::nullptr_t>
+{
+    static boost::json::value toJsonValue(std::nullptr_t)
+    {
+        return nullptr;
+    }
+
+    static std::nullptr_t fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (!jsonValue.is_null()) {
+            throw std::invalid_argument("Expected a null JSON value");
+        }
+        return nullptr;
+    }
+};
+
+template <typename ModelType>
+struct JsonValueConverter<std::shared_ptr<ModelType>>
+{
+    static boost::json::value toJsonValue(const std::shared_ptr<ModelType>& model)
+    {
+        return model == nullptr ? boost::json::value(nullptr) : model->toJsonValue();
+    }
+
+    static std::shared_ptr<ModelType> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (jsonValue.is_null()) {
+            return nullptr;
+        }
+        return std::make_shared<ModelType>(jsonValue);
+    }
+};
+
+template <typename Element>
+struct JsonValueConverter<std::vector<Element>>
+{
+    static boost::json::value toJsonValue(const std::vector<Element>& sourceValues)
+    {
+        boost::json::array jsonValues;
+        for (const auto& sourceValue : sourceValues) {
+            jsonValues.emplace_back(JsonValueConverter<Element>::toJsonValue(sourceValue));
+        }
+        return jsonValues;
+    }
+
+    static std::vector<Element> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        const auto& jsonValues = jsonValue.as_array();
+        std::vector<Element> convertedValues;
+        convertedValues.reserve(jsonValues.size());
+        for (const auto& jsonElement : jsonValues) {
+            convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));
+        }
+        return convertedValues;
+    }
+};
+
+template <typename MappedValue>
+struct JsonValueConverter<std::map<std::string, MappedValue>>
+{
+    static boost::json::value toJsonValue(const std::map<std::string, MappedValue>& sourceValues)
+    {
+        boost::json::object jsonValues;
+        for (const auto& sourceEntry : sourceValues) {
+            jsonValues[sourceEntry.first] = JsonValueConverter<MappedValue>::toJsonValue(sourceEntry.second);
+        }
+        return jsonValues;
+    }
+
+    static std::map<std::string, MappedValue> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        std::map<std::string, MappedValue> convertedValues;
+        for (const auto& jsonEntry : jsonValue.as_object()) {
+            const std::string entryKey(jsonEntry.key().data(), jsonEntry.key().size());
+            convertedValues.emplace(entryKey, JsonValueConverter<MappedValue>::fromJsonValue(jsonEntry.value()));
+        }
+        return convertedValues;
+    }
+};
+
 void writePrettyJson(std::ostream& output, boost::json::value const& value, std::string& indent)
 {
     if (value.is_object()) {
@@ -118,28 +216,15 @@ void Pet::fromJsonValue(boost::json::value const& value)
 boost::json::object Pet::toJsonObject_internal() const
 {
     boost::json::object object;
-    object["id"] = m_Id;
-    if (m_Category != nullptr) {
-        object["category"] = m_Category->toJsonValue();
-    }
-    object["name"] = m_Name;
-    {
-        boost::json::array array;
-        for (const auto& childEntry : m_PhotoUrls) {
-            array.emplace_back(childEntry);
+    object["id"] = JsonValueConverter<int64_t>::toJsonValue(m_Id);
+        const auto CategoryValue = getCategory();
+        if (CategoryValue != nullptr) {
+            object["category"] = JsonValueConverter<std::shared_ptr<Category>>::toJsonValue(CategoryValue);
         }
-        object["photoUrls"] = std::move(array);
-    }
-    {
-        boost::json::array array;
-        for (const auto& childEntry : m_Tags) {
-            array.emplace_back(childEntry == nullptr
-                ? boost::json::value(nullptr)
-                : childEntry->toJsonValue());
-        }
-        object["tags"] = std::move(array);
-    }
-    object["status"] = m_Status;
+    object["name"] = JsonValueConverter<std::string>::toJsonValue(m_Name);
+    object["photoUrls"] = JsonValueConverter<std::vector<std::string>>::toJsonValue(m_PhotoUrls);
+    object["tags"] = JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::toJsonValue(m_Tags);
+    object["status"] = JsonValueConverter<std::string>::toJsonValue(m_Status);
     return object;
 }
 
@@ -148,45 +233,37 @@ void Pet::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
-            m_Id = boost::json::value_to<int64_t>(IdIt->value());
+            m_Id = JsonValueConverter<int64_t>::fromJsonValue(IdIt->value());
         }
     }
     {
         const auto CategoryIt = object.find("category");
         if (CategoryIt != object.end()) {
-            if (!CategoryIt->value().is_null()) {
-                m_Category = std::make_shared<Category>(CategoryIt->value());
-            }
+            m_Category = JsonValueConverter<std::shared_ptr<Category>>::fromJsonValue(CategoryIt->value());
         }
     }
     {
         const auto NameIt = object.find("name");
         if (NameIt != object.end()) {
-            m_Name = boost::json::value_to<std::string>(NameIt->value());
+            m_Name = JsonValueConverter<std::string>::fromJsonValue(NameIt->value());
         }
     }
     {
         const auto PhotoUrlsIt = object.find("photoUrls");
-        if (PhotoUrlsIt != object.end() && PhotoUrlsIt->value().is_array()) {
-            for (const auto& childEntry : PhotoUrlsIt->value().as_array()) {
-                m_PhotoUrls.emplace_back(boost::json::value_to<std::string>(childEntry));
-            }
+        if (PhotoUrlsIt != object.end()) {
+            m_PhotoUrls = JsonValueConverter<std::vector<std::string>>::fromJsonValue(PhotoUrlsIt->value());
         }
     }
     {
         const auto TagsIt = object.find("tags");
-        if (TagsIt != object.end() && TagsIt->value().is_array()) {
-            for (const auto& childEntry : TagsIt->value().as_array()) {
-                if (!childEntry.is_null()) {
-                    m_Tags.emplace_back(std::make_shared<Tag>(childEntry));
-                }
-            }
+        if (TagsIt != object.end()) {
+            m_Tags = JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::fromJsonValue(TagsIt->value());
         }
     }
     {
         const auto StatusIt = object.find("status");
         if (StatusIt != object.end()) {
-            m_Status = boost::json::value_to<std::string>(StatusIt->value());
+            m_Status = JsonValueConverter<std::string>::fromJsonValue(StatusIt->value());
         }
     }
 }
@@ -198,7 +275,7 @@ int64_t Pet::getId() const
 
 void Pet::setId(int64_t value)
 {
-    m_Id = value;
+        m_Id = std::move(value);
 }
 std::shared_ptr<Category> Pet::getCategory() const
 {
@@ -207,7 +284,7 @@ std::shared_ptr<Category> Pet::getCategory() const
 
 void Pet::setCategory(std::shared_ptr<Category> value)
 {
-    m_Category = value;
+        m_Category = std::move(value);
 }
 std::string Pet::getName() const
 {
@@ -216,7 +293,7 @@ std::string Pet::getName() const
 
 void Pet::setName(std::string value)
 {
-    m_Name = value;
+        m_Name = std::move(value);
 }
 std::vector<std::string> Pet::getPhotoUrls() const
 {
@@ -225,7 +302,7 @@ std::vector<std::string> Pet::getPhotoUrls() const
 
 void Pet::setPhotoUrls(std::vector<std::string> value)
 {
-    m_PhotoUrls = value;
+        m_PhotoUrls = std::move(value);
 }
 std::vector<std::shared_ptr<Tag>> Pet::getTags() const
 {
@@ -234,7 +311,7 @@ std::vector<std::shared_ptr<Tag>> Pet::getTags() const
 
 void Pet::setTags(std::vector<std::shared_ptr<Tag>> value)
 {
-    m_Tags = value;
+        m_Tags = std::move(value);
 }
 std::string Pet::getStatus() const
 {
@@ -243,30 +320,20 @@ std::string Pet::getStatus() const
 
 void Pet::setStatus(std::string value)
 {
-    if (std::find(m_StatusEnum.begin(), m_StatusEnum.end(), value) != m_StatusEnum.end()) {
-        m_Status = value;
-    } else {
+    if (std::find(m_StatusEnum.begin(), m_StatusEnum.end(), value) == m_StatusEnum.end()) {
         throw std::runtime_error("Value " + value + " not allowed");
     }
+    m_Status = std::move(value);
 }
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Pet>>& data)
 {
-    boost::json::array array;
-    for (const auto& item : data) {
-        array.emplace_back(item == nullptr ? boost::json::value(nullptr) : item->toJsonValue());
-    }
-    return boost::json::serialize(array);
+    return boost::json::serialize(JsonValueConverter<std::vector<std::shared_ptr<Pet>>>::toJsonValue(data));
 }
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<Pet>>& vec, const std::string& json)
 {
-    const auto array = boost::json::parse(json).as_array();
-    for (const auto& item : array) {
-        if (!item.is_null()) {
-            vec.emplace_back(std::make_shared<Pet>(item));
-        }
-    }
+    vec = JsonValueConverter<std::vector<std::shared_ptr<Pet>>>::fromJsonValue(boost::json::parse(json));
 }
 
 }

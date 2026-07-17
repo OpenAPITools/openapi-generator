@@ -33,10 +33,12 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
+
 /// <summary>
 /// A pet for sale in the pet store
 /// </summary>
-class  Pet 
+class  Pet
 {
 public:
     Pet() = default;
@@ -94,6 +96,7 @@ protected:
 
     virtual boost::json::object toJsonObject_internal() const;
     virtual void fromJsonObject_internal(boost::json::object const& object);
+
 
 protected:
     int64_t m_Id = 0L;

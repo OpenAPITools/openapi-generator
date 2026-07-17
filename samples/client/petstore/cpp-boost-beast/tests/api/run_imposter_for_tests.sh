@@ -30,7 +30,14 @@ trap kill_test_server EXIT ERR
 
 echo Waiting for imposter
 set -x
-while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:8080/_spec/)" != "200" ]]; do sleep 5; done
+imposter_startup_deadline=$((SECONDS + 60))
+while [[ "$(curl --max-time 5 -s -o /dev/null -w ''%{http_code}'' localhost:8080/_spec/)" != "200" ]]; do
+  if (( SECONDS >= imposter_startup_deadline )); then
+    echo "Timed out waiting for imposter to start" >&2
+    exit 1
+  fi
+  sleep 5
+done
 set +x
 sleep 5
 

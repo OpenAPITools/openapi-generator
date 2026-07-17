@@ -3,6 +3,7 @@ add_executable(api_tests)
 
 target_sources(api_tests
         PRIVATE
+        http_client_test.cpp
         pet_api_test.cpp
         store_api_test.cpp
         user_api_test.cpp
@@ -12,7 +13,7 @@ target_sources(api_tests
 
 target_include_directories(api_tests
         PRIVATE
-            ${CMAKE_CURRENT_LISTS_DIR}
+            ${CMAKE_CURRENT_LIST_DIR}
         SYSTEM PRIVATE
             ${Boost_INCLUDE_DIRS})
 

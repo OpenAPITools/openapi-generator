@@ -14,7 +14,7 @@ target_sources(model_tests
 
 target_include_directories(model_tests
         PRIVATE
-            ${CMAKE_CURRENT_LISTS_DIR}
+            ${CMAKE_CURRENT_LIST_DIR}
         SYSTEM PRIVATE
             ${Boost_INCLUDE_DIRS})
 
@@ -23,7 +23,7 @@ target_link_libraries(model_tests
             client
             ${Boost_LIBRARIES})
 
-target_compile_definitions(api_tests
+target_compile_definitions(model_tests
         PUBLIC
             BOOST_TEST_DYN_LINK)
 

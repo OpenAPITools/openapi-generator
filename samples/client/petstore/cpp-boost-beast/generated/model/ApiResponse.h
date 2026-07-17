@@ -29,10 +29,12 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
+
 /// <summary>
 /// Describes the result of uploading an image resource
 /// </summary>
-class  ApiResponse 
+class  ApiResponse
 {
 public:
     ApiResponse() = default;
@@ -72,6 +74,7 @@ protected:
 
     virtual boost::json::object toJsonObject_internal() const;
     virtual void fromJsonObject_internal(boost::json::object const& object);
+
 
 protected:
     int32_t m_Code = 0;

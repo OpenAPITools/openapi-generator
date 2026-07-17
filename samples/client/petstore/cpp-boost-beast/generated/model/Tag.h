@@ -29,10 +29,12 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
+
 /// <summary>
 /// A tag for a pet
 /// </summary>
-class  Tag 
+class  Tag
 {
 public:
     Tag() = default;
@@ -66,6 +68,7 @@ protected:
 
     virtual boost::json::object toJsonObject_internal() const;
     virtual void fromJsonObject_internal(boost::json::object const& object);
+
 
 protected:
     int64_t m_Id = 0L;

@@ -10,6 +10,9 @@
 #include "api/PetApi.h"
 #include "model/Pet.h"
 
+#include <map>
+#include <string>
+#include <utility>
 #include <vector>
 #include <tuple>
 
@@ -58,7 +61,7 @@ public:
     execute(const std::string&,
             const std::string&,
             const std::string&,
-            const std::map<std::string, std::string>) override {
+            const std::map<std::string, std::string>&) override {
 
         switch (m_exceptionType) {
             case ExceptionType::STD_EXCEPTION:
@@ -72,4 +75,45 @@ public:
 
 private:
     ExceptionType m_exceptionType;
+};
+
+class RecordingClient : public HttpClient {
+public:
+    RecordingClient(boost::beast::http::status responseStatus,
+                    std::string responseBody)
+        : m_responseStatus(responseStatus),
+          m_responseBody(std::move(responseBody)) {
+    }
+
+    std::pair<boost::beast::http::status, std::string>
+    execute(const std::string& verb,
+            const std::string& target,
+            const std::string& body,
+            const std::map<std::string, std::string>& headers) override {
+        m_verb = verb;
+        m_target = target;
+        m_body = body;
+        m_headers = headers;
+        return {m_responseStatus, m_responseBody};
+    }
+
+    const std::string& target() const {
+        return m_target;
+    }
+
+    const std::string& body() const {
+        return m_body;
+    }
+
+    const std::map<std::string, std::string>& headers() const {
+        return m_headers;
+    }
+
+private:
+    boost::beast::http::status m_responseStatus;
+    std::string m_responseBody;
+    std::string m_verb;
+    std::string m_target;
+    std::string m_body;
+    std::map<std::string, std::string> m_headers;
 };

@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(addPet) {
 
     const auto petJson = R"JSON(
     {
-        "id": "0",
+        "id": 0,
         "name": "doggie",
         "status": "available"
     })JSON";
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(updatePet_success) {
 
     const auto petJson = R"JSON(
     {
-        "id": "1",
+        "id": 1,
         "name": "cat",
         "status": "available"
     })JSON";
@@ -146,6 +146,19 @@ BOOST_AUTO_TEST_CASE(deletePet) {
     api.deletePet(50, "myApiKey");
 }
 
+BOOST_AUTO_TEST_CASE(deletePet_uses_schema_header_name) {
+    auto recordingClient = std::make_shared<RecordingClient>(
+        boost::beast::http::status::ok, "");
+    std::shared_ptr<HttpClient> client = recordingClient;
+    PetApi recordingApi(client);
+
+    recordingApi.deletePet(50, "myApiKey");
+
+    BOOST_REQUIRE_EQUAL(recordingClient->headers().at("api_key"), "myApiKey");
+    BOOST_REQUIRE(recordingClient->headers().find("apiKey") ==
+                  recordingClient->headers().end());
+}
+
 BOOST_AUTO_TEST_CASE(findPetsByTags) {
     PetApi api(client);
 
@@ -155,12 +168,52 @@ BOOST_AUTO_TEST_CASE(findPetsByTags) {
     Approvals::verify(json);
 }
 
+BOOST_AUTO_TEST_CASE(findPetsByTags_encodes_query_values) {
+    auto recordingClient = std::make_shared<RecordingClient>(
+        boost::beast::http::status::ok, "[]");
+    std::shared_ptr<HttpClient> client = recordingClient;
+    PetApi recordingApi(client);
+
+    recordingApi.findPetsByTags({"tag&a", "tag b"});
+
+    BOOST_REQUIRE_EQUAL(
+        recordingClient->target(),
+        "/v2/pet/findByTags?tags=tag%26a,tag%20b");
+}
+
 BOOST_AUTO_TEST_CASE(uploadFile) {
     PetApi api(client);
     const auto resp = api.uploadFile(1, "some metadata", "a file");
 
     const auto json = resp->toJsonString(true);
     Approvals::verify(json);
+}
+
+BOOST_AUTO_TEST_CASE(uploadFile_serializes_multipart_body) {
+    auto recordingClient = std::make_shared<RecordingClient>(
+        boost::beast::http::status::ok, "{}");
+    std::shared_ptr<HttpClient> client = recordingClient;
+    PetApi recordingApi(client);
+
+    recordingApi.uploadFile(1, "some metadata", "a file");
+
+    const std::string contentType =
+        recordingClient->headers().at("Content-Type");
+    const std::string contentTypePrefix = "multipart/form-data; boundary=";
+    BOOST_REQUIRE_EQUAL(contentType.compare(0, contentTypePrefix.size(), contentTypePrefix), 0);
+    const std::string boundary = contentType.substr(contentTypePrefix.size());
+    const std::string expectedBody =
+        "--" + boundary + "\r\n"
+        "Content-Disposition: form-data; name=\"additionalMetadata\"\r\n"
+        "\r\n"
+        "some metadata\r\n"
+        "--" + boundary + "\r\n"
+        "Content-Disposition: form-data; name=\"file\"; filename=\"file\"\r\n"
+        "Content-Type: application/octet-stream\r\n"
+        "\r\n"
+        "a file\r\n"
+        "--" + boundary + "--\r\n";
+    BOOST_REQUIRE_EQUAL(recordingClient->body(), expectedBody);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

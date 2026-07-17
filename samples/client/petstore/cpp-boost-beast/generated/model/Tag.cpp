@@ -14,6 +14,9 @@
 
 #include "Tag.h"
 
+#include <cstddef>
+#include <map>
+#include <memory>
 #include <stdexcept>
 #include <sstream>
 #include <string>
@@ -28,6 +31,101 @@ namespace client {
 namespace model {
 
 namespace {
+template <typename Target>
+struct JsonValueConverter
+{
+    static boost::json::value toJsonValue(const Target& sourceValue)
+    {
+        return boost::json::value_from(sourceValue);
+    }
+
+    static Target fromJsonValue(const boost::json::value& jsonValue)
+    {
+        return boost::json::value_to<Target>(jsonValue);
+    }
+};
+
+template <>
+struct JsonValueConverter<std::nullptr_t>
+{
+    static boost::json::value toJsonValue(std::nullptr_t)
+    {
+        return nullptr;
+    }
+
+    static std::nullptr_t fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (!jsonValue.is_null()) {
+            throw std::invalid_argument("Expected a null JSON value");
+        }
+        return nullptr;
+    }
+};
+
+template <typename ModelType>
+struct JsonValueConverter<std::shared_ptr<ModelType>>
+{
+    static boost::json::value toJsonValue(const std::shared_ptr<ModelType>& model)
+    {
+        return model == nullptr ? boost::json::value(nullptr) : model->toJsonValue();
+    }
+
+    static std::shared_ptr<ModelType> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (jsonValue.is_null()) {
+            return nullptr;
+        }
+        return std::make_shared<ModelType>(jsonValue);
+    }
+};
+
+template <typename Element>
+struct JsonValueConverter<std::vector<Element>>
+{
+    static boost::json::value toJsonValue(const std::vector<Element>& sourceValues)
+    {
+        boost::json::array jsonValues;
+        for (const auto& sourceValue : sourceValues) {
+            jsonValues.emplace_back(JsonValueConverter<Element>::toJsonValue(sourceValue));
+        }
+        return jsonValues;
+    }
+
+    static std::vector<Element> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        const auto& jsonValues = jsonValue.as_array();
+        std::vector<Element> convertedValues;
+        convertedValues.reserve(jsonValues.size());
+        for (const auto& jsonElement : jsonValues) {
+            convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));
+        }
+        return convertedValues;
+    }
+};
+
+template <typename MappedValue>
+struct JsonValueConverter<std::map<std::string, MappedValue>>
+{
+    static boost::json::value toJsonValue(const std::map<std::string, MappedValue>& sourceValues)
+    {
+        boost::json::object jsonValues;
+        for (const auto& sourceEntry : sourceValues) {
+            jsonValues[sourceEntry.first] = JsonValueConverter<MappedValue>::toJsonValue(sourceEntry.second);
+        }
+        return jsonValues;
+    }
+
+    static std::map<std::string, MappedValue> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        std::map<std::string, MappedValue> convertedValues;
+        for (const auto& jsonEntry : jsonValue.as_object()) {
+            const std::string entryKey(jsonEntry.key().data(), jsonEntry.key().size());
+            convertedValues.emplace(entryKey, JsonValueConverter<MappedValue>::fromJsonValue(jsonEntry.value()));
+        }
+        return convertedValues;
+    }
+};
+
 void writePrettyJson(std::ostream& output, boost::json::value const& value, std::string& indent)
 {
     if (value.is_object()) {
@@ -117,8 +215,8 @@ void Tag::fromJsonValue(boost::json::value const& value)
 boost::json::object Tag::toJsonObject_internal() const
 {
     boost::json::object object;
-    object["id"] = m_Id;
-    object["name"] = m_Name;
+    object["id"] = JsonValueConverter<int64_t>::toJsonValue(m_Id);
+    object["name"] = JsonValueConverter<std::string>::toJsonValue(m_Name);
     return object;
 }
 
@@ -127,13 +225,13 @@ void Tag::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
-            m_Id = boost::json::value_to<int64_t>(IdIt->value());
+            m_Id = JsonValueConverter<int64_t>::fromJsonValue(IdIt->value());
         }
     }
     {
         const auto NameIt = object.find("name");
         if (NameIt != object.end()) {
-            m_Name = boost::json::value_to<std::string>(NameIt->value());
+            m_Name = JsonValueConverter<std::string>::fromJsonValue(NameIt->value());
         }
     }
 }
@@ -145,7 +243,7 @@ int64_t Tag::getId() const
 
 void Tag::setId(int64_t value)
 {
-    m_Id = value;
+        m_Id = std::move(value);
 }
 std::string Tag::getName() const
 {
@@ -154,26 +252,17 @@ std::string Tag::getName() const
 
 void Tag::setName(std::string value)
 {
-    m_Name = value;
+        m_Name = std::move(value);
 }
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Tag>>& data)
 {
-    boost::json::array array;
-    for (const auto& item : data) {
-        array.emplace_back(item == nullptr ? boost::json::value(nullptr) : item->toJsonValue());
-    }
-    return boost::json::serialize(array);
+    return boost::json::serialize(JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::toJsonValue(data));
 }
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<Tag>>& vec, const std::string& json)
 {
-    const auto array = boost::json::parse(json).as_array();
-    for (const auto& item : array) {
-        if (!item.is_null()) {
-            vec.emplace_back(std::make_shared<Tag>(item));
-        }
-    }
+    vec = JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::fromJsonValue(boost::json::parse(json));
 }
 
 }

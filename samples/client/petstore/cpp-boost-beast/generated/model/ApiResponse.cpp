@@ -14,6 +14,9 @@
 
 #include "ApiResponse.h"
 
+#include <cstddef>
+#include <map>
+#include <memory>
 #include <stdexcept>
 #include <sstream>
 #include <string>
@@ -28,6 +31,101 @@ namespace client {
 namespace model {
 
 namespace {
+template <typename Target>
+struct JsonValueConverter
+{
+    static boost::json::value toJsonValue(const Target& sourceValue)
+    {
+        return boost::json::value_from(sourceValue);
+    }
+
+    static Target fromJsonValue(const boost::json::value& jsonValue)
+    {
+        return boost::json::value_to<Target>(jsonValue);
+    }
+};
+
+template <>
+struct JsonValueConverter<std::nullptr_t>
+{
+    static boost::json::value toJsonValue(std::nullptr_t)
+    {
+        return nullptr;
+    }
+
+    static std::nullptr_t fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (!jsonValue.is_null()) {
+            throw std::invalid_argument("Expected a null JSON value");
+        }
+        return nullptr;
+    }
+};
+
+template <typename ModelType>
+struct JsonValueConverter<std::shared_ptr<ModelType>>
+{
+    static boost::json::value toJsonValue(const std::shared_ptr<ModelType>& model)
+    {
+        return model == nullptr ? boost::json::value(nullptr) : model->toJsonValue();
+    }
+
+    static std::shared_ptr<ModelType> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (jsonValue.is_null()) {
+            return nullptr;
+        }
+        return std::make_shared<ModelType>(jsonValue);
+    }
+};
+
+template <typename Element>
+struct JsonValueConverter<std::vector<Element>>
+{
+    static boost::json::value toJsonValue(const std::vector<Element>& sourceValues)
+    {
+        boost::json::array jsonValues;
+        for (const auto& sourceValue : sourceValues) {
+            jsonValues.emplace_back(JsonValueConverter<Element>::toJsonValue(sourceValue));
+        }
+        return jsonValues;
+    }
+
+    static std::vector<Element> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        const auto& jsonValues = jsonValue.as_array();
+        std::vector<Element> convertedValues;
+        convertedValues.reserve(jsonValues.size());
+        for (const auto& jsonElement : jsonValues) {
+            convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));
+        }
+        return convertedValues;
+    }
+};
+
+template <typename MappedValue>
+struct JsonValueConverter<std::map<std::string, MappedValue>>
+{
+    static boost::json::value toJsonValue(const std::map<std::string, MappedValue>& sourceValues)
+    {
+        boost::json::object jsonValues;
+        for (const auto& sourceEntry : sourceValues) {
+            jsonValues[sourceEntry.first] = JsonValueConverter<MappedValue>::toJsonValue(sourceEntry.second);
+        }
+        return jsonValues;
+    }
+
+    static std::map<std::string, MappedValue> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        std::map<std::string, MappedValue> convertedValues;
+        for (const auto& jsonEntry : jsonValue.as_object()) {
+            const std::string entryKey(jsonEntry.key().data(), jsonEntry.key().size());
+            convertedValues.emplace(entryKey, JsonValueConverter<MappedValue>::fromJsonValue(jsonEntry.value()));
+        }
+        return convertedValues;
+    }
+};
+
 void writePrettyJson(std::ostream& output, boost::json::value const& value, std::string& indent)
 {
     if (value.is_object()) {
@@ -117,9 +215,9 @@ void ApiResponse::fromJsonValue(boost::json::value const& value)
 boost::json::object ApiResponse::toJsonObject_internal() const
 {
     boost::json::object object;
-    object["code"] = m_Code;
-    object["type"] = m_Type;
-    object["message"] = m_Message;
+    object["code"] = JsonValueConverter<int32_t>::toJsonValue(m_Code);
+    object["type"] = JsonValueConverter<std::string>::toJsonValue(m_Type);
+    object["message"] = JsonValueConverter<std::string>::toJsonValue(m_Message);
     return object;
 }
 
@@ -128,19 +226,19 @@ void ApiResponse::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto CodeIt = object.find("code");
         if (CodeIt != object.end()) {
-            m_Code = boost::json::value_to<int32_t>(CodeIt->value());
+            m_Code = JsonValueConverter<int32_t>::fromJsonValue(CodeIt->value());
         }
     }
     {
         const auto TypeIt = object.find("type");
         if (TypeIt != object.end()) {
-            m_Type = boost::json::value_to<std::string>(TypeIt->value());
+            m_Type = JsonValueConverter<std::string>::fromJsonValue(TypeIt->value());
         }
     }
     {
         const auto MessageIt = object.find("message");
         if (MessageIt != object.end()) {
-            m_Message = boost::json::value_to<std::string>(MessageIt->value());
+            m_Message = JsonValueConverter<std::string>::fromJsonValue(MessageIt->value());
         }
     }
 }
@@ -152,7 +250,7 @@ int32_t ApiResponse::getCode() const
 
 void ApiResponse::setCode(int32_t value)
 {
-    m_Code = value;
+        m_Code = std::move(value);
 }
 std::string ApiResponse::getType() const
 {
@@ -161,7 +259,7 @@ std::string ApiResponse::getType() const
 
 void ApiResponse::setType(std::string value)
 {
-    m_Type = value;
+        m_Type = std::move(value);
 }
 std::string ApiResponse::getMessage() const
 {
@@ -170,26 +268,17 @@ std::string ApiResponse::getMessage() const
 
 void ApiResponse::setMessage(std::string value)
 {
-    m_Message = value;
+        m_Message = std::move(value);
 }
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<ApiResponse>>& data)
 {
-    boost::json::array array;
-    for (const auto& item : data) {
-        array.emplace_back(item == nullptr ? boost::json::value(nullptr) : item->toJsonValue());
-    }
-    return boost::json::serialize(array);
+    return boost::json::serialize(JsonValueConverter<std::vector<std::shared_ptr<ApiResponse>>>::toJsonValue(data));
 }
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<ApiResponse>>& vec, const std::string& json)
 {
-    const auto array = boost::json::parse(json).as_array();
-    for (const auto& item : array) {
-        if (!item.is_null()) {
-            vec.emplace_back(std::make_shared<ApiResponse>(item));
-        }
-    }
+    vec = JsonValueConverter<std::vector<std::shared_ptr<ApiResponse>>>::fromJsonValue(boost::json::parse(json));
 }
 
 }

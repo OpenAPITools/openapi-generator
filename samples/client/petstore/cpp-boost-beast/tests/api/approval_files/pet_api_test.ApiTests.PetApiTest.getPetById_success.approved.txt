@@ -1,7 +1,7 @@
 {
-    "id": "0",
+    "id": 0,
     "category": {
-        "id": "0",
+        "id": 0,
         "name": ""
     },
     "name": "doggie",
@@ -10,10 +10,9 @@
     ],
     "tags": [
         {
-            "id": "0",
+            "id": 0,
             "name": ""
         }
     ],
     "status": "available"
 }
-

@@ -14,6 +14,9 @@
 
 #include "User.h"
 
+#include <cstddef>
+#include <map>
+#include <memory>
 #include <stdexcept>
 #include <sstream>
 #include <string>
@@ -28,6 +31,101 @@ namespace client {
 namespace model {
 
 namespace {
+template <typename Target>
+struct JsonValueConverter
+{
+    static boost::json::value toJsonValue(const Target& sourceValue)
+    {
+        return boost::json::value_from(sourceValue);
+    }
+
+    static Target fromJsonValue(const boost::json::value& jsonValue)
+    {
+        return boost::json::value_to<Target>(jsonValue);
+    }
+};
+
+template <>
+struct JsonValueConverter<std::nullptr_t>
+{
+    static boost::json::value toJsonValue(std::nullptr_t)
+    {
+        return nullptr;
+    }
+
+    static std::nullptr_t fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (!jsonValue.is_null()) {
+            throw std::invalid_argument("Expected a null JSON value");
+        }
+        return nullptr;
+    }
+};
+
+template <typename ModelType>
+struct JsonValueConverter<std::shared_ptr<ModelType>>
+{
+    static boost::json::value toJsonValue(const std::shared_ptr<ModelType>& model)
+    {
+        return model == nullptr ? boost::json::value(nullptr) : model->toJsonValue();
+    }
+
+    static std::shared_ptr<ModelType> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (jsonValue.is_null()) {
+            return nullptr;
+        }
+        return std::make_shared<ModelType>(jsonValue);
+    }
+};
+
+template <typename Element>
+struct JsonValueConverter<std::vector<Element>>
+{
+    static boost::json::value toJsonValue(const std::vector<Element>& sourceValues)
+    {
+        boost::json::array jsonValues;
+        for (const auto& sourceValue : sourceValues) {
+            jsonValues.emplace_back(JsonValueConverter<Element>::toJsonValue(sourceValue));
+        }
+        return jsonValues;
+    }
+
+    static std::vector<Element> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        const auto& jsonValues = jsonValue.as_array();
+        std::vector<Element> convertedValues;
+        convertedValues.reserve(jsonValues.size());
+        for (const auto& jsonElement : jsonValues) {
+            convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));
+        }
+        return convertedValues;
+    }
+};
+
+template <typename MappedValue>
+struct JsonValueConverter<std::map<std::string, MappedValue>>
+{
+    static boost::json::value toJsonValue(const std::map<std::string, MappedValue>& sourceValues)
+    {
+        boost::json::object jsonValues;
+        for (const auto& sourceEntry : sourceValues) {
+            jsonValues[sourceEntry.first] = JsonValueConverter<MappedValue>::toJsonValue(sourceEntry.second);
+        }
+        return jsonValues;
+    }
+
+    static std::map<std::string, MappedValue> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        std::map<std::string, MappedValue> convertedValues;
+        for (const auto& jsonEntry : jsonValue.as_object()) {
+            const std::string entryKey(jsonEntry.key().data(), jsonEntry.key().size());
+            convertedValues.emplace(entryKey, JsonValueConverter<MappedValue>::fromJsonValue(jsonEntry.value()));
+        }
+        return convertedValues;
+    }
+};
+
 void writePrettyJson(std::ostream& output, boost::json::value const& value, std::string& indent)
 {
     if (value.is_object()) {
@@ -117,14 +215,14 @@ void User::fromJsonValue(boost::json::value const& value)
 boost::json::object User::toJsonObject_internal() const
 {
     boost::json::object object;
-    object["id"] = m_Id;
-    object["username"] = m_Username;
-    object["firstName"] = m_FirstName;
-    object["lastName"] = m_LastName;
-    object["email"] = m_Email;
-    object["password"] = m_Password;
-    object["phone"] = m_Phone;
-    object["userStatus"] = m_UserStatus;
+    object["id"] = JsonValueConverter<int64_t>::toJsonValue(m_Id);
+    object["username"] = JsonValueConverter<std::string>::toJsonValue(m_Username);
+    object["firstName"] = JsonValueConverter<std::string>::toJsonValue(m_FirstName);
+    object["lastName"] = JsonValueConverter<std::string>::toJsonValue(m_LastName);
+    object["email"] = JsonValueConverter<std::string>::toJsonValue(m_Email);
+    object["password"] = JsonValueConverter<std::string>::toJsonValue(m_Password);
+    object["phone"] = JsonValueConverter<std::string>::toJsonValue(m_Phone);
+    object["userStatus"] = JsonValueConverter<int32_t>::toJsonValue(m_UserStatus);
     return object;
 }
 
@@ -133,49 +231,49 @@ void User::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
-            m_Id = boost::json::value_to<int64_t>(IdIt->value());
+            m_Id = JsonValueConverter<int64_t>::fromJsonValue(IdIt->value());
         }
     }
     {
         const auto UsernameIt = object.find("username");
         if (UsernameIt != object.end()) {
-            m_Username = boost::json::value_to<std::string>(UsernameIt->value());
+            m_Username = JsonValueConverter<std::string>::fromJsonValue(UsernameIt->value());
         }
     }
     {
         const auto FirstNameIt = object.find("firstName");
         if (FirstNameIt != object.end()) {
-            m_FirstName = boost::json::value_to<std::string>(FirstNameIt->value());
+            m_FirstName = JsonValueConverter<std::string>::fromJsonValue(FirstNameIt->value());
         }
     }
     {
         const auto LastNameIt = object.find("lastName");
         if (LastNameIt != object.end()) {
-            m_LastName = boost::json::value_to<std::string>(LastNameIt->value());
+            m_LastName = JsonValueConverter<std::string>::fromJsonValue(LastNameIt->value());
         }
     }
     {
         const auto EmailIt = object.find("email");
         if (EmailIt != object.end()) {
-            m_Email = boost::json::value_to<std::string>(EmailIt->value());
+            m_Email = JsonValueConverter<std::string>::fromJsonValue(EmailIt->value());
         }
     }
     {
         const auto PasswordIt = object.find("password");
         if (PasswordIt != object.end()) {
-            m_Password = boost::json::value_to<std::string>(PasswordIt->value());
+            m_Password = JsonValueConverter<std::string>::fromJsonValue(PasswordIt->value());
         }
     }
     {
         const auto PhoneIt = object.find("phone");
         if (PhoneIt != object.end()) {
-            m_Phone = boost::json::value_to<std::string>(PhoneIt->value());
+            m_Phone = JsonValueConverter<std::string>::fromJsonValue(PhoneIt->value());
         }
     }
     {
         const auto UserStatusIt = object.find("userStatus");
         if (UserStatusIt != object.end()) {
-            m_UserStatus = boost::json::value_to<int32_t>(UserStatusIt->value());
+            m_UserStatus = JsonValueConverter<int32_t>::fromJsonValue(UserStatusIt->value());
         }
     }
 }
@@ -187,7 +285,7 @@ int64_t User::getId() const
 
 void User::setId(int64_t value)
 {
-    m_Id = value;
+        m_Id = std::move(value);
 }
 std::string User::getUsername() const
 {
@@ -196,7 +294,7 @@ std::string User::getUsername() const
 
 void User::setUsername(std::string value)
 {
-    m_Username = value;
+        m_Username = std::move(value);
 }
 std::string User::getFirstName() const
 {
@@ -205,7 +303,7 @@ std::string User::getFirstName() const
 
 void User::setFirstName(std::string value)
 {
-    m_FirstName = value;
+        m_FirstName = std::move(value);
 }
 std::string User::getLastName() const
 {
@@ -214,7 +312,7 @@ std::string User::getLastName() const
 
 void User::setLastName(std::string value)
 {
-    m_LastName = value;
+        m_LastName = std::move(value);
 }
 std::string User::getEmail() const
 {
@@ -223,7 +321,7 @@ std::string User::getEmail() const
 
 void User::setEmail(std::string value)
 {
-    m_Email = value;
+        m_Email = std::move(value);
 }
 std::string User::getPassword() const
 {
@@ -232,7 +330,7 @@ std::string User::getPassword() const
 
 void User::setPassword(std::string value)
 {
-    m_Password = value;
+        m_Password = std::move(value);
 }
 std::string User::getPhone() const
 {
@@ -241,7 +339,7 @@ std::string User::getPhone() const
 
 void User::setPhone(std::string value)
 {
-    m_Phone = value;
+        m_Phone = std::move(value);
 }
 int32_t User::getUserStatus() const
 {
@@ -250,26 +348,17 @@ int32_t User::getUserStatus() const
 
 void User::setUserStatus(int32_t value)
 {
-    m_UserStatus = value;
+        m_UserStatus = std::move(value);
 }
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<User>>& data)
 {
-    boost::json::array array;
-    for (const auto& item : data) {
-        array.emplace_back(item == nullptr ? boost::json::value(nullptr) : item->toJsonValue());
-    }
-    return boost::json::serialize(array);
+    return boost::json::serialize(JsonValueConverter<std::vector<std::shared_ptr<User>>>::toJsonValue(data));
 }
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<User>>& vec, const std::string& json)
 {
-    const auto array = boost::json::parse(json).as_array();
-    for (const auto& item : array) {
-        if (!item.is_null()) {
-            vec.emplace_back(std::make_shared<User>(item));
-        }
-    }
+    vec = JsonValueConverter<std::vector<std::shared_ptr<User>>>::fromJsonValue(boost::json::parse(json));
 }
 
 }
