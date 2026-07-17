@@ -7084,6 +7084,32 @@ public class SpringCodegenTest {
         }
     }
 
+    @Test
+    public void testJspecifyNullableWithDefaultValue_issue24294() throws IOException {
+        // A non-required field is nullable regardless of whether it declares a default value,
+        // because the caller can still explicitly pass null. The @Nullable (jspecify) annotation
+        // must therefore be emitted even when the property has a `default`.
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify-default.yaml",
+                SPRING_BOOT,
+                Map.of(USE_JSPECIFY, true,
+                        CONTAINER_DEFAULT_TO_NULL, true,
+                        SpringCodegen.OPENAPI_NULLABLE, false,
+                        USE_BEANVALIDATION, true,
+                        INTERFACE_ONLY, false));
+
+        JavaFileAssert.assertThat(files.get("CobJob.java"))
+                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
+                .fileContains(
+                        // non-required fields carrying a default value keep @Nullable
+                        "private @Nullable Boolean force = false;",
+                        "private @Nullable Integer retries = 3;",
+                        "private @Nullable String label = \"none\";"
+                )
+                // required field must NOT be annotated with @Nullable
+                .fileContains("private String name;")
+                .fileDoesNotContain("private @Nullable String name;");
+    }
+
     // -------------------------------------------------------------------------
     // autoXSpringPaginated tests
     // -------------------------------------------------------------------------

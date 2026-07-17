@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  description: test jspecify @Nullable on non-required fields that carry a default value
+  title: jspecify-default
+  version: 1.0.0
+paths:
+  /job:
+    post:
+      operationId: createJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CobJob'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CobJob'
+components:
+  schemas:
+    CobJob:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        force:
+          type: boolean
+          default: false
+        retries:
+          type: integer
+          format: int32
+          default: 3
+        label:
+          type: string
+          default: "none"
