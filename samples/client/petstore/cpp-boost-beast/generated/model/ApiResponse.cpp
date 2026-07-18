@@ -215,30 +215,39 @@ void ApiResponse::fromJsonValue(boost::json::value const& value)
 boost::json::object ApiResponse::toJsonObject_internal() const
 {
     boost::json::object object;
-    object["code"] = JsonValueConverter<int32_t>::toJsonValue(m_Code);
-    object["type"] = JsonValueConverter<std::string>::toJsonValue(m_Type);
-    object["message"] = JsonValueConverter<std::string>::toJsonValue(m_Message);
+        if (m_CodeIsSet) {
+            object["code"] = JsonValueConverter<int32_t>::toJsonValue(getCode());
+        }
+        if (m_TypeIsSet) {
+            object["type"] = JsonValueConverter<std::string>::toJsonValue(getType());
+        }
+        if (m_MessageIsSet) {
+            object["message"] = JsonValueConverter<std::string>::toJsonValue(getMessage());
+        }
     return object;
 }
 
 void ApiResponse::fromJsonObject_internal(boost::json::object const& object)
 {
+    m_CodeIsSet = false;
+    m_TypeIsSet = false;
+    m_MessageIsSet = false;
     {
         const auto CodeIt = object.find("code");
         if (CodeIt != object.end()) {
-            m_Code = JsonValueConverter<int32_t>::fromJsonValue(CodeIt->value());
+            setCode(JsonValueConverter<int32_t>::fromJsonValue(CodeIt->value()));
         }
     }
     {
         const auto TypeIt = object.find("type");
         if (TypeIt != object.end()) {
-            m_Type = JsonValueConverter<std::string>::fromJsonValue(TypeIt->value());
+            setType(JsonValueConverter<std::string>::fromJsonValue(TypeIt->value()));
         }
     }
     {
         const auto MessageIt = object.find("message");
         if (MessageIt != object.end()) {
-            m_Message = JsonValueConverter<std::string>::fromJsonValue(MessageIt->value());
+            setMessage(JsonValueConverter<std::string>::fromJsonValue(MessageIt->value()));
         }
     }
 }
@@ -251,6 +260,7 @@ int32_t ApiResponse::getCode() const
 void ApiResponse::setCode(int32_t value)
 {
         m_Code = std::move(value);
+    m_CodeIsSet = true;
 }
 std::string ApiResponse::getType() const
 {
@@ -260,6 +270,7 @@ std::string ApiResponse::getType() const
 void ApiResponse::setType(std::string value)
 {
         m_Type = std::move(value);
+    m_TypeIsSet = true;
 }
 std::string ApiResponse::getMessage() const
 {
@@ -269,6 +280,7 @@ std::string ApiResponse::getMessage() const
 void ApiResponse::setMessage(std::string value)
 {
         m_Message = std::move(value);
+    m_MessageIsSet = true;
 }
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<ApiResponse>>& data)

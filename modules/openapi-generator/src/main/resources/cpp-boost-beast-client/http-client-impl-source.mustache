@@ -142,7 +142,8 @@ HttpClientImpl::HttpClientImpl(const std::string &host,
                    port,
                    Transport::Http,
                    httpVersion,
-                   std::chrono::milliseconds(30000))
+                   std::chrono::milliseconds(30000),
+                   8ULL * 1024ULL * 1024ULL)
 {
 }
 
@@ -151,12 +152,14 @@ HttpClientImpl::HttpClientImpl(
     const std::string &port,
     const Transport transport,
     const int httpVersion /* = 11 */,
-    const std::chrono::milliseconds operationTimeout /* = 30000ms */)
+    const std::chrono::milliseconds operationTimeout /* = 30000ms */,
+    const std::uint64_t responseBodyLimit /* = 8 MiB */)
   : m_host(host),
     m_port(port),
     m_httpVersion(httpVersion),
     m_transport(transport),
-    m_operationTimeout(operationTimeout)
+    m_operationTimeout(operationTimeout),
+    m_responseBodyLimit(responseBodyLimit)
 {
     if (m_host.empty()) {
         throw std::invalid_argument("host must not be empty");
@@ -180,6 +183,7 @@ HttpClientImpl::execute(const std::string &verb,
                         const std::string &target,
                         const std::string &body,
                         const std::map<std::string, std::string> &headers) {
+    const std::lock_guard<std::mutex> executeLock(m_executeMutex);
     HttpRequest request = prepareRequest(verb, target, body, headers);
 
     if (m_transport == Transport::Https) {
@@ -205,9 +209,17 @@ HttpClientImpl::executeHttpsRequest(HttpRequest &request) {
     configureTlsContext(tlsContext);
 
     TlsStream tlsStream(m_ioc, tlsContext);
-    ::ERR_clear_error();
-    if (!SSL_set_tlsext_host_name(tlsStream.native_handle(), m_host.c_str())) {
-        throwOpenSslError("set TLS SNI hostname");
+    boost::beast::error_code hostAddressError;
+    const boost::asio::ip::address hostAddress =
+        boost::asio::ip::make_address(m_host, hostAddressError);
+    const bool hostIsIpAddress =
+        !hostAddressError && (hostAddress.is_v4() || hostAddress.is_v6());
+    if (!hostIsIpAddress) {
+        ::ERR_clear_error();
+        if (!SSL_set_tlsext_host_name(
+                tlsStream.native_handle(), m_host.c_str())) {
+            throwOpenSslError("set TLS SNI hostname");
+        }
     }
     tlsStream.set_verify_callback(
         boost::asio::ssl::host_name_verification(m_host));
@@ -264,18 +276,20 @@ HttpClientImpl::executeHttpsRequest(HttpRequest &request) {
         "write");
 
     boost::beast::flat_buffer responseBuffer;
-    boost::beast::http::response<boost::beast::http::dynamic_body> response;
+    boost::beast::http::response_parser<boost::beast::http::dynamic_body>
+        responseParser;
+    responseParser.body_limit(m_responseBodyLimit);
     tcpStream.expires_after(m_operationTimeout);
     throwOperationError(
         runAsyncOperation(
             m_ioc,
             "read",
-            [&tlsStream, &responseBuffer, &response](
+            [&tlsStream, &responseBuffer, &responseParser](
                 const OperationCompletion &operationCompletion) {
                 boost::beast::http::async_read(
                     tlsStream,
                     responseBuffer,
-                    response,
+                    responseParser,
                     [operationCompletion](
                         const boost::beast::error_code &readError,
                         const std::size_t) {
@@ -283,6 +297,8 @@ HttpClientImpl::executeHttpsRequest(HttpRequest &request) {
                     });
             }),
         "read");
+    boost::beast::http::response<boost::beast::http::dynamic_body> response =
+        responseParser.release();
 
     tcpStream.expires_after(m_operationTimeout);
     const boost::beast::error_code shutdownError = runAsyncOperation(
@@ -375,7 +391,13 @@ HttpClientImpl::prepareRequest(const std::string &verb,
     HttpRequest request{
         boost::beast::http::string_to_verb(verb), target, m_httpVersion};
 
-    request.set(boost::beast::http::field::host, m_host + ":" + m_port);
+    boost::beast::error_code hostAddressError;
+    const boost::asio::ip::address hostAddress =
+        boost::asio::ip::make_address(m_host, hostAddressError);
+    const std::string hostHeader = !hostAddressError && hostAddress.is_v6()
+        ? "[" + m_host + "]:" + m_port
+        : m_host + ":" + m_port;
+    request.set(boost::beast::http::field::host, hostHeader);
     request.body() = body;
     request.set(
         boost::beast::http::field::user_agent,
@@ -418,19 +440,21 @@ void HttpClientImpl::sendRequest(
 HttpClientImpl::HttpResponse
 HttpClientImpl::receiveResponse(boost::asio::ip::tcp::socket &socket) {
     boost::beast::flat_buffer responseBuffer;
-    boost::beast::http::response<boost::beast::http::dynamic_body> response;
+    boost::beast::http::response_parser<boost::beast::http::dynamic_body>
+        responseParser;
+    responseParser.body_limit(m_responseBodyLimit);
 
     throwOperationError(
         runTimedOperation(
             m_ioc,
             m_operationTimeout,
             "read",
-            [&socket, &responseBuffer, &response](
+            [&socket, &responseBuffer, &responseParser](
                 const OperationCompletion &operationCompletion) {
                 boost::beast::http::async_read(
                     socket,
                     responseBuffer,
-                    response,
+                    responseParser,
                     [operationCompletion](
                         const boost::beast::error_code &readError,
                         const std::size_t) {
@@ -442,6 +466,8 @@ HttpClientImpl::receiveResponse(boost::asio::ip::tcp::socket &socket) {
                 socket.close(closeError);
             }),
         "read");
+    boost::beast::http::response<boost::beast::http::dynamic_body> response =
+        responseParser.release();
 
     const std::string responseBody(
         boost::asio::buffers_begin(response.body().data()),

@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |apiPackage|C++ namespace for apis (convention: name.space.api).| |org.openapitools.client.api|
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
+|packageName|C++ package and library name.| |CppBoostBeastOpenAPIClient|
 
 ## IMPORT MAPPING
 

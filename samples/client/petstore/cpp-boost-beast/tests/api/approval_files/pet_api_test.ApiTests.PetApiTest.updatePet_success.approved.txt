@@ -2,6 +2,5 @@
     "id": 1,
     "name": "cat",
     "photoUrls": [],
-    "tags": [],
     "status": "available"
 }

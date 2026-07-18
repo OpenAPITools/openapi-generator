@@ -1,1 +1,1 @@
-[{"id":23,"name":"ThePet","photoUrls":[],"tags":[],"status":"available"},{"id":42,"name":"TheOtherPet","photoUrls":[],"tags":[],"status":"available"}]
+[{"id":23,"name":"ThePet","photoUrls":[],"status":"available"},{"id":42,"name":"TheOtherPet","photoUrls":[],"status":"available"}]

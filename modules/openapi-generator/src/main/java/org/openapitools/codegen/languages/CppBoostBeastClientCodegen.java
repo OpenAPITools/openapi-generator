@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 
@@ -20,12 +21,21 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
+    public static final String DEFAULT_PACKAGE_NAME = "CppBoostBeastOpenAPIClient";
     private static final String X_CODEGEN_DEFAULT_RESPONSE_IS_RETURN_COMPATIBLE =
             "x-codegen-default-response-is-return-compatible";
     private static final String X_CODEGEN_EMPTY_BODY_TOLERANT = "x-codegen-empty-body-tolerant";
     private static final String X_CODEGEN_HAS_DEFAULT_RESPONSE = "x-codegen-has-default-response";
     private static final String X_CODEGEN_IS_RAW_BODY = "x-codegen-is-raw-body";
+    private static final String X_CODEGEN_IS_OPTIONAL_QUERY_PARAMETER =
+            "x-codegen-is-optional-query-parameter";
+    private static final String X_CODEGEN_QUERY_COLLECTION_DELIMITER =
+            "x-codegen-query-collection-delimiter";
+    private static final String X_CODEGEN_QUERY_COLLECTION_MULTI =
+            "x-codegen-query-collection-multi";
+    private static final String X_CODEGEN_RESPONSE_RANGE = "x-codegen-response-range";
     private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
+    protected String packageName = DEFAULT_PACKAGE_NAME;
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -77,6 +87,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         cliOptions.clear();
 
         // CLI options
+        addOption(CodegenConstants.PACKAGE_NAME, "C++ package and library name.", DEFAULT_PACKAGE_NAME);
         addOption(CodegenConstants.MODEL_PACKAGE, "C++ namespace for models (convention: name.space.model).",
                 this.modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "C++ namespace for apis (convention: name.space.api).",
@@ -171,6 +182,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+        packageName = additionalProperties.getOrDefault(
+                CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME).toString();
+        if (StringUtils.isBlank(packageName)) {
+            throw new IllegalArgumentException("packageName must not be blank");
+        }
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
@@ -219,12 +236,58 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 codegenModel.imports.add(newImp);
             }
         }
-        // Import vector if an enum is present
-        if (codegenModel.hasEnums) {
-            codegenModel.imports.add("#include <vector>");
-        }
+        // Every model header declares vector conversion helpers.
+        codegenModel.imports.add("#include <vector>");
         addContainerPropertyNames(codegenModel.vars);
         return codegenModel;
+    }
+
+    @Override
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+        CodegenParameter codegenParameter = super.fromParameter(parameter, imports);
+        if (!codegenParameter.isQueryParam) {
+            return codegenParameter;
+        }
+
+        if (!codegenParameter.required) {
+            codegenParameter.vendorExtensions.put(X_CODEGEN_IS_OPTIONAL_QUERY_PARAMETER, true);
+        }
+        if (!codegenParameter.isArray) {
+            return codegenParameter;
+        }
+
+        // OAS 3 query parameters default to form/explode=true. DefaultCodegen
+        // currently represents an omitted style as CSV, so normalize it here.
+        boolean isMulti = codegenParameter.isCollectionFormatMulti
+                || (codegenParameter.style == null && !Boolean.FALSE.equals(parameter.getExplode()));
+        if (isMulti) {
+            codegenParameter.isCollectionFormatMulti = true;
+            codegenParameter.collectionFormat = "multi";
+            codegenParameter.vendorExtensions.put(X_CODEGEN_QUERY_COLLECTION_MULTI, true);
+            return codegenParameter;
+        }
+
+        String collectionDelimiter;
+        switch (codegenParameter.collectionFormat) {
+            case "csv":
+                collectionDelimiter = ",";
+                break;
+            case "ssv":
+                collectionDelimiter = "%20";
+                break;
+            case "tsv":
+                collectionDelimiter = "%09";
+                break;
+            case "pipes":
+                collectionDelimiter = "%7C";
+                break;
+            default:
+                throw new IllegalArgumentException(
+                        "Unsupported query collection format: " + codegenParameter.collectionFormat);
+        }
+        codegenParameter.vendorExtensions.put(
+                X_CODEGEN_QUERY_COLLECTION_DELIMITER, collectionDelimiter);
+        return codegenParameter;
     }
 
     private void addContainerPropertyNames(List<CodegenProperty> properties) {
@@ -310,6 +373,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         for (CodegenResponse response : operation.responses) {
             response.vendorExtensions.put(X_CODEGEN_EMPTY_BODY_TOLERANT,
                     response.isMap || response.isFreeFormObject || response.isAnyType);
+            if (response.isRange()) {
+                response.vendorExtensions.put(
+                        X_CODEGEN_RESPONSE_RANGE, response.code.substring(0, 1));
+            }
 
             if (response.isDefault) {
                 hasDefaultResponse = true;

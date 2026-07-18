@@ -64,9 +64,10 @@ BOOST_AUTO_TEST_CASE(createUsersWithListInput) {
 }
 
 BOOST_AUTO_TEST_CASE(deleteUser) {
-
-    // Nothing to assert. Should not throw any exception
-    api.deleteUser("me");
+    REQUIRE_THROW(api.deleteUser("me"), UserApiException, [](const auto& exception) {
+        BOOST_REQUIRE_EQUAL(exception.getStatus(), boost::beast::http::status{200});
+        BOOST_REQUIRE_EQUAL(exception.what(), "Unexpected HTTP status code");
+    });
 }
 
 BOOST_DATA_TEST_CASE(deleteUser_fails, boost::unit_test::data::make(
@@ -85,12 +86,26 @@ BOOST_AUTO_TEST_CASE(getUserByName) {
     BOOST_REQUIRE_EQUAL(resp->getId(), 0);
 }
 
+BOOST_AUTO_TEST_CASE(getUserByName_encodes_path_value) {
+    auto recordingClient = std::make_shared<RecordingClient>(
+        boost::beast::http::status::ok, R"({"id":0})");
+    UserApi recordingApi(std::static_pointer_cast<HttpClient>(recordingClient));
+
+    recordingApi.getUserByName("name /?#%");
+
+    BOOST_REQUIRE_EQUAL(
+        recordingClient->target(),
+        "/v2/user/name%20%2F%3F%23%25");
+}
+
 BOOST_AUTO_TEST_CASE(updateUser) {
 
     auto user = std::make_shared<User>();
 
-    // Nothing to assert. Should not throw any exception
-    api.updateUser("me", user);
+    REQUIRE_THROW(api.updateUser("me", user), UserApiException, [](const auto& exception) {
+        BOOST_REQUIRE_EQUAL(exception.getStatus(), boost::beast::http::status{200});
+        BOOST_REQUIRE_EQUAL(exception.what(), "Unexpected HTTP status code");
+    });
 }
 
 BOOST_AUTO_TEST_CASE(loginUser) {

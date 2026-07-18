@@ -215,65 +215,89 @@ void User::fromJsonValue(boost::json::value const& value)
 boost::json::object User::toJsonObject_internal() const
 {
     boost::json::object object;
-    object["id"] = JsonValueConverter<int64_t>::toJsonValue(m_Id);
-    object["username"] = JsonValueConverter<std::string>::toJsonValue(m_Username);
-    object["firstName"] = JsonValueConverter<std::string>::toJsonValue(m_FirstName);
-    object["lastName"] = JsonValueConverter<std::string>::toJsonValue(m_LastName);
-    object["email"] = JsonValueConverter<std::string>::toJsonValue(m_Email);
-    object["password"] = JsonValueConverter<std::string>::toJsonValue(m_Password);
-    object["phone"] = JsonValueConverter<std::string>::toJsonValue(m_Phone);
-    object["userStatus"] = JsonValueConverter<int32_t>::toJsonValue(m_UserStatus);
+        if (m_IdIsSet) {
+            object["id"] = JsonValueConverter<int64_t>::toJsonValue(getId());
+        }
+        if (m_UsernameIsSet) {
+            object["username"] = JsonValueConverter<std::string>::toJsonValue(getUsername());
+        }
+        if (m_FirstNameIsSet) {
+            object["firstName"] = JsonValueConverter<std::string>::toJsonValue(getFirstName());
+        }
+        if (m_LastNameIsSet) {
+            object["lastName"] = JsonValueConverter<std::string>::toJsonValue(getLastName());
+        }
+        if (m_EmailIsSet) {
+            object["email"] = JsonValueConverter<std::string>::toJsonValue(getEmail());
+        }
+        if (m_PasswordIsSet) {
+            object["password"] = JsonValueConverter<std::string>::toJsonValue(getPassword());
+        }
+        if (m_PhoneIsSet) {
+            object["phone"] = JsonValueConverter<std::string>::toJsonValue(getPhone());
+        }
+        if (m_UserStatusIsSet) {
+            object["userStatus"] = JsonValueConverter<int32_t>::toJsonValue(getUserStatus());
+        }
     return object;
 }
 
 void User::fromJsonObject_internal(boost::json::object const& object)
 {
+    m_IdIsSet = false;
+    m_UsernameIsSet = false;
+    m_FirstNameIsSet = false;
+    m_LastNameIsSet = false;
+    m_EmailIsSet = false;
+    m_PasswordIsSet = false;
+    m_PhoneIsSet = false;
+    m_UserStatusIsSet = false;
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
-            m_Id = JsonValueConverter<int64_t>::fromJsonValue(IdIt->value());
+            setId(JsonValueConverter<int64_t>::fromJsonValue(IdIt->value()));
         }
     }
     {
         const auto UsernameIt = object.find("username");
         if (UsernameIt != object.end()) {
-            m_Username = JsonValueConverter<std::string>::fromJsonValue(UsernameIt->value());
+            setUsername(JsonValueConverter<std::string>::fromJsonValue(UsernameIt->value()));
         }
     }
     {
         const auto FirstNameIt = object.find("firstName");
         if (FirstNameIt != object.end()) {
-            m_FirstName = JsonValueConverter<std::string>::fromJsonValue(FirstNameIt->value());
+            setFirstName(JsonValueConverter<std::string>::fromJsonValue(FirstNameIt->value()));
         }
     }
     {
         const auto LastNameIt = object.find("lastName");
         if (LastNameIt != object.end()) {
-            m_LastName = JsonValueConverter<std::string>::fromJsonValue(LastNameIt->value());
+            setLastName(JsonValueConverter<std::string>::fromJsonValue(LastNameIt->value()));
         }
     }
     {
         const auto EmailIt = object.find("email");
         if (EmailIt != object.end()) {
-            m_Email = JsonValueConverter<std::string>::fromJsonValue(EmailIt->value());
+            setEmail(JsonValueConverter<std::string>::fromJsonValue(EmailIt->value()));
         }
     }
     {
         const auto PasswordIt = object.find("password");
         if (PasswordIt != object.end()) {
-            m_Password = JsonValueConverter<std::string>::fromJsonValue(PasswordIt->value());
+            setPassword(JsonValueConverter<std::string>::fromJsonValue(PasswordIt->value()));
         }
     }
     {
         const auto PhoneIt = object.find("phone");
         if (PhoneIt != object.end()) {
-            m_Phone = JsonValueConverter<std::string>::fromJsonValue(PhoneIt->value());
+            setPhone(JsonValueConverter<std::string>::fromJsonValue(PhoneIt->value()));
         }
     }
     {
         const auto UserStatusIt = object.find("userStatus");
         if (UserStatusIt != object.end()) {
-            m_UserStatus = JsonValueConverter<int32_t>::fromJsonValue(UserStatusIt->value());
+            setUserStatus(JsonValueConverter<int32_t>::fromJsonValue(UserStatusIt->value()));
         }
     }
 }
@@ -286,6 +310,7 @@ int64_t User::getId() const
 void User::setId(int64_t value)
 {
         m_Id = std::move(value);
+    m_IdIsSet = true;
 }
 std::string User::getUsername() const
 {
@@ -295,6 +320,7 @@ std::string User::getUsername() const
 void User::setUsername(std::string value)
 {
         m_Username = std::move(value);
+    m_UsernameIsSet = true;
 }
 std::string User::getFirstName() const
 {
@@ -304,6 +330,7 @@ std::string User::getFirstName() const
 void User::setFirstName(std::string value)
 {
         m_FirstName = std::move(value);
+    m_FirstNameIsSet = true;
 }
 std::string User::getLastName() const
 {
@@ -313,6 +340,7 @@ std::string User::getLastName() const
 void User::setLastName(std::string value)
 {
         m_LastName = std::move(value);
+    m_LastNameIsSet = true;
 }
 std::string User::getEmail() const
 {
@@ -322,6 +350,7 @@ std::string User::getEmail() const
 void User::setEmail(std::string value)
 {
         m_Email = std::move(value);
+    m_EmailIsSet = true;
 }
 std::string User::getPassword() const
 {
@@ -331,6 +360,7 @@ std::string User::getPassword() const
 void User::setPassword(std::string value)
 {
         m_Password = std::move(value);
+    m_PasswordIsSet = true;
 }
 std::string User::getPhone() const
 {
@@ -340,6 +370,7 @@ std::string User::getPhone() const
 void User::setPhone(std::string value)
 {
         m_Phone = std::move(value);
+    m_PhoneIsSet = true;
 }
 int32_t User::getUserStatus() const
 {
@@ -349,6 +380,7 @@ int32_t User::getUserStatus() const
 void User::setUserStatus(int32_t value)
 {
         m_UserStatus = std::move(value);
+    m_UserStatusIsSet = true;
 }
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<User>>& data)

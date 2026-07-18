@@ -215,23 +215,29 @@ void Category::fromJsonValue(boost::json::value const& value)
 boost::json::object Category::toJsonObject_internal() const
 {
     boost::json::object object;
-    object["id"] = JsonValueConverter<int64_t>::toJsonValue(m_Id);
-    object["name"] = JsonValueConverter<std::string>::toJsonValue(m_Name);
+        if (m_IdIsSet) {
+            object["id"] = JsonValueConverter<int64_t>::toJsonValue(getId());
+        }
+        if (m_NameIsSet) {
+            object["name"] = JsonValueConverter<std::string>::toJsonValue(getName());
+        }
     return object;
 }
 
 void Category::fromJsonObject_internal(boost::json::object const& object)
 {
+    m_IdIsSet = false;
+    m_NameIsSet = false;
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
-            m_Id = JsonValueConverter<int64_t>::fromJsonValue(IdIt->value());
+            setId(JsonValueConverter<int64_t>::fromJsonValue(IdIt->value()));
         }
     }
     {
         const auto NameIt = object.find("name");
         if (NameIt != object.end()) {
-            m_Name = JsonValueConverter<std::string>::fromJsonValue(NameIt->value());
+            setName(JsonValueConverter<std::string>::fromJsonValue(NameIt->value()));
         }
     }
 }
@@ -244,6 +250,7 @@ int64_t Category::getId() const
 void Category::setId(int64_t value)
 {
         m_Id = std::move(value);
+    m_IdIsSet = true;
 }
 std::string Category::getName() const
 {
@@ -253,6 +260,7 @@ std::string Category::getName() const
 void Category::setName(std::string value)
 {
         m_Name = std::move(value);
+    m_NameIsSet = true;
 }
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Category>>& data)

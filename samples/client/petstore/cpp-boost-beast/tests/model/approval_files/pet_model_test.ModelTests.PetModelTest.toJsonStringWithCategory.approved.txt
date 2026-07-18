@@ -1,11 +1,6 @@
 {
     "id": 1,
-    "category": {
-        "id": 0,
-        "name": ""
-    },
+    "category": {},
     "name": "MyName",
-    "photoUrls": [],
-    "tags": [],
-    "status": ""
+    "photoUrls": []
 }

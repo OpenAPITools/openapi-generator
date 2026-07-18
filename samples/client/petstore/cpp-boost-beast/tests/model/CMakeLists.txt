@@ -20,7 +20,7 @@ target_include_directories(model_tests
 
 target_link_libraries(model_tests
         PRIVATE
-            client
+            CppBoostBeastPetstoreClient
             ${Boost_LIBRARIES})
 
 target_compile_definitions(model_tests

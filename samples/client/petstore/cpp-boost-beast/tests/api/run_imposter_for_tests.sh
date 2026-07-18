@@ -20,12 +20,30 @@ echo Starting imposter
 imposter up -p 8080 ./imposter_config &
 pid=$!
 
-function kill_test_server()
+function terminate_test_server()
 {
-    kill -9 $pid || true
+    local payload_exit_status="$?"
+    trap - EXIT
+
+    if kill -0 "${pid}" 2>/dev/null; then
+      kill -TERM "${pid}" 2>/dev/null || true
+      for (( shutdown_attempt = 0; shutdown_attempt < 20; shutdown_attempt++ )); do
+        if ! kill -0 "${pid}" 2>/dev/null; then
+          break
+        fi
+        sleep 0.25
+      done
+
+      if kill -0 "${pid}" 2>/dev/null; then
+        kill -KILL "${pid}" 2>/dev/null || true
+      fi
+    fi
+
+    wait "${pid}" 2>/dev/null || true
+    exit "${payload_exit_status}"
 }
 
-trap kill_test_server EXIT ERR
+trap terminate_test_server EXIT
 
 
 echo Waiting for imposter
@@ -39,12 +57,10 @@ while [[ "$(curl --max-time 5 -s -o /dev/null -w ''%{http_code}'' localhost:8080
   sleep 5
 done
 set +x
-sleep 5
 
 echo Running tests: "$@"
 set +e
 "$@"
-ec=$?
+test_exit_status=$?
 
-imposter down
-exit $ec
+exit "${test_exit_status}"

@@ -14,6 +14,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <map>
 #include <array>
 #include <algorithm>
@@ -46,7 +47,7 @@ std::string selectPreferredContentType(const std::vector<std::string>& contentTy
         return contentTypes.at(0);
     }
 
-    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    static const std::array<std::string, 1> preferredTypes = {"json"};
     for (const auto& preferredType: preferredTypes) {
         const auto ret = std::find_if(contentTypes.cbegin(),
                                       contentTypes.cend(),
@@ -148,11 +149,11 @@ inline std::string percentEncodeFormValue(const std::string& value) {
     return encodedValue;
 }
 
-inline std::string percentEncodeQueryValue(const std::string& value) {
+inline std::string percentEncodeRfc3986Value(const std::string& unencodedValue) {
     static const char hexDigits[] = "0123456789ABCDEF";
     std::string encodedValue;
-    encodedValue.reserve(value.size());
-    for (const unsigned char character : value) {
+    encodedValue.reserve(unencodedValue.size());
+    for (const unsigned char character : unencodedValue) {
         if ((character >= 'a' && character <= 'z')
             || (character >= 'A' && character <= 'Z')
             || (character >= '0' && character <= '9')
@@ -168,18 +169,103 @@ inline std::string percentEncodeQueryValue(const std::string& value) {
     return encodedValue;
 }
 
-template<typename T>
-std::string serializeQueryParameterValue(const T& value) {
-    return percentEncodeQueryValue(toFormParameterValue(value));
+inline std::string percentEncodePathValue(const std::string& unencodedValue) {
+    return percentEncodeRfc3986Value(unencodedValue);
+}
+
+inline std::string percentEncodeQueryValue(const std::string& unencodedValue) {
+    return percentEncodeRfc3986Value(unencodedValue);
 }
 
 template<typename T>
-std::string serializeQueryParameterValue(const std::vector<T>& values) {
+std::string serializePathParameterValue(const T& pathParameterValue) {
+    return percentEncodePathValue(toFormParameterValue(pathParameterValue));
+}
+
+template<typename T>
+std::string serializePathParameterValue(const std::vector<T>& pathParameterValues) {
     std::stringstream serializedValues;
     const char* separator = "";
-    for (const auto& value : values) {
+    for (const T& pathParameterValue : pathParameterValues) {
         serializedValues << separator
-                         << percentEncodeQueryValue(toFormParameterValue(value));
+                         << percentEncodePathValue(toFormParameterValue(pathParameterValue));
+        separator = ",";
+    }
+    return serializedValues.str();
+}
+
+template<typename T>
+std::string serializeQueryParameterValue(const T& queryParameterValue) {
+    return percentEncodeQueryValue(toFormParameterValue(queryParameterValue));
+}
+
+template<typename T>
+std::string serializeQueryParameterValue(
+    const std::vector<T>& queryParameterValues,
+    const std::string& collectionDelimiter) {
+    std::stringstream serializedValues;
+    const char* separator = "";
+    for (const T& queryParameterValue : queryParameterValues) {
+        serializedValues << separator
+                         << percentEncodeQueryValue(toFormParameterValue(queryParameterValue));
+        separator = collectionDelimiter.c_str();
+    }
+    return serializedValues.str();
+}
+
+inline void appendQueryParameter(
+    std::stringstream& queryParameterStream,
+    const char*& queryParameterSeparator,
+    const std::string& parameterName,
+    const std::string& parameterValue) {
+    queryParameterStream << queryParameterSeparator
+                         << percentEncodeQueryValue(parameterName) << '='
+                         << parameterValue;
+    queryParameterSeparator = "&";
+}
+
+template<typename T>
+void appendMultiQueryParameters(
+    std::stringstream& queryParameterStream,
+    const char*& queryParameterSeparator,
+    const std::string& parameterName,
+    const std::vector<T>& queryParameterValues) {
+    for (const T& queryParameterValue : queryParameterValues) {
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            parameterName,
+            serializeQueryParameterValue(queryParameterValue));
+    }
+}
+
+inline std::string serializeHeaderParameterValue(const std::string& headerParameterValue) {
+    return headerParameterValue;
+}
+
+inline std::string serializeHeaderParameterValue(bool headerParameterValue) {
+    return headerParameterValue ? "true" : "false";
+}
+
+template<typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, std::string>::type
+serializeHeaderParameterValue(const T& headerParameterValue) {
+    return boost::lexical_cast<std::string>(headerParameterValue);
+}
+
+template<typename T>
+typename std::enable_if<!std::is_arithmetic<T>::value, std::string>::type
+serializeHeaderParameterValue(const T&) {
+    throw std::invalid_argument(
+        "Header parameter serialization supports only primitive values and arrays of primitive values");
+}
+
+template<typename T>
+std::string serializeHeaderParameterValue(const std::vector<T>& headerParameterValues) {
+    std::stringstream serializedValues;
+    const char* separator = "";
+    for (const T& headerParameterValue : headerParameterValues) {
+        serializedValues << separator << serializeHeaderParameterValue(headerParameterValue);
         separator = ",";
     }
     return serializedValues.str();
@@ -354,7 +440,15 @@ struct ResponseJsonValueConverter<std::map<std::string, T>> {
 
 template<typename T>
 struct ResponseBodyDeserializer {
-    static void deserialize(T& convertedResponse, const std::string& responseBody, bool tolerateEmptyBody) {
+    static void deserialize(
+        T& convertedResponse,
+        const std::string& responseBody,
+        const std::string& responseContentType,
+        bool tolerateEmptyBody) {
+        if (!isJsonContentType(responseContentType)) {
+            throw std::invalid_argument(
+                "Content type '" + responseContentType + "' does not support structured response bodies");
+        }
         if (tolerateEmptyBody && responseBody.empty()) {
             return;
         }
@@ -364,7 +458,11 @@ struct ResponseBodyDeserializer {
 
 template<>
 struct ResponseBodyDeserializer<std::string> {
-    static void deserialize(std::string& convertedResponse, const std::string& responseBody, bool) {
+    static void deserialize(
+        std::string& convertedResponse,
+        const std::string& responseBody,
+        const std::string&,
+        bool) {
         convertedResponse = responseBody;
     }
 };
@@ -402,8 +500,10 @@ PetApi::addPet(
         throw std::invalid_argument("Content type '" + requestContentType + "' does not support structured request bodies");
     }
 
+    std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    responseContentType = selectPreferredContentType(acceptTypes);
+    headers["Accept"] = responseContentType;
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -414,8 +514,8 @@ PetApi::addPet(
                               serializedRequestBody,
                               headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -426,17 +526,15 @@ PetApi::addPet(
         ResponseBodyDeserializer<std::shared_ptr<Pet>>::deserialize(
             deserializedResponse,
             responseBody,
+            responseContentType,
             false);
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(405)) {
         throw PetApiException(statusCode, "Invalid input");
     }
-
-    return deserializedResponse;
+    throw PetApiException(statusCode, "Unexpected HTTP status code");
 }
-
-// vendor extension
 std::shared_ptr<Pet>
 PetApi::updatePet(
     const std::shared_ptr<Pet>& pet) {
@@ -453,20 +551,22 @@ PetApi::updatePet(
         throw std::invalid_argument("Content type '" + requestContentType + "' does not support structured request bodies");
     }
 
+    std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    responseContentType = selectPreferredContentType(acceptTypes);
+    headers["Accept"] = responseContentType;
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
     try {
         std::tie(statusCode, responseBody) =
             m_client->execute("PUT",
-                path,
-                serializedRequestBody,
-                headers);
+                              path,
+                              serializedRequestBody,
+                              headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -477,6 +577,7 @@ PetApi::updatePet(
         ResponseBodyDeserializer<std::shared_ptr<Pet>>::deserialize(
             deserializedResponse,
             responseBody,
+            responseContentType,
             false);
         return deserializedResponse;
     }
@@ -489,10 +590,8 @@ PetApi::updatePet(
     if (statusCode == boost::beast::http::status(405)) {
         throw PetApiException(statusCode, "Validation exception");
     }
-
-    return deserializedResponse;
+    throw PetApiException(statusCode, "Unexpected HTTP status code");
 }
-
 void
 PetApi::deletePet(
     const int64_t& petId, const std::string& apiKey) {
@@ -500,10 +599,10 @@ PetApi::deletePet(
     std::string path = m_context + "/pet/%1%";
     std::map<std::string, std::string> headers;
     // path params
-    const auto formattedPath = boost::format(path) % petId;
+    const auto formattedPath = boost::format(path) % serializePathParameterValue(petId);
     path = formattedPath.str();
     // headers
-    headers.emplace(std::make_pair("api_key", boost::lexical_cast<std::string>(apiKey)));
+    headers.emplace("api_key", serializeHeaderParameterValue(apiKey));
 
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -515,8 +614,8 @@ PetApi::deletePet(
                               serializedRequestBody,
                               headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -525,10 +624,8 @@ PetApi::deletePet(
     if (statusCode == boost::beast::http::status(400)) {
         throw PetApiException(statusCode, "Invalid pet value");
     }
-
+    throw PetApiException(statusCode, "Unexpected HTTP status code");
 }
-
-// vendor extension
 std::shared_ptr<Pet>
 PetApi::getPetById(
     const int64_t& petId) {
@@ -536,23 +633,25 @@ PetApi::getPetById(
     std::string path = m_context + "/pet/%1%";
     std::map<std::string, std::string> headers;
     // path params
-    const auto formattedPath = boost::format(path) % petId;
+    const auto formattedPath = boost::format(path) % serializePathParameterValue(petId);
     path = formattedPath.str();
 
+    std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    responseContentType = selectPreferredContentType(acceptTypes);
+    headers["Accept"] = responseContentType;
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
     try {
         std::tie(statusCode, responseBody) =
             m_client->execute("GET",
-                path,
-                serializedRequestBody,
-                headers);
+                              path,
+                              serializedRequestBody,
+                              headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -563,6 +662,7 @@ PetApi::getPetById(
         ResponseBodyDeserializer<std::shared_ptr<Pet>>::deserialize(
             deserializedResponse,
             responseBody,
+            responseContentType,
             false);
         return deserializedResponse;
     }
@@ -572,12 +672,8 @@ PetApi::getPetById(
     if (statusCode == boost::beast::http::status(404)) {
         throw PetApiException(statusCode, "Pet not found");
     }
-
-    return deserializedResponse;
+    throw PetApiException(statusCode, "Unexpected HTTP status code");
 }
-
-
-// vendor extension
 void
 PetApi::updatePetWithForm(
     const int64_t& petId, const std::string& name, const std::string& status) {
@@ -605,7 +701,7 @@ PetApi::updatePetWithForm(
         serializedRequestBody = serializeUrlEncodedFormData(formParameters);
     }
     // path params
-    const auto formattedPath = boost::format(path) % petId;
+    const auto formattedPath = boost::format(path) % serializePathParameterValue(petId);
     path = formattedPath.str();
 
 
@@ -614,12 +710,12 @@ PetApi::updatePetWithForm(
     try {
         std::tie(statusCode, responseBody) =
             m_client->execute("POST",
-                path,
-                serializedRequestBody,
-                headers);
+                              path,
+                              serializedRequestBody,
+                              headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -628,9 +724,8 @@ PetApi::updatePetWithForm(
     if (statusCode == boost::beast::http::status(405)) {
         throw PetApiException(statusCode, "Invalid input");
     }
-
+    throw PetApiException(statusCode, "Unexpected HTTP status code");
 }
-
 std::vector<std::shared_ptr<Pet>>
 PetApi::findPetsByStatus(
     const std::vector<std::string>& status) {
@@ -638,16 +733,21 @@ PetApi::findPetsByStatus(
     std::string path = m_context + "/pet/findByStatus";
     std::map<std::string, std::string> headers;
     // query params
-    std::stringstream queryParamStream;
+    std::stringstream queryParameterStream;
     const char* queryParameterSeparator = "?";
-    queryParamStream << queryParameterSeparator
-                     << percentEncodeQueryValue("status") << '='
-                     << serializeQueryParameterValue(status);
-    queryParameterSeparator = "&";
-    path += queryParamStream.str();
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            "status",
+            serializeQueryParameterValue(
+                status,
+                ","));
+    path += queryParameterStream.str();
 
+    std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    responseContentType = selectPreferredContentType(acceptTypes);
+    headers["Accept"] = responseContentType;
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -658,8 +758,8 @@ PetApi::findPetsByStatus(
                               serializedRequestBody,
                               headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -670,14 +770,14 @@ PetApi::findPetsByStatus(
         ResponseBodyDeserializer<std::vector<std::shared_ptr<Pet>>>::deserialize(
             deserializedResponse,
             responseBody,
+            responseContentType,
             false);
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
         throw PetApiException(statusCode, "Invalid status value");
     }
-
-    return deserializedResponse;
+    throw PetApiException(statusCode, "Unexpected HTTP status code");
 }
 std::vector<std::shared_ptr<Pet>>
 PetApi::findPetsByTags(
@@ -686,16 +786,21 @@ PetApi::findPetsByTags(
     std::string path = m_context + "/pet/findByTags";
     std::map<std::string, std::string> headers;
     // query params
-    std::stringstream queryParamStream;
+    std::stringstream queryParameterStream;
     const char* queryParameterSeparator = "?";
-    queryParamStream << queryParameterSeparator
-                     << percentEncodeQueryValue("tags") << '='
-                     << serializeQueryParameterValue(tags);
-    queryParameterSeparator = "&";
-    path += queryParamStream.str();
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            "tags",
+            serializeQueryParameterValue(
+                tags,
+                ","));
+    path += queryParameterStream.str();
 
+    std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    responseContentType = selectPreferredContentType(acceptTypes);
+    headers["Accept"] = responseContentType;
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -706,8 +811,8 @@ PetApi::findPetsByTags(
                               serializedRequestBody,
                               headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -718,14 +823,14 @@ PetApi::findPetsByTags(
         ResponseBodyDeserializer<std::vector<std::shared_ptr<Pet>>>::deserialize(
             deserializedResponse,
             responseBody,
+            responseContentType,
             false);
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
         throw PetApiException(statusCode, "Invalid tag value");
     }
-
-    return deserializedResponse;
+    throw PetApiException(statusCode, "Unexpected HTTP status code");
 }
 std::shared_ptr<ApiResponse>
 PetApi::uploadFile(
@@ -754,11 +859,13 @@ PetApi::uploadFile(
         serializedRequestBody = serializeUrlEncodedFormData(formParameters);
     }
     // path params
-    const auto formattedPath = boost::format(path) % petId;
+    const auto formattedPath = boost::format(path) % serializePathParameterValue(petId);
     path = formattedPath.str();
 
+    std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/json", };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    responseContentType = selectPreferredContentType(acceptTypes);
+    headers["Accept"] = responseContentType;
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -769,8 +876,8 @@ PetApi::uploadFile(
                               serializedRequestBody,
                               headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -781,11 +888,11 @@ PetApi::uploadFile(
         ResponseBodyDeserializer<std::shared_ptr<ApiResponse>>::deserialize(
             deserializedResponse,
             responseBody,
+            responseContentType,
             false);
         return deserializedResponse;
     }
-
-    return deserializedResponse;
+    throw PetApiException(statusCode, "Unexpected HTTP status code");
 }
 
 

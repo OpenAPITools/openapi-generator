@@ -19,7 +19,7 @@ target_include_directories(api_tests
 
 target_link_libraries(api_tests
         PRIVATE
-            client
+            CppBoostBeastPetstoreClient
             ${Boost_LIBRARIES})
 
 target_compile_definitions(api_tests

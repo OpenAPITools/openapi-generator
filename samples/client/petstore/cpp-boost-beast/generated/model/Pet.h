@@ -24,8 +24,6 @@
 #include "Category.h"
 #include <vector>
 #include <memory>
-#include <vector>
-#include <array>
 #include <boost/json.hpp>
 
 namespace org {
@@ -100,15 +98,15 @@ protected:
 
 protected:
     int64_t m_Id = 0L;
+    bool m_IdIsSet = false;
     std::shared_ptr<Category> m_Category;
+    bool m_CategoryIsSet = false;
     std::string m_Name = "";
     std::vector<std::string> m_PhotoUrls;
     std::vector<std::shared_ptr<Tag>> m_Tags;
+    bool m_TagsIsSet = false;
     std::string m_Status = "";
-    const std::array<std::string, 3> m_StatusEnum = {
-          "available","pending","sold"
-    };
-
+    bool m_StatusIsSet = false;
 };
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Pet>>& data);

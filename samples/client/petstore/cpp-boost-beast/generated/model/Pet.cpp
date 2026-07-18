@@ -24,6 +24,7 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include <array>
 #include <boost/json.hpp>
 
 namespace org {
@@ -216,54 +217,63 @@ void Pet::fromJsonValue(boost::json::value const& value)
 boost::json::object Pet::toJsonObject_internal() const
 {
     boost::json::object object;
-    object["id"] = JsonValueConverter<int64_t>::toJsonValue(m_Id);
-        const auto CategoryValue = getCategory();
-        if (CategoryValue != nullptr) {
-            object["category"] = JsonValueConverter<std::shared_ptr<Category>>::toJsonValue(CategoryValue);
+        if (m_IdIsSet) {
+            object["id"] = JsonValueConverter<int64_t>::toJsonValue(getId());
         }
-    object["name"] = JsonValueConverter<std::string>::toJsonValue(m_Name);
-    object["photoUrls"] = JsonValueConverter<std::vector<std::string>>::toJsonValue(m_PhotoUrls);
-    object["tags"] = JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::toJsonValue(m_Tags);
-    object["status"] = JsonValueConverter<std::string>::toJsonValue(m_Status);
+        if (m_CategoryIsSet) {
+            object["category"] = JsonValueConverter<std::shared_ptr<Category>>::toJsonValue(getCategory());
+        }
+        object["name"] = JsonValueConverter<std::string>::toJsonValue(getName());
+        object["photoUrls"] = JsonValueConverter<std::vector<std::string>>::toJsonValue(getPhotoUrls());
+        if (m_TagsIsSet) {
+            object["tags"] = JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::toJsonValue(getTags());
+        }
+        if (m_StatusIsSet) {
+            object["status"] = JsonValueConverter<std::string>::toJsonValue(getStatus());
+        }
     return object;
 }
 
 void Pet::fromJsonObject_internal(boost::json::object const& object)
 {
+    m_IdIsSet = false;
+    m_CategoryIsSet = false;
+    m_TagsIsSet = false;
+    m_StatusIsSet = false;
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
-            m_Id = JsonValueConverter<int64_t>::fromJsonValue(IdIt->value());
+            setId(JsonValueConverter<int64_t>::fromJsonValue(IdIt->value()));
         }
     }
     {
         const auto CategoryIt = object.find("category");
         if (CategoryIt != object.end()) {
-            m_Category = JsonValueConverter<std::shared_ptr<Category>>::fromJsonValue(CategoryIt->value());
+            setCategory(JsonValueConverter<std::shared_ptr<Category>>::fromJsonValue(CategoryIt->value()));
         }
     }
     {
         const auto NameIt = object.find("name");
         if (NameIt != object.end()) {
-            m_Name = JsonValueConverter<std::string>::fromJsonValue(NameIt->value());
+            setName(JsonValueConverter<std::string>::fromJsonValue(NameIt->value()));
         }
     }
     {
         const auto PhotoUrlsIt = object.find("photoUrls");
         if (PhotoUrlsIt != object.end()) {
-            m_PhotoUrls = JsonValueConverter<std::vector<std::string>>::fromJsonValue(PhotoUrlsIt->value());
+            setPhotoUrls(JsonValueConverter<std::vector<std::string>>::fromJsonValue(PhotoUrlsIt->value()));
         }
     }
     {
         const auto TagsIt = object.find("tags");
         if (TagsIt != object.end()) {
-            m_Tags = JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::fromJsonValue(TagsIt->value());
+            setTags(JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::fromJsonValue(TagsIt->value()));
         }
     }
     {
         const auto StatusIt = object.find("status");
         if (StatusIt != object.end()) {
-            m_Status = JsonValueConverter<std::string>::fromJsonValue(StatusIt->value());
+            setStatus(JsonValueConverter<std::string>::fromJsonValue(StatusIt->value()));
         }
     }
 }
@@ -276,6 +286,7 @@ int64_t Pet::getId() const
 void Pet::setId(int64_t value)
 {
         m_Id = std::move(value);
+    m_IdIsSet = true;
 }
 std::shared_ptr<Category> Pet::getCategory() const
 {
@@ -285,6 +296,7 @@ std::shared_ptr<Category> Pet::getCategory() const
 void Pet::setCategory(std::shared_ptr<Category> value)
 {
         m_Category = std::move(value);
+    m_CategoryIsSet = true;
 }
 std::string Pet::getName() const
 {
@@ -312,6 +324,7 @@ std::vector<std::shared_ptr<Tag>> Pet::getTags() const
 void Pet::setTags(std::vector<std::shared_ptr<Tag>> value)
 {
         m_Tags = std::move(value);
+    m_TagsIsSet = true;
 }
 std::string Pet::getStatus() const
 {
@@ -320,10 +333,16 @@ std::string Pet::getStatus() const
 
 void Pet::setStatus(std::string value)
 {
-    if (std::find(m_StatusEnum.begin(), m_StatusEnum.end(), value) == m_StatusEnum.end()) {
-        throw std::runtime_error("Value " + value + " not allowed");
+    static const std::array<std::string, 3> allowedValues = {
+        "available","pending","sold"
+    };
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
+        std::ostringstream errorMessage;
+        errorMessage << "Value " << value << " not allowed";
+        throw std::runtime_error(errorMessage.str());
     }
     m_Status = std::move(value);
+    m_StatusIsSet = true;
 }
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Pet>>& data)

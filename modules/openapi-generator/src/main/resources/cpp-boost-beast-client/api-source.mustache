@@ -4,6 +4,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <map>
 #include <array>
 #include <algorithm>
@@ -35,7 +36,7 @@ std::string selectPreferredContentType(const std::vector<std::string>& contentTy
         return contentTypes.at(0);
     }
 
-    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    static const std::array<std::string, 1> preferredTypes = {"json"};
     for (const auto& preferredType: preferredTypes) {
         const auto ret = std::find_if(contentTypes.cbegin(),
                                       contentTypes.cend(),
@@ -137,11 +138,11 @@ inline std::string percentEncodeFormValue(const std::string& value) {
     return encodedValue;
 }
 
-inline std::string percentEncodeQueryValue(const std::string& value) {
+inline std::string percentEncodeRfc3986Value(const std::string& unencodedValue) {
     static const char hexDigits[] = "0123456789ABCDEF";
     std::string encodedValue;
-    encodedValue.reserve(value.size());
-    for (const unsigned char character : value) {
+    encodedValue.reserve(unencodedValue.size());
+    for (const unsigned char character : unencodedValue) {
         if ((character >= 'a' && character <= 'z')
             || (character >= 'A' && character <= 'Z')
             || (character >= '0' && character <= '9')
@@ -157,18 +158,103 @@ inline std::string percentEncodeQueryValue(const std::string& value) {
     return encodedValue;
 }
 
-template<typename T>
-std::string serializeQueryParameterValue(const T& value) {
-    return percentEncodeQueryValue(toFormParameterValue(value));
+inline std::string percentEncodePathValue(const std::string& unencodedValue) {
+    return percentEncodeRfc3986Value(unencodedValue);
+}
+
+inline std::string percentEncodeQueryValue(const std::string& unencodedValue) {
+    return percentEncodeRfc3986Value(unencodedValue);
 }
 
 template<typename T>
-std::string serializeQueryParameterValue(const std::vector<T>& values) {
+std::string serializePathParameterValue(const T& pathParameterValue) {
+    return percentEncodePathValue(toFormParameterValue(pathParameterValue));
+}
+
+template<typename T>
+std::string serializePathParameterValue(const std::vector<T>& pathParameterValues) {
     std::stringstream serializedValues;
     const char* separator = "";
-    for (const auto& value : values) {
+    for (const T& pathParameterValue : pathParameterValues) {
         serializedValues << separator
-                         << percentEncodeQueryValue(toFormParameterValue(value));
+                         << percentEncodePathValue(toFormParameterValue(pathParameterValue));
+        separator = ",";
+    }
+    return serializedValues.str();
+}
+
+template<typename T>
+std::string serializeQueryParameterValue(const T& queryParameterValue) {
+    return percentEncodeQueryValue(toFormParameterValue(queryParameterValue));
+}
+
+template<typename T>
+std::string serializeQueryParameterValue(
+    const std::vector<T>& queryParameterValues,
+    const std::string& collectionDelimiter) {
+    std::stringstream serializedValues;
+    const char* separator = "";
+    for (const T& queryParameterValue : queryParameterValues) {
+        serializedValues << separator
+                         << percentEncodeQueryValue(toFormParameterValue(queryParameterValue));
+        separator = collectionDelimiter.c_str();
+    }
+    return serializedValues.str();
+}
+
+inline void appendQueryParameter(
+    std::stringstream& queryParameterStream,
+    const char*& queryParameterSeparator,
+    const std::string& parameterName,
+    const std::string& parameterValue) {
+    queryParameterStream << queryParameterSeparator
+                         << percentEncodeQueryValue(parameterName) << '='
+                         << parameterValue;
+    queryParameterSeparator = "&";
+}
+
+template<typename T>
+void appendMultiQueryParameters(
+    std::stringstream& queryParameterStream,
+    const char*& queryParameterSeparator,
+    const std::string& parameterName,
+    const std::vector<T>& queryParameterValues) {
+    for (const T& queryParameterValue : queryParameterValues) {
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            parameterName,
+            serializeQueryParameterValue(queryParameterValue));
+    }
+}
+
+inline std::string serializeHeaderParameterValue(const std::string& headerParameterValue) {
+    return headerParameterValue;
+}
+
+inline std::string serializeHeaderParameterValue(bool headerParameterValue) {
+    return headerParameterValue ? "true" : "false";
+}
+
+template<typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, std::string>::type
+serializeHeaderParameterValue(const T& headerParameterValue) {
+    return boost::lexical_cast<std::string>(headerParameterValue);
+}
+
+template<typename T>
+typename std::enable_if<!std::is_arithmetic<T>::value, std::string>::type
+serializeHeaderParameterValue(const T&) {
+    throw std::invalid_argument(
+        "Header parameter serialization supports only primitive values and arrays of primitive values");
+}
+
+template<typename T>
+std::string serializeHeaderParameterValue(const std::vector<T>& headerParameterValues) {
+    std::stringstream serializedValues;
+    const char* separator = "";
+    for (const T& headerParameterValue : headerParameterValues) {
+        serializedValues << separator << serializeHeaderParameterValue(headerParameterValue);
         separator = ",";
     }
     return serializedValues.str();
@@ -343,7 +429,15 @@ struct ResponseJsonValueConverter<std::map<std::string, T>> {
 
 template<typename T>
 struct ResponseBodyDeserializer {
-    static void deserialize(T& convertedResponse, const std::string& responseBody, bool tolerateEmptyBody) {
+    static void deserialize(
+        T& convertedResponse,
+        const std::string& responseBody,
+        const std::string& responseContentType,
+        bool tolerateEmptyBody) {
+        if (!isJsonContentType(responseContentType)) {
+            throw std::invalid_argument(
+                "Content type '" + responseContentType + "' does not support structured response bodies");
+        }
         if (tolerateEmptyBody && responseBody.empty()) {
             return;
         }
@@ -353,7 +447,11 @@ struct ResponseBodyDeserializer {
 
 template<>
 struct ResponseBodyDeserializer<std::string> {
-    static void deserialize(std::string& convertedResponse, const std::string& responseBody, bool) {
+    static void deserialize(
+        std::string& convertedResponse,
+        const std::string& responseBody,
+        const std::string&,
+        bool) {
         convertedResponse = responseBody;
     }
 };
@@ -376,316 +474,9 @@ const char* {{classname}}Exception::what() const noexcept
 }
 
 {{#operation}}
-{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-{{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
-    {{#allParams}}const {{{dataType}}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
-    std::string serializedRequestBody;
-    std::string path = m_context + "{{{path}}}";
-    std::map<std::string, std::string> headers;
-{{#hasConsumes}}
-    static const std::vector<std::string> contentTypes{ {{#consumes}}"{{{mediaType}}}",{{/consumes}} };
-    std::string requestContentType = selectPreferredContentType(contentTypes);
-    headers["Content-Type"] = requestContentType;
-{{/hasConsumes}}
-{{#hasBodyParam}}
-{{^hasConsumes}}
-    const std::string requestContentType = "application/json";
-    headers["Content-Type"] = requestContentType;
-{{/hasConsumes}}
-    // Body params
-{{#bodyParam}}
-    if (isJsonContentType(requestContentType)) {
-        serializedRequestBody = boost::json::serialize(toRequestJsonValue({{paramName}}));
-    } else {
-        {{#vendorExtensions.x-codegen-is-raw-body}}
-        serializedRequestBody = toRawBodyValue({{paramName}});
-        {{/vendorExtensions.x-codegen-is-raw-body}}
-        {{^vendorExtensions.x-codegen-is-raw-body}}
-        throw std::invalid_argument("Content type '" + requestContentType + "' does not support structured request bodies");
-        {{/vendorExtensions.x-codegen-is-raw-body}}
-    }
-{{/bodyParam}}
-{{/hasBodyParam}}
-{{#hasFormParams}}
-    // form param
-    std::vector<FormParameter> formParameters;
-{{#allParams}}
-{{#isFormParam}}
-    formParameters.emplace_back(
-        "{{{baseName}}}",
-        toFormParameterValue({{{paramName}}}),
-        {{#isFile}}true{{/isFile}}{{^isFile}}{{#isBinary}}true{{/isBinary}}{{^isBinary}}false{{/isBinary}}{{/isFile}});
-{{/isFormParam}}
-{{/allParams}}
-    if (normalizeMediaType(requestContentType) == "multipart/form-data") {
-        const std::string multipartBoundary = selectMultipartBoundary(formParameters);
-        headers["Content-Type"] = requestContentType + "; boundary=" + multipartBoundary;
-        serializedRequestBody = serializeMultipartFormData(formParameters, multipartBoundary);
-    } else {
-        serializedRequestBody = serializeUrlEncodedFormData(formParameters);
-    }
-{{/hasFormParams}}
-{{#hasPathParams}}
-    // path params
-    const auto formattedPath = boost::format(path){{#pathParams}} % {{{paramName}}}{{/pathParams}};
-    path = formattedPath.str();
-{{/hasPathParams}}
-{{#hasQueryParams}}
-    // query params
-    std::stringstream queryParamStream;
-    const char* queryParameterSeparator = "?";
-{{#queryParams}}
-    queryParamStream << queryParameterSeparator
-                     << percentEncodeQueryValue("{{{baseName}}}") << '='
-                     << serializeQueryParameterValue({{{paramName}}});
-    queryParameterSeparator = "&";
-{{/queryParams}}
-    path += queryParamStream.str();
-{{/hasQueryParams}}
-{{#hasHeaderParams}}
-    // headers
-{{#headerParams}}
-{{#isPrimitiveType}}
-    headers.emplace(std::make_pair("{{{baseName}}}", boost::lexical_cast<std::string>({{{paramName}}})));
-{{/isPrimitiveType}}
-{{/headerParams}}
-{{/hasHeaderParams}}
-
-    {{#hasProduces}}
-    static const std::vector<std::string> acceptTypes{ {{#produces}}"{{{mediaType}}}",{{/produces}} };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
-    {{/hasProduces}}
-
-    auto statusCode = boost::beast::http::status::unknown;
-    std::string responseBody;
-    try {
-        std::tie(statusCode, responseBody) =
-            m_client->execute("{{httpMethod}}",
-                              path,
-                              serializedRequestBody,
-                              headers);
-    }
-    catch(const std::exception& e) {
-        handleStdException(e);
-    }
-    catch(...) {
-        handleUncaughtException();
-    }
-
-    {{#returnType}}
-    {{{.}}} deserializedResponse = {{{defaultResponse}}};
-    {{/returnType}}
-    {{#responses}}
-    {{^isDefault}}
-    if (statusCode == boost::beast::http::status({{code}})) {
-        {{#is2xx}}
-        {{#returnType}}
-        {{#dataType}}
-        ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
-            deserializedResponse,
-            responseBody,
-            {{#vendorExtensions.x-codegen-empty-body-tolerant}}true{{/vendorExtensions.x-codegen-empty-body-tolerant}}{{^vendorExtensions.x-codegen-empty-body-tolerant}}false{{/vendorExtensions.x-codegen-empty-body-tolerant}});
-        {{/dataType}}
-        return deserializedResponse;
-        {{/returnType}}
-        {{^returnType}}
-        return;
-        {{/returnType}}
-        {{/is2xx}}
-        {{^is2xx}}
-        throw {{classname}}Exception(statusCode, "{{{message}}}");
-        {{/is2xx}}
-    }
-    {{/isDefault}}
-    {{/responses}}
-    {{#responses}}
-    {{#isDefault}}
-    {{#dataType}}
-    {{#vendorExtensions.x-codegen-default-response-is-return-compatible}}
-    ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
-        deserializedResponse,
-        responseBody,
-        {{#vendorExtensions.x-codegen-empty-body-tolerant}}true{{/vendorExtensions.x-codegen-empty-body-tolerant}}{{^vendorExtensions.x-codegen-empty-body-tolerant}}false{{/vendorExtensions.x-codegen-empty-body-tolerant}});
-    return deserializedResponse;
-    {{/vendorExtensions.x-codegen-default-response-is-return-compatible}}
-    {{^vendorExtensions.x-codegen-default-response-is-return-compatible}}
-    throw {{classname}}Exception(statusCode, "{{{message}}}");
-    {{/vendorExtensions.x-codegen-default-response-is-return-compatible}}
-    {{/dataType}}
-    {{^dataType}}
-    {{#returnType}}
-    return deserializedResponse;
-    {{/returnType}}
-    {{^returnType}}
-    return;
-    {{/returnType}}
-    {{/dataType}}
-    {{/isDefault}}
-    {{/responses}}
-
-    {{^vendorExtensions.x-codegen-has-default-response}}
-    {{#returnType}}
-    return deserializedResponse;
-    {{/returnType}}
-    {{/vendorExtensions.x-codegen-has-default-response}}
-}
+{{>api-operation-source}}
 {{#vendorExtensions.x-codegen-other-methods}}
-
-// vendor extension
-{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-{{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
-    {{#allParams}}const {{{dataType}}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
-    std::string serializedRequestBody;
-    std::string path = m_context + "{{{path}}}";
-    std::map<std::string, std::string> headers;
-    {{#hasConsumes}}
-    static const std::vector<std::string> contentTypes{ {{#consumes}}"{{{mediaType}}}",{{/consumes}} };
-    std::string requestContentType = selectPreferredContentType(contentTypes);
-    headers["Content-Type"] = requestContentType;
-    {{/hasConsumes}}
-    {{#hasBodyParam}}
-    {{^hasConsumes}}
-    const std::string requestContentType = "application/json";
-    headers["Content-Type"] = requestContentType;
-    {{/hasConsumes}}
-    // Body params
-    {{#bodyParam}}
-    if (isJsonContentType(requestContentType)) {
-        serializedRequestBody = boost::json::serialize(toRequestJsonValue({{paramName}}));
-    } else {
-        {{#vendorExtensions.x-codegen-is-raw-body}}
-        serializedRequestBody = toRawBodyValue({{paramName}});
-        {{/vendorExtensions.x-codegen-is-raw-body}}
-        {{^vendorExtensions.x-codegen-is-raw-body}}
-        throw std::invalid_argument("Content type '" + requestContentType + "' does not support structured request bodies");
-        {{/vendorExtensions.x-codegen-is-raw-body}}
-    }
-    {{/bodyParam}}
-    {{/hasBodyParam}}
-    {{#hasFormParams}}
-    // form param
-    std::vector<FormParameter> formParameters;
-    {{#allParams}}
-    {{#isFormParam}}
-    formParameters.emplace_back(
-        "{{{baseName}}}",
-        toFormParameterValue({{{paramName}}}),
-        {{#isFile}}true{{/isFile}}{{^isFile}}{{#isBinary}}true{{/isBinary}}{{^isBinary}}false{{/isBinary}}{{/isFile}});
-    {{/isFormParam}}
-    {{/allParams}}
-    if (normalizeMediaType(requestContentType) == "multipart/form-data") {
-        const std::string multipartBoundary = selectMultipartBoundary(formParameters);
-        headers["Content-Type"] = requestContentType + "; boundary=" + multipartBoundary;
-        serializedRequestBody = serializeMultipartFormData(formParameters, multipartBoundary);
-    } else {
-        serializedRequestBody = serializeUrlEncodedFormData(formParameters);
-    }
-    {{/hasFormParams}}
-    {{#hasPathParams}}
-    // path params
-    const auto formattedPath = boost::format(path){{#pathParams}} % {{{paramName}}}{{/pathParams}};
-    path = formattedPath.str();
-    {{/hasPathParams}}
-    {{#hasQueryParams}}
-    // query params
-    std::stringstream queryParamStream;
-    const char* queryParameterSeparator = "?";
-    {{#queryParams}}
-    queryParamStream << queryParameterSeparator
-                     << percentEncodeQueryValue("{{{baseName}}}") << '='
-                     << serializeQueryParameterValue({{{paramName}}});
-    queryParameterSeparator = "&";
-    {{/queryParams}}
-    path += queryParamStream.str();
-    {{/hasQueryParams}}
-    {{#hasHeaderParams}}
-    // headers
-    {{#headerParams}}
-    {{#isPrimitiveType}}
-    headers.emplace(std::make_pair("{{{baseName}}}", boost::lexical_cast<std::string>({{{paramName}}})));
-    {{/isPrimitiveType}}
-    {{/headerParams}}
-    {{/hasHeaderParams}}
-
-    {{#hasProduces}}
-    static const std::vector<std::string> acceptTypes{ {{#produces}}"{{{mediaType}}}",{{/produces}} };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
-    {{/hasProduces}}
-
-    auto statusCode = boost::beast::http::status::unknown;
-    std::string responseBody;
-    try {
-        std::tie(statusCode, responseBody) =
-            m_client->execute("{{httpMethod}}",
-                path,
-                serializedRequestBody,
-                headers);
-    }
-    catch(const std::exception& e) {
-        handleStdException(e);
-    }
-    catch(...) {
-        handleUncaughtException();
-    }
-
-    {{#returnType}}
-    {{{.}}} deserializedResponse = {{{defaultResponse}}};
-    {{/returnType}}
-    {{#responses}}
-    {{^isDefault}}
-    if (statusCode == boost::beast::http::status({{code}})) {
-        {{#is2xx}}
-        {{#returnType}}
-        {{#dataType}}
-        ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
-            deserializedResponse,
-            responseBody,
-            {{#vendorExtensions.x-codegen-empty-body-tolerant}}true{{/vendorExtensions.x-codegen-empty-body-tolerant}}{{^vendorExtensions.x-codegen-empty-body-tolerant}}false{{/vendorExtensions.x-codegen-empty-body-tolerant}});
-        {{/dataType}}
-        return deserializedResponse;
-        {{/returnType}}
-        {{^returnType}}
-        return;
-        {{/returnType}}
-        {{/is2xx}}
-        {{^is2xx}}
-        throw {{classname}}Exception(statusCode, "{{{message}}}");
-        {{/is2xx}}
-    }
-    {{/isDefault}}
-    {{/responses}}
-    {{#responses}}
-    {{#isDefault}}
-    {{#dataType}}
-    {{#vendorExtensions.x-codegen-default-response-is-return-compatible}}
-    ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
-        deserializedResponse,
-        responseBody,
-        {{#vendorExtensions.x-codegen-empty-body-tolerant}}true{{/vendorExtensions.x-codegen-empty-body-tolerant}}{{^vendorExtensions.x-codegen-empty-body-tolerant}}false{{/vendorExtensions.x-codegen-empty-body-tolerant}});
-    return deserializedResponse;
-    {{/vendorExtensions.x-codegen-default-response-is-return-compatible}}
-    {{^vendorExtensions.x-codegen-default-response-is-return-compatible}}
-    throw {{classname}}Exception(statusCode, "{{{message}}}");
-    {{/vendorExtensions.x-codegen-default-response-is-return-compatible}}
-    {{/dataType}}
-    {{^dataType}}
-    {{#returnType}}
-    return deserializedResponse;
-    {{/returnType}}
-    {{^returnType}}
-    return;
-    {{/returnType}}
-    {{/dataType}}
-    {{/isDefault}}
-    {{/responses}}
-
-    {{^vendorExtensions.x-codegen-has-default-response}}
-    {{#returnType}}
-    return deserializedResponse;
-    {{/returnType}}
-    {{/vendorExtensions.x-codegen-has-default-response}}
-}
-
+{{>api-operation-source}}
 {{/vendorExtensions.x-codegen-other-methods}}
 {{/operation}}
 

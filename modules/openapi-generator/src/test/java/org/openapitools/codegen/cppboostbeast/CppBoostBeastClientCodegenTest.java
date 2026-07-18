@@ -19,6 +19,7 @@ package org.openapitools.codegen.cppboostbeast;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -77,14 +78,18 @@ public class CppBoostBeastClientCodegenTest {
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/model-generation-regression.yaml")
-                .setOutputDir(output.getAbsolutePath());
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("packageName", "CppBoostBeastRegressionClient");
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
         Path derivedHeader = output.toPath().resolve("model/DerivedModel.h");
         Path derivedSource = output.toPath().resolve("model/DerivedModel.cpp");
+        Path containerHeader = output.toPath().resolve("model/ContainerModel.h");
         Path containerSource = output.toPath().resolve("model/ContainerModel.cpp");
+        Path cmakeLists = output.toPath().resolve("CMakeLists.txt");
+        String containerHeaderContents = java.nio.file.Files.readString(containerHeader);
 
         TestUtils.assertFileContains(derivedHeader,
                 "#include \"BaseModel.h\"",
@@ -101,12 +106,42 @@ public class CppBoostBeastClientCodegenTest {
                 "if (!DerivedModelLocalValuePropertyIsInherited<BaseModel>::value)",
                 "return readBaseValueProperty<BaseModel>",
                 "writeBaseValueProperty<BaseModel>");
+        TestUtils.assertFileContains(containerHeader,
+                "bool m_OptionalScalarIsSet = false;",
+                "bool m_OptionalModelIsSet = false;",
+                "bool m_ModelArrayIsSet = false;",
+                "bool m_FreeFormValueIsSet = false;",
+                "bool m_NullValueIsSet = false;");
+        TestUtils.assertFileNotContains(containerHeader,
+                "bool m_RequiredValueIsSet",
+                "std::array<");
+        Assert.assertEquals(
+                TestUtils.countOccurrences(containerHeaderContents, "#include <vector>"),
+                1);
         TestUtils.assertFileContains(containerSource,
                 "struct JsonValueConverter<std::shared_ptr<ModelType>>",
                 "struct JsonValueConverter<std::nullptr_t>",
                 "convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));",
                 "convertedValues.emplace(entryKey, JsonValueConverter<MappedValue>::fromJsonValue(jsonEntry.value()));",
-                "if (OptionalModelValue != nullptr)",
+                "object[\"requiredValue\"] = JsonValueConverter<std::string>::toJsonValue(getRequiredValue());",
+                "if (m_OptionalScalarIsSet)",
+                "if (m_OptionalModelIsSet)",
+                "if (m_ModelArrayIsSet)",
+                "if (m_FreeFormValueIsSet)",
+                "if (m_NullValueIsSet)",
+                "m_OptionalScalarIsSet = false;",
+                "m_OptionalScalarIsSet = true;",
+                "static const std::array<int32_t, 2> allowedValues = {",
+                "1,2",
+                "static const std::array<std::string, 2> allowedValues = {",
+                "\"alpha\",\"beta\"",
+                "static const std::array<bool, 2> allowedValues = {",
+                "true,false",
+                "setIntegerChoice(JsonValueConverter<int32_t>::fromJsonValue(IntegerChoiceIt->value()));",
+                "setStringChoice(JsonValueConverter<std::string>::fromJsonValue(StringChoiceIt->value()));",
+                "setBooleanChoice(JsonValueConverter<bool>::fromJsonValue(BooleanChoiceIt->value()));",
+                "std::ostringstream errorMessage;",
+                "errorMessage << \"Value \" << value << \" not allowed\";",
                 "JsonValueConverter<std::vector<std::vector<std::shared_ptr<ChildModel>>>>::fromJsonValue",
                 "JsonValueConverter<std::map<std::string, std::map<std::string, std::shared_ptr<ChildModel>>>>::fromJsonValue",
                 "JsonValueConverter<std::vector<std::map<std::string, std::shared_ptr<ChildModel>>>>::fromJsonValue",
@@ -115,7 +150,21 @@ public class CppBoostBeastClientCodegenTest {
         TestUtils.assertFileNotContains(containerSource,
                 "mostInnerItems",
                 "m_Inner",
-                "if (!childEntry.is_null())");
+                "if (!childEntry.is_null())",
+                "m_IntegerChoice = JsonValueConverter");
+        TestUtils.assertFileContains(cmakeLists,
+                "project(CppBoostBeastRegressionClient VERSION 1.0.0 LANGUAGES CXX)",
+                "include(GNUInstallDirs)",
+                 "add_library(${PROJECT_NAME} SHARED)",
+                 "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>",
+                 "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}>",
+                 "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/api>",
+                 "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/model>",
+                 "RUNTIME DESTINATION \"${CMAKE_INSTALL_BINDIR}\"",
+                "LIBRARY DESTINATION \"${CMAKE_INSTALL_LIBDIR}\"",
+                "ARCHIVE DESTINATION \"${CMAKE_INSTALL_LIBDIR}\"",
+                "install(DIRECTORY api model",
+                "DESTINATION \"${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}\"");
     }
 
 }

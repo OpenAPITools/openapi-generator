@@ -118,8 +118,10 @@ BOOST_DATA_TEST_CASE(updatePet_fails, boost::unit_test::data::make(
 BOOST_AUTO_TEST_CASE(updatePetWithForm) {
     PetApi api(client);
 
-    // Nothing to assert. Should not throw any exception
-    api.updatePetWithForm(42, "my_pet", "sold");
+    REQUIRE_THROW(api.updatePetWithForm(42, "my_pet", "sold"), PetApiException, [](const auto& exception) {
+        BOOST_REQUIRE_EQUAL(exception.getStatus(), boost::beast::http::status{200});
+        BOOST_REQUIRE_EQUAL(exception.what(), "Unexpected HTTP status code");
+    });
 }
 
 BOOST_AUTO_TEST_CASE(findPetsByStatus) {
@@ -143,16 +145,20 @@ BOOST_AUTO_TEST_CASE(findPetsByStatus_list) {
 BOOST_AUTO_TEST_CASE(deletePet) {
     PetApi api(client);
 
-    api.deletePet(50, "myApiKey");
+    REQUIRE_THROW(api.deletePet(50, "myApiKey"), PetApiException, [](const auto& exception) {
+        BOOST_REQUIRE_EQUAL(exception.getStatus(), boost::beast::http::status{200});
+        BOOST_REQUIRE_EQUAL(exception.what(), "Unexpected HTTP status code");
+    });
 }
 
 BOOST_AUTO_TEST_CASE(deletePet_uses_schema_header_name) {
     auto recordingClient = std::make_shared<RecordingClient>(
         boost::beast::http::status::ok, "");
-    std::shared_ptr<HttpClient> client = recordingClient;
-    PetApi recordingApi(client);
+    PetApi recordingApi(std::static_pointer_cast<HttpClient>(recordingClient));
 
-    recordingApi.deletePet(50, "myApiKey");
+    REQUIRE_THROW(recordingApi.deletePet(50, "myApiKey"), PetApiException, [](const auto& exception) {
+        BOOST_REQUIRE_EQUAL(exception.what(), "Unexpected HTTP status code");
+    });
 
     BOOST_REQUIRE_EQUAL(recordingClient->headers().at("api_key"), "myApiKey");
     BOOST_REQUIRE(recordingClient->headers().find("apiKey") ==
@@ -168,7 +174,7 @@ BOOST_AUTO_TEST_CASE(findPetsByTags) {
     Approvals::verify(json);
 }
 
-BOOST_AUTO_TEST_CASE(findPetsByTags_encodes_query_values) {
+BOOST_AUTO_TEST_CASE(findPetsByTags_uses_csv_query_metadata) {
     auto recordingClient = std::make_shared<RecordingClient>(
         boost::beast::http::status::ok, "[]");
     std::shared_ptr<HttpClient> client = recordingClient;

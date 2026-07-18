@@ -14,6 +14,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <map>
 #include <array>
 #include <algorithm>
@@ -46,7 +47,7 @@ std::string selectPreferredContentType(const std::vector<std::string>& contentTy
         return contentTypes.at(0);
     }
 
-    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    static const std::array<std::string, 1> preferredTypes = {"json"};
     for (const auto& preferredType: preferredTypes) {
         const auto ret = std::find_if(contentTypes.cbegin(),
                                       contentTypes.cend(),
@@ -148,11 +149,11 @@ inline std::string percentEncodeFormValue(const std::string& value) {
     return encodedValue;
 }
 
-inline std::string percentEncodeQueryValue(const std::string& value) {
+inline std::string percentEncodeRfc3986Value(const std::string& unencodedValue) {
     static const char hexDigits[] = "0123456789ABCDEF";
     std::string encodedValue;
-    encodedValue.reserve(value.size());
-    for (const unsigned char character : value) {
+    encodedValue.reserve(unencodedValue.size());
+    for (const unsigned char character : unencodedValue) {
         if ((character >= 'a' && character <= 'z')
             || (character >= 'A' && character <= 'Z')
             || (character >= '0' && character <= '9')
@@ -168,18 +169,103 @@ inline std::string percentEncodeQueryValue(const std::string& value) {
     return encodedValue;
 }
 
-template<typename T>
-std::string serializeQueryParameterValue(const T& value) {
-    return percentEncodeQueryValue(toFormParameterValue(value));
+inline std::string percentEncodePathValue(const std::string& unencodedValue) {
+    return percentEncodeRfc3986Value(unencodedValue);
+}
+
+inline std::string percentEncodeQueryValue(const std::string& unencodedValue) {
+    return percentEncodeRfc3986Value(unencodedValue);
 }
 
 template<typename T>
-std::string serializeQueryParameterValue(const std::vector<T>& values) {
+std::string serializePathParameterValue(const T& pathParameterValue) {
+    return percentEncodePathValue(toFormParameterValue(pathParameterValue));
+}
+
+template<typename T>
+std::string serializePathParameterValue(const std::vector<T>& pathParameterValues) {
     std::stringstream serializedValues;
     const char* separator = "";
-    for (const auto& value : values) {
+    for (const T& pathParameterValue : pathParameterValues) {
         serializedValues << separator
-                         << percentEncodeQueryValue(toFormParameterValue(value));
+                         << percentEncodePathValue(toFormParameterValue(pathParameterValue));
+        separator = ",";
+    }
+    return serializedValues.str();
+}
+
+template<typename T>
+std::string serializeQueryParameterValue(const T& queryParameterValue) {
+    return percentEncodeQueryValue(toFormParameterValue(queryParameterValue));
+}
+
+template<typename T>
+std::string serializeQueryParameterValue(
+    const std::vector<T>& queryParameterValues,
+    const std::string& collectionDelimiter) {
+    std::stringstream serializedValues;
+    const char* separator = "";
+    for (const T& queryParameterValue : queryParameterValues) {
+        serializedValues << separator
+                         << percentEncodeQueryValue(toFormParameterValue(queryParameterValue));
+        separator = collectionDelimiter.c_str();
+    }
+    return serializedValues.str();
+}
+
+inline void appendQueryParameter(
+    std::stringstream& queryParameterStream,
+    const char*& queryParameterSeparator,
+    const std::string& parameterName,
+    const std::string& parameterValue) {
+    queryParameterStream << queryParameterSeparator
+                         << percentEncodeQueryValue(parameterName) << '='
+                         << parameterValue;
+    queryParameterSeparator = "&";
+}
+
+template<typename T>
+void appendMultiQueryParameters(
+    std::stringstream& queryParameterStream,
+    const char*& queryParameterSeparator,
+    const std::string& parameterName,
+    const std::vector<T>& queryParameterValues) {
+    for (const T& queryParameterValue : queryParameterValues) {
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            parameterName,
+            serializeQueryParameterValue(queryParameterValue));
+    }
+}
+
+inline std::string serializeHeaderParameterValue(const std::string& headerParameterValue) {
+    return headerParameterValue;
+}
+
+inline std::string serializeHeaderParameterValue(bool headerParameterValue) {
+    return headerParameterValue ? "true" : "false";
+}
+
+template<typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, std::string>::type
+serializeHeaderParameterValue(const T& headerParameterValue) {
+    return boost::lexical_cast<std::string>(headerParameterValue);
+}
+
+template<typename T>
+typename std::enable_if<!std::is_arithmetic<T>::value, std::string>::type
+serializeHeaderParameterValue(const T&) {
+    throw std::invalid_argument(
+        "Header parameter serialization supports only primitive values and arrays of primitive values");
+}
+
+template<typename T>
+std::string serializeHeaderParameterValue(const std::vector<T>& headerParameterValues) {
+    std::stringstream serializedValues;
+    const char* separator = "";
+    for (const T& headerParameterValue : headerParameterValues) {
+        serializedValues << separator << serializeHeaderParameterValue(headerParameterValue);
         separator = ",";
     }
     return serializedValues.str();
@@ -354,7 +440,15 @@ struct ResponseJsonValueConverter<std::map<std::string, T>> {
 
 template<typename T>
 struct ResponseBodyDeserializer {
-    static void deserialize(T& convertedResponse, const std::string& responseBody, bool tolerateEmptyBody) {
+    static void deserialize(
+        T& convertedResponse,
+        const std::string& responseBody,
+        const std::string& responseContentType,
+        bool tolerateEmptyBody) {
+        if (!isJsonContentType(responseContentType)) {
+            throw std::invalid_argument(
+                "Content type '" + responseContentType + "' does not support structured response bodies");
+        }
         if (tolerateEmptyBody && responseBody.empty()) {
             return;
         }
@@ -364,7 +458,11 @@ struct ResponseBodyDeserializer {
 
 template<>
 struct ResponseBodyDeserializer<std::string> {
-    static void deserialize(std::string& convertedResponse, const std::string& responseBody, bool) {
+    static void deserialize(
+        std::string& convertedResponse,
+        const std::string& responseBody,
+        const std::string&,
+        bool) {
         convertedResponse = responseBody;
     }
 };
@@ -393,7 +491,7 @@ StoreApi::deleteOrder(
     std::string path = m_context + "/store/order/%1%";
     std::map<std::string, std::string> headers;
     // path params
-    const auto formattedPath = boost::format(path) % orderId;
+    const auto formattedPath = boost::format(path) % serializePathParameterValue(orderId);
     path = formattedPath.str();
 
 
@@ -406,8 +504,8 @@ StoreApi::deleteOrder(
                               serializedRequestBody,
                               headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -419,10 +517,8 @@ StoreApi::deleteOrder(
     if (statusCode == boost::beast::http::status(404)) {
         throw StoreApiException(statusCode, "Order not found");
     }
-
+    throw StoreApiException(statusCode, "Unexpected HTTP status code");
 }
-
-// vendor extension
 std::shared_ptr<Order>
 StoreApi::getOrderById(
     const int64_t& orderId) {
@@ -430,55 +526,13 @@ StoreApi::getOrderById(
     std::string path = m_context + "/store/order/%1%";
     std::map<std::string, std::string> headers;
     // path params
-    const auto formattedPath = boost::format(path) % orderId;
+    const auto formattedPath = boost::format(path) % serializePathParameterValue(orderId);
     path = formattedPath.str();
 
+    std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
-
-    auto statusCode = boost::beast::http::status::unknown;
-    std::string responseBody;
-    try {
-        std::tie(statusCode, responseBody) =
-            m_client->execute("GET",
-                path,
-                serializedRequestBody,
-                headers);
-    }
-    catch(const std::exception& e) {
-        handleStdException(e);
-    }
-    catch(...) {
-        handleUncaughtException();
-    }
-
-    std::shared_ptr<Order> deserializedResponse = std::make_shared<Order>();
-    if (statusCode == boost::beast::http::status(200)) {
-        ResponseBodyDeserializer<std::shared_ptr<Order>>::deserialize(
-            deserializedResponse,
-            responseBody,
-            false);
-        return deserializedResponse;
-    }
-    if (statusCode == boost::beast::http::status(400)) {
-        throw StoreApiException(statusCode, "Invalid ID supplied");
-    }
-    if (statusCode == boost::beast::http::status(404)) {
-        throw StoreApiException(statusCode, "Order not found");
-    }
-
-    return deserializedResponse;
-}
-
-std::map<std::string, int32_t>
-StoreApi::getInventory(
-    ) {
-    std::string serializedRequestBody;
-    std::string path = m_context + "/store/inventory";
-    std::map<std::string, std::string> headers;
-
-    static const std::vector<std::string> acceptTypes{ "application/json", };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    responseContentType = selectPreferredContentType(acceptTypes);
+    headers["Accept"] = responseContentType;
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -489,8 +543,53 @@ StoreApi::getInventory(
                               serializedRequestBody,
                               headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
+    }
+    catch(...) {
+        handleUncaughtException();
+    }
+
+    std::shared_ptr<Order> deserializedResponse = std::make_shared<Order>();
+    if (statusCode == boost::beast::http::status(200)) {
+        ResponseBodyDeserializer<std::shared_ptr<Order>>::deserialize(
+            deserializedResponse,
+            responseBody,
+            responseContentType,
+            false);
+        return deserializedResponse;
+    }
+    if (statusCode == boost::beast::http::status(400)) {
+        throw StoreApiException(statusCode, "Invalid ID supplied");
+    }
+    if (statusCode == boost::beast::http::status(404)) {
+        throw StoreApiException(statusCode, "Order not found");
+    }
+    throw StoreApiException(statusCode, "Unexpected HTTP status code");
+}
+std::map<std::string, int32_t>
+StoreApi::getInventory(
+    ) {
+    std::string serializedRequestBody;
+    std::string path = m_context + "/store/inventory";
+    std::map<std::string, std::string> headers;
+
+    std::string responseContentType = "application/json";
+    static const std::vector<std::string> acceptTypes{ "application/json", };
+    responseContentType = selectPreferredContentType(acceptTypes);
+    headers["Accept"] = responseContentType;
+
+    auto statusCode = boost::beast::http::status::unknown;
+    std::string responseBody;
+    try {
+        std::tie(statusCode, responseBody) =
+            m_client->execute("GET",
+                              path,
+                              serializedRequestBody,
+                              headers);
+    }
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -501,11 +600,11 @@ StoreApi::getInventory(
         ResponseBodyDeserializer<std::map<std::string, int32_t>>::deserialize(
             deserializedResponse,
             responseBody,
+            responseContentType,
             true);
         return deserializedResponse;
     }
-
-    return deserializedResponse;
+    throw StoreApiException(statusCode, "Unexpected HTTP status code");
 }
 std::shared_ptr<Order>
 StoreApi::placeOrder(
@@ -523,8 +622,10 @@ StoreApi::placeOrder(
         throw std::invalid_argument("Content type '" + requestContentType + "' does not support structured request bodies");
     }
 
+    std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
-    setPreferredMediaTypeHeader(headers, "Accept", acceptTypes);
+    responseContentType = selectPreferredContentType(acceptTypes);
+    headers["Accept"] = responseContentType;
 
     auto statusCode = boost::beast::http::status::unknown;
     std::string responseBody;
@@ -535,8 +636,8 @@ StoreApi::placeOrder(
                               serializedRequestBody,
                               headers);
     }
-    catch(const std::exception& e) {
-        handleStdException(e);
+    catch(const std::exception& exception) {
+        handleStdException(exception);
     }
     catch(...) {
         handleUncaughtException();
@@ -547,14 +648,14 @@ StoreApi::placeOrder(
         ResponseBodyDeserializer<std::shared_ptr<Order>>::deserialize(
             deserializedResponse,
             responseBody,
+            responseContentType,
             false);
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
         throw StoreApiException(statusCode, "Invalid Order");
     }
-
-    return deserializedResponse;
+    throw StoreApiException(statusCode, "Unexpected HTTP status code");
 }
 
 

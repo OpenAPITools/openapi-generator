@@ -18,10 +18,6 @@
 #include <type_traits>
 #include <utility>
 {{/parent}}
-#include <vector>
-{{#hasEnums}}
-#include <array>
-{{/hasEnums}}
 #include <boost/json.hpp>
 
 {{#modelNamespaceDeclarations}}
@@ -176,14 +172,9 @@ protected:
     {{{dataType}}} m_{{name}};
     {{/isContainer}}
     {{/parent}}
-    {{/vars}}
-    {{#vars}}
-    {{#isEnum}}
-    const std::array<std::string, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> m_{{enumName}} = {
-          {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-    };
-
-    {{/isEnum}}
+    {{^required}}
+    bool m_{{name}}IsSet = false;
+    {{/required}}
     {{/vars}}
 };
 

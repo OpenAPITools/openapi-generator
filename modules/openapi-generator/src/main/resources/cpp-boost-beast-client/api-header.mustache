@@ -12,9 +12,11 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <boost/beast/core.hpp>
+#include <boost/optional.hpp>
 
 #include "api/HttpClient.h"
 
@@ -48,9 +50,9 @@ class {{classname}} {
 
 public:
     {{classname}}(
-        std::shared_ptr<HttpClient>& client,
+        std::shared_ptr<HttpClient> client,
         const std::string& context = "{{contextPath}}")
-      : m_client(client),
+      : m_client(std::move(client)),
         m_context(context)
     {}
 
@@ -65,7 +67,7 @@ public:
     /// </remarks>
     virtual {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
-        {{#allParams}}const {{{dataType}}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
 
     {{#vendorExtensions.x-codegen-other-methods}}
     /// <summary>
@@ -76,7 +78,7 @@ public:
     /// </remarks>
     virtual {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
-        {{#allParams}}const {{{dataType}}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/vendorExtensions.x-codegen-other-methods}}
     {{/operation}}
 

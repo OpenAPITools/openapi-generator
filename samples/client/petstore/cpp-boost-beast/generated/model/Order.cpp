@@ -24,6 +24,7 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include <array>
 #include <boost/json.hpp>
 
 namespace org {
@@ -216,51 +217,69 @@ void Order::fromJsonValue(boost::json::value const& value)
 boost::json::object Order::toJsonObject_internal() const
 {
     boost::json::object object;
-    object["id"] = JsonValueConverter<int64_t>::toJsonValue(m_Id);
-    object["petId"] = JsonValueConverter<int64_t>::toJsonValue(m_PetId);
-    object["quantity"] = JsonValueConverter<int32_t>::toJsonValue(m_Quantity);
-    object["shipDate"] = JsonValueConverter<std::string>::toJsonValue(m_ShipDate);
-    object["status"] = JsonValueConverter<std::string>::toJsonValue(m_Status);
-    object["complete"] = JsonValueConverter<bool>::toJsonValue(m_Complete);
+        if (m_IdIsSet) {
+            object["id"] = JsonValueConverter<int64_t>::toJsonValue(getId());
+        }
+        if (m_PetIdIsSet) {
+            object["petId"] = JsonValueConverter<int64_t>::toJsonValue(getPetId());
+        }
+        if (m_QuantityIsSet) {
+            object["quantity"] = JsonValueConverter<int32_t>::toJsonValue(getQuantity());
+        }
+        if (m_ShipDateIsSet) {
+            object["shipDate"] = JsonValueConverter<std::string>::toJsonValue(getShipDate());
+        }
+        if (m_StatusIsSet) {
+            object["status"] = JsonValueConverter<std::string>::toJsonValue(getStatus());
+        }
+        if (m_CompleteIsSet) {
+            object["complete"] = JsonValueConverter<bool>::toJsonValue(isComplete());
+        }
     return object;
 }
 
 void Order::fromJsonObject_internal(boost::json::object const& object)
 {
+    m_IdIsSet = false;
+    m_PetIdIsSet = false;
+    m_QuantityIsSet = false;
+    m_ShipDateIsSet = false;
+    m_StatusIsSet = false;
+    m_CompleteIsSet = false;
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
-            m_Id = JsonValueConverter<int64_t>::fromJsonValue(IdIt->value());
+            setId(JsonValueConverter<int64_t>::fromJsonValue(IdIt->value()));
         }
     }
     {
         const auto PetIdIt = object.find("petId");
         if (PetIdIt != object.end()) {
-            m_PetId = JsonValueConverter<int64_t>::fromJsonValue(PetIdIt->value());
+            setPetId(JsonValueConverter<int64_t>::fromJsonValue(PetIdIt->value()));
         }
     }
     {
         const auto QuantityIt = object.find("quantity");
         if (QuantityIt != object.end()) {
-            m_Quantity = JsonValueConverter<int32_t>::fromJsonValue(QuantityIt->value());
+            setQuantity(JsonValueConverter<int32_t>::fromJsonValue(QuantityIt->value()));
         }
     }
     {
         const auto ShipDateIt = object.find("shipDate");
         if (ShipDateIt != object.end()) {
-            m_ShipDate = JsonValueConverter<std::string>::fromJsonValue(ShipDateIt->value());
+            setShipDate(JsonValueConverter<std::string>::fromJsonValue(ShipDateIt->value()));
         }
     }
     {
         const auto StatusIt = object.find("status");
         if (StatusIt != object.end()) {
-            m_Status = JsonValueConverter<std::string>::fromJsonValue(StatusIt->value());
+            setStatus(JsonValueConverter<std::string>::fromJsonValue(StatusIt->value()));
         }
     }
     {
         const auto CompleteIt = object.find("complete");
         if (CompleteIt != object.end()) {
-            m_Complete = JsonValueConverter<bool>::fromJsonValue(CompleteIt->value());
+            setComplete(JsonValueConverter<bool>::fromJsonValue(CompleteIt->value()));
         }
     }
 }
@@ -273,6 +292,7 @@ int64_t Order::getId() const
 void Order::setId(int64_t value)
 {
         m_Id = std::move(value);
+    m_IdIsSet = true;
 }
 int64_t Order::getPetId() const
 {
@@ -282,6 +302,7 @@ int64_t Order::getPetId() const
 void Order::setPetId(int64_t value)
 {
         m_PetId = std::move(value);
+    m_PetIdIsSet = true;
 }
 int32_t Order::getQuantity() const
 {
@@ -291,6 +312,7 @@ int32_t Order::getQuantity() const
 void Order::setQuantity(int32_t value)
 {
         m_Quantity = std::move(value);
+    m_QuantityIsSet = true;
 }
 std::string Order::getShipDate() const
 {
@@ -300,6 +322,7 @@ std::string Order::getShipDate() const
 void Order::setShipDate(std::string value)
 {
         m_ShipDate = std::move(value);
+    m_ShipDateIsSet = true;
 }
 std::string Order::getStatus() const
 {
@@ -308,10 +331,16 @@ std::string Order::getStatus() const
 
 void Order::setStatus(std::string value)
 {
-    if (std::find(m_StatusEnum.begin(), m_StatusEnum.end(), value) == m_StatusEnum.end()) {
-        throw std::runtime_error("Value " + value + " not allowed");
+    static const std::array<std::string, 3> allowedValues = {
+        "placed","approved","delivered"
+    };
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
+        std::ostringstream errorMessage;
+        errorMessage << "Value " << value << " not allowed";
+        throw std::runtime_error(errorMessage.str());
     }
     m_Status = std::move(value);
+    m_StatusIsSet = true;
 }
 bool Order::isComplete() const
 {
@@ -321,6 +350,7 @@ bool Order::isComplete() const
 void Order::setComplete(bool value)
 {
         m_Complete = std::move(value);
+    m_CompleteIsSet = true;
 }
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Order>>& data)

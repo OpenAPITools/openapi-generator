@@ -1,0 +1,186 @@
+{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+    {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    std::string serializedRequestBody;
+    std::string path = m_context + "{{{path}}}";
+    std::map<std::string, std::string> headers;
+{{#hasConsumes}}
+    static const std::vector<std::string> contentTypes{ {{#consumes}}"{{{mediaType}}}",{{/consumes}} };
+    std::string requestContentType = selectPreferredContentType(contentTypes);
+    headers["Content-Type"] = requestContentType;
+{{/hasConsumes}}
+{{#hasBodyParam}}
+{{^hasConsumes}}
+    const std::string requestContentType = "application/json";
+    headers["Content-Type"] = requestContentType;
+{{/hasConsumes}}
+    // Body params
+{{#bodyParam}}
+    if (isJsonContentType(requestContentType)) {
+        serializedRequestBody = boost::json::serialize(toRequestJsonValue({{paramName}}));
+    } else {
+{{#vendorExtensions.x-codegen-is-raw-body}}
+        serializedRequestBody = toRawBodyValue({{paramName}});
+{{/vendorExtensions.x-codegen-is-raw-body}}
+{{^vendorExtensions.x-codegen-is-raw-body}}
+        throw std::invalid_argument("Content type '" + requestContentType + "' does not support structured request bodies");
+{{/vendorExtensions.x-codegen-is-raw-body}}
+    }
+{{/bodyParam}}
+{{/hasBodyParam}}
+{{#hasFormParams}}
+    // form param
+    std::vector<FormParameter> formParameters;
+{{#allParams}}
+{{#isFormParam}}
+    formParameters.emplace_back(
+        "{{{baseName}}}",
+        toFormParameterValue({{{paramName}}}),
+        {{#isFile}}true{{/isFile}}{{^isFile}}{{#isBinary}}true{{/isBinary}}{{^isBinary}}false{{/isBinary}}{{/isFile}});
+{{/isFormParam}}
+{{/allParams}}
+    if (normalizeMediaType(requestContentType) == "multipart/form-data") {
+        const std::string multipartBoundary = selectMultipartBoundary(formParameters);
+        headers["Content-Type"] = requestContentType + "; boundary=" + multipartBoundary;
+        serializedRequestBody = serializeMultipartFormData(formParameters, multipartBoundary);
+    } else {
+        serializedRequestBody = serializeUrlEncodedFormData(formParameters);
+    }
+{{/hasFormParams}}
+{{#hasPathParams}}
+    // path params
+    const auto formattedPath = boost::format(path){{#pathParams}} % serializePathParameterValue({{{paramName}}}){{/pathParams}};
+    path = formattedPath.str();
+{{/hasPathParams}}
+{{#hasQueryParams}}
+    // query params
+    std::stringstream queryParameterStream;
+    const char* queryParameterSeparator = "?";
+{{#queryParams}}
+{{#vendorExtensions.x-codegen-is-optional-query-parameter}}
+    if ({{{paramName}}}) {
+{{/vendorExtensions.x-codegen-is-optional-query-parameter}}
+{{#isArray}}
+{{#vendorExtensions.x-codegen-query-collection-multi}}
+        appendMultiQueryParameters(
+            queryParameterStream,
+            queryParameterSeparator,
+            "{{{baseName}}}",
+            {{#vendorExtensions.x-codegen-is-optional-query-parameter}}*{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{paramName}}});
+{{/vendorExtensions.x-codegen-query-collection-multi}}
+{{^vendorExtensions.x-codegen-query-collection-multi}}
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            "{{{baseName}}}",
+            serializeQueryParameterValue(
+                {{#vendorExtensions.x-codegen-is-optional-query-parameter}}*{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{paramName}}},
+                "{{{vendorExtensions.x-codegen-query-collection-delimiter}}}"));
+{{/vendorExtensions.x-codegen-query-collection-multi}}
+{{/isArray}}
+{{^isArray}}
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            "{{{baseName}}}",
+            serializeQueryParameterValue({{#vendorExtensions.x-codegen-is-optional-query-parameter}}*{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{paramName}}}));
+{{/isArray}}
+{{#vendorExtensions.x-codegen-is-optional-query-parameter}}
+    }
+{{/vendorExtensions.x-codegen-is-optional-query-parameter}}
+{{/queryParams}}
+    path += queryParameterStream.str();
+{{/hasQueryParams}}
+{{#hasHeaderParams}}
+    // headers
+{{#headerParams}}
+    headers.emplace("{{{baseName}}}", serializeHeaderParameterValue({{{paramName}}}));
+{{/headerParams}}
+{{/hasHeaderParams}}
+
+{{#returnType}}
+    std::string responseContentType = "application/json";
+{{/returnType}}
+{{#hasProduces}}
+    static const std::vector<std::string> acceptTypes{ {{#produces}}"{{{mediaType}}}",{{/produces}} };
+{{#returnType}}
+    responseContentType = selectPreferredContentType(acceptTypes);
+    headers["Accept"] = responseContentType;
+{{/returnType}}
+{{^returnType}}
+    headers["Accept"] = selectPreferredContentType(acceptTypes);
+{{/returnType}}
+{{/hasProduces}}
+
+    auto statusCode = boost::beast::http::status::unknown;
+    std::string responseBody;
+    try {
+        std::tie(statusCode, responseBody) =
+            m_client->execute("{{httpMethod}}",
+                              path,
+                              serializedRequestBody,
+                              headers);
+    }
+    catch(const std::exception& exception) {
+        handleStdException(exception);
+    }
+    catch(...) {
+        handleUncaughtException();
+    }
+
+{{#returnType}}
+    {{{.}}} deserializedResponse = {{{defaultResponse}}};
+{{/returnType}}
+{{#responses}}
+{{^isDefault}}
+    if ({{#isRange}}static_cast<unsigned int>(statusCode) / 100U == {{vendorExtensions.x-codegen-response-range}}U{{/isRange}}{{^isRange}}statusCode == boost::beast::http::status({{code}}){{/isRange}}) {
+{{#is2xx}}
+{{#returnType}}
+{{#dataType}}
+        ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
+            deserializedResponse,
+            responseBody,
+            responseContentType,
+            {{#vendorExtensions.x-codegen-empty-body-tolerant}}true{{/vendorExtensions.x-codegen-empty-body-tolerant}}{{^vendorExtensions.x-codegen-empty-body-tolerant}}false{{/vendorExtensions.x-codegen-empty-body-tolerant}});
+{{/dataType}}
+        return deserializedResponse;
+{{/returnType}}
+{{^returnType}}
+        return;
+{{/returnType}}
+{{/is2xx}}
+{{^is2xx}}
+        throw {{classname}}Exception(statusCode, "{{{message}}}");
+{{/is2xx}}
+    }
+{{/isDefault}}
+{{/responses}}
+{{#responses}}
+{{#isDefault}}
+{{#dataType}}
+{{#vendorExtensions.x-codegen-default-response-is-return-compatible}}
+    ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
+        deserializedResponse,
+        responseBody,
+        responseContentType,
+        {{#vendorExtensions.x-codegen-empty-body-tolerant}}true{{/vendorExtensions.x-codegen-empty-body-tolerant}}{{^vendorExtensions.x-codegen-empty-body-tolerant}}false{{/vendorExtensions.x-codegen-empty-body-tolerant}});
+    return deserializedResponse;
+{{/vendorExtensions.x-codegen-default-response-is-return-compatible}}
+{{^vendorExtensions.x-codegen-default-response-is-return-compatible}}
+    throw {{classname}}Exception(statusCode, "{{{message}}}");
+{{/vendorExtensions.x-codegen-default-response-is-return-compatible}}
+{{/dataType}}
+{{^dataType}}
+{{#returnType}}
+    return deserializedResponse;
+{{/returnType}}
+{{^returnType}}
+    return;
+{{/returnType}}
+{{/dataType}}
+{{/isDefault}}
+{{/responses}}
+{{^vendorExtensions.x-codegen-has-default-response}}
+    throw {{classname}}Exception(statusCode, "Unexpected HTTP status code");
+{{/vendorExtensions.x-codegen-has-default-response}}
+}

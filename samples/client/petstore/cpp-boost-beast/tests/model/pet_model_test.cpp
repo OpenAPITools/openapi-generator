@@ -20,6 +20,29 @@ BOOST_AUTO_TEST_CASE(toJsonString) {
   Approvals::verify(pet.toJsonString(true));
 }
 
+BOOST_AUTO_TEST_CASE(requiredAndOptionalPropertyPresence) {
+  Pet pet;
+
+  const auto initialValue = pet.toJsonValue();
+  const auto &initialObject = initialValue.as_object();
+  BOOST_TEST(initialObject.find("name") != initialObject.end());
+  BOOST_TEST(initialObject.find("photoUrls") != initialObject.end());
+  BOOST_TEST(initialObject.find("id") == initialObject.end());
+  BOOST_TEST(initialObject.find("category") == initialObject.end());
+  BOOST_TEST(initialObject.find("tags") == initialObject.end());
+  BOOST_TEST(initialObject.find("status") == initialObject.end());
+
+  pet.setId(0);
+  pet.setCategory(nullptr);
+  pet.setTags(std::vector<std::shared_ptr<Tag>>{});
+
+  const auto updatedValue = pet.toJsonValue();
+  const auto &updatedObject = updatedValue.as_object();
+  BOOST_TEST(updatedObject.at("id").as_int64() == 0);
+  BOOST_TEST(updatedObject.at("category").is_null());
+  BOOST_TEST(updatedObject.at("tags").as_array().empty());
+}
+
 BOOST_AUTO_TEST_CASE(toJsonStringWithCategory) {
   Pet pet;
   pet.setId(1);
@@ -154,9 +177,9 @@ BOOST_AUTO_TEST_CASE(toPropertyTree) {
   const auto value = pet.toJsonValue();
   const auto& object = value.as_object();
 
-  BOOST_TEST(object.at("id").as_int64() == 0);
+  BOOST_TEST(object.find("id") == object.end());
   BOOST_TEST(object.at("name").as_string() == "");
-  BOOST_TEST(object.at("status").as_string() == "");
+  BOOST_TEST(object.find("status") == object.end());
 
   const auto& tagsFromJson = object.at("tags").as_array();
   BOOST_TEST(tagsFromJson.size() == 1);
@@ -232,6 +255,16 @@ BOOST_DATA_TEST_CASE(invalidStatusValues,
     BOOST_TEST(excp.what() == expectedErrorMessage);
   }
   BOOST_TEST(exceptionCaught);
+}
+
+BOOST_AUTO_TEST_CASE(invalidStatusJsonUsesSetterValidation) {
+  Pet pet;
+
+  BOOST_CHECK_EXCEPTION(
+      pet.fromJsonString(R"JSON({"name":"Fluffy","photoUrls":[],"status":"notallowed"})JSON"),
+      std::runtime_error, [](const std::runtime_error &exception) {
+        return std::string(exception.what()) == "Value notallowed not allowed";
+      });
 }
 
 BOOST_AUTO_TEST_SUITE_END()

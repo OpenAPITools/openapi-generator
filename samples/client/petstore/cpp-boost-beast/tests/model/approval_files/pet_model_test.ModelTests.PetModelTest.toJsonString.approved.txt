@@ -1,7 +1,5 @@
 {
     "id": 1,
     "name": "MyName",
-    "photoUrls": [],
-    "tags": [],
-    "status": ""
+    "photoUrls": []
 }

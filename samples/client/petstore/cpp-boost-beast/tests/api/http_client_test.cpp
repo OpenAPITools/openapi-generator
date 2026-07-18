@@ -10,6 +10,7 @@
 #include <array>
 #include <chrono>
 #include <condition_variable>
+#include <cstdint>
 #include <exception>
 #include <map>
 #include <mutex>
@@ -150,12 +151,15 @@ class TrustedTestHttpClient final : public HttpClientImpl {
 public:
     TrustedTestHttpClient(const std::string &host,
                           const std::string &port,
-                          const std::chrono::milliseconds operationTimeout)
+                          const std::chrono::milliseconds operationTimeout,
+                          const std::uint64_t responseBodyLimit =
+                              8ULL * 1024ULL * 1024ULL)
         : HttpClientImpl(host,
                          port,
                          Transport::Https,
                          11,
-                         operationTimeout) {}
+                         operationTimeout,
+                         responseBodyLimit) {}
 
 protected:
     void configureTlsContext(ssl::context &tlsContext) override {
@@ -165,6 +169,123 @@ protected:
     }
 };
 
+class RequestInspectingHttpClient final : public HttpClientImpl {
+public:
+    RequestInspectingHttpClient(const std::string &host,
+                                const std::string &port)
+        : HttpClientImpl(host, port) {}
+
+    std::string prepareHostHeader(
+        const std::map<std::string, std::string> &headers) {
+        const HttpRequest request = prepareRequest("GET", "/", "", headers);
+        const beast::string_view hostHeader = request[http::field::host];
+        return std::string(hostHeader.data(), hostHeader.size());
+    }
+};
+
+class SerializedLifecycleHttpClient final : public HttpClientImpl {
+public:
+    SerializedLifecycleHttpClient()
+        : HttpClientImpl("localhost", "80"),
+          firstExecutionActive_(false),
+          secondCallStarted_(false),
+          secondCallObserved_(false),
+          prepareOverlappedFirstExecution_(false),
+          executeHookCallCount_(0) {}
+
+    bool waitForFirstExecution() {
+        std::unique_lock<std::mutex> stateLock(stateMutex_);
+        return stateCondition_.wait_for(
+            stateLock,
+            std::chrono::seconds(1),
+            [this]() { return firstExecutionActive_; });
+    }
+
+    void markSecondCallStarted() {
+        {
+            std::lock_guard<std::mutex> stateLock(stateMutex_);
+            secondCallStarted_ = true;
+        }
+        stateCondition_.notify_all();
+    }
+
+    bool secondCallObserved() const {
+        std::lock_guard<std::mutex> stateLock(stateMutex_);
+        return secondCallObserved_;
+    }
+
+    bool prepareOverlappedFirstExecution() const {
+        std::lock_guard<std::mutex> stateLock(stateMutex_);
+        return prepareOverlappedFirstExecution_;
+    }
+
+    std::size_t executeHookCallCount() const {
+        std::lock_guard<std::mutex> stateLock(stateMutex_);
+        return executeHookCallCount_;
+    }
+
+protected:
+    HttpRequest prepareRequest(
+        const std::string &verb,
+        const std::string &target,
+        const std::string &body,
+        const std::map<std::string, std::string> &headers) override {
+        bool overlapDetected = false;
+        {
+            std::lock_guard<std::mutex> stateLock(stateMutex_);
+            if (firstExecutionActive_) {
+                prepareOverlappedFirstExecution_ = true;
+                overlapDetected = true;
+            }
+        }
+        if (overlapDetected) {
+            stateCondition_.notify_all();
+        }
+        return HttpClientImpl::prepareRequest(verb, target, body, headers);
+    }
+
+    HttpResponse executeHttpRequest(HttpRequest &) override {
+        bool isFirstExecution = false;
+        {
+            std::unique_lock<std::mutex> stateLock(stateMutex_);
+            ++executeHookCallCount_;
+            isFirstExecution = executeHookCallCount_ == 1;
+            if (isFirstExecution) {
+                firstExecutionActive_ = true;
+                stateCondition_.notify_all();
+                secondCallObserved_ = stateCondition_.wait_for(
+                    stateLock,
+                    std::chrono::seconds(1),
+                    [this]() { return secondCallStarted_; });
+                if (secondCallObserved_) {
+                    stateCondition_.wait_for(
+                        stateLock,
+                        std::chrono::milliseconds(500),
+                        [this]() {
+                            return prepareOverlappedFirstExecution_;
+                        });
+                }
+                firstExecutionActive_ = false;
+            }
+        }
+
+        if (isFirstExecution) {
+            stateCondition_.notify_all();
+        }
+
+        return HttpResponse(http::status::ok, "serialized response");
+    }
+
+private:
+    mutable std::mutex stateMutex_;
+    std::condition_variable stateCondition_;
+    bool firstExecutionActive_;
+    bool secondCallStarted_;
+    bool secondCallObserved_;
+    bool prepareOverlappedFirstExecution_;
+    std::size_t executeHookCallCount_;
+};
+
 class LoopbackTlsServer final {
 public:
     enum class Exchange {
@@ -172,11 +293,14 @@ public:
         ExpectRejectedHandshake
     };
 
-    explicit LoopbackTlsServer(const Exchange expectedExchange)
+    explicit LoopbackTlsServer(
+        const Exchange expectedExchange,
+        std::string responseBody = "secure loopback response")
         : serverTlsContext_(ssl::context::tls_server),
           acceptor_(serverIoContext_,
-                    tcp::endpoint(asio::ip::address_v4::loopback(), 0)),
+                     tcp::endpoint(asio::ip::address_v4::loopback(), 0)),
           expectedExchange_(expectedExchange),
+          responseBody_(std::move(responseBody)),
           handshakeRejected_(false),
           responseSent_(false) {
         serverTlsContext_.use_certificate_chain(asio::buffer(
@@ -236,6 +360,11 @@ private:
 
             beast::error_code handshakeError;
             tlsStream.handshake(ssl::stream_base::server, handshakeError);
+            const char *const receivedSniHostname = SSL_get_servername(
+                tlsStream.native_handle(), TLSEXT_NAMETYPE_host_name);
+            if (receivedSniHostname != nullptr) {
+                sniHostname_ = receivedSniHostname;
+            }
             if (handshakeError) {
                 handshakeRejected_ = true;
                 if (expectedExchange_ == Exchange::SendResponse) {
@@ -249,12 +378,6 @@ private:
                 return;
             }
 
-            const char *const receivedSniHostname = SSL_get_servername(
-                tlsStream.native_handle(), TLSEXT_NAMETYPE_host_name);
-            if (receivedSniHostname != nullptr) {
-                sniHostname_ = receivedSniHostname;
-            }
-
             beast::flat_buffer requestBuffer;
             http::request<http::string_body> receivedRequest;
             http::read(tlsStream, requestBuffer, receivedRequest);
@@ -264,7 +387,7 @@ private:
                 http::status::ok, receivedRequest.version()};
             serverResponse.set(http::field::content_type, "text/plain");
             serverResponse.keep_alive(false);
-            serverResponse.body() = "secure loopback response";
+            serverResponse.body() = responseBody_;
             serverResponse.prepare_payload();
             http::write(tlsStream, serverResponse);
             responseSent_ = true;
@@ -279,6 +402,7 @@ private:
     ssl::context serverTlsContext_;
     tcp::acceptor acceptor_;
     Exchange expectedExchange_;
+    std::string responseBody_;
     std::thread serverThread_;
     std::exception_ptr serverException_;
     std::string sniHostname_;
@@ -360,6 +484,66 @@ private:
     std::thread serverThread_;
 };
 
+class PlainResponseServer final {
+public:
+    explicit PlainResponseServer(const std::string &responseBody)
+        : acceptor_(serverIoContext_,
+                    tcp::endpoint(asio::ip::address_v4::loopback(), 0)),
+          responseBody_(responseBody),
+          serverThread_(&PlainResponseServer::serve, this) {}
+
+    ~PlainResponseServer() {
+        if (serverThread_.joinable()) {
+            serverThread_.join();
+        }
+    }
+
+    PlainResponseServer(const PlainResponseServer &) = delete;
+    PlainResponseServer &operator=(const PlainResponseServer &) = delete;
+
+    std::string port() const {
+        return std::to_string(acceptor_.local_endpoint().port());
+    }
+
+    void waitForCompletion() {
+        if (serverThread_.joinable()) {
+            serverThread_.join();
+        }
+        if (serverException_) {
+            std::rethrow_exception(serverException_);
+        }
+    }
+
+private:
+    void serve() {
+        try {
+            tcp::socket acceptedSocket =
+                acceptLoopbackConnection(acceptor_, serverIoContext_);
+            http::response<http::string_body> serverResponse{
+                http::status::ok, 11};
+            serverResponse.keep_alive(false);
+            serverResponse.body() = responseBody_;
+            serverResponse.prepare_payload();
+
+            beast::error_code writeError;
+            http::write(acceptedSocket, serverResponse, writeError);
+            if (writeError && writeError != asio::error::broken_pipe &&
+                writeError != asio::error::connection_reset) {
+                throw boost::system::system_error(writeError,
+                                                  "write HTTP response");
+            }
+        } catch (...) {
+            serverException_ = std::current_exception();
+        }
+    }
+
+    asio::io_context serverIoContext_;
+    tcp::acceptor acceptor_;
+    std::string responseBody_;
+    std::exception_ptr serverException_;
+    std::thread serverThread_;
+};
+
 boost::system::error_code captureExecutionError(HttpClientImpl &httpClient,
                                                 const std::string &target) {
     try {
@@ -373,6 +557,63 @@ boost::system::error_code captureExecutionError(HttpClientImpl &httpClient,
 } // namespace
 
 BOOST_AUTO_TEST_SUITE(HttpClientBehaviorTest)
+
+BOOST_AUTO_TEST_CASE(shared_client_execute_calls_are_serialized) {
+    SerializedLifecycleHttpClient httpClient;
+    std::exception_ptr firstExecutionException;
+    std::exception_ptr secondExecutionException;
+
+    std::thread firstExecutionThread([&httpClient, &firstExecutionException]() {
+        try {
+            httpClient.execute("GET", "/first", "", {});
+        } catch (...) {
+            firstExecutionException = std::current_exception();
+        }
+    });
+
+    const bool firstExecutionEntered = httpClient.waitForFirstExecution();
+    std::thread secondExecutionThread(
+        [&httpClient, &secondExecutionException]() {
+            httpClient.markSecondCallStarted();
+            try {
+                httpClient.execute("GET", "/second", "", {});
+            } catch (...) {
+                secondExecutionException = std::current_exception();
+            }
+        });
+
+    firstExecutionThread.join();
+    secondExecutionThread.join();
+
+    if (firstExecutionException) {
+        std::rethrow_exception(firstExecutionException);
+    }
+    if (secondExecutionException) {
+        std::rethrow_exception(secondExecutionException);
+    }
+    BOOST_REQUIRE(firstExecutionEntered);
+    BOOST_REQUIRE(httpClient.secondCallObserved());
+    BOOST_REQUIRE(!httpClient.prepareOverlappedFirstExecution());
+    BOOST_REQUIRE_EQUAL(httpClient.executeHookCallCount(), 2U);
+}
+
+BOOST_AUTO_TEST_CASE(prepare_request_formats_host_for_address_type) {
+    RequestInspectingHttpClient dnsClient("example.test", "8080");
+    RequestInspectingHttpClient ipv4Client("192.0.2.10", "8081");
+    RequestInspectingHttpClient ipv6Client("2001:db8::10", "8082");
+
+    BOOST_REQUIRE_EQUAL(dnsClient.prepareHostHeader({}),
+                        "example.test:8080");
+    BOOST_REQUIRE_EQUAL(ipv4Client.prepareHostHeader({}),
+                        "192.0.2.10:8081");
+    BOOST_REQUIRE_EQUAL(ipv6Client.prepareHostHeader({}),
+                        "[2001:db8::10]:8082");
+
+    const std::map<std::string, std::string> overridingHeaders{
+        {"Host", "caller.example:9090"}};
+    BOOST_REQUIRE_EQUAL(ipv6Client.prepareHostHeader(overridingHeaders),
+                        "caller.example:9090");
+}
 
 BOOST_AUTO_TEST_CASE(
     trusted_https_accepts_response_without_close_notify_and_sends_sni) {
@@ -404,6 +645,7 @@ BOOST_AUTO_TEST_CASE(trusted_https_rejects_hostname_mismatch) {
     BOOST_REQUIRE(executionError);
     BOOST_REQUIRE(executionError != beast::error::timeout);
     BOOST_REQUIRE(tlsServer.handshakeRejected());
+    BOOST_REQUIRE(tlsServer.sniHostname().empty());
 }
 
 BOOST_AUTO_TEST_CASE(default_https_rejects_untrusted_self_signed_certificate) {
@@ -440,6 +682,58 @@ BOOST_AUTO_TEST_CASE(plain_http_read_stall_throws_beast_timeout) {
 
     BOOST_REQUIRE(stallServer.connectionAccepted());
     BOOST_REQUIRE(executionError == beast::error::timeout);
+}
+
+BOOST_AUTO_TEST_CASE(configurable_response_body_limit_is_enforced) {
+    const std::string responseBody = "response exceeds eight bytes";
+    PlainResponseServer rejectedResponseServer(responseBody);
+    HttpClientImpl limitedHttpClient(
+        "127.0.0.1",
+        rejectedResponseServer.port(),
+        HttpClientImpl::Transport::Http,
+        11,
+        std::chrono::milliseconds(1000),
+        8);
+
+    const boost::system::error_code limitError =
+        captureExecutionError(limitedHttpClient, "/limited");
+    rejectedResponseServer.waitForCompletion();
+
+    BOOST_REQUIRE(limitError == http::error::body_limit);
+
+    PlainResponseServer acceptedResponseServer(responseBody);
+    HttpClientImpl accommodatingHttpClient(
+        "127.0.0.1",
+        acceptedResponseServer.port(),
+        HttpClientImpl::Transport::Http,
+        11,
+        std::chrono::milliseconds(1000),
+        responseBody.size());
+
+    const std::pair<http::status, std::string> acceptedResponse =
+        accommodatingHttpClient.execute("GET", "/accepted", "", {});
+    acceptedResponseServer.waitForCompletion();
+
+    BOOST_REQUIRE_EQUAL(acceptedResponse.first, http::status::ok);
+    BOOST_REQUIRE_EQUAL(acceptedResponse.second, responseBody);
+}
+
+BOOST_AUTO_TEST_CASE(https_response_body_limit_is_enforced) {
+    LoopbackTlsServer tlsServer(
+        LoopbackTlsServer::Exchange::SendResponse,
+        "TLS response exceeds eight bytes");
+    TrustedTestHttpClient httpClient(
+        "localhost",
+        tlsServer.port(),
+        std::chrono::milliseconds(1000),
+        8);
+
+    const boost::system::error_code executionError =
+        captureExecutionError(httpClient, "/limited");
+    tlsServer.waitForCompletion();
+
+    BOOST_REQUIRE(executionError == http::error::body_limit);
+    BOOST_REQUIRE(tlsServer.responseSent());
 }
 
 BOOST_AUTO_TEST_SUITE_END()

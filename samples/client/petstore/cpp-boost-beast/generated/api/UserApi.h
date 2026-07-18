@@ -23,9 +23,11 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <boost/beast/core.hpp>
+#include <boost/optional.hpp>
 
 #include "api/HttpClient.h"
 
@@ -61,9 +63,9 @@ class UserApi {
 
 public:
     UserApi(
-        std::shared_ptr<HttpClient>& client,
+        std::shared_ptr<HttpClient> client,
         const std::string& context = "/v2")
-      : m_client(client),
+      : m_client(std::move(client)),
         m_context(context)
     {}
 

@@ -14,6 +14,7 @@
 #include <vector>
 {{#hasEnums}}
 #include <algorithm>
+#include <array>
 {{/hasEnums}}
 #include <boost/json.hpp>
 
@@ -215,20 +216,14 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     {{#parent}}
     if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
     {{/parent}}
-    {{#isModel}}
-        const auto {{name}}Value = {{getter}}();
-        if ({{name}}Value != nullptr) {
-            object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{name}}Value);
+    {{#required}}
+        object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
+    {{/required}}
+    {{^required}}
+        if (m_{{name}}IsSet) {
+            object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
         }
-    {{/isModel}}
-    {{^isModel}}
-    {{^parent}}
-    object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue(m_{{name}});
-    {{/parent}}
-    {{#parent}}
-    object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
-    {{/parent}}
-    {{/isModel}}
+    {{/required}}
     {{#parent}}
     }
     {{/parent}}
@@ -242,18 +237,18 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{{parent}}}::fromJsonObject_internal(object);
     {{/parent}}
     {{#vars}}
+    {{^required}}
+    m_{{name}}IsSet = false;
+    {{/required}}
+    {{/vars}}
+    {{#vars}}
     {{#parent}}
     if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
     {{/parent}}
     {
         const auto {{name}}It = object.find("{{baseName}}");
         if ({{name}}It != object.end()) {
-            {{#parent}}
             {{setter}}(JsonValueConverter<{{{dataType}}}>::fromJsonValue({{name}}It->value()));
-            {{/parent}}
-            {{^parent}}
-            m_{{name}} = JsonValueConverter<{{{dataType}}}>::fromJsonValue({{name}}It->value());
-            {{/parent}}
         }
     }
     {{#parent}}
@@ -275,8 +270,13 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
 
 void {{classname}}::{{setter}}({{{dataType}}} value)
 {
-    {{#isEnum}}if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) == m_{{enumName}}.end()) {
-        throw std::runtime_error("Value " + value + " not allowed");
+    {{#isEnum}}static const std::array<{{{dataType}}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> allowedValues = {
+        {{#isString}}{{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}{{^isString}}{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}
+    };
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
+        std::ostringstream errorMessage;
+        errorMessage << "Value " << value << " not allowed";
+        throw std::runtime_error(errorMessage.str());
     }
     {{/isEnum}}
     {{#parent}}
@@ -285,6 +285,9 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
     {{^parent}}
     m_{{name}} = std::move(value);
     {{/parent}}
+    {{^required}}
+    m_{{name}}IsSet = true;
+    {{/required}}
 }
 {{/vars}}
 

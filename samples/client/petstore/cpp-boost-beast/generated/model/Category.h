@@ -20,8 +20,8 @@
 #define BOOST_BEAST_OPENAPI_CLIENT_Category_MODEL_H_
 
 #include <string>
-#include <memory>
 #include <vector>
+#include <memory>
 #include <boost/json.hpp>
 
 namespace org {
@@ -72,7 +72,9 @@ protected:
 
 protected:
     int64_t m_Id = 0L;
+    bool m_IdIsSet = false;
     std::string m_Name = "";
+    bool m_NameIsSet = false;
 };
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Category>>& data);

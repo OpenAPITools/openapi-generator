@@ -34,9 +34,10 @@ BOOST_FIXTURE_TEST_SUITE(StoreApiTest, fixture)
 
 
 BOOST_AUTO_TEST_CASE(deleteOrder) {
-
-    // Nothing to assert. Should not throw any exception
-    api.deleteOrder("order_id_ok");
+    REQUIRE_THROW(api.deleteOrder("order_id_ok"), StoreApiException, [](const auto& exception) {
+        BOOST_REQUIRE_EQUAL(exception.getStatus(), boost::beast::http::status{200});
+        BOOST_REQUIRE_EQUAL(exception.what(), "Unexpected HTTP status code");
+    });
 }
 
 BOOST_DATA_TEST_CASE(deleteOrder_fails, boost::unit_test::data::make(

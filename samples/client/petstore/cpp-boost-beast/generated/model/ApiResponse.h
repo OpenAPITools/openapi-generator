@@ -20,8 +20,8 @@
 #define BOOST_BEAST_OPENAPI_CLIENT_ApiResponse_MODEL_H_
 
 #include <string>
-#include <memory>
 #include <vector>
+#include <memory>
 #include <boost/json.hpp>
 
 namespace org {
@@ -78,8 +78,11 @@ protected:
 
 protected:
     int32_t m_Code = 0;
+    bool m_CodeIsSet = false;
     std::string m_Type = "";
+    bool m_TypeIsSet = false;
     std::string m_Message = "";
+    bool m_MessageIsSet = false;
 };
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<ApiResponse>>& data);

@@ -49,6 +49,17 @@ BOOST_AUTO_TEST_CASE(fromJsonString) {
   BOOST_TEST(order.isComplete() == true);
 }
 
+BOOST_AUTO_TEST_CASE(copyAssignmentPreservesEnumAndPresenceState) {
+  Order source;
+  source.setStatus("approved");
+
+  Order destination;
+  destination = source;
+
+  BOOST_TEST(destination.getStatus() == "approved");
+  BOOST_TEST(destination.toJsonValue().as_object().contains("status"));
+}
+
 BOOST_AUTO_TEST_CASE(test_createJsonStringFromOrderVector) {
   auto order0 = std::make_shared<Order>();
   auto order1 = std::make_shared<Order>();

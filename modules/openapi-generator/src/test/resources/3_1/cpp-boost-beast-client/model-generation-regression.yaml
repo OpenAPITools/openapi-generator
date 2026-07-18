@@ -31,7 +31,33 @@ components:
           type: string
     ContainerModel:
       type: object
+      required:
+        - requiredValue
       properties:
+        requiredValue:
+          type: string
+        optionalScalar:
+          type: integer
+          format: int32
+        integerChoice:
+          type: integer
+          format: int32
+          enum:
+            - 1
+            - 2
+        stringChoice:
+          type: string
+          enum:
+            - alpha
+            - beta
+        booleanChoice:
+          type: boolean
+          enum:
+            - true
+            - false
+        nullValue:
+          type: "null"
+        freeFormValue: {}
         optionalModel:
           $ref: '#/components/schemas/ChildModel'
         modelArray:

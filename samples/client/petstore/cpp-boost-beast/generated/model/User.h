@@ -20,8 +20,8 @@
 #define BOOST_BEAST_OPENAPI_CLIENT_User_MODEL_H_
 
 #include <string>
-#include <memory>
 #include <vector>
+#include <memory>
 #include <boost/json.hpp>
 
 namespace org {
@@ -108,13 +108,21 @@ protected:
 
 protected:
     int64_t m_Id = 0L;
+    bool m_IdIsSet = false;
     std::string m_Username = "";
+    bool m_UsernameIsSet = false;
     std::string m_FirstName = "";
+    bool m_FirstNameIsSet = false;
     std::string m_LastName = "";
+    bool m_LastNameIsSet = false;
     std::string m_Email = "";
+    bool m_EmailIsSet = false;
     std::string m_Password = "";
+    bool m_PasswordIsSet = false;
     std::string m_Phone = "";
+    bool m_PhoneIsSet = false;
     int32_t m_UserStatus = 0;
+    bool m_UserStatusIsSet = false;
 };
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<User>>& data);

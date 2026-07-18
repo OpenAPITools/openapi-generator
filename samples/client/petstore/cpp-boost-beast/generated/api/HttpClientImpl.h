@@ -7,7 +7,9 @@
 #include <boost/beast/http.hpp>
 
 #include <chrono>
+#include <cstdint>
 #include <map>
+#include <mutex>
 #include <string>
 
 #include "api/HttpClient.h"
@@ -39,7 +41,9 @@ public:
         const Transport transport,
         const int httpVersion = 11,
         const std::chrono::milliseconds operationTimeout =
-            std::chrono::milliseconds(30000));
+            std::chrono::milliseconds(30000),
+        const std::uint64_t responseBodyLimit =
+            8ULL * 1024ULL * 1024ULL);
 
     virtual ~HttpClientImpl() = default;
 
@@ -86,7 +90,9 @@ private:
     const int m_httpVersion;
     const Transport m_transport;
     const std::chrono::milliseconds m_operationTimeout;
+    const std::uint64_t m_responseBodyLimit;
     boost::asio::io_context m_ioc;
+    std::mutex m_executeMutex;
 };
 
 

@@ -22,8 +22,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <vector>
-#include <array>
 #include <boost/json.hpp>
 
 namespace org {
@@ -98,15 +96,17 @@ protected:
 
 protected:
     int64_t m_Id = 0L;
+    bool m_IdIsSet = false;
     int64_t m_PetId = 0L;
+    bool m_PetIdIsSet = false;
     int32_t m_Quantity = 0;
+    bool m_QuantityIsSet = false;
     std::string m_ShipDate = "";
+    bool m_ShipDateIsSet = false;
     std::string m_Status = "";
+    bool m_StatusIsSet = false;
     bool m_Complete = false;
-    const std::array<std::string, 3> m_StatusEnum = {
-          "placed","approved","delivered"
-    };
-
+    bool m_CompleteIsSet = false;
 };
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Order>>& data);
