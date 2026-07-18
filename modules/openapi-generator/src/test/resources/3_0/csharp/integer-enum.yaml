@@ -58,6 +58,7 @@ components:
         - 1.1
         - -1.2
       type: number
+      format: decimal
       x-enum-varnames:
         - Positive
         - Negative
@@ -112,3 +113,12 @@ components:
           x-enum-varnames:
             - Positive
             - Negative
+        inlineByteEnum:
+          type: integer
+          format: byte
+          enum:
+            - 0
+            - 255
+          x-enum-varnames:
+            - Min
+            - Max

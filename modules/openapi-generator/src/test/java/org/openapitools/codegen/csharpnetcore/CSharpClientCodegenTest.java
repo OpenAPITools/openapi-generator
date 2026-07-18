@@ -402,9 +402,8 @@ public class CSharpClientCodegenTest {
         );
         assertNotNull(byteEnumFile, "Could not find file for model: ByteEnum");
         assertFileContains(byteEnumFile.toPath(),
-                "enum ByteEnum : byte",
-                "reader.GetByte().ToString(System.Globalization.CultureInfo.InvariantCulture)",
-                "public static byte ToJsonValue(ByteEnum value)",
+                "reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "public static int ToJsonValue(ByteEnum value)",
                 "writer.WriteNumberValue("
         );
 
@@ -424,7 +423,9 @@ public class CSharpClientCodegenTest {
                 "inlineIntEnumRawValue = utf8JsonReader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "inlineLongEnumRawValue = utf8JsonReader.GetInt64().ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "inlineDoubleEnumRawValue = utf8JsonReader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineByteEnumRawValue = utf8JsonReader.GetByte().ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "InlineLongEnumEnum : long",
+                "InlineByteEnumEnum : byte",
                 "return 1.1d;",
                 "return -1.2d;"
         );
