@@ -594,6 +594,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                     }
                 }
             }
+
+            // C# maps an unformatted number schema to decimal, but CodegenModel does not set isDecimal.
+            if (cm.isEnum && cm.isNumeric && !cm.isInteger && !cm.isLong && !cm.isFloat && !cm.isDouble) {
+                cm.isDecimal = true;
+            }
         }
         // process enum in models
         return postProcessModelsEnum(objs);
