@@ -23,7 +23,6 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/beast/http/status.hpp>
-#include <boost/format.hpp>
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
 #include <boost/algorithm/string.hpp>
@@ -192,6 +191,20 @@ std::string serializePathParameterValue(const std::vector<T>& pathParameterValue
         separator = ",";
     }
     return serializedValues.str();
+}
+
+template<typename T>
+void replacePathParameter(
+    std::string& path,
+    const std::string& parameterName,
+    const T& parameterValue) {
+    const std::string placeholder = "{" + parameterName + "}";
+    const std::string serializedValue = serializePathParameterValue(parameterValue);
+    std::string::size_type position = 0;
+    while ((position = path.find(placeholder, position)) != std::string::npos) {
+        path.replace(position, placeholder.size(), serializedValue);
+        position += serializedValue.size();
+    }
 }
 
 template<typename T>
@@ -593,11 +606,10 @@ void
 UserApi::deleteUser(
     const std::string& username) {
     std::string serializedRequestBody;
-    std::string path = m_context + "/user/%1%";
+    std::string path = m_context + "/user/{username}";
     std::map<std::string, std::string> headers;
     // path params
-    const auto formattedPath = boost::format(path) % serializePathParameterValue(username);
-    path = formattedPath.str();
+    replacePathParameter(path, "username", username);
 
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -628,11 +640,10 @@ std::shared_ptr<User>
 UserApi::getUserByName(
     const std::string& username) {
     std::string serializedRequestBody;
-    std::string path = m_context + "/user/%1%";
+    std::string path = m_context + "/user/{username}";
     std::map<std::string, std::string> headers;
     // path params
-    const auto formattedPath = boost::format(path) % serializePathParameterValue(username);
-    path = formattedPath.str();
+    replacePathParameter(path, "username", username);
 
     std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
@@ -676,7 +687,7 @@ void
 UserApi::updateUser(
     const std::string& username, const std::shared_ptr<User>& user) {
     std::string serializedRequestBody;
-    std::string path = m_context + "/user/%1%";
+    std::string path = m_context + "/user/{username}";
     std::map<std::string, std::string> headers;
     static const std::vector<std::string> contentTypes{ "application/json", };
     std::string requestContentType = selectPreferredContentType(contentTypes);
@@ -688,8 +699,7 @@ UserApi::updateUser(
         throw std::invalid_argument("Content type '" + requestContentType + "' does not support structured request bodies");
     }
     // path params
-    const auto formattedPath = boost::format(path) % serializePathParameterValue(username);
-    path = formattedPath.str();
+    replacePathParameter(path, "username", username);
 
 
     auto statusCode = boost::beast::http::status::unknown;

@@ -258,8 +258,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         // OAS 3 query parameters default to form/explode=true. DefaultCodegen
         // currently represents an omitted style as CSV, so normalize it here.
-        boolean isMulti = codegenParameter.isCollectionFormatMulti
-                || (codegenParameter.style == null && !Boolean.FALSE.equals(parameter.getExplode()));
+        boolean usesDefaultFormExplode = parameter.getExplode() == null
+                && (parameter.getStyle() == null || parameter.getStyle() == Parameter.StyleEnum.FORM);
+        boolean isMulti = codegenParameter.isCollectionFormatMulti || usesDefaultFormExplode;
         if (isMulti) {
             codegenParameter.isCollectionFormatMulti = true;
             codegenParameter.collectionFormat = "multi";
@@ -323,24 +324,19 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
             String[] items = path.split("/", -1);
             String resourceNameCamelCase = "";
-            op.path = "";
-            int pathParamIndex = 0;
             for (String item : items) {
                 if (item.length() > 1) {
                     if (item.matches("^\\{(.*)\\}$")) {
                         String tmpResourceName = item.substring(1, item.length() - 1);
                         resourceNameCamelCase += Character.toUpperCase(tmpResourceName.charAt(0)) + tmpResourceName.substring(1);
-                        item = '%' + String.valueOf(pathParamIndex + 1) + '%';
-                        ++pathParamIndex;
                     } else {
                         resourceNameCamelCase += Character.toUpperCase(item.charAt(0)) + item.substring(1);
                     }
                 } else if (item.length() == 1) {
                     resourceNameCamelCase += Character.toUpperCase(item.charAt(0));
                 }
-                op.path += item + "/";
             }
-            op.path = op.path.replaceFirst("/$", "");
+            op.path = path.replaceFirst("/$", "");
 
             op.vendorExtensions.put("x-codegen-resource-name", resourceNameCamelCase);
 

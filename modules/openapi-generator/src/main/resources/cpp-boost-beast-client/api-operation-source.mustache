@@ -49,8 +49,9 @@
 {{/hasFormParams}}
 {{#hasPathParams}}
     // path params
-    const auto formattedPath = boost::format(path){{#pathParams}} % serializePathParameterValue({{{paramName}}}){{/pathParams}};
-    path = formattedPath.str();
+{{#pathParams}}
+    replacePathParameter(path, "{{{baseName}}}", {{{paramName}}});
+{{/pathParams}}
 {{/hasPathParams}}
 {{#hasQueryParams}}
     // query params

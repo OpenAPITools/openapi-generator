@@ -280,6 +280,14 @@ paths:
             type: array
             items:
               type: string
+        - name: explicit-form-default-values
+          in: query
+          required: true
+          style: form
+          schema:
+            type: array
+            items:
+              type: string
         - name: no-style-csv-values
           in: query
           required: true
@@ -334,7 +342,7 @@ paths:
       responses:
         '204':
           description: Accepted
-  /path-encoding/{atomicValue}/{pathValues}:
+  /path-encoding/%20/{pathValues}/{atomicValue}:
     get:
       tags:
         - Regression

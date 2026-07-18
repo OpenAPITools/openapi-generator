@@ -23,7 +23,6 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/beast/http/status.hpp>
-#include <boost/format.hpp>
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
 #include <boost/algorithm/string.hpp>
@@ -192,6 +191,20 @@ std::string serializePathParameterValue(const std::vector<T>& pathParameterValue
         separator = ",";
     }
     return serializedValues.str();
+}
+
+template<typename T>
+void replacePathParameter(
+    std::string& path,
+    const std::string& parameterName,
+    const T& parameterValue) {
+    const std::string placeholder = "{" + parameterName + "}";
+    const std::string serializedValue = serializePathParameterValue(parameterValue);
+    std::string::size_type position = 0;
+    while ((position = path.find(placeholder, position)) != std::string::npos) {
+        path.replace(position, placeholder.size(), serializedValue);
+        position += serializedValue.size();
+    }
 }
 
 template<typename T>
@@ -488,11 +501,10 @@ void
 StoreApi::deleteOrder(
     const std::string& orderId) {
     std::string serializedRequestBody;
-    std::string path = m_context + "/store/order/%1%";
+    std::string path = m_context + "/store/order/{orderId}";
     std::map<std::string, std::string> headers;
     // path params
-    const auto formattedPath = boost::format(path) % serializePathParameterValue(orderId);
-    path = formattedPath.str();
+    replacePathParameter(path, "orderId", orderId);
 
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -523,11 +535,10 @@ std::shared_ptr<Order>
 StoreApi::getOrderById(
     const int64_t& orderId) {
     std::string serializedRequestBody;
-    std::string path = m_context + "/store/order/%1%";
+    std::string path = m_context + "/store/order/{orderId}";
     std::map<std::string, std::string> headers;
     // path params
-    const auto formattedPath = boost::format(path) % serializePathParameterValue(orderId);
-    path = formattedPath.str();
+    replacePathParameter(path, "orderId", orderId);
 
     std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };

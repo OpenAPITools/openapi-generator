@@ -23,7 +23,6 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/beast/http/status.hpp>
-#include <boost/format.hpp>
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
 #include <boost/algorithm/string.hpp>
@@ -192,6 +191,20 @@ std::string serializePathParameterValue(const std::vector<T>& pathParameterValue
         separator = ",";
     }
     return serializedValues.str();
+}
+
+template<typename T>
+void replacePathParameter(
+    std::string& path,
+    const std::string& parameterName,
+    const T& parameterValue) {
+    const std::string placeholder = "{" + parameterName + "}";
+    const std::string serializedValue = serializePathParameterValue(parameterValue);
+    std::string::size_type position = 0;
+    while ((position = path.find(placeholder, position)) != std::string::npos) {
+        path.replace(position, placeholder.size(), serializedValue);
+        position += serializedValue.size();
+    }
 }
 
 template<typename T>
@@ -596,11 +609,10 @@ void
 PetApi::deletePet(
     const int64_t& petId, const std::string& apiKey) {
     std::string serializedRequestBody;
-    std::string path = m_context + "/pet/%1%";
+    std::string path = m_context + "/pet/{petId}";
     std::map<std::string, std::string> headers;
     // path params
-    const auto formattedPath = boost::format(path) % serializePathParameterValue(petId);
-    path = formattedPath.str();
+    replacePathParameter(path, "petId", petId);
     // headers
     headers.emplace("api_key", serializeHeaderParameterValue(apiKey));
 
@@ -630,11 +642,10 @@ std::shared_ptr<Pet>
 PetApi::getPetById(
     const int64_t& petId) {
     std::string serializedRequestBody;
-    std::string path = m_context + "/pet/%1%";
+    std::string path = m_context + "/pet/{petId}";
     std::map<std::string, std::string> headers;
     // path params
-    const auto formattedPath = boost::format(path) % serializePathParameterValue(petId);
-    path = formattedPath.str();
+    replacePathParameter(path, "petId", petId);
 
     std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/xml","application/json", };
@@ -678,7 +689,7 @@ void
 PetApi::updatePetWithForm(
     const int64_t& petId, const std::string& name, const std::string& status) {
     std::string serializedRequestBody;
-    std::string path = m_context + "/pet/%1%";
+    std::string path = m_context + "/pet/{petId}";
     std::map<std::string, std::string> headers;
     static const std::vector<std::string> contentTypes{ "application/x-www-form-urlencoded", };
     std::string requestContentType = selectPreferredContentType(contentTypes);
@@ -701,8 +712,7 @@ PetApi::updatePetWithForm(
         serializedRequestBody = serializeUrlEncodedFormData(formParameters);
     }
     // path params
-    const auto formattedPath = boost::format(path) % serializePathParameterValue(petId);
-    path = formattedPath.str();
+    replacePathParameter(path, "petId", petId);
 
 
     auto statusCode = boost::beast::http::status::unknown;
@@ -836,7 +846,7 @@ std::shared_ptr<ApiResponse>
 PetApi::uploadFile(
     const int64_t& petId, const std::string& additionalMetadata, const std::string& file) {
     std::string serializedRequestBody;
-    std::string path = m_context + "/pet/%1%/uploadImage";
+    std::string path = m_context + "/pet/{petId}/uploadImage";
     std::map<std::string, std::string> headers;
     static const std::vector<std::string> contentTypes{ "multipart/form-data", };
     std::string requestContentType = selectPreferredContentType(contentTypes);
@@ -859,8 +869,7 @@ PetApi::uploadFile(
         serializedRequestBody = serializeUrlEncodedFormData(formParameters);
     }
     // path params
-    const auto formattedPath = boost::format(path) % serializePathParameterValue(petId);
-    path = formattedPath.str();
+    replacePathParameter(path, "petId", petId);
 
     std::string responseContentType = "application/json";
     static const std::vector<std::string> acceptTypes{ "application/json", };

@@ -33,6 +33,7 @@ public class CppBoostBeastClientApiCodegenTest {
                 generatedApiSource, "CollectionFormatApi::getItems(");
         assertTrue(getItemsMethod.contains("appendMultiQueryParameters("));
         assertTrue(getItemsMethod.contains("\"ids\",\n            ids);"));
+        assertTrue(getItemsMethod.contains("csvIds,\n                \",\""));
     }
 
     @Test
@@ -158,6 +159,8 @@ public class CppBoostBeastClientApiCodegenTest {
         assertTrue(queryEncodingMethod.contains("appendMultiQueryParameters("));
         assertTrue(queryEncodingMethod.contains("\"values\",\n            values);"));
         assertTrue(queryEncodingMethod.contains("csvValues,\n                \",\""));
+        assertTrue(queryEncodingMethod.contains(
+                "\"explicit-form-default-values\",\n            explicitFormDefaultValues);"));
         assertTrue(queryEncodingMethod.contains("noStyleCsvValues,\n                \",\""));
         assertTrue(queryEncodingMethod.contains("spaceValues,\n                \"%20\""));
         assertTrue(queryEncodingMethod.contains("pipeValues,\n                \"%7C\""));
@@ -175,8 +178,14 @@ public class CppBoostBeastClientApiCodegenTest {
                 "Header parameter serialization supports only primitive values and arrays of primitive values"));
 
         String pathEncodingMethod = extractMethod(generatedApiSource, "RegressionApi::getPathEncoding(");
-        assertTrue(pathEncodingMethod.contains("serializePathParameterValue(atomicValue)"));
-        assertTrue(pathEncodingMethod.contains("serializePathParameterValue(pathValues)"));
+        assertTrue(pathEncodingMethod.contains(
+                "replacePathParameter(path, \"atomicValue\", atomicValue);"));
+        assertTrue(pathEncodingMethod.contains(
+                "replacePathParameter(path, \"pathValues\", pathValues);"));
+        assertFalse(pathEncodingMethod.contains("boost::format"));
+        assertTrue(pathEncodingMethod.contains(
+                "std::string path = m_context + \"/path-encoding/%20/{pathValues}/{atomicValue}\";"));
+        assertTrue(generatedApiSource.contains("path.find(placeholder, position)"));
         assertTrue(generatedApiSource.contains("percentEncodePathValue"));
 
         String unexpectedTypedMethod = extractMethod(
