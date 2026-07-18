@@ -57,7 +57,7 @@
         {
             {{#allowableValues}}
             {{#enumVars}}
-            if (value.Equals({{#isNumeric}}({{{value}}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isNumeric}}{{^isNumeric}}{{^isString}}({{{value}}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isString}}{{#isString}}"{{{value}}}"{{/isString}}{{/isNumeric}}))
+            if (value.Equals({{#isNumeric}}({{{value}}}{{#isFloat}}f{{/isFloat}}{{#isDouble}}d{{/isDouble}}{{#isDecimal}}m{{/isDecimal}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isNumeric}}{{^isNumeric}}{{^isString}}({{{value}}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isString}}{{#isString}}"{{{value}}}"{{/isString}}{{/isNumeric}}))
                 return {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}};
 
             {{/enumVars}}
@@ -74,7 +74,7 @@
         {
             {{#allowableValues}}
             {{#enumVars}}
-            if (value.Equals({{#isNumeric}}({{{value}}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isNumeric}}{{^isNumeric}}{{^isString}}({{{value}}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isString}}{{#isString}}"{{{value}}}"{{/isString}}{{/isNumeric}}))
+            if (value.Equals({{#isNumeric}}({{{value}}}{{#isFloat}}f{{/isFloat}}{{#isDouble}}d{{/isDouble}}{{#isDecimal}}m{{/isDecimal}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isNumeric}}{{^isNumeric}}{{^isString}}({{{value}}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isString}}{{#isString}}"{{{value}}}"{{/isString}}{{/isNumeric}}))
                 return {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}};
 
             {{/enumVars}}

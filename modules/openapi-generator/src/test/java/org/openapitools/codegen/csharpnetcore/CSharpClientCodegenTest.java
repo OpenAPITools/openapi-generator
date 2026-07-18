@@ -360,7 +360,7 @@ public class CSharpClientCodegenTest {
         assertNotNull(doubleEnumFile, "Could not find file for model: DoubleEnum");
         assertFileContains(doubleEnumFile.toPath(),
                 "reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
-                "(1.1).ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "(1.1d).ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "writer.WriteNumberValue(",
                 "public static double ToJsonValue(DoubleEnum value)",
                 "return 1.1d;",
@@ -379,6 +379,7 @@ public class CSharpClientCodegenTest {
         assertNotNull(floatEnumFile, "Could not find file for model: FloatEnum");
         assertFileContains(floatEnumFile.toPath(),
                 "reader.GetSingle().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "(1.1f).ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "public static float ToJsonValue(FloatEnum value)",
                 "return 1.1f;",
                 "return -1.2f;"
@@ -391,6 +392,7 @@ public class CSharpClientCodegenTest {
         assertNotNull(decimalEnumFile, "Could not find file for model: DecimalEnum");
         assertFileContains(decimalEnumFile.toPath(),
                 "reader.GetDecimal().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "(1.1m).ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "public static decimal ToJsonValue(DecimalEnum value)",
                 "return 1.1m;",
                 "return -1.2m;"
