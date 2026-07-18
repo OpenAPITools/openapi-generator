@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-            .ConfigureApi((context, services, options) =>
+            .ConfigureApi((context, options) =>
             {
                 string apiKeyTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
                 ApiKeyToken apiKeyToken1 = new(apiKeyTokenValue1, ClientUtils.ApiKeyHeader.XFilesAPIKey, timeout: TimeSpan.FromSeconds(1));

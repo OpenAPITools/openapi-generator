@@ -26,13 +26,13 @@ namespace Org.OpenAPITools.Extensions
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="options"></param>
-        public static IHostBuilder ConfigureApi(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration> options)
+        public static IHostBuilder ConfigureApi(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration> options)
         {
             builder.ConfigureServices((context, services) => 
             {
                 HostConfiguration config = new HostConfiguration(services);
 
-                options(context, services, config);
+                options(context, config);
 
                 IServiceCollectionExtensions.AddApi(services, config);
             });
