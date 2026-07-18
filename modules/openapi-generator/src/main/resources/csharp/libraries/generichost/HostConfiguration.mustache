@@ -22,7 +22,7 @@ namespace {{packageName}}.{{clientPackage}}
     /// <summary>
     /// Provides hosting configuration for {{packageName}}
     /// </summary>
-    {{>visibility}} class HostConfiguration
+    {{>visibility}} partial class HostConfiguration
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -81,6 +81,7 @@ namespace {{packageName}}.{{clientPackage}}
             {{/useSourceGeneration}}
             _services.AddSingleton<IApiFactory, ApiFactory>();{{#apiInfo}}{{#apis}}
             _services.AddSingleton<{{classname}}Events>();{{/apis}}{{/apiInfo}}
+            OnHostConfigurationCreated();
         }
 
         /// <summary>
@@ -125,16 +126,45 @@ namespace {{packageName}}.{{clientPackage}}
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, {{classname}}>("{{packageName}}.{{apiPackage}}.{{interfacePrefix}}{{classname}}", client));
-            {{/apis}}{{/apiInfo}}
-            if (builder != null)
-                foreach (IHttpClientBuilder instance in builders)
-                    builder(instance);
+            {{#apiInfo}}
+            {{#apis}}
+            builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, {{classname}}>("{{packageName}}.{{apiPackage}}.{{interfacePrefix}}{{classname}}", client));
+            {{/apis}}
+            {{/apiInfo}}
+
+            foreach (IHttpClientBuilder instance in builders)
+            {
+                OnAdd{{apiName}}HttpClientBuilder(instance);
+                builder?.Invoke(instance);
+            }
 
             HttpClientsAdded = true;
 
             return this;
         }
+
+        /// <summary>
+        /// Applies configuration to each HttpClient after registration.
+        /// Implement this partial method in a separate file to provide custom defaults;
+        /// the caller's <c>builder</c> action runs after.
+        /// </summary>
+        /// <param name="builder"></param>
+        partial void OnAdd{{apiName}}HttpClientBuilder(IHttpClientBuilder builder);
+
+        /// <summary>
+        /// Called at the end of the constructor after all JSON converters and services are registered.
+        /// Implement this partial method to further configure <c>_jsonOptions</c> or register additional singletons via <c>_services</c>.
+        /// </summary>
+        partial void OnHostConfigurationCreated();
+
+        /// <summary>
+        /// Called after all services have been registered.
+        /// Implement this partial method to register additional services.
+        /// </summary>
+        /// <param name="services"></param>
+        partial void OnServicesAdded(IServiceCollection services);
+
+        internal void NotifyServicesAdded(IServiceCollection services) => OnServicesAdded(services);
 
         /// <summary>
         /// Configures the JsonSerializerSettings
