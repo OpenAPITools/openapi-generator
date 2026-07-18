@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "ZeroBasedEnum":
-                            zeroBasedEnum = new Option<ZeroBasedEnumClassZeroBasedEnum?>(JsonSerializer.Deserialize<ZeroBasedEnumClassZeroBasedEnum>(ref utf8JsonReader, jsonSerializerOptions));
+                            zeroBasedEnum = new Option<ZeroBasedEnumClassZeroBasedEnum?>(JsonSerializer.Deserialize<ZeroBasedEnumClassZeroBasedEnum?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

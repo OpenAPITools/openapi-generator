@@ -174,7 +174,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "code":
-                            code = new Option<TestResultCode?>(JsonSerializer.Deserialize<TestResultCode>(ref utf8JsonReader, jsonSerializerOptions));
+                            code = new Option<TestResultCode?>(JsonSerializer.Deserialize<TestResultCode?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "data":
                             data = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);

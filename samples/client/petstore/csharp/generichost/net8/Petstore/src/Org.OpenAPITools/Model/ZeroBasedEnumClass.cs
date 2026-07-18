@@ -202,7 +202,9 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "ZeroBasedEnum":
-                            zeroBasedEnum = new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum?>(JsonSerializer.Deserialize<ZeroBasedEnumClass.ZeroBasedEnumEnum>(ref utf8JsonReader, jsonSerializerOptions));
+                            string zeroBasedEnumRawValue = utf8JsonReader.GetString();
+                            if (zeroBasedEnumRawValue != null)
+                                zeroBasedEnum = new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum?>(ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue));
                             break;
                         default:
                             break;

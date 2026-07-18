@@ -52,10 +52,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumTestEnumInteger FromString(string value)
         {
-            if (value.Equals((1).ToString()))
+            if (value.Equals((1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumTestEnumInteger.NUMBER_1;
 
-            if (value.Equals((-1).ToString()))
+            if (value.Equals((-1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumTestEnumInteger.NUMBER_MINUS_1;
 
             throw new NotImplementedException($"Could not convert value to type EnumTestEnumInteger: '{value}'");
@@ -68,10 +68,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumTestEnumInteger? FromStringOrDefault(string value)
         {
-            if (value.Equals((1).ToString()))
+            if (value.Equals((1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumTestEnumInteger.NUMBER_1;
 
-            if (value.Equals((-1).ToString()))
+            if (value.Equals((-1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumTestEnumInteger.NUMBER_MINUS_1;
 
             return null;
@@ -104,7 +104,7 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override EnumTestEnumInteger Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetInt32().ToString();
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
             EnumTestEnumInteger? result = EnumTestEnumIntegerValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            string rawValue = reader.GetInt32().ToString();
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
             EnumTestEnumInteger? result = EnumTestEnumIntegerValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;

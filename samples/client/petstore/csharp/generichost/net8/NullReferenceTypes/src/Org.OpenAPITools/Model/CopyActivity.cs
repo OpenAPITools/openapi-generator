@@ -179,7 +179,9 @@ namespace Org.OpenAPITools.Model
                             copyActivitytt = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "$schema":
-                            schema = new Option<CopyActivity.SchemaEnum?>(JsonSerializer.Deserialize<CopyActivity.SchemaEnum>(ref utf8JsonReader, jsonSerializerOptions));
+                            string? schemaRawValue = utf8JsonReader.GetString();
+                            if (schemaRawValue != null)
+                                schema = new Option<CopyActivity.SchemaEnum?>(CopyActivity.SchemaEnumFromStringOrDefault(schemaRawValue));
                             break;
                         default:
                             break;

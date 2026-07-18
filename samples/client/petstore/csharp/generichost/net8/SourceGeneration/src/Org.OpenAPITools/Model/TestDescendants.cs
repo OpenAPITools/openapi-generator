@@ -228,7 +228,9 @@ namespace Org.OpenAPITools.Model
                             alternativeName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "objectType":
-                            objectType = new Option<TestDescendants.ObjectTypeEnum?>(JsonSerializer.Deserialize<TestDescendants.ObjectTypeEnum>(ref utf8JsonReader, jsonSerializerOptions));
+                            string? objectTypeRawValue = utf8JsonReader.GetString();
+                            if (objectTypeRawValue != null)
+                                objectType = new Option<TestDescendants.ObjectTypeEnum?>(TestDescendants.ObjectTypeEnumFromStringOrDefault(objectTypeRawValue));
                             break;
                         default:
                             break;

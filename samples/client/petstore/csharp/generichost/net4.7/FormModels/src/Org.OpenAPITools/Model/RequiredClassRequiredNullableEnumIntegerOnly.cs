@@ -52,10 +52,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static RequiredClassRequiredNullableEnumIntegerOnly FromString(string value)
         {
-            if (value.Equals((2).ToString()))
+            if (value.Equals((2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return RequiredClassRequiredNullableEnumIntegerOnly.NUMBER_2;
 
-            if (value.Equals((-2).ToString()))
+            if (value.Equals((-2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return RequiredClassRequiredNullableEnumIntegerOnly.NUMBER_MINUS_2;
 
             throw new NotImplementedException($"Could not convert value to type RequiredClassRequiredNullableEnumIntegerOnly: '{value}'");
@@ -68,10 +68,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static RequiredClassRequiredNullableEnumIntegerOnly? FromStringOrDefault(string value)
         {
-            if (value.Equals((2).ToString()))
+            if (value.Equals((2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return RequiredClassRequiredNullableEnumIntegerOnly.NUMBER_2;
 
-            if (value.Equals((-2).ToString()))
+            if (value.Equals((-2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return RequiredClassRequiredNullableEnumIntegerOnly.NUMBER_MINUS_2;
 
             return null;
@@ -104,7 +104,7 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override RequiredClassRequiredNullableEnumIntegerOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetInt32().ToString();
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
             RequiredClassRequiredNullableEnumIntegerOnly? result = RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            string rawValue = reader.GetInt32().ToString();
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
             RequiredClassRequiredNullableEnumIntegerOnly? result = RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;

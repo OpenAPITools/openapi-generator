@@ -122,7 +122,7 @@ namespace Org.OpenAPITools.Model
                             descendantName = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "objectType":
-                            objectType = new Option<TestDescendantsObjectType?>(JsonSerializer.Deserialize<TestDescendantsObjectType>(ref utf8JsonReader, jsonSerializerOptions));
+                            objectType = new Option<TestDescendantsObjectType?>(JsonSerializer.Deserialize<TestDescendantsObjectType?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

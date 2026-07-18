@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
                             copyActivitytt = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "$schema":
-                            schema = new Option<CopyActivityAllOfSchema?>(JsonSerializer.Deserialize<CopyActivityAllOfSchema>(ref utf8JsonReader, jsonSerializerOptions));
+                            schema = new Option<CopyActivityAllOfSchema?>(JsonSerializer.Deserialize<CopyActivityAllOfSchema?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

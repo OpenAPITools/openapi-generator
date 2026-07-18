@@ -52,10 +52,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static TestEnumParametersEnumQueryDoubleParameter FromString(string value)
         {
-            if (value.Equals("1.1"))
+            if (value.Equals((1.1d).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return TestEnumParametersEnumQueryDoubleParameter.NUMBER_1_DOT_1;
 
-            if (value.Equals("-1.2"))
+            if (value.Equals((-1.2d).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return TestEnumParametersEnumQueryDoubleParameter.NUMBER_MINUS_1_DOT_2;
 
             throw new NotImplementedException($"Could not convert value to type TestEnumParametersEnumQueryDoubleParameter: '{value}'");
@@ -68,10 +68,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static TestEnumParametersEnumQueryDoubleParameter? FromStringOrDefault(string value)
         {
-            if (value.Equals("1.1"))
+            if (value.Equals((1.1d).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return TestEnumParametersEnumQueryDoubleParameter.NUMBER_1_DOT_1;
 
-            if (value.Equals("-1.2"))
+            if (value.Equals((-1.2d).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return TestEnumParametersEnumQueryDoubleParameter.NUMBER_MINUS_1_DOT_2;
 
             return null;
@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumQueryDoubleParameter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetDouble().ToString();
+            string rawValue = reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture);
             TestEnumParametersEnumQueryDoubleParameter? result = TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            string rawValue = reader.GetDouble().ToString();
+            string rawValue = reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture);
             TestEnumParametersEnumQueryDoubleParameter? result = TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;

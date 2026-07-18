@@ -60,13 +60,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static OuterEnumInteger FromString(string value)
         {
-            if (value.Equals((0).ToString()))
+            if (value.Equals((0).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return OuterEnumInteger.NUMBER_0;
 
-            if (value.Equals((1).ToString()))
+            if (value.Equals((1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return OuterEnumInteger.NUMBER_1;
 
-            if (value.Equals((2).ToString()))
+            if (value.Equals((2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return OuterEnumInteger.NUMBER_2;
 
             throw new NotImplementedException($"Could not convert value to type OuterEnumInteger: '{value}'");
@@ -79,13 +79,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static OuterEnumInteger? FromStringOrDefault(string value)
         {
-            if (value.Equals((0).ToString()))
+            if (value.Equals((0).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return OuterEnumInteger.NUMBER_0;
 
-            if (value.Equals((1).ToString()))
+            if (value.Equals((1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return OuterEnumInteger.NUMBER_1;
 
-            if (value.Equals((2).ToString()))
+            if (value.Equals((2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return OuterEnumInteger.NUMBER_2;
 
             return null;
@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OuterEnumInteger Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetInt32().ToString();
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
             OuterEnumInteger? result = OuterEnumIntegerValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            string rawValue = reader.GetInt32().ToString();
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
             OuterEnumInteger? result = OuterEnumIntegerValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;

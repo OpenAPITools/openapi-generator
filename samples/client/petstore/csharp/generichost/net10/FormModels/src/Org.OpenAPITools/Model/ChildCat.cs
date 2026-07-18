@@ -129,7 +129,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "pet_type":
-                            petType = new Option<ChildCatAllOfPetType?>(JsonSerializer.Deserialize<ChildCatAllOfPetType>(ref utf8JsonReader, jsonSerializerOptions));
+                            petType = new Option<ChildCatAllOfPetType?>(JsonSerializer.Deserialize<ChildCatAllOfPetType?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "name":
                             name = new Option<string>(utf8JsonReader.GetString());

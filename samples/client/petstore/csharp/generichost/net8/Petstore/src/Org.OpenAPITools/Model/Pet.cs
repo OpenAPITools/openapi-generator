@@ -302,7 +302,9 @@ namespace Org.OpenAPITools.Model
                             id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
                             break;
                         case "status":
-                            status = new Option<Pet.StatusEnum?>(JsonSerializer.Deserialize<Pet.StatusEnum>(ref utf8JsonReader, jsonSerializerOptions));
+                            string statusRawValue = utf8JsonReader.GetString();
+                            if (statusRawValue != null)
+                                status = new Option<Pet.StatusEnum?>(Pet.StatusEnumFromStringOrDefault(statusRawValue));
                             break;
                         case "tags":
                             tags = new Option<List<Tag>>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions));
