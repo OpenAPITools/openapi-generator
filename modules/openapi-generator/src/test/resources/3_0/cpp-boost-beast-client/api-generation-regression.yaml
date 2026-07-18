@@ -296,6 +296,14 @@ paths:
             type: array
             items:
               type: string
+        - name: no-style-exploded-values
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
         - name: space-values
           in: query
           required: true

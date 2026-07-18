@@ -258,9 +258,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         // OAS 3 query parameters default to form/explode=true. DefaultCodegen
         // currently represents an omitted style as CSV, so normalize it here.
-        boolean usesDefaultFormExplode = parameter.getExplode() == null
+        boolean usesExplodedFormStyle = !Boolean.FALSE.equals(parameter.getExplode())
                 && (parameter.getStyle() == null || parameter.getStyle() == Parameter.StyleEnum.FORM);
-        boolean isMulti = codegenParameter.isCollectionFormatMulti || usesDefaultFormExplode;
+        boolean isMulti = codegenParameter.isCollectionFormatMulti || usesExplodedFormStyle;
         if (isMulti) {
             codegenParameter.isCollectionFormatMulti = true;
             codegenParameter.collectionFormat = "multi";

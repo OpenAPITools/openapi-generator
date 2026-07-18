@@ -162,6 +162,8 @@ public class CppBoostBeastClientApiCodegenTest {
         assertTrue(queryEncodingMethod.contains(
                 "\"explicit-form-default-values\",\n            explicitFormDefaultValues);"));
         assertTrue(queryEncodingMethod.contains("noStyleCsvValues,\n                \",\""));
+        assertTrue(queryEncodingMethod.contains(
+                "\"no-style-exploded-values\",\n            noStyleExplodedValues);"));
         assertTrue(queryEncodingMethod.contains("spaceValues,\n                \"%20\""));
         assertTrue(queryEncodingMethod.contains("pipeValues,\n                \"%7C\""));
         assertTrue(queryEncodingMethod.contains("if (optionalValue)"));
