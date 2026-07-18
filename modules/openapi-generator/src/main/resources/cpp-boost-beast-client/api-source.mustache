@@ -215,6 +215,22 @@ std::string serializeQueryParameterValue(
     return serializedValues.str();
 }
 
+template<typename T>
+std::string serializeQueryParameterValue(
+    const std::map<std::string, T>& queryParameterValues,
+    const std::string& collectionDelimiter) {
+    std::stringstream serializedValues;
+    const char* separator = "";
+    for (const auto& queryParameterValue : queryParameterValues) {
+        serializedValues << separator
+                         << percentEncodeQueryValue(queryParameterValue.first)
+                         << collectionDelimiter
+                         << percentEncodeQueryValue(toFormParameterValue(queryParameterValue.second));
+        separator = collectionDelimiter.c_str();
+    }
+    return serializedValues.str();
+}
+
 inline void appendQueryParameter(
     std::stringstream& queryParameterStream,
     const char*& queryParameterSeparator,
@@ -238,6 +254,35 @@ void appendMultiQueryParameters(
             queryParameterSeparator,
             parameterName,
             serializeQueryParameterValue(queryParameterValue));
+    }
+}
+
+template<typename T>
+void appendExplodedQueryParameters(
+    std::stringstream& queryParameterStream,
+    const char*& queryParameterSeparator,
+    const std::map<std::string, T>& queryParameterValues) {
+    for (const auto& queryParameterValue : queryParameterValues) {
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            queryParameterValue.first,
+            serializeQueryParameterValue(queryParameterValue.second));
+    }
+}
+
+template<typename T>
+void appendDeepObjectQueryParameters(
+    std::stringstream& queryParameterStream,
+    const char*& queryParameterSeparator,
+    const std::string& parameterName,
+    const std::map<std::string, T>& queryParameterValues) {
+    for (const auto& queryParameterValue : queryParameterValues) {
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            parameterName + "[" + queryParameterValue.first + "]",
+            serializeQueryParameterValue(queryParameterValue.second));
     }
 }
 

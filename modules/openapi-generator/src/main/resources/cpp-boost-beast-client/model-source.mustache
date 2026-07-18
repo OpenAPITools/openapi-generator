@@ -23,6 +23,55 @@ namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 
 namespace {
+{{#hasEnums}}
+template<typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const EnumValue& value,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename Element, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::vector<Element>& values,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename MappedValue, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::map<std::string, MappedValue>& values,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const EnumValue& value,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
+        std::ostringstream errorMessage;
+        errorMessage << "Value " << value << " not allowed";
+        throw std::runtime_error(errorMessage.str());
+    }
+}
+
+template<typename Element, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::vector<Element>& values,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    for (const auto& value : values) {
+        validateEnumValues(value, allowedValues);
+    }
+}
+
+template<typename MappedValue, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::map<std::string, MappedValue>& values,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    for (const auto& value : values) {
+        validateEnumValues(value.second, allowedValues);
+    }
+}
+{{/hasEnums}}
+
 template <typename Target>
 struct JsonValueConverter
 {
@@ -270,7 +319,11 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
 
 void {{classname}}::{{setter}}({{{dataType}}} value)
 {
-    {{#isEnum}}static const std::array<{{{dataType}}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> allowedValues = {
+    {{#isEnum}}{{#isContainer}}static const std::array<{{#mostInnerItems}}{{{dataType}}}{{/mostInnerItems}}, {{#mostInnerItems}}{{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}{{/mostInnerItems}}> allowedValues = {
+        {{#mostInnerItems}}{{#isString}}{{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}{{^isString}}{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}{{/mostInnerItems}}
+    };
+    validateEnumValues(value, allowedValues);
+    {{/isContainer}}{{^isContainer}}static const std::array<{{{dataType}}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> allowedValues = {
         {{#isString}}{{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}{{^isString}}{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}
     };
     if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
@@ -278,7 +331,7 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
         errorMessage << "Value " << value << " not allowed";
         throw std::runtime_error(errorMessage.str());
     }
-    {{/isEnum}}
+    {{/isContainer}}{{/isEnum}}
     {{#parent}}
     write{{name}}Property<{{{parent}}}>({{classname}}{{name}}PropertyIsInherited<{{{parent}}}>(), m_{{name}}, std::move(value));
     {{/parent}}

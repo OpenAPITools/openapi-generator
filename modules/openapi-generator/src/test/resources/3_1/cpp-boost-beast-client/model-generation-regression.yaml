@@ -29,6 +29,11 @@ components:
       properties:
         name:
           type: string
+    ReferencedEnum:
+      type: string
+      enum:
+        - first
+        - second
     ContainerModel:
       type: object
       required:
@@ -55,11 +60,36 @@ components:
           enum:
             - true
             - false
+        arrayChoice:
+          type: array
+          items:
+            type: string
+            enum:
+              - red
+              - blue
+        mapChoice:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+              - green
+              - yellow
+        nestedArrayChoice:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+              enum:
+                - 3
+                - 4
         nullValue:
           type: "null"
         freeFormValue: {}
         optionalModel:
           $ref: '#/components/schemas/ChildModel'
+        referencedEnum:
+          $ref: '#/components/schemas/ReferencedEnum'
         modelArray:
           type: array
           items:

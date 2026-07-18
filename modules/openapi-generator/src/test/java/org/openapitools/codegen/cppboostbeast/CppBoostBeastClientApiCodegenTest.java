@@ -168,6 +168,11 @@ public class CppBoostBeastClientApiCodegenTest {
         assertTrue(queryEncodingMethod.contains("pipeValues,\n                \"%7C\""));
         assertTrue(queryEncodingMethod.contains("if (optionalValue)"));
         assertTrue(queryEncodingMethod.contains("serializeQueryParameterValue(*optionalValue)"));
+        assertTrue(queryEncodingMethod.contains("appendExplodedQueryParameters("));
+        assertTrue(queryEncodingMethod.contains("queryParameterSeparator,\n            *metadata);"));
+        assertTrue(queryEncodingMethod.contains("compactMetadata,\n                \",\""));
+        assertTrue(queryEncodingMethod.contains("appendDeepObjectQueryParameters("));
+        assertTrue(queryEncodingMethod.contains("\"scoped-metadata\",\n            scopedMetadata);"));
         assertTrue(queryEncodingMethod.contains(
                 "serializeHeaderParameterValue(wireHeader)"));
         assertTrue(queryEncodingMethod.contains(

@@ -33,6 +33,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             "x-codegen-query-collection-delimiter";
     private static final String X_CODEGEN_QUERY_COLLECTION_MULTI =
             "x-codegen-query-collection-multi";
+    private static final String X_CODEGEN_QUERY_MAP_EXPLODED =
+            "x-codegen-query-map-exploded";
+    private static final String X_CODEGEN_QUERY_MAP_DEEP_OBJECT =
+            "x-codegen-query-map-deep-object";
     private static final String X_CODEGEN_RESPONSE_RANGE = "x-codegen-response-range";
     private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
     protected String packageName = DEFAULT_PACKAGE_NAME;
@@ -252,7 +256,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         if (!codegenParameter.required) {
             codegenParameter.vendorExtensions.put(X_CODEGEN_IS_OPTIONAL_QUERY_PARAMETER, true);
         }
-        if (!codegenParameter.isArray) {
+        if (!codegenParameter.isArray && !codegenParameter.isMap) {
             return codegenParameter;
         }
 
@@ -260,6 +264,19 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // currently represents an omitted style as CSV, so normalize it here.
         boolean usesExplodedFormStyle = !Boolean.FALSE.equals(parameter.getExplode())
                 && (parameter.getStyle() == null || parameter.getStyle() == Parameter.StyleEnum.FORM);
+        if (codegenParameter.isMap) {
+            if (parameter.getStyle() == Parameter.StyleEnum.DEEPOBJECT) {
+                codegenParameter.vendorExtensions.put(X_CODEGEN_QUERY_MAP_DEEP_OBJECT, true);
+            } else if (usesExplodedFormStyle) {
+                codegenParameter.vendorExtensions.put(X_CODEGEN_QUERY_MAP_EXPLODED, true);
+            } else {
+                codegenParameter.vendorExtensions.put(
+                        X_CODEGEN_QUERY_COLLECTION_DELIMITER,
+                        queryCollectionDelimiter(parameter.getStyle()));
+            }
+            return codegenParameter;
+        }
+
         boolean isMulti = codegenParameter.isCollectionFormatMulti || usesExplodedFormStyle;
         if (isMulti) {
             codegenParameter.isCollectionFormatMulti = true;
@@ -289,6 +306,16 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         codegenParameter.vendorExtensions.put(
                 X_CODEGEN_QUERY_COLLECTION_DELIMITER, collectionDelimiter);
         return codegenParameter;
+    }
+
+    private String queryCollectionDelimiter(Parameter.StyleEnum style) {
+        if (style == Parameter.StyleEnum.SPACEDELIMITED) {
+            return "%20";
+        }
+        if (style == Parameter.StyleEnum.PIPEDELIMITED) {
+            return "%7C";
+        }
+        return ",";
     }
 
     private void addContainerPropertyNames(List<CodegenProperty> properties) {
@@ -505,8 +532,13 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     
     @Override
     public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
-        if (codegenProperty != null && "boost::json::value".equals(codegenProperty.dataType)) {
-            return "boost::json::value()";
+        if (codegenProperty != null) {
+            if (codegenProperty.dataType != null && codegenProperty.dataType.startsWith("std::shared_ptr<")) {
+                return "nullptr";
+            }
+            if ("boost::json::value".equals(codegenProperty.dataType)) {
+                return "boost::json::value()";
+            }
         }
         return super.toDefaultValue(codegenProperty, schema);
     }

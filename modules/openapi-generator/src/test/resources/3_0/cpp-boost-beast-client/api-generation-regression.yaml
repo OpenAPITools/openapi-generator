@@ -327,6 +327,31 @@ paths:
           required: false
           schema:
             type: string
+        - name: metadata
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: compact-metadata
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: scoped-metadata
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
         - name: wire-header
           in: header
           required: true

@@ -61,6 +61,31 @@
 {{#vendorExtensions.x-codegen-is-optional-query-parameter}}
     if ({{{paramName}}}) {
 {{/vendorExtensions.x-codegen-is-optional-query-parameter}}
+{{#isMap}}
+{{#vendorExtensions.x-codegen-query-map-exploded}}
+        appendExplodedQueryParameters(
+            queryParameterStream,
+            queryParameterSeparator,
+            {{#vendorExtensions.x-codegen-is-optional-query-parameter}}*{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{paramName}}});
+{{/vendorExtensions.x-codegen-query-map-exploded}}
+{{#vendorExtensions.x-codegen-query-map-deep-object}}
+        appendDeepObjectQueryParameters(
+            queryParameterStream,
+            queryParameterSeparator,
+            "{{{baseName}}}",
+            {{#vendorExtensions.x-codegen-is-optional-query-parameter}}*{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{paramName}}});
+{{/vendorExtensions.x-codegen-query-map-deep-object}}
+{{^vendorExtensions.x-codegen-query-map-exploded}}{{^vendorExtensions.x-codegen-query-map-deep-object}}
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            "{{{baseName}}}",
+            serializeQueryParameterValue(
+                {{#vendorExtensions.x-codegen-is-optional-query-parameter}}*{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{paramName}}},
+                "{{{vendorExtensions.x-codegen-query-collection-delimiter}}}"));
+{{/vendorExtensions.x-codegen-query-map-deep-object}}{{/vendorExtensions.x-codegen-query-map-exploded}}
+{{/isMap}}
+{{^isMap}}
 {{#isArray}}
 {{#vendorExtensions.x-codegen-query-collection-multi}}
         appendMultiQueryParameters(
@@ -86,6 +111,7 @@
             "{{{baseName}}}",
             serializeQueryParameterValue({{#vendorExtensions.x-codegen-is-optional-query-parameter}}*{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{paramName}}}));
 {{/isArray}}
+{{/isMap}}
 {{#vendorExtensions.x-codegen-is-optional-query-parameter}}
     }
 {{/vendorExtensions.x-codegen-is-optional-query-parameter}}
