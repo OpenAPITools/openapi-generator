@@ -26,9 +26,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
+|AnyType|#include &quot;AnyType.h&quot;|
+|Null|#include &lt;cstddef&gt;|
+|boost::json::value|#include &lt;boost/json.hpp&gt;|
 |int32_t|#include &lt;cstdint&gt;|
 |int64_t|#include &lt;cstdint&gt;|
 |std::map|#include &lt;map&gt;|
+|std::nullptr_t|#include &lt;cstddef&gt;|
 |std::string|#include &lt;string&gt;|
 |std::vector|#include &lt;vector&gt;|
 

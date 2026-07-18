@@ -33,6 +33,53 @@ namespace client {
 namespace model {
 
 namespace {
+template<typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const EnumValue& value,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename Element, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::vector<Element>& values,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename MappedValue, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::map<std::string, MappedValue>& values,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const EnumValue& value,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
+        std::ostringstream errorMessage;
+        errorMessage << "Value " << value << " not allowed";
+        throw std::runtime_error(errorMessage.str());
+    }
+}
+
+template<typename Element, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::vector<Element>& values,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    for (const auto& value : values) {
+        validateEnumValues(value, allowedValues);
+    }
+}
+
+template<typename MappedValue, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::map<std::string, MappedValue>& values,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    for (const auto& value : values) {
+        validateEnumValues(value.second, allowedValues);
+    }
+}
+
 template <typename Target>
 struct JsonValueConverter
 {
@@ -291,7 +338,8 @@ int64_t Order::getId() const
 
 void Order::setId(int64_t value)
 {
-        m_Id = std::move(value);
+    
+    m_Id = std::move(value);
     m_IdIsSet = true;
 }
 int64_t Order::getPetId() const
@@ -301,7 +349,8 @@ int64_t Order::getPetId() const
 
 void Order::setPetId(int64_t value)
 {
-        m_PetId = std::move(value);
+    
+    m_PetId = std::move(value);
     m_PetIdIsSet = true;
 }
 int32_t Order::getQuantity() const
@@ -311,7 +360,8 @@ int32_t Order::getQuantity() const
 
 void Order::setQuantity(int32_t value)
 {
-        m_Quantity = std::move(value);
+    
+    m_Quantity = std::move(value);
     m_QuantityIsSet = true;
 }
 std::string Order::getShipDate() const
@@ -321,7 +371,8 @@ std::string Order::getShipDate() const
 
 void Order::setShipDate(std::string value)
 {
-        m_ShipDate = std::move(value);
+    
+    m_ShipDate = std::move(value);
     m_ShipDateIsSet = true;
 }
 std::string Order::getStatus() const
@@ -339,6 +390,7 @@ void Order::setStatus(std::string value)
         errorMessage << "Value " << value << " not allowed";
         throw std::runtime_error(errorMessage.str());
     }
+    
     m_Status = std::move(value);
     m_StatusIsSet = true;
 }
@@ -349,7 +401,8 @@ bool Order::isComplete() const
 
 void Order::setComplete(bool value)
 {
-        m_Complete = std::move(value);
+    
+    m_Complete = std::move(value);
     m_CompleteIsSet = true;
 }
 

@@ -31,6 +31,7 @@ namespace client {
 namespace model {
 
 namespace {
+
 template <typename Target>
 struct JsonValueConverter
 {
@@ -259,7 +260,8 @@ int32_t ApiResponse::getCode() const
 
 void ApiResponse::setCode(int32_t value)
 {
-        m_Code = std::move(value);
+    
+    m_Code = std::move(value);
     m_CodeIsSet = true;
 }
 std::string ApiResponse::getType() const
@@ -269,7 +271,8 @@ std::string ApiResponse::getType() const
 
 void ApiResponse::setType(std::string value)
 {
-        m_Type = std::move(value);
+    
+    m_Type = std::move(value);
     m_TypeIsSet = true;
 }
 std::string ApiResponse::getMessage() const
@@ -279,7 +282,8 @@ std::string ApiResponse::getMessage() const
 
 void ApiResponse::setMessage(std::string value)
 {
-        m_Message = std::move(value);
+    
+    m_Message = std::move(value);
     m_MessageIsSet = true;
 }
 

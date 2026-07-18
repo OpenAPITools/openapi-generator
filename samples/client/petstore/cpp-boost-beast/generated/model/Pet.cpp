@@ -33,6 +33,53 @@ namespace client {
 namespace model {
 
 namespace {
+template<typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const EnumValue& value,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename Element, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::vector<Element>& values,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename MappedValue, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::map<std::string, MappedValue>& values,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const EnumValue& value,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
+        std::ostringstream errorMessage;
+        errorMessage << "Value " << value << " not allowed";
+        throw std::runtime_error(errorMessage.str());
+    }
+}
+
+template<typename Element, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::vector<Element>& values,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    for (const auto& value : values) {
+        validateEnumValues(value, allowedValues);
+    }
+}
+
+template<typename MappedValue, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::map<std::string, MappedValue>& values,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    for (const auto& value : values) {
+        validateEnumValues(value.second, allowedValues);
+    }
+}
+
 template <typename Target>
 struct JsonValueConverter
 {
@@ -285,7 +332,8 @@ int64_t Pet::getId() const
 
 void Pet::setId(int64_t value)
 {
-        m_Id = std::move(value);
+    
+    m_Id = std::move(value);
     m_IdIsSet = true;
 }
 std::shared_ptr<Category> Pet::getCategory() const
@@ -295,7 +343,8 @@ std::shared_ptr<Category> Pet::getCategory() const
 
 void Pet::setCategory(std::shared_ptr<Category> value)
 {
-        m_Category = std::move(value);
+    
+    m_Category = std::move(value);
     m_CategoryIsSet = true;
 }
 std::string Pet::getName() const
@@ -305,7 +354,8 @@ std::string Pet::getName() const
 
 void Pet::setName(std::string value)
 {
-        m_Name = std::move(value);
+    
+    m_Name = std::move(value);
 }
 std::vector<std::string> Pet::getPhotoUrls() const
 {
@@ -314,7 +364,8 @@ std::vector<std::string> Pet::getPhotoUrls() const
 
 void Pet::setPhotoUrls(std::vector<std::string> value)
 {
-        m_PhotoUrls = std::move(value);
+    
+    m_PhotoUrls = std::move(value);
 }
 std::vector<std::shared_ptr<Tag>> Pet::getTags() const
 {
@@ -323,7 +374,8 @@ std::vector<std::shared_ptr<Tag>> Pet::getTags() const
 
 void Pet::setTags(std::vector<std::shared_ptr<Tag>> value)
 {
-        m_Tags = std::move(value);
+    
+    m_Tags = std::move(value);
     m_TagsIsSet = true;
 }
 std::string Pet::getStatus() const
@@ -341,6 +393,7 @@ void Pet::setStatus(std::string value)
         errorMessage << "Value " << value << " not allowed";
         throw std::runtime_error(errorMessage.str());
     }
+    
     m_Status = std::move(value);
     m_StatusIsSet = true;
 }

@@ -31,6 +31,7 @@ namespace client {
 namespace model {
 
 namespace {
+
 template <typename Target>
 struct JsonValueConverter
 {
@@ -249,7 +250,8 @@ int64_t Tag::getId() const
 
 void Tag::setId(int64_t value)
 {
-        m_Id = std::move(value);
+    
+    m_Id = std::move(value);
     m_IdIsSet = true;
 }
 std::string Tag::getName() const
@@ -259,7 +261,8 @@ std::string Tag::getName() const
 
 void Tag::setName(std::string value)
 {
-        m_Name = std::move(value);
+    
+    m_Name = std::move(value);
     m_NameIsSet = true;
 }
 

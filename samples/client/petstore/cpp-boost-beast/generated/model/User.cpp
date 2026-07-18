@@ -31,6 +31,7 @@ namespace client {
 namespace model {
 
 namespace {
+
 template <typename Target>
 struct JsonValueConverter
 {
@@ -309,7 +310,8 @@ int64_t User::getId() const
 
 void User::setId(int64_t value)
 {
-        m_Id = std::move(value);
+    
+    m_Id = std::move(value);
     m_IdIsSet = true;
 }
 std::string User::getUsername() const
@@ -319,7 +321,8 @@ std::string User::getUsername() const
 
 void User::setUsername(std::string value)
 {
-        m_Username = std::move(value);
+    
+    m_Username = std::move(value);
     m_UsernameIsSet = true;
 }
 std::string User::getFirstName() const
@@ -329,7 +332,8 @@ std::string User::getFirstName() const
 
 void User::setFirstName(std::string value)
 {
-        m_FirstName = std::move(value);
+    
+    m_FirstName = std::move(value);
     m_FirstNameIsSet = true;
 }
 std::string User::getLastName() const
@@ -339,7 +343,8 @@ std::string User::getLastName() const
 
 void User::setLastName(std::string value)
 {
-        m_LastName = std::move(value);
+    
+    m_LastName = std::move(value);
     m_LastNameIsSet = true;
 }
 std::string User::getEmail() const
@@ -349,7 +354,8 @@ std::string User::getEmail() const
 
 void User::setEmail(std::string value)
 {
-        m_Email = std::move(value);
+    
+    m_Email = std::move(value);
     m_EmailIsSet = true;
 }
 std::string User::getPassword() const
@@ -359,7 +365,8 @@ std::string User::getPassword() const
 
 void User::setPassword(std::string value)
 {
-        m_Password = std::move(value);
+    
+    m_Password = std::move(value);
     m_PasswordIsSet = true;
 }
 std::string User::getPhone() const
@@ -369,7 +376,8 @@ std::string User::getPhone() const
 
 void User::setPhone(std::string value)
 {
-        m_Phone = std::move(value);
+    
+    m_Phone = std::move(value);
     m_PhoneIsSet = true;
 }
 int32_t User::getUserStatus() const
@@ -379,7 +387,8 @@ int32_t User::getUserStatus() const
 
 void User::setUserStatus(int32_t value)
 {
-        m_UserStatus = std::move(value);
+    
+    m_UserStatus = std::move(value);
     m_UserStatusIsSet = true;
 }
 
