@@ -10,7 +10,7 @@
         [JsonConverter(typeof(StringEnumConverter))]
         {{/useGenericHost}}
         {{/isString}}
-        {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
+        {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}} : byte{{/vendorExtensions.x-enum-byte}}{{#isLong}} : long{{/isLong}}
         {
             {{#allowableValues}}
             {{#enumVars}}
@@ -41,7 +41,7 @@
         {
             {{#allowableValues}}
             {{#enumVars}}
-            if (value.Equals({{^isString}}({{{value}}}).ToString(){{/isString}}{{#isString}}"{{{value}}}"{{/isString}}))
+            if (value.Equals({{#isNumeric}}({{{value}}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isNumeric}}{{^isNumeric}}{{^isString}}({{{value}}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isString}}{{#isString}}"{{{value}}}"{{/isString}}{{/isNumeric}}))
                 return {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}};
 
             {{/enumVars}}
@@ -58,7 +58,7 @@
         {
             {{#allowableValues}}
             {{#enumVars}}
-            if (value.Equals({{^isString}}({{{value}}}).ToString(){{/isString}}{{#isString}}"{{{value}}}"{{/isString}}))
+            if (value.Equals({{#isNumeric}}({{{value}}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isNumeric}}{{^isNumeric}}{{^isString}}({{{value}}}).ToString(System.Globalization.CultureInfo.InvariantCulture){{/isString}}{{#isString}}"{{{value}}}"{{/isString}}{{/isNumeric}}))
                 return {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}};
 
             {{/enumVars}}
@@ -72,14 +72,53 @@
         /// <param name="value"></param>
         /// <returns></returns>
         {{#isString}}
+        {{^isNumeric}}
         /// <exception cref="NotImplementedException"></exception>
+        {{/isNumeric}}
         {{/isString}}
         public static {{>EnumValueDataType}}{{#lambda.first}}{{#nrt}}{{#isString}}{{#isNullable}}{{nrt?}}  {{^nrt}}{{#vendorExtensions.x-is-value-type}}?  {{/vendorExtensions.x-is-value-type}}{{/nrt}}{{/isNullable}}{{/isString}}{{/nrt}}{{/lambda.first}} {{datatypeWithEnum}}ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#isString}}{{>NullConditionalProperty}}{{/isString}} value)
         {
-            {{^isString}}
+            {{#vendorExtensions.x-enum-byte}}
             return ({{>EnumValueDataType}}) value;
-            {{/isString}}
+            {{/vendorExtensions.x-enum-byte}}
+            {{#isInteger}}
+            return ({{>EnumValueDataType}}) value;
+            {{/isInteger}}
+            {{#isLong}}
+            return ({{>EnumValueDataType}}) value;
+            {{/isLong}}
+            {{#isFloat}}
+            {{#allowableValues}}
+            {{#enumVars}}
+            if (value == {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}})
+                return {{{value}}}f;
+
+            {{/enumVars}}
+            {{/allowableValues}}
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+            {{/isFloat}}
+            {{#isDouble}}
+            {{#allowableValues}}
+            {{#enumVars}}
+            if (value == {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}})
+                return {{{value}}}d;
+
+            {{/enumVars}}
+            {{/allowableValues}}
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+            {{/isDouble}}
+            {{#isDecimal}}
+            {{#allowableValues}}
+            {{#enumVars}}
+            if (value == {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}})
+                return {{{value}}}m;
+
+            {{/enumVars}}
+            {{/allowableValues}}
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+            {{/isDecimal}}
             {{#isString}}
+            {{^isNumeric}}
             {{#isNullable}}
             if (value == null)
                 return null;
@@ -93,6 +132,7 @@
             {{/enumVars}}
             {{/allowableValues}}
             throw new NotImplementedException($"Value could not be handled: '{value}'");
+            {{/isNumeric}}
             {{/isString}}
         }
         {{/useGenericHost}}

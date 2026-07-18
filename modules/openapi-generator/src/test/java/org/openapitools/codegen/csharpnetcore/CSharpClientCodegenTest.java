@@ -295,7 +295,7 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
-    public void testIntegerEnumJsonConverterUsesNumericOperations() throws IOException {
+    public void testNumericEnumJsonConverterUsesNumericOperations() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/integer-enum.yaml");
@@ -318,7 +318,7 @@ public class CSharpClientCodegenTest {
         );
         assertNotNull(intEnumFile, "Could not find file for model: IntegerEnum");
         assertFileContains(intEnumFile.toPath(),
-                "reader.GetInt32().ToString()",
+                "reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "FromStringOrDefault(rawValue)",
                 "throw new JsonException()",
                 "writer.WriteNumberValue(",
@@ -339,7 +339,7 @@ public class CSharpClientCodegenTest {
         assertNotNull(longEnumFile, "Could not find file for model: LongEnum");
         assertFileContains(longEnumFile.toPath(),
                 "enum LongEnum : long",
-                "reader.GetInt64().ToString()",
+                "reader.GetInt64().ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "FromStringOrDefault(rawValue)",
                 "throw new JsonException()",
                 "writer.WriteNumberValue(",
@@ -352,14 +352,15 @@ public class CSharpClientCodegenTest {
                 "writer.WriteStringValue("
         );
 
-        // Verify double enum reads numeric value and converts to string for matching, writes as number
+        // Verify floating-point enums match using invariant culture and write the original numeric values
         File doubleEnumFile = files.get(Paths
                 .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "DoubleEnum.cs")
                 .toString()
         );
         assertNotNull(doubleEnumFile, "Could not find file for model: DoubleEnum");
         assertFileContains(doubleEnumFile.toPath(),
-                "reader.GetDouble().ToString()",
+                "reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "(1.1).ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "writer.WriteNumberValue(",
                 "public static double ToJsonValue(DoubleEnum value)",
                 "return 1.1d;",
@@ -371,23 +372,61 @@ public class CSharpClientCodegenTest {
                 "return (double) value"
         );
 
-        // Verify model with enum properties uses JsonSerializer.Deserialize for enum props
+        File floatEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "FloatEnum.cs")
+                .toString()
+        );
+        assertNotNull(floatEnumFile, "Could not find file for model: FloatEnum");
+        assertFileContains(floatEnumFile.toPath(),
+                "reader.GetSingle().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "public static float ToJsonValue(FloatEnum value)",
+                "return 1.1f;",
+                "return -1.2f;"
+        );
+
+        File decimalEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "DecimalEnum.cs")
+                .toString()
+        );
+        assertNotNull(decimalEnumFile, "Could not find file for model: DecimalEnum");
+        assertFileContains(decimalEnumFile.toPath(),
+                "reader.GetDecimal().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "public static decimal ToJsonValue(DecimalEnum value)",
+                "return 1.1m;",
+                "return -1.2m;"
+        );
+
+        File byteEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "ByteEnum.cs")
+                .toString()
+        );
+        assertNotNull(byteEnumFile, "Could not find file for model: ByteEnum");
+        assertFileContains(byteEnumFile.toPath(),
+                "enum ByteEnum : byte",
+                "reader.GetByte().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "public static byte ToJsonValue(ByteEnum value)",
+                "writer.WriteNumberValue("
+        );
+
+        // Referenced enums use their registered converters; inline enums keep their value-mapping helpers.
         File modelFile = files.get(Paths
                 .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "ModelWithEnumProperties.cs")
                 .toString()
         );
         assertNotNull(modelFile, "Could not find file for model: ModelWithEnumProperties");
         assertFileContains(modelFile.toPath(),
-                "JsonSerializer.Deserialize<IntegerEnum",
-                "JsonSerializer.Deserialize<LongEnum",
-                "JsonSerializer.Deserialize<DoubleEnum"
-        );
-        // Enum property values should NOT be read inline with Get* methods;
-        // only the JSON property name key uses GetString, not the enum values
-        assertFileNotContains(modelFile.toPath(),
-                "utf8JsonReader.GetInt32()",
-                "utf8JsonReader.GetInt64()",
-                "utf8JsonReader.GetDouble()"
+                "JsonSerializer.Deserialize<IntegerEnum?>",
+                "JsonSerializer.Deserialize<LongEnum?>",
+                "JsonSerializer.Deserialize<DoubleEnum?>",
+                "JsonSerializer.Deserialize<FloatEnum?>",
+                "JsonSerializer.Deserialize<DecimalEnum?>",
+                "JsonSerializer.Deserialize<ByteEnum?>",
+                "inlineIntEnumRawValue = utf8JsonReader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineLongEnumRawValue = utf8JsonReader.GetInt64().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineDoubleEnumRawValue = utf8JsonReader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "InlineLongEnumEnum : long",
+                "return 1.1d;",
+                "return -1.2d;"
         );
     }
 }
