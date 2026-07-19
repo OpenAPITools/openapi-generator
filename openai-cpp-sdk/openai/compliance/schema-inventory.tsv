@@ -1,672 +1,149 @@
 schema	result	cpp_type	notes
-AddUploadPartRequest	NOT_FOUND	NOT_FOUND	Header not found in generated output
-AdminApiKey	PASS	org::openapitools::client::model::AdminApiKey	anyOf, 8 members
 AdminApiKeyCreateResponse	PASS	org::openapitools::client::model::AdminApiKeyCreateResponse	allOf, 9 members
-ApiKeyList	PASS	org::openapitools::client::model::ApiKeyList	anyOf, 5 members
-AssignedRoleDetails	PASS	org::openapitools::client::model::AssignedRoleDetails	anyOf, 12 members
-AssistantObject	PASS	org::openapitools::client::model::AssistantObject	anyOf, 13 members
+AssistantStreamEvent	PASS	org::openapitools::client::model::AssistantStreamEvent	oneOf, 3 members
 AssistantsApiResponseFormatOption	PASS	org::openapitools::client::model::AssistantsApiResponseFormatOption	oneOf, 2 members
 AssistantsApiToolChoiceOption	PASS	org::openapitools::client::model::AssistantsApiToolChoiceOption	oneOf, 2 members
-AudioResponseFormat	FAIL	org::openapitools::client::model::AudioResponseFormat	EMPTY SHELL (anyOf, 0 members)
-AudioTranscription	PASS	org::openapitools::client::model::AudioTranscription	anyOf, 4 members
-AudioTranscriptionResponse	PASS	org::openapitools::client::model::AudioTranscriptionResponse	anyOf, 3 members
-AuditLog	PASS	org::openapitools::client::model::AuditLog	anyOf, 60 members
-BatchError	PASS	org::openapitools::client::model::BatchError	anyOf, 4 members
-Certificate	PASS	org::openapitools::client::model::Certificate	anyOf, 6 members
-ChatCompletionMessageList	PASS	org::openapitools::client::model::ChatCompletionMessageList	allOf, 5 members
-ChatCompletionMessageToolCalls	NOT_FOUND	NOT_FOUND	Header not found in generated output
-ChatCompletionModalities	NOT_FOUND	NOT_FOUND	Header not found in generated output
-ChatCompletionModeration	PASS	org::openapitools::client::model::ChatCompletionModeration	oneOf, 2 members
-ChatCompletionRequestAssistantMessage	PASS	org::openapitools::client::model::ChatCompletionRequestAssistantMessage	anyOf, 7 members
+ChatCompletionModalities	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 ChatCompletionRequestAssistantMessageContentPart	PASS	org::openapitools::client::model::ChatCompletionRequestAssistantMessageContentPart	oneOf, 4 members
-ChatCompletionRequestDeveloperMessage	PASS	org::openapitools::client::model::ChatCompletionRequestDeveloperMessage	oneOf, 3 members
-ChatCompletionRequestFunctionMessage	PASS	org::openapitools::client::model::ChatCompletionRequestFunctionMessage	anyOf, 3 members
 ChatCompletionRequestMessage	PASS	org::openapitools::client::model::ChatCompletionRequestMessage	oneOf, 8 members
-ChatCompletionRequestSystemMessage	PASS	org::openapitools::client::model::ChatCompletionRequestSystemMessage	oneOf, 3 members
-ChatCompletionRequestSystemMessageContentPart	NOT_FOUND	NOT_FOUND	Header not found in generated output
-ChatCompletionRequestToolMessage	PASS	org::openapitools::client::model::ChatCompletionRequestToolMessage	oneOf, 3 members
-ChatCompletionRequestToolMessageContentPart	NOT_FOUND	NOT_FOUND	Header not found in generated output
-ChatCompletionRequestUserMessage	PASS	org::openapitools::client::model::ChatCompletionRequestUserMessage	oneOf, 3 members
+ChatCompletionRequestSystemMessageContentPart	DEFERRED	NOT_FOUND	Deferred (on allowlist)
+ChatCompletionRequestToolMessageContentPart	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 ChatCompletionRequestUserMessageContentPart	PASS	org::openapitools::client::model::ChatCompletionRequestUserMessageContentPart	oneOf, 6 members
-ChatCompletionResponseMessage	PASS	org::openapitools::client::model::ChatCompletionResponseMessage	anyOf, 7 members
-ChatCompletionRole	FAIL	org::openapitools::client::model::ChatCompletionRole	EMPTY SHELL (anyOf, 0 members)
 ChatCompletionStreamOptions	PASS	org::openapitools::client::model::ChatCompletionStreamOptions	anyOf, 2 members
-ChatCompletionStreamResponseDelta	PASS	org::openapitools::client::model::ChatCompletionStreamResponseDelta	anyOf, 5 members
-ChatCompletionTokenLogprob	PASS	org::openapitools::client::model::ChatCompletionTokenLogprob	anyOf, 4 members
 ChatCompletionToolChoiceOption	PASS	org::openapitools::client::model::ChatCompletionToolChoiceOption	oneOf, 4 members
 ChunkingStrategyRequestParam	PASS	org::openapitools::client::model::ChunkingStrategyRequestParam	oneOf, 2 members
-CodeInterpreterTool	PASS	org::openapitools::client::model::CodeInterpreterTool	oneOf, 3 members
-CompoundFilter	PASS	org::openapitools::client::model::CompoundFilter	oneOf, 2 members
 ComputerAction	PASS	org::openapitools::client::model::ComputerAction	oneOf, 9 members
 ComputerToolCallOutputResource	PASS	org::openapitools::client::model::ComputerToolCallOutputResource	allOf, 7 members
 Content	PASS	org::openapitools::client::model::Content	oneOf, 12 members
 ConversationItem	PASS	org::openapitools::client::model::ConversationItem	oneOf, 37 members
 ConversationParam	PASS	org::openapitools::client::model::ConversationParam	oneOf, 1 members
-CostsResult	PASS	org::openapitools::client::model::CostsResult	anyOf, 6 members
-CreateAssistantRequest	PASS	org::openapitools::client::model::CreateAssistantRequest	anyOf, 11 members
 CreateChatCompletionRequest	PASS	org::openapitools::client::model::CreateChatCompletionRequest	allOf, 37 members
-CreateCompletionRequest	PASS	org::openapitools::client::model::CreateCompletionRequest	anyOf, 18 members
-CreateContainerFileBody	PASS	org::openapitools::client::model::CreateContainerFileBody	oneOf, 2 members
-CreateEmbeddingRequest	PASS	org::openapitools::client::model::CreateEmbeddingRequest	oneOf, 5 members
-CreateEvalCompletionsRunDataSource	PASS	org::openapitools::client::model::CreateEvalCompletionsRunDataSource	oneOf, 5 members
 CreateEvalItem	PASS	org::openapitools::client::model::CreateEvalItem	oneOf, 3 members
-CreateEvalJsonlRunDataSource	PASS	org::openapitools::client::model::CreateEvalJsonlRunDataSource	oneOf, 2 members
-CreateEvalRequest	PASS	org::openapitools::client::model::CreateEvalRequest	oneOf, 4 members
-CreateEvalResponsesRunDataSource	PASS	org::openapitools::client::model::CreateEvalResponsesRunDataSource	oneOf, 5 members
-CreateEvalRunRequest	PASS	org::openapitools::client::model::CreateEvalRunRequest	oneOf, 3 members
-CreateFineTuningCheckpointPermissionRequest	PASS	org::openapitools::client::model::CreateFineTuningCheckpointPermissionRequest	anyOf, 1 members
-CreateFineTuningJobRequest	PASS	org::openapitools::client::model::CreateFineTuningJobRequest	anyOf, 9 members
-CreateGroupUserBody	PASS	org::openapitools::client::model::CreateGroupUserBody	anyOf, 1 members
-CreateImageEditRequest	NOT_FOUND	NOT_FOUND	Header not found in generated output
-CreateImageRequest	PASS	org::openapitools::client::model::CreateImageRequest	anyOf, 14 members
-CreateImageVariationRequest	NOT_FOUND	NOT_FOUND	Header not found in generated output
-CreateMessageRequest	PASS	org::openapitools::client::model::CreateMessageRequest	oneOf, 4 members
 CreateModelResponseProperties	PASS	org::openapitools::client::model::CreateModelResponseProperties	allOf, 10 members
-CreateModerationRequest	PASS	org::openapitools::client::model::CreateModerationRequest	oneOf, 2 members
 CreateResponse	PASS	org::openapitools::client::model::CreateResponse	allOf, 31 members
-CreateRunRequest	PASS	org::openapitools::client::model::CreateRunRequest	anyOf, 17 members
-CreateSpeechRequest	PASS	org::openapitools::client::model::CreateSpeechRequest	anyOf, 7 members
 CreateSpeechResponseStreamEvent	PASS	org::openapitools::client::model::CreateSpeechResponseStreamEvent	anyOf, 3 members
-CreateThreadAndRunRequest	PASS	org::openapitools::client::model::CreateThreadAndRunRequest	anyOf, 16 members
-CreateThreadRequest	PASS	org::openapitools::client::model::CreateThreadRequest	anyOf, 3 members
-CreateTranscriptionRequest	NOT_FOUND	NOT_FOUND	Header not found in generated output
-CreateTranscriptionResponseDiarizedJson	PASS	org::openapitools::client::model::CreateTranscriptionResponseDiarizedJson	oneOf, 5 members
 CreateTranscriptionResponseStreamEvent	PASS	org::openapitools::client::model::CreateTranscriptionResponseStreamEvent	anyOf, 10 members
-CreateTranslationRequest	NOT_FOUND	NOT_FOUND	Header not found in generated output
-CreateVectorStoreRequest	PASS	org::openapitools::client::model::CreateVectorStoreRequest	oneOf, 6 members
-CustomToolCall	PASS	org::openapitools::client::model::CustomToolCall	anyOf, 7 members
-CustomToolCallOutput	PASS	org::openapitools::client::model::CustomToolCallOutput	anyOf, 5 members
+CreateVectorStoreFileBatchRequest	PASS	org::openapitools::client::model::CreateVectorStoreFileBatchRequest	anyOf, 4 members
 CustomToolCallOutputResource	PASS	org::openapitools::client::model::CustomToolCallOutputResource	allOf, 7 members
 CustomToolCallResource	PASS	org::openapitools::client::model::CustomToolCallResource	allOf, 9 members
-DeleteVectorStoreResponse	PASS	org::openapitools::client::model::DeleteVectorStoreResponse	allOf, 3 members
 DeletedConversation	PASS	org::openapitools::client::model::DeletedConversation	allOf, 3 members
-EditImageBodyJsonParam	PASS	org::openapitools::client::model::EditImageBodyJsonParam	anyOf, 15 members
-Error	PASS	org::openapitools::client::model::Error	anyOf, 4 members
-Eval	PASS	org::openapitools::client::model::Eval	oneOf, 7 members
 EvalGraderLabelModel	PASS	org::openapitools::client::model::EvalGraderLabelModel	allOf, 6 members
 EvalGraderPython	PASS	org::openapitools::client::model::EvalGraderPython	allOf, 5 members
 EvalGraderScoreModel	PASS	org::openapitools::client::model::EvalGraderScoreModel	allOf, 7 members
 EvalGraderStringCheck	PASS	org::openapitools::client::model::EvalGraderStringCheck	allOf, 5 members
 EvalGraderTextSimilarity	PASS	org::openapitools::client::model::EvalGraderTextSimilarity	allOf, 6 members
 EvalItemContent	PASS	org::openapitools::client::model::EvalItemContent	oneOf, 6 members
-EvalItemContentArray	NOT_FOUND	NOT_FOUND	Header not found in generated output
 EvalItemContentItem	PASS	org::openapitools::client::model::EvalItemContentItem	oneOf, 6 members
-EvalResponsesSource	PASS	org::openapitools::client::model::EvalResponsesSource	anyOf, 11 members
-EvalRunOutputItemResult	PASS	org::openapitools::client::model::EvalRunOutputItemResult	anyOf, 5 members
-EvalStoredCompletionsSource	PASS	org::openapitools::client::model::EvalStoredCompletionsSource	anyOf, 6 members
 FineTuneChatCompletionRequestAssistantMessage	PASS	org::openapitools::client::model::FineTuneChatCompletionRequestAssistantMessage	allOf, 8 members
-FineTuneDPOHyperparameters	PASS	org::openapitools::client::model::FineTuneDPOHyperparameters	oneOf, 4 members
-FineTuneMethod	PASS	org::openapitools::client::model::FineTuneMethod	oneOf, 4 members
-FineTuneReinforcementHyperparameters	PASS	org::openapitools::client::model::FineTuneReinforcementHyperparameters	oneOf, 7 members
-FineTuneReinforcementMethod	PASS	org::openapitools::client::model::FineTuneReinforcementMethod	oneOf, 2 members
-FineTuneSupervisedHyperparameters	PASS	org::openapitools::client::model::FineTuneSupervisedHyperparameters	oneOf, 3 members
-FineTuningJob	PASS	org::openapitools::client::model::FineTuningJob	anyOf, 19 members
 FunctionAndCustomToolCallOutput	PASS	org::openapitools::client::model::FunctionAndCustomToolCallOutput	oneOf, 9 members
-FunctionObject	PASS	org::openapitools::client::model::FunctionObject	anyOf, 4 members
-FunctionToolCall	PASS	org::openapitools::client::model::FunctionToolCall	anyOf, 8 members
-FunctionToolCallOutput	PASS	org::openapitools::client::model::FunctionToolCallOutput	anyOf, 6 members
 FunctionToolCallOutputResource	PASS	org::openapitools::client::model::FunctionToolCallOutputResource	allOf, 7 members
 FunctionToolCallResource	PASS	org::openapitools::client::model::FunctionToolCallResource	allOf, 9 members
-GraderMulti	PASS	org::openapitools::client::model::GraderMulti	oneOf, 4 members
-GraderScoreModel	PASS	org::openapitools::client::model::GraderScoreModel	anyOf, 6 members
-GroupListResource	PASS	org::openapitools::client::model::GroupListResource	anyOf, 4 members
-GroupMemberUser	PASS	org::openapitools::client::model::GroupMemberUser	anyOf, 6 members
-GroupUser	PASS	org::openapitools::client::model::GroupUser	anyOf, 3 members
 ImageEditStreamEvent	PASS	org::openapitools::client::model::ImageEditStreamEvent	anyOf, 9 members
 ImageGenStreamEvent	PASS	org::openapitools::client::model::ImageGenStreamEvent	anyOf, 9 members
-ImageGenTool	PASS	org::openapitools::client::model::ImageGenTool	anyOf, 12 members
-ImageGenToolCall	PASS	org::openapitools::client::model::ImageGenToolCall	anyOf, 4 members
 ImageRefParam	PASS	org::openapitools::client::model::ImageRefParam	anyOf, 2 members
 InputContent	PASS	org::openapitools::client::model::InputContent	oneOf, 9 members
 InputItem	PASS	org::openapitools::client::model::InputItem	oneOf, 36 members
-InputMessageContentList	NOT_FOUND	NOT_FOUND	Header not found in generated output
 InputMessageResource	PASS	org::openapitools::client::model::InputMessageResource	allOf, 5 members
-InputParam	FAIL	org::openapitools::client::model::InputParam	EMPTY SHELL (oneOf, 0 members)
-InviteListResponse	PASS	org::openapitools::client::model::InviteListResponse	anyOf, 5 members
+InputParam	FAIL	org::openapitools::client::model::InputParam	EMPTY SHELL (oneOf, 0 members) | EXPECTED std::variant<std::string, std::vector<InputItem>>
 Item	PASS	org::openapitools::client::model::Item	oneOf, 35 members
 ItemResource	PASS	org::openapitools::client::model::ItemResource	oneOf, 37 members
-ListAuditLogsResponse	PASS	org::openapitools::client::model::ListAuditLogsResponse	anyOf, 5 members
-ListCertificatesResponse	PASS	org::openapitools::client::model::ListCertificatesResponse	anyOf, 5 members
-ListFineTuningCheckpointPermissionResponse	PASS	org::openapitools::client::model::ListFineTuningCheckpointPermissionResponse	anyOf, 5 members
-ListFineTuningJobCheckpointsResponse	PASS	org::openapitools::client::model::ListFineTuningJobCheckpointsResponse	anyOf, 5 members
-ListPaginatedFineTuningJobsResponse	PASS	org::openapitools::client::model::ListPaginatedFineTuningJobsResponse	anyOf, 3 members
-ListProjectCertificatesResponse	PASS	org::openapitools::client::model::ListProjectCertificatesResponse	anyOf, 5 members
-LocalShellToolCallOutput	PASS	org::openapitools::client::model::LocalShellToolCallOutput	anyOf, 4 members
-MCPApprovalResponse	PASS	org::openapitools::client::model::MCPApprovalResponse	anyOf, 5 members
-MCPApprovalResponseResource	PASS	org::openapitools::client::model::MCPApprovalResponseResource	anyOf, 5 members
-MCPListTools	PASS	org::openapitools::client::model::MCPListTools	anyOf, 5 members
-MCPListToolsTool	NOT_FOUND	NOT_FOUND	Header not found in generated output
-MessageContentTextObject	PASS	org::openapitools::client::model::MessageContentTextObject	oneOf, 2 members
-MessageDeltaContentTextObject	PASS	org::openapitools::client::model::MessageDeltaContentTextObject	oneOf, 3 members
-MessageRequestContentTextObject	PASS	org::openapitools::client::model::MessageRequestContentTextObject	oneOf, 2 members
 MessageStreamEvent	PASS	org::openapitools::client::model::MessageStreamEvent	oneOf, 2 members
-Metadata	NOT_FOUND	NOT_FOUND	Header not found in generated output
-ModelIds	FAIL	org::openapitools::client::model::ModelIds	EMPTY SHELL (anyOf, 0 members)
-ModelIdsCompaction	FAIL	org::openapitools::client::model::ModelIdsCompaction	EMPTY SHELL (anyOf, 0 members)
-ModelIdsResponses	FAIL	org::openapitools::client::model::ModelIdsResponses	EMPTY SHELL (anyOf, 0 members)
-ModelIdsShared	FAIL	org::openapitools::client::model::ModelIdsShared	EMPTY SHELL (anyOf, 0 members)
-ModelResponseProperties	PASS	org::openapitools::client::model::ModelResponseProperties	anyOf, 9 members
-ModifyAssistantRequest	PASS	org::openapitools::client::model::ModifyAssistantRequest	anyOf, 11 members
-ModifyCertificateRequest	PASS	org::openapitools::client::model::ModifyCertificateRequest	anyOf, 1 members
-ModifyMessageRequest	PASS	org::openapitools::client::model::ModifyMessageRequest	anyOf, 1 members
-ModifyRunRequest	PASS	org::openapitools::client::model::ModifyRunRequest	anyOf, 1 members
-ModifyThreadRequest	PASS	org::openapitools::client::model::ModifyThreadRequest	anyOf, 2 members
-OrganizationCertificate	PASS	org::openapitools::client::model::OrganizationCertificate	anyOf, 6 members
-OrganizationProjectCertificate	PASS	org::openapitools::client::model::OrganizationProjectCertificate	anyOf, 6 members
-OrganizationSpendAlertListResource	PASS	org::openapitools::client::model::OrganizationSpendAlertListResource	anyOf, 5 members
-OutputAudio	NOT_FOUND	NOT_FOUND	Header not found in generated output
+Metadata	DEFERRED	NOT_FOUND	Deferred (on allowlist)
+ModelIds	FAIL	org::openapitools::client::model::ModelIds	EMPTY SHELL (anyOf, 0 members) | EXPECTED std::string
+ModelIdsCompaction	FAIL	org::openapitools::client::model::ModelIdsCompaction	EMPTY SHELL (anyOf, 0 members) | EXPECTED std::string
+ModelIdsResponses	FAIL	org::openapitools::client::model::ModelIdsResponses	EMPTY SHELL (anyOf, 0 members) | EXPECTED std::string
+ModelIdsShared	FAIL	org::openapitools::client::model::ModelIdsShared	EMPTY SHELL (anyOf, 0 members) | EXPECTED std::string
 OutputContent	PASS	org::openapitools::client::model::OutputContent	oneOf, 5 members
 OutputItem	PASS	org::openapitools::client::model::OutputItem	oneOf, 37 members
 OutputMessageContent	PASS	org::openapitools::client::model::OutputMessageContent	oneOf, 5 members
-ParallelToolCalls	NOT_FOUND	NOT_FOUND	Header not found in generated output
-PartialImages	NOT_FOUND	NOT_FOUND	Header not found in generated output
-PredictionContent	PASS	org::openapitools::client::model::PredictionContent	oneOf, 2 members
-Project	PASS	org::openapitools::client::model::Project	anyOf, 7 members
-ProjectApiKey	PASS	org::openapitools::client::model::ProjectApiKey	anyOf, 8 members
-ProjectApiKeyDeleteResponse	PASS	org::openapitools::client::model::ProjectApiKeyDeleteResponse	anyOf, 3 members
-ProjectApiKeyListResponse	PASS	org::openapitools::client::model::ProjectApiKeyListResponse	anyOf, 5 members
-ProjectCreateRequest	PASS	org::openapitools::client::model::ProjectCreateRequest	anyOf, 3 members
-ProjectGroupListResource	PASS	org::openapitools::client::model::ProjectGroupListResource	anyOf, 4 members
-ProjectHostedToolPermissionsUpdateRequest	PASS	org::openapitools::client::model::ProjectHostedToolPermissionsUpdateRequest	anyOf, 5 members
-ProjectListResponse	PASS	org::openapitools::client::model::ProjectListResponse	anyOf, 5 members
-ProjectRateLimitListResponse	PASS	org::openapitools::client::model::ProjectRateLimitListResponse	anyOf, 5 members
-ProjectServiceAccountApiKeyCreateRequest	PASS	org::openapitools::client::model::ProjectServiceAccountApiKeyCreateRequest	anyOf, 2 members
-ProjectServiceAccountCreateRequest	PASS	org::openapitools::client::model::ProjectServiceAccountCreateRequest	anyOf, 2 members
-ProjectServiceAccountCreateResponse	PASS	org::openapitools::client::model::ProjectServiceAccountCreateResponse	anyOf, 6 members
-ProjectServiceAccountDeleteResponse	PASS	org::openapitools::client::model::ProjectServiceAccountDeleteResponse	anyOf, 3 members
-ProjectServiceAccountListResponse	PASS	org::openapitools::client::model::ProjectServiceAccountListResponse	anyOf, 5 members
-ProjectSpendAlertListResource	PASS	org::openapitools::client::model::ProjectSpendAlertListResource	anyOf, 5 members
-ProjectUpdateRequest	PASS	org::openapitools::client::model::ProjectUpdateRequest	anyOf, 3 members
-ProjectUser	PASS	org::openapitools::client::model::ProjectUser	anyOf, 6 members
-ProjectUserCreateRequest	PASS	org::openapitools::client::model::ProjectUserCreateRequest	anyOf, 3 members
-ProjectUserDeleteResponse	PASS	org::openapitools::client::model::ProjectUserDeleteResponse	anyOf, 3 members
-ProjectUserListResponse	PASS	org::openapitools::client::model::ProjectUserListResponse	anyOf, 5 members
-ProjectUserUpdateRequest	PASS	org::openapitools::client::model::ProjectUserUpdateRequest	anyOf, 1 members
+PartialImages	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 Prompt	PASS	org::openapitools::client::model::Prompt	anyOf, 3 members
-PublicAssignOrganizationGroupRoleBody	PASS	org::openapitools::client::model::PublicAssignOrganizationGroupRoleBody	anyOf, 1 members
-PublicCreateOrganizationRoleBody	PASS	org::openapitools::client::model::PublicCreateOrganizationRoleBody	anyOf, 3 members
-PublicRoleListResource	PASS	org::openapitools::client::model::PublicRoleListResource	anyOf, 4 members
-PublicUpdateOrganizationRoleBody	PASS	org::openapitools::client::model::PublicUpdateOrganizationRoleBody	anyOf, 3 members
 RealtimeAudioFormats	PASS	org::openapitools::client::model::RealtimeAudioFormats	anyOf, 2 members
-RealtimeBetaServerEventConversationItemCreated	PASS	org::openapitools::client::model::RealtimeBetaServerEventConversationItemCreated	anyOf, 4 members
-RealtimeBetaServerEventConversationItemInputAudioTranscriptionDelta	PASS	org::openapitools::client::model::RealtimeBetaServerEventConversationItemInputAudioTranscriptionDelta	anyOf, 6 members
-RealtimeBetaServerEventInputAudioBufferCommitted	PASS	org::openapitools::client::model::RealtimeBetaServerEventInputAudioBufferCommitted	anyOf, 4 members
-RealtimeBetaServerEventResponseMCPCallArgumentsDelta	PASS	org::openapitools::client::model::RealtimeBetaServerEventResponseMCPCallArgumentsDelta	anyOf, 7 members
-RealtimeCallCreateRequest	NOT_FOUND	NOT_FOUND	Header not found in generated output
-RealtimeCallRejectRequest	PASS	org::openapitools::client::model::RealtimeCallRejectRequest	anyOf, 1 members
 RealtimeClientEvent	PASS	org::openapitools::client::model::RealtimeClientEvent	anyOf, 11 members
 RealtimeConversationItem	PASS	org::openapitools::client::model::RealtimeConversationItem	anyOf, 16 members
-RealtimeCreateClientSecretResponse	PASS	org::openapitools::client::model::RealtimeCreateClientSecretResponse	oneOf, 3 members
-RealtimeMCPApprovalResponse	PASS	org::openapitools::client::model::RealtimeMCPApprovalResponse	anyOf, 5 members
-RealtimeMCPToolCall	PASS	org::openapitools::client::model::RealtimeMCPToolCall	anyOf, 8 members
 RealtimeServerEvent	PASS	org::openapitools::client::model::RealtimeServerEvent	anyOf, 31 members
-RealtimeServerEventConversationItemCreated	PASS	org::openapitools::client::model::RealtimeServerEventConversationItemCreated	anyOf, 4 members
-RealtimeServerEventConversationItemDone	PASS	org::openapitools::client::model::RealtimeServerEventConversationItemDone	anyOf, 4 members
-RealtimeServerEventConversationItemInputAudioTranscriptionDelta	PASS	org::openapitools::client::model::RealtimeServerEventConversationItemInputAudioTranscriptionDelta	anyOf, 6 members
-RealtimeServerEventInputAudioBufferCommitted	PASS	org::openapitools::client::model::RealtimeServerEventInputAudioBufferCommitted	anyOf, 4 members
-RealtimeServerEventResponseMCPCallArgumentsDelta	PASS	org::openapitools::client::model::RealtimeServerEventResponseMCPCallArgumentsDelta	anyOf, 7 members
-RealtimeServerEventSessionCreated	PASS	org::openapitools::client::model::RealtimeServerEventSessionCreated	oneOf, 3 members
-RealtimeServerEventSessionUpdated	PASS	org::openapitools::client::model::RealtimeServerEventSessionUpdated	oneOf, 3 members
-RealtimeSession	PASS	org::openapitools::client::model::RealtimeSession	anyOf, 20 members
 RealtimeTranslationClientEvent	PASS	org::openapitools::client::model::RealtimeTranslationClientEvent	anyOf, 4 members
 RealtimeTranslationServerEvent	PASS	org::openapitools::client::model::RealtimeTranslationServerEvent	anyOf, 9 members
-RealtimeTranslationServerEventSessionInputTranscriptDelta	PASS	org::openapitools::client::model::RealtimeTranslationServerEventSessionInputTranscriptDelta	anyOf, 4 members
-RealtimeTranslationServerEventSessionOutputTranscriptDelta	PASS	org::openapitools::client::model::RealtimeTranslationServerEventSessionOutputTranscriptDelta	anyOf, 4 members
-RealtimeTranslationSessionCreateRequest	PASS	org::openapitools::client::model::RealtimeTranslationSessionCreateRequest	anyOf, 2 members
-RealtimeTranslationSessionUpdateRequest	PASS	org::openapitools::client::model::RealtimeTranslationSessionUpdateRequest	anyOf, 1 members
 RealtimeTruncation	PASS	org::openapitools::client::model::RealtimeTruncation	oneOf, 3 members
 RealtimeTurnDetection	PASS	org::openapitools::client::model::RealtimeTurnDetection	anyOf, 8 members
-Reasoning	PASS	org::openapitools::client::model::Reasoning	anyOf, 5 members
 ReasoningEffort	FAIL	org::openapitools::client::model::ReasoningEffort	EMPTY SHELL (anyOf, 0 members)
-ReasoningItem	PASS	org::openapitools::client::model::ReasoningItem	anyOf, 6 members
 Response	PASS	org::openapitools::client::model::Response	allOf, 35 members
 ResponseError	PASS	org::openapitools::client::model::ResponseError	anyOf, 2 members
-ResponseErrorEvent	PASS	org::openapitools::client::model::ResponseErrorEvent	anyOf, 5 members
-ResponseModalities	NOT_FOUND	NOT_FOUND	Header not found in generated output
-ResponsePromptVariables	NOT_FOUND	NOT_FOUND	Header not found in generated output
-ResponseProperties	PASS	org::openapitools::client::model::ResponseProperties	anyOf, 8 members
+ResponseModalities	DEFERRED	NOT_FOUND	Deferred (on allowlist)
+ResponsePromptVariables	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 ResponseStreamEvent	PASS	org::openapitools::client::model::ResponseStreamEvent	anyOf, 24 members
 ResponseStreamOptions	PASS	org::openapitools::client::model::ResponseStreamOptions	anyOf, 1 members
 ResponsesClientEvent	PASS	org::openapitools::client::model::ResponsesClientEvent	anyOf, 32 members
 ResponsesClientEventResponseCreate	PASS	org::openapitools::client::model::ResponsesClientEventResponseCreate	allOf, 32 members
 ResponsesServerEvent	PASS	org::openapitools::client::model::ResponsesServerEvent	anyOf, 24 members
-Role	PASS	org::openapitools::client::model::Role	anyOf, 7 members
-RoleListResource	PASS	org::openapitools::client::model::RoleListResource	anyOf, 4 members
 RunCompletionUsage	PASS	org::openapitools::client::model::RunCompletionUsage	anyOf, 3 members
-RunGraderRequest	PASS	org::openapitools::client::model::RunGraderRequest	oneOf, 3 members
 RunStepCompletionUsage	PASS	org::openapitools::client::model::RunStepCompletionUsage	anyOf, 3 members
-RunStepDeltaObject	PASS	org::openapitools::client::model::RunStepDeltaObject	oneOf, 3 members
-RunStepDeltaStepDetailsToolCallsFunctionObject	PASS	org::openapitools::client::model::RunStepDeltaStepDetailsToolCallsFunctionObject	anyOf, 4 members
-RunStepDeltaStepDetailsToolCallsObject	PASS	org::openapitools::client::model::RunStepDeltaStepDetailsToolCallsObject	oneOf, 2 members
-RunStepDetailsToolCallsFunctionObject	PASS	org::openapitools::client::model::RunStepDetailsToolCallsFunctionObject	anyOf, 3 members
-RunStepDetailsToolCallsObject	PASS	org::openapitools::client::model::RunStepDetailsToolCallsObject	oneOf, 2 members
 RunStepStreamEvent	PASS	org::openapitools::client::model::RunStepStreamEvent	oneOf, 2 members
 RunStreamEvent	PASS	org::openapitools::client::model::RunStreamEvent	oneOf, 2 members
 ServiceTier	FAIL	org::openapitools::client::model::ServiceTier	EMPTY SHELL (anyOf, 0 members)
-SpendAlertNotificationChannel	PASS	org::openapitools::client::model::SpendAlertNotificationChannel	anyOf, 3 members
-StaticChunkingStrategyResponseParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
 StopConfiguration	FAIL	org::openapitools::client::model::StopConfiguration	EMPTY SHELL (oneOf, 0 members)
-SubmitToolOutputsRunRequest	PASS	org::openapitools::client::model::SubmitToolOutputsRunRequest	anyOf, 2 members
 TextResponseFormatConfiguration	PASS	org::openapitools::client::model::TextResponseFormatConfiguration	oneOf, 5 members
-TextResponseFormatJsonSchema	PASS	org::openapitools::client::model::TextResponseFormatJsonSchema	anyOf, 5 members
-ThreadObject	PASS	org::openapitools::client::model::ThreadObject	anyOf, 5 members
 ThreadStreamEvent	PASS	org::openapitools::client::model::ThreadStreamEvent	oneOf, 3 members
-ToggleCertificatesRequest	PASS	org::openapitools::client::model::ToggleCertificatesRequest	oneOf, 1 members
 Tool	PASS	org::openapitools::client::model::Tool	oneOf, 42 members
-ToolChoiceMCP	NOT_FOUND	NOT_FOUND	Header not found in generated output
-ToolChoiceOptions	NOT_FOUND	NOT_FOUND	Header not found in generated output
 ToolChoiceParam	PASS	org::openapitools::client::model::ToolChoiceParam	oneOf, 5 members
 TranscriptionChunkingStrategy	PASS	org::openapitools::client::model::TranscriptionChunkingStrategy	oneOf, 4 members
-TruncationObject	PASS	org::openapitools::client::model::TruncationObject	anyOf, 2 members
-UpdateVectorStoreFileAttributesRequest	PASS	org::openapitools::client::model::UpdateVectorStoreFileAttributesRequest	allOf, 1 members
-UpdateVectorStoreRequest	PASS	org::openapitools::client::model::UpdateVectorStoreRequest	allOf, 3 members
-UsageAudioSpeechesResult	PASS	org::openapitools::client::model::UsageAudioSpeechesResult	anyOf, 7 members
-UsageAudioTranscriptionsResult	PASS	org::openapitools::client::model::UsageAudioTranscriptionsResult	anyOf, 7 members
-UsageCodeInterpreterSessionsResult	PASS	org::openapitools::client::model::UsageCodeInterpreterSessionsResult	anyOf, 3 members
-UsageEmbeddingsResult	PASS	org::openapitools::client::model::UsageEmbeddingsResult	anyOf, 7 members
-UsageFileSearchCallsResult	PASS	org::openapitools::client::model::UsageFileSearchCallsResult	anyOf, 6 members
-UsageImagesResult	PASS	org::openapitools::client::model::UsageImagesResult	anyOf, 9 members
-UsageModerationsResult	PASS	org::openapitools::client::model::UsageModerationsResult	anyOf, 7 members
-UsageResponse	PASS	org::openapitools::client::model::UsageResponse	anyOf, 4 members
-UsageTimeBucket	PASS	org::openapitools::client::model::UsageTimeBucket	oneOf, 4 members
-UsageVectorStoresResult	PASS	org::openapitools::client::model::UsageVectorStoresResult	anyOf, 3 members
-UsageWebSearchCallsResult	PASS	org::openapitools::client::model::UsageWebSearchCallsResult	anyOf, 8 members
-User	PASS	org::openapitools::client::model::User	anyOf, 16 members
-UserListResource	PASS	org::openapitools::client::model::UserListResource	anyOf, 4 members
-UserListResponse	PASS	org::openapitools::client::model::UserListResponse	anyOf, 5 members
-UserRoleUpdateRequest	PASS	org::openapitools::client::model::UserRoleUpdateRequest	anyOf, 4 members
-ValidateGraderRequest	PASS	org::openapitools::client::model::ValidateGraderRequest	oneOf, 1 members
-ValidateGraderResponse	PASS	org::openapitools::client::model::ValidateGraderResponse	oneOf, 1 members
-VectorStoreExpirationAfter	PASS	org::openapitools::client::model::VectorStoreExpirationAfter	anyOf, 2 members
-VectorStoreFileAttributes	NOT_FOUND	NOT_FOUND	Header not found in generated output
-VectorStoreFileContentResponse	PASS	org::openapitools::client::model::VectorStoreFileContentResponse	anyOf, 4 members
-VectorStoreSearchRequest	PASS	org::openapitools::client::model::VectorStoreSearchRequest	oneOf, 5 members
-VectorStoreSearchResultsPage	PASS	org::openapitools::client::model::VectorStoreSearchResultsPage	anyOf, 5 members
+VectorStoreFileAttributes	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 Verbosity	FAIL	org::openapitools::client::model::Verbosity	EMPTY SHELL (anyOf, 0 members)
-VoiceConsentListResource	PASS	org::openapitools::client::model::VoiceConsentListResource	anyOf, 5 members
 VoiceIdsOrCustomVoice	PASS	org::openapitools::client::model::VoiceIdsOrCustomVoice	anyOf, 1 members
 VoiceIdsShared	FAIL	org::openapitools::client::model::VoiceIdsShared	EMPTY SHELL (anyOf, 0 members)
-WebSearchActionOpenPage	NOT_FOUND	NOT_FOUND	Header not found in generated output
-WebSearchApproximateLocation	NOT_FOUND	NOT_FOUND	Header not found in generated output
-WebSearchTool	PASS	org::openapitools::client::model::WebSearchTool	anyOf, 4 members
-ModerationMode	FAIL	org::openapitools::client::model::ModerationMode	EMPTY SHELL (anyOf, 0 members)
-ModerationConfigParam	PASS	org::openapitools::client::model::ModerationConfigParam	anyOf, 1 members
-ModerationPolicyParam	PASS	org::openapitools::client::model::ModerationPolicyParam	anyOf, 2 members
-ModerationParam	PASS	org::openapitools::client::model::ModerationParam	anyOf, 2 members
+WebSearchApproximateLocation	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 Annotation	PASS	org::openapitools::client::model::Annotation	oneOf, 9 members
-ImageDetail	FAIL	org::openapitools::client::model::ImageDetail	EMPTY SHELL (anyOf, 0 members)
-InputImageContent	PASS	org::openapitools::client::model::InputImageContent	anyOf, 5 members
-ComputerScreenshotContent	PASS	org::openapitools::client::model::ComputerScreenshotContent	anyOf, 5 members
-FileInputDetail	FAIL	org::openapitools::client::model::FileInputDetail	EMPTY SHELL (anyOf, 0 members)
-InputFileContent	PASS	org::openapitools::client::model::InputFileContent	anyOf, 7 members
-Message	PASS	org::openapitools::client::model::Message	oneOf, 6 members
-DirectToolCallCaller	PASS	org::openapitools::client::model::DirectToolCallCaller	oneOf, 1 members
-ProgramToolCallCaller	PASS	org::openapitools::client::model::ProgramToolCallCaller	oneOf, 2 members
 ToolCallCaller	PASS	org::openapitools::client::model::ToolCallCaller	oneOf, 2 members
-ProgramToolCallCallerParam	PASS	org::openapitools::client::model::ProgramToolCallCallerParam	oneOf, 2 members
 ToolCallCallerParam	PASS	org::openapitools::client::model::ToolCallCallerParam	oneOf, 2 members
-ClickButtonType	FAIL	org::openapitools::client::model::ClickButtonType	EMPTY SHELL (anyOf, 0 members)
-ClickParam	PASS	org::openapitools::client::model::ClickParam	anyOf, 5 members
-DoubleClickAction	NOT_FOUND	NOT_FOUND	Header not found in generated output
-DragParam	PASS	org::openapitools::client::model::DragParam	anyOf, 3 members
-MoveParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
-ScrollParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
-WaitParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
-ComputerCallSafetyCheckParam	PASS	org::openapitools::client::model::ComputerCallSafetyCheckParam	anyOf, 3 members
-ComputerCallOutputStatus	FAIL	org::openapitools::client::model::ComputerCallOutputStatus	EMPTY SHELL (anyOf, 0 members)
-ToolSearchExecutionType	FAIL	org::openapitools::client::model::ToolSearchExecutionType	EMPTY SHELL (anyOf, 0 members)
-ToolSearchCall	PASS	org::openapitools::client::model::ToolSearchCall	anyOf, 7 members
-CallableToolAllowedCaller	FAIL	org::openapitools::client::model::CallableToolAllowedCaller	EMPTY SHELL (anyOf, 0 members)
-FunctionTool	PASS	org::openapitools::client::model::FunctionTool	anyOf, 8 members
-RankingOptions	PASS	org::openapitools::client::model::RankingOptions	anyOf, 3 members
 Filters	PASS	org::openapitools::client::model::Filters	anyOf, 4 members
-FileSearchTool	PASS	org::openapitools::client::model::FileSearchTool	anyOf, 5 members
-ContainerMemoryLimit	FAIL	org::openapitools::client::model::ContainerMemoryLimit	EMPTY SHELL (anyOf, 0 members)
-AutoCodeInterpreterToolParam	PASS	org::openapitools::client::model::AutoCodeInterpreterToolParam	anyOf, 4 members
-ContainerAutoParam	PASS	org::openapitools::client::model::ContainerAutoParam	anyOf, 5 members
-ContainerReferenceParam	PASS	org::openapitools::client::model::ContainerReferenceParam	anyOf, 2 members
-FunctionShellToolParam	PASS	org::openapitools::client::model::FunctionShellToolParam	anyOf, 3 members
-CustomToolParam	PASS	org::openapitools::client::model::CustomToolParam	oneOf, 6 members
-EmptyModelParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
-FunctionToolParam	PASS	org::openapitools::client::model::FunctionToolParam	anyOf, 8 members
-NamespaceToolParam	PASS	org::openapitools::client::model::NamespaceToolParam	oneOf, 4 members
-ToolSearchToolParam	PASS	org::openapitools::client::model::ToolSearchToolParam	anyOf, 4 members
-ApproximateLocation	PASS	org::openapitools::client::model::ApproximateLocation	anyOf, 5 members
-SearchContextSize	FAIL	org::openapitools::client::model::SearchContextSize	EMPTY SHELL (anyOf, 0 members)
-SearchContentType	FAIL	org::openapitools::client::model::SearchContentType	EMPTY SHELL (anyOf, 0 members)
-WebSearchPreviewTool	PASS	org::openapitools::client::model::WebSearchPreviewTool	anyOf, 4 members
-ApplyPatchToolParam	PASS	org::openapitools::client::model::ApplyPatchToolParam	anyOf, 2 members
-ToolSearchOutput	PASS	org::openapitools::client::model::ToolSearchOutput	anyOf, 7 members
-LocalShellExecAction	NOT_FOUND	NOT_FOUND	Header not found in generated output
-FunctionShellAction	NOT_FOUND	NOT_FOUND	Header not found in generated output
-FunctionShellCall	PASS	org::openapitools::client::model::FunctionShellCall	anyOf, 8 members
-FunctionShellCallOutputExitOutcome	NOT_FOUND	NOT_FOUND	Header not found in generated output
-FunctionShellCallOutputContent	PASS	org::openapitools::client::model::FunctionShellCallOutputContent	oneOf, 4 members
-FunctionShellCallOutput	PASS	org::openapitools::client::model::FunctionShellCallOutput	anyOf, 8 members
-ApplyPatchToolCall	PASS	org::openapitools::client::model::ApplyPatchToolCall	anyOf, 7 members
-ApplyPatchCallOutputStatus	FAIL	org::openapitools::client::model::ApplyPatchCallOutputStatus	EMPTY SHELL (anyOf, 0 members)
-ApplyPatchToolCallOutput	PASS	org::openapitools::client::model::ApplyPatchToolCallOutput	anyOf, 7 members
-MCPToolCallStatus	FAIL	org::openapitools::client::model::MCPToolCallStatus	EMPTY SHELL (anyOf, 0 members)
-DetailEnum	FAIL	org::openapitools::client::model::DetailEnum	EMPTY SHELL (anyOf, 0 members)
-FunctionCallItemStatus	FAIL	org::openapitools::client::model::FunctionCallItemStatus	EMPTY SHELL (anyOf, 0 members)
-ComputerCallOutputItemParam	PASS	org::openapitools::client::model::ComputerCallOutputItemParam	anyOf, 6 members
-InputTextContentParam	PASS	org::openapitools::client::model::InputTextContentParam	anyOf, 3 members
-InputImageContentParamAutoParam	PASS	org::openapitools::client::model::InputImageContentParamAutoParam	anyOf, 5 members
-FileDetailEnum	FAIL	org::openapitools::client::model::FileDetailEnum	EMPTY SHELL (anyOf, 0 members)
-InputFileContentParam	PASS	org::openapitools::client::model::InputFileContentParam	anyOf, 7 members
-FunctionCallOutputItemParam	PASS	org::openapitools::client::model::FunctionCallOutputItemParam	anyOf, 6 members
-ToolSearchCallItemParam	PASS	org::openapitools::client::model::ToolSearchCallItemParam	anyOf, 6 members
-ToolSearchOutputItemParam	PASS	org::openapitools::client::model::ToolSearchOutputItemParam	anyOf, 6 members
-AdditionalToolsItemParam	PASS	org::openapitools::client::model::AdditionalToolsItemParam	anyOf, 4 members
-CompactionSummaryItemParam	PASS	org::openapitools::client::model::CompactionSummaryItemParam	anyOf, 3 members
-FunctionShellActionParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
-FunctionShellCallItemStatus	NOT_FOUND	NOT_FOUND	Header not found in generated output
-FunctionShellCallItemParam	PASS	org::openapitools::client::model::FunctionShellCallItemParam	anyOf, 7 members
-FunctionShellCallOutputExitOutcomeParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
 FunctionShellCallOutputOutcomeParam	PASS	org::openapitools::client::model::FunctionShellCallOutputOutcomeParam	oneOf, 2 members
-FunctionShellCallOutputContentParam	PASS	org::openapitools::client::model::FunctionShellCallOutputContentParam	anyOf, 3 members
-FunctionShellCallOutputItemParam	PASS	org::openapitools::client::model::FunctionShellCallOutputItemParam	anyOf, 7 members
-ApplyPatchUpdateFileOperationParam	PASS	org::openapitools::client::model::ApplyPatchUpdateFileOperationParam	oneOf, 3 members
 ApplyPatchOperationParam	PASS	org::openapitools::client::model::ApplyPatchOperationParam	oneOf, 3 members
-ApplyPatchToolCallItemParam	PASS	org::openapitools::client::model::ApplyPatchToolCallItemParam	anyOf, 6 members
-ApplyPatchCallOutputStatusParam	FAIL	org::openapitools::client::model::ApplyPatchCallOutputStatusParam	EMPTY SHELL (anyOf, 0 members)
-ApplyPatchToolCallOutputItemParam	PASS	org::openapitools::client::model::ApplyPatchToolCallOutputItemParam	anyOf, 6 members
-CompactionTriggerItemParam	PASS	org::openapitools::client::model::CompactionTriggerItemParam	anyOf, 1 members
-ItemReferenceParam	PASS	org::openapitools::client::model::ItemReferenceParam	anyOf, 2 members
-SpecificApplyPatchParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
-SpecificFunctionShellParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
 ReasoningModeEnum	FAIL	org::openapitools::client::model::ReasoningModeEnum	EMPTY SHELL (anyOf, 0 members)
-ContextManagementParam	PASS	org::openapitools::client::model::ContextManagementParam	anyOf, 2 members
-ModerationErrorBody	NOT_FOUND	NOT_FOUND	Header not found in generated output
-Moderation	PASS	org::openapitools::client::model::Moderation	oneOf, 2 members
-CreateConversationBody	PASS	org::openapitools::client::model::CreateConversationBody	anyOf, 2 members
-DeletedConversationResource	PASS	org::openapitools::client::model::DeletedConversationResource	anyOf, 3 members
-OrderEnum	FAIL	org::openapitools::client::model::OrderEnum	EMPTY SHELL (anyOf, 0 members)
 VideoModel	FAIL	org::openapitools::client::model::VideoModel	EMPTY SHELL (anyOf, 0 members)
-VideoResource	PASS	org::openapitools::client::model::VideoResource	anyOf, 13 members
-VideoListResource	PASS	org::openapitools::client::model::VideoListResource	anyOf, 5 members
-VideoSeconds	FAIL	org::openapitools::client::model::VideoSeconds	EMPTY SHELL (oneOf, 0 members)
-CreateVideoMultipartBody	NOT_FOUND	NOT_FOUND	Header not found in generated output
-CreateVideoCharacterBody	NOT_FOUND	NOT_FOUND	Header not found in generated output
-VideoCharacterResource	PASS	org::openapitools::client::model::VideoCharacterResource	anyOf, 3 members
-VideoReferenceInputParam	PASS	org::openapitools::client::model::VideoReferenceInputParam	oneOf, 1 members
-CreateVideoEditMultipartBody	NOT_FOUND	NOT_FOUND	Header not found in generated output
-CreateVideoEditJsonBody	PASS	org::openapitools::client::model::CreateVideoEditJsonBody	oneOf, 2 members
-CreateVideoExtendMultipartBody	NOT_FOUND	NOT_FOUND	Header not found in generated output
-VideoContentVariant	FAIL	org::openapitools::client::model::VideoContentVariant	EMPTY SHELL (anyOf, 0 members)
-CreateVideoRemixBody	PASS	org::openapitools::client::model::CreateVideoRemixBody	anyOf, 1 members
-TruncationEnum	FAIL	org::openapitools::client::model::TruncationEnum	EMPTY SHELL (anyOf, 0 members)
 PersonalityEnum	FAIL	org::openapitools::client::model::PersonalityEnum	EMPTY SHELL (anyOf, 0 members)
-TokenCountsBody	PASS	org::openapitools::client::model::TokenCountsBody	anyOf, 12 members
-PromptCacheRetentionEnum	FAIL	org::openapitools::client::model::PromptCacheRetentionEnum	EMPTY SHELL (anyOf, 0 members)
-ServiceTierEnum	FAIL	org::openapitools::client::model::ServiceTierEnum	EMPTY SHELL (anyOf, 0 members)
-CompactResponseMethodPublicBody	PASS	org::openapitools::client::model::CompactResponseMethodPublicBody	anyOf, 8 members
 ItemField	PASS	org::openapitools::client::model::ItemField	oneOf, 37 members
-SkillListResource	PASS	org::openapitools::client::model::SkillListResource	anyOf, 5 members
-CreateSkillBody	PASS	org::openapitools::client::model::CreateSkillBody	oneOf, 1 members
-SkillVersionListResource	PASS	org::openapitools::client::model::SkillVersionListResource	anyOf, 5 members
-CreateSkillVersionBody	PASS	org::openapitools::client::model::CreateSkillVersionBody	oneOf, 2 members
-ChatkitWorkflowTracing	PASS	org::openapitools::client::model::ChatkitWorkflowTracing	anyOf, 1 members
-ChatkitWorkflow	PASS	org::openapitools::client::model::ChatkitWorkflow	anyOf, 4 members
-ChatSessionStatus	FAIL	org::openapitools::client::model::ChatSessionStatus	EMPTY SHELL (anyOf, 0 members)
-ChatSessionAutomaticThreadTitling	PASS	org::openapitools::client::model::ChatSessionAutomaticThreadTitling	anyOf, 1 members
-ChatSessionFileUpload	PASS	org::openapitools::client::model::ChatSessionFileUpload	anyOf, 3 members
-ChatSessionHistory	PASS	org::openapitools::client::model::ChatSessionHistory	anyOf, 2 members
-WorkflowTracingParam	PASS	org::openapitools::client::model::WorkflowTracingParam	oneOf, 1 members
-WorkflowParam	PASS	org::openapitools::client::model::WorkflowParam	oneOf, 4 members
-AttachmentType	FAIL	org::openapitools::client::model::AttachmentType	EMPTY SHELL (anyOf, 0 members)
-Attachment	PASS	org::openapitools::client::model::Attachment	anyOf, 5 members
-ToolChoice	PASS	org::openapitools::client::model::ToolChoice	anyOf, 1 members
-InferenceOptions	PASS	org::openapitools::client::model::InferenceOptions	anyOf, 2 members
-UserMessageItem	PASS	org::openapitools::client::model::UserMessageItem	oneOf, 8 members
-ResponseOutputText	PASS	org::openapitools::client::model::ResponseOutputText	oneOf, 3 members
-TaskGroupTask	PASS	org::openapitools::client::model::TaskGroupTask	anyOf, 3 members
 ThreadItem	PASS	org::openapitools::client::model::ThreadItem	oneOf, 18 members
-ThreadItemListResource	PASS	org::openapitools::client::model::ThreadItemListResource	anyOf, 5 members
-ActiveStatus	PASS	org::openapitools::client::model::ActiveStatus	anyOf, 1 members
-LockedStatus	PASS	org::openapitools::client::model::LockedStatus	anyOf, 2 members
-ClosedStatus	PASS	org::openapitools::client::model::ClosedStatus	anyOf, 2 members
-ThreadResource	PASS	org::openapitools::client::model::ThreadResource	anyOf, 6 members
-ThreadListResource	PASS	org::openapitools::client::model::ThreadListResource	anyOf, 5 members
-BetaTokenCountsResource	PASS	org::openapitools::client::model::BetaTokenCountsResource	anyOf, 2 members
-BetaTokenCountsBody	PASS	org::openapitools::client::model::BetaTokenCountsBody	anyOf, 12 members
 BetaToolChoiceParam	PASS	org::openapitools::client::model::BetaToolChoiceParam	oneOf, 5 members
-BetaToolChoiceMCP	PASS	org::openapitools::client::model::BetaToolChoiceMCP	anyOf, 3 members
 BetaConversationParam	PASS	org::openapitools::client::model::BetaConversationParam	oneOf, 1 members
 BetaPersonalityEnum	FAIL	org::openapitools::client::model::BetaPersonalityEnum	EMPTY SHELL (anyOf, 0 members)
-BetaTruncationEnum	FAIL	org::openapitools::client::model::BetaTruncationEnum	EMPTY SHELL (anyOf, 0 members)
-BetaReasoning	PASS	org::openapitools::client::model::BetaReasoning	anyOf, 5 members
 BetaReasoningEffort	FAIL	org::openapitools::client::model::BetaReasoningEffort	EMPTY SHELL (anyOf, 0 members)
 BetaReasoningModeEnum	FAIL	org::openapitools::client::model::BetaReasoningModeEnum	EMPTY SHELL (anyOf, 0 members)
-BetaResponseTextParam	PASS	org::openapitools::client::model::BetaResponseTextParam	anyOf, 2 members
 BetaVerbosity	FAIL	org::openapitools::client::model::BetaVerbosity	EMPTY SHELL (anyOf, 0 members)
 BetaTextResponseFormatConfiguration	PASS	org::openapitools::client::model::BetaTextResponseFormatConfiguration	oneOf, 5 members
-BetaTextResponseFormatJsonSchema	PASS	org::openapitools::client::model::BetaTextResponseFormatJsonSchema	anyOf, 5 members
-BetaResponseFormatJsonSchemaSchema	NOT_FOUND	NOT_FOUND	Header not found in generated output
-BetaResponseFormatText	PASS	org::openapitools::client::model::BetaResponseFormatText	oneOf, 1 members
 BetaTool	PASS	org::openapitools::client::model::BetaTool	oneOf, 42 members
-BetaApplyPatchToolParam	PASS	org::openapitools::client::model::BetaApplyPatchToolParam	anyOf, 2 members
-BetaCallableToolAllowedCaller	FAIL	org::openapitools::client::model::BetaCallableToolAllowedCaller	EMPTY SHELL (anyOf, 0 members)
-BetaWebSearchPreviewTool	PASS	org::openapitools::client::model::BetaWebSearchPreviewTool	anyOf, 4 members
-BetaSearchContentType	FAIL	org::openapitools::client::model::BetaSearchContentType	EMPTY SHELL (anyOf, 0 members)
-BetaSearchContextSize	FAIL	org::openapitools::client::model::BetaSearchContextSize	EMPTY SHELL (anyOf, 0 members)
-BetaApproximateLocation	PASS	org::openapitools::client::model::BetaApproximateLocation	anyOf, 5 members
-BetaToolSearchToolParam	PASS	org::openapitools::client::model::BetaToolSearchToolParam	anyOf, 4 members
-BetaEmptyModelParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
-BetaToolSearchExecutionType	FAIL	org::openapitools::client::model::BetaToolSearchExecutionType	EMPTY SHELL (oneOf, 0 members)
-BetaNamespaceToolParam	PASS	org::openapitools::client::model::BetaNamespaceToolParam	oneOf, 4 members
-BetaCustomToolParam	PASS	org::openapitools::client::model::BetaCustomToolParam	oneOf, 6 members
-BetaGrammarSyntax1	FAIL	org::openapitools::client::model::BetaGrammarSyntax1	EMPTY SHELL (anyOf, 0 members)
-BetaCustomTextFormatParam	PASS	org::openapitools::client::model::BetaCustomTextFormatParam	anyOf, 1 members
-BetaFunctionToolParam	PASS	org::openapitools::client::model::BetaFunctionToolParam	anyOf, 8 members
-BetaFunctionShellToolParam	PASS	org::openapitools::client::model::BetaFunctionShellToolParam	anyOf, 3 members
-BetaContainerAutoParam	PASS	org::openapitools::client::model::BetaContainerAutoParam	anyOf, 5 members
-BetaLocalShellToolParam	PASS	org::openapitools::client::model::BetaLocalShellToolParam	anyOf, 1 members
-BetaImageGenTool	PASS	org::openapitools::client::model::BetaImageGenTool	anyOf, 12 members
-BetaCodeInterpreterTool	PASS	org::openapitools::client::model::BetaCodeInterpreterTool	oneOf, 3 members
-BetaAutoCodeInterpreterToolParam	PASS	org::openapitools::client::model::BetaAutoCodeInterpreterToolParam	anyOf, 4 members
-BetaWebSearchTool	PASS	org::openapitools::client::model::BetaWebSearchTool	anyOf, 4 members
 BetaWebSearchApproximateLocation	PASS	org::openapitools::client::model::BetaWebSearchApproximateLocation	anyOf, 5 members
-BetaFileSearchTool	PASS	org::openapitools::client::model::BetaFileSearchTool	anyOf, 5 members
 BetaFilters	PASS	org::openapitools::client::model::BetaFilters	anyOf, 4 members
-BetaCompoundFilter	PASS	org::openapitools::client::model::BetaCompoundFilter	oneOf, 2 members
-BetaRankerVersionType	FAIL	org::openapitools::client::model::BetaRankerVersionType	EMPTY SHELL (anyOf, 0 members)
-BetaFunctionTool	PASS	org::openapitools::client::model::BetaFunctionTool	anyOf, 8 members
 BetaInputItem	PASS	org::openapitools::client::model::BetaInputItem	oneOf, 39 members
-BetaProgramOutputItemParam	PASS	org::openapitools::client::model::BetaProgramOutputItemParam	anyOf, 6 members
-BetaProgramOutputItemStatus	FAIL	org::openapitools::client::model::BetaProgramOutputItemStatus	EMPTY SHELL (anyOf, 0 members)
-Beta_AgentTagParam	PASS	org::openapitools::client::model::Beta_AgentTagParam	anyOf, 1 members
-BetaProgramItemParam	PASS	org::openapitools::client::model::BetaProgramItemParam	anyOf, 6 members
-BetaItemReferenceParam	PASS	org::openapitools::client::model::BetaItemReferenceParam	anyOf, 3 members
-BetaCompactionTriggerItemParam	PASS	org::openapitools::client::model::BetaCompactionTriggerItemParam	anyOf, 2 members
 BetaItem	PASS	org::openapitools::client::model::BetaItem	oneOf, 38 members
-BetaCustomToolCall	PASS	org::openapitools::client::model::BetaCustomToolCall	anyOf, 8 members
 BetaToolCallCaller	PASS	org::openapitools::client::model::BetaToolCallCaller	oneOf, 2 members
-BetaDirectToolCallCaller	PASS	org::openapitools::client::model::BetaDirectToolCallCaller	anyOf, 1 members
-BetaAgentTag	PASS	org::openapitools::client::model::BetaAgentTag	anyOf, 1 members
-BetaCustomToolCallOutput	PASS	org::openapitools::client::model::BetaCustomToolCallOutput	anyOf, 6 members
 BetaFunctionAndCustomToolCallOutput	PASS	org::openapitools::client::model::BetaFunctionAndCustomToolCallOutput	oneOf, 9 members
-BetaInputFileContent	PASS	org::openapitools::client::model::BetaInputFileContent	anyOf, 7 members
-BetaPromptCacheBreakpointConfig	PASS	org::openapitools::client::model::BetaPromptCacheBreakpointConfig	anyOf, 1 members
-BetaInputImageContent	PASS	org::openapitools::client::model::BetaInputImageContent	anyOf, 5 members
-BetaImageDetail	FAIL	org::openapitools::client::model::BetaImageDetail	EMPTY SHELL (oneOf, 0 members)
-BetaInputTextContent	PASS	org::openapitools::client::model::BetaInputTextContent	oneOf, 3 members
 BetaToolCallCallerParam	PASS	org::openapitools::client::model::BetaToolCallCallerParam	oneOf, 2 members
-BetaDirectToolCallCallerParam	PASS	org::openapitools::client::model::BetaDirectToolCallCallerParam	anyOf, 1 members
-BetaMCPToolCall	PASS	org::openapitools::client::model::BetaMCPToolCall	anyOf, 10 members
-BetaMCPToolCallStatus	FAIL	org::openapitools::client::model::BetaMCPToolCallStatus	EMPTY SHELL (anyOf, 0 members)
-BetaMCPApprovalResponse	PASS	org::openapitools::client::model::BetaMCPApprovalResponse	anyOf, 6 members
-BetaMCPApprovalRequest	PASS	org::openapitools::client::model::BetaMCPApprovalRequest	anyOf, 6 members
-BetaMCPListTools	PASS	org::openapitools::client::model::BetaMCPListTools	anyOf, 6 members
-BetaMCPListToolsTool	PASS	org::openapitools::client::model::BetaMCPListToolsTool	anyOf, 4 members
-BetaApplyPatchToolCallOutputItemParam	PASS	org::openapitools::client::model::BetaApplyPatchToolCallOutputItemParam	anyOf, 7 members
-BetaApplyPatchCallOutputStatusParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
-BetaApplyPatchToolCallItemParam	PASS	org::openapitools::client::model::BetaApplyPatchToolCallItemParam	anyOf, 7 members
 BetaApplyPatchOperationParam	PASS	org::openapitools::client::model::BetaApplyPatchOperationParam	oneOf, 3 members
-BetaApplyPatchCallStatusParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
-BetaFunctionShellCallOutputItemParam	PASS	org::openapitools::client::model::BetaFunctionShellCallOutputItemParam	anyOf, 8 members
-BetaFunctionShellCallItemStatus	FAIL	org::openapitools::client::model::BetaFunctionShellCallItemStatus	EMPTY SHELL (oneOf, 0 members)
-BetaFunctionShellCallOutputContentParam	PASS	org::openapitools::client::model::BetaFunctionShellCallOutputContentParam	oneOf, 3 members
 BetaFunctionShellCallOutputOutcomeParam	PASS	org::openapitools::client::model::BetaFunctionShellCallOutputOutcomeParam	oneOf, 2 members
-BetaFunctionShellCallOutputTimeoutOutcomeParam	NOT_FOUND	NOT_FOUND	Header not found in generated output
-BetaFunctionShellCallItemParam	PASS	org::openapitools::client::model::BetaFunctionShellCallItemParam	anyOf, 8 members
-BetaFunctionShellActionParam	PASS	org::openapitools::client::model::BetaFunctionShellActionParam	anyOf, 3 members
-BetaLocalShellToolCallOutput	PASS	org::openapitools::client::model::BetaLocalShellToolCallOutput	anyOf, 5 members
-BetaLocalShellToolCall	PASS	org::openapitools::client::model::BetaLocalShellToolCall	anyOf, 6 members
-BetaLocalShellExecAction	PASS	org::openapitools::client::model::BetaLocalShellExecAction	anyOf, 6 members
-BetaCodeInterpreterToolCall	PASS	org::openapitools::client::model::BetaCodeInterpreterToolCall	anyOf, 7 members
-BetaCodeInterpreterOutputLogs	PASS	org::openapitools::client::model::BetaCodeInterpreterOutputLogs	anyOf, 2 members
-BetaImageGenToolCall	PASS	org::openapitools::client::model::BetaImageGenToolCall	anyOf, 5 members
-BetaCompactionSummaryItemParam	PASS	org::openapitools::client::model::BetaCompactionSummaryItemParam	anyOf, 4 members
-BetaReasoningItem	PASS	org::openapitools::client::model::BetaReasoningItem	anyOf, 7 members
-BetaSummaryTextContent	PASS	org::openapitools::client::model::BetaSummaryTextContent	anyOf, 2 members
-BetaAdditionalToolsItemParam	PASS	org::openapitools::client::model::BetaAdditionalToolsItemParam	anyOf, 5 members
-BetaToolSearchOutputItemParam	PASS	org::openapitools::client::model::BetaToolSearchOutputItemParam	anyOf, 7 members
-BetaFunctionCallItemStatus	FAIL	org::openapitools::client::model::BetaFunctionCallItemStatus	EMPTY SHELL (anyOf, 0 members)
-BetaToolSearchCallItemParam	PASS	org::openapitools::client::model::BetaToolSearchCallItemParam	anyOf, 7 members
-BetaMultiAgentCallOutputItemParam	PASS	org::openapitools::client::model::BetaMultiAgentCallOutputItemParam	anyOf, 6 members
-BetaOutputTextContentParam	PASS	org::openapitools::client::model::BetaOutputTextContentParam	oneOf, 3 members
-BetaMultiAgentAction1	FAIL	org::openapitools::client::model::BetaMultiAgentAction1	EMPTY SHELL (anyOf, 0 members)
-BetaMultiAgentCallItemParam	PASS	org::openapitools::client::model::BetaMultiAgentCallItemParam	anyOf, 6 members
-BetaAgentMessageItemParam	PASS	org::openapitools::client::model::BetaAgentMessageItemParam	anyOf, 6 members
-BetaInputImageContentParamAutoParam	PASS	org::openapitools::client::model::BetaInputImageContentParamAutoParam	anyOf, 5 members
-BetaDetailEnum	FAIL	org::openapitools::client::model::BetaDetailEnum	EMPTY SHELL (anyOf, 0 members)
-BetaInputTextContentParam	PASS	org::openapitools::client::model::BetaInputTextContentParam	anyOf, 3 members
-BetaFunctionCallOutputItemParam	PASS	org::openapitools::client::model::BetaFunctionCallOutputItemParam	anyOf, 7 members
-BetaInputFileContentParam	PASS	org::openapitools::client::model::BetaInputFileContentParam	anyOf, 7 members
-BetaFileDetailEnum	FAIL	org::openapitools::client::model::BetaFileDetailEnum	EMPTY SHELL (anyOf, 0 members)
-BetaFunctionToolCall	PASS	org::openapitools::client::model::BetaFunctionToolCall	anyOf, 9 members
-BetaWebSearchToolCall	PASS	org::openapitools::client::model::BetaWebSearchToolCall	anyOf, 5 members
-BetaWebSearchActionOpenPage	PASS	org::openapitools::client::model::BetaWebSearchActionOpenPage	anyOf, 2 members
-BetaComputerCallOutputItemParam	PASS	org::openapitools::client::model::BetaComputerCallOutputItemParam	anyOf, 7 members
-BetaComputerCallSafetyCheckParam	PASS	org::openapitools::client::model::BetaComputerCallSafetyCheckParam	anyOf, 3 members
-BetaComputerToolCall	PASS	org::openapitools::client::model::BetaComputerToolCall	anyOf, 8 members
-BetaComputerActionList	NOT_FOUND	NOT_FOUND	Header not found in generated output
 BetaComputerAction	PASS	org::openapitools::client::model::BetaComputerAction	oneOf, 9 members
-BetaScrollParam	PASS	org::openapitools::client::model::BetaScrollParam	anyOf, 6 members
-BetaMoveParam	PASS	org::openapitools::client::model::BetaMoveParam	anyOf, 4 members
-BetaDragParam	PASS	org::openapitools::client::model::BetaDragParam	anyOf, 3 members
-BetaDoubleClickAction	PASS	org::openapitools::client::model::BetaDoubleClickAction	anyOf, 4 members
-BetaClickParam	PASS	org::openapitools::client::model::BetaClickParam	anyOf, 5 members
-BetaClickButtonType	FAIL	org::openapitools::client::model::BetaClickButtonType	EMPTY SHELL (anyOf, 0 members)
-BetaFileSearchToolCall	PASS	org::openapitools::client::model::BetaFileSearchToolCall	anyOf, 6 members
-BetaVectorStoreFileAttributes	NOT_FOUND	NOT_FOUND	Header not found in generated output
-BetaOutputMessage	PASS	org::openapitools::client::model::BetaOutputMessage	anyOf, 7 members
-BetaMessagePhase	FAIL	org::openapitools::client::model::BetaMessagePhase	EMPTY SHELL (oneOf, 0 members)
+BetaVectorStoreFileAttributes	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 BetaOutputMessageContent	PASS	org::openapitools::client::model::BetaOutputMessageContent	oneOf, 5 members
-BetaTopLogProb	PASS	org::openapitools::client::model::BetaTopLogProb	oneOf, 3 members
 BetaAnnotation	PASS	org::openapitools::client::model::BetaAnnotation	oneOf, 9 members
-BetaInputMessage	PASS	org::openapitools::client::model::BetaInputMessage	anyOf, 5 members
-BetaInputMessageContentList	NOT_FOUND	NOT_FOUND	Header not found in generated output
 BetaInputContent	PASS	org::openapitools::client::model::BetaInputContent	oneOf, 9 members
-BetaCompactResponseMethodPublicBody	PASS	org::openapitools::client::model::BetaCompactResponseMethodPublicBody	anyOf, 8 members
-BetaPromptCacheModeEnum	FAIL	org::openapitools::client::model::BetaPromptCacheModeEnum	EMPTY SHELL (anyOf, 0 members)
-BetaPromptCacheTTLEnum	FAIL	org::openapitools::client::model::BetaPromptCacheTTLEnum	EMPTY SHELL (anyOf, 0 members)
-BetaPromptCacheRetentionEnum	FAIL	org::openapitools::client::model::BetaPromptCacheRetentionEnum	EMPTY SHELL (anyOf, 0 members)
 BetaModelIdsCompaction	FAIL	org::openapitools::client::model::BetaModelIdsCompaction	EMPTY SHELL (anyOf, 0 members)
 BetaModelIdsResponses	FAIL	org::openapitools::client::model::BetaModelIdsResponses	EMPTY SHELL (anyOf, 0 members)
 BetaModelIdsShared	FAIL	org::openapitools::client::model::BetaModelIdsShared	EMPTY SHELL (anyOf, 0 members)
-BetaError	PASS	org::openapitools::client::model::BetaError	anyOf, 4 members
 BetaItemResource	PASS	org::openapitools::client::model::BetaItemResource	oneOf, 40 members
 BetaCustomToolCallOutputResource	PASS	org::openapitools::client::model::BetaCustomToolCallOutputResource	allOf, 8 members
-BetaFunctionCallOutputStatusEnum	FAIL	org::openapitools::client::model::BetaFunctionCallOutputStatusEnum	EMPTY SHELL (allOf, 0 members)
 BetaCustomToolCallResource	PASS	org::openapitools::client::model::BetaCustomToolCallResource	allOf, 10 members
-BetaFunctionCallStatus	FAIL	org::openapitools::client::model::BetaFunctionCallStatus	EMPTY SHELL (anyOf, 0 members)
-BetaMCPApprovalResponseResource	PASS	org::openapitools::client::model::BetaMCPApprovalResponseResource	anyOf, 6 members
-BetaApplyPatchToolCallOutput	PASS	org::openapitools::client::model::BetaApplyPatchToolCallOutput	anyOf, 8 members
-BetaApplyPatchCallOutputStatus	FAIL	org::openapitools::client::model::BetaApplyPatchCallOutputStatus	EMPTY SHELL (anyOf, 0 members)
-BetaApplyPatchToolCall	PASS	org::openapitools::client::model::BetaApplyPatchToolCall	anyOf, 8 members
-BetaApplyPatchCallStatus	FAIL	org::openapitools::client::model::BetaApplyPatchCallStatus	EMPTY SHELL (anyOf, 0 members)
-BetaFunctionShellCallOutput	PASS	org::openapitools::client::model::BetaFunctionShellCallOutput	anyOf, 9 members
-BetaFunctionShellCallOutputContent	PASS	org::openapitools::client::model::BetaFunctionShellCallOutputContent	oneOf, 4 members
-BetaFunctionShellCallOutputStatusEnum	FAIL	org::openapitools::client::model::BetaFunctionShellCallOutputStatusEnum	EMPTY SHELL (anyOf, 0 members)
-BetaFunctionShellCall	PASS	org::openapitools::client::model::BetaFunctionShellCall	anyOf, 9 members
-BetaLocalEnvironmentResource	PASS	org::openapitools::client::model::BetaLocalEnvironmentResource	anyOf, 1 members
-BetaFunctionShellCallStatus	FAIL	org::openapitools::client::model::BetaFunctionShellCallStatus	EMPTY SHELL (anyOf, 0 members)
-BetaFunctionShellAction	PASS	org::openapitools::client::model::BetaFunctionShellAction	anyOf, 3 members
-BetaMessageRole	FAIL	org::openapitools::client::model::BetaMessageRole	EMPTY SHELL (anyOf, 0 members)
-BetaToolSearchOutput	PASS	org::openapitools::client::model::BetaToolSearchOutput	anyOf, 8 members
-BetaToolSearchCall	PASS	org::openapitools::client::model::BetaToolSearchCall	anyOf, 8 members
-BetaAgentMessage	PASS	org::openapitools::client::model::BetaAgentMessage	oneOf, 6 members
-BetaComputerScreenshotContent	PASS	org::openapitools::client::model::BetaComputerScreenshotContent	anyOf, 5 members
-BetaTextContent	PASS	org::openapitools::client::model::BetaTextContent	allOf, 2 members
 BetaFunctionToolCallOutputResource	PASS	org::openapitools::client::model::BetaFunctionToolCallOutputResource	allOf, 8 members
-BetaFunctionToolCallOutput	PASS	org::openapitools::client::model::BetaFunctionToolCallOutput	anyOf, 7 members
 BetaFunctionToolCallResource	PASS	org::openapitools::client::model::BetaFunctionToolCallResource	allOf, 10 members
 BetaComputerToolCallOutputResource	PASS	org::openapitools::client::model::BetaComputerToolCallOutputResource	allOf, 8 members
-BetaComputerCallOutputStatus	FAIL	org::openapitools::client::model::BetaComputerCallOutputStatus	EMPTY SHELL (anyOf, 0 members)
-BetaComputerToolCallOutput	PASS	org::openapitools::client::model::BetaComputerToolCallOutput	anyOf, 7 members
 BetaInputMessageResource	PASS	org::openapitools::client::model::BetaInputMessageResource	allOf, 6 members
 BetaItemField	PASS	org::openapitools::client::model::BetaItemField	oneOf, 40 members
-BetaMessage	PASS	org::openapitools::client::model::BetaMessage	oneOf, 7 members
-BetaMessageStatus	FAIL	org::openapitools::client::model::BetaMessageStatus	EMPTY SHELL (anyOf, 0 members)
-BetaResponseCustomToolCallInputDoneEvent	PASS	org::openapitools::client::model::BetaResponseCustomToolCallInputDoneEvent	anyOf, 6 members
-BetaResponseCustomToolCallInputDeltaEvent	PASS	org::openapitools::client::model::BetaResponseCustomToolCallInputDeltaEvent	anyOf, 6 members
-BetaResponseQueuedEvent	PASS	org::openapitools::client::model::BetaResponseQueuedEvent	anyOf, 4 members
 BetaResponse	PASS	org::openapitools::client::model::BetaResponse	allOf, 35 members
-BetaModeration	PASS	org::openapitools::client::model::BetaModeration	oneOf, 2 members
-BetaModerationInputType	FAIL	org::openapitools::client::model::BetaModerationInputType	EMPTY SHELL (oneOf, 0 members)
-BetaPromptCacheOptions	PASS	org::openapitools::client::model::BetaPromptCacheOptions	oneOf, 2 members
 BetaOutputItem	PASS	org::openapitools::client::model::BetaOutputItem	oneOf, 40 members
 BetaResponseError	PASS	org::openapitools::client::model::BetaResponseError	anyOf, 2 members
-BetaResponseErrorCode	FAIL	org::openapitools::client::model::BetaResponseErrorCode	EMPTY SHELL (anyOf, 0 members)
-BetaResponseProperties	PASS	org::openapitools::client::model::BetaResponseProperties	anyOf, 8 members
 BetaPrompt	PASS	org::openapitools::client::model::BetaPrompt	anyOf, 3 members
-BetaResponsePromptVariables	NOT_FOUND	NOT_FOUND	Header not found in generated output
-BetaModelResponseProperties	PASS	org::openapitools::client::model::BetaModelResponseProperties	anyOf, 9 members
+BetaResponsePromptVariables	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 BetaServiceTier	FAIL	org::openapitools::client::model::BetaServiceTier	EMPTY SHELL (anyOf, 0 members)
-BetaMetadata	NOT_FOUND	NOT_FOUND	Header not found in generated output
-BetaResponseOutputTextAnnotationAddedEvent	PASS	org::openapitools::client::model::BetaResponseOutputTextAnnotationAddedEvent	anyOf, 8 members
-BetaResponseMCPListToolsInProgressEvent	PASS	org::openapitools::client::model::BetaResponseMCPListToolsInProgressEvent	anyOf, 5 members
-BetaResponseMCPListToolsFailedEvent	PASS	org::openapitools::client::model::BetaResponseMCPListToolsFailedEvent	anyOf, 5 members
-BetaResponseMCPListToolsCompletedEvent	PASS	org::openapitools::client::model::BetaResponseMCPListToolsCompletedEvent	anyOf, 5 members
-BetaResponseMCPCallInProgressEvent	PASS	org::openapitools::client::model::BetaResponseMCPCallInProgressEvent	anyOf, 5 members
-BetaResponseMCPCallFailedEvent	PASS	org::openapitools::client::model::BetaResponseMCPCallFailedEvent	anyOf, 5 members
-BetaResponseMCPCallCompletedEvent	PASS	org::openapitools::client::model::BetaResponseMCPCallCompletedEvent	anyOf, 5 members
-BetaResponseMCPCallArgumentsDoneEvent	PASS	org::openapitools::client::model::BetaResponseMCPCallArgumentsDoneEvent	anyOf, 6 members
-BetaResponseMCPCallArgumentsDeltaEvent	PASS	org::openapitools::client::model::BetaResponseMCPCallArgumentsDeltaEvent	anyOf, 6 members
-BetaResponseImageGenCallPartialImageEvent	PASS	org::openapitools::client::model::BetaResponseImageGenCallPartialImageEvent	anyOf, 7 members
-BetaResponseImageGenCallInProgressEvent	PASS	org::openapitools::client::model::BetaResponseImageGenCallInProgressEvent	anyOf, 5 members
-BetaResponseImageGenCallGeneratingEvent	PASS	org::openapitools::client::model::BetaResponseImageGenCallGeneratingEvent	anyOf, 5 members
-BetaResponseImageGenCallCompletedEvent	PASS	org::openapitools::client::model::BetaResponseImageGenCallCompletedEvent	anyOf, 5 members
-BetaResponseReasoningTextDoneEvent	PASS	org::openapitools::client::model::BetaResponseReasoningTextDoneEvent	anyOf, 7 members
-BetaResponseReasoningTextDeltaEvent	PASS	org::openapitools::client::model::BetaResponseReasoningTextDeltaEvent	anyOf, 7 members
-BetaResponseReasoningSummaryTextDoneEvent	PASS	org::openapitools::client::model::BetaResponseReasoningSummaryTextDoneEvent	anyOf, 7 members
-BetaResponseReasoningSummaryTextDeltaEvent	PASS	org::openapitools::client::model::BetaResponseReasoningSummaryTextDeltaEvent	anyOf, 7 members
-BetaResponseReasoningSummaryPartDoneEvent	PASS	org::openapitools::client::model::BetaResponseReasoningSummaryPartDoneEvent	anyOf, 8 members
-BetaResponseReasoningSummaryPartAddedEvent	PASS	org::openapitools::client::model::BetaResponseReasoningSummaryPartAddedEvent	anyOf, 7 members
-BetaResponseTextDoneEvent	PASS	org::openapitools::client::model::BetaResponseTextDoneEvent	anyOf, 8 members
-BetaResponseTextDeltaEvent	PASS	org::openapitools::client::model::BetaResponseTextDeltaEvent	anyOf, 8 members
-BetaResponseRefusalDoneEvent	PASS	org::openapitools::client::model::BetaResponseRefusalDoneEvent	anyOf, 7 members
-BetaResponseRefusalDeltaEvent	PASS	org::openapitools::client::model::BetaResponseRefusalDeltaEvent	anyOf, 7 members
-BetaResponseOutputItemDoneEvent	PASS	org::openapitools::client::model::BetaResponseOutputItemDoneEvent	anyOf, 5 members
-BetaResponseOutputItemAddedEvent	PASS	org::openapitools::client::model::BetaResponseOutputItemAddedEvent	anyOf, 5 members
-BetaResponseInProgressEvent	PASS	org::openapitools::client::model::BetaResponseInProgressEvent	anyOf, 4 members
-BetaResponseFunctionCallArgumentsDoneEvent	PASS	org::openapitools::client::model::BetaResponseFunctionCallArgumentsDoneEvent	anyOf, 7 members
-BetaResponseFunctionCallArgumentsDeltaEvent	PASS	org::openapitools::client::model::BetaResponseFunctionCallArgumentsDeltaEvent	anyOf, 6 members
-BetaResponseFileSearchCallSearchingEvent	PASS	org::openapitools::client::model::BetaResponseFileSearchCallSearchingEvent	anyOf, 5 members
-BetaResponseFileSearchCallInProgressEvent	PASS	org::openapitools::client::model::BetaResponseFileSearchCallInProgressEvent	anyOf, 5 members
-BetaResponseFileSearchCallCompletedEvent	PASS	org::openapitools::client::model::BetaResponseFileSearchCallCompletedEvent	anyOf, 5 members
-BetaResponseErrorEvent	PASS	org::openapitools::client::model::BetaResponseErrorEvent	anyOf, 6 members
-BetaResponseCreatedEvent	PASS	org::openapitools::client::model::BetaResponseCreatedEvent	anyOf, 4 members
-BetaResponseContentPartDoneEvent	PASS	org::openapitools::client::model::BetaResponseContentPartDoneEvent	anyOf, 7 members
+BetaMetadata	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 BetaOutputContent	PASS	org::openapitools::client::model::BetaOutputContent	oneOf, 5 members
-BetaResponseContentPartAddedEvent	PASS	org::openapitools::client::model::BetaResponseContentPartAddedEvent	anyOf, 7 members
-BetaResponseCompletedEvent	PASS	org::openapitools::client::model::BetaResponseCompletedEvent	anyOf, 4 members
-BetaResponseCodeInterpreterCallInterpretingEvent	PASS	org::openapitools::client::model::BetaResponseCodeInterpreterCallInterpretingEvent	anyOf, 5 members
-BetaResponseCodeInterpreterCallInProgressEvent	PASS	org::openapitools::client::model::BetaResponseCodeInterpreterCallInProgressEvent	anyOf, 5 members
-BetaResponseCodeInterpreterCallCompletedEvent	PASS	org::openapitools::client::model::BetaResponseCodeInterpreterCallCompletedEvent	anyOf, 5 members
-BetaResponseCodeInterpreterCallCodeDoneEvent	PASS	org::openapitools::client::model::BetaResponseCodeInterpreterCallCodeDoneEvent	anyOf, 6 members
-BetaResponseCodeInterpreterCallCodeDeltaEvent	PASS	org::openapitools::client::model::BetaResponseCodeInterpreterCallCodeDeltaEvent	anyOf, 6 members
-BetaResponseAudioTranscriptDoneEvent	PASS	org::openapitools::client::model::BetaResponseAudioTranscriptDoneEvent	anyOf, 3 members
-BetaResponseAudioTranscriptDeltaEvent	PASS	org::openapitools::client::model::BetaResponseAudioTranscriptDeltaEvent	anyOf, 4 members
-BetaResponseAudioDoneEvent	PASS	org::openapitools::client::model::BetaResponseAudioDoneEvent	anyOf, 3 members
-BetaResponseAudioDeltaEvent	PASS	org::openapitools::client::model::BetaResponseAudioDeltaEvent	anyOf, 4 members
-BetaResponseIncompleteEvent	PASS	org::openapitools::client::model::BetaResponseIncompleteEvent	anyOf, 4 members
-BetaResponseFailedEvent	PASS	org::openapitools::client::model::BetaResponseFailedEvent	anyOf, 4 members
-BetaResponseWebSearchCallCompletedEvent	PASS	org::openapitools::client::model::BetaResponseWebSearchCallCompletedEvent	anyOf, 5 members
-BetaResponseWebSearchCallSearchingEvent	PASS	org::openapitools::client::model::BetaResponseWebSearchCallSearchingEvent	anyOf, 5 members
-BetaResponseWebSearchCallInProgressEvent	PASS	org::openapitools::client::model::BetaResponseWebSearchCallInProgressEvent	anyOf, 5 members
 BetaInputParam	FAIL	org::openapitools::client::model::BetaInputParam	EMPTY SHELL (oneOf, 0 members)
 BetaContent	PASS	org::openapitools::client::model::BetaContent	oneOf, 12 members
 BetaResponsesServerEvent	PASS	org::openapitools::client::model::BetaResponsesServerEvent	anyOf, 28 members
@@ -674,10 +151,5 @@ BetaResponseStreamEvent	PASS	org::openapitools::client::model::BetaResponseStrea
 BetaResponsesClientEvent	PASS	org::openapitools::client::model::BetaResponsesClientEvent	anyOf, 34 members
 BetaResponsesClientEventResponseCreate	PASS	org::openapitools::client::model::BetaResponsesClientEventResponseCreate	allOf, 33 members
 BetaCreateResponse	PASS	org::openapitools::client::model::BetaCreateResponse	allOf, 32 members
-BetaContextManagementParam	PASS	org::openapitools::client::model::BetaContextManagementParam	anyOf, 2 members
 BetaResponseStreamOptions	PASS	org::openapitools::client::model::BetaResponseStreamOptions	anyOf, 1 members
-BetaModerationParam	PASS	org::openapitools::client::model::BetaModerationParam	anyOf, 2 members
-BetaModerationPolicyParam	PASS	org::openapitools::client::model::BetaModerationPolicyParam	anyOf, 2 members
-BetaModerationConfigParam	PASS	org::openapitools::client::model::BetaModerationConfigParam	allOf, 1 members
-BetaModerationMode	FAIL	org::openapitools::client::model::BetaModerationMode	EMPTY SHELL (allOf, 0 members)
 BetaCreateModelResponseProperties	PASS	org::openapitools::client::model::BetaCreateModelResponseProperties	allOf, 10 members

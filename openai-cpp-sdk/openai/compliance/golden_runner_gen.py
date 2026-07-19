@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """
-Generate and (optionally) compile golden case test runner.
+Generate, compile, and run golden case test runner.
 
-Called by harness.sh. Exits 0 if all golden cases can be compiled into a
-working test harness (even if individual cases fail at runtime).
+Called by harness.sh. Exits:
+  0 — all cases PASS
+  1 — one or more cases FAIL at runtime
+  2 — no compiled library found (cannot run)
+  3 — test runner compilation failed
 """
 
 import json, os, subprocess, sys, tempfile
@@ -32,17 +35,9 @@ for ext in [".dylib", ".so", ".dll"]:
         break
 
 if lib_path is None:
-    print("WARN: No compiled library found, validating JSON only")
-    all_valid = True
-    for case in cases:
-        try:
-            json.loads(case["json"])
-        except json.JSONDecodeError as e:
-            print(f"  FAIL  {case['name']} — Invalid JSON: {e}")
-            all_valid = False
-    if all_valid:
-        print("\nAll golden cases contain valid JSON.")
-    sys.exit(0 if all_valid else 1)
+    print(f"ERROR: No compiled library found in {build_dir}")
+    print(f"  Run the harness compile step first, or run the full pipeline.")
+    sys.exit(2)
 
 # Build a test runner
 test_runner_dir = tempfile.mkdtemp(prefix="openai-golden-")
@@ -183,34 +178,22 @@ print(f"\nCompiling golden test runner...")
 result = subprocess.run(compile_cmd, shell=True, capture_output=True, text=True)
 
 if result.returncode != 0:
-    print(f"WARN: Could not compile golden test runner:")
+    print(f"ERROR: Could not compile golden test runner (code {result.returncode}):")
     stderr_lines = result.stderr.split("\n")
     for line in stderr_lines[:30]:
         if line.strip():
             print(f"  | {line}")
-    # Fall back to JSON validation
-    print(f"\n  Falling back to JSON-only validation.")
-    all_valid = True
-    for case in cases:
-        try:
-            json.loads(case["json"])
-            print(f"  PASS  {case['name']} — valid JSON")
-        except json.JSONDecodeError as e:
-            print(f"  FAIL  {case['name']} — {e}")
-            all_valid = False
-    sys.exit(0 if all_valid else 1)
+    sys.exit(3)
 
 # Run the test runner
 print(f"Running golden cases...")
 run_result = subprocess.run([test_runner_bin], capture_output=True, text=True)
 print(run_result.stdout)
 
-if run_result.returncode != 0:
-    print(f"\nNote: Some golden cases FAILED at runtime (expected in Phase 0).")
-    print(f"This documents the current state for empty-shell schema types.")
-
 # Cleanup
 import shutil
 
 shutil.rmtree(test_runner_dir, ignore_errors=True)
-sys.exit(0)
+
+# Exit with the runner's return code (non-zero = cases failed)
+sys.exit(run_result.returncode)

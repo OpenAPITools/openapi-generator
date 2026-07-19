@@ -48,10 +48,10 @@
     "json": "\"low\""
   },
   {
-    "name": "response-stream-options-bool",
+    "name": "response-stream-options-object",
     "schema": "ResponseStreamOptions",
-    "description": "ResponseStreamOptions anyOf; round-trip a boolean value",
-    "json": "true"
+    "description": "ResponseStreamOptions anyOf: object form with include_obfuscation property",
+    "json": "{\"include_obfuscation\":true}"
   },
   {
     "name": "store-boolean",

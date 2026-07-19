@@ -5,8 +5,12 @@
 # Format:
 #   schema_name: cpp_type
 #
-# Use std::variant<...> for true oneOf, std::optional<T> for nullable properties,
-# and primitive aliases (std::string, double, bool) for anyOf aliases.
+# Use std::variant<...> for oneOf over heterogeneous types,
+# std::string / double / bool for anyOf primitive aliases,
+# and fully qualified class names for object schemas.
+#
+# Only top-level component/schema entries with root composition
+# (oneOf/anyOf/allOf at the schema root) are listed here.
 
 # --- Model IDs (anyOf over string + enum) ---
 ModelIdsShared: std::string
@@ -16,11 +20,6 @@ ModelIdsCompaction: std::string
 
 # --- Input (oneOf string | array<InputItem>) ---
 InputParam: std::variant<std::string, std::vector<InputItem>>
-
-# --- Common optional request parameters ---
-temperature: std::optional<double>
-top_p: std::optional<double>
-store: std::optional<bool>
 
 # --- Response model composition ---
 CreateResponse: org::openapitools::client::model::CreateResponse
