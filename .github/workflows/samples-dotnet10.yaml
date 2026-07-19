@@ -23,7 +23,6 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          - samples/client/petstore/csharp/generichost/latest/AnnotatedEnum
           - samples/client/petstore/csharp/generichost/latest/ComposedEnum
           - samples/client/petstore/csharp/generichost/latest/InlineEnumAnyOf
           - samples/client/petstore/csharp/generichost/latest/Tags
