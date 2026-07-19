@@ -27,9 +27,9 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1642,8 +1642,7 @@ public class OpenAPINormalizer {
      * @return Simplified schema
      */
     protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
-        Map<Object, String> enumValues = new LinkedHashMap<>();
-        Map<Object, Boolean> deprecatedValues = new LinkedHashMap<>();
+        Map<Object, EnumUtils.EnumExtensions> enumExtensions = new LinkedHashMap<>();
 
         if(schema.getTypes() != null && schema.getTypes().size() > 1) {
             // we cannot handle enums with multiple types
@@ -1697,32 +1696,27 @@ public class OpenAPINormalizer {
                     }
                     description += subSchema.getDescription();
                 }
-                enumValues.put(subSchemaEnumValues.get(0), description);
-                deprecatedValues.put(subSchemaEnumValues.get(0), subSchemaDeprecated);
+                enumExtensions.put(subSchemaEnumValues.get(0), new EnumUtils.EnumExtensions(description, subSchemaDeprecated));
             } else {
                 for(Object e: subSchemaEnumValues) {
-                    enumValues.put(e, "");
-                    deprecatedValues.put(e, subSchemaDeprecated);
+                    enumExtensions.put(e, new EnumUtils.EnumExtensions("", subSchemaDeprecated));
                 }
             }
-
         }
 
-        return createSimplifiedEnumSchema(schema, enumValues, deprecatedValues, schemaType, composedType);
+        return createSimplifiedEnumSchema(schema, enumExtensions, schemaType, composedType);
     }
-
 
     /**
      * Creates a simplified enum schema from collected enum values.
      *
      * @param originalSchema Original schema to modify
-     * @param enumValues Collected enum values
-     * @param deprecatedValues Per-value deprecated flags (aligned with enumValues key order)
+     * @param enumExtensions Collected enum values
      * @param schemaType Consistent type across sub-schemas
      * @param composedType Type of composed schema being simplified
      * @return Simplified enum schema
      */
-    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, Map<Object, Boolean> deprecatedValues, String schemaType, String composedType) {
+    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, EnumUtils.EnumExtensions> enumExtensions, String schemaType, String composedType) {
         // Clear the composed schema type
         if ("oneOf".equals(composedType)) {
             originalSchema.setOneOf(null);
@@ -1730,20 +1724,7 @@ public class OpenAPINormalizer {
             originalSchema.setAnyOf(null);
         }
 
-        if (ModelUtils.getType(originalSchema) == null && schemaType != null) {
-            //if type was specified in subschemas, keep it in the main schema
-            ModelUtils.setType(originalSchema, schemaType);
-        }
-
-        originalSchema.setEnum(new ArrayList<>(enumValues.keySet()));
-        if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
-            //set x-enum-descriptions only if there's at least one non-empty description
-            originalSchema.addExtension(X_ENUM_DESCRIPTIONS, new ArrayList<>(enumValues.values()));
-        }
-        if (deprecatedValues != null && deprecatedValues.values().stream().anyMatch(Boolean.TRUE::equals)) {
-            // preserve per-value deprecated flags from OAS 3.1 oneOf/anyOf + const sub-schemas
-            originalSchema.addExtension("x-enum-deprecated", new ArrayList<>(deprecatedValues.values()));
-        }
+        EnumUtils.createSimplifiedEnumSchema(originalSchema, enumExtensions, schemaType);
 
         LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);
 
@@ -1835,7 +1816,7 @@ public class OpenAPINormalizer {
                     return schema;
                 }
                 Map<String, String> mappings = new TreeMap<>();
-                // is the discriminator qttribute qlready in this schema?
+                // is the discriminator attribute already in this schema?
                 // if yes, it will be deleted in references oneOf to avoid duplicates
                 boolean hasProperty = findProperty(schema, discriminator.getPropertyName(), false, new HashSet<>()) != null;
                 discriminator.setMapping(mappings);
