@@ -38,10 +38,10 @@ class {{{classname}}} {
   {{/required}}
   {{^required}}
     {{#vendorExtensions.x-is-optional}}
-  {{{datatypeWithEnum}}} {{{name}}};
+  {{#useFinalProperties}}final {{/useFinalProperties}}{{{datatypeWithEnum}}} {{{name}}};
     {{/vendorExtensions.x-is-optional}}
     {{^vendorExtensions.x-is-optional}}
-  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}?{{/defaultValue}}{{/isNullable}} {{{name}}};
+  {{#useFinalProperties}}final {{/useFinalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}?{{/defaultValue}}{{/isNullable}} {{{name}}};
     {{/vendorExtensions.x-is-optional}}
   {{/required}}
 
@@ -155,11 +155,12 @@ class {{{classname}}} {
   /// properties have changed.
   {{{classname}}} copyWith({
   {{#vars}}
-    final {{{datatypeWithEnum}}}? {{{name}}},
+    {{{datatypeWithEnum}}}? {{{name}}},{{#isNullable}}
+    bool {{{name}}}SetToNull = false,{{/isNullable}}
   {{/vars}}
   }) => {{{classname}}}(
   {{#vars}}
-    {{{name}}}: {{{name}}} ?? this.{{{name}}},
+    {{{name}}}: {{#isNullable}}{{{name}}}SetToNull ? null : {{/isNullable}}{{{name}}} ?? this.{{{name}}},
   {{/vars}}
   );
 
