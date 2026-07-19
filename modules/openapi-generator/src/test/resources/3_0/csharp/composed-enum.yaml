@@ -15,3 +15,17 @@ components:
         - AM
         - AN
       type: string
+    TypeIntegerWithOneOf:
+      type: integer
+      oneOf:
+        - title: ITEM A
+          description: This permission is for item A.
+          const: 1
+          deprecated: true
+        - title: ITEM B
+          description: This permission is for item B.
+          const: 2
+        - title: ITEM C
+          description: This permission is for item C.
+          const: 4
+      format: int32

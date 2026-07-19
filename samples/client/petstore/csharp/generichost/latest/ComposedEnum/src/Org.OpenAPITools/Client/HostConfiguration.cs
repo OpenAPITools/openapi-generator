@@ -49,6 +49,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new MarineAreaCodeNullableJsonConverter());
             _jsonOptions.Converters.Add(new StateTerritoryCodeJsonConverter());
             _jsonOptions.Converters.Add(new StateTerritoryCodeNullableJsonConverter());
+            _jsonOptions.Converters.Add(new TypeIntegerWithOneOfJsonConverter());
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
