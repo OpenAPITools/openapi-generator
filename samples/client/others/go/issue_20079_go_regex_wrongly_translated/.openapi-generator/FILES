@@ -14,5 +14,4 @@ go.sum
 model__foo_get_200_response.go
 model_import_code.go
 response.go
-test/api_default_test.go
 utils.go
