@@ -60,7 +60,7 @@ namespace YourProject
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-          .ConfigureApi((context, services, options) =>
+          .ConfigureApi((context, options) =>
           {
               // The type of token here depends on the api security specifications
               // Available token types are ApiKeyToken, BasicToken, BearerToken, HttpSigningToken, and OAuthToken.
