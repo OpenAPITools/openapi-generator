@@ -19,43 +19,43 @@ var _ MappedNullable = &ImportCode{}
 
 // ImportCode struct for ImportCode
 type ImportCode struct {
-	Code *string `json:"code,omitempty" validate:"regexp=^[0-9]{2\\,}$"`
+	Code *string `json:"code,omitempty" validate:"regexp=^[0-9]{2,}$"`
 	// Visa credit card  matches: 4123 6453 2222 1746  non-matches: 3124 5675 4400 4567, 4123-6453-2222-1746
-	CreditCard *string `json:"creditCard,omitempty" validate:"regexp=^4[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}\\s[0-9]{4}$"`
+	CreditCard *string `json:"creditCard,omitempty" validate:"regexp=^4[0-9]{3}\\\\s[0-9]{4}\\\\s[0-9]{4}\\\\s[0-9]{4}$"`
 	// Some dates  matches: 31/04/1999, 15/12/4567  non-matches: 31/4/1999, 31/4/99, 1999/04/19, 42/67/25456
-	Date *string `json:"date,omitempty" validate:"regexp=^([0-2][0-9]|30|31)/(0[1-9]|1[0-2])/[0-9]{4}$"`
+	Date *string `json:"date,omitempty" validate:"regexp=^([0-2][0-9]|30|31)\\/(0[1-9]|1[0-2])\\/[0-9]{4}$"`
 	// Windows absolute path  matches: \\\\server\\share\\file  non-matches: \\directory\\directory2, /directory2
 	WindowsAbsolutePath *string `json:"windowsAbsolutePath,omitempty"`
 	// Email Address 1  matches: abc.123@def456.com, _123@abc.ca  non-matches: abc@dummy, ab*cd@efg.hijkl
-	Email1 *string `json:"email1,omitempty" validate:"regexp=^[[:word:]\\-.]+@[[:word:]\\-.]+\\.[[:alpha:]]{2\\,3}$"`
+	Email1 *string `json:"email1,omitempty" validate:"regexp=^[[:word:]\\\\-.]+@[[:word:]\\\\-.]+\\\\.[[:alpha:]]{2,3}$"`
 	// Email Address 2  matches: *@qrstuv@wxyz.12345.com, __1234^%@@abc.def.ghijkl  non-matches: abc.123.*&ca, ^%abcdefg123
-	Email2 *string `json:"email2,omitempty" validate:"regexp=^.+@.+\\..+$"`
+	Email2 *string `json:"email2,omitempty" validate:"regexp=^.+@.+\\\\..+$"`
 	// HTML Hexadecimal Color Code 1  matches: AB1234, CCCCCC, 12AF3B  non-matches: 123G45, 12-44-CC
 	HtmlHexadecimalColorCode1 *string `json:"htmlHexadecimalColorCode1,omitempty" validate:"regexp=^[A-F0-9]{6}$"`
 	// HTML Hexadecimal Color Code 2  matches: AB 11 00, CC 12 D3  non-matches: SS AB CD, AA BB CC DD, 1223AB
-	HtmlHexadecimalColorCode2 *string `json:"htmlHexadecimalColorCode2,omitempty" validate:"regexp=^[A-F0-9]{2}\\s[A-F0-9]{2}\\s[A-F0-9]{2}$"`
+	HtmlHexadecimalColorCode2 *string `json:"htmlHexadecimalColorCode2,omitempty" validate:"regexp=^[A-F0-9]{2}\\\\s[A-F0-9]{2}\\\\s[A-F0-9]{2}$"`
 	// IP Address  matches: 10.25.101.216  non-matches: 0.0.0, 256.89.457.02
-	IpAddress *string `json:"ipAddress,omitempty" validate:"regexp=^((2(5[0-5]|[0-4][0-9])|1([0-9][0-9])|([1-9][0-9])|[0-9])\\.){3}(2(5[0-5]|[0-4][0-9])|1([0-9][0-9])|([1-9][0-9])|[0-9])$"`
+	IpAddress *string `json:"ipAddress,omitempty" validate:"regexp=^((2(5[0-5]|[0-4][0-9])|1([0-9][0-9])|([1-9][0-9])|[0-9])\\\\.){3}(2(5[0-5]|[0-4][0-9])|1([0-9][0-9])|([1-9][0-9])|[0-9])$"`
 	// Java Comments  matches: Matches Java comments that are between /_* and *_/, or one line comments prefaced by //  non-matches: a=1
 	JavaComments *string `json:"javaComments,omitempty"`
 	//   matches: $1.00, -$97.65 non-matches: $1, 1.00$, $-75.17
-	Money *string `json:"money,omitempty" validate:"regexp=^(\\+|-)?\\$[0-9]*\\.[0-9]{2}$"`
+	Money *string `json:"money,omitempty" validate:"regexp=^(\\\\+|-)?\\\\$[0-9]*\\\\.[0-9]{2}$"`
 	// Positive, negative numbers, and decimal values  matches: +41, -412, 2, 7968412, 41, +41.1, -3.141592653 non-matches: ++41, 41.1.19, -+97.14
-	PositiveNegativeDecimalValue *string `json:"positiveNegativeDecimalValue,omitempty" validate:"regexp=^(\\+|-)?[0-9]+(\\.[0-9]+)?$"`
+	PositiveNegativeDecimalValue *string `json:"positiveNegativeDecimalValue,omitempty" validate:"regexp=^(\\\\+|-)?[0-9]+(\\\\.[0-9]+)?$"`
 	// Passwords 1  matches: abcd, 1234, A1b2C3d4, 1a2B3  non-matches: abc, *ab12, abcdefghijkl
-	Password1 *string `json:"password1,omitempty" validate:"regexp=^[[:alnum:]]{4\\,10}$"`
+	Password1 *string `json:"password1,omitempty" validate:"regexp=^[[:alnum:]]{4,10}$"`
 	// Passwords 2  matches: AB_cd, A1_b2c3, a123_  non-matches: *&^g, abc, 1bcd
-	Password2 *string `json:"password2,omitempty" validate:"regexp=^[a-zA-Z]\\w{3\\,7}$"`
+	Password2 *string `json:"password2,omitempty" validate:"regexp=^[a-zA-Z]\\\\w{3,7}$"`
 	// Phone Numbers  matches: 519-883-6898, 519 888 6898  non-matches: 888 6898, 5198886898, 519 883-6898
-	PhoneNumber *string `json:"phoneNumber,omitempty" validate:"regexp=^([2-9][0-9]{2}-[2-9][0-9]{2}-[0-9]{4})|([2-9][0-9]{2}\\s[2-9][0-9]{2}\\s[0-9]{4})$"`
+	PhoneNumber *string `json:"phoneNumber,omitempty" validate:"regexp=^([2-9][0-9]{2}-[2-9][0-9]{2}-[0-9]{4})|([2-9][0-9]{2}\\\\s[2-9][0-9]{2}\\\\s[0-9]{4})$"`
 	// Sentences 1  matches: Hello, how are you?  non-matches: i am fine
-	Sentence1 *string `json:"sentence1,omitempty" validate:"regexp=^[A-Z0-9].*(\\.|\\?|!)$"`
+	Sentence1 *string `json:"sentence1,omitempty" validate:"regexp=^[A-Z0-9].*(\\\\.|\\\\?|!)$"`
 	// Sentences 2  matches: Hello, how are you?n non-matches: i am fine
 	Sentence2 *string `json:"sentence2,omitempty" validate:"regexp=^[[:upper:]0-9].*[.?!]$"`
 	// Social Security Number  matches: 123-45-6789  non-matches: 123 45 6789, 123456789, 1234-56-7891
 	SocialSecurityNumber *string `json:"socialSecurityNumber,omitempty" validate:"regexp=^[0-9]{3}-[0-9]{2}-[0-9]{4}$"`
 	// URL  matches: http://www.sample.com, www.sample.com  non-matches: http://sample.com, http://www.sample.comm
-	Url *string `json:"url,omitempty" validate:"regexp=^(http://)?www\\.[a-zA-Z0-9]+\\.[a-zA-Z]{2\\,3}$"`
+	Url *string `json:"url,omitempty" validate:"regexp=^(http:\\/\\/)?www\\\\.[a-zA-Z0-9]+\\\\.[a-zA-Z]{2,3}$"`
 }
 
 // NewImportCode instantiates a new ImportCode object

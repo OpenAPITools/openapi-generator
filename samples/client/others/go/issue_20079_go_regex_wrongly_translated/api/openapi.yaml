@@ -18,25 +18,25 @@ components:
   schemas:
     importCode:
       example:
-        date: date
         code: code
-        javaComments: javaComments
-        socialSecurityNumber: socialSecurityNumber
-        ipAddress: ipAddress
-        url: url
-        positiveNegativeDecimalValue: positiveNegativeDecimalValue
-        htmlHexadecimalColorCode1: htmlHexadecimalColorCode1
-        email2: email2
-        email1: email1
-        htmlHexadecimalColorCode2: htmlHexadecimalColorCode2
-        phoneNumber: phoneNumber
-        money: money
+        creditCard: creditCard
+        date: date
         windowsAbsolutePath: windowsAbsolutePath
+        email1: email1
+        email2: email2
+        htmlHexadecimalColorCode1: htmlHexadecimalColorCode1
+        htmlHexadecimalColorCode2: htmlHexadecimalColorCode2
+        ipAddress: ipAddress
+        javaComments: javaComments
+        money: money
+        positiveNegativeDecimalValue: positiveNegativeDecimalValue
+        password1: password1
+        password2: password2
+        phoneNumber: phoneNumber
         sentence1: sentence1
         sentence2: sentence2
-        password2: password2
-        password1: password1
-        creditCard: creditCard
+        socialSecurityNumber: socialSecurityNumber
+        url: url
       properties:
         code:
           pattern: "^[0-9]{2,}$"
@@ -167,25 +167,25 @@ components:
     _foo_get_200_response:
       example:
         code:
-          date: date
           code: code
-          javaComments: javaComments
-          socialSecurityNumber: socialSecurityNumber
-          ipAddress: ipAddress
-          url: url
-          positiveNegativeDecimalValue: positiveNegativeDecimalValue
-          htmlHexadecimalColorCode1: htmlHexadecimalColorCode1
-          email2: email2
-          email1: email1
-          htmlHexadecimalColorCode2: htmlHexadecimalColorCode2
-          phoneNumber: phoneNumber
-          money: money
+          creditCard: creditCard
+          date: date
           windowsAbsolutePath: windowsAbsolutePath
+          email1: email1
+          email2: email2
+          htmlHexadecimalColorCode1: htmlHexadecimalColorCode1
+          htmlHexadecimalColorCode2: htmlHexadecimalColorCode2
+          ipAddress: ipAddress
+          javaComments: javaComments
+          money: money
+          positiveNegativeDecimalValue: positiveNegativeDecimalValue
+          password1: password1
+          password2: password2
+          phoneNumber: phoneNumber
           sentence1: sentence1
           sentence2: sentence2
-          password2: password2
-          password1: password1
-          creditCard: creditCard
+          socialSecurityNumber: socialSecurityNumber
+          url: url
       properties:
         code:
           $ref: "#/components/schemas/importCode"
