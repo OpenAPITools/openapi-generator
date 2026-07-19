@@ -37,7 +37,7 @@ elif [[ -f "${OPENAI_SDK_DIR}/../mvnw" ]]; then
 else
     # Fall back to scanning upward
     CANDIDATE="${SCRIPT_DIR}"
-    while [[ "${CANDY}" != "/" ]]; do
+    while [[ "${CANDIDATE}" != "/" ]]; do
         if [[ -f "${CANDIDATE}/mvnw" ]]; then
             PROJECT_ROOT="${CANDIDATE}"
             break
@@ -196,12 +196,6 @@ for i, line in enumerate(lines):
     if not schema_section:
         continue
     
-    # End of schemas section (next top-level key)
-    if schema_section and line and not line.startswith(' ') and not line.startswith('\t') and line.strip():
-        if any(line.startswith(k) for k in ('openapi:', 'info:', 'servers:', 'security:', 'tags:', 'paths:', 'externalDocs:', 'webhooks:')):
-            # We've left schemas section (unlikely in OAS but handle it)
-            pass
-    
     # Detect schema name (indented 4 spaces, followed by ':')
     m = re.match(r'^    (\w+):', line)
     if m:
@@ -232,9 +226,6 @@ def analyze_model_header(model_name):
     # Check if it's a type alias (e.g., using AnyType = boost::json::value)
     if 'using ' in content and '= boost::json::value' in content:
         return ("boost::json::value", False, 0)
-    
-    # Check if it inherits from another class
-    inherit_match = re.search(r'class\s+\w+\s*:\s*public\s+(\w+)', content)
     
     # Count member variables (lines with m_ prefix in protected section)
     # Only count the declarations, not the *IsSet companion booleans
@@ -303,11 +294,11 @@ print(f"\nInventory complete: {pass_count} PASS, {fail_count} FAIL, {not_found_c
 print(f"TSV written to: {inventory_file}")
 
 if empty_shells:
-    print(f"\n{''.join(['='*60]):s}")
+    print(f"\n{'='*60}")
     print(f"EMPTY SHELL COMPOSED MODELS DETECTED:")
     for name, comp in empty_shells:
         print(f"  - {name} ({comp})")
-    print(f"{''.join(['='*60]):s}")
+    print(f"{'='*60}")
     print(f"Total: {len(empty_shells)} empty shell(s)\n")
 
 # Output machine-readable summary
@@ -338,7 +329,6 @@ run_golden_cases() {
     fi
 
     OPENAI_SDK_DIR="${OPENAI_SDK_DIR}" python3 "${runner_script}"
-    return 0
 }
 
 # ---- Main execution ---------------------------------------------------------
@@ -358,7 +348,22 @@ main() {
             inventory)       only_inventory=true ;;
             golden)          only_golden=true ;;
             --help|-h)
-                echo "Usage: $0 [--skip-build] [--skip-generate] [--skip-compile] [inventory|golden]"
+                echo "Usage: $0 [flags] [command]"
+                echo ""
+                echo "Flags:"
+                echo "  --skip-build       Skip generator jar Maven build"
+                echo "  --skip-generate    Skip code generation from spec"
+                echo "  --skip-compile     Skip CMake + Make compilation"
+                echo ""
+                echo "Commands (run in isolation, skip all other steps):"
+                echo "  inventory          Inventory composed schemas + empty-shell check"
+                echo "  golden             Golden case encode/decode round-trip test"
+                echo ""
+                echo "Examples:"
+                echo "  $0                              Full pipeline"
+                echo "  $0 --skip-build --skip-compile  Generate + inventory + golden"
+                echo "  $0 inventory                    Schema inventory only"
+                echo "  $0 golden                       Golden cases only"
                 exit 0
                 ;;
         esac
