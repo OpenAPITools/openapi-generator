@@ -155,11 +155,12 @@ class {{{classname}}} {
   /// properties have changed.
   {{{classname}}} copyWith({
   {{#vars}}
-    final {{{datatypeWithEnum}}}? {{{name}}},
+    {{{datatypeWithEnum}}}? {{{name}}},{{#isNullable}}
+    bool {{{name}}}SetToNull = false,{{/isNullable}}
   {{/vars}}
   }) => {{{classname}}}(
   {{#vars}}
-    {{{name}}}: {{{name}}} ?? this.{{{name}}},
+    {{{name}}}: {{#isNullable}}{{{name}}}SetToNull ? null : {{/isNullable}}{{{name}}} ?? this.{{{name}}},
   {{/vars}}
   );
 
