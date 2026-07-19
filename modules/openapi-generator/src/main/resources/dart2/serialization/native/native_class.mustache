@@ -160,7 +160,7 @@ class {{{classname}}} {
   {{/vars}}
   }) => {{{classname}}}(
   {{#vars}}
-    {{{name}}}: {{{name}}} ?? this.{{{name}}},
+    {{{name}}}: {{#isNullable}}{{{name}}}SetToNull ? null : {{/isNullable}}{{{name}}} ?? this.{{{name}}},
   {{/vars}}
   );
 
