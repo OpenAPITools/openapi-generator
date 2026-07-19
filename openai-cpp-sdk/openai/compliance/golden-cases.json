@@ -1,0 +1,86 @@
+[
+  {
+    "name": "responses-text-input",
+    "schema": "CreateResponse",
+    "description": "Create response with a simple text input string (oneOf InputParam: string branch)",
+    "json": "{\"model\":\"gpt-5.6\",\"input\":\"Write a short bedtime story about a unicorn.\"}"
+  },
+  {
+    "name": "responses-array-input",
+    "schema": "CreateResponse",
+    "description": "Create response with array input (oneOf InputParam: array branch) and reasoning config",
+    "json": "{\"model\":\"gpt-5.6\",\"reasoning\":{\"effort\":\"low\"},\"input\":[{\"role\":\"user\",\"content\":[{\"type\":\"input_text\",\"text\":\"Write a short bedtime story about a unicorn.\"}]}]}"
+  },
+  {
+    "name": "model-ids-shared-string",
+    "schema": "ModelIdsShared",
+    "description": "ModelIdsShared is anyOf string alias; should round-trip a plain model string",
+    "json": "\"gpt-5.6\""
+  },
+  {
+    "name": "model-ids-responses-string",
+    "schema": "ModelIdsResponses",
+    "description": "ModelIdsResponses is anyOf over ModelIdsShared + enum; round-trip a known model ID",
+    "json": "\"gpt-5.6\""
+  },
+  {
+    "name": "model-ids-responses-enum",
+    "schema": "ModelIdsResponses",
+    "description": "ModelIdsResponses enum branch (responses-only model)",
+    "json": "\"o1-pro\""
+  },
+  {
+    "name": "conversation-param-text",
+    "schema": "ConversationParam",
+    "description": "ConversationParam as a string conversation ID (oneOf branch)",
+    "json": "\"conv_abc123\""
+  },
+  {
+    "name": "service-tier-string",
+    "schema": "ServiceTier",
+    "description": "ServiceTier anyOf; round-trip a known tier value",
+    "json": "\"auto\""
+  },
+  {
+    "name": "reasoning-effort-string",
+    "schema": "ReasoningEffort",
+    "description": "ReasoningEffort anyOf; round-trip a known effort value",
+    "json": "\"low\""
+  },
+  {
+    "name": "response-stream-options-bool",
+    "schema": "ResponseStreamOptions",
+    "description": "ResponseStreamOptions anyOf; round-trip a boolean value",
+    "json": "true"
+  },
+  {
+    "name": "store-boolean",
+    "schema": "CreateResponse",
+    "description": "CreateResponse with store=true to exercise optional boolean property",
+    "json": "{\"model\":\"gpt-5.6\",\"input\":\"test\",\"store\":true}"
+  },
+  {
+    "name": "temperature-double",
+    "schema": "CreateResponse",
+    "description": "CreateResponse with temperature=0.7 to exercise optional double property",
+    "json": "{\"model\":\"gpt-5.6\",\"input\":\"test\",\"temperature\":0.7}"
+  },
+  {
+    "name": "input-param-string",
+    "schema": "InputParam",
+    "description": "InputParam as a plain string (oneOf: string branch)",
+    "json": "\"Hello, model!\""
+  },
+  {
+    "name": "input-param-array",
+    "schema": "InputParam",
+    "description": "InputParam as an array of InputItems (oneOf: array branch)",
+    "json": "[{\"role\":\"user\",\"content\":[{\"type\":\"input_text\",\"text\":\"Hello\"}]},{\"role\":\"assistant\",\"content\":[{\"type\":\"output_text\",\"text\":\"Hi there!\"}]}]"
+  },
+  {
+    "name": "responses-full",
+    "schema": "CreateResponse",
+    "description": "Full CreateResponse with many optional fields",
+    "json": "{\"model\":\"gpt-5.6\",\"input\":\"Tell me a story\",\"temperature\":0.8,\"top_p\":0.95,\"store\":true,\"max_output_tokens\":500,\"stream\":false,\"instructions\":\"Be creative\"}"
+  }
+]
