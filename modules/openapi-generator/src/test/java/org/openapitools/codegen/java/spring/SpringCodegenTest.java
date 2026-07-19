@@ -790,6 +790,14 @@ public class SpringCodegenTest {
                 .assertParameter("statusArray").hasType("List<MultipartMixedStatus>")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
+
+        // Check extra annotation
+        JavaFileAssert.assertThat(files.get("ExtraAnnotationApi.java"))
+              .assertMethod("multipartExtraAnnotation", "MultipartFile")
+              .assertParameter("file").hasType("MultipartFile")
+              .assertParameterAnnotations()
+              .containsWithName("jakarta.validation.constraints.NotNull");
+
     }
 
     @Test
@@ -2137,6 +2145,92 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithoutMappingADTO.java"), "@JsonTypeName");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithoutMappingBDTO.java"), "@JsonTypeName");
+    }
+
+    @Test
+    void testOneOfWithInheritedEnumDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.opts(input).generate();
+
+        // The discriminator (inline enum) is inherited from the base PetEnumDisc via allOf. The
+        // oneOf interface getter must use the same enum type as the concrete base class, not
+        // String, otherwise the generated code does not compile (issue #22541).
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetResponseEnumDisc.java"),
+                "public PetTypeEnum getPetType();"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetEnumDisc.java"),
+                "public PetTypeEnum getPetType()"
+        );
+    }
+
+    @Test
+    void testOneOfWithInheritedUriDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.opts(input).generate();
+
+        // The discriminator (string, format: uri) is inherited from the base PetUriDisc via allOf.
+        // The oneOf interface getter must use URI, matching the concrete base class, not String,
+        // otherwise the generated code does not compile (issue #18693).
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetResponseUriDisc.java"),
+                "public URI getPetType();"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetUriDisc.java"),
+                "public URI getPetType()"
+        );
     }
 
     @Test
@@ -5047,7 +5141,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(api)
                 .assertMethod("sseVariant1", "ServerWebExchange")
                 .isNotNull()
-                .hasReturnType("Flux<String>")
+                .hasReturnType("List<String>")
                 .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
                 .isNotNull()
@@ -5060,7 +5154,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(delegate)
                 .assertMethod("sseVariant1", "ServerWebExchange")
                 .isNotNull()
-                .hasReturnType("Flux<String>")
+                .hasReturnType("List<String>")
                 .bodyContainsLines("return Flux.empty();")
                 .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
@@ -8300,5 +8394,139 @@ public class SpringCodegenTest {
         assertFileContains(endpoint1ApiFile.toPath(), "tags = { \"My \\\"quoted\\\" api\" }");
         assertFileContains(endpoint2ApiFile.toPath(), "tags = { \"My\\\\backslash\\\\api\" }");
         assertFileContains(endpoint3ApiFile.toPath(), "tags = { \"My newline api\" }");
+    }
+
+    @Test
+    public void testReactiveSpringSupportListOfStringReturnType() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_BOOT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<ResponseEntity<List<String>>> getUserIdList",
+                // set of string
+                "Mono<ResponseEntity<Set<String>>> getUserIdSet"
+        );
+    }
+
+    @Test
+    public void testReactiveSpringSupportListOfStringReturnTypeNoResponseEntity() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+        properties.put(USE_RESPONSE_ENTITY, false);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_BOOT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<List<String>> getUserIdList",
+                // set of string
+                "Mono<Set<String>> getUserIdSet"
+        );
+    }
+
+    @Test
+    public void testReactiveSpringHttpInterfaceSupportListOfStringReturnType() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_HTTP_INTERFACE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<ResponseEntity<List<String>>> getUserIdList",
+                // set of string
+                "Mono<ResponseEntity<Set<String>>> getUserIdSet"
+        );
+    }
+
+    @Test
+    public void testReactiveSpringHttpInterfaceSupportListOfStringReturnTypeNoResponseEntity() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+        properties.put(USE_RESPONSE_ENTITY, false);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_HTTP_INTERFACE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<List<String>> getUserIdList",
+                // set of string
+                "Mono<Set<String>> getUserIdSet"
+        );
     }
 }

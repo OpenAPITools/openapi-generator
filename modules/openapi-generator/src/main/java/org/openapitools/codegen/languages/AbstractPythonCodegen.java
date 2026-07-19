@@ -219,6 +219,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (p.getDefault() != null) {
                 String defaultValue = String.valueOf(p.getDefault());
                 if (defaultValue != null) {
+                    // String enums (type: string + enum) must be quoted: templates embed defaultValue
+                    // directly into Query()/Header()/Cookie() calls (e.g. Query('B', ...)). Without
+                    // quotes, values like uploadTime or desc become bare identifiers and cause NameError.
+                    // See https://github.com/OpenAPITools/openapi-generator/issues/23774
+                    if (ModelUtils.isStringSchema(p)) {
+                        return formatPythonStringLiteral(defaultValue);
+                    }
                     return defaultValue;
                 }
             }
@@ -226,13 +233,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (p.getDefault() != null) {
                 String defaultValue = String.valueOf(p.getDefault());
                 if (defaultValue != null) {
-                    defaultValue = defaultValue.replace("\\", "\\\\")
-                            .replace("'", "\\'");
-                    if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
-                        return "'''" + defaultValue + "'''";
-                    } else {
-                        return "'" + defaultValue + "'";
-                    }
+                    return formatPythonStringLiteral(defaultValue);
                 }
             }
         } else if (ModelUtils.isArraySchema(p)) {
@@ -245,6 +246,59 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return null;
     }
 
+    /**
+     * Format a string as a Python string literal (single-quoted).
+     * Shared by plain string and string-enum default value paths in {@link #toDefaultValue(Schema)}.
+     */
+    protected String formatPythonStringLiteral(String defaultValue) {
+        defaultValue = defaultValue.replace("\\", "\\\\")
+                .replace("'", "\\'");
+        if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
+            return "'''" + defaultValue + "'''";
+        }
+        return "'" + defaultValue + "'";
+    }
+
+    /**
+     * If {@code value} is already a Python string literal, return the unescaped inner content.
+     * Used when reconciling quoted defaults from {@link #toDefaultValue(Schema)} with enum-var
+     * matching in {@link #getEnumDefaultValue(String, String)}.
+     */
+    protected String unwrapPythonStringLiteral(String value) {
+        if (value == null) {
+            return null;
+        }
+        if (value.length() >= 6 && value.startsWith("'''") && value.endsWith("'''")) {
+            // formatPythonStringLiteral() escapes \ and ' for both single- and triple-quoted
+            // forms; unwrap must reverse those escapes so enum-member matching still works.
+            return value.substring(3, value.length() - 3)
+                    .replace("\\'", "'")
+                    .replace("\\\\", "\\");
+        }
+        if (value.length() >= 2 && value.startsWith("'") && value.endsWith("'")) {
+            return value.substring(1, value.length() - 1)
+                    .replace("\\'", "'")
+                    .replace("\\\\", "\\");
+        }
+        return null;
+    }
+
+    /**
+     * Normalize enum default values before matching against enum member literals.
+     * {@link #toDefaultValue(Schema)} now quotes string-enum defaults (e.g. {@code 'B'}), but
+     * {@code updateCodegenPropertyEnum} compares against unquoted enum values via
+     * {@code toEnumValue}. Unwrap first so model properties still resolve to EnumClass.MEMBER.
+     */
+    @Override
+    protected String getEnumDefaultValue(String defaultValue, String dataType) {
+        if (isDataTypeString(dataType)) {
+            String unquoted = unwrapPythonStringLiteral(defaultValue);
+            if (unquoted != null) {
+                defaultValue = unquoted;
+            }
+        }
+        return super.getEnumDefaultValue(defaultValue, dataType);
+    }
 
     @Override
     public String toVarName(String name) {
@@ -2231,6 +2285,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             String publicName = (String) cp.vendorExtensions.get(X_PY_PUBLIC_NAME);
             if (publicName != null) {
                 String aliasName = cp.vendorExtensions.containsKey(X_PY_EXPLICIT_PUBLIC_NAME)
+                        || cp.vendorExtensions.containsKey(X_PY_LEGACY_PUBLIC_NAME)
                         ? publicName
                         : cp.baseName;
                 if (!aliasName.equals(cp.name)) {

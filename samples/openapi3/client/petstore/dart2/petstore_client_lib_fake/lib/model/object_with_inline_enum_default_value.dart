@@ -104,29 +104,29 @@ class ObjectWithInlineEnumDefaultValue {
 }
 
 /// Object one attribute enum with default value
-class ObjectWithInlineEnumDefaultValueAttributeEnum {
-  /// Instantiate a new enum with the provided [value].
-  const ObjectWithInlineEnumDefaultValueAttributeEnum._(this.value);
+enum ObjectWithInlineEnumDefaultValueAttributeEnum {
+  valueOne._(r'value_one'),
+  valueTwo._(r'value_two'),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const ObjectWithInlineEnumDefaultValueAttributeEnum._(this._value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String _value;
 
   @override
-  String toString() => value;
+  String toString() => _value;
 
-  String toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  String toJson() => _value;
 
-  static const valueOne = ObjectWithInlineEnumDefaultValueAttributeEnum._(r'value_one');
-  static const valueTwo = ObjectWithInlineEnumDefaultValueAttributeEnum._(r'value_two');
-
-  /// List of all possible values in this [enum][ObjectWithInlineEnumDefaultValueAttributeEnum].
-  static const values = <ObjectWithInlineEnumDefaultValueAttributeEnum>[
-    valueOne,
-    valueTwo,
-  ];
-
+  /// Returns the instance of [ObjectWithInlineEnumDefaultValueAttributeEnum] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static ObjectWithInlineEnumDefaultValueAttributeEnum? fromJson(dynamic value) => ObjectWithInlineEnumDefaultValueAttributeEnumTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [ObjectWithInlineEnumDefaultValueAttributeEnum]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<ObjectWithInlineEnumDefaultValueAttributeEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ObjectWithInlineEnumDefaultValueAttributeEnum>[];
     if (json is List && json.isNotEmpty) {
@@ -148,9 +148,10 @@ class ObjectWithInlineEnumDefaultValueAttributeEnumTypeTransformer {
 
   const ObjectWithInlineEnumDefaultValueAttributeEnumTypeTransformer._();
 
-  String encode(ObjectWithInlineEnumDefaultValueAttributeEnum data) => data.value;
+  String encode(ObjectWithInlineEnumDefaultValueAttributeEnum data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a ObjectWithInlineEnumDefaultValueAttributeEnum.
+  /// Returns the instance of [ObjectWithInlineEnumDefaultValueAttributeEnum] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -159,6 +160,9 @@ class ObjectWithInlineEnumDefaultValueAttributeEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   ObjectWithInlineEnumDefaultValueAttributeEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data is ObjectWithInlineEnumDefaultValueAttributeEnum) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case r'value_one': return ObjectWithInlineEnumDefaultValueAttributeEnum.valueOne;
@@ -172,7 +176,7 @@ class ObjectWithInlineEnumDefaultValueAttributeEnumTypeTransformer {
     return null;
   }
 
-  /// Singleton [ObjectWithInlineEnumDefaultValueAttributeEnumTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static ObjectWithInlineEnumDefaultValueAttributeEnumTypeTransformer? _instance;
 }
 

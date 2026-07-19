@@ -93,6 +93,7 @@ import java.util.stream.Stream;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.DiscriminatorUtils.*;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -1720,7 +1721,11 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String toEnumName(CodegenProperty property) {
-        return StringUtils.capitalize(property.name) + "Enum";
+        return toEnumName(property.name);
+    }
+
+    public String toEnumName(String propertyName) {
+        return StringUtils.capitalize(propertyName) + "Enum";
     }
 
     /**
@@ -3349,7 +3354,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param sc             The Schema that may contain the discriminator
      * @param visitedSchemas An array list of visited schemas
      */
-    private Discriminator recursiveGetDiscriminator(Schema sc, ArrayList<Schema> visitedSchemas) {
+    private DiscriminatorData recursiveGetDiscriminator(Schema sc, ArrayList<Schema> visitedSchemas) {
         return DiscriminatorUtils.recursiveGetDiscriminator(openAPI, this.getLegacyDiscriminatorBehavior(), sc, visitedSchemas);
     }
 
@@ -3486,7 +3491,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
-        Discriminator sourceDiscriminator = recursiveGetDiscriminator(schema, new ArrayList<Schema>());
+        DiscriminatorData sourceDiscriminator = recursiveGetDiscriminator(schema, new ArrayList<Schema>());
         if (sourceDiscriminator == null) {
             return null;
         }
@@ -3503,7 +3508,25 @@ public class DefaultCodegen implements CodegenConfig {
         // FIXME: there are other ways to define the type of the discriminator property (inline
         //  for example). Handling those scenarios is too complicated for me, I'm leaving it for
         //  the future..
-        discriminator.setPropertyType(getDiscriminatorPropertyType(schema, discriminatorPropertyName));
+        String discriminatorType;
+        Schema discSchema = sourceDiscriminator.getDiscriminatorSchema();
+        if (discSchema != null) {
+            if (ModelUtils.hasRef(discSchema)) {
+                discriminatorType = toModelName(ModelUtils.getSimpleRef(discSchema.get$ref()));
+            } else {
+                // Inline schema (inline enum, uri, ...): resolve via the same pipeline the
+                // concrete model classes use so the oneOf interface getter type matches.
+                // Keep String for typeless const to avoid resolving to Object.
+                if (ModelUtils.getType(discSchema) == null || discSchema.getEnum() == null) {
+                    discriminatorType = getTypeDeclaration(discSchema);
+                } else {
+                    discriminatorType = toEnumName(discriminatorPropertyName);
+                }
+            }
+        } else {
+            discriminatorType = getDiscriminatorPropertyType(schema, discriminatorPropertyName);
+        }
+        discriminator.setPropertyType(discriminatorType);
 
         // check to see if the discriminator property is an enum string
         boolean isEnum = Optional

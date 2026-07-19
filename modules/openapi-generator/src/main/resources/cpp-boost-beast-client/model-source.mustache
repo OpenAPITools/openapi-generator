@@ -1,0 +1,362 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+
+#include "{{classname}}.h"
+
+#include <cstddef>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <sstream>
+#include <string>
+#include <iterator>
+#include <utility>
+#include <vector>
+{{#hasEnums}}
+#include <algorithm>
+#include <array>
+{{/hasEnums}}
+#include <boost/json.hpp>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+namespace {
+{{#hasEnums}}
+template<typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const EnumValue& value,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename Element, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::vector<Element>& values,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename MappedValue, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::map<std::string, MappedValue>& values,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const EnumValue& value,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
+        std::ostringstream errorMessage;
+        errorMessage << "Value " << value << " not allowed";
+        throw std::runtime_error(errorMessage.str());
+    }
+}
+
+template<typename Element, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::vector<Element>& values,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    for (const auto& value : values) {
+        validateEnumValues(value, allowedValues);
+    }
+}
+
+template<typename MappedValue, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::map<std::string, MappedValue>& values,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    for (const auto& value : values) {
+        validateEnumValues(value.second, allowedValues);
+    }
+}
+{{/hasEnums}}
+
+template <typename Target>
+struct JsonValueConverter
+{
+    static boost::json::value toJsonValue(const Target& sourceValue)
+    {
+        return boost::json::value_from(sourceValue);
+    }
+
+    static Target fromJsonValue(const boost::json::value& jsonValue)
+    {
+        return boost::json::value_to<Target>(jsonValue);
+    }
+};
+
+template <>
+struct JsonValueConverter<std::nullptr_t>
+{
+    static boost::json::value toJsonValue(std::nullptr_t)
+    {
+        return nullptr;
+    }
+
+    static std::nullptr_t fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (!jsonValue.is_null()) {
+            throw std::invalid_argument("Expected a null JSON value");
+        }
+        return nullptr;
+    }
+};
+
+template <typename ModelType>
+struct JsonValueConverter<std::shared_ptr<ModelType>>
+{
+    static boost::json::value toJsonValue(const std::shared_ptr<ModelType>& model)
+    {
+        return model == nullptr ? boost::json::value(nullptr) : model->toJsonValue();
+    }
+
+    static std::shared_ptr<ModelType> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (jsonValue.is_null()) {
+            return nullptr;
+        }
+        return std::make_shared<ModelType>(jsonValue);
+    }
+};
+
+template <typename Element>
+struct JsonValueConverter<std::vector<Element>>
+{
+    static boost::json::value toJsonValue(const std::vector<Element>& sourceValues)
+    {
+        boost::json::array jsonValues;
+        for (const auto& sourceValue : sourceValues) {
+            jsonValues.emplace_back(JsonValueConverter<Element>::toJsonValue(sourceValue));
+        }
+        return jsonValues;
+    }
+
+    static std::vector<Element> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        const auto& jsonValues = jsonValue.as_array();
+        std::vector<Element> convertedValues;
+        convertedValues.reserve(jsonValues.size());
+        for (const auto& jsonElement : jsonValues) {
+            convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));
+        }
+        return convertedValues;
+    }
+};
+
+template <typename MappedValue>
+struct JsonValueConverter<std::map<std::string, MappedValue>>
+{
+    static boost::json::value toJsonValue(const std::map<std::string, MappedValue>& sourceValues)
+    {
+        boost::json::object jsonValues;
+        for (const auto& sourceEntry : sourceValues) {
+            jsonValues[sourceEntry.first] = JsonValueConverter<MappedValue>::toJsonValue(sourceEntry.second);
+        }
+        return jsonValues;
+    }
+
+    static std::map<std::string, MappedValue> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        std::map<std::string, MappedValue> convertedValues;
+        for (const auto& jsonEntry : jsonValue.as_object()) {
+            const std::string entryKey(jsonEntry.key().data(), jsonEntry.key().size());
+            convertedValues.emplace(entryKey, JsonValueConverter<MappedValue>::fromJsonValue(jsonEntry.value()));
+        }
+        return convertedValues;
+    }
+};
+
+void writePrettyJson(std::ostream& output, boost::json::value const& value, std::string& indent)
+{
+    if (value.is_object()) {
+        const auto& object = value.as_object();
+        if (object.empty()) {
+            output << "{}";
+            return;
+        }
+
+        output << "{\n";
+        indent.append(4, ' ');
+        for (auto iterator = object.begin(); iterator != object.end(); ++iterator) {
+            output << indent << boost::json::serialize(iterator->key()) << ": ";
+            writePrettyJson(output, iterator->value(), indent);
+            if (std::next(iterator) != object.end()) {
+                output << ',';
+            }
+            output << '\n';
+        }
+        indent.resize(indent.size() - 4);
+        output << indent << '}';
+        return;
+    }
+
+    if (value.is_array()) {
+        const auto& array = value.as_array();
+        if (array.empty()) {
+            output << "[]";
+            return;
+        }
+
+        output << "[\n";
+        indent.append(4, ' ');
+        for (auto iterator = array.begin(); iterator != array.end(); ++iterator) {
+            output << indent;
+            writePrettyJson(output, *iterator, indent);
+            if (std::next(iterator) != array.end()) {
+                output << ',';
+            }
+            output << '\n';
+        }
+        indent.resize(indent.size() - 4);
+        output << indent << ']';
+        return;
+    }
+
+    output << boost::json::serialize(value);
+}
+}
+
+{{classname}}::{{classname}}(boost::json::value const& value)
+{
+    fromJsonValue(value);
+}
+
+std::string {{classname}}::toJsonString(bool prettyJson /* = false */) const
+{
+    const auto value = toJsonValue();
+    if (!prettyJson) {
+        return boost::json::serialize(value);
+    }
+
+    std::ostringstream output;
+    std::string indent;
+    writePrettyJson(output, value, indent);
+    return output.str();
+}
+
+void {{classname}}::fromJsonString(std::string const& jsonString)
+{
+    fromJsonValue(boost::json::parse(jsonString));
+}
+
+boost::json::value {{classname}}::toJsonValue() const
+{
+    return boost::json::value(toJsonObject_internal());
+}
+
+void {{classname}}::fromJsonValue(boost::json::value const& value)
+{
+    if (!value.is_object()) {
+        throw std::invalid_argument("Expected a JSON object for {{classname}}");
+    }
+    fromJsonObject_internal(value.as_object());
+}
+
+boost::json::object {{classname}}::toJsonObject_internal() const
+{
+    {{#parent}}
+    boost::json::object object = {{{parent}}}::toJsonObject_internal();
+    {{/parent}}
+    {{^parent}}
+    boost::json::object object;
+    {{/parent}}
+    {{#vars}}
+    {{#parent}}
+    if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+    {{/parent}}
+    {{#required}}
+        object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
+    {{/required}}
+    {{^required}}
+        if (m_{{name}}IsSet) {
+            object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
+        }
+    {{/required}}
+    {{#parent}}
+    }
+    {{/parent}}
+    {{/vars}}
+    return object;
+}
+
+void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
+{
+    {{#parent}}
+    {{{parent}}}::fromJsonObject_internal(object);
+    {{/parent}}
+    {{#vars}}
+    {{^required}}
+    m_{{name}}IsSet = false;
+    {{/required}}
+    {{/vars}}
+    {{#vars}}
+    {{#parent}}
+    if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+    {{/parent}}
+    {
+        const auto {{name}}It = object.find("{{baseName}}");
+        if ({{name}}It != object.end()) {
+            {{setter}}(JsonValueConverter<{{{dataType}}}>::fromJsonValue({{name}}It->value()));
+        }
+    }
+    {{#parent}}
+    }
+    {{/parent}}
+    {{/vars}}
+}
+
+{{#vars}}
+{{{dataType}}} {{classname}}::{{getter}}() const
+{
+    {{#parent}}
+    return read{{name}}Property<{{{parent}}}>({{classname}}{{name}}PropertyIsInherited<{{{parent}}}>(), m_{{name}});
+    {{/parent}}
+    {{^parent}}
+    return m_{{name}};
+    {{/parent}}
+}
+
+void {{classname}}::{{setter}}({{{dataType}}} value)
+{
+    {{#isEnum}}{{#isContainer}}static const std::array<{{#mostInnerItems}}{{{dataType}}}{{/mostInnerItems}}, {{#mostInnerItems}}{{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}{{/mostInnerItems}}> allowedValues = {
+        {{#mostInnerItems}}{{#isString}}{{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}{{^isString}}{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}{{/mostInnerItems}}
+    };
+    validateEnumValues(value, allowedValues);
+    {{/isContainer}}{{^isContainer}}static const std::array<{{{dataType}}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> allowedValues = {
+        {{#isString}}{{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}{{^isString}}{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}
+    };
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
+        std::ostringstream errorMessage;
+        errorMessage << "Value " << value << " not allowed";
+        throw std::runtime_error(errorMessage.str());
+    }
+    {{/isContainer}}{{/isEnum}}
+    {{#parent}}
+    write{{name}}Property<{{{parent}}}>({{classname}}{{name}}PropertyIsInherited<{{{parent}}}>(), m_{{name}}, std::move(value));
+    {{/parent}}
+    {{^parent}}
+    m_{{name}} = std::move(value);
+    {{/parent}}
+    {{^required}}
+    m_{{name}}IsSet = true;
+    {{/required}}
+}
+{{/vars}}
+
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data)
+{
+    return boost::json::serialize(JsonValueConverter<std::vector<std::shared_ptr<{{classname}}>>>::toJsonValue(data));
+}
+
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json)
+{
+    vec = JsonValueConverter<std::vector<std::shared_ptr<{{{classname}}}>>>::fromJsonValue(boost::json::parse(json));
+}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+{{/model}}
+{{/models}}

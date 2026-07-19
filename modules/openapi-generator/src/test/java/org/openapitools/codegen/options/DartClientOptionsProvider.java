@@ -42,6 +42,7 @@ public class DartClientOptionsProvider implements OptionsProvider {
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
     public static final String USE_OPTIONAL_VALUE = "true";
+    public static final String USE_FINAL_PROPERTIES_VALUE = "true";
     public static final String PATCH_ONLY_VALUE = "true";
 
     @Override
@@ -73,6 +74,7 @@ public class DartClientOptionsProvider implements OptionsProvider {
                 .put("serializationLibrary", "custom")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .put(DartClientCodegen.USE_OPTIONAL, USE_OPTIONAL_VALUE)
+                .put(DartClientCodegen.USE_FINAL_PROPERTIES, USE_FINAL_PROPERTIES_VALUE)
                 .put(DartClientCodegen.PATCH_ONLY, PATCH_ONLY_VALUE)
                 .build();
     }
