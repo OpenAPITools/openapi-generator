@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: Enum parameter test
+  version: 1.0.0
+paths:
+  /pets/{status}:
+    get:
+      operationId: getPetsByStatus
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/PetStatus'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    PetStatus:
+      type: string
+      enum:
+        - available
+        - pending
+        - sold-out
+    Pet:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/PetStatus'
