@@ -6,6 +6,7 @@ appveyor.yml
 docs/models/AreaCode.md
 docs/models/MarineAreaCode.md
 docs/models/StateTerritoryCode.md
+docs/models/TypeIntegerWithOneOf.md
 docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
 src/Org.OpenAPITools.Test/Api/DependencyInjectionTests.cs
@@ -38,5 +39,6 @@ src/Org.OpenAPITools/Logging/RestLogEvents.cs
 src/Org.OpenAPITools/Model/AreaCode.cs
 src/Org.OpenAPITools/Model/MarineAreaCode.cs
 src/Org.OpenAPITools/Model/StateTerritoryCode.cs
+src/Org.OpenAPITools/Model/TypeIntegerWithOneOf.cs
 src/Org.OpenAPITools/Org.OpenAPITools.csproj
 src/Org.OpenAPITools/README.md

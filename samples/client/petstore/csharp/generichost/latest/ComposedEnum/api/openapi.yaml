@@ -24,4 +24,7 @@ components:
       - AM
       - AN
       type: string
+    TypeIntegerWithOneOf:
+      format: int32
+      type: integer
 
