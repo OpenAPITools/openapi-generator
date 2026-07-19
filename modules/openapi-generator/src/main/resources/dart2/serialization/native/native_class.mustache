@@ -38,10 +38,10 @@ class {{{classname}}} {
   {{/required}}
   {{^required}}
     {{#vendorExtensions.x-is-optional}}
-  {{{datatypeWithEnum}}} {{{name}}};
+  {{#useFinalProperties}}final {{/useFinalProperties}}{{{datatypeWithEnum}}} {{{name}}};
     {{/vendorExtensions.x-is-optional}}
     {{^vendorExtensions.x-is-optional}}
-  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}?{{/defaultValue}}{{/isNullable}} {{{name}}};
+  {{#useFinalProperties}}final {{/useFinalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}?{{/defaultValue}}{{/isNullable}} {{{name}}};
     {{/vendorExtensions.x-is-optional}}
   {{/required}}
 
@@ -160,7 +160,7 @@ class {{{classname}}} {
   {{/vars}}
   }) => {{{classname}}}(
   {{#vars}}
-    {{{name}}}: {{#isNullable}}{{{name}}}SetToNull ? null : {{/isNullable}}{{{name}}} ?? this.{{{name}}},
+    {{{name}}}: {{{name}}} ?? this.{{{name}}},
   {{/vars}}
   );
 
