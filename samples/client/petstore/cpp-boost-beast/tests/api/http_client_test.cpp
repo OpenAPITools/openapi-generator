@@ -181,6 +181,14 @@ public:
         const beast::string_view hostHeader = request[http::field::host];
         return std::string(hostHeader.data(), hostHeader.size());
     }
+
+    HttpRequest prepareRequestForInspection(
+        const std::string &verb,
+        const std::string &target,
+        const std::string &body,
+        const std::map<std::string, std::string> &headers) {
+        return prepareRequest(verb, target, body, headers);
+    }
 };
 
 class SerializedLifecycleHttpClient final : public HttpClientImpl {
@@ -609,10 +617,64 @@ BOOST_AUTO_TEST_CASE(prepare_request_formats_host_for_address_type) {
     BOOST_REQUIRE_EQUAL(ipv6Client.prepareHostHeader({}),
                         "[2001:db8::10]:8082");
 
-    const std::map<std::string, std::string> overridingHeaders{
+    const std::map<std::string, std::string> reservedHeaders{
         {"Host", "caller.example:9090"}};
-    BOOST_REQUIRE_EQUAL(ipv6Client.prepareHostHeader(overridingHeaders),
-                        "caller.example:9090");
+    BOOST_CHECK_THROW(ipv6Client.prepareHostHeader(reservedHeaders),
+                      std::invalid_argument);
+}
+
+BOOST_AUTO_TEST_CASE(prepare_request_rejects_unsafe_wire_components) {
+    RequestInspectingHttpClient client("example.test", "https");
+
+    const auto customRequest =
+        client.prepareRequestForInspection(
+            "PURGE",
+            "/items%20one?tag=alpha&tag=beta",
+            "body",
+            {{"User-Agent", "test-client"}, {"X-Test", "value"}});
+    const beast::string_view customMethod = customRequest.method_string();
+    const beast::string_view customTarget = customRequest.target();
+    const beast::string_view customUserAgent =
+        customRequest[http::field::user_agent];
+    BOOST_REQUIRE_EQUAL(
+        std::string(customMethod.data(), customMethod.size()), "PURGE");
+    BOOST_REQUIRE_EQUAL(
+        std::string(customTarget.data(), customTarget.size()),
+        "/items%20one?tag=alpha&tag=beta");
+    BOOST_REQUIRE_EQUAL(
+        std::string(customUserAgent.data(), customUserAgent.size()),
+        "test-client");
+
+    BOOST_CHECK_THROW(
+        RequestInspectingHttpClient("bad\r\nhost", "443"),
+        std::invalid_argument);
+    BOOST_CHECK_THROW(
+        RequestInspectingHttpClient("example.test", "443\r\nX-Test: injected"),
+        std::invalid_argument);
+    BOOST_CHECK_THROW(
+        client.prepareRequestForInspection("GET\r\nX-Test: injected", "/", "", {}),
+        std::invalid_argument);
+    BOOST_CHECK_THROW(
+        client.prepareRequestForInspection("GET", "relative", "", {}),
+        std::invalid_argument);
+    BOOST_CHECK_THROW(
+        client.prepareRequestForInspection("GET", "/fragment#value", "", {}),
+        std::invalid_argument);
+    BOOST_CHECK_THROW(
+        client.prepareRequestForInspection("GET", "/invalid%2", "", {}),
+        std::invalid_argument);
+    BOOST_CHECK_THROW(
+        client.prepareRequestForInspection("GET", "/", "", {{"Bad Header", "value"}}),
+        std::invalid_argument);
+    BOOST_CHECK_THROW(
+        client.prepareRequestForInspection("GET", "/", "", {{"X-Test", "value\r\nInjected: true"}}),
+        std::invalid_argument);
+    BOOST_CHECK_THROW(
+        client.prepareRequestForInspection("GET", "/", "", {{"content-length", "0"}}),
+        std::invalid_argument);
+    BOOST_CHECK_THROW(
+        client.prepareRequestForInspection("GET", "/", "", {{"Host", "other.example"}}),
+        std::invalid_argument);
 }
 
 BOOST_AUTO_TEST_CASE(
