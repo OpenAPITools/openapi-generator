@@ -130,9 +130,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "number":
-                            string? numberRawValue = utf8JsonReader.GetString();
-                            if (numberRawValue != null)
-                                number = new Option<Number?>(NumberValueConverter.FromStringOrDefault(numberRawValue));
+                            number = new Option<Number?>(JsonSerializer.Deserialize<Number?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

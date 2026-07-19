@@ -163,6 +163,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override Number? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             Number? result = rawValue == null
@@ -183,7 +186,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, Number? number, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(number.HasValue ? NumberValueConverter.ToJsonValue(number.Value).ToString() : "null");
+            if (number.HasValue)
+                writer.WriteStringValue(NumberValueConverter.ToJsonValue(number.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

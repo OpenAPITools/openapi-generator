@@ -150,6 +150,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override SingleAnyOfTest? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             SingleAnyOfTest? result = rawValue == null
@@ -170,7 +173,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, SingleAnyOfTest? singleAnyOfTest, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(singleAnyOfTest.HasValue ? SingleAnyOfTestValueConverter.ToJsonValue(singleAnyOfTest.Value).ToString() : "null");
+            if (singleAnyOfTest.HasValue)
+                writer.WriteStringValue(SingleAnyOfTestValueConverter.ToJsonValue(singleAnyOfTest.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

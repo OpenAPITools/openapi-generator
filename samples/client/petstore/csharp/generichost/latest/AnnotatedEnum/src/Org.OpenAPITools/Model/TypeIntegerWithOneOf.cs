@@ -58,13 +58,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static TypeIntegerWithOneOf FromString(string value)
         {
-            if (value.Equals((1).ToString()))
+            if (value.Equals((1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return TypeIntegerWithOneOf.NUMBER_1;
 
-            if (value.Equals((2).ToString()))
+            if (value.Equals((2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return TypeIntegerWithOneOf.NUMBER_2;
 
-            if (value.Equals((4).ToString()))
+            if (value.Equals((4).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return TypeIntegerWithOneOf.NUMBER_4;
 
             throw new NotImplementedException($"Could not convert value to type TypeIntegerWithOneOf: '{value}'");
@@ -77,13 +77,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static TypeIntegerWithOneOf? FromStringOrDefault(string value)
         {
-            if (value.Equals((1).ToString()))
+            if (value.Equals((1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return TypeIntegerWithOneOf.NUMBER_1;
 
-            if (value.Equals((2).ToString()))
+            if (value.Equals((2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return TypeIntegerWithOneOf.NUMBER_2;
 
-            if (value.Equals((4).ToString()))
+            if (value.Equals((4).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return TypeIntegerWithOneOf.NUMBER_4;
 
             return null;
@@ -116,15 +116,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TypeIntegerWithOneOf Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? rawValue = reader.GetString();
-
-            TypeIntegerWithOneOf? result = rawValue == null
-                ? null
-                : TypeIntegerWithOneOfValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            TypeIntegerWithOneOf? result = TypeIntegerWithOneOfValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -136,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TypeIntegerWithOneOf typeIntegerWithOneOf, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(TypeIntegerWithOneOfValueConverter.ToJsonValue(typeIntegerWithOneOf).ToString());
+            writer.WriteNumberValue(TypeIntegerWithOneOfValueConverter.ToJsonValue(typeIntegerWithOneOf));
         }
     }
 
@@ -154,15 +149,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TypeIntegerWithOneOf? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? rawValue = reader.GetString();
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
 
-            TypeIntegerWithOneOf? result = rawValue == null
-                ? null
-                : TypeIntegerWithOneOfValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            TypeIntegerWithOneOf? result = TypeIntegerWithOneOfValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -174,7 +167,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TypeIntegerWithOneOf? typeIntegerWithOneOf, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(typeIntegerWithOneOf.HasValue ? TypeIntegerWithOneOfValueConverter.ToJsonValue(typeIntegerWithOneOf.Value).ToString() : "null");
+            if (typeIntegerWithOneOf.HasValue)
+                writer.WriteNumberValue(TypeIntegerWithOneOfValueConverter.ToJsonValue(typeIntegerWithOneOf.Value));
+            else
+                writer.WriteNullValue();
         }
     }
 }
