@@ -363,6 +363,17 @@ public class CppBoostBeastClientCodegenTest {
         // AllNullTest (anyOf null+null) generates as an empty class — the degenerate
         // all-null case isn't collapsed to boost::json::value by fromModel. This is
         // acceptable; it was always an empty shell before Phase 2.
+
+        // Scenario 12: x-stainless-const property handling
+        Path stainlessHeader = output.toPath().resolve("model/StainlessObject.h");
+        TestUtils.assertFileExists(stainlessHeader);
+        String stainlessContent = java.nio.file.Files.readString(stainlessHeader);
+        // String const getter should return quoted value
+        Assert.assertTrue(stainlessContent.contains("std::string getType() const { return \"text\"; }"),
+                "StainlessObject string const getter should inline the quoted value");
+        // Integer const getter should return unquoted value
+        Assert.assertTrue(stainlessContent.contains("int32_t getCount() const { return 42; }"),
+                "StainlessObject integer const getter should inline the value");
     }
 
     @Test

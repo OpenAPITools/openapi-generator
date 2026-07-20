@@ -136,7 +136,7 @@ public:
     /// {{description}}
     /// </summary>
     {{#vendorExtensions.x-stainless-const}}
-    {{{dataType}}} {{getter}}() const { return {{{vendorExtensions.x-stainless-const-value}}}; }
+    {{{dataType}}} {{getter}}() const { return {{{vendorExtensions.x-stainless-const-inline-value}}}; }
     {{/vendorExtensions.x-stainless-const}}
     {{^vendorExtensions.x-stainless-const}}
     {{{dataType}}} {{getter}}() const;

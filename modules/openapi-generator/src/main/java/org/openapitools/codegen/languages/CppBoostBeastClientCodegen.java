@@ -513,9 +513,30 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     Schema varSchema = (Schema) rawProp;
                     if (varSchema.getExtensions() != null
                             && Boolean.TRUE.equals(varSchema.getExtensions().get("x-stainless-const"))) {
-                        Object constValue = varSchema.getConst();
-                        if (constValue != null) {
-                            var.vendorExtensions.put("x-stainless-const-value", constValue.toString());
+                        // The OpenAPI normalizer converts `const` to `enum` before model
+                        // processing, so we extract the first/only enum item as the const value.
+                        // For `const: text` → enum: [text], we get "text".
+                        String constRawValue = null;
+                        if (varSchema.getConst() != null) {
+                            constRawValue = varSchema.getConst().toString();
+                        } else if (varSchema.getEnum() != null && !varSchema.getEnum().isEmpty()) {
+                            constRawValue = varSchema.getEnum().get(0).toString();
+                        }
+                        if (constRawValue == null && var.example != null) {
+                            constRawValue = var.example;
+                        }
+                        if (constRawValue == null) {
+                            constRawValue = "std::string".equals(var.dataType) ? "" : "0";
+                        }
+                        var.vendorExtensions.put("x-stainless-const-value", constRawValue);
+                        // Generate a C++ inline literal: quote string values so the
+                        // template emits valid C++ (e.g., return "text"; not return text;).
+                        if ("std::string".equals(var.dataType)) {
+                            var.vendorExtensions.put("x-stainless-const-inline-value",
+                                    "\"" + constRawValue + "\"");
+                        } else {
+                            var.vendorExtensions.put("x-stainless-const-inline-value",
+                                    constRawValue);
                         }
                         var.vendorExtensions.put("x-stainless-const", true);
                     }

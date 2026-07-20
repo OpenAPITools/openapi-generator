@@ -119,3 +119,17 @@ components:
       anyOf:
         - type: "null"
         - type: "null"
+
+    # Scenario 12: x-stainless-const property handling
+    StainlessObject:
+      type: object
+      properties:
+        type:
+          type: string
+          const: text
+          x-stainless-const: true
+        count:
+          type: integer
+          format: int32
+          const: 42
+          x-stainless-const: true

@@ -58,6 +58,21 @@ boost::json::value to_json({{classname}} const& value)
 {{/modelNamespaceDeclarations}}
 
 {{/vendorExtensions.x-cpp-is-variant}}
+{{#vendorExtensions.x-cpp-is-alias}}{{^vendorExtensions.x-cpp-is-variant}}
+#include "{{classname}}.h"
+
+{{#imports}}{{{this}}}
+{{/imports}}
+#include <boost/json.hpp>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+{{/vendorExtensions.x-cpp-is-variant}}{{/vendorExtensions.x-cpp-is-alias}}
 {{^vendorExtensions.x-cpp-is-alias}}
 #include "{{classname}}.h"
 
@@ -321,7 +336,7 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     {{/parent}}
     {{#vars}}
     {{#vendorExtensions.x-stainless-const}}
-    object["{{baseName}}"] = boost::json::value({{{vendorExtensions.x-stainless-const-value}}});
+    object["{{baseName}}"] = boost::json::value({{{vendorExtensions.x-stainless-const-inline-value}}});
     {{/vendorExtensions.x-stainless-const}}
     {{^vendorExtensions.x-stainless-const}}
     {{#parent}}
