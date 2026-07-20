@@ -23,6 +23,7 @@ import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
@@ -2481,6 +2482,13 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Creates a deep copy of a schema.
+     *
+     * @param schema    schema to clone
+     * @param openapi31 true when cloning an OpenAPI 3.1 schema
+     * @return a deep copy of the schema
+     */
     public static Schema cloneSchema(Schema schema, boolean openapi31) {
         if (openapi31) {
             return AnnotationsUtils.clone(schema, openapi31);
@@ -2513,6 +2521,12 @@ public class ModelUtils {
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);
+            // The parser may reuse a $ref schema instance in multiple locations. Clone the
+            // remaining $ref before applying parent metadata so those locations stay isolated.
+            if (subSchema.get$ref() != null) {
+                subSchema = cloneSchema(subSchema,
+                        openAPI != null && SpecVersion.V31.equals(openAPI.getSpecVersion()));
+            }
             // Preserve parent-level docs when nullable anyOf/oneOf collapses to a single child schema.
             if (subSchema.getDescription() == null && schema.getDescription() != null) {
                 subSchema.setDescription(schema.getDescription());
