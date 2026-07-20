@@ -1054,26 +1054,4 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.GO;
     }
-
-    @Override
-    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
-        CodegenProperty property = super.fromProperty(name, p, required);
-
-        if (property.isEnum && "enum".equals(property.dataFormat)) {
-            property.dataFormat = property.baseType;
-        }
-        
-        return property;
-    }
-
-    @Override
-    public CodegenModel fromModel(String name, Schema model) {
-        CodegenModel codegenModel = super.fromModel(name, model);
-        
-        if (codegenModel.isEnum && "enum".equals(codegenModel.getFormat())) {
-            codegenModel.setFormat(codegenModel.dataType);
-        }
-        
-        return codegenModel;
-    }
 }
