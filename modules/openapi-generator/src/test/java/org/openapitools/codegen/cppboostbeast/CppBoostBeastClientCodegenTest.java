@@ -539,6 +539,64 @@ public class CppBoostBeastClientCodegenTest {
                 "All-null branches should produce boost::json::value");
     }
 
+    @Test
+    public void generatesVariantAwareApiIntegration() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-variant-api").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/composed-schema-lowering.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiSource = output.toPath().resolve("api/ComposedSchemaApi.cpp");
+        String generatedApiSource = Files.readString(apiSource);
+
+        // Verify variant/optional template overloads exist in the anonymous namespace
+        Assert.assertTrue(generatedApiSource.contains("toRequestJsonValue(const std::variant<Ts...>&"),
+                "Generated API source must have std::variant overload for toRequestJsonValue");
+        Assert.assertTrue(generatedApiSource.contains("toRequestJsonValue(const std::optional<T>&"),
+                "Generated API source must have std::optional overload for toRequestJsonValue");
+        Assert.assertTrue(generatedApiSource.contains("ResponseJsonValueConverter<std::variant<Ts...>>"),
+                "Generated API source must have std::variant specialization for ResponseJsonValueConverter");
+        Assert.assertTrue(generatedApiSource.contains("ResponseJsonValueConverter<std::optional<T>>"),
+                "Generated API source must have std::optional specialization for ResponseJsonValueConverter");
+
+        // Verify the SSE streaming helper is present
+        Assert.assertTrue(generatedApiSource.contains("parseEventStream"),
+                "Generated API source must contain parseEventStream helper");
+
+        // Verify trait-based dispatch for toRequestJsonValue
+        Assert.assertTrue(generatedApiSource.contains("HasRequestToJsonValue"),
+                "Generated API source must contain HasRequestToJsonValue trait");
+        Assert.assertTrue(generatedApiSource.contains("HasFromJsonValue"),
+                "Generated API source must contain HasFromJsonValue trait");
+
+        // Verify postVariantBody method serializes variant body param
+        String postVariantBodyMethod = extractMethod(generatedApiSource, "postVariantBody(");
+        Assert.assertTrue(postVariantBodyMethod.contains(
+                "serializedRequestBody = boost::json::serialize(toRequestJsonValue(inputParam));"),
+                "postVariantBody must serialize using toRequestJsonValue");
+        Assert.assertTrue(postVariantBodyMethod.contains(
+                "ResponseBodyDeserializer<InputParam>::deserialize("),
+                "postVariantBody must deserialize using ResponseBodyDeserializer<InputParam>");
+
+        // Verify postAliasBody method serializes alias body param
+        String postAliasBodyMethod = extractMethod(generatedApiSource, "postAliasBody(");
+        Assert.assertTrue(postAliasBodyMethod.contains(
+                "serializedRequestBody = boost::json::serialize(toRequestJsonValue(modelIdsResponses));"),
+                "postAliasBody must serialize using toRequestJsonValue");
+
+        // Verify include <optional> and <variant> are present
+        Assert.assertTrue(generatedApiSource.contains("#include <optional>"),
+                "Generated API source must include <optional>");
+        Assert.assertTrue(generatedApiSource.contains("#include <variant>"),
+                "Generated API source must include <variant>");
+    }
+
     // --- C++ compile smoke test ---
 
     /**
@@ -601,4 +659,21 @@ public class CppBoostBeastClientCodegenTest {
         }
     }
 
+    private static String extractMethod(String generatedApiSource, String methodSignature) {
+        int methodStart = generatedApiSource.indexOf(methodSignature);
+        Assert.assertTrue(methodStart >= 0, "Missing generated method: " + methodSignature);
+        int methodEnd = generatedApiSource.indexOf("\n}", methodStart);
+        Assert.assertTrue(methodEnd > methodStart, "Missing closing brace for generated method: " + methodSignature);
+        return generatedApiSource.substring(methodStart, methodEnd);
+    }
+
+    private static int countOccurrences(String source, String expectedText) {
+        int occurrenceCount = 0;
+        int searchPosition = 0;
+        while ((searchPosition = source.indexOf(expectedText, searchPosition)) >= 0) {
+            occurrenceCount++;
+            searchPosition += expectedText.length();
+        }
+        return occurrenceCount;
+    }
 }

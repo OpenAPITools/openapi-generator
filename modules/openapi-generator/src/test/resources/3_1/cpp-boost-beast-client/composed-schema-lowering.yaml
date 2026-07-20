@@ -2,7 +2,43 @@ openapi: 3.1.0
 info:
   title: Cpp Boost Beast composed schema lowering
   version: 1.0.0
-paths: {}
+paths:
+  /variant-body:
+    post:
+      tags:
+        - ComposedSchema
+      operationId: postVariantBody
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputParam'
+      responses:
+        '200':
+          description: Variant request/response round-trip
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InputParam'
+  /alias-body:
+    post:
+      tags:
+        - ComposedSchema
+      operationId: postAliasBody
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelIdsResponses'
+      responses:
+        '200':
+          description: Alias request/response round-trip
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelIdsResponses'
 components:
   schemas:
     # Scenario 1: anyOf with string + string-enum → std::string

@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <utility>
 #include <vector>
+#include <optional>
+#include <variant>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/beast/http/status.hpp>
@@ -396,8 +398,31 @@ std::string base64encodeImpl(const std::string& str) {
 #endif
 }
 
+// Trait to detect types with toJsonValue() const member (e.g. model classes)
+template <typename T, typename = void>
+struct HasRequestToJsonValue : std::false_type {};
+
+template <typename T>
+struct HasRequestToJsonValue<T, std::void_t<
+    decltype(std::declval<const T&>().toJsonValue())>> : std::true_type {};
+
+// Dispatch for types with toJsonValue() — model classes
 template<typename T>
-boost::json::value toRequestJsonValue(const T& requestValue);
+boost::json::value toRequestJsonValueImpl(const T& requestValue, std::true_type) {
+    return requestValue.toJsonValue();
+}
+
+// Dispatch for types without toJsonValue() — primitives, standard containers
+template<typename T>
+boost::json::value toRequestJsonValueImpl(const T& requestValue, std::false_type) {
+    return boost::json::value_from(requestValue);
+}
+
+// Base template: detect toJsonValue() at compile time and dispatch accordingly
+template<typename T>
+boost::json::value toRequestJsonValue(const T& requestValue) {
+    return toRequestJsonValueImpl(requestValue, HasRequestToJsonValue<T>{});
+}
 
 template<typename T>
 boost::json::value toRequestJsonValue(const std::shared_ptr<T>& requestValue);
@@ -407,11 +432,6 @@ boost::json::value toRequestJsonValue(const std::vector<T>& requestValues);
 
 template<typename T>
 boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestValues);
-
-template<typename T>
-boost::json::value toRequestJsonValue(const T& requestValue) {
-    return boost::json::value_from(requestValue);
-}
 
 template<typename T>
 boost::json::value toRequestJsonValue(const std::shared_ptr<T>& requestValue) {
@@ -437,10 +457,47 @@ boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestVal
     return requestObject;
 }
 
+template<typename... Ts>
+boost::json::value toRequestJsonValue(const std::variant<Ts...>& requestValue) {
+    return std::visit([](auto const& v) -> boost::json::value {
+        return toRequestJsonValue(v);
+    }, requestValue);
+}
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::optional<T>& requestValue) {
+    if (requestValue.has_value()) {
+        return toRequestJsonValue(requestValue.value());
+    }
+    return boost::json::value(nullptr);
+}
+
+// Trait to detect types with fromJsonValue(boost::json::value const&) member
+template <typename T, typename = void>
+struct HasFromJsonValue : std::false_type {};
+
+template <typename T>
+struct HasFromJsonValue<T, std::void_t<
+    decltype(std::declval<T&>().fromJsonValue(std::declval<boost::json::value const&>()))>> : std::true_type {};
+
+// Dispatch for types with fromJsonValue() — model classes
+template<typename T>
+static T convertJsonValueImpl(const boost::json::value& responseValue, std::true_type) {
+    T result;
+    result.fromJsonValue(responseValue);
+    return result;
+}
+
+// Dispatch for types without fromJsonValue() — primitives, standard types
+template<typename T>
+static T convertJsonValueImpl(const boost::json::value& responseValue, std::false_type) {
+    return boost::json::value_to<T>(responseValue);
+}
+
 template<typename T>
 struct ResponseJsonValueConverter {
     static T convert(const boost::json::value& responseValue) {
-        return boost::json::value_to<T>(responseValue);
+        return convertJsonValueImpl<T>(responseValue, HasFromJsonValue<T>{});
     }
 };
 
@@ -485,6 +542,23 @@ struct ResponseJsonValueConverter<std::map<std::string, T>> {
     }
 };
 
+template<typename... Ts>
+struct ResponseJsonValueConverter<std::variant<Ts...>> {
+    static std::variant<Ts...> convert(const boost::json::value& responseValue) {
+        return from_json<std::variant<Ts...>>(responseValue);
+    }
+};
+
+template<typename T>
+struct ResponseJsonValueConverter<std::optional<T>> {
+    static std::optional<T> convert(const boost::json::value& responseValue) {
+        if (responseValue.is_null()) {
+            return std::nullopt;
+        }
+        return ResponseJsonValueConverter<T>::convert(responseValue);
+    }
+};
+
 template<typename T>
 struct ResponseBodyDeserializer {
     static void deserialize(
@@ -513,6 +587,35 @@ struct ResponseBodyDeserializer<std::string> {
         convertedResponse = responseBody;
     }
 };
+
+/// Parse a text/event-stream response body into a vector of typed events.
+/// Each event's data field is parsed as JSON and converted to EventVariant
+/// using the from_json free function (ADL for model variant types).
+template<typename EventVariant>
+std::vector<EventVariant> parseEventStream(const std::string& responseBody) {
+    std::vector<EventVariant> events;
+    std::istringstream stream(responseBody);
+    std::string line;
+    std::string currentData;
+    while (std::getline(stream, line)) {
+        if (line.empty() || line == "\r") {
+            if (!currentData.empty()) {
+                auto jsonValue = boost::json::parse(currentData);
+                events.push_back(from_json<EventVariant>(jsonValue));
+                currentData.clear();
+            }
+        } else if (line.size() > 6 && line.starts_with("data: ")) {
+            currentData += line.substr(6);
+        } else if (line.size() > 5 && line.starts_with("data:")) {
+            currentData += line.substr(5);
+        }
+    }
+    if (!currentData.empty()) {
+        auto jsonValue = boost::json::parse(currentData);
+        events.push_back(from_json<EventVariant>(jsonValue));
+    }
+    return events;
+}
 }
 
 {{classname}}Exception::{{classname}}Exception(boost::beast::http::status statusCode, std::string what)
