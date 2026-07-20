@@ -1048,7 +1048,6 @@ Here is a list of template creators:
    * Dart (refactor): @joernahrens
    * Dart 2: @swipesight
    * Dart (Jaguar): @jaumard
-   * Dart (Dio): @josh-burton
    * Elixir: @niku
    * Elm: @eriktim
    * Eiffel: @jvelilla
@@ -1257,7 +1256,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | C#                    | @mandrean (2017/08) @shibayan (2020/02) @Blackclaws (2021/03) @lucamazzanti (2021/05) @iBicha (2023/07)                                                                                                                                          |
 | Clojure               |                                                                                                                                                                                                                                                       |
 | Crystal               | @cyangle (2021/01)                                                                                                                                                                                                                                    |
-| Dart                  | @jaumard (2018/09) @josh-burton (2019/12) @amondnet (2019/12) @sbu-WBT (2020/12) @kuhnroyal (2020/12) @agilob (2020/12) @ahmednfwela (2021/08)                                                                                                        |
+| Dart                  | @jaumard (2018/09) @amondnet (2019/12) @sbu-WBT (2020/12) @kuhnroyal (2020/12) @agilob (2020/12) @ahmednfwela (2021/08)                                                                                                        |
 | Eiffel                | @jvelilla (2017/09)                                                                                                                                                                                                                                   |
 | Elixir                | @mrmstn (2018/12)                                                                                                                                                                                                                                     |
 | Elm                   | @eriktim (2018/09)                                                                                                                                                                                                                                    |
