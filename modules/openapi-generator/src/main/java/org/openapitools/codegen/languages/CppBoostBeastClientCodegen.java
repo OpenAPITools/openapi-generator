@@ -421,6 +421,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
         }
 
+        // Phase 3c: Tag properties is deferred to postProcessAllModels (which runs
+        // once with the full model map) because postProcessModels is called per-model,
+        // so a cross-model lookup of variant aliases is not possible here.
+
         // Phase 4: Emit complete includes for resolved alias/variant types.
         // Scan x-cpp-type and x-cpp-branches for known standard types and add
         // corresponding #include directives to the model's imports.
@@ -444,6 +448,47 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         }
 
         return result;
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+
+        // Phase 5: Tag properties referencing a variant alias model so the template
+        // dispatches via fromJsonValue_/toJsonValue_ free functions (which respect the
+        // composed keyword — oneOf vs anyOf semantics) instead of the generic
+        // JsonValueConverter<std::variant<Ts...>> (which always enforces exactly-one
+        // oneOf semantics, even for anyOf properties).
+        //
+        // This must run in postProcessAllModels (not postProcessModels) because the
+        // latter is called per-model, not globally. We need access to all models to
+        // look up whether a property's dataType refers to a variant alias model.
+        //
+        // Only true std::variant aliases (x-cpp-is-variant = true) have the
+        // toJsonValue_/fromJsonValue_ free functions. Non-variant aliases (e.g.,
+        // ModelIdsResponses = std::string) must NOT be tagged.
+        for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
+            for (ModelMap mo : entry.getValue().getModels()) {
+                CodegenModel cm = mo.getModel();
+                for (CodegenProperty var : allVarsOf(cm)) {
+                    if (var.dataType != null) {
+                        // Look up the model that this property's dataType refers to
+                        ModelsMap targetEntry = processed.get(var.dataType);
+                        if (targetEntry != null) {
+                            for (ModelMap targetMo : targetEntry.getModels()) {
+                                CodegenModel targetModel = targetMo.getModel();
+                                if (Boolean.TRUE.equals(targetModel.vendorExtensions.get("x-cpp-is-variant"))) {
+                                    var.vendorExtensions.put("x-cpp-variant-alias", true);
+                                    var.vendorExtensions.put("x-cpp-variant-alias-name", var.dataType);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return processed;
     }
 
     /**

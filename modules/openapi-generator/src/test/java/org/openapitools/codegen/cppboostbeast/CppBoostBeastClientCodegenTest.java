@@ -534,6 +534,35 @@ public class CppBoostBeastClientCodegenTest {
                 "ResponseStreamEvent (discriminated) should not contain isOneOf compile-time flag");
         Assert.assertFalse(rseSourceContent.contains("matchCount"),
                 "ResponseStreamEvent (discriminated) should not contain matchCount");
+
+        // Scenario 17: AnyOfOverlapping, OverlappingObjectA, OverlappingObjectB,
+        // ParentWithAnyOfOverlapping — verify files are generated
+        TestUtils.assertFileExists(output.toPath().resolve("model/AnyOfOverlapping.h"));
+        TestUtils.assertFileExists(output.toPath().resolve("model/OverlappingObjectA.h"));
+        TestUtils.assertFileExists(output.toPath().resolve("model/OverlappingObjectB.h"));
+        TestUtils.assertFileExists(output.toPath().resolve("model/ParentWithAnyOfOverlapping.h"));
+
+        // AnyOfOverlapping must be a variant (anyOf two objects → std::variant<...>)
+        String anyOfOverlappingContent = java.nio.file.Files.readString(
+            output.toPath().resolve("model/AnyOfOverlapping.h"));
+        Assert.assertTrue(anyOfOverlappingContent.contains("using AnyOfOverlapping = std::variant<OverlappingObjectA, OverlappingObjectB>;"),
+                "AnyOfOverlapping should emit using alias to std::variant<OverlappingObjectA, OverlappingObjectB>");
+
+        // AnyOfOverlapping source must use tryVariantBranches (first-match) for anyOf
+        String anyOfOverlappingSourceContent = java.nio.file.Files.readString(
+            output.toPath().resolve("model/AnyOfOverlapping.cpp"));
+        Assert.assertTrue(anyOfOverlappingSourceContent.contains("isOneOf"),
+                "AnyOfOverlapping source should contain isOneOf compile-time flag");
+        Assert.assertTrue(anyOfOverlappingSourceContent.contains("tryVariantBranches"),
+                "AnyOfOverlapping (anyOf) source should use tryVariantBranches (first-match)");
+
+        // ParentWithAnyOfOverlapping must dispatch via fromJsonValue_/toJsonValue_
+        String parentOverlappingSourceContent = java.nio.file.Files.readString(
+            output.toPath().resolve("model/ParentWithAnyOfOverlapping.cpp"));
+        Assert.assertTrue(parentOverlappingSourceContent.contains("fromJsonValue_AnyOfOverlapping"),
+                "ParentWithAnyOfOverlapping deserialization must use fromJsonValue_AnyOfOverlapping");
+        Assert.assertTrue(parentOverlappingSourceContent.contains("toJsonValue_AnyOfOverlapping"),
+                "ParentWithAnyOfOverlapping serialization must use toJsonValue_AnyOfOverlapping");
     }
 
     @Test
@@ -954,6 +983,37 @@ public class CppBoostBeastClientCodegenTest {
         // (variant types don't imply required in the OpenAPI sense)
         Assert.assertTrue(anyOfHolderContent.contains("m_ValueIsSet"),
                 "AnyOfPropertyHolder should have IsSet for optional property");
+
+        // AnyOfPropertyHolder source must dispatch property (de)serialization via
+        // fromJsonValue_/toJsonValue_ free functions (keyword-faithful: anyOf first-match)
+        // rather than JsonValueConverter<AnyOfStringInteger> (always oneOf exactly-one).
+        Path anyOfHolderSource = output.toPath().resolve("model/AnyOfPropertyHolder.cpp");
+        TestUtils.assertFileExists(anyOfHolderSource);
+        String anyOfHolderSourceContent = java.nio.file.Files.readString(anyOfHolderSource);
+        Assert.assertTrue(anyOfHolderSourceContent.contains("fromJsonValue_AnyOfStringInteger"),
+                "AnyOfPropertyHolder deserialization must use fromJsonValue_AnyOfStringInteger "
+                + "(keyword-faithful anyOf first-match)");
+        Assert.assertTrue(anyOfHolderSourceContent.contains("toJsonValue_AnyOfStringInteger"),
+                "AnyOfPropertyHolder serialization must use toJsonValue_AnyOfStringInteger");
+        // The JsonValueConverter variant specialization is still present in the file
+        // (for non-alias-referenced variant types) but the property must NOT use it.
+        Assert.assertFalse(anyOfHolderSourceContent.contains("JsonValueConverter<AnyOfStringInteger>"),
+                "AnyOfPropertyHolder must NOT use JsonValueConverter<AnyOfStringInteger> "
+                + "(that path always enforces exactly-one semantics)");
+
+        // Verify new fixture: ParentWithAnyOfOverlapping — parent referencing anyOf of
+        // two overlapping object schemas (no discriminator). The generated property
+        // code must dispatch via fromJsonValue_AnyOfOverlapping (anyOf first-match).
+        Path overlappingParentHeader = output.toPath().resolve("model/ParentWithAnyOfOverlapping.h");
+        TestUtils.assertFileExists(overlappingParentHeader);
+        String overlappingParentSource = Files.readString(
+            output.toPath().resolve("model/ParentWithAnyOfOverlapping.cpp"));
+        Assert.assertTrue(overlappingParentSource.contains("fromJsonValue_AnyOfOverlapping"),
+                "ParentWithAnyOfOverlapping deserialization must use fromJsonValue_AnyOfOverlapping "
+                + "(anyOf first-match for overlapping objects)");
+        Assert.assertTrue(overlappingParentSource.contains("toJsonValue_AnyOfOverlapping"),
+                "ParentWithAnyOfOverlapping serialization must use toJsonValue_AnyOfOverlapping "
+                + "(delegates to anyOf first-match)");
 
         // Verify NO from_json<T> template call sites in API source (all dispatch via fromJsonValue_)
         Assert.assertFalse(generatedApiSource.contains("from_json<"),
