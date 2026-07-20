@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Discriminator value identifying the type of pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public enum PetType {
   
   CAT("CAT"),
