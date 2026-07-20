@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +55,26 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
     public String getHelp() {
         return "Generates a cpp-boost-beast client.";
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+        // Populate variantModels before model processing begins so that
+        // getTypeDeclaration can resolve $ref to composed models as value types
+        // (without shared_ptr wrapping) regardless of processing order.
+        Map<String, Schema> schemas = openAPI.getComponents() != null
+                ? openAPI.getComponents().getSchemas() : null;
+        if (schemas != null) {
+            for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
+                String name = entry.getKey();
+                Schema schema = entry.getValue();
+                if ((schema.getOneOf() != null && !schema.getOneOf().isEmpty())
+                        || (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty())) {
+                    variantModels.add(name);
+                }
+            }
+        }
     }
 
     public CppBoostBeastClientCodegen() {
@@ -665,6 +686,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             return openAPIType;
         }
 
+        // Fallback: wrap in shared_ptr for all other model refs.
+        // NOTE (Phase 1 scope): "shared_ptr only for cycles" is a planned follow-up.
+        // Determining cycle safety requires circular-reference analysis (setCircularReferences)
+        // which runs too late in the pipeline for getTypeDeclaration. Variant models (oneOf/anyOf)
+        // are treated as value types via variantModels. For regular object refs, we conservatively
+        // use shared_ptr — this will be narrowed to cycle-only in a later phase.
         return "std::shared_ptr<" + openAPIType + ">";
     }
 
@@ -766,7 +793,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             String innerType = inner != null ? getTypeDeclaration(inner) : "boost::json::value";
             return "std::vector<" + innerType + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
+            String refName = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
+            if (variantModels.contains(refName)) {
+                return refName + "()";
+            }
+            return "std::make_shared<" + refName + ">()";
         } else if (ModelUtils.isNullType(p)) {
             return "nullptr";
         } else if (ModelUtils.isAnyType(p) || ModelUtils.isFreeFormObject(p, openAPI)) {
@@ -806,10 +837,25 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 && !"std::nullptr_t".equals(parameter.dataType)
                 && !parameter.dataType.startsWith("std::variant<")
                 && !parameter.dataType.startsWith("std::optional<")
-                && !"std::monostate".equals(parameter.dataType)
-                && !variantModels.contains(parameter.dataType)) {
-            parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
-            parameter.defaultValue = "std::make_shared<" + parameter.dataType + ">()";
+                && !"std::monostate".equals(parameter.dataType)) {
+            // Wrap non-primitive types in shared_ptr, unless:
+            // - The type is a variant/optional model (value semantics)
+            // - The type is a known variant model name from composed schemas
+            if (!variantModels.contains(parameter.dataType)) {
+                parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
+                parameter.defaultValue = "std::make_shared<" + parameter.dataType + ">()";
+            }
+        }
+
+        // Post-hoc unwrap: if the type ended up as std::shared_ptr<VariantModel>,
+        // strip the shared_ptr wrapper (value semantics for variant types).
+        if (parameter.dataType != null && parameter.dataType.startsWith("std::shared_ptr<")
+                && parameter.dataType.endsWith(">")) {
+            String innerType = parameter.dataType.substring(16, parameter.dataType.length() - 1);
+            if (variantModels.contains(innerType)) {
+                parameter.dataType = innerType;
+                parameter.defaultValue = null;
+            }
         }
     }
 

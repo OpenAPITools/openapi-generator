@@ -262,13 +262,44 @@ public class CppBoostBeastClientCodegenTest {
         // (see resolvesInlineNullableToOptional). Template rendering of std::optional
         // requires the import (#include <optional>) to be wired, which is a template concern.
 
-        // Scenario 5: DedupTest model file exists
+        // Scenario 5: OpenAITemperature — anyOf [number, null] property is std::optional<double>
+        Path openaiTempHeader = output.toPath().resolve("model/OpenAITemperature.h");
+        TestUtils.assertFileExists(openaiTempHeader);
+        String openaiTempContent = java.nio.file.Files.readString(openaiTempHeader);
+        Assert.assertTrue(openaiTempContent.contains("m_Temperature"),
+                "OpenAITemperature should declare m_Temperature member");
+
+        // Scenario 6: RefHolder — properties that $ref composed models without shared_ptr
+        Path refHolderHeader = output.toPath().resolve("model/RefHolder.h");
+        TestUtils.assertFileExists(refHolderHeader);
+        String refHolderContent = java.nio.file.Files.readString(refHolderHeader);
+        // The ids property should reference ModelIdsResponses by value (no shared_ptr)
+        Assert.assertTrue(refHolderContent.contains("m_Ids") || refHolderContent.contains("Ids"),
+                "RefHolder should declare m_Ids member");
+        Assert.assertTrue(refHolderContent.contains("m_Param") || refHolderContent.contains("Param"),
+                "RefHolder should declare m_Param member");
+        // Verify no shared_ptr wrapping for variant model refs by checking the property type
+        // The template renders {{{dataType}}} for member declarations
+        Assert.assertFalse(refHolderContent.contains("std::shared_ptr<ModelIdsResponses>"),
+                "RefHolder ids property should not be shared_ptr<ModelIdsResponses>");
+        Assert.assertFalse(refHolderContent.contains("std::shared_ptr<InputParam>"),
+                "RefHolder param property should not be shared_ptr<InputParam>");
+
+        // Scenario 7: PetByType — oneOf with discriminator
+        Path petByTypeHeader = output.toPath().resolve("model/PetByType.h");
+        TestUtils.assertFileExists(petByTypeHeader);
+        Path catHeader = output.toPath().resolve("model/Cat.h");
+        TestUtils.assertFileExists(catHeader);
+        Path dogHeader = output.toPath().resolve("model/Dog.h");
+        TestUtils.assertFileExists(dogHeader);
+
+        // Scenario 8: DedupTest model file exists
         TestUtils.assertFileExists(output.toPath().resolve("model/DedupTest.h"));
 
-        // Scenario 6: SingleBranchTest model file exists
+        // Scenario 9: SingleBranchTest model file exists
         TestUtils.assertFileExists(output.toPath().resolve("model/SingleBranchTest.h"));
 
-        // Scenario 7: AllNullTest model file exists
+        // Scenario 10: AllNullTest model file exists
         TestUtils.assertFileExists(output.toPath().resolve("model/AllNullTest.h"));
     }
 

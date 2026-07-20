@@ -55,7 +55,52 @@ components:
         - type: "null"
         - type: number
 
-    # Scenario 6: Deduplication — oneOf with duplicate string branches
+    # Scenario 6: OpenAI-style temperature (anyOf number + null)
+    OpenAITemperature:
+      type: object
+      properties:
+        temperature:
+          anyOf:
+            - type: number
+            - type: "null"
+
+    # Scenario 7: $ref holder — property that references a composed model
+    RefHolder:
+      type: object
+      properties:
+        ids:
+          $ref: '#/components/schemas/ModelIdsResponses'
+        param:
+          $ref: '#/components/schemas/InputParam'
+
+    # Scenario 8: oneOf with discriminator
+    PetByType:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: pet_type
+        mapping:
+          cat: Cat
+          dog: Dog
+    Cat:
+      type: object
+      properties:
+        pet_type:
+          type: string
+          enum: [cat]
+        meow_volume:
+          type: integer
+    Dog:
+      type: object
+      properties:
+        pet_type:
+          type: string
+          enum: [dog]
+        bark_volume:
+          type: integer
+
+    # Scenario 9: Deduplication — oneOf with duplicate string branches
     DedupTest:
       oneOf:
         - type: string
@@ -63,13 +108,13 @@ components:
           enum: [a, b]
         - type: integer
 
-    # Scenario 7: Single non-null branch collapse
+    # Scenario 10: Single non-null branch collapse
     SingleBranchTest:
       anyOf:
         - type: string
           enum: [x, y]
 
-    # Scenario 8: All-null branches → boost::json::value
+    # Scenario 11: All-null branches → boost::json::value
     AllNullTest:
       anyOf:
         - type: "null"
