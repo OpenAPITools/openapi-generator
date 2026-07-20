@@ -304,12 +304,60 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         return "std::variant<" + String.join(", ", nonNullBranches) + ">";
     }
 
-    /** Strips std::shared_ptr&lt;...&gt; wrapper from a type string for variant members. */
+    /**
+     * Recursively strips {@code std::shared_ptr<X>} wrappers from a type string.
+     * <ul>
+     *   <li>{@code std::shared_ptr<Foo>} → {@code Foo}</li>
+     *   <li>{@code std::vector<std::shared_ptr<Foo>>} → {@code std::vector<Foo>}</li>
+     *   <li>{@code std::map<std::string, std::shared_ptr<Foo>>} → {@code std::map<std::string, Foo>}</li>
+     *   <li>{@code std::string} → {@code std::string} (unchanged)</li>
+     * </ul>
+     */
     private static String stripSharedPtr(String type) {
-        if (type != null && type.startsWith("std::shared_ptr<") && type.endsWith(">")) {
-            return type.substring(16, type.length() - 1);
+        if (type == null) {
+            return null;
+        }
+        // Direct std::shared_ptr<X> wrapper — extract inner type and recurse.
+        if (type.startsWith("std::shared_ptr<") && type.endsWith(">")) {
+            return stripSharedPtr(type.substring(16, type.length() - 1));
+        }
+        // Check for template arguments (contains '<' and '>').
+        int firstLt = type.indexOf('<');
+        int lastGt = type.lastIndexOf('>');
+        if (firstLt > 0 && lastGt > firstLt) {
+            // Split arguments at commas at depth 0 (not inside nested angle brackets).
+            String prefix = type.substring(0, firstLt);
+            String argsSection = type.substring(firstLt + 1, lastGt);
+            List<String> args = splitTemplateArgs(argsSection);
+            for (int i = 0; i < args.size(); i++) {
+                args.set(i, stripSharedPtr(args.get(i).trim()));
+            }
+            return prefix + "<" + String.join(", ", args) + ">";
         }
         return type;
+    }
+
+    /**
+     * Splits a comma-separated template argument list, respecting nested angle brackets.
+     * {@code "std::string, std::shared_ptr<Foo>"} → {@code ["std::string", "std::shared_ptr<Foo>"]}
+     */
+    private static List<String> splitTemplateArgs(String args) {
+        List<String> result = new ArrayList<>();
+        int depth = 0;
+        int start = 0;
+        for (int i = 0; i < args.length(); i++) {
+            char c = args.charAt(i);
+            if (c == '<') {
+                depth++;
+            } else if (c == '>') {
+                depth--;
+            } else if (c == ',' && depth == 0) {
+                result.add(args.substring(start, i));
+                start = i + 1;
+            }
+        }
+        result.add(args.substring(start));
+        return result;
     }
 
     /**

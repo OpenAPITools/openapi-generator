@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.cppboostbeast;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.NumberSchema;
@@ -284,6 +285,26 @@ public class CppBoostBeastClientCodegenTest {
         String resolved = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(resolved, "std::optional<double>",
                 "oneOf [null, number] should produce std::optional<double>");
+    }
+
+    @Test
+    public void resolvesInputParamWithNestedSharedPtrStripped() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        // Simulate InputParam: oneOf [string, array<$ref InputItem>]
+        // Branch types should have no shared_ptr wrapping: std::variant<std::string, std::vector<InputItem>>
+        Schema refItem = new Schema().$ref("#/components/schemas/InputItem");
+        ArraySchema arraySchema = new ArraySchema();
+        arraySchema.setItems(refItem);
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.addOneOfItem(new StringSchema());
+        schema.addOneOfItem(arraySchema);
+
+        String resolved = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(resolved, "std::variant<std::string, std::vector<InputItem>>",
+                "InputParam should strip nested shared_ptr from array item type");
     }
 
     @Test
