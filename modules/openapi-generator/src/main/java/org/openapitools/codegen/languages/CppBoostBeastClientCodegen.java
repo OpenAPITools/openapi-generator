@@ -9,6 +9,8 @@ import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import org.openapitools.codegen.meta.features.*;
@@ -192,6 +194,38 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         }
 
         objs = super.updateAllModels(objs);
+
+        // Phase: Strip std::shared_ptr<X> from non-cyclic object refs.
+        // super.updateAllModels → DefaultCodegen.updateAllModels → setCircularReferences
+        // has now run, setting isCircularReference flags on properties.
+        // Non-cyclic edges should use value semantics (plain X) rather than
+        // std::shared_ptr<X> to avoid unnecessary heap allocation.
+        getAllModels(objs).values().forEach(cm -> {
+            List<List<CodegenProperty>> propertyLists = Arrays.asList(
+                    cm.vars, cm.allVars, cm.requiredVars, cm.optionalVars,
+                    cm.readOnlyVars, cm.readWriteVars, cm.parentVars);
+            for (List<CodegenProperty> propList : propertyLists) {
+                if (propList == null) continue;
+                for (CodegenProperty var : propList) {
+                    if (var.dataType != null && var.dataType.startsWith("std::shared_ptr<")) {
+                        // Keep shared_ptr for circular refs; strip for non-cyclic.
+                        // isCircularReference defaults to false for non-cyclic edges.
+                        if (!var.isCircularReference) {
+                            String innerType = var.dataType.substring(16, var.dataType.length() - 1);
+                            var.dataType = innerType;
+                            var.defaultValue = null;
+                            if (var.isContainer && var.items != null
+                                    && var.items.dataType != null
+                                    && var.items.dataType.startsWith("std::shared_ptr<")) {
+                                String itemsInner = var.items.dataType.substring(16, var.items.dataType.length() - 1);
+                                var.items.dataType = itemsInner;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
         return objs;
     }
 
@@ -276,7 +310,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
         }
 
-        // Phase 3: Emit complete includes for resolved alias/variant types.
+        // Phase 4: Emit complete includes for resolved alias/variant types.
         // Scan x-cpp-type and x-cpp-branches for known standard types and add
         // corresponding #include directives to the model's imports.
         for (ModelMap mo : result.getModels()) {
@@ -411,7 +445,17 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     .filter(t -> !t.equals(cm.classname))
                     .collect(Collectors.toList());
 
-            String resolvedType = lowerComposedTypes(branchTypes, composedKeyword);
+            String resolvedType;
+            try {
+                resolvedType = lowerComposedTypes(branchTypes, composedKeyword);
+            } catch (RuntimeException e) {
+                // Fallback: if lowering fails (e.g., indistinguishable oneOf branches),
+                // treat as boost::json::value and log the warning rather than crashing
+                // the entire generation pipeline.
+                LOGGER.warn("Failed to lower composed types for '{}': {} — falling back to boost::json::value",
+                        cm.classname, e.getMessage());
+                resolvedType = "boost::json::value";
+            }
 
         // Record as variant model for getTypeDeclaration shared_ptr exclusion
         variantModels.add(cm.classname);
@@ -479,12 +523,17 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 .distinct()
                 .collect(Collectors.toList());
 
-        // Rule 6: For oneOf, if dedup would reduce to a single branch from
-        // multiple original branches, preserve duplicates to maintain the
-        // exclusive union semantics (prevent silent scalar collapse).
+        // Rule 6: For oneOf with duplicate types after dedup, reject with
+        // a hard error. Previously this preserved duplicates by keeping all
+        // branches, but that produced unusable types like std::variant<T,T>.
+        // If branches have the same resolved type, they are indistinguishable
+        // at runtime and the schema should use anyOf or a discriminated union.
         if ("oneOf".equals(composedKeyword) && deduped.size() == 1
                 && nonNullBranches.size() > 1) {
-            deduped = new ArrayList<>(nonNullBranches); // Keep all duplicates
+            throw new RuntimeException(
+                "oneOf branches in composed type are not distinguishable: all branches "
+                + "resolve to the same C++ type '" + deduped.get(0) + "'. "
+                + "Use anyOf instead, or add a discriminator to distinguish branches.");
         }
 
         // Re-check single branch after potential dedup
@@ -686,14 +735,18 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // pipeline consumes the composed schemas.
         if (model != null && model.getAllOf() != null && !model.getAllOf().isEmpty()) {
             List<String> allOfPrimitiveTypes = new ArrayList<>();
+            // Also track property-level conflicts: same property name with
+            // incompatible types across allOf branches.
+            Map<String, String> allOfPropertyTypes = new HashMap<>();
             for (Object allOfItem : model.getAllOf()) {
                 if (allOfItem instanceof Schema) {
                     Schema itemSchema = (Schema) allOfItem;
                     String ref = itemSchema.get$ref();
                     String resolvedType = null;
+                    Schema resolvedRef = null;
                     // For $ref schemas, resolve to the target's type
                     if (ref != null) {
-                        Schema resolvedRef = (openAPI != null)
+                        resolvedRef = (openAPI != null)
                             ? ModelUtils.getReferencedSchema(openAPI, itemSchema)
                             : null;
                         if (resolvedRef != null) {
@@ -701,9 +754,47 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                         }
                     } else {
                         resolvedType = itemSchema.getType();
+                        resolvedRef = itemSchema;
                     }
                     if (resolvedType != null && !"object".equals(resolvedType)) {
                         allOfPrimitiveTypes.add(resolvedType);
+                    }
+                    // Check property-level conflicts: scan each allOf branch's
+                    // properties for name collisions with incompatible types.
+                    Schema propsSource = ref != null ? resolvedRef : itemSchema;
+                    if (propsSource != null && propsSource.getProperties() != null) {
+                        for (Object propEntryObj : propsSource.getProperties().entrySet()) {
+                            Map.Entry<String, Schema> propEntry = (Map.Entry<String, Schema>) propEntryObj;
+                            String propName = propEntry.getKey();
+                            Schema propSchema = propEntry.getValue();
+                            String propType = propSchema.getType();
+                            if (propType == null) {
+                                // For $ref properties, resolve the type
+                                if (propSchema.get$ref() != null && openAPI != null) {
+                                    Schema refProp = ModelUtils.getReferencedSchema(openAPI, propSchema);
+                                    if (refProp != null) {
+                                        propType = refProp.getType();
+                                    }
+                                }
+                                if (propType == null) {
+                                    propType = "unknown";
+                                }
+                            }
+                            if (allOfPropertyTypes.containsKey(propName)) {
+                                String existingType = allOfPropertyTypes.get(propName);
+                                if (!existingType.equals(propType)
+                                        && !"object".equals(propType)
+                                        && !"object".equals(existingType)) {
+                                    throw new RuntimeException(
+                                        "allOf property type conflict in schema '" + name
+                                        + "': property '" + propName + "' has incompatible types ["
+                                        + existingType + ", " + propType
+                                        + "]. allOf with conflicting property types is not supported.");
+                                }
+                            } else {
+                                allOfPropertyTypes.put(propName, propType);
+                            }
+                        }
                     }
                 }
             }

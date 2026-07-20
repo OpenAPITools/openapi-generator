@@ -117,10 +117,14 @@ public class CppBoostBeastClientCodegenTest {
         TestUtils.assertFileContains(containerHeader,
                 "bool m_OptionalScalarIsSet = false;",
                 "bool m_OptionalModelIsSet = false;",
-                "std::shared_ptr<ReferencedEnum> m_ReferencedEnum = nullptr;",
                 "bool m_ModelArrayIsSet = false;",
                 "bool m_FreeFormValueIsSet = false;",
                 "bool m_NullValueIsSet = false;");
+        // Non-cyclic object refs use value semantics (no shared_ptr wrapping)
+        TestUtils.assertFileContains(containerHeader,
+                "m_ReferencedEnum");
+        TestUtils.assertFileNotContains(containerHeader,
+                "shared_ptr<ReferencedEnum>");
         TestUtils.assertFileNotContains(containerHeader,
                 "bool m_RequiredValueIsSet",
                 "std::array<");
@@ -258,8 +262,11 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(tempContent.contains("m_Temperature"),
                 "TemperatureContainer should declare m_Temperature member");
         // The nullable property type maps to std::optional<double> at the codegen level
-        // (see resolvesInlineNullableToOptional). Template rendering of std::optional
-        // requires the import (#include <optional>) to be wired, which is a template concern.
+        // (see resolvesInlineNullableToOptional). The template renders nullable as a
+        // primitive with an IsSet flag (e.g., double + m_TemperatureIsSet), not as
+        // std::optional<double> directly.
+        Assert.assertTrue(tempContent.contains("m_TemperatureIsSet"),
+                "TemperatureContainer should have IsSet flag for nullable property");
 
         // Scenario 5: OpenAITemperature — anyOf [number, null] property is std::optional<double>
         Path openaiTempHeader = output.toPath().resolve("model/OpenAITemperature.h");
@@ -378,8 +385,10 @@ public class CppBoostBeastClientCodegenTest {
                 "PetByType from_json should reference pet_type discriminator property");
 
         // OptionalScore (oneOf null+number → std::optional<double>) is not generated
-        // as a stand-alone file by the current pipeline — bare oneOf at component level
-        // without type: object is handled differently. This will be addressed in a later phase.
+        // as a stand-alone file by the current pipeline — the OpenAPI 3.1 parser
+        // converts oneOf [null, number] into {type: number, nullable: true} which
+        // does not produce a model header.  It works as std::optional<double> at
+        // the property/reference level.  This is a parser-level limitation.
         TestUtils.assertFileExists(output.toPath().resolve("model/OpenAITemperature.h"));
 
         // SingleBranchTest is an alias (anyOf string-enum → std::string)
@@ -575,15 +584,13 @@ public class CppBoostBeastClientCodegenTest {
                 "All-null branches should produce boost::json::value");
     }
 
-    @Test
-    public void oneOfStringStringEnumPreservesBranches() throws IOException {
+    @Test(expectedExceptions = RuntimeException.class)
+    public void oneOfStringStringEnumHardErrors() throws IOException {
         CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
         codegen.processOpts();
 
-        // oneOf: [string, string-enum] must NOT collapse to plain std::string
-        // via the anyOf-only collapse rule.  Branches should remain distinct
-        // (std::variant<std::string, std::string>) to preserve the exclusive
-        // oneOf requirement.
+        // oneOf: [string, string-enum] must NOT produce std::variant<std::string, std::string>.
+        // The lowering engine now hard-errors because the branches are indistinguishable.
         ComposedSchema schema = new ComposedSchema();
         schema.addOneOfItem(new StringSchema());
         StringSchema enumSchema = new StringSchema();
@@ -591,14 +598,7 @@ public class CppBoostBeastClientCodegenTest {
         enumSchema.addEnumItem("y");
         schema.addOneOfItem(enumSchema);
 
-        String resolved = codegen.getTypeDeclaration(schema);
-        // For oneOf, the collapse path is different from anyOf:
-        //   - anyOf: anyOf-only Rule 2 (all-strings) → std::string
-        //   - oneOf: dedup+single-branch → no, Rule 6 preserves duplicates
-        // Since both branches resolve to std::string, the result is
-        // a variant with two identical string alternatives.
-        Assert.assertTrue(resolved.startsWith("std::variant<"),
-                "OneOfStringStringEnum should produce std::variant, not plain string. Got: " + resolved);
+        codegen.getTypeDeclaration(schema);
     }
 
     @Test
@@ -671,6 +671,46 @@ public class CppBoostBeastClientCodegenTest {
         }
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void allOfPropertyConflictThrows() throws IOException {
+        // This test verifies that an allOf with the same property name having
+        // incompatible types causes a RuntimeException.
+        String specContent =
+            "openapi: 3.1.0\n" +
+            "info:\n" +
+            "  title: allOf property conflict test\n" +
+            "  version: 1.0.0\n" +
+            "paths: {}\n" +
+            "components:\n" +
+            "  schemas:\n" +
+            "    AllOfPropConflict:\n" +
+            "      allOf:\n" +
+            "        - type: object\n" +
+            "          properties:\n" +
+            "            value:\n" +
+            "              type: string\n" +
+            "        - type: object\n" +
+            "          properties:\n" +
+            "            value:\n" +
+            "              type: integer\n" +
+            "              format: int32\n";
+
+        java.nio.file.Path specFile = java.nio.file.Files.createTempFile("allof-prop-conflict-", ".yaml");
+        specFile.toFile().deleteOnExit();
+        java.nio.file.Files.writeString(specFile, specContent);
+
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-prop-conflict").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec(specFile.toAbsolutePath().toString())
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("packageName", "CppBoostBeastPropConflictTest");
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+    }
+
     @Test
     public void nullableStringEnumViaGateFixtures() throws IOException {
         // Verify that NullableEnum in Gate A fixtures lowers to std::optional<...>
@@ -704,8 +744,8 @@ public class CppBoostBeastClientCodegenTest {
 
     @Test
     public void oneOfStringStringEnumViaGateFixtures() throws IOException {
-        // Verify that OneOfStringStringEnum in Gate A fixtures preserves
-        // oneOf semantics (does NOT collapse to plain string).
+        // Verify that OneOfStringStringEnum in Gate A fixtures falls back to
+        // boost::json::value (instead of producing unusable std::variant<T,T>).
         File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-oneof").toFile();
         output.deleteOnExit();
 
@@ -721,12 +761,12 @@ public class CppBoostBeastClientCodegenTest {
         Path oneOfHeader = output.toPath().resolve("model/OneOfStringStringEnum.h");
         TestUtils.assertFileExists(oneOfHeader);
         String oneOfContent = java.nio.file.Files.readString(oneOfHeader);
-        // Must NOT collapse to plain std::string
-        Assert.assertFalse(oneOfContent.contains("using OneOfStringStringEnum = std::string;"),
-                "OneOfStringStringEnum must not collapse to std::string");
-        // Must produce a variant (type alias to variant distinguishes from object class)
-        Assert.assertTrue(oneOfContent.contains("using OneOfStringStringEnum = std::variant<"),
-                "OneOfStringStringEnum should be a using alias to std::variant");
+        // Must NOT produce std::variant or collapse to std::string
+        Assert.assertFalse(oneOfContent.contains("using OneOfStringStringEnum = std::variant<"),
+                "OneOfStringStringEnum must not produce std::variant (indistinguishable branches)");
+        // Falls back to boost::json::value
+        Assert.assertTrue(oneOfContent.contains("using OneOfStringStringEnum = boost::json::value;"),
+                "OneOfStringStringEnum should fall back to boost::json::value alias");
     }
 
     @Test
