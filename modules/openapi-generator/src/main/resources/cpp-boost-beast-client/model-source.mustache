@@ -183,6 +183,16 @@ template<typename Variant, std::size_t... Is>
 bool tryVariantBranches(const boost::json::value& value, Variant& result, std::index_sequence<Is...>) {
     return (tryVariantIndex<Variant, Is>(value, result) || ...);
 }
+
+// Count how many variant branches match the JSON value (no short-circuit).
+// For oneOf, this is needed to reject >1 matches.
+template<typename Variant, std::size_t... Is>
+std::size_t countVariantBranches(const boost::json::value& value, std::index_sequence<Is...>) {
+    std::size_t count = 0;
+    Variant temp;
+    ((tryVariantIndex<Variant, Is>(value, temp) ? ++count : 0), ...);
+    return count;
+}
 }
 
 {{classname}} fromJsonValue_{{classname}}(boost::json::value const& value)
@@ -210,11 +220,25 @@ bool tryVariantBranches(const boost::json::value& value, Variant& result, std::i
     throw std::invalid_argument("Unknown " + std::string("{{discriminator.propertyBaseName}}") + " value: " + discValue);
     {{/discriminator}}
     {{^discriminator}}
-    // Non-discriminated {{vendorExtensions.x-cpp-composed-keyword}} — try branches by JSON kind using index_sequence
+    // Non-discriminated {{vendorExtensions.x-cpp-composed-keyword}} — enforce exactly-one for oneOf, first-match for anyOf
+    constexpr bool isOneOf = "{{vendorExtensions.x-cpp-composed-keyword}}"[0] == 'o';
     std::size_t const variantSize = std::variant_size_v<{{classname}}>;
     {{classname}} result;
-    if (!tryVariantBranches(value, result, std::make_index_sequence<variantSize>{})) {
-        throw std::invalid_argument("No matching branch for {{classname}} from JSON value");
+    if constexpr (isOneOf) {
+        std::size_t matchCount = countVariantBranches<{{classname}}>(value, std::make_index_sequence<variantSize>{});
+        if (matchCount == 0) {
+            throw std::invalid_argument("No matching branch for {{classname}} from JSON value");
+        }
+        if (matchCount > 1) {
+            throw std::invalid_argument("More than one matching branch for oneOf {{classname}}");
+        }
+        // Retrieve the first (and only) matching branch for the result
+        tryVariantBranches(value, result, std::make_index_sequence<variantSize>{});
+    } else {
+        // anyOf: first-matching branch is sufficient for storage
+        if (!tryVariantBranches(value, result, std::make_index_sequence<variantSize>{})) {
+            throw std::invalid_argument("No matching branch for {{classname}} from JSON value");
+        }
     }
     return result;
     {{/discriminator}}

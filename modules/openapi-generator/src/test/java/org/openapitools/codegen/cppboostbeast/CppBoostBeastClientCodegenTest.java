@@ -491,6 +491,49 @@ public class CppBoostBeastClientCodegenTest {
         // Integer const getter should return unquoted value
         Assert.assertTrue(stainlessContent.contains("int32_t getCount() const { return 42; }"),
                 "StainlessObject integer const getter should inline the value");
+
+        // --- Phase 2 oneOf/anyOf decode distinction assertions ---
+
+        // InputParam (oneOf variant) source must contain exactly-one checking logic
+        Assert.assertTrue(inputParamSourceContent.contains("isOneOf"),
+                "InputParam oneOf source should contain isOneOf compile-time flag");
+        Assert.assertTrue(inputParamSourceContent.contains("matchCount"),
+                "InputParam oneOf source should count matching branches");
+        Assert.assertTrue(inputParamSourceContent.contains("More than one matching branch for oneOf InputParam"),
+                "InputParam oneOf source should reject multi-match with descriptive error");
+        // The oneOf path uses countVariantBranches + matchCount for exactly-one enforcement
+        Assert.assertTrue(inputParamSourceContent.contains("countVariantBranches"),
+                "InputParam oneOf source should use countVariantBranches for exactly-one check");
+        // The anyOf path comment is also present (both branches emitted textually by if constexpr)
+
+        // DedupTest (oneOf variant) source must also contain exactly-one checking
+        Path dedupSource = output.toPath().resolve("model/DedupTest.cpp");
+        String dedupSourceContent = java.nio.file.Files.readString(dedupSource);
+        Assert.assertTrue(dedupSourceContent.contains("isOneOf"),
+                "DedupTest oneOf source should contain isOneOf compile-time flag");
+        Assert.assertTrue(dedupSourceContent.contains("matchCount"),
+                "DedupTest oneOf source should count matching branches");
+        Assert.assertTrue(dedupSourceContent.contains("More than one matching branch for oneOf DedupTest"),
+                "DedupTest oneOf source should reject multi-match with descriptive error");
+
+        // VariantPayload (oneOf variant) source must also contain exactly-one checking
+        Path variantPayloadSource = output.toPath().resolve("model/VariantPayload.cpp");
+        String variantPayloadSourceContent = java.nio.file.Files.readString(variantPayloadSource);
+        Assert.assertTrue(variantPayloadSourceContent.contains("isOneOf"),
+                "VariantPayload oneOf source should contain isOneOf compile-time flag");
+        Assert.assertTrue(variantPayloadSourceContent.contains("matchCount"),
+                "VariantPayload oneOf source should count matching branches");
+        Assert.assertTrue(variantPayloadSourceContent.contains("More than one matching branch for oneOf VariantPayload"),
+                "VariantPayload oneOf source should reject multi-match with descriptive error");
+
+        // ResponseStreamEvent uses discriminator (not non-discriminated path), so it should
+        // NOT contain the non-discriminated oneOf/anyOf logic at all
+        // (responseStreamEventSource variable already declared above at line ~338)
+        String rseSourceContent = java.nio.file.Files.readString(responseStreamEventSource);
+        Assert.assertFalse(rseSourceContent.contains("isOneOf"),
+                "ResponseStreamEvent (discriminated) should not contain isOneOf compile-time flag");
+        Assert.assertFalse(rseSourceContent.contains("matchCount"),
+                "ResponseStreamEvent (discriminated) should not contain matchCount");
     }
 
     @Test
