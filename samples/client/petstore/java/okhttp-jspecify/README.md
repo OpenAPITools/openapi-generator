@@ -2,7 +2,7 @@
 
 jspecify
 - API version: 1.0.0
-  - Generator version: 7.24.0-SNAPSHOT
+  - Generator version: 7.25.0-SNAPSHOT
 
 test fully qualified name and jspecify
 

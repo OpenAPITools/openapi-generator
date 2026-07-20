@@ -58,7 +58,7 @@ import java.util.StringJoiner;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonDeserialize(using = AllOfModelArrayAnyOfAllOfLinkListColumn1Value.AllOfModelArrayAnyOfAllOfLinkListColumn1ValueDeserializer.class)
 @JsonSerialize(using = AllOfModelArrayAnyOfAllOfLinkListColumn1Value.AllOfModelArrayAnyOfAllOfLinkListColumn1ValueSerializer.class)
 public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenApiSchema {

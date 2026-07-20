@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * NullableClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonPropertyOrder({
   NullableClass.JSON_PROPERTY_INTEGER_PROP,
   NullableClass.JSON_PROPERTY_NUMBER_PROP,

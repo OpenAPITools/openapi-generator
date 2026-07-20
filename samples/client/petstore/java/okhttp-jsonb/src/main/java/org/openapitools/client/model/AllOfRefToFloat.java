@@ -32,7 +32,7 @@ import org.openapitools.client.JSON;
 /**
  * Object with allOf ref to float
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class AllOfRefToFloat {
   public static final String SERIALIZED_NAME_WEIGHT = "weight";
   @JsonbProperty(SERIALIZED_NAME_WEIGHT)

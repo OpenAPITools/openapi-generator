@@ -50,7 +50,7 @@ import java.util.StringJoiner;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonDeserialize(using = Scalar.ScalarDeserializer.class)
 @JsonSerialize(using = Scalar.ScalarSerializer.class)
 public class Scalar extends AbstractOpenApiSchema {

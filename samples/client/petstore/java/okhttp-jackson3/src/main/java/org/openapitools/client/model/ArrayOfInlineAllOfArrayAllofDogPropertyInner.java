@@ -41,7 +41,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfInlineAllOfArrayAllofDogPropertyInner
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonPropertyOrder({
   ArrayOfInlineAllOfArrayAllofDogPropertyInner.JSON_PROPERTY_BREED,
   ArrayOfInlineAllOfArrayAllofDogPropertyInner.JSON_PROPERTY_COLOR

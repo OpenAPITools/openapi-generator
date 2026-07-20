@@ -40,7 +40,7 @@ import org.openapitools.client.JSON;
 /**
  * Error response
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonPropertyOrder({
   NullableFieldsMapError.JSON_PROPERTY_STATUS,
   NullableFieldsMapError.JSON_PROPERTY_REASON

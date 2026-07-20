@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfArrayOfNumberOnly
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @JsonbProperty(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)

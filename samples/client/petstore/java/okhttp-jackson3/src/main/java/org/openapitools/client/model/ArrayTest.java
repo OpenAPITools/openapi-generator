@@ -44,7 +44,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonPropertyOrder({
   ArrayTest.JSON_PROPERTY_ARRAY_OF_STRING,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,

@@ -52,7 +52,7 @@ import java.util.StringJoiner;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FreeFormObjectTestClassProperties.class.getName());
 

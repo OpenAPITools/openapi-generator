@@ -50,7 +50,7 @@ import java.util.StringJoiner;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonDeserialize(using = FakeAnyOfWIthSameErasureGet200Response.FakeAnyOfWIthSameErasureGet200ResponseDeserializer.class)
 @JsonSerialize(using = FakeAnyOfWIthSameErasureGet200Response.FakeAnyOfWIthSameErasureGet200ResponseSerializer.class)
 public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchema {

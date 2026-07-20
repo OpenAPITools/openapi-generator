@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * PetComposition
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonPropertyOrder({
   PetComposition.JSON_PROPERTY_ID,
   PetComposition.JSON_PROPERTY_CATEGORY,

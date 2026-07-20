@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * RequiredNullableBody
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonPropertyOrder({
   RequiredNullableBody.JSON_PROPERTY_INTEGER_PROP,
   RequiredNullableBody.JSON_PROPERTY_NUMBER_PROP,

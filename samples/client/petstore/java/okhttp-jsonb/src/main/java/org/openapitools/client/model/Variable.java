@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
 /**
  * Value object
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Variable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @JsonbProperty(SERIALIZED_NAME_NAME)

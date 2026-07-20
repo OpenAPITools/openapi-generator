@@ -1,6 +1,5 @@
 .github/workflows/maven.yml
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -55,6 +54,3 @@ src/main/java/org/openapitools/client/model/Order.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
-src/test/java/org/openapitools/client/api/PetApiTest.java
-src/test/java/org/openapitools/client/api/StoreApiTest.java
-src/test/java/org/openapitools/client/api/UserApiTest.java

@@ -32,7 +32,7 @@ import org.openapitools.client.JSON;
 /**
  * Apple
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Apple {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
   @JsonbProperty(SERIALIZED_NAME_CULTIVAR)

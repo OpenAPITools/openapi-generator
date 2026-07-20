@@ -55,7 +55,7 @@ import org.openapitools.client.JSON;
 /**
  * Foo
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Foo {
   public static final String SERIALIZED_NAME_DT = "dt";
   @SerializedName(SERIALIZED_NAME_DT)

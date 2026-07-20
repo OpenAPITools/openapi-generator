@@ -11,7 +11,7 @@ title: Documentation for the java Generator
 | generator type | CLIENT | |
 | generator language | Java | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Java client library (HTTP lib: Jersey (1.x, 2.x), Retrofit (2.x), OpenFeign (10.x) and more. | |
+| helpTxt | Generates a Java client library (HTTP lib: Jersey (1.x, 2.x), Retrofit (2.x), OpenFeign (10.x), OkHttp and more. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -98,7 +98,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useDeductionForOneOfInterfaces|Annotate discriminator-free oneOf interfaces with Jackson's @JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype is resolved from the JSON field set rather than a type-tag property. Has no effect when a discriminator is present (name-based resolution is used instead). Requires subtypes to have structurally distinct sets of properties.| |false|
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useGzipFeature|Send gzip-encoded requests| |false|
-|useJackson3|Use Jackson 3 instead of Jackson 2. Supported for 'native', 'apache-httpclient', and 'jersey3' libraries (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true).| |false|
+|useJackson3|Use Jackson 3 instead of Jackson 2. Supported for 'native', 'apache-httpclient', 'jersey3', and 'okhttp' libraries (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true).| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useJspecify|Use Jspecify for null checks. Only supported for [native, okhttp, restclient, resttemplate, webclient]| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped. Only jersey2, jersey3, native, okhttp-gson, okhttp support this option.| |false|

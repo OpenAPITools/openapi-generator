@@ -42,7 +42,7 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonPropertyOrder({
   AllOfModelArrayAnyOf.JSON_PROPERTY_ID,
   AllOfModelArrayAnyOf.JSON_PROPERTY_NAME,

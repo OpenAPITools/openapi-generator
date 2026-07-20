@@ -32,7 +32,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing reserved words
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ModelReturn {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @JsonbProperty(SERIALIZED_NAME_RETURN)

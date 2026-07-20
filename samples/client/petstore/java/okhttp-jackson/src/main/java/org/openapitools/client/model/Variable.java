@@ -42,7 +42,7 @@ import org.openapitools.client.JSON;
 /**
  * Value object
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonPropertyOrder({
   Variable.JSON_PROPERTY_NAME,
   Variable.JSON_PROPERTY_VALUE

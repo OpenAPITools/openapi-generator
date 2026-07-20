@@ -34,7 +34,7 @@ import java.util.StringJoiner;
 
 import org.openapitools.client.JSON;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FreeFormObjectTestClassProperties.class.getName());
 

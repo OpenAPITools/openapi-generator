@@ -42,7 +42,7 @@ import org.openapitools.client.JSON;
 /**
  * NewPetCategoryInlineAllof
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @JsonPropertyOrder({
   NewPetCategoryInlineAllof.JSON_PROPERTY_ID,
   NewPetCategoryInlineAllof.JSON_PROPERTY_NAME,
