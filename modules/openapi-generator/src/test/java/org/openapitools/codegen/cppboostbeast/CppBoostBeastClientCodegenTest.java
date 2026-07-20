@@ -406,6 +406,12 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertFalse(inputParamSourceContent.contains("requires "),
                 "InputParam source should not use C++20 requires expressions");
 
+        // Verify variant source files include <map> (needed by VariantJsonHelper's map specialization)
+        Assert.assertTrue(petByTypeSourceContent.contains("#include <map>"),
+                "PetByType variant source should include <map>");
+        Assert.assertTrue(inputParamSourceContent.contains("#include <map>"),
+                "InputParam variant source should include <map>");
+
         // Verify discriminator error message includes the received value
         Assert.assertTrue(petByTypeSourceContent.contains("discValue"),
                 "PetByType discriminator error should include the received value");
