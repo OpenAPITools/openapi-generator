@@ -1,24 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>{{groupId}}</groupId>
-    <artifactId>{{artifactId}}</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-spring</artifactId>
     <packaging>jar</packaging>
-    <name>{{artifactId}}</name>
-    <version>{{artifactVersion}}</version>
-    <properties>{{#reactive}}
-        <kotlinx-coroutines.version>1.10.1
-        </kotlinx-coroutines.version>{{/reactive}}{{#springDocDocumentationProvider}}
-        <springdoc-openapi.version>2.8.6
-        </springdoc-openapi.version>{{/springDocDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
-        <swagger-ui.version>5.17.14
-        </swagger-ui.version>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
-        <swagger-annotations.version>1.6.6
-        </swagger-annotations.version>{{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}
-        <swagger-annotations.version>2.2.28
-        </swagger-annotations.version>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}
-        <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>{{#useJackson3}}
-        <jackson3.version>3.1.0</jackson3.version>{{/useJackson3}}
+    <name>openapi-spring</name>
+    <version>1.0.0</version>
+    <properties>
+        <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
+        <jackson3.version>3.1.0</jackson3.version>
         <jakarta-annotation.version>3.0.0</jakarta-annotation.version>
         <kotlin-test-junit5.version>2.2.0</kotlin-test-junit5.version>
 
@@ -43,19 +33,8 @@
     </dependencyManagement>
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-        <plugins>{{^interfaceOnly}}
+        <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>{{/interfaceOnly}}
-            {{#interfaceOnly}}<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
@@ -66,7 +45,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>{{/interfaceOnly}}
+            </plugin>
             <plugin>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -113,60 +92,13 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
             <version>${kotlin.version}</version>
-        </dependency>{{^reactive}}
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
-        </dependency>{{/reactive}}{{#reactive}}
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlinx</groupId>
-            <artifactId>kotlinx-coroutines-core</artifactId>
-            <version>${kotlinx-coroutines.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlinx</groupId>
-            <artifactId>kotlinx-coroutines-reactor</artifactId>
-            <version>${kotlinx-coroutines.version}</version>
-        </dependency>{{/reactive}}
 
-        {{#springDocDocumentationProvider}}
-            <!--SpringDoc dependencies -->{{#useSwaggerUI}}
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-{{#reactive}}
-                    webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-ui
-                </artifactId>
-                <version>${springdoc-openapi.version}</version>
-            </dependency>{{/useSwaggerUI}}{{^useSwaggerUI}}
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-core
-                </artifactId>
-                <version>${springdoc-openapi.version}</version>
-            </dependency>{{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>swagger-ui</artifactId>
-            <version>${swagger-ui.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>webjars-locator-core</artifactId>
-        </dependency>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations.version}</version>
-        </dependency>{{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations.version}</version>
-        </dependency>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}
+
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -178,58 +110,31 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-        {{#hasAuthMethods}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
-        {{/hasAuthMethods}}
-{{#useJackson3}}
         <dependency>
-            <groupId>{{jacksonPackage}}.dataformat</groupId>
+            <groupId>tools.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${jackson3.version}</version>
         </dependency>
         <dependency>
-            <groupId>{{jacksonPackage}}.dataformat</groupId>
+            <groupId>tools.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>${jackson3.version}</version>
         </dependency>
         <dependency>
-            <groupId>{{jacksonPackage}}.module</groupId>
+            <groupId>tools.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
             <version>${jackson3.version}</version>
         </dependency>
-{{/useJackson3}}{{^useJackson3}}
-        <dependency>
-            <groupId>{{jacksonPackage}}.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>{{jacksonPackage}}.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>{{jacksonPackage}}.module</groupId>
-            <artifactId>jackson-module-kotlin</artifactId>
-        </dependency>
-{{/useJackson3}}
-{{#useBeanValidation}}
         <!-- Bean Validation API support -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-        </dependency>{{/useBeanValidation}}
-{{#openApiNullable}}
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.10</version>
-        </dependency>{{/openApiNullable}}
+        </dependency>
+
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
