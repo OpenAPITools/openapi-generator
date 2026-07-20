@@ -1,0 +1,11 @@
+generatorName: java
+outputDir: samples/client/petstore/java/okhttp-swagger2
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: petstore-okhttp
+  hideGenerationTimestamp: "true"
+  useOneOfDiscriminatorLookup: "true"
+  disallowAdditionalPropertiesIfNotPresent: false
+  annotationLibrary: "swagger2"
