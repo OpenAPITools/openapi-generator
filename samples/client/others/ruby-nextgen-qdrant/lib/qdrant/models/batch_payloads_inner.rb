@@ -11,7 +11,7 @@ module Qdrant
     # anyOf wrapper. Returns the first candidate that validates.
     module BatchPayloadsInner
       CANDIDATES = [
-        'Hash',
+        'Hash<String, Object>',
       ].freeze
 
       def self.build(data)

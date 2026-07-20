@@ -179,6 +179,27 @@ public class TypeScriptAxiosClientCodegenTest {
         TestUtils.assertFileContains(file, "'nicknames'?: Array<string>");
     }
 
+    @Test(description = "Nullable oneOf references do not make other uses of the referenced schema nullable")
+    public void testNullableReferenceDoesNotLeakIntoModelProperty() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_nullable_reference_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/issue_23340.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output + "/api.ts");
+        TestUtils.assertFileContains(api,
+                "export interface TitleGroupHierarchyLite {",
+                "'content_type': ContentType;");
+        TestUtils.assertFileNotContains(api, "'content_type': ContentType | null;");
+        TestUtils.assertFileContains(api, "search: async (contentType?: ContentType | null");
+    }
+
     @Test(description = "Verify multipart file arrays use repeated form fields")
     public void testMultipartFileArrayUsesRepeatedFormFields() throws Exception {
         final File output = Files.createTempDirectory("typescript_axios_multipart_file_array_").toFile();
