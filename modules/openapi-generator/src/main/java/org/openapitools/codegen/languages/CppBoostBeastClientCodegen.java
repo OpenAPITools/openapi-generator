@@ -193,40 +193,122 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
         }
 
+        // --- Critical: Normalize shared_ptr types for cycle detection ---
+        // DefaultCodegen.setCircularReferences compares property dataType strings
+        // to model names literally. Since getTypeDeclaration wraps refs in
+        // "std::shared_ptr<X>", the comparison "std::shared_ptr<Node>" != "Node"
+        // never matches — cycles go undetected. This causes the shared_ptr stripping
+        // phase below to strip ALL wrappers, including cycle edges, producing invalid
+        // C++ with value self-refs.
+        //
+        // Fix: Temporarily strip std::shared_ptr<> wrappers from all property
+        // dataTypes BEFORE super.updateAllModels runs (which calls setCircularReferences),
+        // then restore them after. This ensures setCircularReferences sees bare model
+        // names and correctly identifies cycles.
+        Map<String, Map<String, String>> savedSharedPtr = new HashMap<>();
+        for (CodegenModel cm : allModels.values()) {
+            Map<String, String> modelSaves = new HashMap<>();
+            for (CodegenProperty var : allVarsOf(cm)) {
+                if (var == null) continue;
+                checkAndSaveSharedPtr(var, cm.classname, modelSaves);
+                if (var.isContainer && var.items != null) {
+                    checkAndSaveSharedPtr(var.items, cm.classname, modelSaves);
+                }
+            }
+            if (!modelSaves.isEmpty()) {
+                savedSharedPtr.put(cm.classname, modelSaves);
+            }
+        }
+
         objs = super.updateAllModels(objs);
+
+        // Restore shared_ptr wrappers stripped above.
+        // isCircularReference flags are now correctly set by setCircularReferences
+        // because it compared bare model names.
+        for (CodegenModel cm : allModels.values()) {
+            Map<String, String> modelSaves = savedSharedPtr.get(cm.classname);
+            if (modelSaves == null) continue;
+            for (CodegenProperty var : allVarsOf(cm)) {
+                if (var == null) continue;
+                restoreSavedSharedPtr(var, cm.classname, modelSaves);
+                if (var.isContainer && var.items != null) {
+                    restoreSavedSharedPtr(var.items, cm.classname + ".items", modelSaves);
+                }
+            }
+        }
 
         // Phase: Strip std::shared_ptr<X> from non-cyclic object refs.
         // super.updateAllModels → DefaultCodegen.updateAllModels → setCircularReferences
-        // has now run, setting isCircularReference flags on properties.
+        // has now run, setting isCircularReference flags on properties correctly.
         // Non-cyclic edges should use value semantics (plain X) rather than
         // std::shared_ptr<X> to avoid unnecessary heap allocation.
-        getAllModels(objs).values().forEach(cm -> {
-            List<List<CodegenProperty>> propertyLists = Arrays.asList(
-                    cm.vars, cm.allVars, cm.requiredVars, cm.optionalVars,
-                    cm.readOnlyVars, cm.readWriteVars, cm.parentVars);
-            for (List<CodegenProperty> propList : propertyLists) {
-                if (propList == null) continue;
-                for (CodegenProperty var : propList) {
-                    if (var.dataType != null && var.dataType.startsWith("std::shared_ptr<")) {
-                        // Keep shared_ptr for circular refs; strip for non-cyclic.
-                        // isCircularReference defaults to false for non-cyclic edges.
-                        if (!var.isCircularReference) {
-                            String innerType = var.dataType.substring(16, var.dataType.length() - 1);
-                            var.dataType = innerType;
-                            var.defaultValue = null;
-                            if (var.isContainer && var.items != null
-                                    && var.items.dataType != null
-                                    && var.items.dataType.startsWith("std::shared_ptr<")) {
-                                String itemsInner = var.items.dataType.substring(16, var.items.dataType.length() - 1);
-                                var.items.dataType = itemsInner;
-                            }
-                        }
-                    }
+        for (CodegenModel cm : allModels.values()) {
+            for (CodegenProperty var : allVarsOf(cm)) {
+                if (var == null) continue;
+                stripNonCyclicSharedPtr(var);
+                if (var.isContainer && var.items != null) {
+                    stripNonCyclicSharedPtr(var.items);
                 }
             }
-        });
+        }
 
         return objs;
+    }
+
+    /**
+     * Returns all property lists of a model for iteration.
+     */
+    private static List<CodegenProperty> allVarsOf(CodegenModel cm) {
+        List<CodegenProperty> combined = new ArrayList<>();
+        if (cm.vars != null) combined.addAll(cm.vars);
+        if (cm.allVars != null) combined.addAll(cm.allVars);
+        if (cm.requiredVars != null) combined.addAll(cm.requiredVars);
+        if (cm.optionalVars != null) combined.addAll(cm.optionalVars);
+        if (cm.readOnlyVars != null) combined.addAll(cm.readOnlyVars);
+        if (cm.readWriteVars != null) combined.addAll(cm.readWriteVars);
+        if (cm.parentVars != null) combined.addAll(cm.parentVars);
+        return combined;
+    }
+
+    /**
+     * If a property has a dataType wrapped in std::shared_ptr<>, strips the
+     * wrapper and saves the original under a compound key (modelName.baseName)
+     * so it can be restored after setCircularReferences runs.
+     */
+    private static void checkAndSaveSharedPtr(CodegenProperty var, String modelName,
+                                               Map<String, String> saves) {
+        if (var.dataType != null && var.dataType.startsWith("std::shared_ptr<")) {
+            String key = modelName + "." + var.baseName;
+            if (!saves.containsKey(key)) {
+                saves.put(key, var.dataType);
+            }
+            var.dataType = var.dataType.substring(16, var.dataType.length() - 1);
+        }
+    }
+
+    /**
+     * Restores a previously saved shared_ptr-wrapped dataType onto a property.
+     */
+    private static void restoreSavedSharedPtr(CodegenProperty var, String modelName,
+                                               Map<String, String> saves) {
+        String key = modelName + "." + var.baseName;
+        String saved = saves.get(key);
+        if (saved != null) {
+            var.dataType = saved;
+        }
+    }
+
+    /**
+     * Strips std::shared_ptr<X> from a non-cyclic property, replacing it with
+     * bare value type X. Cyclic properties retain the shared_ptr wrapper.
+     */
+    private static void stripNonCyclicSharedPtr(CodegenProperty var) {
+        if (var.dataType != null && var.dataType.startsWith("std::shared_ptr<")
+                && !var.isCircularReference) {
+            String innerType = var.dataType.substring(16, var.dataType.length() - 1);
+            var.dataType = innerType;
+            var.defaultValue = null;
+        }
     }
 
     @Override
@@ -307,6 +389,17 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             if (cm.getIsAnyType()) {
                 cm.vendorExtensions.put("x-cpp-type", "boost::json::value");
                 cm.vendorExtensions.put("x-cpp-is-alias", true);
+            }
+        }
+
+        // Phase 3b: Tag properties whose types already embed optional semantics
+        // (e.g., std::optional<T>) so the template skips the redundant IsSet flag.
+        for (ModelMap mo : result.getModels()) {
+            CodegenModel cm = mo.getModel();
+            for (CodegenProperty var : allVarsOf(cm)) {
+                if (var.dataType != null && var.dataType.startsWith("std::optional<")) {
+                    var.vendorExtensions.put("x-cpp-no-is-set", true);
+                }
             }
         }
 

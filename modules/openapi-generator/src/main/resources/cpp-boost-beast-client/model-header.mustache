@@ -212,7 +212,9 @@ protected:
     {{/isContainer}}
     {{/parent}}
     {{^required}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
     bool m_{{name}}IsSet = false;
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/required}}
     {{/vendorExtensions.x-stainless-const}}
     {{/vars}}

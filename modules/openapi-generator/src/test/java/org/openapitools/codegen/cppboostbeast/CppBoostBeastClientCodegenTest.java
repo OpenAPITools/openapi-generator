@@ -255,25 +255,22 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(createResponseContent.contains("m_Model") && createResponseContent.contains("m_Input"),
                 "CreateResponse allOf should have both base (model) and inline (input) properties");
 
-        // Scenario 4: TemperatureContainer with nullable property
+        // Scenario 4: TemperatureContainer — OAS 3.1 anyOf [number, null] → std::optional<double>
         Path tempContainerHeader = output.toPath().resolve("model/TemperatureContainer.h");
         TestUtils.assertFileExists(tempContainerHeader);
         String tempContent = java.nio.file.Files.readString(tempContainerHeader);
-        Assert.assertTrue(tempContent.contains("m_Temperature"),
-                "TemperatureContainer should declare m_Temperature member");
-        // The nullable property type maps to std::optional<double> at the codegen level
-        // (see resolvesInlineNullableToOptional). The template renders nullable as a
-        // primitive with an IsSet flag (e.g., double + m_TemperatureIsSet), not as
-        // std::optional<double> directly.
-        Assert.assertTrue(tempContent.contains("m_TemperatureIsSet"),
-                "TemperatureContainer should have IsSet flag for nullable property");
+        Assert.assertTrue(tempContent.contains("std::optional<double> m_Temperature"),
+                "TemperatureContainer should declare std::optional<double> m_Temperature member");
+        // With std::optional<double>, no redundant IsSet flag should be emitted.
+        Assert.assertFalse(tempContent.contains("m_TemperatureIsSet"),
+                "TemperatureContainer should NOT have IsSet flag for std::optional<double> property");
 
         // Scenario 5: OpenAITemperature — anyOf [number, null] property is std::optional<double>
         Path openaiTempHeader = output.toPath().resolve("model/OpenAITemperature.h");
         TestUtils.assertFileExists(openaiTempHeader);
         String openaiTempContent = java.nio.file.Files.readString(openaiTempHeader);
-        Assert.assertTrue(openaiTempContent.contains("m_Temperature"),
-                "OpenAITemperature should declare m_Temperature member");
+        Assert.assertTrue(openaiTempContent.contains("std::optional<double> m_Temperature"),
+                "OpenAITemperature should declare std::optional<double> m_Temperature member");
 
         // Scenario 6: RefHolder — properties that $ref composed models without shared_ptr
         Path refHolderHeader = output.toPath().resolve("model/RefHolder.h");
@@ -963,6 +960,54 @@ public class CppBoostBeastClientCodegenTest {
         for (Path header : headers) {
             assertBalancedPreprocessorGuards(header);
         }
+    }
+
+    @Test
+    public void keepsSharedPtrOnCyclicRefsAndStripsOnNonCyclic() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-cycles").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/cycle-detection.yaml")
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("packageName", "CycleDetectionTest");
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path treeNodeHeader = output.toPath().resolve("model/TreeNode.h");
+        TestUtils.assertFileExists(treeNodeHeader);
+        String treeContent = java.nio.file.Files.readString(treeNodeHeader);
+        // TreeNode.children is a self-ref: must keep shared_ptr to break the cycle.
+        Assert.assertTrue(treeContent.contains("std::shared_ptr<TreeNode>"),
+                "Self-ref TreeNode.children should keep std::shared_ptr<TreeNode>");
+        // The array member is std::vector<std::shared_ptr<TreeNode>>, NOT std::vector<TreeNode>
+        Assert.assertTrue(treeContent.contains("std::vector<std::shared_ptr<TreeNode>>"),
+                "TreeNode children vector should contain shared_ptr");
+
+        Path roundAHeader = output.toPath().resolve("model/RoundA.h");
+        TestUtils.assertFileExists(roundAHeader);
+        String roundAContent = java.nio.file.Files.readString(roundAHeader);
+        // RoundA.next → RoundB is a mutual cycle edge: must keep shared_ptr.
+        Assert.assertTrue(roundAContent.contains("std::shared_ptr<RoundB>"),
+                "Mutual-cycle edge RoundA.next should keep std::shared_ptr<RoundB>");
+
+        Path roundBHeader = output.toPath().resolve("model/RoundB.h");
+        TestUtils.assertFileExists(roundBHeader);
+        String roundBContent = java.nio.file.Files.readString(roundBHeader);
+        // RoundB.prev → RoundA is the other mutual cycle edge: must keep shared_ptr.
+        Assert.assertTrue(roundBContent.contains("std::shared_ptr<RoundA>"),
+                "Mutual-cycle edge RoundB.prev should keep std::shared_ptr<RoundA>");
+
+        Path holderHeader = output.toPath().resolve("model/CycleHolder.h");
+        TestUtils.assertFileExists(holderHeader);
+        String holderContent = java.nio.file.Files.readString(holderHeader);
+        // CycleHolder.leaf → Leaf is a non-cyclic edge: must use value semantics (no shared_ptr).
+        Assert.assertTrue(holderContent.contains("Leaf m_Leaf"),
+                "Non-cycle holder CycleHolder.leaf should use value type Leaf (no shared_ptr)");
+        Assert.assertFalse(holderContent.contains("std::shared_ptr<Leaf>"),
+                "Non-cycle holder CycleHolder.leaf must NOT use std::shared_ptr<Leaf>");
     }
 
     private static String extractMethod(String generatedApiSource, String methodSignature) {

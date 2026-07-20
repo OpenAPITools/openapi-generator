@@ -1,0 +1,47 @@
+openapi: 3.1.0
+info:
+  title: Cpp Boost Beast cycle detection
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    # Self-cycle: TreeNode has a 'children' property that references itself.
+    TreeNode:
+      type: object
+      properties:
+        name:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/TreeNode'
+
+    # Mutual cycle: RoundA → RoundB, RoundB → RoundA.
+    RoundA:
+      type: object
+      properties:
+        name:
+          type: string
+        next:
+          $ref: '#/components/schemas/RoundB'
+    RoundB:
+      type: object
+      properties:
+        name:
+          type: string
+        prev:
+          $ref: '#/components/schemas/RoundA'
+
+    # Non-cycle holder: references Leaf (not cyclic).
+    CycleHolder:
+      type: object
+      properties:
+        label:
+          type: string
+        leaf:
+          $ref: '#/components/schemas/Leaf'
+    Leaf:
+      type: object
+      properties:
+        value:
+          type: integer

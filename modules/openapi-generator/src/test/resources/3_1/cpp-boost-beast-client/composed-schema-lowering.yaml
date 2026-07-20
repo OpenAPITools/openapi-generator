@@ -161,13 +161,14 @@ components:
         model:
           type: string
 
-    # Scenario 4: nullable property (OAS 3.0 style)
+    # Scenario 4: nullable property (OAS 3.1 form: anyOf [T, null] → std::optional<T>)
     TemperatureContainer:
       type: object
       properties:
         temperature:
-          type: number
-          nullable: true
+          anyOf:
+            - type: number
+            - type: "null"
 
     # Scenario 5: OAS 3.1 oneOf [null, T] → std::optional<T>
     OptionalScore:
