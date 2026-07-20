@@ -64,16 +64,26 @@ struct VariantJsonHelper<std::map<std::string, MappedValue>> {
         return result;
     }
 };
+
+// Specialization for std::variant — recursively visit nested variants.
+template <typename... Ts>
+struct VariantJsonHelper<std::variant<Ts...>> {
+    static boost::json::value toJsonValue(const std::variant<Ts...>& v) {
+        return std::visit([](auto const& alt) -> boost::json::value {
+            return VariantJsonHelper<std::decay_t<decltype(alt)>>::toJsonValue(alt);
+        }, v);
+    }
+};
 }
 
-boost::json::value to_json({{classname}} const& value)
+boost::json::value toJsonValue_{{classname}}({{classname}} const& value)
 {
     return std::visit([](auto const& v) -> boost::json::value {
         return VariantJsonHelper<std::decay_t<decltype(v)>>::toJsonValue(v);
     }, value);
 }
 
-{{classname}} from_json(boost::json::value const& value)
+{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value)
 {
     {{#discriminator}}
     if (!value.is_object()) {
@@ -134,6 +144,7 @@ namespace {{this}} {
 #include <sstream>
 #include <string>
 #include <iterator>
+#include <type_traits>
 #include <utility>
 #include <vector>
 {{#hasEnums}}
@@ -148,6 +159,21 @@ namespace {{this}} {
 
 namespace {
 {{#hasEnums}}
+// Helper to stream values that may include std::optional types.
+template <typename T>
+void streamEnumValue(std::ostringstream& os, const T& enumValue) {
+    os << enumValue;
+}
+
+template <typename T>
+void streamEnumValue(std::ostringstream& os, const std::optional<T>& enumValue) {
+    if (enumValue.has_value()) {
+        os << enumValue.value();
+    } else {
+        os << "(unset)";
+    }
+}
+
 template<typename EnumValue, std::size_t Size>
 void validateEnumValues(
     const EnumValue& value,
@@ -170,7 +196,9 @@ void validateEnumValues(
 {
     if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
         std::ostringstream errorMessage;
-        errorMessage << "Value " << value << " not allowed";
+        errorMessage << "Value ";
+        streamEnumValue(errorMessage, value);
+        errorMessage << " not allowed";
         throw std::runtime_error(errorMessage.str());
     }
 }
@@ -180,8 +208,8 @@ void validateEnumValues(
     const std::vector<Element>& values,
     const std::array<EnumValue, Size>& allowedValues)
 {
-    for (const auto& value : values) {
-        validateEnumValues(value, allowedValues);
+    for (const auto& singleValue : values) {
+        validateEnumValues(singleValue, allowedValues);
     }
 }
 
@@ -196,12 +224,30 @@ void validateEnumValues(
 }
 {{/hasEnums}}
 
+// Trait to detect types with toJsonValue() const member.
+template <typename T, typename = void>
+struct HasModelToJsonValue : std::false_type {};
+
+template <typename T>
+struct HasModelToJsonValue<T, std::void_t<decltype(std::declval<const T&>().toJsonValue())>> : std::true_type {};
+
+// Helper: dispatch toJsonValue based on whether T has a toJsonValue() member.
+template <typename T>
+boost::json::value jsonValueConverterToJsonValue(const T& val, std::true_type) {
+    return val.toJsonValue();
+}
+
+template <typename T>
+boost::json::value jsonValueConverterToJsonValue(const T& val, std::false_type) {
+    return boost::json::value_from(val);
+}
+
 template <typename Target>
 struct JsonValueConverter
 {
     static boost::json::value toJsonValue(const Target& sourceValue)
     {
-        return boost::json::value_from(sourceValue);
+        return jsonValueConverterToJsonValue(sourceValue, HasModelToJsonValue<Target>{});
     }
 
     static Target fromJsonValue(const boost::json::value& jsonValue)
@@ -227,12 +273,37 @@ struct JsonValueConverter<std::nullptr_t>
     }
 };
 
+// Specialization for std::optional — delegates to the inner type if set,
+// otherwise produces null.
+template <typename T>
+struct JsonValueConverter<std::optional<T>>
+{
+    static boost::json::value toJsonValue(const std::optional<T>& opt)
+    {
+        if (opt.has_value()) {
+            return JsonValueConverter<T>::toJsonValue(opt.value());
+        }
+        return nullptr;
+    }
+
+    static std::optional<T> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (jsonValue.is_null()) {
+            return std::nullopt;
+        }
+        return JsonValueConverter<T>::fromJsonValue(jsonValue);
+    }
+};
+
 template <typename ModelType>
 struct JsonValueConverter<std::shared_ptr<ModelType>>
 {
     static boost::json::value toJsonValue(const std::shared_ptr<ModelType>& model)
     {
-        return model == nullptr ? boost::json::value(nullptr) : model->toJsonValue();
+        if (model == nullptr) {
+            return boost::json::value(nullptr);
+        }
+        return toJsonValueImpl(*model, HasModelToJsonValue<ModelType>{});
     }
 
     static std::shared_ptr<ModelType> fromJsonValue(const boost::json::value& jsonValue)
@@ -240,7 +311,22 @@ struct JsonValueConverter<std::shared_ptr<ModelType>>
         if (jsonValue.is_null()) {
             return nullptr;
         }
-        return std::make_shared<ModelType>(jsonValue);
+        return fromJsonValueImpl(jsonValue, HasModelToJsonValue<ModelType>{});
+    }
+
+private:
+    static boost::json::value toJsonValueImpl(const ModelType& val, std::true_type) {
+        return val.toJsonValue();
+    }
+    static boost::json::value toJsonValueImpl(const ModelType& val, std::false_type) {
+        return boost::json::value_from(val);
+    }
+
+    static std::shared_ptr<ModelType> fromJsonValueImpl(const boost::json::value& jv, std::true_type) {
+        return std::make_shared<ModelType>(jv);
+    }
+    static std::shared_ptr<ModelType> fromJsonValueImpl(const boost::json::value& jv, std::false_type) {
+        return std::make_shared<ModelType>(boost::json::value_to<ModelType>(jv));
     }
 };
 
@@ -265,6 +351,23 @@ struct JsonValueConverter<std::vector<Element>>
             convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));
         }
         return convertedValues;
+    }
+};
+
+template <typename... Ts>
+struct JsonValueConverter<std::variant<Ts...>>
+{
+    static boost::json::value toJsonValue(const std::variant<Ts...>& v)
+    {
+        return std::visit([](auto const& alt) -> boost::json::value {
+            using AltType = std::decay_t<decltype(alt)>;
+            return JsonValueConverter<AltType>::toJsonValue(alt);
+        }, v);
+    }
+
+    static std::variant<Ts...> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        throw std::invalid_argument("Generic variant deserialization not supported");
     }
 };
 
@@ -387,7 +490,7 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     {{/parent}}
     {{#vars}}
     {{#vendorExtensions.x-stainless-const}}
-    object["{{baseName}}"] = boost::json::value({{{vendorExtensions.x-stainless-const-inline-value}}});
+    object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{{vendorExtensions.x-stainless-const-inline-value}}});
     {{/vendorExtensions.x-stainless-const}}
     {{^vendorExtensions.x-stainless-const}}
     {{#parent}}
@@ -462,7 +565,7 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
     };
     if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
         std::ostringstream errorMessage;
-        errorMessage << "Value " << value << " not allowed";
+        errorMessage << "Value not allowed";
         throw std::runtime_error(errorMessage.str());
     }
     {{/isContainer}}{{/isEnum}}

@@ -165,6 +165,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         importMapping.put("std::optional", "#include <optional>");
         importMapping.put("std::variant", "#include <variant>");
         importMapping.put("std::monostate", "#include <variant>");
+        importMapping.put("std::shared_ptr", "#include <memory>");
         importMapping.put("AnyType", "#include \"AnyType.h\"");
     }
 
@@ -291,6 +292,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     collectImportsForType(branchType, cm);
                 }
             }
+            // Remove self-includes that were added by the branch/type scan.
+            // A variant like std::variant<std::string, TracingConfiguration> referencing
+            // itself as a branch causes the model to include its own header.
+            cm.imports.removeIf(imp -> imp.equals("#include \"" + cm.classname + ".h\""));
         }
 
         return result;
@@ -298,17 +303,31 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
     /**
      * Scans a type string for known standard types and adds corresponding
-     * #include directives to the model's import set.
+     * #include directives to the model's import set. Types that look like
+     * model names (start with an uppercase letter and are not otherwise
+     * mapped) are resolved via toModelImport.
      */
     private void collectImportsForType(String type, CodegenModel cm) {
         if (type == null) {
             return;
         }
+        boolean matchedImportMapping = false;
         for (Map.Entry<String, String> entry : importMapping.entrySet()) {
             String mappedKey = entry.getKey();
             String mappedInclude = entry.getValue();
             if (type.contains(mappedKey)) {
                 cm.imports.add(mappedInclude);
+                if (type.equals(mappedKey) || type.startsWith(mappedKey + "<")) {
+                    matchedImportMapping = true;
+                }
+            }
+        }
+        // If the type was not matched by importMapping and looks like a model
+        // name (starts with uppercase), treat it as a model include.
+            if (!matchedImportMapping && !type.isEmpty() && Character.isUpperCase(type.charAt(0))) {
+            String modelInclude = toModelImport(type);
+            if (modelInclude != null && !modelInclude.isEmpty()) {
+                cm.imports.add(modelInclude);
             }
         }
     }
@@ -372,9 +391,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // Collect unique C++ branch types (strip shared_ptr wrappers for variant members).
         // Map OpenAPI type names (e.g., "null", "integer", "string") to C++ types
         // because composed properties from fromProperty use OpenAPI type names as-is.
+        // Self-referencing branches (a variant containing itself) are excluded
+        // because they would create an illegal recursive type alias in C++.
         List<String> branchTypes = branches.stream()
                 .map(b -> stripSharedPtr(b.dataType))
                 .map(this::resolveOpenApiTypeName)
+                .filter(t -> !t.equals(cm.classname))
                 .distinct()
                 .collect(Collectors.toList());
 
@@ -449,8 +471,14 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         }
 
         // Rule 5: Emit std::variant<Branches...>
-        // nonNullBranches are already deduplicated from processComposedModel
-        return "std::variant<" + String.join(", ", nonNullBranches) + ">";
+        // Include null branch if present and there are multiple non-null branches.
+        // For a variant with 2+ non-null branches, null is a separate alternative.
+        List<String> variantBranches = new ArrayList<>(nonNullBranches);
+        boolean hasNull = branchTypes.stream().anyMatch("std::nullptr_t"::equals);
+        if (hasNull && nonNullBranches.size() > 1) {
+            variantBranches.add("std::nullptr_t");
+        }
+        return "std::variant<" + String.join(", ", variantBranches) + ">";
     }
 
     /**
@@ -592,16 +620,30 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         // Propagate x-stainless-const const values from schema to property vendor extensions.
         // The const value tells the getter what to return inline.
-        if (model.getProperties() != null && codegenModel.vars != null) {
+        // Check all properties including those inherited via allOf from parent schemas.
+        if (codegenModel.vars != null) {
+            // Build a combined property map from the model schema and its allOf parents
+            Map<String, Schema> allProps = new LinkedHashMap<>();
+            if (model.getProperties() != null) {
+                allProps.putAll(model.getProperties());
+            }
+            // Walk allOf references to collect parent properties
+            if (model.getAllOf() != null && openAPI != null) {
+                for (Object parentObj : model.getAllOf()) {
+                    if (parentObj instanceof Schema) {
+                        Schema parentSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) parentObj);
+                        if (parentSchema != null && parentSchema.getProperties() != null) {
+                            allProps.putAll(parentSchema.getProperties());
+                        }
+                    }
+                }
+            }
             for (CodegenProperty var : codegenModel.vars) {
-                Object rawProp = model.getProperties().get(var.baseName);
+                Object rawProp = allProps.get(var.baseName);
                 if (rawProp instanceof Schema) {
                     Schema varSchema = (Schema) rawProp;
                     if (varSchema.getExtensions() != null
                             && Boolean.TRUE.equals(varSchema.getExtensions().get("x-stainless-const"))) {
-                        // The OpenAPI normalizer converts `const` to `enum` before model
-                        // processing, so we extract the first/only enum item as the const value.
-                        // For `const: text` → enum: [text], we get "text".
                         String constRawValue = null;
                         if (varSchema.getConst() != null) {
                             constRawValue = varSchema.getConst().toString();
@@ -615,11 +657,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                             constRawValue = "std::string".equals(var.dataType) ? "" : "0";
                         }
                         var.vendorExtensions.put("x-stainless-const-value", constRawValue);
-                        // Generate a C++ inline literal: quote string values so the
-                        // template emits valid C++ (e.g., return "text"; not return text;).
                         if ("std::string".equals(var.dataType)) {
                             var.vendorExtensions.put("x-stainless-const-inline-value",
                                     "\"" + constRawValue + "\"");
+                        } else if ("std::optional<std::string>".equals(var.dataType)) {
+                            var.vendorExtensions.put("x-stainless-const-inline-value",
+                                    "std::optional<std::string>{\"" + constRawValue + "\"}");
                         } else {
                             var.vendorExtensions.put("x-stainless-const-inline-value",
                                     constRawValue);
