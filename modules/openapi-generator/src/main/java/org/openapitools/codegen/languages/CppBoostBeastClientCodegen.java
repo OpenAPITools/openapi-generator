@@ -393,8 +393,16 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // because composed properties from fromProperty use OpenAPI type names as-is.
         // Self-referencing branches (a variant containing itself) are excluded
         // because they would create an illegal recursive type alias in C++.
+        // Binary branches (format: binary) are mapped to std::vector<std::uint8_t>
+        // so the multipart addVariantFormParameter helper can dispatch them as
+        // file parts via compile-time type checking.
         List<String> branchTypes = branches.stream()
-                .map(b -> stripSharedPtr(b.dataType))
+                .map(b -> {
+                    if (b.isBinary || b.isFile) {
+                        return "std::vector<std::uint8_t>";
+                    }
+                    return stripSharedPtr(b.dataType);
+                })
                 .map(this::resolveOpenApiTypeName)
                 .filter(t -> !t.equals(cm.classname))
                 .distinct()

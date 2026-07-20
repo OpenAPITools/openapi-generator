@@ -51,6 +51,12 @@ public:
             const std::string &body,
             const std::map<std::string, std::string> &headers) override;
 
+    boost::beast::http::status
+    executeStream(const std::string &verb, const std::string &target,
+                  const std::string &body,
+                  const std::map<std::string, std::string> &headers,
+                  std::function<void(const std::string &)> onEvent) override;
+
 protected:
     using HttpRequest =
         boost::beast::http::request<boost::beast::http::string_body>;

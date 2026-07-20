@@ -631,10 +631,10 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(generatedApiSource.contains("#include <variant>"),
                 "Generated API source must include <variant>");
 
-        // Verify SSE streaming endpoint uses parseEventStream
+        // Verify SSE streaming endpoint uses parseEventStream with fromJsonValue_ converter
         String getStreamEventsMethod = extractMethod(generatedApiSource, "getStreamEvents(");
-        Assert.assertTrue(getStreamEventsMethod.contains("parseEventStream<ResponseStreamEvent>(responseBody)"),
-                "getStreamEvents must use parseEventStream<ResponseStreamEvent>");
+        Assert.assertTrue(getStreamEventsMethod.contains("parseEventStream<ResponseStreamEvent>(responseBody, fromJsonValue_ResponseStreamEvent)"),
+                "getStreamEvents must use parseEventStream with fromJsonValue_ResponseStreamEvent converter");
         Assert.assertTrue(generatedApiSource.contains("std::vector<ResponseStreamEvent>"),
                 "Generated API source must have std::vector<ResponseStreamEvent> for streaming endpoint");
 
@@ -675,6 +675,22 @@ public class CppBoostBeastClientCodegenTest {
                 "InputParam header must declare ADL to_json bridge");
         Assert.assertTrue(inputParamHeaderContent.contains("InputParam from_json(boost::json::value const& value);"),
                 "InputParam header must declare ADL from_json bridge");
+
+        // Verify NO from_json<T> template call sites in API source (all dispatch via fromJsonValue_)
+        Assert.assertFalse(generatedApiSource.contains("from_json<"),
+                "API source must not contain from_json<T> template calls (should use fromJsonValue_ functions)");
+
+        // Verify API source calls fromJsonValue_ResponseStreamEvent directly (not template)
+        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_ResponseStreamEvent"),
+                "API source must use fromJsonValue_ResponseStreamEvent for SSE parsing");
+
+        // Verify HttpClientImpl declares executeStream override
+        Path implHeader = output.toPath().resolve("api/HttpClientImpl.h");
+        String implHeaderContent = Files.readString(implHeader);
+        Assert.assertTrue(implHeaderContent.contains("executeStream("),
+                "HttpClientImpl.h must declare executeStream method");
+        Assert.assertTrue(implHeaderContent.contains("override"),
+                "HttpClientImpl::executeStream must be declared with override");
     }
 
     /**

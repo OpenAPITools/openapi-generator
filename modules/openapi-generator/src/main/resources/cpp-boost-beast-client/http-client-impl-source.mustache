@@ -203,17 +203,21 @@ HttpClientImpl::executeStream(
     if (!onEvent) {
         throw std::invalid_argument("onEvent callback must not be empty");
     }
-    // Delegate to execute() for the full HTTP exchange, then replay the
-    // response body through the callback. True incremental SSE streaming
-    // (async_read_some with event framing) is deferred: the existing
-    // Boost.Beast transport reads the entire response body before returning.
-    // For Phase 3, this provides the interface contract; Phase 4 will
-    // replace the body with a chunked/streaming reader that yields SSE
-    // events as they arrive on the wire.
+    // Lock once, then execute the full HTTP exchange via the internal
+    // prepare/send/receive path to avoid deadlocking on m_executeMutex.
+    // The response body is replayed through the callback.
+    // True incremental SSE streaming (async_read_some with event framing)
+    // is deferred to Phase 4.
     const std::lock_guard<std::mutex> executeLock(m_executeMutex);
-    auto [status, body] = execute(verb, target, body, headers);
-    onEvent(body);
-    return status;
+    HttpRequest request = prepareRequest(verb, target, body, headers);
+    HttpResponse response;
+    if (m_transport == Transport::Https) {
+        response = executeHttpsRequest(request);
+    } else {
+        response = executeHttpRequest(request);
+    }
+    onEvent(response.second);
+    return response.first;
 }
 
 HttpClientImpl::HttpResponse

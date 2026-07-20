@@ -175,7 +175,7 @@
 {{#returnType}}
 {{#dataType}}
 {{#vendorExtensions.x-codegen-streaming-response}}
-        deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody);
+        deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody, fromJsonValue_{{{dataType}}});
 {{/vendorExtensions.x-codegen-streaming-response}}
 {{^vendorExtensions.x-codegen-streaming-response}}
         ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
@@ -202,7 +202,7 @@
 {{#dataType}}
 {{#vendorExtensions.x-codegen-default-response-is-return-compatible}}
 {{#vendorExtensions.x-codegen-streaming-response}}
-    deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody);
+    deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody, fromJsonValue_{{{dataType}}});
 {{/vendorExtensions.x-codegen-streaming-response}}
 {{^vendorExtensions.x-codegen-streaming-response}}
     ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
