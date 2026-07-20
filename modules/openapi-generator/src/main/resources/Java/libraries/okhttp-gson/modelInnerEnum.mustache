@@ -55,12 +55,12 @@
       @Override
       public {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} read(final JsonReader jsonReader) throws IOException {
         {{^isNumber}}{{{dataType}}}{{/isNumber}}{{#isNumber}}String{{/isNumber}} value = {{#isFloat}}(float){{/isFloat}} {{#isUri}}URI.create({{/isUri}}jsonReader.{{#isNumber}}nextString(){{/isNumber}}{{#isInteger}}nextInt(){{/isInteger}}{{#isUri}}nextString()){{/isUri}}{{^isNumber}}{{^isInteger}}{{^isUri}}{{#isFloat}}nextDouble{{/isFloat}}{{^isFloat}}next{{{dataType}}}{{/isFloat}}(){{/isUri}}{{/isInteger}}{{/isNumber}};
-        return {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.fromValue({{#isNumber}}new BigDecimal({{/isNumber}}value{{#isNumber}}){{/isNumber}});
+        return {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.fromValue({{#isNumber}}new java.math.BigDecimal({{/isNumber}}value{{#isNumber}}){{/isNumber}});
       }
     }
 
     public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       {{^isNumber}}{{{dataType}}}{{/isNumber}}{{#isNumber}}String{{/isNumber}} value = {{#isUri}}URI.create({{/isUri}}jsonElement.{{#isNumber}}getAsString(){{/isNumber}}{{#isInteger}}getAsInt(){{/isInteger}}{{#isUri}}getAsString()){{/isUri}}{{^isNumber}}{{^isInteger}}{{^isUri}}getAs{{{dataType}}}(){{/isUri}}{{/isInteger}}{{/isNumber}};
-      {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.fromValue({{#isNumber}}new BigDecimal({{/isNumber}}value{{#isNumber}}){{/isNumber}});
+      {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.fromValue({{#isNumber}}new java.math.BigDecimal({{/isNumber}}value{{#isNumber}}){{/isNumber}});
     }
   }
