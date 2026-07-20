@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  * OptionalNullableOnlyModel
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class OptionalNullableOnlyModel implements Serializable {
 
   private static final long serialVersionUID = 1L;
