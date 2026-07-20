@@ -317,6 +317,7 @@ samples/client/jetbrains/adyen/checkout71/http/client/Apis/http-client.private.e
 .junie
 
 # openai-cpp-sdk build artifacts (Gate A / B harnesses)
-openai-cpp-sdk/generated/
+openai-cpp-sdk/generated-oas/
+openai-cpp-sdk/generated-openai/
 openai-cpp-sdk/build-generated/
 openai-cpp-sdk/build-master-verification/

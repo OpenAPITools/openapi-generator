@@ -6,11 +6,15 @@
 #   Gate A — OAS composition fixtures (generic, no OpenAI dependency)
 #   Gate B — OpenAI corpus (pinned OpenAI openapi.yaml)
 #
+# By default Gate B compiles the generated client (CMake + Make).  Use
+# --skip-compile to skip compilation for faster iterations.
+#
 # Usage:
-#   ./run-dual-gates.sh               # Full run: both gates
-#   ./run-dual-gates.sh --skip-build   # Skip generator jar rebuild
-#   ./run-dual-gates.sh --gate-b-only  # Run only Gate B (OpenAI corpus)
-#   ./run-dual-gates.sh --gate-a-only  # Run only Gate A (OAS fixtures)
+#   ./run-dual-gates.sh                     # Full run: both gates + compile
+#   ./run-dual-gates.sh --skip-build        # Skip generator jar rebuild
+#   ./run-dual-gates.sh --skip-compile      # Skip Gate B CMake/Make compile
+#   ./run-dual-gates.sh --gate-b-only       # Run only Gate B (OpenAI corpus)
+#   ./run-dual-gates.sh --gate-a-only       # Run only Gate A (OAS fixtures)
 #
 # Exit codes:
 #   0 — both gates pass
@@ -40,12 +44,14 @@ header()   { echo -e "\n${BOLD}═══ $1 ═══${NC}\n"; }
 
 main() {
     local skip_build=false
+    local skip_compile=false
     local run_gate_a=true
     local run_gate_b=true
 
     for arg in "$@"; do
         case "$arg" in
             --skip-build)   skip_build=true ;;
+            --skip-compile) skip_compile=true ;;
             --gate-a-only)  run_gate_b=false ;;
             --gate-b-only)  run_gate_a=false ;;
             --help|-h)
@@ -53,6 +59,7 @@ main() {
                 echo ""
                 echo "Flags:"
                 echo "  --skip-build       Skip generator jar Maven build"
+                echo "  --skip-compile     Skip Gate B CMake/Make compilation"
                 echo "  --gate-a-only      Run only Gate A (OAS fixtures)"
                 echo "  --gate-b-only      Run only Gate B (OpenAI corpus)"
                 exit 0
@@ -71,6 +78,10 @@ main() {
         build_flags="--skip-build"
     fi
 
+    if [[ "${skip_compile}" == "true" ]]; then
+        build_flags="${build_flags} --skip-compile"
+    fi
+
     local overall_exit=0
 
     if [[ "${run_gate_a}" == "true" ]]; then
@@ -78,15 +89,20 @@ main() {
         info_msg "Running: ${GATE_A} ${build_flags}"
         echo ""
 
+        # Gate A doesn't have --skip-compile, strip that flag if present
+        local gate_a_flags="${build_flags/ --skip-compile/}"
+        gate_a_flags="${gate_a_flags/--skip-compile /}"
+
         if [[ -x "${GATE_A}" ]]; then
-            if ${GATE_A} ${build_flags}; then
+            # shellcheck disable=SC2086
+            if ${GATE_A} ${gate_a_flags}; then
                 pass_msg "Gate A passed"
             else
                 fail_msg "Gate A failed"
                 overall_exit=1
             fi
         else
-            echo "  ${RED}ERROR${NC}  ${GATE_A} not found or not executable"
+            echo -e "  ${RED}ERROR${NC}  ${GATE_A} not found or not executable"
             overall_exit=1
         fi
     fi
@@ -97,14 +113,15 @@ main() {
         echo ""
 
         if [[ -x "${GATE_B}" ]]; then
-            if ${GATE_B} ${build_flags} --skip-compile; then
+            # shellcheck disable=SC2086
+            if ${GATE_B} ${build_flags}; then
                 pass_msg "Gate B passed"
             else
                 fail_msg "Gate B failed"
                 overall_exit=1
             fi
         else
-            echo "  ${RED}ERROR${NC}  ${GATE_B} not found or not executable"
+            echo -e "  ${RED}ERROR${NC}  ${GATE_B} not found or not executable"
             overall_exit=1
         fi
     fi
@@ -112,9 +129,9 @@ main() {
     header "Dual Gate Summary"
 
     if [[ "${overall_exit}" -eq 0 ]]; then
-        echo "  ${GREEN}PASS${NC}  All gates passed."
+        echo -e "  ${GREEN}PASS${NC}  All gates passed."
     else
-        echo "  ${RED}FAIL${NC}  One or more gates failed."
+        echo -e "  ${RED}FAIL${NC}  One or more gates failed."
     fi
     echo ""
 

@@ -58,7 +58,7 @@ export OPENAI_SDK_DIR
 export PROJECT_ROOT
 
 SPEC="${OPENAI_SDK_DIR}/openapi.yaml"
-GENERATED_DIR="${OPENAI_SDK_DIR}/generated"
+GENERATED_DIR="${OPENAI_SDK_DIR}/generated-openai"
 BUILD_DIR="${OPENAI_SDK_DIR}/build-generated"
 COMPLIANCE_DIR="${OPENAI_SDK_DIR}/openai/compliance"
 JAR_DIR="${PROJECT_ROOT}/modules/openapi-generator-cli/target"
@@ -259,10 +259,20 @@ generate_client() {
 
     info_msg "Generating cpp-boost-beast-client from ${SPEC}..."
 
+    # --skip-validate-spec is required because the OpenAI spec uses the
+    # x-oai-beta vendor extension which collides with the reserved prefix
+    # 'x-oai-' under the OpenAPI Initiative's naming policy.  Without this
+    # flag the generator throws SpecValidationException (~28 errors) and
+    # never produces output.  The pin+hash verification already ensures we
+    # are operating on the intended spec — validation bypass is a pragmatic
+    # concession to the upstream spec's use of reserved extensions.
+    rm -rf "${GENERATED_DIR}"
+
     java -jar "${JAR}" generate \
         --generator-name cpp-boost-beast-client \
         --input-spec "${SPEC}" \
         --output "${GENERATED_DIR}" \
+        --skip-validate-spec \
         --additional-properties packageName=CppBoostBeastOpenAPIClient \
         --additional-properties apiPackage=api \
         --additional-properties modelPackage=model \

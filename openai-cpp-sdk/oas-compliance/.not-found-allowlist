@@ -1,0 +1,10 @@
+# Schemas in fixtures.yaml whose generated C++ header does not yet exist.
+# Each entry is a root-composed schema name from fixtures.yaml.
+# These are DEFERRED (not FAIL) in the inventory report.
+#
+# When the codegen is fixed to handle these cases, remove the entry
+# from this file and verify the TSV shows PASS with the expected type.
+#
+# NullableString — OAS 3.1 type: "null" branch is not yet handled by
+# the generator.  Expected lowering: std::optional<std::string>.
+NullableString

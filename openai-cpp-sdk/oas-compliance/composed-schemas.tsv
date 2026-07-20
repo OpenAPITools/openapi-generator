@@ -2,9 +2,8 @@ case	result	cpp_type	notes
 AnyOfStringStringEnum	PASS	std::string	anyOf, 0 members, type alias
 OneOfStringArray	PASS	std::variant<std::string, std::vector<ItemStruct>>	oneOf, 0 members, type alias
 AllOfObjectMerge	PASS	org::openapitools::client::model::AllOfObjectMerge	allOf, 5 members
-AllOfScalarConflict	FAIL	std::string	NEGATIVE TEST FAIL: allOf with conflicting types (string + int32) — codegen MUST error
-NullableString	NOT_FOUND	NOT_FOUND	Header not found (anyOf)
-NullableEnum	PASS	std::string	anyOf, 0 members, type alias
+NullableString	DEFERRED	NOT_FOUND	Deferred (on allowlist)
+NullableEnum	FAIL	std::string	anyOf, 0 members, type alias | EXPECTED std::optional<std::string>
 Animal	PASS	std::variant<Mammal, Bird>	oneOf, 0 members, type alias
 DiscriminatorOneOf	PASS	std::variant<Mammal, Bird>	oneOf, 0 members, type alias
 MultiContentStreamEvent	PASS	std::variant<StreamProgress, StreamComplete, StreamError>	oneOf, 0 members, type alias

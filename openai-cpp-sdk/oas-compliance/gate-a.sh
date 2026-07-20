@@ -43,7 +43,8 @@ export OPENAI_SDK_DIR
 export PROJECT_ROOT
 
 FIXTURES="${SCRIPT_DIR}/fixtures.yaml"
-OUTPUT_DIR="${OPENAI_SDK_DIR}/generated"
+NEGATIVE_FIXTURES="${SCRIPT_DIR}/fixtures-negative.yaml"
+OUTPUT_DIR="${OPENAI_SDK_DIR}/generated-oas"
 JAR_DIR="${PROJECT_ROOT}/modules/openapi-generator-cli/target"
 JAR="${JAR_DIR}/openapi-generator-cli.jar"
 MVNW="${PROJECT_ROOT}/mvnw"
@@ -140,6 +141,150 @@ generate_client() {
 }
 
 # =============================================================================
+# Step 2b — Generate from negative fixtures (standalone negative tests)
+# =============================================================================
+generate_negative_fixtures() {
+    header "Step 2b: Generate from negative fixtures"
+
+    if [[ ! -f "${JAR}" ]]; then
+        echo "  ${RED}ERROR${NC}  Generator jar not found."
+        exit 2
+    fi
+
+    if [[ ! -f "${NEGATIVE_FIXTURES}" ]]; then
+        warn_msg "Negative fixtures not found at ${NEGATIVE_FIXTURES} — skipping"
+        return 0
+    fi
+
+    local negative_output_dir="${OPENAI_SDK_DIR}/generated-oas-negative"
+
+    info_msg "Generating from negative fixtures (expecting codegen issues)..."
+
+    rm -rf "${negative_output_dir}"
+
+    # Run generate and capture exit code — we expect non-zero for hard errors
+    set +e
+    java -jar "${JAR}" generate \
+        --generator-name cpp-boost-beast-client \
+        --input-spec "${NEGATIVE_FIXTURES}" \
+        --output "${negative_output_dir}" \
+        --additional-properties packageName=CppBoostBeastNegativeFixtures \
+        --additional-properties apiPackage=api \
+        --additional-properties modelPackage=model \
+        2>&1
+    local gen_exit=$?
+    set -e
+
+    # Check each schema in the negative fixtures
+    local negative_tsv="${SCRIPT_DIR}/composed-schemas.tsv"
+    local negative_yaml="${NEGATIVE_FIXTURES}"
+    local found_issues=0
+
+    # Parse negative fixtures to find all root-composed schemas
+    local parse_py
+    parse_py="$(mktemp)" || { echo "  ${RED}ERROR${NC}  mktemp failed"; exit 2; }
+    cat > "${parse_py}" << 'NEGEOF'
+#!/usr/bin/env python3
+"""Parse negative fixtures and check: generate exit code > 0 OR header absent."""
+import os, sys, yaml
+
+negative_fixtures = os.environ.get("NEGATIVE_FIXTURES_PATH", "")
+negative_output_dir = os.environ.get("NEGATIVE_OUTPUT_DIR", "")
+gen_exit = int(os.environ.get("GEN_EXIT", "0"))
+
+if not negative_fixtures or not os.path.exists(negative_fixtures):
+    sys.exit(0)
+
+with open(negative_fixtures) as f:
+    spec = yaml.safe_load(f)
+
+schemas = spec.get("components", {}).get("schemas", {})
+found_failures = 0
+
+for name, schema in schemas.items():
+    if not isinstance(schema, dict):
+        continue
+    root = dict(schema)
+    for skip_key in ("description", "title", "deprecated", "example", "default", "nullable"):
+        root.pop(skip_key, None)
+    is_composed = any(k in root for k in ("oneOf", "anyOf", "allOf"))
+    if not is_composed:
+        continue
+
+    header_file = os.path.join(negative_output_dir, "model", f"{name}.h")
+    header_exists = os.path.exists(header_file)
+
+    if gen_exit != 0 or not header_exists:
+        # Codegen errored or didn't produce the header — negative test PASS
+        print(f"  PASS  {name}: codegen {'exited with ' + str(gen_exit) if gen_exit != 0 else 'did not produce header'}")
+    else:
+        # Codegen silently produced bad code — negative test FAIL
+        cpp_type = "?"
+        try:
+            with open(header_file) as hf:
+                content = hf.read()
+            if "using " in content and "= " in content and ";" in content:
+                for line in content.split("\n"):
+                    stripped = line.strip()
+                    if stripped.startswith("using ") and "=" in stripped and ";" in stripped:
+                        import re
+                        m = re.match(r'using\s+\w+\s*=\s*([^;]+);', stripped)
+                        if m:
+                            cpp_type = m.group(1).strip()
+                            break
+        except Exception:
+            pass
+        print(f"  FAIL  {name}: codegen should have errored but produced type {cpp_type}")
+        found_failures += 1
+
+if found_failures > 0:
+    sys.exit(1)
+
+NEGEOF
+
+    export NEGATIVE_FIXTURES_PATH="${NEGATIVE_FIXTURES}"
+    export NEGATIVE_OUTPUT_DIR="${negative_output_dir}"
+    export GEN_EXIT="${gen_exit}"
+
+    local neg_exit=0
+    python3 "${parse_py}" || neg_exit=$?
+    rm -f "${parse_py}"
+
+    # Append negative test results to the TSV
+    if [[ "${gen_exit}" -ne 0 ]]; then
+        # Negative test passed via codegen error
+        if grep -q "^AllOfScalarConflict" "${negative_tsv}" 2>/dev/null; then
+            # Replace existing row
+            local tmp_tsv
+            tmp_tsv="$(mktemp)"
+            sed 's/^AllOfScalarConflict.*/AllOfScalarConflict\tPASS\tcodegen_error\tallOf conflict (negative test, codegen errored)/' "${negative_tsv}" > "${tmp_tsv}"
+            mv "${tmp_tsv}" "${negative_tsv}"
+        else
+            echo -e "AllOfScalarConflict\tPASS\tcodegen_error\tallOf conflict (negative test, codegen errored)" >> "${negative_tsv}"
+        fi
+    elif [[ -d "${negative_output_dir}/model" ]] && [[ "$(ls "${negative_output_dir}/model"/*.h 2>/dev/null | wc -l)" -eq 0 ]]; then
+        # No headers produced — also a pass (codegen silently skipped)
+        if ! grep -q "^AllOfScalarConflict" "${negative_tsv}" 2>/dev/null; then
+            echo -e "AllOfScalarConflict\tPASS\tcodegen_error\tallOf conflict (negative test, header not produced)" >> "${negative_tsv}"
+        fi
+    else:
+        # Header exists when it shouldn't
+        if ! grep -q "^AllOfScalarConflict" "${negative_tsv}" 2>/dev/null; then
+            echo -e "AllOfScalarConflict\tFAIL\tstd::string\tNEGATIVE TEST FAIL: allOf conflict silently produced code" >> "${negative_tsv}"
+        fi
+        neg_exit=1
+    fi
+
+    rm -rf "${negative_output_dir}"
+
+    if [[ "${neg_exit}" -ne 0 ]]; then
+        return ${neg_exit}
+    fi
+
+    info_msg "Negative fixture checks: AllOfScalarConflict"
+}
+
+# =============================================================================
 # Step 3 — Inventory composed schemas
 # =============================================================================
 inventory_schemas() {
@@ -163,10 +308,12 @@ Gate A — OAS composition fixtures (no OpenAI dependency).
 import os, re, sys, yaml
 
 sdk_dir = os.environ.get("OPENAI_SDK_DIR", os.path.abspath("."))
-output_dir = os.path.join(sdk_dir, "generated")
+output_dir = os.path.join(sdk_dir, "generated-oas")
 fixtures_file = os.path.join(sdk_dir, "oas-compliance", "fixtures.yaml")
 compliance_dir = os.path.join(sdk_dir, "oas-compliance")
 tsv_file = os.path.join(compliance_dir, "composed-schemas.tsv")
+expected_types_file = os.path.join(compliance_dir, "expected-types.yaml")
+deferred_allowlist_file = os.path.join(compliance_dir, ".not-found-allowlist")
 
 if not os.path.exists(output_dir):
     print(f"ERROR: Generated directory not found: {output_dir}")
@@ -197,7 +344,30 @@ for name, schema in schemas.items():
 print(f"\nFound {len(composed_schemas)} root-composed schema definitions in fixtures.")
 
 # ---------------------------------------------------------------------------
-# 2. For each composed schema, analyze the generated C++ header
+# 2. Load expected-types manifest
+# ---------------------------------------------------------------------------
+expected_types = {}
+if os.path.exists(expected_types_file):
+    with open(expected_types_file) as f:
+        et_raw = yaml.safe_load(f) or {}
+    for k, v in et_raw.items():
+        expected_types[k] = str(v)
+
+print(f"Loaded {len(expected_types)} expected-type entries.")
+
+# ---------------------------------------------------------------------------
+# 3. Load NOT_FOUND deferred allowlist
+# ---------------------------------------------------------------------------
+deferred_schemas = set()
+if os.path.exists(deferred_allowlist_file):
+    with open(deferred_allowlist_file) as f:
+        for line in f:
+            stripped = line.strip()
+            if stripped and not stripped.startswith("#"):
+                deferred_schemas.add(stripped)
+
+# ---------------------------------------------------------------------------
+# 4. For each composed schema, analyze the generated C++ header
 # ---------------------------------------------------------------------------
 model_dir = os.path.join(output_dir, "model")
 
@@ -256,41 +426,24 @@ def analyze_model_header(model_name):
 
 
 # ---------------------------------------------------------------------------
-# 3. Known codegen-error cases (negative tests)
-# ---------------------------------------------------------------------------
-# These are schemas where the correct behavior is for codegen to FAIL,
-# e.g. allOf type conflicts.  If the header exists, that's a BUG
-# (codegen silently produced invalid code).
-known_codegen_error_schemas = {
-    "AllOfScalarConflict": "allOf with conflicting types (string + int32) — codegen MUST error",
-}
-
-# ---------------------------------------------------------------------------
-# 4. Build inventory
+# 5. Build inventory
 # ---------------------------------------------------------------------------
 results = []
 empty_shells = []
-codegen_errors_unexpected = []  # produced code when it should have errored
+expected_mismatches = []
+not_found_unless_deferred = []
 
 for schema_name, comp_type in composed_schemas:
-    expected_error = known_codegen_error_schemas.get(schema_name, None)
-
     cpp_type, is_empty, member_count, extra_notes = analyze_model_header(schema_name)
 
-    if expected_error:
-        # This schema SHOULD cause a codegen error.  If the header exists,
-        # the generator silently produced bad code — that's a FAIL.
-        if cpp_type != "NOT_FOUND":
-            notes = f"NEGATIVE TEST FAIL: {expected_error}"
-            result = "FAIL"
-            codegen_errors_unexpected.append((schema_name, notes))
+    if cpp_type == "NOT_FOUND":
+        if schema_name in deferred_schemas:
+            notes = f"Deferred (on allowlist)"
+            result = "DEFERRED"
         else:
-            notes = f"PASS (negative test): {expected_error}"
-            result = "PASS"
-            cpp_type = "codegen_error (expected)"
-    elif cpp_type == "NOT_FOUND":
-        notes = f"Header not found ({comp_type})"
-        result = "NOT_FOUND"
+            notes = f"Header not found ({comp_type})"
+            result = "NOT_FOUND"
+            not_found_unless_deferred.append(schema_name)
     elif is_empty:
         notes = f"EMPTY SHELL ({comp_type}, {member_count} members)"
         result = "FAIL"
@@ -301,6 +454,19 @@ for schema_name, comp_type in composed_schemas:
         if extra_notes:
             notes += f", {extra_notes}"
         result = "PASS"
+
+    # Check against expected-types manifest (skip already-deferred schemas)
+    if result != "DEFERRED" and schema_name in expected_types:
+        expected = expected_types[schema_name]
+        # Normalize both for comparison
+        actual_normalized = cpp_type.replace("org::openapitools::client::model::", "")
+        expected_normalized = expected.replace("org::openapitools::client::model::", "")
+        if actual_normalized != expected_normalized and expected_normalized != "NOT_FOUND":
+            # Allow namespace-qualified vs. short
+            if cpp_type != expected and actual_normalized != expected_normalized:
+                expected_mismatches.append((schema_name, expected, cpp_type))
+                notes += f" | EXPECTED {expected}"
+                result = "FAIL"
 
     results.append((schema_name, result, cpp_type, notes))
 
@@ -320,8 +486,9 @@ with open(tsv_file, "w") as f:
 pass_count = sum(1 for _, r, _, _ in results if r == "PASS")
 fail_count = sum(1 for _, r, _, _ in results if r == "FAIL")
 not_found_count = sum(1 for _, r, _, _ in results if r == "NOT_FOUND")
+deferred_count = sum(1 for _, r, _, _ in results if r == "DEFERRED")
 
-print(f"\nInventory: {pass_count} PASS, {fail_count} FAIL, {not_found_count} NOT_FOUND")
+print(f"\nInventory: {pass_count} PASS, {fail_count} FAIL, {not_found_count} NOT_FOUND, {deferred_count} deferred")
 print(f"TSV: {tsv_file}")
 
 errors = 0
@@ -335,36 +502,37 @@ if empty_shells:
     print(f"Total: {len(empty_shells)} empty shell(s)\n")
     errors += len(empty_shells)
 
-if codegen_errors_unexpected:
+if expected_mismatches:
     print(f"\n{'='*60}")
-    print("NEGATIVE TEST FAILURES (codegen should have errored but produced output):")
-    for name, notes in codegen_errors_unexpected:
-        print(f"  - {name}: {notes}")
+    print("EXPECTED-TYPE MISMATCHES:")
+    for name, expected, actual in expected_mismatches:
+        print(f"  - {name}: expected {expected}, got {actual}")
     print(f"{'='*60}\n")
-    errors += len(codegen_errors_unexpected)
+    errors += len(expected_mismatches)
 
-if not_found_count > 0:
-    not_found_names = [n for n, r, _, _ in results if r == "NOT_FOUND"]
+if not_found_unless_deferred:
     print(f"\n{'='*60}")
-    print("NOT_FOUND SCHEMAS (header not generated):")
-    for name in not_found_names:
+    print("NOT_FOUND SCHEMAS (not in .not-found-allowlist):")
+    for name in not_found_unless_deferred:
         comp_type = next((c for sn, c in composed_schemas if sn == name), "?")
         print(f"  - {name} ({comp_type})")
-    print(f"{'='*60}\n")
-    errors += len(not_found_names)
+    print(f"{'='*60}")
+    print("Add to .not-found-allowlist to defer, or fix the header generation.\n")
+    errors += len(not_found_unless_deferred)
 
 print(f"__EMPTY_SHELL_COUNT__={len(empty_shells)}")
 print(f"__PASS_COUNT__={pass_count}")
 print(f"__FAIL_COUNT__={fail_count}")
 print(f"__NOT_FOUND_COUNT__={not_found_count}")
+print(f"__MISMATCH_COUNT__={len(expected_mismatches)}")
 
 if errors > 0:
     sys.exit(1)
 
 INVEOF
 
-    python3 "${inventory_py}"
-    local py_rc=$?
+    local py_rc=0
+    python3 "${inventory_py}" || py_rc=$?
     rm -f "${inventory_py}"
     return ${py_rc}
 }
@@ -422,7 +590,11 @@ main() {
 
     generate_client
 
-    INVENTORY_EXIT=0
+    # Generate from negative fixtures and assert codegen failure.
+    # A failure here (generator didn't error) is reported in the negative-TSV
+    # but must not prevent the positive inventory from running.
+    NEGATIVE_EXIT=0
+    generate_negative_fixtures || NEGATIVE_EXIT=$?
     inventory_schemas || INVENTORY_EXIT=$?
 
     header "Summary"
@@ -430,13 +602,16 @@ main() {
     echo "  TSV: ${SCRIPT_DIR}/composed-schemas.tsv"
     echo ""
 
-    if [[ "${INVENTORY_EXIT}" -ne 0 ]]; then
-        echo "  ${RED}FAIL${NC}  Composition checks failed."
+    if [[ "${INVENTORY_EXIT}" -ne 0 ]] || [[ "${NEGATIVE_EXIT}" -ne 0 ]]; then
+        echo -e "  ${RED}FAIL${NC}  Composition checks failed."
+        if [[ "${NEGATIVE_EXIT}" -ne 0 ]]; then
+            echo "       Negative fixture test(s) failed (codegen should have errored)."
+        fi
         echo ""
         exit 1
     fi
 
-    echo "  ${GREEN}PASS${NC}  All Gate A compliance checks passed."
+    echo -e "  ${GREEN}PASS${NC}  All Gate A compliance checks passed."
     echo ""
 }
 

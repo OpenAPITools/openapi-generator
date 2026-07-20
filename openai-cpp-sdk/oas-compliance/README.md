@@ -54,11 +54,11 @@ AllOfScalarConflict     PASS    codegen_error   allOf conflict detected
 
 ## Running both gates
 
-Use `../run-dual-gates.sh` from the `openai-cpp-sdk/` root to run Gate A
+Use `./run-dual-gates.sh` from the `openai-cpp-sdk/` root to run Gate A
 and Gate B sequentially:
 
 ```bash
-../run-dual-gates.sh
+./run-dual-gates.sh
 ```
 
 Or invoke each individually:
