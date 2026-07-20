@@ -156,6 +156,37 @@ public class RustServerCodegenTest {
     }
 
     /**
+     * Test that enum items inside an array-typed form parameter are serialized using their
+     * Display impl (i.e. "{}") rather than Debug (i.e. "{:?}"). Both required and optional
+     * array-of-enum form params must use Display so the wire value matches the OpenAPI enum
+     * string, not the Rust variant debug representation.
+     */
+    @Test
+    public void testFormEnumArrayUsesDisplay() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/form-enum-array.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path clientModPath = Path.of(target.toString(), "/src/client/mod.rs");
+        TestUtils.assertFileExists(clientModPath);
+
+        // Both the required and optional array-of-enum params must use "{}" (Display),
+        // not "{:?}" (Debug), so the serialized string matches the OpenAPI enum value.
+        TestUtils.assertFileContains(clientModPath, "format!(\"{}\", param_required_enum_array)");
+        TestUtils.assertFileContains(clientModPath, "format!(\"{}\", param_optional_enum_array)");
+        TestUtils.assertFileNotContains(clientModPath, "format!(\"{:?}\", param_required_enum_array)");
+        TestUtils.assertFileNotContains(clientModPath, "format!(\"{:?}\", param_optional_enum_array)");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
+
+    /**
      * Test that binary/byte request bodies are passed through as raw bytes rather than being
      * coerced to UTF-8, which panics on any non-UTF-8 payload (see issue #24094).
      */
