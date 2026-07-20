@@ -839,6 +839,21 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
         }
         operation.vendorExtensions.put(X_CODEGEN_HAS_DEFAULT_RESPONSE, hasDefaultResponse);
+
+        // Detect text/event-stream produces for SSE streaming responses.
+        // When streaming=true, the response is an SSE stream of typed events
+        // parsed via parseEventStream<EventVariant>(responseBody).
+        // The flag is set on both the operation and each response so that
+        // templates can access it from either context without ../ parent traversal.
+        if (operation.produces != null && !operation.produces.isEmpty()) {
+            boolean isStreaming = operation.produces.stream()
+                    .anyMatch(m -> m != null
+                            && "text/event-stream".equalsIgnoreCase(m.get("mediaType")));
+            operation.vendorExtensions.put("x-codegen-streaming-response", isStreaming);
+            for (CodegenResponse response : operation.responses) {
+                response.vendorExtensions.put("x-codegen-streaming-response", isStreaming);
+            }
+        }
     }
 
     /**
@@ -1068,6 +1083,16 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 parameter.dataType = innerType;
                 parameter.defaultValue = null;
             }
+        }
+
+        // Tag variant form params for branch-aware multipart serialization.
+        // When a form parameter's type is a variant, the template uses
+        // addVariantFormParameter to dispatch binary branches as file parts
+        // and object branches as JSON parts.
+        if (parameter.isFormParam && parameter.dataType != null
+                && (parameter.dataType.startsWith("std::variant<")
+                    || variantModels.contains(parameter.dataType))) {
+            parameter.vendorExtensions.put("x-codegen-is-variant-form-param", true);
         }
     }
 

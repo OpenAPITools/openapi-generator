@@ -129,6 +129,7 @@ public class CppBoostBeastClientCodegenTest {
                 1);
         TestUtils.assertFileContains(containerSource,
                 "struct JsonValueConverter<std::shared_ptr<ModelType>>",
+                "errorMessage << \"Value not allowed\";",
                 "struct JsonValueConverter<std::nullptr_t>",
                 "convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));",
                 "convertedValues.emplace(entryKey, JsonValueConverter<MappedValue>::fromJsonValue(jsonEntry.value()));",
@@ -158,7 +159,7 @@ public class CppBoostBeastClientCodegenTest {
                 "setStringChoice(JsonValueConverter<std::string>::fromJsonValue(StringChoiceIt->value()));",
                 "setBooleanChoice(JsonValueConverter<bool>::fromJsonValue(BooleanChoiceIt->value()));",
                 "std::ostringstream errorMessage;",
-                "errorMessage << \"Value \" << value << \" not allowed\";",
+                "errorMessage << \"Value not allowed\";",
                 "JsonValueConverter<std::vector<std::vector<std::shared_ptr<ChildModel>>>>::fromJsonValue",
                 "JsonValueConverter<std::map<std::string, std::map<std::string, std::shared_ptr<ChildModel>>>>::fromJsonValue",
                 "JsonValueConverter<std::vector<std::map<std::string, std::shared_ptr<ChildModel>>>>::fromJsonValue",
@@ -300,6 +301,11 @@ public class CppBoostBeastClientCodegenTest {
         // Scenario 10: AllNullTest model file exists
         TestUtils.assertFileExists(output.toPath().resolve("model/AllNullTest.h"));
 
+        // Scenario 11: ResponseStreamEvent (anyOf for SSE) model file exists
+        TestUtils.assertFileExists(output.toPath().resolve("model/ResponseStreamEvent.h"));
+        TestUtils.assertFileExists(output.toPath().resolve("model/ResponseCreatedEvent.h"));
+        TestUtils.assertFileExists(output.toPath().resolve("model/ResponseCompletedEvent.h"));
+
         // Phase 2 template assertions:
         // Alias models use 'using' typedef — no class template
 
@@ -316,18 +322,18 @@ public class CppBoostBeastClientCodegenTest {
         String inputParamContent = java.nio.file.Files.readString(inputParamHeader);
         Assert.assertTrue(inputParamContent.contains("using InputParam = std::variant<std::string, std::vector<InputItem>>;"),
                 "InputParam should emit using alias to std::variant");
-        Assert.assertTrue(inputParamContent.contains("boost::json::value to_json(InputParam const& value);"),
-                "InputParam header should declare to_json");
-        Assert.assertTrue(inputParamContent.contains("InputParam from_json(boost::json::value const& value);"),
-                "InputParam header should declare from_json");
+        Assert.assertTrue(inputParamContent.contains("boost::json::value toJsonValue_InputParam(InputParam const& value);"),
+                "InputParam header should declare toJsonValue_InputParam");
+        Assert.assertTrue(inputParamContent.contains("InputParam fromJsonValue_InputParam(boost::json::value const& value);"),
+                "InputParam header should declare fromJsonValue_InputParam");
         Assert.assertFalse(inputParamContent.contains("class  InputParam"),
                 "InputParam should not contain class declaration (empty-shell)");
 
         // InputParam source should have to_json/from_json implementations
         Path inputParamSource = output.toPath().resolve("model/InputParam.cpp");
         String inputParamSourceContent = java.nio.file.Files.readString(inputParamSource);
-        Assert.assertTrue(inputParamSourceContent.contains("to_json(InputParam const& value)"),
-                "InputParam source should implement to_json");
+        Assert.assertTrue(inputParamSourceContent.contains("toJsonValue_InputParam(InputParam const& value)"),
+                "InputParam source should implement toJsonValue_InputParam");
         Assert.assertTrue(inputParamSourceContent.contains("std::visit([](auto const& v)"),
                 "InputParam to_json should use std::visit");
         Assert.assertTrue(inputParamSourceContent.contains("VariantJsonHelper<"),
@@ -357,8 +363,8 @@ public class CppBoostBeastClientCodegenTest {
         String dedupContent = java.nio.file.Files.readString(dedupHeader);
         Assert.assertTrue(dedupContent.contains("using DedupTest = std::variant<std::string, int32_t>;"),
                 "DedupTest should emit using alias to std::variant");
-        Assert.assertTrue(dedupContent.contains("to_json(DedupTest const& value);"),
-                "DedupTest header should declare to_json");
+        Assert.assertTrue(dedupContent.contains("toJsonValue_DedupTest(DedupTest const& value);"),
+                "DedupTest header should declare toJsonValue_DedupTest");
 
         // AllNullTest (anyOf null+null) should be an alias to boost::json::value
         Path allNullHeader = output.toPath().resolve("model/AllNullTest.h");
@@ -595,6 +601,20 @@ public class CppBoostBeastClientCodegenTest {
                 "Generated API source must include <optional>");
         Assert.assertTrue(generatedApiSource.contains("#include <variant>"),
                 "Generated API source must include <variant>");
+
+        // Verify SSE streaming endpoint uses parseEventStream
+        String getStreamEventsMethod = extractMethod(generatedApiSource, "getStreamEvents(");
+        Assert.assertTrue(getStreamEventsMethod.contains("parseEventStream<ResponseStreamEvent>(responseBody)"),
+                "getStreamEvents must use parseEventStream<ResponseStreamEvent>");
+        Assert.assertTrue(generatedApiSource.contains("std::vector<ResponseStreamEvent>"),
+                "Generated API source must have std::vector<ResponseStreamEvent> for streaming endpoint");
+
+        // Verify multipart form-data endpoint generates form parameter handling
+        String uploadFileMethod = extractMethod(generatedApiSource, "uploadFile(");
+        Assert.assertTrue(uploadFileMethod.contains("FormParameter"),
+                "uploadFile must generate FormParameter entries");
+        Assert.assertTrue(uploadFileMethod.contains("multipart/form-data"),
+                "uploadFile must use multipart/form-data serialization");
     }
 
     // --- C++ compile smoke test ---

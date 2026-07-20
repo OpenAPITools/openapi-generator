@@ -71,13 +71,16 @@ inline bool isJsonContentType(const std::string& contentType) {
 }
 
 struct FormParameter {
-    FormParameter(std::string parameterName, std::string parameterValue, bool file)
-        : name(std::move(parameterName)), value(std::move(parameterValue)), isFile(file) {
+    FormParameter(std::string parameterName, std::string parameterValue, bool file,
+                  std::string contentType = "")
+        : name(std::move(parameterName)), value(std::move(parameterValue)),
+          isFile(file), contentType(std::move(contentType)) {
     }
 
     std::string name;
     std::string value;
     bool isFile;
+    std::string contentType;
 };
 
 inline std::string toFormParameterValue(const std::string& value) {
@@ -361,6 +364,32 @@ inline std::string escapeMultipartParameter(const std::string& value) {
     return escapedValue;
 }
 
+/// Serialize a variant form parameter for multipart/form-data.
+/// Binary branches are serialized as file parts; object branches as JSON parts.
+template<typename VariantType>
+void addVariantFormParameter(
+    std::vector<FormParameter>& formParameters,
+    const std::string& name,
+    const VariantType& value) {
+    std::visit([&](auto const& branch) {
+        using BranchType = std::decay_t<decltype(branch)>;
+        // Heuristic: if the branch is an arithmetic type or std::string,
+        // use string serialization (not file/JSON). Otherwise treat as
+        // a JSON-serializable object branch.
+        // Binary branches are not directly representable in the type system
+        // at compile time, so we default object branches to JSON.
+        if constexpr (std::is_same_v<BranchType, std::vector<std::uint8_t>>
+                   || std::is_same_v<BranchType, std::string>) {
+            // Binary or raw-string branch — send as file part
+            formParameters.emplace_back(name, toFormParameterValue(branch), true);
+        } else {
+            // Object branch — serialize as JSON part
+            std::string jsonValue = boost::json::serialize(toRequestJsonValue(branch));
+            formParameters.emplace_back(name, jsonValue, false, "application/json");
+        }
+    }, value);
+}
+
 inline std::string serializeMultipartFormData(
     const std::vector<FormParameter>& formParameters,
     const std::string& boundary) {
@@ -374,7 +403,9 @@ inline std::string serializeMultipartFormData(
                                << escapeMultipartParameter(formParameter.name) << '"';
         }
         serializedFormData << "\r\n";
-        if (formParameter.isFile) {
+        if (!formParameter.contentType.empty()) {
+            serializedFormData << "Content-Type: " << formParameter.contentType << "\r\n";
+        } else if (formParameter.isFile) {
             serializedFormData << "Content-Type: application/octet-stream\r\n";
         }
         serializedFormData << "\r\n" << formParameter.value << "\r\n";

@@ -39,6 +39,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelIdsResponses'
+  /stream-events:
+    get:
+      tags:
+        - ComposedSchema
+      operationId: getStreamEvents
+      responses:
+        '200':
+          description: SSE streaming response
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/ResponseStreamEvent'
+  /upload-file:
+    post:
+      tags:
+        - ComposedSchema
+      operationId: uploadFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                metadata:
+                  type: string
+      responses:
+        '200':
+          description: File upload response
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     # Scenario 1: anyOf with string + string-enum → std::string
@@ -169,3 +205,25 @@ components:
           format: int32
           const: 42
           x-stainless-const: true
+
+    # Scenario 13: SSE stream event for testing parseEventStream wiring
+    ResponseStreamEvent:
+      anyOf:
+        - $ref: '#/components/schemas/ResponseCreatedEvent'
+        - $ref: '#/components/schemas/ResponseCompletedEvent'
+    ResponseCreatedEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          const: response.created
+        id:
+          type: string
+    ResponseCompletedEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          const: response.completed
+        id:
+          type: string

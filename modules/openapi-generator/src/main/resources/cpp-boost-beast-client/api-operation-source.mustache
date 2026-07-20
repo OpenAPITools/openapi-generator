@@ -1,4 +1,4 @@
-{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{#vendorExtensions.x-codegen-streaming-response}}std::vector<{{/vendorExtensions.x-codegen-streaming-response}}{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{#vendorExtensions.x-codegen-streaming-response}}>{{/vendorExtensions.x-codegen-streaming-response}}
 {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
     {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
     std::string serializedRequestBody;
@@ -33,10 +33,15 @@
     std::vector<FormParameter> formParameters;
 {{#allParams}}
 {{#isFormParam}}
+{{#vendorExtensions.x-codegen-is-variant-form-param}}
+    addVariantFormParameter(formParameters, "{{{baseName}}}", {{{paramName}}});
+{{/vendorExtensions.x-codegen-is-variant-form-param}}
+{{^vendorExtensions.x-codegen-is-variant-form-param}}
     formParameters.emplace_back(
         "{{{baseName}}}",
         toFormParameterValue({{{paramName}}}),
         {{#isFile}}true{{/isFile}}{{^isFile}}{{#isBinary}}true{{/isBinary}}{{^isBinary}}false{{/isBinary}}{{/isFile}});
+{{/vendorExtensions.x-codegen-is-variant-form-param}}
 {{/isFormParam}}
 {{/allParams}}
     if (normalizeMediaType(requestContentType) == "multipart/form-data") {
@@ -156,7 +161,12 @@
     }
 
 {{#returnType}}
+{{#vendorExtensions.x-codegen-streaming-response}}
+    std::vector<{{{returnType}}}> deserializedResponse;
+{{/vendorExtensions.x-codegen-streaming-response}}
+{{^vendorExtensions.x-codegen-streaming-response}}
     {{{.}}} deserializedResponse = {{{defaultResponse}}};
+{{/vendorExtensions.x-codegen-streaming-response}}
 {{/returnType}}
 {{#responses}}
 {{^isDefault}}
@@ -164,11 +174,16 @@
 {{#is2xx}}
 {{#returnType}}
 {{#dataType}}
+{{#vendorExtensions.x-codegen-streaming-response}}
+        deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody);
+{{/vendorExtensions.x-codegen-streaming-response}}
+{{^vendorExtensions.x-codegen-streaming-response}}
         ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
             deserializedResponse,
             responseBody,
             responseContentType,
             {{#vendorExtensions.x-codegen-empty-body-tolerant}}true{{/vendorExtensions.x-codegen-empty-body-tolerant}}{{^vendorExtensions.x-codegen-empty-body-tolerant}}false{{/vendorExtensions.x-codegen-empty-body-tolerant}});
+{{/vendorExtensions.x-codegen-streaming-response}}
 {{/dataType}}
         return deserializedResponse;
 {{/returnType}}
@@ -186,11 +201,16 @@
 {{#isDefault}}
 {{#dataType}}
 {{#vendorExtensions.x-codegen-default-response-is-return-compatible}}
+{{#vendorExtensions.x-codegen-streaming-response}}
+    deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody);
+{{/vendorExtensions.x-codegen-streaming-response}}
+{{^vendorExtensions.x-codegen-streaming-response}}
     ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
         deserializedResponse,
         responseBody,
         responseContentType,
         {{#vendorExtensions.x-codegen-empty-body-tolerant}}true{{/vendorExtensions.x-codegen-empty-body-tolerant}}{{^vendorExtensions.x-codegen-empty-body-tolerant}}false{{/vendorExtensions.x-codegen-empty-body-tolerant}});
+{{/vendorExtensions.x-codegen-streaming-response}}
     return deserializedResponse;
 {{/vendorExtensions.x-codegen-default-response-is-return-compatible}}
 {{^vendorExtensions.x-codegen-default-response-is-return-compatible}}
