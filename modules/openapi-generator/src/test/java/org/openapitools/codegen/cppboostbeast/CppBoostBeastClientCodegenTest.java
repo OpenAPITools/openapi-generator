@@ -261,9 +261,20 @@ public class CppBoostBeastClientCodegenTest {
         String tempContent = java.nio.file.Files.readString(tempContainerHeader);
         Assert.assertTrue(tempContent.contains("std::optional<double> m_Temperature"),
                 "TemperatureContainer should declare std::optional<double> m_Temperature member");
-        // With std::optional<double>, no redundant IsSet flag should be emitted.
+        // With std::optional<double>, no redundant IsSet flag should be emitted in header.
         Assert.assertFalse(tempContent.contains("m_TemperatureIsSet"),
                 "TemperatureContainer should NOT have IsSet flag for std::optional<double> property");
+        // The .cpp source must also have no IsSet references for the optional property.
+        Path tempContainerSource = output.toPath().resolve("model/TemperatureContainer.cpp");
+        TestUtils.assertFileExists(tempContainerSource);
+        String tempSourceContent = java.nio.file.Files.readString(tempContainerSource);
+        Assert.assertFalse(tempSourceContent.contains("m_TemperatureIsSet"),
+                "TemperatureContainer.cpp must NOT reference m_TemperatureIsSet");
+        // .cpp must use has_value() for optional serialization and reset() for deserialization.
+        Assert.assertTrue(tempSourceContent.contains("m_Temperature.has_value()"),
+                "TemperatureContainer.cpp should use has_value() for optional serialization");
+        Assert.assertTrue(tempSourceContent.contains("m_Temperature.reset()"),
+                "TemperatureContainer.cpp should use reset() for optional deserialization");
 
         // Scenario 5: OpenAITemperature — anyOf [number, null] property is std::optional<double>
         Path openaiTempHeader = output.toPath().resolve("model/OpenAITemperature.h");

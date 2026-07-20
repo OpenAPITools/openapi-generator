@@ -709,9 +709,16 @@ boost::json::object {{classname}}::toJsonObject_internal() const
         object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
     {{/required}}
     {{^required}}
+        {{^vendorExtensions.x-cpp-no-is-set}}
         if (m_{{name}}IsSet) {
             object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
         }
+        {{/vendorExtensions.x-cpp-no-is-set}}
+        {{#vendorExtensions.x-cpp-no-is-set}}
+        if (m_{{name}}.has_value()) {
+            object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
+        }
+        {{/vendorExtensions.x-cpp-no-is-set}}
     {{/required}}
     {{#parent}}
     }
@@ -729,7 +736,12 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{#vars}}
     {{^vendorExtensions.x-stainless-const}}
     {{^required}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
     m_{{name}}IsSet = false;
+    {{/vendorExtensions.x-cpp-no-is-set}}
+    {{#vendorExtensions.x-cpp-no-is-set}}
+    m_{{name}}.reset();
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/required}}
     {{/vendorExtensions.x-stainless-const}}
     {{/vars}}
@@ -785,7 +797,9 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
     m_{{name}} = std::move(value);
     {{/parent}}
     {{^required}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
     m_{{name}}IsSet = true;
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/required}}
 }
 {{/vendorExtensions.x-stainless-const}}
