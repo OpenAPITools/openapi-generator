@@ -16,9 +16,16 @@
 
 package org.openapitools.codegen.cppboostbeast;
 
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.languages.CppBoostBeastClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -174,6 +181,82 @@ public class CppBoostBeastClientCodegenTest {
                 "ARCHIVE DESTINATION \"${CMAKE_INSTALL_LIBDIR}\"",
                 "install(DIRECTORY api model",
                 "DESTINATION \"${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}\"");
+    }
+
+    @Test
+    public void resolvesInlineOneOfToVariant() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        ComposedSchema oneOfSchema = new ComposedSchema();
+        oneOfSchema.addOneOfItem(new StringSchema());
+        oneOfSchema.addOneOfItem(new IntegerSchema());
+        String resolved = codegen.getTypeDeclaration(oneOfSchema);
+        Assert.assertEquals(resolved, "std::variant<std::string, int32_t>");
+    }
+
+    @Test
+    public void resolvesInlineAnyOfStringEnumToString() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        // anyOf: [string, string-enum] → std::string
+        ComposedSchema anyOfSchema = new ComposedSchema();
+        anyOfSchema.addAnyOfItem(new StringSchema());
+        StringSchema enumSchema = new StringSchema();
+        enumSchema.addEnumItem("alpha");
+        enumSchema.addEnumItem("beta");
+        anyOfSchema.addAnyOfItem(enumSchema);
+        String resolved = codegen.getTypeDeclaration(anyOfSchema);
+        Assert.assertEquals(resolved, "std::string");
+    }
+
+    @Test
+    public void resolvesInlineNullableToOptional() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        // nullable: true on a property → std::optional<double>
+        NumberSchema nullableNumber = new NumberSchema();
+        nullableNumber.setNullable(true);
+        String resolved = codegen.getTypeDeclaration(nullableNumber);
+        Assert.assertEquals(resolved, "std::optional<double>");
+    }
+
+    @Test
+    public void lowersComposedSchemasInGeneratedCode() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-lowering").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/composed-schema-lowering.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // Scenario 1: ModelIdsResponses (anyOf string + string-enum) → dataType shows std::string
+        Path idsResponseHeader = output.toPath().resolve("model/ModelIdsResponses.h");
+        TestUtils.assertFileExists(idsResponseHeader);
+
+        // Scenario 2: InputParam (oneOf string + array) — model is created
+        Path inputParamHeader = output.toPath().resolve("model/InputParam.h");
+        TestUtils.assertFileExists(inputParamHeader);
+
+        // Scenario 3: CreateResponse allOf → has model and input properties
+        Path createResponseHeader = output.toPath().resolve("model/CreateResponse.h");
+        TestUtils.assertFileExists(createResponseHeader);
+        String createResponseContent = java.nio.file.Files.readString(createResponseHeader);
+        Assert.assertTrue(createResponseContent.contains("m_Model") || createResponseContent.contains("m_Input"),
+                "CreateResponse allOf should have both base and inline properties");
+
+        // Scenario 4: TemperatureContainer with nullable temperature property
+        Path tempContainerHeader = output.toPath().resolve("model/TemperatureContainer.h");
+        TestUtils.assertFileExists(tempContainerHeader);
+        String tempContent = java.nio.file.Files.readString(tempContainerHeader);
+        Assert.assertTrue(tempContent.contains("std::optional") || tempContent.contains("m_Temperature"),
+                "TemperatureContainer should use std::optional for nullable temperature");
     }
 
 }

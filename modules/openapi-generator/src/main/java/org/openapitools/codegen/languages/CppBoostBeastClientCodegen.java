@@ -8,6 +8,7 @@ import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -39,6 +40,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             "x-codegen-query-map-deep-object";
     private static final String X_CODEGEN_RESPONSE_RANGE = "x-codegen-response-range";
     private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
+    /** Tracks model names resolved as oneOf/anyOf variant types for shared_ptr exclusion. */
+    private final Set<String> variantModels = new HashSet<>();
     protected String packageName = DEFAULT_PACKAGE_NAME;
 
     public CodegenType getTag() {
@@ -65,8 +68,13 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                         GlobalFeature.ParameterStyling,
                         GlobalFeature.MultiServer
                 )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.Union
                 )
                 .includeDataTypeFeatures(
                         DataTypeFeature.AnyType,
@@ -133,6 +141,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         importMapping.put("boost::json::value", "#include <boost/json.hpp>");
         importMapping.put("std::nullptr_t", "#include <cstddef>");
         importMapping.put("Null", "#include <cstddef>");
+        importMapping.put("std::optional", "#include <optional>");
+        importMapping.put("std::variant", "#include <variant>");
+        importMapping.put("std::monostate", "#include <variant>");
         importMapping.put("AnyType", "#include \"AnyType.h\"");
     }
 
@@ -160,6 +171,134 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         objs = super.updateAllModels(objs);
         return objs;
+    }
+
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        // Clear parent for non-inheriting array/map models (inherited from AbstractCppCodegen)
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if ((cm.isArray || cm.isMap) && (cm.parentModel == null)) {
+                cm.parent = null;
+            }
+        }
+
+        ModelsMap result = postProcessModelsEnum(objs);
+
+        // Phase 1: Apply type lowering to oneOf/anyOf models
+        for (ModelMap mo : result.getModels()) {
+            processComposedModel(mo.getModel());
+        }
+
+        return result;
+    }
+
+    /**
+     * Applies the ordered type lowering rules to a composed (oneOf/anyOf) model.
+     * Sets vendor extensions consumed by templates and records the model as a variant type.
+     */
+    private void processComposedModel(CodegenModel cm) {
+        if (cm.getComposedSchemas() == null) {
+            return;
+        }
+
+        List<CodegenProperty> branches = null;
+        String composedKeyword = null;
+
+        if (cm.getComposedSchemas().getOneOf() != null && !cm.getComposedSchemas().getOneOf().isEmpty()) {
+            branches = cm.getComposedSchemas().getOneOf();
+            composedKeyword = "oneOf";
+        } else if (cm.getComposedSchemas().getAnyOf() != null && !cm.getComposedSchemas().getAnyOf().isEmpty()) {
+            branches = cm.getComposedSchemas().getAnyOf();
+            composedKeyword = "anyOf";
+        }
+
+        if (branches == null) {
+            return;
+        }
+
+        // Collect unique C++ branch types (strip shared_ptr wrappers for variant members)
+        List<String> branchTypes = branches.stream()
+                .map(b -> stripSharedPtr(b.dataType))
+                .distinct()
+                .collect(Collectors.toList());
+
+        String resolvedType = lowerComposedTypes(branchTypes, composedKeyword);
+
+        // Record as variant model for getTypeDeclaration shared_ptr exclusion
+        variantModels.add(cm.classname);
+
+        // Emit vendor extensions consumed by Mustache templates
+        cm.vendorExtensions.put("x-cpp-type", resolvedType);
+        cm.vendorExtensions.put("x-cpp-branches", branchTypes);
+        cm.vendorExtensions.put("x-cpp-composed-keyword", composedKeyword);
+
+        if (cm.discriminator != null) {
+            cm.vendorExtensions.put("x-has-discriminator", true);
+            cm.vendorExtensions.put("x-discriminator-property", cm.discriminator.getPropertyBaseName());
+            cm.vendorExtensions.put("x-discriminator-mapping", cm.discriminator.getMapping());
+        }
+
+        // Update data type so templates and references use the resolved type
+        cm.dataType = resolvedType;
+    }
+
+    /**
+     * Ordered lowering rules for composed types:
+     * 1. anyOf: [T, null] → std::optional&lt;T&gt;
+     * 2. All strings/string-enums → std::string
+     * 3. Single non-null branch → that branch's type
+     * 4. Deduplication already applied upstream
+     * 5. std::variant&lt;Branches...&gt;
+     * 6. Empty/untyped → boost::json::value
+     */
+    private String lowerComposedTypes(List<String> branchTypes, String composedKeyword) {
+        if (branchTypes.isEmpty()) {
+            return "boost::json::value";
+        }
+
+        // Rule 1: anyOf/oneOf: [T, null] → std::optional<T>
+        // (null is represented as std::nullptr_t; [null, T] under anyOf or oneOf → optional<T>)
+        if (branchTypes.size() == 2) {
+            String nonNullBranch = null;
+            int nullCount = 0;
+            for (String bt : branchTypes) {
+                if ("std::nullptr_t".equals(bt)) {
+                    nullCount++;
+                } else {
+                    nonNullBranch = bt;
+                }
+            }
+            if (nullCount == 1 && nonNullBranch != null) {
+                return "std::optional<" + nonNullBranch + ">";
+            }
+        }
+
+        // Rule 2: Collapse anyOf/oneOf of only string and string-enums to std::string
+        if (branchTypes.stream().allMatch("std::string"::equals)) {
+            return "std::string";
+        }
+
+        // Rule 3: Collapse single remaining non-null branch to that branch type
+        List<String> nonNullBranches = branchTypes.stream()
+                .filter(bt -> !"std::nullptr_t".equals(bt))
+                .collect(Collectors.toList());
+
+        if (nonNullBranches.size() == 1) {
+            return nonNullBranches.get(0);
+        }
+
+        // Rule 5: Emit std::variant<Branches...>
+        // nonNullBranches are already deduplicated from processComposedModel
+        return "std::variant<" + String.join(", ", nonNullBranches) + ">";
+    }
+
+    /** Strips std::shared_ptr&lt;...&gt; wrapper from a type string for variant members. */
+    private static String stripSharedPtr(String type) {
+        if (type != null && type.startsWith("std::shared_ptr<") && type.endsWith(">")) {
+            return type.substring(16, type.length() - 1);
+        }
+        return type;
     }
 
     /**
@@ -420,6 +559,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
+        // Handle inline oneOf/anyOf composed schemas (apply lowering rules directly)
+        if (ModelUtils.isComposedSchema(p) && (p.getOneOf() != null || p.getAnyOf() != null)) {
+            return lowerInlineComposedSchema(p);
+        }
+
         String openAPIType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
@@ -439,7 +583,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 || ModelUtils.isDateSchema(p)
                 || ModelUtils.isDateTimeSchema(p) || ModelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
-            return toModelName(openAPIType);
+            String resolved = toModelName(openAPIType);
+            // OAS 3.0 nullable: true → std::optional<T>
+            if (ModelUtils.isNullable(p)) {
+                return "std::optional<" + resolved + ">";
+            }
+            return resolved;
         } else if (ModelUtils.isNullType(p)) {
             // Handle OpenAPI 3.1 null type
             return "std::nullptr_t";
@@ -447,7 +596,45 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             return "boost::json::value";
         }
 
+        // OAS 3.0 nullable: true → std::optional<T>
+        if (ModelUtils.isNullable(p)) {
+            return "std::optional<" + openAPIType + ">";
+        }
+
+        // Variant models use value semantics (no shared_ptr wrapping)
+        if (variantModels.contains(openAPIType)) {
+            return openAPIType;
+        }
+
         return "std::shared_ptr<" + openAPIType + ">";
+    }
+
+    /**
+     * Resolves an inline oneOf/anyOf schema to its lowered C++ type by computing
+     * branch types and applying the same ordered lowering rules as model-level types.
+     */
+    private String lowerInlineComposedSchema(Schema p) {
+        String composedKeyword;
+        List<Schema> children;
+        if (p.getOneOf() != null) {
+            children = p.getOneOf();
+            composedKeyword = "oneOf";
+        } else {
+            children = p.getAnyOf();
+            composedKeyword = "anyOf";
+        }
+
+        List<String> branchTypes = new ArrayList<>();
+        for (Schema child : children) {
+            // Compute the branch type using the full type declaration pipeline
+            // but strip shared_ptr for variant members (value semantics).
+            String childType = stripSharedPtr(getTypeDeclaration(child));
+            branchTypes.add(childType);
+        }
+
+        // Deduplicate identical types
+        branchTypes = branchTypes.stream().distinct().collect(Collectors.toList());
+        return lowerComposedTypes(branchTypes, composedKeyword);
     }
 
     @Override
@@ -557,7 +744,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         if (!isPrimitiveType && !isArray && !isMap && !isString && !parameter.dataType.startsWith("std::shared_ptr")
                 && !"boost::json::value".equals(parameter.dataType)
-                && !"std::nullptr_t".equals(parameter.dataType)) {
+                && !"std::nullptr_t".equals(parameter.dataType)
+                && !parameter.dataType.startsWith("std::variant<")
+                && !parameter.dataType.startsWith("std::optional<")
+                && !"std::monostate".equals(parameter.dataType)) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
             parameter.defaultValue = "std::make_shared<" + parameter.dataType + ">()";
         }

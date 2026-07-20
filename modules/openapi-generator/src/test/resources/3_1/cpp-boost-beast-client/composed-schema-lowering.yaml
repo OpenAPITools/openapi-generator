@@ -1,0 +1,56 @@
+openapi: 3.1.0
+info:
+  title: Cpp Boost Beast composed schema lowering
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    # Scenario 1: anyOf with string + string-enum → std::string
+    ModelIdsResponses:
+      anyOf:
+        - type: string
+        - type: string
+          enum:
+            - id
+            - ids
+
+    # Scenario 2: oneOf string + array → std::variant<std::string, std::vector<InputItem>>
+    InputParam:
+      oneOf:
+        - type: string
+        - type: array
+          items:
+            $ref: '#/components/schemas/InputItem'
+    InputItem:
+      type: object
+      properties:
+        name:
+          type: string
+
+    # Scenario 3: allOf flattened — CreateResponse has model and input directly
+    CreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/CreateResponseBase'
+        - type: object
+          properties:
+            input:
+              type: string
+    CreateResponseBase:
+      type: object
+      properties:
+        model:
+          type: string
+
+    # Scenario 4: nullable property (OAS 3.0 style)
+    TemperatureContainer:
+      type: object
+      properties:
+        temperature:
+          type: number
+          nullable: true
+
+    # Scenario 5: OAS 3.1 oneOf [null, T] → std::optional<T>
+    OptionalScore:
+      oneOf:
+        - type: "null"
+        - type: number
