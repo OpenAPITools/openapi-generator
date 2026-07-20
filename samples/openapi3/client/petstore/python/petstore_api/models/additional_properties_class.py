@@ -81,8 +81,10 @@ class AdditionalPropertiesClass(BaseModel):
             for _key_map_of_map_non_primitive_property, _value_map_of_map_non_primitive_property in self.map_of_map_non_primitive_property.items():
                 if _value_map_of_map_non_primitive_property is not None:
                     _field_dict_of_dict[_key_map_of_map_non_primitive_property] = {
-                        _key: _value.to_dict() for _key, _value in _value_map_of_map_non_primitive_property.items()
+                        _key: _value.to_dict() if _value is not None else None for _key, _value in _value_map_of_map_non_primitive_property.items()
                     }
+                else:
+                    _field_dict_of_dict[_key_map_of_map_non_primitive_property] = None
             _dict['map_of_map_non_primitive_property'] = _field_dict_of_dict
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

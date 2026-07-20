@@ -328,33 +328,38 @@ class LegacyModel(BaseModel):
         _items = []
         if self.nested_list:
             for _item_nested_list in self.nested_list:
-                if _item_nested_list:
-                    _items.append(_to_openapi_value(_item_nested_list))
+                _items.append(_to_openapi_value(_item_nested_list) if _item_nested_list is not None else None)
             _dict['nestedList'] = _items
         # override the default output from pydantic by calling `to_dict()` of each value in nested_map (dict)
         _field_dict = {}
         if self.nested_map:
             for _key_nested_map in self.nested_map:
-                if self.nested_map[_key_nested_map]:
+                if self.nested_map[_key_nested_map] is not None:
                     _field_dict[_key_nested_map] = _to_openapi_value(self.nested_map[_key_nested_map])
+                else:
+                    _field_dict[_key_nested_map] = None
             _dict['nestedMap'] = _field_dict
         # override the default output from pydantic by calling `to_dict()` of each item in nested_lists (list of list)
         _items = []
         if self.nested_lists:
             for _item_nested_lists in self.nested_lists:
-                if _item_nested_lists:
+                if _item_nested_lists is not None:
                     _items.append(
-                         [_to_openapi_value(_inner_item) for _inner_item in _item_nested_lists if _inner_item is not None]
+                         [_to_openapi_value(_inner_item) if _inner_item is not None else None for _inner_item in _item_nested_lists]
                     )
+                else:
+                    _items.append(None)
             _dict['nestedLists'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in nested_maps (list of dict)
         _items = []
         if self.nested_maps:
             for _item_nested_maps in self.nested_maps:
-                if _item_nested_maps:
+                if _item_nested_maps is not None:
                     _items.append(
-                         {_inner_key: _to_openapi_value(_inner_value) for _inner_key, _inner_value in _item_nested_maps.items()}
+                         {_inner_key: _to_openapi_value(_inner_value) if _inner_value is not None else None for _inner_key, _inner_value in _item_nested_maps.items()}
                     )
+                else:
+                    _items.append(None)
             _dict['nestedMaps'] = _items
         # override the default output from pydantic by calling `to_dict()` of each value in map_of_lists (dict of array)
         _field_dict_of_array = {}
@@ -362,8 +367,10 @@ class LegacyModel(BaseModel):
             for _key_map_of_lists in self.map_of_lists:
                 if self.map_of_lists[_key_map_of_lists] is not None:
                     _field_dict_of_array[_key_map_of_lists] = [
-                        _to_openapi_value(_item) for _item in self.map_of_lists[_key_map_of_lists]
+                        _to_openapi_value(_item) if _item is not None else None for _item in self.map_of_lists[_key_map_of_lists]
                     ]
+                else:
+                    _field_dict_of_array[_key_map_of_lists] = None
             _dict['mapOfLists'] = _field_dict_of_array
         # override the default output from pydantic by calling `to_dict()` of each value in map_of_maps (dict of dict)
         _field_dict_of_dict = {}
@@ -371,8 +378,10 @@ class LegacyModel(BaseModel):
             for _key_map_of_maps, _value_map_of_maps in self.map_of_maps.items():
                 if _value_map_of_maps is not None:
                     _field_dict_of_dict[_key_map_of_maps] = {
-                        _key: _to_openapi_value(_value) for _key, _value in _value_map_of_maps.items()
+                        _key: _to_openapi_value(_value) if _value is not None else None for _key, _value in _value_map_of_maps.items()
                     }
+                else:
+                    _field_dict_of_dict[_key_map_of_maps] = None
             _dict['mapOfMaps'] = _field_dict_of_dict
         # set to None if nullable_value (nullable) is None
         # and model_fields_set contains the field
@@ -424,11 +433,11 @@ class LegacyModel(BaseModel):
             if obj.get("nestedMap") is not None
             else None,
             "nestedLists": [
-                    [NestedModel.from_dict(_inner_item) for _inner_item in _item]
+                    [NestedModel.from_dict(_inner_item) for _inner_item in _item] if _item is not None else None
                     for _item in obj["nestedLists"]
                 ] if obj.get("nestedLists") is not None else None,
             "nestedMaps": [
-                    {_inner_key: NestedModel.from_dict(_inner_value) for _inner_key, _inner_value in _item.items()}
+                    {_inner_key: NestedModel.from_dict(_inner_value) for _inner_key, _inner_value in _item.items()} if _item is not None else None
                     for _item in obj["nestedMaps"]
                 ] if obj.get("nestedMaps") is not None else None,
             "mapOfLists": {

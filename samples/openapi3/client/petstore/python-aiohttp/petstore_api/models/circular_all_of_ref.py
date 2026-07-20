@@ -74,8 +74,7 @@ class CircularAllOfRef(BaseModel):
         _items = []
         if self.second_circular_all_of_ref:
             for _item_second_circular_all_of_ref in self.second_circular_all_of_ref:
-                if _item_second_circular_all_of_ref:
-                    _items.append(_item_second_circular_all_of_ref.to_dict())
+                _items.append(_item_second_circular_all_of_ref.to_dict() if _item_second_circular_all_of_ref is not None else None)
             _dict['secondCircularAllOfRef'] = _items
         return _dict
 

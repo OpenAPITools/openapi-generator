@@ -79,8 +79,10 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
             for _key_dict_property in self.dict_property:
                 if self.dict_property[_key_dict_property] is not None:
                     _field_dict_of_array[_key_dict_property] = [
-                        _item.to_dict() for _item in self.dict_property[_key_dict_property]
+                        _item.to_dict() if _item is not None else None for _item in self.dict_property[_key_dict_property]
                     ]
+                else:
+                    _field_dict_of_array[_key_dict_property] = None
             _dict['dictProperty'] = _field_dict_of_array
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

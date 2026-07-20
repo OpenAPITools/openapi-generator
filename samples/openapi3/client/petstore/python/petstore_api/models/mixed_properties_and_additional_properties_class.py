@@ -81,8 +81,10 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         _field_dict = {}
         if self.map:
             for _key_map in self.map:
-                if self.map[_key_map]:
+                if self.map[_key_map] is not None:
                     _field_dict[_key_map] = self.map[_key_map].to_dict()
+                else:
+                    _field_dict[_key_map] = None
             _dict['map'] = _field_dict
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
