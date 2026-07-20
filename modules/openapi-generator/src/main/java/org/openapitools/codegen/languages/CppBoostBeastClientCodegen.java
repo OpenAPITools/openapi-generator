@@ -253,7 +253,90 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
         }
 
+        // Degenerate fallback: Models like AllNullTest whose composed schemas
+        // (anyOf [null, null]) were entirely consumed by the default codegen
+        // without leaving usable branches or dataType. These models have no vars,
+        // are not arrays/maps, and have `isAnyType = true` (no explicit `type` field
+        // on the OpenAPI schema). Treat as boost::json::value alias.
+        for (ModelMap mo : result.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (cm.vendorExtensions.containsKey("x-cpp-is-alias")) {
+                continue;
+            }
+            if (cm.vars != null && !cm.vars.isEmpty()) {
+                continue;
+            }
+            if (cm.isArray || cm.isMap) {
+                continue;
+            }
+            if (cm.getIsAnyType()) {
+                cm.vendorExtensions.put("x-cpp-type", "boost::json::value");
+                cm.vendorExtensions.put("x-cpp-is-alias", true);
+            }
+        }
+
+        // Phase 3: Emit complete includes for resolved alias/variant types.
+        // Scan x-cpp-type and x-cpp-branches for known standard types and add
+        // corresponding #include directives to the model's imports.
+        for (ModelMap mo : result.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (!cm.vendorExtensions.containsKey("x-cpp-is-alias")) {
+                continue;
+            }
+            String resolvedType = (String) cm.vendorExtensions.get("x-cpp-type");
+            List<String> branchTypes = (List<String>) cm.vendorExtensions.get("x-cpp-branches");
+            collectImportsForType(resolvedType, cm);
+            if (branchTypes != null) {
+                for (String branchType : branchTypes) {
+                    collectImportsForType(branchType, cm);
+                }
+            }
+        }
+
         return result;
+    }
+
+    /**
+     * Scans a type string for known standard types and adds corresponding
+     * #include directives to the model's import set.
+     */
+    private void collectImportsForType(String type, CodegenModel cm) {
+        if (type == null) {
+            return;
+        }
+        for (Map.Entry<String, String> entry : importMapping.entrySet()) {
+            String mappedKey = entry.getKey();
+            String mappedInclude = entry.getValue();
+            if (type.contains(mappedKey)) {
+                cm.imports.add(mappedInclude);
+            }
+        }
+    }
+
+    /**
+     * Maps OpenAPI type names (from composed branch properties) to C++ types.
+     * Composed properties created by DefaultCodegen.fromProperty use OpenAPI
+     * type names (e.g., "null", "integer", "string") rather than mapped C++ types.
+     */
+    private String resolveOpenApiTypeName(String type) {
+        if (type == null) {
+            return null;
+        }
+        // Check typeMapping first for known OpenAPI type names
+        if ("null".equals(type)) {
+            return "std::nullptr_t";
+        }
+        // Check if it's already a C++ type (starts with std:: or boost:: or is a model name)
+        if (type.startsWith("std::") || type.startsWith("boost::") || type.contains("<")) {
+            return type;
+        }
+        // Map through typeMapping for OpenAPI primitive type names
+        String mapped = typeMapping.get(type);
+        if (mapped != null) {
+            return mapped;
+        }
+        // If it has underscores or uppercase letters, assume it's already a model name
+        return type;
     }
 
     /**
@@ -286,9 +369,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             return;
         }
 
-        // Collect unique C++ branch types (strip shared_ptr wrappers for variant members)
+        // Collect unique C++ branch types (strip shared_ptr wrappers for variant members).
+        // Map OpenAPI type names (e.g., "null", "integer", "string") to C++ types
+        // because composed properties from fromProperty use OpenAPI type names as-is.
         List<String> branchTypes = branches.stream()
                 .map(b -> stripSharedPtr(b.dataType))
+                .map(this::resolveOpenApiTypeName)
                 .distinct()
                 .collect(Collectors.toList());
 

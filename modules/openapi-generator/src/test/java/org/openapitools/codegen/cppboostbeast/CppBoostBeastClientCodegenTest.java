@@ -20,20 +20,18 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.NumberSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.CppBoostBeastClientCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -360,9 +358,49 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(dedupContent.contains("to_json(DedupTest const& value);"),
                 "DedupTest header should declare to_json");
 
-        // AllNullTest (anyOf null+null) generates as an empty class — the degenerate
-        // all-null case isn't collapsed to boost::json::value by fromModel. This is
-        // acceptable; it was always an empty shell before Phase 2.
+        // AllNullTest (anyOf null+null) should be an alias to boost::json::value
+        Path allNullHeader = output.toPath().resolve("model/AllNullTest.h");
+        String allNullContent = java.nio.file.Files.readString(allNullHeader);
+        Assert.assertTrue(allNullContent.contains("using AllNullTest = boost::json::value;"),
+                "AllNullTest should emit using alias to boost::json::value");
+        Assert.assertFalse(allNullContent.contains("class  AllNullTest"),
+                "AllNullTest should not contain class declaration");
+
+        // --- Phase 2 strong review assertions ---
+
+        // Verify variant model headers include <variant>
+        Assert.assertTrue(inputParamContent.contains("#include <variant>"),
+                "InputParam (variant) header should include <variant>");
+        Assert.assertTrue(dedupContent.contains("#include <variant>"),
+                "DedupTest (variant) header should include <variant>");
+
+        // Verify include guards: each header has exactly one #ifndef and one #endif
+        // (check the alias and non-alias paths)
+        Assert.assertEquals(
+                TestUtils.countOccurrences(inputParamContent, "#ifndef BOOST_BEAST_OPENAPI_CLIENT_InputParam_MODEL_H_"),
+                1, "InputParam header should have exactly one #ifndef");
+        Assert.assertEquals(
+                TestUtils.countOccurrences(inputParamContent, "#endif"),
+                1, "InputParam header should have exactly one #endif");
+        String catContent = java.nio.file.Files.readString(catHeader);
+        Assert.assertEquals(
+                TestUtils.countOccurrences(catContent, "#ifndef BOOST_BEAST_OPENAPI_CLIENT_Cat_MODEL_H_"),
+                1, "Cat (class model) header should have exactly one #ifndef");
+        Assert.assertEquals(
+                TestUtils.countOccurrences(catContent, "#endif"),
+                1, "Cat (class model) header should have exactly one #endif");
+
+        // Verify to_json uses toJsonValue() for model types, not bare value_from
+        Assert.assertTrue(petByTypeSourceContent.contains("v.toJsonValue()"),
+                "PetByType to_json should use toJsonValue() for model branches");
+        Assert.assertFalse(petByTypeSourceContent.contains("boost::json::value_to<Cat>(value)"),
+                "PetByType from_json should not use value_to<Cat>");
+        Assert.assertTrue(petByTypeSourceContent.contains("return Cat(value);"),
+                "PetByType from_json should use Cat(value) constructor");
+
+        // Verify discriminator error message includes the received value
+        Assert.assertTrue(petByTypeSourceContent.contains("discValue"),
+                "PetByType discriminator error should include the received value");
 
         // Scenario 12: x-stainless-const property handling
         Path stainlessHeader = output.toPath().resolve("model/StainlessObject.h");
@@ -473,6 +511,68 @@ public class CppBoostBeastClientCodegenTest {
         String resolved = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(resolved, "boost::json::value",
                 "All-null branches should produce boost::json::value");
+    }
+
+    // --- C++ compile smoke test ---
+
+    /**
+     * Checks basic C++ syntactic validity of a generated source file:
+     * balanced preprocessor guards, no missing/duplicate #endif.
+     */
+    private static void assertBalancedPreprocessorGuards(Path filePath) throws IOException {
+        String content = Files.readString(filePath);
+        long ifndefCount = content.lines()
+                .filter(line -> line.trim().startsWith("#ifndef"))
+                .count();
+        long defineCount = content.lines()
+                .filter(line -> line.trim().startsWith("#define") && !line.trim().startsWith("#define "))
+                .count();
+        long endifCount = content.lines()
+                .filter(line -> line.trim().startsWith("#endif"))
+                .count();
+        long ifCount = content.lines()
+                .filter(line -> line.trim().startsWith("#if ") || line.trim().startsWith("#ifdef"))
+                .count();
+        long elifCount = content.lines()
+                .filter(line -> line.trim().startsWith("#elif"))
+                .count();
+        long elseCount = content.lines()
+                .filter(line -> line.trim().startsWith("#else"))
+                .count();
+        // Each #ifndef must have a matching #endif, without duplicates
+        long expectedEndif = ifndefCount + ifCount;
+        Assert.assertEquals(endifCount, expectedEndif,
+                "File " + filePath + " has unbalanced preprocessor guards: " +
+                "#ifndef=" + ifndefCount + " #if=" + ifCount + " #endif=" + endifCount);
+    }
+
+    @Test
+    public void generatedHeadersPassSyntaxSmokeCheck() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-syntax").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/composed-schema-lowering.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // Check all generated model headers for balanced preprocessor guards
+        Path modelDir = output.toPath().resolve("model");
+        List<Path> headers;
+        try (var stream = java.nio.file.Files.list(modelDir)) {
+            headers = stream
+                    .filter(p -> p.toString().endsWith(".h"))
+                    .collect(java.util.stream.Collectors.toList());
+        }
+
+        Assert.assertFalse(headers.isEmpty(), "Should have generated at least one model header");
+
+        for (Path header : headers) {
+            assertBalancedPreprocessorGuards(header);
+        }
     }
 
 }

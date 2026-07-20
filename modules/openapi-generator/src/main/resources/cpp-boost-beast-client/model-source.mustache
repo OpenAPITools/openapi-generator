@@ -16,7 +16,11 @@ namespace {{this}} {
 boost::json::value to_json({{classname}} const& value)
 {
     return std::visit([](auto const& v) -> boost::json::value {
-        return boost::json::value_from(v);
+        if constexpr (requires { v.toJsonValue(); }) {
+            return v.toJsonValue();
+        } else {
+            return boost::json::value_from(v);
+        }
     }, value);
 }
 
@@ -40,11 +44,11 @@ boost::json::value to_json({{classname}} const& value)
         }
         {{#discriminator.mappedModels}}
         if (discValue == "{{mappingName}}") {
-            return boost::json::value_to<{{modelName}}>(value);
+            return {{modelName}}(value);
         }
         {{/discriminator.mappedModels}}
     }
-    throw std::invalid_argument("Unknown discriminator value for {{classname}}");
+    throw std::invalid_argument("Unknown " + std::string("{{discriminator.propertyBaseName}}") + " value: " + discValue);
     {{/discriminator}}
     {{^discriminator}}
     // {{vendorExtensions.x-cpp-composed-keyword}} variant{{#vendorExtensions.x-cpp-branches}}{{#-first}}
