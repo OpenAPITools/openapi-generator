@@ -1,16 +1,21 @@
 #!/usr/bin/env bash
 # =============================================================================
-# OpenAI Compliance Harness — Phase 0
+# OpenAI Compliance Harness — Phase 0 (Gate B)
 # =============================================================================
 # Pins the spec version, generates the full OpenAI client, compiles it,
 # inventories all composed schemas, runs golden encode/decode cases,
 # and fails on any empty-shell composed model.
+#
+# This is Gate B of the Dual Compliance Harness.  Gate A lives in
+# ../../oas-compliance/gate-a.sh and tests generic OAS composition
+# fixtures independent of the OpenAI spec.
 #
 # Usage:
 #   ./harness.sh                    # Full run (build + generate + compile + verify)
 #   ./harness.sh --skip-build       # Skip generator jar build
 #   ./harness.sh --skip-generate    # Skip code generation
 #   ./harness.sh --skip-compile     # Skip compilation
+#   ./harness.sh --run-gate-a      # Run Gate A first, then Gate B
 #   ./harness.sh inventory          # Inventory + shell check only (no build/gen/compile)
 #   ./harness.sh golden             # Golden case encode/decode only
 #
@@ -540,6 +545,7 @@ main() {
     local skip_compile=false
     local only_inventory=false
     local only_golden=false
+    local run_gate_a=false
 
     # Parse arguments
     for arg in "$@"; do
@@ -547,6 +553,7 @@ main() {
             --skip-build)    skip_build=true ;;
             --skip-generate) skip_generate=true ;;
             --skip-compile)  skip_compile=true ;;
+            --run-gate-a)    run_gate_a=true ;;
             inventory)       only_inventory=true ;;
             golden)          only_golden=true ;;
             --help|-h)
@@ -556,6 +563,7 @@ main() {
                 echo "  --skip-build       Skip generator jar Maven build"
                 echo "  --skip-generate    Skip code generation from spec"
                 echo "  --skip-compile     Skip CMake + Make compilation"
+                echo "  --run-gate-a       Run Gate A (OAS fixtures) before Gate B"
                 echo ""
                 echo "Commands (run in isolation, skip all other steps):"
                 echo "  inventory          Inventory composed schemas + empty-shell check"
@@ -594,6 +602,26 @@ main() {
         verify_pin
         inventory_schemas
         exit $?
+    fi
+
+    # Run Gate A first if requested
+    if [[ "${run_gate_a}" == "true" ]]; then
+        header "Gate A — OAS Composition Fixtures"
+        local gate_a_script="${OPENAI_SDK_DIR}/oas-compliance/gate-a.sh"
+        if [[ -x "${gate_a_script}" ]]; then
+            local gate_a_build_flags=""
+            if [[ "${skip_build}" == "true" ]]; then
+                gate_a_build_flags="--skip-build"
+            fi
+            if ! ${gate_a_script} ${gate_a_build_flags}; then
+                echo ""
+                echo "  ${RED}FAIL${NC}  Gate A failed — aborting Gate B"
+                exit 1
+            fi
+            pass_msg "Gate A passed"
+        else
+            echo "  ${YELLOW}WARN${NC}  Gate A script not found at ${gate_a_script}"
+        fi
     fi
 
     # Full pipeline
