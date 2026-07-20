@@ -1,6 +1,13 @@
 # Expected C++ types for composed schemas (oneOf / anyOf / allOf).
-# Each entry maps a schema name to the C++ type the generator should emit.
-# This manifest is checked by harness.sh during inventory.
+# Every entry here MUST be a component schema whose ROOT-level defining keyword
+# is oneOf, anyOf, or allOf (after skipping description/title/deprecated/example).
+# Plain type:object schemas are NOT included — they are checked structurally in
+# the inventory member-count analysis instead.
+#
+# This manifest is enforced by harness.sh: any root-composed schema whose
+# emitted C++ type differs from the expectation causes a FAIL in the inventory.
+# Conversely, any key in this file that does not correspond to a root-composed
+# schema in the spec is a stale entry and should be removed.
 #
 # Format:
 #   schema_name: cpp_type
@@ -8,9 +15,6 @@
 # Use std::variant<...> for oneOf over heterogeneous types,
 # std::string / double / bool for anyOf primitive aliases,
 # and fully qualified class names for object schemas.
-#
-# Only top-level component/schema entries with root composition
-# (oneOf/anyOf/allOf at the schema root) are listed here.
 
 # --- Model IDs (anyOf over string + enum) ---
 ModelIdsShared: std::string
@@ -24,7 +28,6 @@ InputParam: std::variant<std::string, std::vector<InputItem>>
 # --- Response model composition ---
 CreateResponse: org::openapitools::client::model::CreateResponse
 Response: org::openapitools::client::model::Response
-ResponseProperties: org::openapitools::client::model::ResponseProperties
 ResponseError: org::openapitools::client::model::ResponseError
 
 # --- Content (oneOf over text/image/file/file-ref) ---
@@ -44,12 +47,9 @@ ConversationParam: org::openapitools::client::model::ConversationParam
 # --- Tool composition ---
 Tool: org::openapitools::client::model::Tool
 ToolChoiceParam: org::openapitools::client::model::ToolChoiceParam
-AdditionalToolsItemParam: org::openapitools::client::model::AdditionalToolsItemParam
 
-# --- Reasoning & moderation ---
+# --- Reasoning ---
 ReasoningEffort: org::openapitools::client::model::ReasoningEffort
-Moderation: org::openapitools::client::model::Moderation
-ModerationParam: org::openapitools::client::model::ModerationParam
 
 # --- Streaming ---
 ResponseStreamEvent: org::openapitools::client::model::ResponseStreamEvent
@@ -57,15 +57,10 @@ ResponseStreamOptions: org::openapitools::client::model::ResponseStreamOptions
 
 # --- Chat completion ---
 ChatCompletionRequestMessage: org::openapitools::client::model::ChatCompletionRequestMessage
-ChatCompletionResponseMessage: org::openapitools::client::model::ChatCompletionResponseMessage
-ChatCompletionStreamResponseDelta: org::openapitools::client::model::ChatCompletionStreamResponseDelta
 ChatCompletionStreamOptions: org::openapitools::client::model::ChatCompletionStreamOptions
 
-# --- Computer use & function shell ---
+# --- Computer use ---
 ComputerAction: org::openapitools::client::model::ComputerAction
-ComputerCallSafetyCheckParam: org::openapitools::client::model::ComputerCallSafetyCheckParam
-FunctionShellAction: org::openapitools::client::model::FunctionShellAction
-FunctionShellCallOutputContent: org::openapitools::client::model::FunctionShellCallOutputContent
 
 # --- Patch operations ---
 ApplyPatchOperationParam: org::openapitools::client::model::ApplyPatchOperationParam
@@ -73,16 +68,12 @@ ApplyPatchOperationParam: org::openapitools::client::model::ApplyPatchOperationP
 # --- Service tier ---
 ServiceTier: org::openapitools::client::model::ServiceTier
 
-# --- Context management ---
-ContextManagementParam: org::openapitools::client::model::ContextManagementParam
-
 # --- Beta equivalents ---
 BetaContent: org::openapitools::client::model::BetaContent
 BetaCreateResponse: org::openapitools::client::model::BetaCreateResponse
 BetaResponse: org::openapitools::client::model::BetaResponse
 BetaTool: org::openapitools::client::model::BetaTool
 BetaComputerAction: org::openapitools::client::model::BetaComputerAction
-BetaComputerActionList: org::openapitools::client::model::BetaComputerActionList
 BetaInputItem: org::openapitools::client::model::BetaInputItem
 BetaOutputItem: org::openapitools::client::model::BetaOutputItem
 BetaItem: org::openapitools::client::model::BetaItem
@@ -90,8 +81,6 @@ BetaItemResource: org::openapitools::client::model::BetaItemResource
 BetaResponseStreamEvent: org::openapitools::client::model::BetaResponseStreamEvent
 BetaResponsesServerEvent: org::openapitools::client::model::BetaResponsesServerEvent
 BetaResponsesClientEvent: org::openapitools::client::model::BetaResponsesClientEvent
-BetaModeration: org::openapitools::client::model::BetaModeration
 BetaOutputContent: org::openapitools::client::model::BetaOutputContent
 BetaInputContent: org::openapitools::client::model::BetaInputContent
 BetaAnnotation: org::openapitools::client::model::BetaAnnotation
-BetaOutputMessage: org::openapitools::client::model::BetaOutputMessage

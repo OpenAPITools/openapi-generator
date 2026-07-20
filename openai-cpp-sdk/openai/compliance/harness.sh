@@ -23,6 +23,11 @@
 # =============================================================================
 
 set -euo pipefail
+
+# Upstream URL for the pinned OpenAI API definition.
+# Downloaded only when openapi.yaml does not exist locally.
+SPEC_URL="https://platform.openai.com/docs/static/api-definition.yaml"
+CURL_TIMEOUT=60
 IFS=$'\n\t'
 
 # ---- Paths (all absolute, derived from script location) ----------------------
@@ -71,7 +76,58 @@ warn_msg() { echo -e "  ${YELLOW}WARN${NC}  $1"; }
 header()   { echo -e "\n${BOLD}═══ $1 ═══${NC}\n"; }
 
 # =============================================================================
-# Step 0 — Spec pin verification
+# Step 0a — Spec fetch (if missing)
+# =============================================================================
+fetch_spec() {
+    if [[ -f "${SPEC}" ]]; then
+        return 0
+    fi
+
+    header "Step 0a: Fetch spec from upstream"
+
+    if ! command -v curl &>/dev/null; then
+        echo "  ${RED}ERROR${NC}  curl is required to fetch the spec"
+        exit 4
+    fi
+
+    info_msg "Downloading from ${SPEC_URL} ..."
+    mkdir -p "$(dirname "${SPEC}")"
+    curl -sSL --max-time "${CURL_TIMEOUT}" -o "${SPEC}.tmp" "${SPEC_URL}" 2>&1
+
+    if [[ ! -f "${SPEC}.tmp" ]] || [[ ! -s "${SPEC}.tmp" ]]; then
+        echo "  ${RED}ERROR${NC}  Download failed or returned empty file"
+        rm -f "${SPEC}.tmp"
+        exit 4
+    fi
+
+    mv "${SPEC}.tmp" "${SPEC}"
+    info_msg "Downloaded $(wc -c < "${SPEC}") bytes to ${SPEC}"
+
+    # Verify hash against manifest immediately after download
+    local manifest_hash
+    manifest_hash=$(awk -F'[|]' '/SHA-256/ {gsub(/[`| ]/, "", $3); print $3}' "${MANIFEST}" 2>/dev/null || echo "")
+    if [[ -z "${manifest_hash}" ]]; then
+        echo "  ${YELLOW}WARN${NC}  Cannot verify hash — MANIFEST missing or unreadable"
+        return 0
+    fi
+
+    local actual_hash
+    actual_hash="$(shasum -a 256 "${SPEC}" | cut -d' ' -f1 || true)"
+
+    if [[ "${actual_hash}" != "${manifest_hash}" ]]; then
+        echo "  ${RED}FAIL${NC}  Downloaded spec hash does not match MANIFEST"
+        echo "         Expected: ${manifest_hash}"
+        echo "         Actual:   ${actual_hash}"
+        echo "  The upstream spec has changed. Update MANIFEST.md to re-pin."
+        rm -f "${SPEC}"
+        exit 4
+    fi
+
+    pass_msg "Downloaded spec matches pinned hash"
+}
+
+# =============================================================================
+# Step 0b — Spec pin verification
 # =============================================================================
 verify_pin() {
     header "Step 0: Verify spec pin"
@@ -142,8 +198,6 @@ build_generator() {
 
     # Check jar freshness: rebuild if any .java source is newer than the jar
     if [[ -f "${JAR}" ]]; then
-        local jar_mtime
-        jar_mtime=$(stat -f "%m" "${JAR}" 2>/dev/null || echo 0)
         local need_rebuild=false
 
         for src_dir in "${PROJECT_ROOT}/modules/openapi-generator/src" \
@@ -200,11 +254,6 @@ generate_client() {
 
     info_msg "Generating cpp-boost-beast-client from ${SPEC}..."
 
-    # Preserve the FILES manifest so we can detect what changed
-    if [[ -f "${GENERATED_DIR}/.openapi-generator/FILES" ]]; then
-        cp "${GENERATED_DIR}/.openapi-generator/FILES" /tmp/openapi-files-backup.txt 2>/dev/null || true
-    fi
-
     java -jar "${JAR}" generate \
         --generator-name cpp-boost-beast-client \
         --input-spec "${SPEC}" \
@@ -247,7 +296,9 @@ compile_client() {
 inventory_schemas() {
     header "Step 4: Inventory composed schemas"
 
-    cat > /tmp/openapi_inventory_payload.py << 'INVEOF'
+    local inventory_py
+    inventory_py="$(mktemp)" || { echo "  ${RED}ERROR${NC}  mktemp failed"; exit 2; }
+    cat > "${inventory_py}" << 'INVEOF'
 #!/usr/bin/env python3
 """
 Parse openapi.yaml with PyYAML to find root-composed component schemas,
@@ -453,9 +504,9 @@ if errors > 0:
 
 INVEOF
 
-    python3 /tmp/openapi_inventory_payload.py
+    python3 "${inventory_py}"
     local py_rc=$?
-    rm -f /tmp/openapi_inventory_payload.py
+    rm -f "${inventory_py}"
     return ${py_rc}
 }
 
@@ -531,24 +582,22 @@ main() {
     echo "  Jar:      ${JAR}"
     echo ""
 
-    if [[ ! -f "${SPEC}" ]]; then
-        echo "  ${RED}ERROR${NC}  Spec not found at ${SPEC}"
-        exit 1
-    fi
-
     if [[ "${only_golden}" == "true" ]]; then
+        fetch_spec
         verify_pin
         run_golden_cases
         exit $?
     fi
 
     if [[ "${only_inventory}" == "true" ]]; then
+        fetch_spec
         verify_pin
         inventory_schemas
         exit $?
     fi
 
     # Full pipeline
+    fetch_spec
     verify_pin
 
     if [[ "${skip_build}" == "false" ]]; then
