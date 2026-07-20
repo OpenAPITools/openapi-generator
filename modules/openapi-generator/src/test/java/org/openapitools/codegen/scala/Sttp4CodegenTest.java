@@ -333,4 +333,37 @@ public class Sttp4CodegenTest {
         assertFileContains(modelPath, "createdAt: OffsetDateTime");
         assertFileContains(modelPath, "updatedAt: Option[OffsetDateTime]");
     }
+
+    @Test
+    public void verifyOptionalFieldsOmittedWhenNone() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/scala/sttp4-optional-fields.yaml", null, new ParseOptions()).getOpenAPI();
+
+        ScalaSttp4ClientCodegen codegen = new ScalaSttp4ClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put("jsonLibrary", "circe");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        // Optional fields set to None must be omitted from the JSON (sttp3 parity),
+        // not serialized as null: strict servers reject explicit null for
+        // non-nullable optional properties.
+        Path petPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Pet.scala");
+        assertFileContains(petPath, "implicit val encoder: Encoder[Pet] = deriveEncoder[Pet].mapJson(_.dropNullValues)");
+    }
 }

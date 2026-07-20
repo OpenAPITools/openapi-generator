@@ -26,6 +26,6 @@ object ApiResponse {
   import io.circe.syntax._
   import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[ApiResponse] = deriveEncoder
+  implicit val encoder: Encoder[ApiResponse] = deriveEncoder[ApiResponse].mapJson(_.dropNullValues)
   implicit val decoder: Decoder[ApiResponse] = deriveDecoder
 }
