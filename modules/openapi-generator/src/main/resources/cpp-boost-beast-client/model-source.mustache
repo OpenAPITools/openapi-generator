@@ -1,6 +1,64 @@
 {{>licenseInfo}}
 {{#models}}{{#model}}
+{{#vendorExtensions.x-cpp-is-variant}}
+#include "{{classname}}.h"
 
+{{#imports}}{{{this}}}
+{{/imports}}
+#include <stdexcept>
+#include <string>
+#include <boost/json.hpp>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+boost::json::value to_json({{classname}} const& value)
+{
+    return std::visit([](auto const& v) -> boost::json::value {
+        return boost::json::value_from(v);
+    }, value);
+}
+
+{{classname}} from_json(boost::json::value const& value)
+{
+    {{#discriminator}}
+    if (!value.is_object()) {
+        throw std::invalid_argument("Expected a JSON object for discriminated {{classname}}");
+    }
+    {
+        const auto& jsonObject = value.as_object();
+        auto discIt = jsonObject.find("{{discriminator.propertyBaseName}}");
+        if (discIt == jsonObject.end()) {
+            throw std::invalid_argument("Missing discriminator field '{{discriminator.propertyBaseName}}' for {{classname}}");
+        }
+        std::string discValue;
+        if (discIt->value().is_string()) {
+            discValue = {discIt->value().as_string().data(), discIt->value().as_string().size()};
+        } else {
+            discValue = boost::json::serialize(discIt->value());
+        }
+        {{#discriminator.mappedModels}}
+        if (discValue == "{{mappingName}}") {
+            return boost::json::value_to<{{modelName}}>(value);
+        }
+        {{/discriminator.mappedModels}}
+    }
+    throw std::invalid_argument("Unknown discriminator value for {{classname}}");
+    {{/discriminator}}
+    {{^discriminator}}
+    // {{vendorExtensions.x-cpp-composed-keyword}} variant{{#vendorExtensions.x-cpp-branches}}{{#-first}}
+    // Branches:{{/-first}} {{.}}{{^-last}},{{/-last}}{{/vendorExtensions.x-cpp-branches}}
+    throw std::invalid_argument("from_json not fully implemented for {{classname}}");
+    {{/discriminator}}
+}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+{{/vendorExtensions.x-cpp-is-variant}}
+{{^vendorExtensions.x-cpp-is-alias}}
 #include "{{classname}}.h"
 
 #include <cstddef>
@@ -262,6 +320,10 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     boost::json::object object;
     {{/parent}}
     {{#vars}}
+    {{#vendorExtensions.x-stainless-const}}
+    object["{{baseName}}"] = boost::json::value({{{vendorExtensions.x-stainless-const-value}}});
+    {{/vendorExtensions.x-stainless-const}}
+    {{^vendorExtensions.x-stainless-const}}
     {{#parent}}
     if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
     {{/parent}}
@@ -276,6 +338,7 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     {{#parent}}
     }
     {{/parent}}
+    {{/vendorExtensions.x-stainless-const}}
     {{/vars}}
     return object;
 }
@@ -286,11 +349,14 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{{parent}}}::fromJsonObject_internal(object);
     {{/parent}}
     {{#vars}}
+    {{^vendorExtensions.x-stainless-const}}
     {{^required}}
     m_{{name}}IsSet = false;
     {{/required}}
+    {{/vendorExtensions.x-stainless-const}}
     {{/vars}}
     {{#vars}}
+    {{^vendorExtensions.x-stainless-const}}
     {{#parent}}
     if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
     {{/parent}}
@@ -303,10 +369,12 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{#parent}}
     }
     {{/parent}}
+    {{/vendorExtensions.x-stainless-const}}
     {{/vars}}
 }
 
 {{#vars}}
+{{^vendorExtensions.x-stainless-const}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
     {{#parent}}
@@ -342,6 +410,7 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
     m_{{name}}IsSet = true;
     {{/required}}
 }
+{{/vendorExtensions.x-stainless-const}}
 {{/vars}}
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data)
@@ -357,6 +426,6 @@ void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}
-
+{{/vendorExtensions.x-cpp-is-alias}}
 {{/model}}
 {{/models}}

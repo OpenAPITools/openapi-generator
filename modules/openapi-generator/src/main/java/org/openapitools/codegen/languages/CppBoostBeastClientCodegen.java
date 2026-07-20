@@ -211,6 +211,48 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             processComposedModel(mo.getModel());
         }
 
+        // Phase 2: Tag models with alias/variant flags for template dispatch.
+        // Mustache templates use these flags to choose between emitting a using
+        // alias (with to_json/from_json overloads for variants) vs. the existing
+        // object model class template (with properties).
+        for (ModelMap mo : result.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (cm.vendorExtensions.containsKey("x-cpp-type")) {
+                cm.vendorExtensions.put("x-cpp-is-alias", true);
+                String resolvedType = (String) cm.vendorExtensions.get("x-cpp-type");
+                if (resolvedType != null && resolvedType.startsWith("std::variant<")) {
+                    cm.vendorExtensions.put("x-cpp-is-variant", true);
+                }
+            }
+        }
+
+        // Fallback: Detect models whose composedSchemas were consumed by fromModel
+        // before processComposedModel had a chance to run. This happens when the
+        // default codegen pipeline collapses a bare oneOf/anyOf (without type:object)
+        // into a flat dataType. These models have no vars and a dataType that differs
+        // from their classname (e.g., SingleBranchTest → std::string).
+        for (ModelMap mo : result.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (cm.vendorExtensions.containsKey("x-cpp-is-alias")) {
+                continue;
+            }
+            if (cm.vars != null && !cm.vars.isEmpty()) {
+                continue;
+            }
+            if (cm.isArray || cm.isMap) {
+                continue;
+            }
+            if (cm.dataType != null
+                    && !cm.dataType.equals(cm.classname)
+                    && (cm.dataType.startsWith("std::") || "boost::json::value".equals(cm.dataType))) {
+                cm.vendorExtensions.put("x-cpp-type", cm.dataType);
+                cm.vendorExtensions.put("x-cpp-is-alias", true);
+                if (cm.dataType.startsWith("std::variant<")) {
+                    cm.vendorExtensions.put("x-cpp-is-variant", true);
+                }
+            }
+        }
+
         return result;
     }
 
@@ -461,6 +503,26 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         }
         // Every model header declares vector conversion helpers.
         codegenModel.imports.add("#include <vector>");
+
+        // Propagate x-stainless-const const values from schema to property vendor extensions.
+        // The const value tells the getter what to return inline.
+        if (model.getProperties() != null && codegenModel.vars != null) {
+            for (CodegenProperty var : codegenModel.vars) {
+                Object rawProp = model.getProperties().get(var.baseName);
+                if (rawProp instanceof Schema) {
+                    Schema varSchema = (Schema) rawProp;
+                    if (varSchema.getExtensions() != null
+                            && Boolean.TRUE.equals(varSchema.getExtensions().get("x-stainless-const"))) {
+                        Object constValue = varSchema.getConst();
+                        if (constValue != null) {
+                            var.vendorExtensions.put("x-stainless-const-value", constValue.toString());
+                        }
+                        var.vendorExtensions.put("x-stainless-const", true);
+                    }
+                }
+            }
+        }
+
         addContainerPropertyNames(codegenModel.vars);
         return codegenModel;
     }

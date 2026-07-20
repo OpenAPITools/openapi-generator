@@ -1,5 +1,38 @@
 {{>licenseInfo}}
-{{#models}}{{#model}}/*
+{{#models}}{{#model}}{{#vendorExtensions.x-cpp-is-alias}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+#define BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+
+{{#imports}}{{{this}}}
+{{/imports}}
+#include <boost/json.hpp>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+using {{classname}} = {{{vendorExtensions.x-cpp-type}}};
+
+{{#vendorExtensions.x-cpp-is-variant}}
+boost::json::value to_json({{classname}} const& value);
+{{classname}} from_json(boost::json::value const& value);
+{{/vendorExtensions.x-cpp-is-variant}}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */
+{{/vendorExtensions.x-cpp-is-alias}}
+{{^vendorExtensions.x-cpp-is-alias}}/*
  * {{classname}}.h
  *
  * {{description}}
@@ -102,8 +135,13 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
+    {{#vendorExtensions.x-stainless-const}}
+    {{{dataType}}} {{getter}}() const { return {{{vendorExtensions.x-stainless-const-value}}}; }
+    {{/vendorExtensions.x-stainless-const}}
+    {{^vendorExtensions.x-stainless-const}}
     {{{dataType}}} {{getter}}() const;
     void {{setter}}({{{dataType}}} value);
+    {{/vendorExtensions.x-stainless-const}}
     {{/vars}}
 
 protected:
@@ -145,6 +183,7 @@ protected:
 
 protected:
     {{#vars}}
+    {{^vendorExtensions.x-stainless-const}}
     {{#parent}}
     {{^isContainer}}
     {{^isModel}}
@@ -175,6 +214,7 @@ protected:
     {{^required}}
     bool m_{{name}}IsSet = false;
     {{/required}}
+    {{/vendorExtensions.x-stainless-const}}
     {{/vars}}
 };
 
@@ -185,7 +225,7 @@ void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}
-
+{{/vendorExtensions.x-cpp-is-alias}}
 {{/model}}
 {{/models}}
 
