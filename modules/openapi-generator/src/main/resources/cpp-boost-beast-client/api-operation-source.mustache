@@ -240,12 +240,32 @@
 }
 
 {{#vendorExtensions.x-codegen-dual-content}}
-std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>
+ std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>
 {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}Stream(
     {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
     std::string serializedRequestBody;
     std::string path = m_context + "{{{path}}}";
+{{#hasQueryParams}}
+    // query params
+    std::stringstream queryParameterStream;
+    const char* queryParameterSeparator = "?";
+{{#queryParams}}
+    if ({{{paramName}}}) {
+        appendQueryParameter(
+            queryParameterStream,
+            queryParameterSeparator,
+            "{{{baseName}}}",
+            serializeQueryParameterValue(*{{{paramName}}}));
+    }
+{{/queryParams}}
+    path += queryParameterStream.str();
+{{/hasQueryParams}}
     std::map<std::string, std::string> headers;
+{{#hasHeaderParams}}
+{{#headerParams}}
+    headers["{{{baseName}}}"] = {{{paramName}}};
+{{/headerParams}}
+{{/hasHeaderParams}}
 {{#hasConsumes}}
     static const std::vector<std::string> contentTypes{ {{#consumes}}"{{{mediaType}}}",{{/consumes}} };
     std::string requestContentType = selectPreferredContentType(contentTypes);
@@ -261,6 +281,15 @@ std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>
     serializedRequestBody = boost::json::serialize(toRequestJsonValue({{{paramName}}}));
 {{/bodyParam}}
 {{#hasFormParams}}
+    std::vector<FormParameter> formParameters;
+{{#formParams}}
+{{#isFile}}
+    formParameters.emplace_back("{{{baseName}}}", {{{paramName}}}, true);
+{{/isFile}}
+{{^isFile}}
+    formParameters.emplace_back("{{{baseName}}}", toFormParameterValue({{{paramName}}}));
+{{/isFile}}
+{{/formParams}}
     serializedRequestBody = serializeMultipartFormData(formParameters);
 {{/hasFormParams}}
 
@@ -288,7 +317,7 @@ std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>
 {{^isDefault}}
     if ({{#isRange}}static_cast<unsigned int>(statusCode) / 100U == {{vendorExtensions.x-codegen-response-range}}U{{/isRange}}{{^isRange}}statusCode == boost::beast::http::status({{code}}){{/isRange}}) {
 {{#is2xx}}
-        deserializedResponse = parseEventStream<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>(responseBody, fromJsonValue_{{{vendorExtensions.x-codegen-dual-stream-return-type}}});
+        deserializedResponse = parseEventStream<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>(responseBody, fromJsonValue_{{{vendorExtensions.x-codegen-dual-stream-base-name}}});
         return deserializedResponse;
 {{/is2xx}}
 {{^is2xx}}

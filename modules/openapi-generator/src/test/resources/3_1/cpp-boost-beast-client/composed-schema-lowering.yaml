@@ -102,6 +102,10 @@ paths:
         - ComposedSchema
       operationId: getDualStream
       summary: Dual-content endpoint — produces both JSON and event-stream
+      description: >
+        OpenAI-style shape: a single 200 response with both application/json
+        and text/event-stream media types. The stream query parameter toggles
+        between JSON (default) and SSE streaming.
       parameters:
         - name: stream
           in: query
@@ -111,14 +115,11 @@ paths:
             default: false
       responses:
         '200':
-          description: Normal JSON response
+          description: Normal JSON or SSE streaming response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimestampContainer'
-        '201':
-          description: SSE streaming response
-          content:
             text/event-stream:
               schema:
                 $ref: '#/components/schemas/ResponseStreamEvent'

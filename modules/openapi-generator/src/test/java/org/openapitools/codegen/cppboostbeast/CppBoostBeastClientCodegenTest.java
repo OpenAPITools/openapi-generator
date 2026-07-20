@@ -704,6 +704,11 @@ public class CppBoostBeastClientCodegenTest {
                 "ComposedSchemaApi.cpp streaming path must use fromJsonValue_ResponseStreamEvent");
         Assert.assertTrue(generatedApiSource.contains("text/event-stream"),
                 "ComposedSchemaApi.cpp streaming path must set Accept header to text/event-stream");
+        // Verify converter name is a valid C++ identifier (no :: or < or shared_ptr)
+        Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::shared_ptr<"),
+                "Converter name must not contain std::shared_ptr< (invalid C++ identifier)");
+        Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::"),
+                "Converter name must not contain std:: namespace prefix");
     }
 
     /**

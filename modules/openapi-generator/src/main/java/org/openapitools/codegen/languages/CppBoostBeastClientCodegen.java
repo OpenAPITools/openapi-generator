@@ -337,6 +337,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
      * Composed properties created by DefaultCodegen.fromProperty use OpenAPI
      * type names (e.g., "null", "integer", "string") rather than mapped C++ types.
      */
+
     private String resolveOpenApiTypeName(String type) {
         if (type == null) {
             return null;
@@ -891,34 +892,55 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             // Dual-content: generate stream method
             if (isDualContent) {
                 operation.vendorExtensions.put("x-codegen-dual-content", true);
-                // Find the SSE response type by examining response data
-                // (we know the SSE response has its vendor flag set). To distinguish
-                // from the JSON response, pick a 2xx response whose dataType differs
-                // from the operation returnType, or use the last 2xx response's dataType.
+                // Resolve SSE response type from the response content media-type map.
+                // For OpenAI-shaped specs, a single 200 response has both
+                // application/json → NormalResponse and text/event-stream → StreamEvent.
+                // We look for the text/event-stream media type in any 2xx response.
                 String sseReturnType = null;
-                String opReturnType = operation.returnType;
+                String sseBaseModelName = null;
                 for (CodegenResponse response : operation.responses) {
-                    if (response.is2xx && response.dataType != null
-                            && !response.dataType.equals(opReturnType)) {
-                        sseReturnType = response.dataType;
-                        break;
-                    }
-                }
-                if (sseReturnType == null) {
-                    // Fallback: first 2xx response's data type
-                    for (CodegenResponse response : operation.responses) {
-                        if (response.is2xx && response.dataType != null) {
-                            sseReturnType = response.dataType;
+                    if (!response.is2xx || response.getContent() == null) continue;
+                    CodegenMediaType sseMediaType = response.getContent().get("text/event-stream");
+                    if (sseMediaType != null && sseMediaType.getSchema() != null) {
+                        String rawType = sseMediaType.getSchema().dataType;
+                        if (rawType != null) {
+                            sseReturnType = rawType;
+                            // Derive a valid C++ identifier for the fromJsonValue_ converter.
+                            // Strip std::shared_ptr<X> wrapper down to just X.
+                            sseBaseModelName = stripSharedPtr(rawType);
                             break;
                         }
                     }
                 }
-                if (sseReturnType != null) {
+                // Fallback: use response dataType (works for split-status fixtures)
+                if (sseReturnType == null) {
+                    for (CodegenResponse response : operation.responses) {
+                        if (response.is2xx && response.dataType != null
+                                && !response.dataType.equals(operation.returnType)) {
+                            sseReturnType = response.dataType;
+                            sseBaseModelName = stripSharedPtr(response.dataType);
+                            break;
+                        }
+                    }
+                }
+                if (sseReturnType == null) {
+                    // Final fallback: first 2xx response
+                    for (CodegenResponse response : operation.responses) {
+                        if (response.is2xx && response.dataType != null) {
+                            sseReturnType = response.dataType;
+                            sseBaseModelName = stripSharedPtr(response.dataType);
+                            break;
+                        }
+                    }
+                }
+                if (sseReturnType != null && sseBaseModelName != null) {
                     operation.vendorExtensions.put("x-codegen-dual-stream-return-type", sseReturnType);
+                    operation.vendorExtensions.put("x-codegen-dual-stream-base-name", sseBaseModelName);
                     // Also propagate to each response so the template can access it
                     // from within the {{#responses}} context scope.
                     for (CodegenResponse response : operation.responses) {
                         response.vendorExtensions.put("x-codegen-dual-stream-return-type", sseReturnType);
+                        response.vendorExtensions.put("x-codegen-dual-stream-base-name", sseBaseModelName);
                     }
                 }
             }
