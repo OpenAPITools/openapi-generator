@@ -69,6 +69,15 @@ public:
     {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
         {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
 
+    {{#vendorExtensions.x-codegen-dual-content}}
+    /// <summary>
+    /// {{summary}} (streaming)
+    /// </summary>
+    virtual std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>
+    {{#operationId}}{{{.}}}{{/operationId}}Stream(
+        {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+
+    {{/vendorExtensions.x-codegen-dual-content}}
     {{#vendorExtensions.x-codegen-other-methods}}
     /// <summary>
     /// {{summary}}

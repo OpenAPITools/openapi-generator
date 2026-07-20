@@ -371,42 +371,6 @@ inline std::string escapeMultipartParameter(const std::string& value) {
     return escapedValue;
 }
 
-// Forward declarations for toRequestJsonValue (defined below) and related traits.
-template<typename T>
-struct HasRequestToJsonValue;
-template<typename T>
-boost::json::value toRequestJsonValue(const T& requestValue);
-
-/// Serialize a variant form parameter for multipart/form-data.
-/// Binary branches (byte arrays) are serialized as file parts with
-/// Content-Type: application/octet-stream; object branches are serialized
-/// as JSON parts with Content-Type: application/json.
-/// NOTE: The codegen tags binary branches via the type system
-/// (std::vector<std::uint8_t>). Plain std::string branches are treated
-/// as JSON values (not file parts) to avoid misclassifying string|object
-/// variant unions.
-template<typename VariantType>
-void addVariantFormParameter(
-    std::vector<FormParameter>& formParameters,
-    const std::string& name,
-    const VariantType& value) {
-    std::visit([&](auto const& branch) {
-        using BranchType = std::decay_t<decltype(branch)>;
-        // Only explicit byte containers are treated as file/binary branches.
-        // std::string branches are serialized as JSON to correctly handle
-        // string|object variant unions (e.g., oneOf [string, DataObject]).
-        if constexpr (std::is_same_v<BranchType, std::vector<std::uint8_t>>) {
-            // Binary branch — send as file part with octet-stream
-            formParameters.emplace_back(name, toFormParameterValue(branch), true,
-                                        "application/octet-stream");
-        } else {
-            // Object or string branch — serialize as JSON part
-            std::string jsonValue = boost::json::serialize(toRequestJsonValue(branch));
-            formParameters.emplace_back(name, jsonValue, false, "application/json");
-        }
-    }, value);
-}
-
 inline std::string serializeMultipartFormData(
     const std::vector<FormParameter>& formParameters,
     const std::string& boundary) {
@@ -518,6 +482,30 @@ boost::json::value toRequestJsonValue(const std::optional<T>& requestValue) {
         return toRequestJsonValue(requestValue.value());
     }
     return boost::json::value(nullptr);
+}
+
+/// addVariantFormParameter definition (forward-declared above).
+/// Must be defined after toRequestJsonValue so lambdas can find it via ADL.
+template<typename VariantType>
+void addVariantFormParameter(
+    std::vector<FormParameter>& formParameters,
+    const std::string& name,
+    const VariantType& value) {
+    std::visit([&](auto const& branch) {
+        using BranchType = std::decay_t<decltype(branch)>;
+        // Only explicit byte containers are treated as file/binary branches.
+        // std::string branches are serialized as JSON to correctly handle
+        // string|object variant unions (e.g., oneOf [string, DataObject]).
+        if constexpr (std::is_same_v<BranchType, std::vector<std::uint8_t>>) {
+            // Binary branch — send as file part with octet-stream
+            formParameters.emplace_back(name, toFormParameterValue(branch), true,
+                                        "application/octet-stream");
+        } else {
+            // Object or string branch — serialize as JSON part
+            std::string jsonValue = boost::json::serialize(toRequestJsonValue(branch));
+            formParameters.emplace_back(name, jsonValue, false, "application/json");
+        }
+    }, value);
 }
 
 // Trait to detect types with fromJsonValue(boost::json::value const&) member

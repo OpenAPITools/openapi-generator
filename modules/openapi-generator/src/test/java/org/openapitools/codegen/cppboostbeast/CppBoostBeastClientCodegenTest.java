@@ -350,15 +350,16 @@ public class CppBoostBeastClientCodegenTest {
                 "InputParam header should declare toJsonValue_InputParam");
         Assert.assertTrue(inputParamContent.contains("InputParam fromJsonValue_InputParam(boost::json::value const& value);"),
                 "InputParam header should declare fromJsonValue_InputParam");
-        // ADL bridge for API layer serialization
-        Assert.assertTrue(inputParamContent.contains("boost::json::value to_json(InputParam const& value);"),
-                "InputParam header must declare ADL to_json bridge");
-        Assert.assertTrue(inputParamContent.contains("InputParam from_json(boost::json::value const& value);"),
-                "InputParam header must declare ADL from_json bridge");
+        // No ADL to_json/from_json bridge — API layer calls toJsonValue_/fromJsonValue_ directly.
+        // Having both would cause overload conflict (same params, different return types per variant).
+        Assert.assertFalse(inputParamContent.contains("to_json("),
+                "InputParam header must NOT declare ADL to_json (causes overload conflict)");
+        Assert.assertFalse(inputParamContent.contains(" from_json("),
+                "InputParam header must NOT declare ADL from_json (causes overload conflict)");
         Assert.assertFalse(inputParamContent.contains("class  InputParam"),
                 "InputParam should not contain class declaration (empty-shell)");
-
-        // InputParam source should have to_json/from_json implementations
+        
+        // InputParam source should have toJsonValue_/fromJsonValue_ implementations
         Path inputParamSource = output.toPath().resolve("model/InputParam.cpp");
         String inputParamSourceContent = java.nio.file.Files.readString(inputParamSource);
         Assert.assertTrue(inputParamSourceContent.contains("toJsonValue_InputParam(InputParam const& value)"),
@@ -668,13 +669,13 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(apiHeaderContent.contains("getStreamEvents("),
                 "ComposedSchemaApi.h must declare getStreamEvents method");
 
-        // Verify ADL to_json/from_json bridge functions in variant model headers
+        // Variant headers use toJsonValue_/fromJsonValue_ (not ADL bridge — ADL would conflict)
         String inputParamHeaderContent = Files.readString(
             output.toPath().resolve("model/InputParam.h"));
-        Assert.assertTrue(inputParamHeaderContent.contains("boost::json::value to_json(InputParam const& value);"),
-                "InputParam header must declare ADL to_json bridge");
-        Assert.assertTrue(inputParamHeaderContent.contains("InputParam from_json(boost::json::value const& value);"),
-                "InputParam header must declare ADL from_json bridge");
+        Assert.assertFalse(inputParamHeaderContent.contains("to_json("),
+                "InputParam header must NOT declare ADL to_json (removed to avoid overload conflict)");
+        Assert.assertFalse(inputParamHeaderContent.contains(" from_json("),
+                "InputParam header must NOT declare ADL from_json (removed to avoid overload conflict)");
 
         // Verify NO from_json<T> template call sites in API source (all dispatch via fromJsonValue_)
         Assert.assertFalse(generatedApiSource.contains("from_json<"),
@@ -691,6 +692,18 @@ public class CppBoostBeastClientCodegenTest {
                 "HttpClientImpl.h must declare executeStream method");
         Assert.assertTrue(implHeaderContent.contains("override"),
                 "HttpClientImpl::executeStream must be declared with override");
+
+        // Verify dual-content operation generates stream method in header and source
+        Assert.assertTrue(apiHeaderContent.contains("getDualStream"),
+                "ComposedSchemaApi.h must declare getDualStream method");
+        Assert.assertTrue(apiHeaderContent.contains("getDualStreamStream"),
+                "ComposedSchemaApi.h must declare getDualStreamStream streaming overload for dual-content op");
+        Assert.assertTrue(generatedApiSource.contains("getDualStreamStream"),
+                "ComposedSchemaApi.cpp must implement getDualStreamStream for dual-content op");
+        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_ResponseStreamEvent"),
+                "ComposedSchemaApi.cpp streaming path must use fromJsonValue_ResponseStreamEvent");
+        Assert.assertTrue(generatedApiSource.contains("text/event-stream"),
+                "ComposedSchemaApi.cpp streaming path must set Accept header to text/event-stream");
     }
 
     /**

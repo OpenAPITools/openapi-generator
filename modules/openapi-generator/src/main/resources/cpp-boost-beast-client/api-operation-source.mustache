@@ -172,24 +172,31 @@
 {{^isDefault}}
     if ({{#isRange}}static_cast<unsigned int>(statusCode) / 100U == {{vendorExtensions.x-codegen-response-range}}U{{/isRange}}{{^isRange}}statusCode == boost::beast::http::status({{code}}){{/isRange}}) {
 {{#is2xx}}
+{{#vendorExtensions.x-codegen-return-compatible}}
+{{#vendorExtensions.x-codegen-streaming-response}}
 {{#returnType}}
 {{#dataType}}
-{{#vendorExtensions.x-codegen-streaming-response}}
         deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody, fromJsonValue_{{{dataType}}});
+{{/dataType}}
+        return deserializedResponse;
+{{/returnType}}
 {{/vendorExtensions.x-codegen-streaming-response}}
 {{^vendorExtensions.x-codegen-streaming-response}}
+{{#returnType}}
+{{#dataType}}
         ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
             deserializedResponse,
             responseBody,
             responseContentType,
             {{#vendorExtensions.x-codegen-empty-body-tolerant}}true{{/vendorExtensions.x-codegen-empty-body-tolerant}}{{^vendorExtensions.x-codegen-empty-body-tolerant}}false{{/vendorExtensions.x-codegen-empty-body-tolerant}});
-{{/vendorExtensions.x-codegen-streaming-response}}
 {{/dataType}}
         return deserializedResponse;
 {{/returnType}}
 {{^returnType}}
         return;
 {{/returnType}}
+{{/vendorExtensions.x-codegen-streaming-response}}
+{{/vendorExtensions.x-codegen-return-compatible}}
 {{/is2xx}}
 {{^is2xx}}
         throw {{classname}}Exception(statusCode, "{{{message}}}");
@@ -231,3 +238,65 @@
     throw {{classname}}Exception(statusCode, "Unexpected HTTP status code");
 {{/vendorExtensions.x-codegen-has-default-response}}
 }
+
+{{#vendorExtensions.x-codegen-dual-content}}
+std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>
+{{classname}}::{{#operationId}}{{{.}}}{{/operationId}}Stream(
+    {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    std::string serializedRequestBody;
+    std::string path = m_context + "{{{path}}}";
+    std::map<std::string, std::string> headers;
+{{#hasConsumes}}
+    static const std::vector<std::string> contentTypes{ {{#consumes}}"{{{mediaType}}}",{{/consumes}} };
+    std::string requestContentType = selectPreferredContentType(contentTypes);
+    headers["Content-Type"] = requestContentType;
+{{/hasConsumes}}
+{{#hasBodyParam}}
+{{^hasConsumes}}
+    const std::string requestContentType = "application/json";
+    headers["Content-Type"] = requestContentType;
+{{/hasConsumes}}
+{{/hasBodyParam}}
+{{#bodyParam}}
+    serializedRequestBody = boost::json::serialize(toRequestJsonValue({{{paramName}}}));
+{{/bodyParam}}
+{{#hasFormParams}}
+    serializedRequestBody = serializeMultipartFormData(formParameters);
+{{/hasFormParams}}
+
+    // For streaming, force Accept to text/event-stream (ignoring JSON produces)
+    headers["Accept"] = "text/event-stream";
+
+    auto statusCode = boost::beast::http::status::unknown;
+    std::string responseBody;
+    try {
+        std::tie(statusCode, responseBody) =
+            m_client->execute("{{httpMethod}}",
+                              path,
+                              serializedRequestBody,
+                              headers);
+    }
+    catch(const std::exception& exception) {
+        handleStdException(exception);
+    }
+    catch(...) {
+        handleUncaughtException();
+    }
+
+    std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}> deserializedResponse;
+{{#responses}}
+{{^isDefault}}
+    if ({{#isRange}}static_cast<unsigned int>(statusCode) / 100U == {{vendorExtensions.x-codegen-response-range}}U{{/isRange}}{{^isRange}}statusCode == boost::beast::http::status({{code}}){{/isRange}}) {
+{{#is2xx}}
+        deserializedResponse = parseEventStream<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>(responseBody, fromJsonValue_{{{vendorExtensions.x-codegen-dual-stream-return-type}}});
+        return deserializedResponse;
+{{/is2xx}}
+{{^is2xx}}
+        throw {{classname}}Exception(statusCode, "{{{message}}}");
+{{/is2xx}}
+    }
+{{/isDefault}}
+{{/responses}}
+    throw {{classname}}Exception(statusCode, "Unexpected HTTP status code");
+}
+{{/vendorExtensions.x-codegen-dual-content}}

@@ -852,11 +852,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // When an operation produces ONLY text/event-stream, it is a pure
         // SSE endpoint and the operation-level flag is set, causing the
         // return type to be wrapped in std::vector<...>.
-        // For dual-content ops (JSON + SSE), only individual responses are
-        // flagged (for deserialization routing) but the operation itself is
-        // NOT flagged, so the return type stays as the declared type and the
-        // SSE response path is skipped. Stream-parameter-driven switching of
-        // return type is deferred to Phase 4.
+        // For dual-content ops (JSON + SSE), the operation-level flag is NOT
+        // set (return type stays JSON). Instead, if the operation has a
+        // boolean `stream` query parameter, a dedicated stream method is
+        // generated ({operationId}Stream) that sets Accept to text/event-stream
+        // and returns std::vector<EventType> via parseEventStream.
         if (operation.produces != null && !operation.produces.isEmpty()) {
             boolean hasEventStream = false;
             boolean hasJsonStream = false;
@@ -868,10 +868,59 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     hasJsonStream = true;
                 }
             }
-            boolean isStreaming = hasEventStream && !hasJsonStream;
-            operation.vendorExtensions.put("x-codegen-streaming-response", isStreaming);
+            boolean isPureSse = hasEventStream && !hasJsonStream;
+            boolean isDualContent = hasEventStream && hasJsonStream;
+            operation.vendorExtensions.put("x-codegen-streaming-response", isPureSse);
+            // For pure SSE ops, flag all 2xx responses as streaming.
+            // For dual-content ops, mark SSE responses (different datatype from returnType)
+            // as streaming so the stream method template can identify them.
+            // Also mark each response with x-codegen-return-compatible so the normal
+            // method template can skip responses whose dataType doesn't match the
+            // operation return type (avoids type mismatch in deserializedResponse).
             for (CodegenResponse response : operation.responses) {
-                response.vendorExtensions.put("x-codegen-streaming-response", hasEventStream);
+                if (isPureSse) {
+                    response.vendorExtensions.put("x-codegen-streaming-response", true);
+                } else if (isDualContent && response.is2xx && response.dataType != null
+                        && !response.dataType.equals(operation.returnType)) {
+                    response.vendorExtensions.put("x-codegen-streaming-response", true);
+                }
+                boolean returnCompatible = response.dataType != null
+                        && response.dataType.equals(operation.returnType);
+                response.vendorExtensions.put("x-codegen-return-compatible", returnCompatible);
+            }
+            // Dual-content: generate stream method
+            if (isDualContent) {
+                operation.vendorExtensions.put("x-codegen-dual-content", true);
+                // Find the SSE response type by examining response data
+                // (we know the SSE response has its vendor flag set). To distinguish
+                // from the JSON response, pick a 2xx response whose dataType differs
+                // from the operation returnType, or use the last 2xx response's dataType.
+                String sseReturnType = null;
+                String opReturnType = operation.returnType;
+                for (CodegenResponse response : operation.responses) {
+                    if (response.is2xx && response.dataType != null
+                            && !response.dataType.equals(opReturnType)) {
+                        sseReturnType = response.dataType;
+                        break;
+                    }
+                }
+                if (sseReturnType == null) {
+                    // Fallback: first 2xx response's data type
+                    for (CodegenResponse response : operation.responses) {
+                        if (response.is2xx && response.dataType != null) {
+                            sseReturnType = response.dataType;
+                            break;
+                        }
+                    }
+                }
+                if (sseReturnType != null) {
+                    operation.vendorExtensions.put("x-codegen-dual-stream-return-type", sseReturnType);
+                    // Also propagate to each response so the template can access it
+                    // from within the {{#responses}} context scope.
+                    for (CodegenResponse response : operation.responses) {
+                        response.vendorExtensions.put("x-codegen-dual-stream-return-type", sseReturnType);
+                    }
+                }
             }
         }
     }

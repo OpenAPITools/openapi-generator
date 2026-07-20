@@ -96,6 +96,32 @@ paths:
             application/json:
               schema:
                 type: string
+  /dual-stream:
+    get:
+      tags:
+        - ComposedSchema
+      operationId: getDualStream
+      summary: Dual-content endpoint — produces both JSON and event-stream
+      parameters:
+        - name: stream
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Normal JSON response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimestampContainer'
+        '201':
+          description: SSE streaming response
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/ResponseStreamEvent'
 components:
   schemas:
     # Scenario 1: anyOf with string + string-enum → std::string
