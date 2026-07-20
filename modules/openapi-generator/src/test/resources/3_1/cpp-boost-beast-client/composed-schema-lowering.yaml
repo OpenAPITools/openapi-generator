@@ -280,6 +280,23 @@ components:
         value:
           type: integer
 
+    # Scenario 15: Non-discriminated anyOf string|integer — tests first-match (no multi-throw)
+    # After lowering: anyOf [string, integer] → std::variant<std::string, int32_t>
+    AnyOfStringInteger:
+      anyOf:
+        - type: string
+        - type: integer
+          format: int32
+
+    # Scenario 16: Model referencing AnyOfStringInteger as a property — validates
+    # that property-level fromJsonValue uses exactly-one matching (correct for oneOf)
+    # and does NOT throw for anyOf first-match (string|integer are non-overlapping).
+    AnyOfPropertyHolder:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/AnyOfStringInteger'
+
     # Scenario 14: SSE stream event for testing parseEventStream wiring
     # Uses discriminator on 'type' field for correct branch selection.
     ResponseStreamEvent:

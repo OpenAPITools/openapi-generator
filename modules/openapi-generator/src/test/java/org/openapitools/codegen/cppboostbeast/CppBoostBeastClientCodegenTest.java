@@ -922,6 +922,39 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertFalse(inputParamHeaderContent.contains(" from_json("),
                 "InputParam header must NOT declare ADL from_json (removed to avoid overload conflict)");
 
+        // ============================================================
+        // Phase 2 strong review: anyOf non-discriminated fixture
+        // ============================================================
+        // AnyOfStringInteger (anyOf string|integer) → std::variant<std::string, int32_t>
+        Path anyOfStringIntHeader = output.toPath().resolve("model/AnyOfStringInteger.h");
+        TestUtils.assertFileExists(anyOfStringIntHeader);
+        String anyOfStringIntContent = java.nio.file.Files.readString(anyOfStringIntHeader);
+        Assert.assertTrue(anyOfStringIntContent.contains("using AnyOfStringInteger = std::variant<std::string, int32_t>;"),
+                "AnyOfStringInteger should be a variant alias to std::variant<std::string, int32_t>");
+
+        // AnyOfStringInteger source must use first-match (anyOf), NOT exactly-one (oneOf).
+        // The fromJsonValue_AnyOfStringInteger function uses isOneOf = false because the
+        // composed keyword is "anyOf". Verify the source uses tryVariantBranches (first-match).
+        Path anyOfStringIntSource = output.toPath().resolve("model/AnyOfStringInteger.cpp");
+        TestUtils.assertFileExists(anyOfStringIntSource);
+        String anyOfStringIntSourceContent = java.nio.file.Files.readString(anyOfStringIntSource);
+        Assert.assertTrue(anyOfStringIntSourceContent.contains("isOneOf"),
+                "AnyOfStringInteger source should contain isOneOf compile-time flag");
+        // Since anyOf: isOneOf should be false, the source uses first-match path
+        Assert.assertTrue(anyOfStringIntSourceContent.contains("tryVariantBranches"),
+                "AnyOfStringInteger source should use tryVariantBranches");
+
+        // AnyOfPropertyHolder references AnyOfStringInteger as a property
+        Path anyOfHolderHeader = output.toPath().resolve("model/AnyOfPropertyHolder.h");
+        TestUtils.assertFileExists(anyOfHolderHeader);
+        String anyOfHolderContent = java.nio.file.Files.readString(anyOfHolderHeader);
+        Assert.assertTrue(anyOfHolderContent.contains("AnyOfStringInteger"),
+                "AnyOfPropertyHolder should declare a property of type AnyOfStringInteger");
+        // The property is not marked required in the spec, so IsSet is expected
+        // (variant types don't imply required in the OpenAPI sense)
+        Assert.assertTrue(anyOfHolderContent.contains("m_ValueIsSet"),
+                "AnyOfPropertyHolder should have IsSet for optional property");
+
         // Verify NO from_json<T> template call sites in API source (all dispatch via fromJsonValue_)
         Assert.assertFalse(generatedApiSource.contains("from_json<"),
                 "API source must not contain from_json<T> template calls (should use fromJsonValue_ functions)");

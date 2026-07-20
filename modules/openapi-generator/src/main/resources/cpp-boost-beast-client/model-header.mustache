@@ -187,8 +187,13 @@ protected:
     {{#parent}}
     {{^isContainer}}
     {{^isModel}}
+    {{#vendorExtensions.x-cpp-no-is-set}}
+    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
+    {{/vendorExtensions.x-cpp-no-is-set}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
     {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}} =
         {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value>({{{defaultValue}}});
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/isModel}}
     {{#isModel}}
     {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
@@ -201,7 +206,12 @@ protected:
     {{^parent}}
     {{^isContainer}}
     {{^isModel}}
+    {{#vendorExtensions.x-cpp-no-is-set}}
+    {{{dataType}}} m_{{name}};
+    {{/vendorExtensions.x-cpp-no-is-set}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
     {{{dataType}}} m_{{name}} = {{{defaultValue}}};
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/isModel}}
     {{#isModel}}
     {{{dataType}}} m_{{name}};

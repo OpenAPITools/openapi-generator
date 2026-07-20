@@ -367,6 +367,20 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 if (cm.dataType.startsWith("std::variant<")) {
                     cm.vendorExtensions.put("x-cpp-is-variant", true);
                 }
+                // Determine composed keyword from the CodegenModel's anyOf/oneOf sets
+                // for fallback paths that bypassed processComposedModel. For variant
+                // types, oneOf is the conservative default (enables exactly-one checking
+                // in fromJsonValue).
+                String fallbackKeyword = null;
+                if (cm.oneOf != null && !cm.oneOf.isEmpty()) {
+                    fallbackKeyword = "oneOf";
+                } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+                    fallbackKeyword = "anyOf";
+                }
+                if (fallbackKeyword == null) {
+                    fallbackKeyword = "oneOf";
+                }
+                cm.vendorExtensions.put("x-cpp-composed-keyword", fallbackKeyword);
             }
         }
 
@@ -389,6 +403,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             if (cm.getIsAnyType()) {
                 cm.vendorExtensions.put("x-cpp-type", "boost::json::value");
                 cm.vendorExtensions.put("x-cpp-is-alias", true);
+                // Even for boost::json::value fallbacks, set the keyword so
+                // template code referencing vendorExtensions.x-cpp-composed-keyword
+                // does not encounter an undefined variable.
+                cm.vendorExtensions.put("x-cpp-composed-keyword", "oneOf");
             }
         }
 

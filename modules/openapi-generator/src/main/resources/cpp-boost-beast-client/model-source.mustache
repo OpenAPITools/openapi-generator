@@ -460,6 +460,16 @@ bool tryVariantBranches(const boost::json::value& value, Variant& result, std::i
     return (tryVariantIndex<Variant, Is>(value, result) || ...);
 }
 
+// Count how many variant branches match the JSON value (no short-circuit).
+// For oneOf, this is needed to reject >1 matches.
+template<typename Variant, std::size_t... Is>
+std::size_t countVariantBranches(const boost::json::value& value, std::index_sequence<Is...>) {
+    std::size_t count = 0;
+    Variant temp;
+    ((tryVariantIndex<Variant, Is>(value, temp) ? ++count : 0), ...);
+    return count;
+}
+
 // Helper: dispatch toJsonValue based on whether T has a toJsonValue() member.
 template <typename T>
 boost::json::value jsonValueConverterToJsonValue(const T& val, std::true_type) {
@@ -596,10 +606,22 @@ struct JsonValueConverter<std::variant<Ts...>>
 
     static std::variant<Ts...> fromJsonValue(const boost::json::value& jsonValue)
     {
-        std::variant<Ts...> result;
-        if (!tryVariantBranches(jsonValue, result, std::index_sequence_for<Ts...>{})) {
+        // Enforce exactly-one matching (oneOf semantics) for property-level variants.
+        // The lowering engine (lowerComposedTypes) deduplicates identical branches and
+        // collapses overlapping types, so the only remaining variants have distinguishable
+        // branches. Using countVariantBranches ensures that an ambiguous payload (matching
+        // more than one branch) is rejected rather than silently taking the first match.
+        constexpr std::size_t variantSize = sizeof...(Ts);
+        std::size_t matchCount = countVariantBranches<std::variant<Ts...>>(
+            jsonValue, std::make_index_sequence<variantSize>{});
+        if (matchCount == 0) {
             throw std::invalid_argument("No matching variant branch for JSON value");
         }
+        if (matchCount > 1) {
+            throw std::invalid_argument("More than one matching variant branch for JSON value");
+        }
+        std::variant<Ts...> result;
+        tryVariantBranches(jsonValue, result, std::make_index_sequence<variantSize>{});
         return result;
     }
 };
@@ -738,6 +760,11 @@ boost::json::object {{classname}}::toJsonObject_internal() const
             object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
         }
         {{/vendorExtensions.x-cpp-no-is-set}}
+        // Current nullability scope (Phase 2): unset optional → key omitted from JSON object.
+        // Full tri-state (unset=omit, present-null→JSON null, present-value→JSON value)
+        // is deferred to a future phase. When m_{{name}}.has_value(), the inner value is
+        // serialized; when disengaged, the key is simply not written. This matches the
+        // most common OpenAPI use case (optional properties omitted when absent).
         {{#vendorExtensions.x-cpp-no-is-set}}
         if (m_{{name}}.has_value()) {
             object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
