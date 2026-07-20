@@ -6,6 +6,7 @@
 package org.openapitools.api;
 
 import org.openapitools.model.NullableModel;
+import org.openapitools.model.OptionalNullableOnlyModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +75,23 @@ public interface NullableApi {
     )
     ResponseEntity<Void> checkRequiredOnly(
          @Valid @RequestBody NullableModel nullableModel
+    );
+
+
+    String PATH_POST_OPTIONAL_NULLABLE_ONLY = "/nullable/optional-nullable-only";
+    /**
+     * POST /nullable/optional-nullable-only : POST a model whose only property is optional+nullable — must compile (JsonInclude import)
+     *
+     * @param optionalNullableOnlyModel  (required)
+     * @return OK (status code 200)
+     */
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = NullableApi.PATH_POST_OPTIONAL_NULLABLE_ONLY,
+        consumes = { "application/json" }
+    )
+    ResponseEntity<Void> postOptionalNullableOnly(
+         @Valid @RequestBody OptionalNullableOnlyModel optionalNullableOnlyModel
     );
 
 }

@@ -6715,6 +6715,28 @@ public class KotlinSpringServerCodegenTest {
     }
 
     /**
+     * Regression test: a model whose ONLY property is optional + nullable
+     * (Scenario 4) with openApiNullable=true must still import
+     * {@code com.fasterxml.jackson.annotation.JsonInclude}. Previously the
+     * import was only added by a Scenario 3 (optional+non-nullable) property,
+     * so a model with only Scenario 4 fields emitted
+     * {@code @field:JsonInclude(NON_ABSENT)} without the corresponding import,
+     * producing uncompilable Kotlin.
+     */
+    @Test(description = "Scenario 4 – optional+nullable-only model must import JsonInclude")
+    public void requiredNullable_scenario4_optionalNullableOnly_importsJsonInclude() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/optional-nullable-only.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("OptionalNullableOnlyModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        Assert.assertTrue(content.contains("@field:JsonInclude(JsonInclude.Include.NON_ABSENT)"),
+                "optionalNullable must have @field:JsonInclude(NON_ABSENT)");
+        assertFileContains(modelFile, "import com.fasterxml.jackson.annotation.JsonInclude");
+    }
+
+    /**
      * Without openApiNullable the optional+nullable field is a plain {@code Type?} — no
      * {@code @field:JsonInclude(NON_ABSENT)} should be emitted because {@code JsonNullable} is
      * not used and the legacy nullable-type path doesn't need the annotation.

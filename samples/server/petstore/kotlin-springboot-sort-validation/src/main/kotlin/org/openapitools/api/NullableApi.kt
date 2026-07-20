@@ -6,6 +6,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.NullableModel
+import org.openapitools.model.OptionalNullableOnlyModel
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -72,11 +73,25 @@ interface NullableApi {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
+
+    @RequestMapping(
+        method = [RequestMethod.POST],
+        // "/nullable/optional-nullable-only"
+        value = [PATH_POST_OPTIONAL_NULLABLE_ONLY],
+        consumes = ["application/json"]
+    )
+    fun postOptionalNullableOnly(
+        @Valid @RequestBody optionalNullableOnlyModel: OptionalNullableOnlyModel
+    ): ResponseEntity<Unit> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
     companion object {
         //for your own safety never directly reuse these path definitions in tests
         const val BASE_PATH: String = "/v2"
         const val PATH_CHECK_ALL_PRESENT: String = "/nullable/check-all-present"
         const val PATH_CHECK_OPTIONAL_NULLABLE_NULL: String = "/nullable/check-optional-nullable-null"
         const val PATH_CHECK_REQUIRED_ONLY: String = "/nullable/check-required-only"
+        const val PATH_POST_OPTIONAL_NULLABLE_ONLY: String = "/nullable/optional-nullable-only"
     }
 }

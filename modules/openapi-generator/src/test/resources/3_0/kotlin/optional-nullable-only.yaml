@@ -1,0 +1,29 @@
+openapi: 3.0.0
+info:
+  title: Optional Nullable Only Test
+  version: 1.0.0
+paths:
+  /test:
+    post:
+      operationId: testPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptionalNullableOnlyModel'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    # Model whose only property is optional + nullable (Scenario 4). With
+    # openApiNullable=true it renders @field:JsonInclude(NON_ABSENT) and must
+    # therefore import com.fasterxml.jackson.annotation.JsonInclude even though
+    # no other property pulls that import in.
+    OptionalNullableOnlyModel:
+      type: object
+      properties:
+        optionalNullable:
+          type: string
+          format: uuid
+          nullable: true
