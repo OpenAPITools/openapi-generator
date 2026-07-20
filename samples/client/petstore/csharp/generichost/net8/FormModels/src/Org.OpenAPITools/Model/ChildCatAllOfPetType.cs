@@ -134,6 +134,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override ChildCatAllOfPetType? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             ChildCatAllOfPetType? result = rawValue == null
@@ -154,7 +157,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ChildCatAllOfPetType? childCatAllOfPetType, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(childCatAllOfPetType.HasValue ? ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCatAllOfPetType.Value).ToString() : "null");
+            if (childCatAllOfPetType.HasValue)
+                writer.WriteStringValue(ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCatAllOfPetType.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

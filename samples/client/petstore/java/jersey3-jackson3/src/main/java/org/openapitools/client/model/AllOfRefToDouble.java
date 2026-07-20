@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   AllOfRefToDouble.JSON_PROPERTY_HEIGHT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class AllOfRefToDouble {
   public static final String JSON_PROPERTY_HEIGHT = "height";
   @jakarta.annotation.Nullable
