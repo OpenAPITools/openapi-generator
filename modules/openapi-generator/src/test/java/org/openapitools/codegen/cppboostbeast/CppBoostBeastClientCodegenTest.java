@@ -310,6 +310,26 @@ public class CppBoostBeastClientCodegenTest {
         TestUtils.assertFileExists(output.toPath().resolve("model/VariantPayload.h"));
         TestUtils.assertFileExists(output.toPath().resolve("model/DataObject.h"));
 
+        // Scenario 13: TimestampContainer has unixtime → int64_t properties
+        Path timestampContainerHeader = output.toPath().resolve("model/TimestampContainer.h");
+        TestUtils.assertFileExists(timestampContainerHeader);
+        String timestampContent = java.nio.file.Files.readString(timestampContainerHeader);
+        Assert.assertTrue(timestampContent.contains("int64_t m_Created_at") || timestampContent.contains("std::int64_t m_Created_at"),
+                "TimestampContainer created_at member should be int64_t");
+        Assert.assertTrue(timestampContent.contains("int64_t m_Updated_at") || timestampContent.contains("std::int64_t m_Updated_at"),
+                "TimestampContainer updated_at member should be int64_t");
+
+        // Scenario 14: ResponseStreamEvent uses discriminator for branch selection
+        Path responseStreamEventSource = output.toPath().resolve("model/ResponseStreamEvent.cpp");
+        TestUtils.assertFileExists(responseStreamEventSource);
+        String rseSource = java.nio.file.Files.readString(responseStreamEventSource);
+        Assert.assertTrue(rseSource.contains("discriminator"),
+                "ResponseStreamEvent fromJsonValue should use discriminator");
+        Assert.assertTrue(rseSource.contains("response.created"),
+                "ResponseStreamEvent discriminator should match response.created");
+        Assert.assertTrue(rseSource.contains("response.completed"),
+                "ResponseStreamEvent discriminator should match response.completed");
+
         // Phase 2 template assertions:
         // Alias models use 'using' typedef — no class template
 
@@ -330,6 +350,11 @@ public class CppBoostBeastClientCodegenTest {
                 "InputParam header should declare toJsonValue_InputParam");
         Assert.assertTrue(inputParamContent.contains("InputParam fromJsonValue_InputParam(boost::json::value const& value);"),
                 "InputParam header should declare fromJsonValue_InputParam");
+        // ADL bridge for API layer serialization
+        Assert.assertTrue(inputParamContent.contains("boost::json::value to_json(InputParam const& value);"),
+                "InputParam header must declare ADL to_json bridge");
+        Assert.assertTrue(inputParamContent.contains("InputParam from_json(boost::json::value const& value);"),
+                "InputParam header must declare ADL from_json bridge");
         Assert.assertFalse(inputParamContent.contains("class  InputParam"),
                 "InputParam should not contain class declaration (empty-shell)");
 
@@ -632,9 +657,25 @@ public class CppBoostBeastClientCodegenTest {
                 "VariantPayload model should be generated");
         Assert.assertTrue(java.nio.file.Files.exists(output.toPath().resolve("model/DataObject.h")),
                 "DataObject model should be generated");
-    }
 
-    // --- C++ compile smoke test ---
+        // Verify streaming API header/source signature match
+        Path apiHeader = output.toPath().resolve("api/ComposedSchemaApi.h");
+        String apiHeaderContent = Files.readString(apiHeader);
+        // Header must declare std::vector<ResponseStreamEvent> for streaming op
+        // (newline after return type in template)
+        Assert.assertTrue(apiHeaderContent.contains("std::vector<ResponseStreamEvent>"),
+                "ComposedSchemaApi.h must declare getStreamEvents returning std::vector<ResponseStreamEvent>");
+        Assert.assertTrue(apiHeaderContent.contains("getStreamEvents("),
+                "ComposedSchemaApi.h must declare getStreamEvents method");
+
+        // Verify ADL to_json/from_json bridge functions in variant model headers
+        String inputParamHeaderContent = Files.readString(
+            output.toPath().resolve("model/InputParam.h"));
+        Assert.assertTrue(inputParamHeaderContent.contains("boost::json::value to_json(InputParam const& value);"),
+                "InputParam header must declare ADL to_json bridge");
+        Assert.assertTrue(inputParamHeaderContent.contains("InputParam from_json(boost::json::value const& value);"),
+                "InputParam header must declare ADL from_json bridge");
+    }
 
     /**
      * Checks basic C++ syntactic validity of a generated source file:

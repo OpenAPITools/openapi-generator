@@ -841,17 +841,29 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         operation.vendorExtensions.put(X_CODEGEN_HAS_DEFAULT_RESPONSE, hasDefaultResponse);
 
         // Detect text/event-stream produces for SSE streaming responses.
-        // When streaming=true, the response is an SSE stream of typed events
-        // parsed via parseEventStream<EventVariant>(responseBody).
-        // The flag is set on both the operation and each response so that
-        // templates can access it from either context without ../ parent traversal.
+        // When an operation produces ONLY text/event-stream, it is a pure
+        // SSE endpoint and the operation-level flag is set, causing the
+        // return type to be wrapped in std::vector<...>.
+        // For dual-content ops (JSON + SSE), only individual responses are
+        // flagged (for deserialization routing) but the operation itself is
+        // NOT flagged, so the return type stays as the declared type and the
+        // SSE response path is skipped. Stream-parameter-driven switching of
+        // return type is deferred to Phase 4.
         if (operation.produces != null && !operation.produces.isEmpty()) {
-            boolean isStreaming = operation.produces.stream()
-                    .anyMatch(m -> m != null
-                            && "text/event-stream".equalsIgnoreCase(m.get("mediaType")));
+            boolean hasEventStream = false;
+            boolean hasJsonStream = false;
+            for (Map<String, String> produce : operation.produces) {
+                String mediaType = produce.get("mediaType");
+                if ("text/event-stream".equalsIgnoreCase(mediaType)) {
+                    hasEventStream = true;
+                } else if (mediaType != null && mediaType.contains("json")) {
+                    hasJsonStream = true;
+                }
+            }
+            boolean isStreaming = hasEventStream && !hasJsonStream;
             operation.vendorExtensions.put("x-codegen-streaming-response", isStreaming);
             for (CodegenResponse response : operation.responses) {
-                response.vendorExtensions.put("x-codegen-streaming-response", isStreaming);
+                response.vendorExtensions.put("x-codegen-streaming-response", hasEventStream);
             }
         }
     }
@@ -1105,6 +1117,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getSchemaType(Schema p) {
+        // Handle format: unixtime — maps to int64_t (not int32_t)
+        if ("unixtime".equals(p.getFormat())) {
+            return "int64_t";
+        }
         String openAPIType = super.getSchemaType(p);
         String type = null;
         String modelName;

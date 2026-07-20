@@ -65,7 +65,7 @@ public:
     /// <remarks>
     /// {{notes}}
     /// </remarks>
-    virtual {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    virtual {{#vendorExtensions.x-codegen-streaming-response}}std::vector<{{/vendorExtensions.x-codegen-streaming-response}}{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{#vendorExtensions.x-codegen-streaming-response}}>{{/vendorExtensions.x-codegen-streaming-response}}
     {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
         {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
 
@@ -76,7 +76,7 @@ public:
     /// <remarks>
     /// {{notes}}
     /// </remarks>
-    virtual {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    virtual {{#vendorExtensions.x-codegen-streaming-response}}std::vector<{{/vendorExtensions.x-codegen-streaming-response}}{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{#vendorExtensions.x-codegen-streaming-response}}>{{/vendorExtensions.x-codegen-streaming-response}}
     {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
         {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/vendorExtensions.x-codegen-other-methods}}

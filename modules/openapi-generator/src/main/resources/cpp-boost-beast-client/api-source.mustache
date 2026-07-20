@@ -366,7 +366,13 @@ inline std::string escapeMultipartParameter(const std::string& value) {
 }
 
 /// Serialize a variant form parameter for multipart/form-data.
-/// Binary branches are serialized as file parts; object branches as JSON parts.
+/// Binary branches (byte arrays) are serialized as file parts with
+/// Content-Type: application/octet-stream; object branches are serialized
+/// as JSON parts with Content-Type: application/json.
+/// NOTE: The codegen tags binary branches via the type system
+/// (std::vector<std::uint8_t>). Plain std::string branches are treated
+/// as JSON values (not file parts) to avoid misclassifying string|object
+/// variant unions.
 template<typename VariantType>
 void addVariantFormParameter(
     std::vector<FormParameter>& formParameters,
@@ -374,17 +380,15 @@ void addVariantFormParameter(
     const VariantType& value) {
     std::visit([&](auto const& branch) {
         using BranchType = std::decay_t<decltype(branch)>;
-        // Heuristic: if the branch is an arithmetic type or std::string,
-        // use string serialization (not file/JSON). Otherwise treat as
-        // a JSON-serializable object branch.
-        // Binary branches are not directly representable in the type system
-        // at compile time, so we default object branches to JSON.
-        if constexpr (std::is_same_v<BranchType, std::vector<std::uint8_t>>
-                   || std::is_same_v<BranchType, std::string>) {
-            // Binary or raw-string branch — send as file part
-            formParameters.emplace_back(name, toFormParameterValue(branch), true);
+        // Only explicit byte containers are treated as file/binary branches.
+        // std::string branches are serialized as JSON to correctly handle
+        // string|object variant unions (e.g., oneOf [string, DataObject]).
+        if constexpr (std::is_same_v<BranchType, std::vector<std::uint8_t>>) {
+            // Binary branch — send as file part with octet-stream
+            formParameters.emplace_back(name, toFormParameterValue(branch), true,
+                                        "application/octet-stream");
         } else {
-            // Object branch — serialize as JSON part
+            // Object or string branch — serialize as JSON part
             std::string jsonValue = boost::json::serialize(toRequestJsonValue(branch));
             formParameters.emplace_back(name, jsonValue, false, "application/json");
         }

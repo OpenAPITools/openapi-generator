@@ -227,7 +227,18 @@ components:
           const: 42
           x-stainless-const: true
 
-    # Scenario 13: Variant payload for branch-aware multipart form param testing
+    # Scenario 13: Unixtime format mapping (format: unixtime → int64_t)
+    TimestampContainer:
+      type: object
+      properties:
+        created_at:
+          type: integer
+          format: unixtime
+        updated_at:
+          type: integer
+          format: unixtime
+
+    # Scenario 14: Variant payload for branch-aware multipart form param testing
     VariantPayload:
       oneOf:
         - type: string
@@ -242,10 +253,16 @@ components:
           type: integer
 
     # Scenario 14: SSE stream event for testing parseEventStream wiring
+    # Uses discriminator on 'type' field for correct branch selection.
     ResponseStreamEvent:
       anyOf:
         - $ref: '#/components/schemas/ResponseCreatedEvent'
         - $ref: '#/components/schemas/ResponseCompletedEvent'
+      discriminator:
+        propertyName: type
+        mapping:
+          response.created: ResponseCreatedEvent
+          response.completed: ResponseCompletedEvent
     ResponseCreatedEvent:
       type: object
       properties:

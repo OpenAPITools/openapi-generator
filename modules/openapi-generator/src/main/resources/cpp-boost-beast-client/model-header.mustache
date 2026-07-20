@@ -24,6 +24,11 @@ using {{classname}} = {{{vendorExtensions.x-cpp-type}}};
 {{#vendorExtensions.x-cpp-is-variant}}
 boost::json::value toJsonValue_{{classname}}({{classname}} const& value);
 {{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
+
+// ADL bridge — called by api-layer serialization (ResponseJsonValueConverter, parseEventStream)
+// These forward to the scoped toJsonValue_/fromJsonValue_ functions above.
+boost::json::value to_json({{classname}} const& value);
+{{classname}} from_json(boost::json::value const& value);
 {{/vendorExtensions.x-cpp-is-variant}}
 
 {{#modelNamespaceDeclarations}}

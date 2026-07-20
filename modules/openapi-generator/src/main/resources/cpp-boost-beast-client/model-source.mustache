@@ -83,6 +83,68 @@ boost::json::value toJsonValue_{{classname}}({{classname}} const& value)
     }, value);
 }
 
+namespace {
+// Try to parse a variant branch from JSON. Returns true on success.
+template<typename T>
+bool tryParseBranch(boost::json::value const& value, T& result) {
+    try {
+        if constexpr (std::is_same_v<T, std::string>) {
+            if (!value.is_string()) return false;
+            result = boost::json::value_to<std::string>(value);
+            return true;
+        } else if constexpr (std::is_same_v<T, bool>) {
+            if (!value.is_bool()) return false;
+            result = boost::json::value_to<bool>(value);
+            return true;
+        } else if constexpr (std::is_same_v<T, std::int32_t>) {
+            if (!value.is_int64()) return false;
+            result = static_cast<std::int32_t>(value.as_int64());
+            return true;
+        } else if constexpr (std::is_same_v<T, std::int64_t>) {
+            if (!value.is_int64()) return false;
+            result = value.as_int64();
+            return true;
+        } else if constexpr (std::is_same_v<T, double>) {
+            if (!value.is_double()) return false;
+            result = value.as_double();
+            return true;
+        } else if constexpr (std::is_same_v<T, boost::json::value>) {
+            result = value;
+            return true;
+        } else if constexpr (std::is_same_v<T, std::nullptr_t>) {
+            if (!value.is_null()) return false;
+            result = nullptr;
+            return true;
+        } else {
+            // Model type — has fromJsonValue member
+            T candidate;
+            candidate.fromJsonValue(value);
+            result = std::move(candidate);
+            return true;
+        }
+    } catch (...) {
+        return false;
+    }
+}
+
+// Helper: index_sequence-based dispatch to try all variant branches by type.
+template<typename Variant, std::size_t I>
+bool tryVariantIndex(const boost::json::value& value, Variant& result) {
+    using BranchType = std::variant_alternative_t<I, Variant>;
+    BranchType candidate;
+    if (tryParseBranch(value, candidate)) {
+        result = std::move(candidate);
+        return true;
+    }
+    return false;
+}
+
+template<typename Variant, std::size_t... Is>
+bool tryVariantBranches(const boost::json::value& value, Variant& result, std::index_sequence<Is...>) {
+    return (tryVariantIndex<Variant, Is>(value, result) || ...);
+}
+}
+
 {{classname}} fromJsonValue_{{classname}}(boost::json::value const& value)
 {
     {{#discriminator}}
@@ -108,10 +170,25 @@ boost::json::value toJsonValue_{{classname}}({{classname}} const& value)
     throw std::invalid_argument("Unknown " + std::string("{{discriminator.propertyBaseName}}") + " value: " + discValue);
     {{/discriminator}}
     {{^discriminator}}
-    // {{vendorExtensions.x-cpp-composed-keyword}} variant{{#vendorExtensions.x-cpp-branches}}{{#-first}}
-    // Branches:{{/-first}} {{.}}{{^-last}},{{/-last}}{{/vendorExtensions.x-cpp-branches}}
-    throw std::invalid_argument("from_json not fully implemented for {{classname}}");
+    // Non-discriminated {{vendorExtensions.x-cpp-composed-keyword}} — try branches by JSON kind using index_sequence
+    std::size_t const variantSize = std::variant_size_v<{{classname}}>;
+    {{classname}} result;
+    if (!tryVariantBranches(value, result, std::make_index_sequence<variantSize>{})) {
+        throw std::invalid_argument("No matching branch for {{classname}} from JSON value");
+    }
+    return result;
     {{/discriminator}}
+}
+
+// ADL bridge — called by api-layer serialization (ResponseJsonValueConverter, parseEventStream)
+boost::json::value to_json({{classname}} const& value)
+{
+    return toJsonValue_{{classname}}(value);
+}
+
+{{classname}} from_json(boost::json::value const& value)
+{
+    return fromJsonValue_{{classname}}(value);
 }
 
 {{#modelNamespaceDeclarations}}
