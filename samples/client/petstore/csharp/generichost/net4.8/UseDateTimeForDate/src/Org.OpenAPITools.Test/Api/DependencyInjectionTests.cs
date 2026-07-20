@@ -25,14 +25,14 @@ namespace Org.OpenAPITools.Test.Api
     public class DependencyInjectionTest
     {
         private readonly IHost _hostUsingConfigureWithoutAClient =
-            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
+            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, options) =>
             {
 
             })
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
-            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
+            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, options) =>
             {
 
                 options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));

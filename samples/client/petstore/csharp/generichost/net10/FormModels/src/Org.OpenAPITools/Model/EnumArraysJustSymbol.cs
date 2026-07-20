@@ -148,6 +148,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override EnumArraysJustSymbol? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             EnumArraysJustSymbol? result = rawValue == null
@@ -168,7 +171,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, EnumArraysJustSymbol? enumArraysJustSymbol, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(enumArraysJustSymbol.HasValue ? EnumArraysJustSymbolValueConverter.ToJsonValue(enumArraysJustSymbol.Value).ToString() : "null");
+            if (enumArraysJustSymbol.HasValue)
+                writer.WriteStringValue(EnumArraysJustSymbolValueConverter.ToJsonValue(enumArraysJustSymbol.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

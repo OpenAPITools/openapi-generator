@@ -13,6 +13,7 @@ org.openapitools.codegen.languages.CLibcurlClientCodegen
 org.openapitools.codegen.languages.ClojureClientCodegen
 org.openapitools.codegen.languages.ConfluenceWikiCodegen
 org.openapitools.codegen.languages.CppHttplibServerCodegen
+org.openapitools.codegen.languages.CppBoostBeastClientCodegen
 org.openapitools.codegen.languages.CppOatppClientCodegen
 org.openapitools.codegen.languages.CppQtClientCodegen
 org.openapitools.codegen.languages.CppQtQHttpEngineServerCodegen

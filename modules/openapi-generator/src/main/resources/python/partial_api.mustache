@@ -61,5 +61,10 @@
             {{^isWildcard}}
             '{{code}}': {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}},
             {{/isWildcard}}
+            {{#isWildcard}}
+            {{#dataType}}
+            'default': "{{dataType}}",
+            {{/dataType}}
+            {{/isWildcard}}
             {{/responses}}
         }

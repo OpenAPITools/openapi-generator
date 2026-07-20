@@ -148,6 +148,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override EnumArraysArrayEnumInner? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             EnumArraysArrayEnumInner? result = rawValue == null
@@ -168,7 +171,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, EnumArraysArrayEnumInner? enumArraysArrayEnumInner, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(enumArraysArrayEnumInner.HasValue ? EnumArraysArrayEnumInnerValueConverter.ToJsonValue(enumArraysArrayEnumInner.Value).ToString() : "null");
+            if (enumArraysArrayEnumInner.HasValue)
+                writer.WriteStringValue(EnumArraysArrayEnumInnerValueConverter.ToJsonValue(enumArraysArrayEnumInner.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

@@ -790,6 +790,14 @@ public class SpringCodegenTest {
                 .assertParameter("statusArray").hasType("List<MultipartMixedStatus>")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
+
+        // Check extra annotation
+        JavaFileAssert.assertThat(files.get("ExtraAnnotationApi.java"))
+              .assertMethod("multipartExtraAnnotation", "MultipartFile")
+              .assertParameter("file").hasType("MultipartFile")
+              .assertParameterAnnotations()
+              .containsWithName("jakarta.validation.constraints.NotNull");
+
     }
 
     @Test
@@ -5133,7 +5141,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(api)
                 .assertMethod("sseVariant1", "ServerWebExchange")
                 .isNotNull()
-                .hasReturnType("Flux<String>")
+                .hasReturnType("List<String>")
                 .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
                 .isNotNull()
@@ -5146,7 +5154,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(delegate)
                 .assertMethod("sseVariant1", "ServerWebExchange")
                 .isNotNull()
-                .hasReturnType("Flux<String>")
+                .hasReturnType("List<String>")
                 .bodyContainsLines("return Flux.empty();")
                 .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
@@ -8386,5 +8394,139 @@ public class SpringCodegenTest {
         assertFileContains(endpoint1ApiFile.toPath(), "tags = { \"My \\\"quoted\\\" api\" }");
         assertFileContains(endpoint2ApiFile.toPath(), "tags = { \"My\\\\backslash\\\\api\" }");
         assertFileContains(endpoint3ApiFile.toPath(), "tags = { \"My newline api\" }");
+    }
+
+    @Test
+    public void testReactiveSpringSupportListOfStringReturnType() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_BOOT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<ResponseEntity<List<String>>> getUserIdList",
+                // set of string
+                "Mono<ResponseEntity<Set<String>>> getUserIdSet"
+        );
+    }
+
+    @Test
+    public void testReactiveSpringSupportListOfStringReturnTypeNoResponseEntity() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+        properties.put(USE_RESPONSE_ENTITY, false);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_BOOT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<List<String>> getUserIdList",
+                // set of string
+                "Mono<Set<String>> getUserIdSet"
+        );
+    }
+
+    @Test
+    public void testReactiveSpringHttpInterfaceSupportListOfStringReturnType() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_HTTP_INTERFACE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<ResponseEntity<List<String>>> getUserIdList",
+                // set of string
+                "Mono<ResponseEntity<Set<String>>> getUserIdSet"
+        );
+    }
+
+    @Test
+    public void testReactiveSpringHttpInterfaceSupportListOfStringReturnTypeNoResponseEntity() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+        properties.put(USE_RESPONSE_ENTITY, false);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_HTTP_INTERFACE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<List<String>> getUserIdList",
+                // set of string
+                "Mono<Set<String>> getUserIdSet"
+        );
     }
 }

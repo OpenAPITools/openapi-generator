@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Provides hosting configuration for Org.OpenAPITools
     /// </summary>
-    public class HostConfiguration
+    public partial class HostConfiguration
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -47,6 +47,7 @@ namespace Org.OpenAPITools.Client
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
+            OnHostConfigurationCreated();
         }
 
         /// <summary>
@@ -91,15 +92,47 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            
-            if (builder != null)
-                foreach (IHttpClientBuilder instance in builders)
-                    builder(instance);
+
+            foreach (IHttpClientBuilder instance in builders)
+            {
+                bool suppressDefault = false;
+                OnAddApiHttpClientBuilder(instance, builder, ref suppressDefault);
+                if (!suppressDefault)
+                    builder?.Invoke(instance);
+            }
 
             HttpClientsAdded = true;
 
             return this;
         }
+
+        /// <summary>
+        /// Applies configuration to each HttpClient.
+        /// Implement this partial method to prepend configuration, invoke <paramref name="userBuilder"/> at the
+        /// desired position, and append further configuration. Set <paramref name="suppressDefault"/> to
+        /// <c>true</c> when you invoke <paramref name="userBuilder"/> yourself to prevent a second invocation,
+        /// or to ignore the user's builder entirely.
+        /// If this method is not implemented, <paramref name="userBuilder"/> is invoked automatically.
+        /// </summary>
+        /// <param name="builder">The <see cref="IHttpClientBuilder"/> to configure.</param>
+        /// <param name="userBuilder">The caller-supplied builder action, or <c>null</c> if none was provided.</param>
+        /// <param name="suppressDefault">Set to <c>true</c> to prevent the default invocation of <paramref name="userBuilder"/>.</param>
+        partial void OnAddApiHttpClientBuilder(IHttpClientBuilder builder, Action<IHttpClientBuilder>? userBuilder, ref bool suppressDefault);
+
+        /// <summary>
+        /// Called at the end of the constructor after all JSON converters and services are registered.
+        /// Implement this partial method to further configure <c>_jsonOptions</c> or register additional singletons via <c>_services</c>.
+        /// </summary>
+        partial void OnHostConfigurationCreated();
+
+        /// <summary>
+        /// Called after all services have been registered.
+        /// Implement this partial method to register additional services.
+        /// </summary>
+        /// <param name="services"></param>
+        partial void OnServicesAdded(IServiceCollection services);
+
+        internal void NotifyServicesAdded(IServiceCollection services) => OnServicesAdded(services);
 
         /// <summary>
         /// Configures the JsonSerializerSettings

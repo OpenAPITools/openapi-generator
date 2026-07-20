@@ -1,0 +1,123 @@
+openapi: 3.0.1
+info:
+  title: Integer Enum Test
+  version: v1
+paths:
+  /some/api:
+    get:
+      tags:
+        - Example
+      operationId: ExampleApi
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegerEnum'
+components:
+  schemas:
+    IntegerEnum:
+      enum:
+        - 0
+        - 1
+      type: integer
+      format: int32
+      x-enum-varnames:
+        - None
+        - Some
+    LongEnum:
+      enum:
+        - 2147483648
+        - 9223372036854775807
+      type: integer
+      format: int64
+      x-enum-varnames:
+        - AboveInt32Max
+        - Int64Max
+    DoubleEnum:
+      enum:
+        - 1.1
+        - -1.2
+      type: number
+      format: double
+      x-enum-varnames:
+        - Positive
+        - Negative
+    FloatEnum:
+      enum:
+        - 1.1
+        - -1.2
+      type: number
+      format: float
+      x-enum-varnames:
+        - Positive
+        - Negative
+    DecimalEnum:
+      enum:
+        - 1.1
+        - -1.2
+      type: number
+      x-enum-varnames:
+        - Positive
+        - Negative
+    ByteEnum:
+      enum:
+        - 0
+        - 255
+      type: integer
+      format: byte
+      x-enum-varnames:
+        - Min
+        - Max
+    ModelWithEnumProperties:
+      type: object
+      properties:
+        intEnum:
+          $ref: '#/components/schemas/IntegerEnum'
+        longEnum:
+          $ref: '#/components/schemas/LongEnum'
+        doubleEnum:
+          $ref: '#/components/schemas/DoubleEnum'
+        floatEnum:
+          $ref: '#/components/schemas/FloatEnum'
+        decimalEnum:
+          $ref: '#/components/schemas/DecimalEnum'
+        byteEnum:
+          $ref: '#/components/schemas/ByteEnum'
+        inlineIntEnum:
+          type: integer
+          format: int32
+          enum:
+            - 0
+            - 1
+          x-enum-varnames:
+            - None
+            - Some
+        inlineLongEnum:
+          type: integer
+          format: int64
+          enum:
+            - 2147483648
+            - 9223372036854775807
+          x-enum-varnames:
+            - AboveInt32Max
+            - Int64Max
+        inlineDoubleEnum:
+          type: number
+          format: double
+          enum:
+            - 1.1
+            - -1.2
+          x-enum-varnames:
+            - Positive
+            - Negative
+        inlineByteEnum:
+          type: integer
+          format: byte
+          enum:
+            - 0
+            - 255
+          x-enum-varnames:
+            - Min
+            - Max
