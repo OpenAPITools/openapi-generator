@@ -59,6 +59,7 @@ export PROJECT_ROOT
 
 SPEC="${OPENAI_SDK_DIR}/openapi.yaml"
 GENERATED_DIR="${OPENAI_SDK_DIR}/generated-openai"
+export GENERATED_DIR
 BUILD_DIR="${OPENAI_SDK_DIR}/build-generated"
 COMPLIANCE_DIR="${OPENAI_SDK_DIR}/openai/compliance"
 JAR_DIR="${PROJECT_ROOT}/modules/openapi-generator-cli/target"
@@ -91,7 +92,7 @@ fetch_spec() {
     header "Step 0a: Fetch spec from upstream"
 
     if ! command -v curl &>/dev/null; then
-        echo "  ${RED}ERROR${NC}  curl is required to fetch the spec"
+echo -e "  ${RED}ERROR${NC}  curl is required to fetch the spec"
         exit 4
     fi
 
@@ -100,7 +101,7 @@ fetch_spec() {
     curl -sSL --max-time "${CURL_TIMEOUT}" -o "${SPEC}.tmp" "${SPEC_URL}" 2>&1
 
     if [[ ! -f "${SPEC}.tmp" ]] || [[ ! -s "${SPEC}.tmp" ]]; then
-        echo "  ${RED}ERROR${NC}  Download failed or returned empty file"
+echo -e "  ${RED}ERROR${NC}  Download failed or returned empty file"
         rm -f "${SPEC}.tmp"
         exit 4
     fi
@@ -112,7 +113,7 @@ fetch_spec() {
     local manifest_hash
     manifest_hash=$(awk -F'[|]' '/SHA-256/ {gsub(/[`| ]/, "", $3); print $3}' "${MANIFEST}" 2>/dev/null || echo "")
     if [[ -z "${manifest_hash}" ]]; then
-        echo "  ${YELLOW}WARN${NC}  Cannot verify hash — MANIFEST missing or unreadable"
+echo -e "  ${YELLOW}WARN${NC}  Cannot verify hash — MANIFEST missing or unreadable"
         return 0
     fi
 
@@ -120,7 +121,7 @@ fetch_spec() {
     actual_hash="$(shasum -a 256 "${SPEC}" | cut -d' ' -f1 || true)"
 
     if [[ "${actual_hash}" != "${manifest_hash}" ]]; then
-        echo "  ${RED}FAIL${NC}  Downloaded spec hash does not match MANIFEST"
+echo -e "  ${RED}FAIL${NC}  Downloaded spec hash does not match MANIFEST"
         echo "         Expected: ${manifest_hash}"
         echo "         Actual:   ${actual_hash}"
         echo "  The upstream spec has changed. Update MANIFEST.md to re-pin."
@@ -138,12 +139,12 @@ verify_pin() {
     header "Step 0: Verify spec pin"
 
     if [[ ! -f "${MANIFEST}" ]]; then
-        echo "  ${RED}ERROR${NC}  MANIFEST.md not found at ${MANIFEST}"
+echo -e "  ${RED}ERROR${NC}  MANIFEST.md not found at ${MANIFEST}"
         exit 4
     fi
 
     if [[ ! -f "${SPEC}" ]]; then
-        echo "  ${RED}ERROR${NC}  Spec not found at ${SPEC}"
+echo -e "  ${RED}ERROR${NC}  Spec not found at ${SPEC}"
         exit 4
     fi
 
@@ -165,21 +166,21 @@ verify_pin() {
     local pin_ok=true
 
     if [[ "${actual_hash}" != "${expected_hash}" ]]; then
-        echo "  ${RED}FAIL${NC}  Spec hash mismatch"
+echo -e "  ${RED}FAIL${NC}  Spec hash mismatch"
         echo "         Expected: ${expected_hash}"
         echo "         Actual:   ${actual_hash}"
         pin_ok=false
     fi
 
     if [[ "${actual_version}" != "${expected_version}" ]]; then
-        echo "  ${RED}FAIL${NC}  API version mismatch"
+echo -e "  ${RED}FAIL${NC}  API version mismatch"
         echo "         Expected: ${expected_version}"
         echo "         Actual:   ${actual_version}"
         pin_ok=false
     fi
 
     if [[ "${actual_title}" != "${expected_title}" ]]; then
-        echo "  ${RED}FAIL${NC}  API title mismatch"
+echo -e "  ${RED}FAIL${NC}  API title mismatch"
         echo "         Expected: ${expected_title}"
         echo "         Actual:   ${actual_title}"
         pin_ok=false
@@ -189,7 +190,7 @@ verify_pin() {
         pass_msg "Spec pin verified: ${expected_title} v${expected_version}"
     else
         echo ""
-        echo "  ${RED}ERROR${NC}  Spec has changed since MANIFEST was written."
+echo -e "  ${RED}ERROR${NC}  Spec has changed since MANIFEST was written."
         echo "  Regenerate and update MANIFEST.md, then re-verify."
         exit 4
     fi
@@ -226,7 +227,7 @@ build_generator() {
     fi
 
     if [[ ! -f "${MVNW}" ]]; then
-        echo "  ${RED}ERROR${NC}  mvnw not found at ${MVNW}"
+echo -e "  ${RED}ERROR${NC}  mvnw not found at ${MVNW}"
         exit 2
     fi
 
@@ -235,7 +236,7 @@ build_generator() {
     popd >/dev/null
 
     if [[ ! -f "${JAR}" ]]; then
-        echo "  ${RED}ERROR${NC}  Jar was not created at ${JAR}"
+echo -e "  ${RED}ERROR${NC}  Jar was not created at ${JAR}"
         exit 2
     fi
     info_msg "Generator jar ready: ${JAR}"
@@ -248,12 +249,12 @@ generate_client() {
     header "Step 2: Generate OpenAI client"
 
     if [[ ! -f "${JAR}" ]]; then
-        echo "  ${RED}ERROR${NC}  Generator jar not found. Run without --skip-build or build manually."
+echo -e "  ${RED}ERROR${NC}  Generator jar not found. Run without --skip-build or build manually."
         exit 2
     fi
 
     if [[ ! -f "${SPEC}" ]]; then
-        echo "  ${RED}ERROR${NC}  Spec not found at ${SPEC}"
+echo -e "  ${RED}ERROR${NC}  Spec not found at ${SPEC}"
         exit 2
     fi
 
@@ -288,7 +289,7 @@ compile_client() {
     header "Step 3: Compile generated client"
 
     if [[ ! -d "${GENERATED_DIR}" ]]; then
-        echo "  ${RED}ERROR${NC}  Generated directory not found. Run generator first."
+echo -e "  ${RED}ERROR${NC}  Generated directory not found. Run generator first."
         exit 3
     fi
 
@@ -312,7 +313,7 @@ inventory_schemas() {
     header "Step 4: Inventory composed schemas"
 
     local inventory_py
-    inventory_py="$(mktemp)" || { echo "  ${RED}ERROR${NC}  mktemp failed"; exit 2; }
+    inventory_py="$(mktemp)" || { echo -e "  ${RED}ERROR${NC}  mktemp failed"; exit 2; }
     cat > "${inventory_py}" << 'INVEOF'
 #!/usr/bin/env python3
 """
@@ -322,7 +323,7 @@ analyze emitted C++ headers, enforce expected-types.yaml, and detect empty shell
 import os, re, sys, yaml
 
 sdk_dir = os.environ.get("OPENAI_SDK_DIR", os.path.abspath("."))
-generated_dir = os.path.join(sdk_dir, "generated")
+generated_dir = os.environ.get("GENERATED_DIR", os.path.join(sdk_dir, "generated-openai"))
 spec_file = os.path.join(sdk_dir, "openapi.yaml")
 compliance_dir = os.path.join(sdk_dir, "openai", "compliance")
 inventory_file = os.path.join(compliance_dir, "schema-inventory.tsv")
@@ -533,13 +534,13 @@ run_golden_cases() {
 
     local golden_file="${COMPLIANCE_DIR}/golden-cases.json"
     if [[ ! -f "${golden_file}" ]]; then
-        echo "  ${RED}ERROR${NC}  Golden cases file not found: ${golden_file}"
+echo -e "  ${RED}ERROR${NC}  Golden cases file not found: ${golden_file}"
         return 1
     fi
 
     local runner_script="${COMPLIANCE_DIR}/golden_runner_gen.py"
     if [[ ! -f "${runner_script}" ]]; then
-        echo "  ${RED}ERROR${NC}  Golden runner generator not found: ${runner_script}"
+echo -e "  ${RED}ERROR${NC}  Golden runner generator not found: ${runner_script}"
         return 1
     fi
 
@@ -625,12 +626,12 @@ main() {
             fi
             if ! ${gate_a_script} ${gate_a_build_flags}; then
                 echo ""
-                echo "  ${RED}FAIL${NC}  Gate A failed — aborting Gate B"
+echo -e "  ${RED}FAIL${NC}  Gate A failed — aborting Gate B"
                 exit 1
             fi
             pass_msg "Gate A passed"
         else
-            echo "  ${YELLOW}WARN${NC}  Gate A script not found at ${gate_a_script}"
+echo -e "  ${YELLOW}WARN${NC}  Gate A script not found at ${gate_a_script}"
         fi
     fi
 
@@ -677,7 +678,7 @@ main() {
     echo ""
 
     if [[ "${INVENTORY_EXIT}" -ne 0 ]]; then
-        echo "  ${RED}FAIL${NC}  ${shell_count} empty-shell / mismatch / not-found issues."
+echo -e "  ${RED}FAIL${NC}  ${shell_count} empty-shell / mismatch / not-found issues."
         echo ""
         echo "  Empty-shell models have oneOf/anyOf/allOf but generate as"
         echo "  wrappers with toJsonValue()/fromJsonValue() and no members."
@@ -686,11 +687,11 @@ main() {
     fi
 
     if [[ "${GOLDEN_EXIT}" -ne 0 ]]; then
-        echo "  ${RED}FAIL${NC}  Golden case round-trip tests failed."
+echo -e "  ${RED}FAIL${NC}  Golden case round-trip tests failed."
         exit 1
     fi
 
-    echo "  ${GREEN}PASS${NC}  All compliance checks passed."
+echo -e "  ${GREEN}PASS${NC}  All compliance checks passed."
     echo ""
 }
 

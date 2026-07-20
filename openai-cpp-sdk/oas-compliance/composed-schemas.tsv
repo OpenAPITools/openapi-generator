@@ -8,3 +8,4 @@ Animal	PASS	std::variant<Mammal, Bird>	oneOf, 0 members, type alias
 DiscriminatorOneOf	PASS	std::variant<Mammal, Bird>	oneOf, 0 members, type alias
 MultiContentStreamEvent	PASS	std::variant<StreamProgress, StreamComplete, StreamError>	oneOf, 0 members, type alias
 MultipartMetaField	PASS	std::variant<std::vector<std::uint8_t>, MetaRecord>	oneOf, 0 members, type alias
+AllOfScalarConflict	FAIL	std::string	allOf conflict silently produced code (negative test)

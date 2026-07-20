@@ -14,7 +14,9 @@ import json, os, subprocess, sys, tempfile
 sdk_dir = os.environ.get("OPENAI_SDK_DIR", os.path.abspath("."))
 compliance_dir = os.path.join(sdk_dir, "openai", "compliance")
 golden_file = os.path.join(compliance_dir, "golden-cases.json")
-generated_dir = os.path.join(sdk_dir, "generated")
+generated_dir = os.environ.get(
+    "GENERATED_DIR", os.path.join(sdk_dir, "generated-openai")
+)
 build_dir = os.path.join(sdk_dir, "build-generated")
 
 if not os.path.exists(golden_file):

@@ -23,11 +23,6 @@ OneOfStringArray: std::variant<std::string, std::vector<ItemStruct>>
 # --- allOf object merge (compatible) ---
 AllOfObjectMerge: org::openapitools::client::model::AllOfObjectMerge
 
-# --- allOf scalar conflict → codegen error (negative test) ---
-# Listed here so the inventory checks it; the negative-test path handles it
-# separately (the positive generate does NOT include this schema).
-AllOfScalarConflict: codegen_error
-
 # --- anyOf [T, null] / nullable T → std::optional<T> ---
 NullableString: std::optional<std::string>
 NullableEnum: std::optional<std::string>

@@ -92,7 +92,7 @@ build_generator() {
     fi
 
     if [[ ! -f "${MVNW}" ]]; then
-        echo "  ${RED}ERROR${NC}  mvnw not found at ${MVNW}"
+echo -e "  ${RED}ERROR${NC}  mvnw not found at ${MVNW}"
         exit 2
     fi
 
@@ -101,7 +101,7 @@ build_generator() {
     popd >/dev/null
 
     if [[ ! -f "${JAR}" ]]; then
-        echo "  ${RED}ERROR${NC}  Jar was not created at ${JAR}"
+echo -e "  ${RED}ERROR${NC}  Jar was not created at ${JAR}"
         exit 2
     fi
     info_msg "Generator jar ready: ${JAR}"
@@ -114,12 +114,12 @@ generate_client() {
     header "Step 2: Generate from OAS fixtures"
 
     if [[ ! -f "${JAR}" ]]; then
-        echo "  ${RED}ERROR${NC}  Generator jar not found. Run without --skip-build or build manually."
+echo -e "  ${RED}ERROR${NC}  Generator jar not found. Run without --skip-build or build manually."
         exit 2
     fi
 
     if [[ ! -f "${FIXTURES}" ]]; then
-        echo "  ${RED}ERROR${NC}  Fixtures not found at ${FIXTURES}"
+echo -e "  ${RED}ERROR${NC}  Fixtures not found at ${FIXTURES}"
         exit 2
     fi
 
@@ -147,7 +147,7 @@ generate_negative_fixtures() {
     header "Step 2b: Generate from negative fixtures"
 
     if [[ ! -f "${JAR}" ]]; then
-        echo "  ${RED}ERROR${NC}  Generator jar not found."
+echo -e "  ${RED}ERROR${NC}  Generator jar not found."
         exit 2
     fi
 
@@ -182,7 +182,7 @@ generate_negative_fixtures() {
 
     # Parse negative fixtures to find all root-composed schemas
     local parse_py
-    parse_py="$(mktemp)" || { echo "  ${RED}ERROR${NC}  mktemp failed"; exit 2; }
+    parse_py="$(mktemp)" || { echo -e "  ${RED}ERROR${NC}  mktemp failed"; exit 2; }
     cat > "${parse_py}" << 'NEGEOF'
 #!/usr/bin/env python3
 """Parse negative fixtures and check: generate exit code > 0 OR header absent."""
@@ -250,29 +250,24 @@ NEGEOF
     python3 "${parse_py}" || neg_exit=$?
     rm -f "${parse_py}"
 
-    # Append negative test results to the TSV
+    # Upsert negative test result in the TSV (always replace or append)
+    local negative_result_line=""
     if [[ "${gen_exit}" -ne 0 ]]; then
-        # Negative test passed via codegen error
-        if grep -q "^AllOfScalarConflict" "${negative_tsv}" 2>/dev/null; then
-            # Replace existing row
-            local tmp_tsv
-            tmp_tsv="$(mktemp)"
-            sed 's/^AllOfScalarConflict.*/AllOfScalarConflict\tPASS\tcodegen_error\tallOf conflict (negative test, codegen errored)/' "${negative_tsv}" > "${tmp_tsv}"
-            mv "${tmp_tsv}" "${negative_tsv}"
-        else
-            echo -e "AllOfScalarConflict\tPASS\tcodegen_error\tallOf conflict (negative test, codegen errored)" >> "${negative_tsv}"
-        fi
+        negative_result_line="AllOfScalarConflict\tPASS\tcodegen_error\tallOf conflict (negative test, codegen errored)"
     elif [[ -d "${negative_output_dir}/model" ]] && [[ "$(ls "${negative_output_dir}/model"/*.h 2>/dev/null | wc -l)" -eq 0 ]]; then
-        # No headers produced — also a pass (codegen silently skipped)
-        if ! grep -q "^AllOfScalarConflict" "${negative_tsv}" 2>/dev/null; then
-            echo -e "AllOfScalarConflict\tPASS\tcodegen_error\tallOf conflict (negative test, header not produced)" >> "${negative_tsv}"
-        fi
-    else:
-        # Header exists when it shouldn't
-        if ! grep -q "^AllOfScalarConflict" "${negative_tsv}" 2>/dev/null; then
-            echo -e "AllOfScalarConflict\tFAIL\tstd::string\tNEGATIVE TEST FAIL: allOf conflict silently produced code" >> "${negative_tsv}"
-        fi
+        negative_result_line="AllOfScalarConflict\tPASS\tcodegen_error\tallOf conflict (negative test, header not produced)"
+    else
+        negative_result_line="AllOfScalarConflict\tFAIL\tstd::string\tallOf conflict silently produced code (negative test)"
         neg_exit=1
+    fi
+
+    if grep -q "^AllOfScalarConflict" "${negative_tsv}" 2>/dev/null; then
+        local tmp_tsv
+        tmp_tsv="$(mktemp)"
+        sed "s/^AllOfScalarConflict.*/${negative_result_line}/" "${negative_tsv}" > "${tmp_tsv}"
+        mv "${tmp_tsv}" "${negative_tsv}"
+    else
+        echo -e "${negative_result_line}" >> "${negative_tsv}"
     fi
 
     rm -rf "${negative_output_dir}"
@@ -291,12 +286,12 @@ inventory_schemas() {
     header "Step 3: Inventory composed schemas"
 
     if [[ ! -d "${OUTPUT_DIR}" ]]; then
-        echo "  ${RED}ERROR${NC}  Generated directory not found at ${OUTPUT_DIR}. Run generator first."
+echo -e "  ${RED}ERROR${NC}  Generated directory not found at ${OUTPUT_DIR}. Run generator first."
         exit 2
     fi
 
     local inventory_py
-    inventory_py="$(mktemp)" || { echo "  ${RED}ERROR${NC}  mktemp failed"; exit 2; }
+    inventory_py="$(mktemp)" || { echo -e "  ${RED}ERROR${NC}  mktemp failed"; exit 2; }
     cat > "${inventory_py}" << 'INVEOF'
 #!/usr/bin/env python3
 """
@@ -543,6 +538,8 @@ INVEOF
 main() {
     local skip_build=false
     local only_inventory=false
+    local INVENTORY_EXIT=0
+    local NEGATIVE_EXIT=0
 
     for arg in "$@"; do
         case "$arg" in
@@ -590,12 +587,10 @@ main() {
 
     generate_client
 
-    # Generate from negative fixtures and assert codegen failure.
-    # A failure here (generator didn't error) is reported in the negative-TSV
-    # but must not prevent the positive inventory from running.
-    NEGATIVE_EXIT=0
-    generate_negative_fixtures || NEGATIVE_EXIT=$?
+    # Run positive inventory first, then negative fixture checks.
+    # Positive inventory writes composed-schemas.tsv; negative step upserts.
     inventory_schemas || INVENTORY_EXIT=$?
+    generate_negative_fixtures || NEGATIVE_EXIT=$?
 
     header "Summary"
     echo ""
