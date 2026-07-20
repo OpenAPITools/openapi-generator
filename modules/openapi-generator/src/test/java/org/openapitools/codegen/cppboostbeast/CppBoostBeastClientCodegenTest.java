@@ -328,8 +328,10 @@ public class CppBoostBeastClientCodegenTest {
         String inputParamSourceContent = java.nio.file.Files.readString(inputParamSource);
         Assert.assertTrue(inputParamSourceContent.contains("to_json(InputParam const& value)"),
                 "InputParam source should implement to_json");
-        Assert.assertTrue(inputParamSourceContent.contains("std::visit([](auto const& v) -> boost::json::value"),
+        Assert.assertTrue(inputParamSourceContent.contains("std::visit([](auto const& v)"),
                 "InputParam to_json should use std::visit");
+        Assert.assertTrue(inputParamSourceContent.contains("VariantJsonHelper<"),
+                "InputParam to_json should use VariantJsonHelper");
 
         // PetByType is a discriminated variant
         Path petByTypeSource = output.toPath().resolve("model/PetByType.cpp");
@@ -391,16 +393,34 @@ public class CppBoostBeastClientCodegenTest {
                 1, "Cat (class model) header should have exactly one #endif");
 
         // Verify to_json uses toJsonValue() for model types, not bare value_from
-        Assert.assertTrue(petByTypeSourceContent.contains("v.toJsonValue()"),
-                "PetByType to_json should use toJsonValue() for model branches");
+        Assert.assertTrue(petByTypeSourceContent.contains("VariantJsonHelper<std::decay_t<decltype(v)>>::toJsonValue(v)"),
+                "PetByType to_json should use VariantJsonHelper");
         Assert.assertFalse(petByTypeSourceContent.contains("boost::json::value_to<Cat>(value)"),
                 "PetByType from_json should not use value_to<Cat>");
         Assert.assertTrue(petByTypeSourceContent.contains("return Cat(value);"),
                 "PetByType from_json should use Cat(value) constructor");
 
+        // Verify C++17 compatibility: no `requires` keyword in generated sources
+        Assert.assertFalse(petByTypeSourceContent.contains("requires "),
+                "PetByType source should not use C++20 requires expressions");
+        Assert.assertFalse(inputParamSourceContent.contains("requires "),
+                "InputParam source should not use C++20 requires expressions");
+
         // Verify discriminator error message includes the received value
         Assert.assertTrue(petByTypeSourceContent.contains("discValue"),
                 "PetByType discriminator error should include the received value");
+        // Verify discValue is in scope at the throw — the throw should appear
+        // within the same function scope as the declaration (no extra closing
+        // brace between them).  The discValue declaration and all mapped-model
+        // branches all sit at function scope (no inner {} block).
+        int discValueDecl = petByTypeSourceContent.indexOf("std::string discValue;");
+        int throwPos = petByTypeSourceContent.indexOf("throw std::invalid_argument", discValueDecl);
+        String betweenDeclAndThrow = petByTypeSourceContent.substring(discValueDecl, throwPos);
+        // Count braces: opening braces must be balanced before the throw
+        long opens = betweenDeclAndThrow.chars().filter(ch -> ch == '{').count();
+        long closes = betweenDeclAndThrow.chars().filter(ch -> ch == '}').count();
+        Assert.assertEquals(opens, closes,
+                "discValue scope: braces must be balanced between declaration and throw (got " + opens + " open, " + closes + " close)");
 
         // Scenario 12: x-stainless-const property handling
         Path stainlessHeader = output.toPath().resolve("model/StainlessObject.h");

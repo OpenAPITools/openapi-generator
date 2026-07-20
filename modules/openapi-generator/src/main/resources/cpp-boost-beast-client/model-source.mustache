@@ -7,20 +7,68 @@
 {{/imports}}
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <boost/json.hpp>
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 
+namespace {
+// C++17-compatible trait to detect types with toJsonValue() const member.
+template <typename T, typename = void>
+struct HasToJsonValue : std::false_type {};
+
+template <typename T>
+struct HasToJsonValue<T, std::void_t<decltype(std::declval<const T&>().toJsonValue())>> : std::true_type {};
+
+// Recursively converts a variant branch to boost::json::value.
+// Primary template: use value_from for primitives and standard types.
+template <typename T, typename = void>
+struct VariantJsonHelper {
+    static boost::json::value toJsonValue(const T& v) {
+        return boost::json::value_from(v);
+    }
+};
+
+// Specialization for types that expose toJsonValue() (e.g. model classes).
+template <typename T>
+struct VariantJsonHelper<T, std::enable_if_t<HasToJsonValue<T>::value>> {
+    static boost::json::value toJsonValue(const T& v) {
+        return v.toJsonValue();
+    }
+};
+
+// Specialization for std::vector — iterate and convert each element.
+template <typename Element>
+struct VariantJsonHelper<std::vector<Element>> {
+    static boost::json::value toJsonValue(const std::vector<Element>& v) {
+        boost::json::array result;
+        result.reserve(v.size());
+        for (const auto& elem : v) {
+            result.emplace_back(VariantJsonHelper<Element>::toJsonValue(elem));
+        }
+        return result;
+    }
+};
+
+// Specialization for std::map — iterate and convert each mapped value.
+template <typename MappedValue>
+struct VariantJsonHelper<std::map<std::string, MappedValue>> {
+    static boost::json::value toJsonValue(const std::map<std::string, MappedValue>& m) {
+        boost::json::object result;
+        for (const auto& entry : m) {
+            result[entry.first] = VariantJsonHelper<MappedValue>::toJsonValue(entry.second);
+        }
+        return result;
+    }
+};
+}
+
 boost::json::value to_json({{classname}} const& value)
 {
     return std::visit([](auto const& v) -> boost::json::value {
-        if constexpr (requires { v.toJsonValue(); }) {
-            return v.toJsonValue();
-        } else {
-            return boost::json::value_from(v);
-        }
+        return VariantJsonHelper<std::decay_t<decltype(v)>>::toJsonValue(v);
     }, value);
 }
 
@@ -30,24 +78,22 @@ boost::json::value to_json({{classname}} const& value)
     if (!value.is_object()) {
         throw std::invalid_argument("Expected a JSON object for discriminated {{classname}}");
     }
-    {
-        const auto& jsonObject = value.as_object();
-        auto discIt = jsonObject.find("{{discriminator.propertyBaseName}}");
-        if (discIt == jsonObject.end()) {
-            throw std::invalid_argument("Missing discriminator field '{{discriminator.propertyBaseName}}' for {{classname}}");
-        }
-        std::string discValue;
-        if (discIt->value().is_string()) {
-            discValue = {discIt->value().as_string().data(), discIt->value().as_string().size()};
-        } else {
-            discValue = boost::json::serialize(discIt->value());
-        }
-        {{#discriminator.mappedModels}}
-        if (discValue == "{{mappingName}}") {
-            return {{modelName}}(value);
-        }
-        {{/discriminator.mappedModels}}
+    const auto& jsonObject = value.as_object();
+    auto discIt = jsonObject.find("{{discriminator.propertyBaseName}}");
+    if (discIt == jsonObject.end()) {
+        throw std::invalid_argument("Missing discriminator field '{{discriminator.propertyBaseName}}' for {{classname}}");
     }
+    std::string discValue;
+    if (discIt->value().is_string()) {
+        discValue = {discIt->value().as_string().data(), discIt->value().as_string().size()};
+    } else {
+        discValue = boost::json::serialize(discIt->value());
+    }
+    {{#discriminator.mappedModels}}
+    if (discValue == "{{mappingName}}") {
+        return {{modelName}}(value);
+    }
+    {{/discriminator.mappedModels}}
     throw std::invalid_argument("Unknown " + std::string("{{discriminator.propertyBaseName}}") + " value: " + discValue);
     {{/discriminator}}
     {{^discriminator}}
