@@ -75,6 +75,27 @@ paths:
             application/json:
               schema:
                 type: string
+  /upload-variant:
+    post:
+      tags:
+        - ComposedSchema
+      operationId: uploadVariantData
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                payload:
+                  $ref: '#/components/schemas/VariantPayload'
+      responses:
+        '200':
+          description: Variant upload response
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     # Scenario 1: anyOf with string + string-enum → std::string
@@ -206,7 +227,21 @@ components:
           const: 42
           x-stainless-const: true
 
-    # Scenario 13: SSE stream event for testing parseEventStream wiring
+    # Scenario 13: Variant payload for branch-aware multipart form param testing
+    VariantPayload:
+      oneOf:
+        - type: string
+          format: binary
+        - $ref: '#/components/schemas/DataObject'
+    DataObject:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: integer
+
+    # Scenario 14: SSE stream event for testing parseEventStream wiring
     ResponseStreamEvent:
       anyOf:
         - $ref: '#/components/schemas/ResponseCreatedEvent'

@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <cstdint>
 #include <map>
 #include <array>
 #include <algorithm>
@@ -635,9 +636,9 @@ std::vector<EventVariant> parseEventStream(const std::string& responseBody) {
                 events.push_back(from_json<EventVariant>(jsonValue));
                 currentData.clear();
             }
-        } else if (line.size() > 6 && line.starts_with("data: ")) {
+        } else if (line.rfind("data: ", 0) == 0) {
             currentData += line.substr(6);
-        } else if (line.size() > 5 && line.starts_with("data:")) {
+        } else if (line.rfind("data:", 0) == 0) {
             currentData += line.substr(5);
         }
     }

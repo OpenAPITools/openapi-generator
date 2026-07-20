@@ -306,6 +306,10 @@ public class CppBoostBeastClientCodegenTest {
         TestUtils.assertFileExists(output.toPath().resolve("model/ResponseCreatedEvent.h"));
         TestUtils.assertFileExists(output.toPath().resolve("model/ResponseCompletedEvent.h"));
 
+        // Scenario 12: VariantPayload (oneOf binary+object) model file exists
+        TestUtils.assertFileExists(output.toPath().resolve("model/VariantPayload.h"));
+        TestUtils.assertFileExists(output.toPath().resolve("model/DataObject.h"));
+
         // Phase 2 template assertions:
         // Alias models use 'using' typedef — no class template
 
@@ -615,6 +619,19 @@ public class CppBoostBeastClientCodegenTest {
                 "uploadFile must generate FormParameter entries");
         Assert.assertTrue(uploadFileMethod.contains("multipart/form-data"),
                 "uploadFile must use multipart/form-data serialization");
+
+        // Verify variant form parameter endpoint uses addVariantFormParameter
+        String uploadVariantMethod = extractMethod(generatedApiSource, "uploadVariantData(");
+        Assert.assertTrue(uploadVariantMethod.contains("addVariantFormParameter(formParameters, \"payload\""),
+                "uploadVariantData must use addVariantFormParameter for variant form param");
+        Assert.assertTrue(uploadVariantMethod.contains("multipart/form-data"),
+                "uploadVariantData must use multipart/form-data serialization");
+
+        // Verify VariantPayload model files exist for branch-aware serialization
+        Assert.assertTrue(java.nio.file.Files.exists(output.toPath().resolve("model/VariantPayload.h")),
+                "VariantPayload model should be generated");
+        Assert.assertTrue(java.nio.file.Files.exists(output.toPath().resolve("model/DataObject.h")),
+                "DataObject model should be generated");
     }
 
     // --- C++ compile smoke test ---
