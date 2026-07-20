@@ -10,7 +10,7 @@
 [![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator)
 [![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#https://github.com/OpenAPITools/openapi-generator)
 [![Conan Center](https://shields.io/conan/v/openapi-generator)](https://conan.io/center/recipes/openapi-generator)
-[![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.openapi-generator.tech/scans)
+[![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://community.develocity.cloud/scans?search.rootProjectNames=openapi-generator-project)
 </div>
 
 <div align="center">
@@ -77,6 +77,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img align="left" src="https://openapi-generator.tech/img/companies/socialwick.png" width="128" height="128">](https://socialwick.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img align="left" src="https://openapi-generator.tech/img/companies/fbpostlikes.png" width="128" height="128">](https://fbpostlikes.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img align="left" src="https://openapi-generator.tech/img/companies/buyfans.png" width="128" height="128">](https://buy.fans/buy-tiktok-likes/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/socialboom.png" width="128" height="128">](https://socialboom.io/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 
 <br clear="left">
 
@@ -660,12 +661,13 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Airthings](https://www.airthings.com/)
 - [Aleri Solutions Gmbh](https://www.aleri.de/)
 - [Allianz](https://www.allianz.com)
+- [AM GmbH](https://www.am-gmbh.de)
+- [Amazon Web Services (AWS)](https://aws.amazon.com/)
 - [Angular.Schule](https://angular.schule/)
 - [Aqovia](https://aqovia.com/)
-- [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [Arduino](https://www.arduino.cc/)
 - [ASKUL](https://www.askul.co.jp)
-- [Amazon Web Services (AWS)](https://aws.amazon.com/)
+- [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [b<>com](https://b-com.com/en)
 - [百度营销](https://e.baidu.com)
 - [Bandwidth](https://dev.bandwidth.com)
@@ -1099,6 +1101,7 @@ Here is a list of template creators:
    * R: @ramnov
    * Ruby (Faraday): @meganemura @dkliban
    * Ruby (HTTPX): @honeyryderchuck
+   * Ruby (ruby-nextgen): @n-rodriguez
    * Rust: @farcaller
    * Rust (rust-server): @metaswitch
    * Scala (scalaz & http4s): @tbrown1979
@@ -1264,12 +1267,12 @@ If you want to join the committee, please kindly apply by sending an email to te
 | GraphQL               | @renepardon (2018/12)                                                                                                                                                                                                                                 |
 | Groovy                |                                                                                                                                                                                                                                                       |
 | Haskell               |                                                                                                                                                                                                                                                       |
-| Java                  | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @martin-mfg (2023/08)                                                                 |
-| Java Spring           | @cachescrubber (2022/02) @welshm (2022/02) @MelleD (2022/02) @atextor (2022/02) @manedev79 (2022/02) @javisst (2022/02) @borsch (2022/02) @banlevente (2022/02) @Zomzog (2022/09) @martin-mfg (2023/08)                                                                     |
+| Java                  | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @martin-mfg (2023/08) @KannaKim (2026/07)                                                                 |
+| Java Spring           | @cachescrubber (2022/02) @welshm (2022/02) @MelleD (2022/02) @atextor (2022/02) @manedev79 (2022/02) @javisst (2022/02) @borsch (2022/02) @banlevente (2022/02) @Zomzog (2022/09) @martin-mfg (2023/08) @KannaKim (2026/07)                                                                    |
 | JMeter                | @kannkyo (2021/01)                                                                                                                                                                                                                                    |
 | Jetbrains HTTP Client | @jlengrand (2023/01)                                                                                                                                                                                                                                  |
 | Julia                 | @tanmaykm (2023/01)                                                                                                                                                                                                                                   |
-| Kotlin                | @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03) @stefankoppier (2022/06) @e5l (2024/10) @dennisameling (2026/02)                                         |
+| Kotlin                | @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03) @stefankoppier (2022/06) @e5l (2024/10)                                    |
 | Lua                   | @daurnimator (2017/08)                                                                                                                                                                                                                                |
 | N4JS                  | @mmews-n4 (2023/03)                                                                                                                                                                                      |
 | Nim                   |                                                                                                                                                                                                                                                       |
@@ -1279,13 +1282,13 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Perl                  | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06)                                                                                                                                                                   |
 | PHP                   | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), [@ybelenko](https://github.com/ybelenko) (2018/07), @renepardon (2018/12)                                                                                      |
 | PowerShell            | @wing328 (2020/05)                                                                                                                                                                                                                                    |
-| Python                | @cbornet (2017/09) @tomplus (2018/10) @krjakbrjak (2023/02) @fa0311 (2023/10) @multani (2023/10) |
+| Python                | @cbornet (2017/09) @tomplus (2018/10) @krjakbrjak (2023/02) @fa0311 (2023/10) |
 | R                     | @Ramanth (2019/07) @saigiridhar21 (2019/07)                                                                                                                                                                                                           |
 | Ruby                  | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02)                                                                                                                                                                                                  |
 | Rust                  | @frol (2017/07) @farcaller (2017/08) @richardwhiuk (2019/07) @paladinzh (2020/05) @jacob-pro (2022/10) @dsteeley (2025/07)                                                                                                                                               |
 | Scala                 | @clasnake (2017/07), @shijinkui  (2018/01), @ramzimaalej (2018/03), @chameleon82 (2020/03), @Bouillie (2020/04) @fish86 (2023/06)                                                               |
 | Swift                 | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @4brunu (2019/11) @dydus0x14 (2023/06)                                                                                                                                                           |
-| TypeScript            | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) @amakhrov (2020/02) @davidgamero (2022/03) @mkusaka (2022/04) @joscha (2024/10) @dennisameling (2026/02)   |
+| TypeScript            | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) @amakhrov (2020/02) @davidgamero (2022/03) @mkusaka (2022/04) @joscha (2024/10) @KannaKim (2026/07) |
 | Xojo                  | @Topheee (2023/04)                                                                                                                                                                                                                                    |
 
 

@@ -136,4 +136,23 @@ public class PythonFastAPIServerCodegenTest {
         assertFileContains(baseApi, "csv_file: UploadFile,");
         assertFileContains(baseApi, "image: Optional[UploadFile],");
     }
+
+    @Test(description = "binary response body is typed as bytes, not invalid file (#20775)")
+    public void testBinaryResponseUsesBytesNotFile() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/issue_20775.yaml");
+        final Path api = Paths.get(outputPath + "src/openapi_server/apis/resource_api.py");
+        final Path baseApi = Paths.get(outputPath + "src/openapi_server/apis/resource_api_base.py");
+
+        assertFileExists(api);
+        assertFileExists(baseApi);
+
+        assertFileContains(api, "-> bytes");
+        assertFileContains(api, "\"model\": bytes");
+        assertFileNotContains(api, "-> file");
+        assertFileNotContains(api, "\"model\": file");
+
+        assertFileContains(baseApi, "-> bytes");
+        assertFileNotContains(baseApi, "-> file");
+    }
 }

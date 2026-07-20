@@ -27,6 +27,7 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 import java.io.Serializable
 
 /**
@@ -79,7 +80,7 @@ data class Pet (
      *
      * Values: AVAILABLE,PENDING,SOLD
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "available") AVAILABLE("available"),
         @JsonProperty(value = "pending") PENDING("pending"),
         @JsonProperty(value = "sold") SOLD("sold");

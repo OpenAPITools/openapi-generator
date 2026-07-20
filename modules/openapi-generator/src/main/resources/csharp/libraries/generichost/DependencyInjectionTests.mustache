@@ -17,7 +17,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
     public class DependencyInjectionTest
     {
         private readonly IHost _hostUsingConfigureWithoutAClient =
-            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).Configure{{apiName}}((context, services, options) =>
+            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).Configure{{apiName}}((context, options) =>
             {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}
@@ -51,7 +51,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
-            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).Configure{{apiName}}((context, services, options) =>
+            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).Configure{{apiName}}((context, options) =>
             {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}

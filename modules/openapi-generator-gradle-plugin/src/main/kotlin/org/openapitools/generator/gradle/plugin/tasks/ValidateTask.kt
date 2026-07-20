@@ -53,19 +53,37 @@ abstract class ValidateTask : DefaultTask() {
     @get:Inject
     abstract val layout: ProjectLayout
 
+    /**
+     * The local OpenAPI 2.0/3.x specification file to validate.
+     *
+     * Use [remoteInputSpec] instead when validating a spec hosted at a URL.
+     */
     @get:Optional
     @get:InputFile
     @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val inputSpec: RegularFileProperty
 
+    /**
+     * The remote OpenAPI 2.0/3.x specification URL to validate.
+     *
+     * When both [inputSpec] and [remoteInputSpec] are set, [remoteInputSpec] takes priority.
+     */
     @get:Optional
     @get:Input
     abstract val remoteInputSpec: Property<String>
 
+    /**
+     * Whether to include recommendations in the validation output. Defaults to `true`.
+     *
+     * Recommendations are advisory hints about spec quality that do not cause the task to fail.
+     */
     @get:Optional
     @get:Input
     abstract val recommend: Property<Boolean>
 
+    /**
+     * When `true`, the task fails if the spec produces validation warnings. Defaults to `false`.
+     */
     @get:Optional
     @get:Input
     abstract val treatWarningsAsErrors: Property<Boolean>

@@ -1,0 +1,10 @@
+# pinned to 3.3.0+ (not just the first 3.0.0 release) since that's the
+# earliest version verified to work with the Jsonifier/test_client setup
+# below, and the first to officially support Python 3.13/3.14
+connexion[flask,swagger-ui,uvicorn] >= 3.3.0,<4.0.0
+# connexion's own swagger-ui extra already requires this floor; pinned
+# explicitly here too so requirements.txt is self-documenting.
+swagger-ui-bundle >= 1.1.0
+python_dateutil >= 2.6.0
+setuptools >= 21.0.0
+Flask >= 2.2.0,<4.0.0

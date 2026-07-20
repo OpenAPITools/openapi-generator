@@ -330,6 +330,7 @@ class AnotherFakeApi
 
         $resourcePath = '/another-fake/dummy';
         $formParams = [];
+        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

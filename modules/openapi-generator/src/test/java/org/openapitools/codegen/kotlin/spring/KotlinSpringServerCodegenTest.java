@@ -122,6 +122,39 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void testOneOfInterfaceInheritedEnumDiscriminator() throws IOException {
+        // Cross-generator check for the DefaultCodegen discriminator-type fix: the kotlin-spring
+        // oneof_interface template emits the discriminator getter type too. Issue #22541: the
+        // inline-enum discriminator is inherited from a base schema via allOf, so the sealed
+        // interface must use the enum type rather than String.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        generator.opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/oneOfDiscriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/model/PetResponseEnumDisc.kt"),
+                "val petType: PetType"
+        );
+    }
+
+    @Test
     public void testNoRequestMappingAnnotationNone() throws IOException {
         File output = generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode.none);
 
@@ -373,13 +406,13 @@ public class KotlinSpringServerCodegenTest {
                 "ApiUtil");
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
-                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<List<kotlin.String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
                 "exchange");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+                "import kotlinx.coroutines.flow.Flow", "suspend fun", "ResponseEntity<List<kotlin.String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-                "suspend fun", "ApiUtil");
+                "ApiUtil");
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
                 "import kotlinx.coroutines.flow.Flow", "requestBody: Flow<kotlin.Long>");
@@ -788,24 +821,31 @@ public class KotlinSpringServerCodegenTest {
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@Schema(example = \"null\", description = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:Schema(example = \"null\", description = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:Schema(description = \"\")"
         );
         assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@Schema(example = \"null\", requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:Schema(example = \"null\", requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
         );
     }
 
     @Test(description = "use get Annotation use-site target on kotlin interface attributes (swagger1)")
     public void useTargetOnInterfaceAnnotationsWithSwagger1() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
@@ -823,17 +863,25 @@ public class KotlinSpringServerCodegenTest {
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@ApiModelProperty(example = \"null\", value = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:ApiModelProperty(example = \"null\", value = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:ApiModelProperty(value = \"\")"
         );
         assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@ApiModelProperty(example = \"null\", required = true, value = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:ApiModelProperty(example = \"null\", required = true, value = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:ApiModelProperty(required = true, value = \"\")"
         );
     }
 
@@ -1279,8 +1327,7 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
-                "import reactor.core.publisher.Flux\n"
-                        + "import reactor.core.publisher.Mono",
+                "import reactor.core.publisher.Mono",
                 "    @HttpExchange(\n"
                         + "        // \"/store/inventory\"\n"
                         + "        url = PATH_GET_INVENTORY,\n"
@@ -1393,8 +1440,7 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
-                "import reactor.core.publisher.Flux\n"
-                        + "import reactor.core.publisher.Mono",
+                "import reactor.core.publisher.Mono",
                 "    fun getInventory(\n"
                         + "    ): Mono<Map<String, kotlin.Int>>",
                 "    fun deleteOrder(\n"
@@ -3129,21 +3175,21 @@ public class KotlinSpringServerCodegenTest {
         );
 
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
-                "List<kotlin.String>");
+                "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
                 "Flow<kotlin.String>");
     }
 
@@ -3175,21 +3221,21 @@ public class KotlinSpringServerCodegenTest {
         );
 
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
-                "List<kotlin.String>");
+                "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
                 "Flow<kotlin.String>");
     }
 
@@ -4150,6 +4196,88 @@ public class KotlinSpringServerCodegenTest {
             assertFileContains(petApi.toPath(), "getDelegate().findPetsByStatus(");
             assertFileContains(petApi.toPath(), "pageable)");
         }
+    }
+
+    @Test(description = "reactive spring-boot: array-of-string returns List<String> with suspend, not Flow<String> (issue #22662)")
+    public void reactiveArrayOfStringReturnsListNotFlow() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+
+        List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_7118.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = files.stream()
+                .filter(f -> f.getName().equals("UsersApi.kt"))
+                .findFirst()
+                .orElseThrow()
+                .toPath();
+
+        assertFileContains(apiPath, "suspend fun", "List<kotlin.String>", "Set<kotlin.String>");
+        // neither the list nor the uniqueItems (Set) operation must leak Flow<...> or a raw/nested container
+        assertFileNotContains(apiPath, "Flow<kotlin.String>", "Flow<kotlin.collections.Set", "kotlin.collections.Set<");
+    }
+
+    @Test(description = "declarative http interface reactor: array-of-string returns Mono<List<String>>, not Flux<String> (issue #22662)")
+    public void declarativeReactorArrayOfStringReturnsMono() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DECLARATIVE_INTERFACE_REACTIVE_MODE, "reactor");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_7118.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = files.stream()
+                .filter(f -> f.getName().equals("UsersApi.kt"))
+                .findFirst()
+                .orElseThrow()
+                .toPath();
+
+        assertFileContains(apiPath, "Mono<List<kotlin.String>>", "Mono<Set<kotlin.String>>");
+        assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
+                "kotlin.collections.Set<", "Mono<set<");
+    }
+
+    @Test(description = "declarative http interface reactor + ResponseEntity: array-of-string returns Mono<ResponseEntity<List<String>>> (issue #22662)")
+    public void declarativeReactorArrayOfStringReturnsMonoResponseEntity() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DECLARATIVE_INTERFACE_REACTIVE_MODE, "reactor");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_7118.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = files.stream()
+                .filter(f -> f.getName().equals("UsersApi.kt"))
+                .findFirst()
+                .orElseThrow()
+                .toPath();
+
+        assertFileContains(apiPath, "Mono<ResponseEntity<List<kotlin.String>>>", "Mono<ResponseEntity<Set<kotlin.String>>>");
+        assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
+                "kotlin.collections.Set<", "Mono<ResponseEntity<set<");
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {
@@ -6562,6 +6690,51 @@ public class KotlinSpringServerCodegenTest {
     }
 
     /**
+     * Scenario 4 (openApiNullable=true): optional+nullable field must carry
+     * {@code @field:JsonInclude(JsonInclude.Include.NON_ABSENT)} so that Jackson
+     * excludes {@code JsonNullable.undefined()} from serialized output.
+     */
+    @Test(description = "Scenario 4 – optional+nullable with openApiNullable=true: @JsonInclude(NON_ABSENT) guards undefined from serialization")
+    public void requiredNullable_scenario4_optionalNullable_hasNonAbsentAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNullable property must exist");
+        // Annotations appear before the val declaration
+        String context = content.substring(Math.max(0, idx - 300), idx);
+        Assert.assertTrue(context.contains("@field:JsonInclude(JsonInclude.Include.NON_ABSENT)"),
+                "optionalNullable must have @field:JsonInclude(NON_ABSENT) to suppress JsonNullable.undefined() from output");
+        // Must NOT have NON_NULL — that annotation is only for non-nullable optional fields
+        Assert.assertFalse(context.contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
+                "optionalNullable must NOT have @field:JsonInclude(NON_NULL); only non-nullable optionals use NON_NULL");
+        assertFileContains(modelFile, "import com.fasterxml.jackson.annotation.JsonInclude");
+    }
+
+    /**
+     * Without openApiNullable the optional+nullable field is a plain {@code Type?} — no
+     * {@code @field:JsonInclude(NON_ABSENT)} should be emitted because {@code JsonNullable} is
+     * not used and the legacy nullable-type path doesn't need the annotation.
+     */
+    @Test(description = "Scenario 4 – optional+nullable without openApiNullable: no @JsonInclude(NON_ABSENT)")
+    public void requiredNullable_scenario4_optionalNullable_noNonAbsentWithoutOpenApiNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertFalse(context.contains("@field:JsonInclude(JsonInclude.Include.NON_ABSENT)"),
+                "optionalNullable must NOT have NON_ABSENT when openApiNullable=false (no JsonNullable wrapping)");
+    }
+
+    /**
      * Scenario 4 with Jackson 3 (Spring Boot 4) + openApiNullable=true.
      * JsonNullable is in org.openapitools.jackson.nullable regardless of Jackson version
      * (jackson-databind-nullable >= 0.2.10 supports both).
@@ -6811,6 +6984,38 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(
                 itemFile.toPath(),
                 "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\") val `2ndField`"
+        );
+    }
+
+
+    /**
+     * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
+     * A property that $ref's an OAS 3.1 schema with type:[object,"null"] is nullable and must
+     * NOT receive @field:JsonSetter(nulls = Nulls.FAIL).
+     */
+    @Test(description = "issue 24139: nullable $ref (type:[object,null]) must not get @JsonSetter(nulls = Nulls.FAIL)")
+    public void testIssue24139NullableRefNoJsonSetterNullsFail() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put("useBeanValidation", true);
+        additionalProperties.put("openApiNullable", "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/issue_24139.yaml",
+                additionalProperties
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+
+        // nestedNullable: $ref to NestedNullable (type:[object,"null"]) — nullable, no @JsonSetter(nulls = Nulls.FAIL)
+        assertFileNotContains(itemFile.toPath(), "nestedNullable: NestedNullable");
+        // The field must NOT have @JsonSetter(nulls = Nulls.FAIL) because the referenced schema is nullable
+        String content = org.apache.commons.io.FileUtils.readFileToString(itemFile, StandardCharsets.UTF_8);
+        // Extract the nestedNullable field block and verify annotation absence
+        Assert.assertFalse(
+                content.contains("@field:JsonSetter(nulls = Nulls.FAIL)\n    @param:JsonProperty(\"nestedNullable\")") ||
+                content.contains("@field:JsonSetter(nulls = Nulls.FAIL)\n    @get:JsonProperty(\"nestedNullable\")"),
+                "nestedNullable ($ref to nullable schema) must not have @JsonSetter(nulls = Nulls.FAIL)"
         );
     }
 }

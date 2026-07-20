@@ -60,7 +60,7 @@ namespace YourProject
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-          .ConfigureApi((context, services, options) =>
+          .ConfigureApi((context, options) =>
           {
               options.ConfigureJsonOptions((jsonOptions) =>
               {

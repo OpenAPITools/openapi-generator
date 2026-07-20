@@ -103,6 +103,7 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *MultipartApi* | [**MultipartArray**](docs/MultipartApi.md#multipartarray) | **POST** /multipart-array | 
+*MultipartApi* | [**MultipartExtraAnnotation**](docs/MultipartApi.md#multipartextraannotation) | **POST** /extra-annotation | 
 *MultipartApi* | [**MultipartMixed**](docs/MultipartApi.md#multipartmixed) | **POST** /multipart-mixed | 
 *MultipartApi* | [**MultipartSingle**](docs/MultipartApi.md#multipartsingle) | **POST** /multipart-single | 
 
@@ -111,6 +112,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Model.MultipartArrayRequest](docs/MultipartArrayRequest.md)
+ - [Model.MultipartExtraAnnotationRequest](docs/MultipartExtraAnnotationRequest.md)
  - [Model.MultipartMixedRequest](docs/MultipartMixedRequest.md)
  - [Model.MultipartMixedRequestMarker](docs/MultipartMixedRequestMarker.md)
  - [Model.MultipartMixedStatus](docs/MultipartMixedStatus.md)

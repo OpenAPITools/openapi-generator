@@ -20,7 +20,21 @@ import org.openapitools.codegen.languages.AspNetServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 public class AspNetServerCodegenTest {
+
+    @Test
+    public void doesNotGenerateObsoleteWwwrootReadme() {
+        final AspNetServerCodegen codegen = new AspNetServerCodegen();
+
+        codegen.processOpts();
+
+        Assert.assertFalse(codegen.supportingFiles().stream()
+                .anyMatch(file -> file.getTemplateFile().equals("wwwroot" + File.separator + "README.md")));
+        Assert.assertTrue(codegen.supportingFiles().stream()
+                .anyMatch(file -> file.getTemplateFile().equals("wwwroot" + File.separator + "index.html")));
+    }
 
     @Test
     public void abstractClassUsesDefaultVirtualOperations() {

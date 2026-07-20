@@ -790,6 +790,14 @@ public class SpringCodegenTest {
                 .assertParameter("statusArray").hasType("List<MultipartMixedStatus>")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
+
+        // Check extra annotation
+        JavaFileAssert.assertThat(files.get("ExtraAnnotationApi.java"))
+              .assertMethod("multipartExtraAnnotation", "MultipartFile")
+              .assertParameter("file").hasType("MultipartFile")
+              .assertParameterAnnotations()
+              .containsWithName("jakarta.validation.constraints.NotNull");
+
     }
 
     @Test
@@ -2137,6 +2145,92 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithoutMappingADTO.java"), "@JsonTypeName");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithoutMappingBDTO.java"), "@JsonTypeName");
+    }
+
+    @Test
+    void testOneOfWithInheritedEnumDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.opts(input).generate();
+
+        // The discriminator (inline enum) is inherited from the base PetEnumDisc via allOf. The
+        // oneOf interface getter must use the same enum type as the concrete base class, not
+        // String, otherwise the generated code does not compile (issue #22541).
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetResponseEnumDisc.java"),
+                "public PetTypeEnum getPetType();"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetEnumDisc.java"),
+                "public PetTypeEnum getPetType()"
+        );
+    }
+
+    @Test
+    void testOneOfWithInheritedUriDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.opts(input).generate();
+
+        // The discriminator (string, format: uri) is inherited from the base PetUriDisc via allOf.
+        // The oneOf interface getter must use URI, matching the concrete base class, not String,
+        // otherwise the generated code does not compile (issue #18693).
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetResponseUriDisc.java"),
+                "public URI getPetType();"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetUriDisc.java"),
+                "public URI getPetType()"
+        );
     }
 
     @Test
@@ -5047,7 +5141,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(api)
                 .assertMethod("sseVariant1", "ServerWebExchange")
                 .isNotNull()
-                .hasReturnType("Flux<String>")
+                .hasReturnType("List<String>")
                 .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
                 .isNotNull()
@@ -5060,7 +5154,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(delegate)
                 .assertMethod("sseVariant1", "ServerWebExchange")
                 .isNotNull()
-                .hasReturnType("Flux<String>")
+                .hasReturnType("List<String>")
                 .bodyContainsLines("return Flux.empty();")
                 .toFileAssert()
                 .assertMethod("sseVariant2", "ServerWebExchange")
@@ -6099,6 +6193,42 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("Fruit.java"))
                 .isInterface()
                 .assertTypeAnnotations().containsWithName("SuppressWarnings");
+    }
+
+    @Test
+    public void testAllOfClassWithAnnotations() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/allOf-with-annotations.yaml", SPRING_BOOT);
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .assertProperty("breed")
+                .assertPropertyAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Bird.java"))
+                .isNormalClass()
+                .assertTypeAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("Fish.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("Deprecated");
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .assertMethod("getDog")
+                .assertMethodAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated")
+                .toMethod()
+                .assertParameter("includeDetails")
+                .assertParameterAnnotations()
+                .containsWithName("SuppressWarnings")
+                .containsWithName("Deprecated");
     }
 
     @Test
@@ -8144,5 +8274,259 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("MyObject.java"))
                 .assertProperty("optionalRef").withType("JsonNullable<com.example.ExternalModel>");
+    }
+
+    @Test
+    void issue24003() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24003.yaml", SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true, MODEL_NAME_SUFFIX, "DTO", INTERFACE_ONLY, "true"));
+        JavaFileAssert.assertThat(files.get("BrLockDTO.java")).isInterface()
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("use", "JsonTypeInfo.Id.NAME", "include", "JsonTypeInfo.As.PROPERTY", "property", "\"lockType\"", "visible", "true"))
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "ComponentBrLockDTO.class", "name", "\"COMPONENT\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "UserBrLockDTO.class", "name", "\"USER\""));
+        JavaFileAssert.assertThat(files.get("ComponentBrLockDTO.java")).implementsInterfaces("BrLockDTO")
+                .fileDoesNotContain("@JsonTypeName");
+        JavaFileAssert.assertThat(files.get("UserBrLockDTO.java")).implementsInterfaces("BrLockDTO")
+                .fileDoesNotContain("@JsonTypeName");
+    }
+
+    /**
+     * Scenario 4 (openApiNullable=true): optional+nullable field must carry
+     * {@code @JsonInclude(JsonInclude.Include.NON_ABSENT)} so that Jackson
+     * excludes {@code JsonNullable.undefined()} from serialized output.
+     */
+    @Test
+    void optionalNullableField_withOpenApiNullable_hasNonAbsentAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.java").toPath();
+        // NON_ABSENT must be present — only optionalNullable (JsonNullable<T>) gets this annotation
+        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_ABSENT)");
+        // JsonNullable field must be present
+        assertFileContains(modelFile, "private JsonNullable<String> optionalNullable");
+        // NON_NULL must also be present (for optionalNonNullable fields)
+        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
+        assertFileContains(modelFile, "import com.fasterxml.jackson.annotation.JsonInclude");
+    }
+
+    /**
+     * Without openApiNullable the optional+nullable field is a plain nullable type —
+     * no {@code @JsonInclude(NON_ABSENT)} should be emitted.
+     */
+    @Test
+    void optionalNullableField_withoutOpenApiNullable_hasNoNonAbsentAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "false"));
+
+        Path modelFile = files.get("TestModel.java").toPath();
+        // Without openApiNullable the field is String optionalNullable, not JsonNullable
+        assertFileNotContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_ABSENT)");
+    }
+
+    /**
+     * Optional+non-nullable fields must still have {@code @JsonInclude(NON_NULL)} regardless
+     * of the openApiNullable setting.
+     */
+    @Test
+    void optionalNonNullableField_alwaysHasNonNullAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.java").toPath();
+        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
+        assertFileContains(modelFile, "private String optionalNonNullable");
+    }
+
+    @Test
+    void testStringQuotesInTags_Issue22629() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new io.swagger.parser.OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_22629.yaml", null, new io.swagger.v3.parser.core.models.ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGenerateMetadata(false);
+        List<File> generatedFiles = generator.opts(input).generate();
+
+        File endpoint1ApiFile = generatedFiles.stream()
+                .filter(f -> f.getName().endsWith("Endpoint1Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Endpoint1Api file not generated"));
+
+        File endpoint2ApiFile = generatedFiles.stream()
+                .filter(f -> f.getName().endsWith("Endpoint2Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Endpoint2Api file not generated"));
+
+        File endpoint3ApiFile = generatedFiles.stream()
+                .filter(f -> f.getName().endsWith("Endpoint3Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Endpoint3Api file not generated"));
+
+        // 1. Verify the @Tag annotations have escaped double quotes, backslashes, and newlines
+        assertFileContains(endpoint1ApiFile.toPath(), "name = \"My \\\"quoted\\\" api\"");
+        assertFileContains(endpoint2ApiFile.toPath(), "name = \"My\\\\backslash\\\\api\"");
+        assertFileContains(endpoint3ApiFile.toPath(), "name = \"My newline api\"");
+
+        // 2. Verify the @Operation tags attributes have escaped double quotes, backslashes, and newlines
+        assertFileContains(endpoint1ApiFile.toPath(), "tags = { \"My \\\"quoted\\\" api\" }");
+        assertFileContains(endpoint2ApiFile.toPath(), "tags = { \"My\\\\backslash\\\\api\" }");
+        assertFileContains(endpoint3ApiFile.toPath(), "tags = { \"My newline api\" }");
+    }
+
+    @Test
+    public void testReactiveSpringSupportListOfStringReturnType() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_BOOT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<ResponseEntity<List<String>>> getUserIdList",
+                // set of string
+                "Mono<ResponseEntity<Set<String>>> getUserIdSet"
+        );
+    }
+
+    @Test
+    public void testReactiveSpringSupportListOfStringReturnTypeNoResponseEntity() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+        properties.put(USE_RESPONSE_ENTITY, false);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_BOOT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<List<String>> getUserIdList",
+                // set of string
+                "Mono<Set<String>> getUserIdSet"
+        );
+    }
+
+    @Test
+    public void testReactiveSpringHttpInterfaceSupportListOfStringReturnType() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_HTTP_INTERFACE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<ResponseEntity<List<String>>> getUserIdList",
+                // set of string
+                "Mono<ResponseEntity<Set<String>>> getUserIdSet"
+        );
+    }
+
+    @Test
+    public void testReactiveSpringHttpInterfaceSupportListOfStringReturnTypeNoResponseEntity() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(SpringCodegen.REACTIVE, true);
+        properties.put(USE_RESPONSE_ENTITY, false);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_HTTP_INTERFACE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+
+        TestUtils.assertFileContains(userApi,
+                // list of string
+                "Mono<List<String>> getUserIdList",
+                // set of string
+                "Mono<Set<String>> getUserIdSet"
+        );
     }
 }

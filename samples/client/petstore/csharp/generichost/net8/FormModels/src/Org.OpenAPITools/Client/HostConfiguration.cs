@@ -22,7 +22,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Provides hosting configuration for Org.OpenAPITools
     /// </summary>
-    public class HostConfiguration
+    public partial class HostConfiguration
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -176,6 +176,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TestDescendantsJsonConverter());
             _jsonOptions.Converters.Add(new TestDescendantsObjectTypeJsonConverter());
             _jsonOptions.Converters.Add(new TestDescendantsObjectTypeNullableJsonConverter());
+            _jsonOptions.Converters.Add(new TestEnumParametersEnumHeaderStringParameterJsonConverter());
+            _jsonOptions.Converters.Add(new TestEnumParametersEnumHeaderStringParameterNullableJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersEnumQueryDoubleParameterJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersEnumQueryDoubleParameterNullableJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersEnumQueryIntegerParameterJsonConverter());
@@ -210,6 +212,7 @@ namespace Org.OpenAPITools.Client
             _services.AddSingleton<PetApiEvents>();
             _services.AddSingleton<StoreApiEvents>();
             _services.AddSingleton<UserApiEvents>();
+            OnHostConfigurationCreated();
         }
 
         /// <summary>
@@ -261,15 +264,40 @@ namespace Org.OpenAPITools.Client
             builders.Add(_services.AddHttpClient<IPetApi, PetApi>("Org.OpenAPITools.Api.IPetApi", client));
             builders.Add(_services.AddHttpClient<IStoreApi, StoreApi>("Org.OpenAPITools.Api.IStoreApi", client));
             builders.Add(_services.AddHttpClient<IUserApi, UserApi>("Org.OpenAPITools.Api.IUserApi", client));
-            
-            if (builder != null)
-                foreach (IHttpClientBuilder instance in builders)
-                    builder(instance);
+
+            foreach (IHttpClientBuilder instance in builders)
+            {
+                OnAddApiHttpClientBuilder(instance);
+                builder?.Invoke(instance);
+            }
 
             HttpClientsAdded = true;
 
             return this;
         }
+
+        /// <summary>
+        /// Applies configuration to each HttpClient after registration.
+        /// Implement this partial method in a separate file to provide custom defaults;
+        /// the caller's <c>builder</c> action runs after.
+        /// </summary>
+        /// <param name="builder"></param>
+        partial void OnAddApiHttpClientBuilder(IHttpClientBuilder builder);
+
+        /// <summary>
+        /// Called at the end of the constructor after all JSON converters and services are registered.
+        /// Implement this partial method to further configure <c>_jsonOptions</c> or register additional singletons via <c>_services</c>.
+        /// </summary>
+        partial void OnHostConfigurationCreated();
+
+        /// <summary>
+        /// Called after all services have been registered.
+        /// Implement this partial method to register additional services.
+        /// </summary>
+        /// <param name="services"></param>
+        partial void OnServicesAdded(IServiceCollection services);
+
+        internal void NotifyServicesAdded(IServiceCollection services) => OnServicesAdded(services);
 
         /// <summary>
         /// Configures the JsonSerializerSettings

@@ -17,6 +17,8 @@ from logging import FileHandler
 import multiprocessing
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
+from urllib.parse import urlparse
+from urllib.request import getproxies
 from typing_extensions import NotRequired, Self
 
 import urllib3
@@ -177,6 +179,7 @@ class Configuration:
     :param tls_server_name: SSL/TLS Server Name Indication (SNI). Set this to the SNI value expected by the server.
     :param connection_pool_maxsize: Connection pool max size. None in the constructor is coerced to 100 for async and cpu_count * 5 for sync.
     :param proxy: Proxy URL.
+    :param no_proxy: Comma-separated hosts that bypass the proxy.
     :param proxy_headers: Proxy headers.
     :param safe_chars_for_path_param: Safe characters for path parameter encoding.
     :param client_side_validation: Enable client-side validation. Default True.
@@ -287,6 +290,7 @@ conf = petstore_api.Configuration(
         tls_server_name: Optional[str]=None,
         connection_pool_maxsize: Optional[int]=None,
         proxy: Optional[str]=None,
+        no_proxy: Optional[str]=None,
         proxy_headers: Optional[Any]=None,
         safe_chars_for_path_param: str='',
         client_side_validation: bool=True,
@@ -398,8 +402,20 @@ conf = petstore_api.Configuration(
            per pool. None in the constructor is coerced to cpu_count * 5.
         """
 
+        # urllib3 does not read proxy environment variables itself:
+        # https://github.com/urllib3/urllib3/issues/1785
+        if proxy is None or no_proxy is None:
+            proxies = getproxies()
+            if proxy is None:
+                scheme = urlparse(self.host).scheme
+                proxy = proxies.get(scheme) or proxies.get("all")
+            if no_proxy is None:
+                no_proxy = proxies.get("no")
         self.proxy = proxy
         """Proxy URL
+        """
+        self.no_proxy = no_proxy
+        """Hosts that bypass the proxy
         """
         self.proxy_headers = proxy_headers
         """Proxy headers
@@ -430,12 +446,22 @@ conf = petstore_api.Configuration(
         result = cls.__new__(cls)
         memo[id(self)] = result
         for k, v in self.__dict__.items():
-            if k not in ('logger', 'logger_file_handler'):
-                setattr(result, k, copy.deepcopy(v, memo))
-        # shallow copy of loggers
+            if k in ('logger', 'logger_file_handler', 'logger_stream_handler'):
+                continue
+            if k == 'proxy_headers':
+                # MultiDictProxy rejects generic copying, but copy() returns an
+                # independent mutable multidict and preserves duplicate headers:
+                # https://multidict.aio-libs.org/en/stable/multidict/
+                copy_method = getattr(v, 'copy', None)
+                if callable(copy_method):
+                    setattr(result, k, copy_method())
+                    continue
+            setattr(result, k, copy.deepcopy(v, memo))
+
+        # Loggers and their handlers are process-global.
         result.logger = copy.copy(self.logger)
-        # use setter to re-create the file handler (excluded from __dict__ copy)
-        result.logger_file = self.logger_file
+        result.logger_file_handler = self.logger_file_handler
+        result.logger_stream_handler = self.logger_stream_handler
 
         return result
 
@@ -448,32 +474,26 @@ conf = petstore_api.Configuration(
 
     @classmethod
     def set_default(cls, default: Optional[Self]) -> None:
-        """Set default instance of configuration.
+        """Store a copy as the default configuration.
 
-        It stores default configuration, which can be
-        returned by get_default_copy method.
+        Later changes to ``default`` do not affect the stored configuration.
+        ``get_default`` returns the stored object, while ``get_default_copy``
+        returns a copy of it.
 
         :param default: object of Configuration
         """
-        cls._default = default
+        cls._default = copy.deepcopy(default)
 
     @classmethod
     def get_default_copy(cls) -> Self:
-        """Deprecated. Please use `get_default` instead.
-
-        Deprecated. Please use `get_default` instead.
-
-        :return: The configuration object.
-        """
-        return cls.get_default()
+        """Return a copy of the configured default, or a new configuration."""
+        if cls._default is not None:
+            return copy.deepcopy(cls._default)
+        return cls()
 
     @classmethod
     def get_default(cls) -> Self:
-        """Return the default configuration.
-
-        This method returns newly created, based on default constructor,
-        object of Configuration class or returns a copy of default
-        configuration.
+        """Return the shared default configuration, creating it if needed.
 
         :return: The configuration object.
         """
@@ -577,7 +597,8 @@ conf = petstore_api.Configuration(
             self.refresh_api_key_hook(self)
         key = self.api_key.get(identifier, self.api_key.get(alias) if alias is not None else None)
         if key:
-            prefix = self.api_key_prefix.get(identifier)
+            prefix = self.api_key_prefix.get(
+                identifier, self.api_key_prefix.get(alias) if alias is not None else None)
             if prefix:
                 return "%s %s" % (prefix, key)
             else:

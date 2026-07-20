@@ -23,7 +23,7 @@ import {{rootJavaEEPackage}}.json.bind.annotation.JsonbCreator;
 {{>additionalModelTypeAnnotations}}
 
 {{#vendorExtensions.x-class-extra-annotation}}
-{{{vendorExtensions.x-class-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}

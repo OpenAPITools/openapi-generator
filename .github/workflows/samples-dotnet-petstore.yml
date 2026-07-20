@@ -25,8 +25,8 @@ jobs:
         sample:
           - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-dotnet@v5.3.0
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: '7.0.x'
       - name: Build

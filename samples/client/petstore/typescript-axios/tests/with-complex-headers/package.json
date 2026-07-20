@@ -16,7 +16,7 @@
       "axios": "*",
       "browserify": "^17.0.0",
       "chai": "^4.2.0",
-      "mocha": "^8.2.1",
+      "mocha": "^11.7.6",
       "ts-node": "^9.1.1",
       "typescript": "^4.1.2"
     },

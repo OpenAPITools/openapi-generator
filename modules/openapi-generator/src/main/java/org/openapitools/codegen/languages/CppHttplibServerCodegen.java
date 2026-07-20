@@ -1728,13 +1728,10 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         }
 
         // Set vendor extensions for enum properties
-        if (property.isEnum) {
-            property.vendorExtensions.put("isEnum", true);
-            // Convert numeric enum values to have underscore prefix
-            convertNumericEnumValues(property);
-        } else {
-            property.vendorExtensions.put("isEnum", false);
-        }
+        // Note: enum identifier derivation (numeric prefixing, upper-casing) for
+        // (de)serialization happens later, in setEnumVendorExtensions(), which is the
+        // single place that builds both the C++ identifier and the original spec value.
+        property.vendorExtensions.put("isEnum", property.isEnum);
 
         // Set vendor extension for nullable/optional properties
         if (property.isNullable) {
@@ -1763,9 +1760,19 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             return p.getDefault() != null ? p.getDefault().toString() : "false";
         }
         if (ModelUtils.isIntegerSchema(p)) {
+            // For enum types, don't synthesize a "0" placeholder default - it will be
+            // handled in processModelVariable. A synthetic default here is indistinguishable
+            // from a real spec-declared default of 0, which would incorrectly suppress
+            // std::optional wrapping for optional numeric enums without an explicit default.
+            if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+                return null;
+            }
             return p.getDefault() != null ? p.getDefault().toString() : "0";
         }
         if (ModelUtils.isNumberSchema(p)) {
+            if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+                return null;
+            }
             if (ModelUtils.isFloatSchema(p)) {
                 return p.getDefault() != null ? p.getDefault().toString() + "f" : "0.0f";
             }
@@ -2342,58 +2349,16 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Converts numeric enum values to valid C++ enum names by prefixing with underscore.
-     * This is needed because C++ enum identifiers cannot start with digits.
-     * This method processes enum values in a CodegenProperty and prefixes any purely numeric
-     * enum values with an underscore. This is necessary because in C++, enum identifiers cannot
-     * start with a digit, so numeric enum values must be transformed to valid C++ identifiers.
-     * <p>
-     * For example:
-     * - "200" becomes "_200"
-     * - "404" becomes "_404"
-     * - "OK" remains "OK"
-     * <p>
-     * The method retrieves enum values from either the property's {@code _enum} field or from
-     * the {@code allowableValues} map, then updates all three locations with the converted values
-     * to maintain consistency across the property's internal state.
-     *
-     * @param property the CodegenProperty containing enum values to convert
-     */
-    private void convertNumericEnumValues(CodegenProperty property) {
-        // Get enum values from property._enum or allowableValues
-        List<?> enumValues = property._enum;
-        if ((enumValues == null || enumValues.isEmpty()) && property.allowableValues != null) {
-            Object valuesObj = property.allowableValues.get("values");
-            if (valuesObj instanceof List) {
-                enumValues = (List<?>) valuesObj;
-            }
-        }
-
-        if (enumValues != null && !enumValues.isEmpty()) {
-            List<String> convertedValues = new ArrayList<>();
-            for (Object enumVal : enumValues) {
-                String enumValStr = enumVal != null ? enumVal.toString() : "";
-                String convertedVal = enumValStr;
-                // Convert numeric values to have underscore prefix
-                if (enumValStr.matches("^[0-9]+$")) {
-                    convertedVal = "_" + enumValStr;
-                }
-                // Convert to UPPERCASE for C++ enum standards (clang style)
-                convertedVal = convertedVal.toUpperCase(Locale.ROOT);
-                convertedValues.add(convertedVal);
-            }
-            // Update the property with converted values
-            property._enum = convertedValues;
-            property.vendorExtensions.put("values", convertedValues);
-            if (property.allowableValues != null) {
-                property.allowableValues.put("values", convertedValues);
-            }
-        }
-    }
-
-    /**
      * Helper to set vendorExtensions for enum properties and parameters.
      * Handles enum value conversion and helper function naming.
+     * <p>
+     * Enum identifiers (the C++ enum member names) are derived here from the raw,
+     * unmodified OpenAPI enum values: numeric values are prefixed with an underscore
+     * (e.g. "200" -> "_200", since C++ identifiers cannot start with a digit) and the
+     * result is upper-cased for C++ enum naming conventions (clang style). The original
+     * spec value (e.g. "available") is kept as-is in {@code enumCases[i].value} so that
+     * {@code EnumToString}/{@code EnumFromString} serialize using the value defined in
+     * the OpenAPI document rather than the derived C++ identifier.
      */
     private void setEnumVendorExtensions(Object varObj, CodegenModel model) {
         if (varObj == null) {
@@ -2462,6 +2427,12 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                     // Convert number to enum name
                     convertedVal = "_" + enumVal;  // Prefix with underscore for numeric values
                 }
+                // Convert to UPPERCASE for C++ enum naming conventions (clang style).
+                // This only affects the derived C++ identifier (caseMap "name" below,
+                // and var._enum/allowableValues used for declaring the enum); the
+                // original spec value is preserved separately in enumValues/enumCases
+                // "value" for (de)serialization.
+                convertedVal = convertedVal.toUpperCase(Locale.ROOT);
                 convertedValues.add(convertedVal);
             }
         } else {

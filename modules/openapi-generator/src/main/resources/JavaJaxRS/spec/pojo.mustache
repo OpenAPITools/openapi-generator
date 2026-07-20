@@ -51,9 +51,9 @@ import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
 {{/jackson}}
 {{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
-{{{vendorExtensions.x-class-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
   {{#vars}}
   {{#isEnum}}
   {{^isContainer}}

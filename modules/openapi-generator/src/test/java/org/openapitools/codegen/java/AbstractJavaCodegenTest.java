@@ -28,6 +28,7 @@ import org.mockito.Mockito;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
@@ -622,6 +623,31 @@ public class AbstractJavaCodegenTest {
         dateTimeLocalSchema.setDefault("2007-12-03T10:15:30");
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", dateTimeLocalSchema), dateTimeLocalSchema);
         Assert.assertEquals(defaultValue, "LocalDateTime.parse(\"2007-12-03T10:15:30\")");
+    }
+
+    @Test
+    public void toDefaultValueForComposedObjectWithDefaultTest() {
+        // A `$ref` to an object schema combined with a sibling `default` is parsed as a composed (allOf)
+        // schema, so the object's properties live in the `allOf` members. The default must still be rendered
+        // as a compilable fluent builder expression rather than the raw JSON object (see #23795).
+        codegen.setDateLibrary("java8");
+        codegen.setOpenAPI(new OpenAPI().components(new Components()
+                .addSchemas("Nested", new ObjectSchema()
+                        .addProperty("one", new StringSchema())
+                        .addProperty("two", new StringSchema()))));
+
+        Map<String, Object> defaultValue = new LinkedHashMap<>();
+        defaultValue.put("one", "one");
+        defaultValue.put("two", "two");
+
+        Schema<?> composed = new ComposedSchema()
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/Nested"));
+        composed.setDefault(defaultValue);
+
+        CodegenProperty cp = codegen.fromProperty("test", composed);
+        String rendered = codegen.toDefaultValue(cp, composed);
+
+        Assert.assertEquals(rendered, "new " + cp.datatypeWithEnum + "().one(\"one\").two(\"two\")");
     }
 
     @Test
