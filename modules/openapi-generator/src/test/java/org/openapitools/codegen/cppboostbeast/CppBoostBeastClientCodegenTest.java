@@ -20,12 +20,14 @@ import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.CppBoostBeastClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -236,27 +238,116 @@ public class CppBoostBeastClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        // Scenario 1: ModelIdsResponses (anyOf string + string-enum) → dataType shows std::string
-        Path idsResponseHeader = output.toPath().resolve("model/ModelIdsResponses.h");
-        TestUtils.assertFileExists(idsResponseHeader);
+        // Scenario 1: ModelIdsResponses (anyOf string + string-enum) — model file exists
+        TestUtils.assertFileExists(output.toPath().resolve("model/ModelIdsResponses.h"));
 
-        // Scenario 2: InputParam (oneOf string + array) — model is created
-        Path inputParamHeader = output.toPath().resolve("model/InputParam.h");
-        TestUtils.assertFileExists(inputParamHeader);
+        // Scenario 2: InputParam (oneOf string + array) — model file exists
+        TestUtils.assertFileExists(output.toPath().resolve("model/InputParam.h"));
 
         // Scenario 3: CreateResponse allOf → has model and input properties
         Path createResponseHeader = output.toPath().resolve("model/CreateResponse.h");
         TestUtils.assertFileExists(createResponseHeader);
         String createResponseContent = java.nio.file.Files.readString(createResponseHeader);
-        Assert.assertTrue(createResponseContent.contains("m_Model") || createResponseContent.contains("m_Input"),
-                "CreateResponse allOf should have both base and inline properties");
+        Assert.assertTrue(createResponseContent.contains("m_Model") && createResponseContent.contains("m_Input"),
+                "CreateResponse allOf should have both base (model) and inline (input) properties");
 
-        // Scenario 4: TemperatureContainer with nullable temperature property
+        // Scenario 4: TemperatureContainer with nullable property
         Path tempContainerHeader = output.toPath().resolve("model/TemperatureContainer.h");
         TestUtils.assertFileExists(tempContainerHeader);
         String tempContent = java.nio.file.Files.readString(tempContainerHeader);
-        Assert.assertTrue(tempContent.contains("std::optional") || tempContent.contains("m_Temperature"),
-                "TemperatureContainer should use std::optional for nullable temperature");
+        Assert.assertTrue(tempContent.contains("m_Temperature"),
+                "TemperatureContainer should declare m_Temperature member");
+        // The nullable property type maps to std::optional<double> at the codegen level
+        // (see resolvesInlineNullableToOptional). Template rendering of std::optional
+        // requires the import (#include <optional>) to be wired, which is a template concern.
+
+        // Scenario 5: DedupTest model file exists
+        TestUtils.assertFileExists(output.toPath().resolve("model/DedupTest.h"));
+
+        // Scenario 6: SingleBranchTest model file exists
+        TestUtils.assertFileExists(output.toPath().resolve("model/SingleBranchTest.h"));
+
+        // Scenario 7: AllNullTest model file exists
+        TestUtils.assertFileExists(output.toPath().resolve("model/AllNullTest.h"));
+    }
+
+    @Test
+    public void reducesOneOfNullNumberToOptional() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        // OAS 3.1 oneOf [null, number] inline → applies lowering → std::optional<double>
+        ComposedSchema schema = new ComposedSchema();
+        schema.addOneOfItem(new Schema().type("null"));
+        schema.addOneOfItem(new NumberSchema());
+
+        String resolved = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(resolved, "std::optional<double>",
+                "oneOf [null, number] should produce std::optional<double>");
+    }
+
+    @Test
+    public void deduplicatesIdenticalBranchTypes() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        // oneOf: [string, string-enum, integer] → after dedup: std::variant<std::string, int32_t>
+        ComposedSchema schema = new ComposedSchema();
+        schema.addOneOfItem(new StringSchema());
+        StringSchema enumSchema = new StringSchema();
+        enumSchema.addEnumItem("a");
+        enumSchema.addEnumItem("b");
+        schema.addOneOfItem(enumSchema);
+        schema.addOneOfItem(new IntegerSchema());
+
+        String resolved = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(resolved, "std::variant<std::string, int32_t>",
+                "Duplicate string branches should be deduplicated");
+    }
+
+    @Test
+    public void collapsesSingleNonNullBranch() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        // anyOf: [string] → single branch → std::string
+        ComposedSchema schema = new ComposedSchema();
+        schema.addAnyOfItem(new StringSchema());
+
+        String resolved = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(resolved, "std::string",
+                "Single non-null branch should collapse to that branch type");
+    }
+
+    @Test
+    public void collapsesSingleStringEnumBranch() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        // anyOf: [string-enum] → single string branch → std::string
+        ComposedSchema schema = new ComposedSchema();
+        StringSchema enumSchema = new StringSchema();
+        enumSchema.addEnumItem("x");
+        schema.addAnyOfItem(enumSchema);
+
+        String resolved = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(resolved, "std::string",
+                "Single string-enum branch should collapse to std::string");
+    }
+
+    @Test
+    public void resolvesAllNullBranchesToJsonValue() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        // anyOf: [null, null] → all branches null → boost::json::value
+        ComposedSchema schema = new ComposedSchema();
+        schema.addAnyOfItem(new Schema().type("null"));
+        schema.addAnyOfItem(new Schema().type("null"));
+
+        String resolved = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(resolved, "boost::json::value",
+                "All-null branches should produce boost::json::value");
     }
 
 }

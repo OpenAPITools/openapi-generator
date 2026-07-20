@@ -196,6 +196,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     /**
      * Applies the ordered type lowering rules to a composed (oneOf/anyOf) model.
      * Sets vendor extensions consumed by templates and records the model as a variant type.
+     *
+     * NOTE: When a schema uses <b>both</b> allOf and oneOf/anyOf at the same root level,
+     * the allOf branches are merged into properties while the oneOf/anyOf branches are
+     * lowered to variant types. This can produce a model with both concrete properties
+     * AND a variant type, which may generate conflicting C++ declarations. Avoid such
+     * mixed-schema patterns; prefer separate allOf-only or oneOf-only schemas.
      */
     private void processComposedModel(CodegenModel cm) {
         if (cm.getComposedSchemas() == null) {
@@ -283,6 +289,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         List<String> nonNullBranches = branchTypes.stream()
                 .filter(bt -> !"std::nullptr_t".equals(bt))
                 .collect(Collectors.toList());
+
+        // Rule 4: All-null or empty after filtering → boost::json::value
+        if (nonNullBranches.isEmpty()) {
+            return "boost::json::value";
+        }
 
         if (nonNullBranches.size() == 1) {
             return nonNullBranches.get(0);
@@ -747,7 +758,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 && !"std::nullptr_t".equals(parameter.dataType)
                 && !parameter.dataType.startsWith("std::variant<")
                 && !parameter.dataType.startsWith("std::optional<")
-                && !"std::monostate".equals(parameter.dataType)) {
+                && !"std::monostate".equals(parameter.dataType)
+                && !variantModels.contains(parameter.dataType)) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
             parameter.defaultValue = "std::make_shared<" + parameter.dataType + ">()";
         }
