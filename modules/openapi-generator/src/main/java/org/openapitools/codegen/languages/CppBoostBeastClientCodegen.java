@@ -389,27 +389,29 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             return;
         }
 
-        // Collect unique C++ branch types (strip shared_ptr wrappers for variant members).
-        // Map OpenAPI type names (e.g., "null", "integer", "string") to C++ types
-        // because composed properties from fromProperty use OpenAPI type names as-is.
-        // Self-referencing branches (a variant containing itself) are excluded
-        // because they would create an illegal recursive type alias in C++.
-        // Binary branches (format: binary) are mapped to std::vector<std::uint8_t>
-        // so the multipart addVariantFormParameter helper can dispatch them as
-        // file parts via compile-time type checking.
-        List<String> branchTypes = branches.stream()
-                .map(b -> {
-                    if (b.isBinary || b.isFile) {
-                        return "std::vector<std::uint8_t>";
-                    }
-                    return stripSharedPtr(b.dataType);
-                })
-                .map(this::resolveOpenApiTypeName)
-                .filter(t -> !t.equals(cm.classname))
-                .distinct()
-                .collect(Collectors.toList());
+            // Collect C++ branch types (strip shared_ptr wrappers for variant members).
+            // Map OpenAPI type names (e.g., "null", "integer", "string") to C++ types
+            // because composed properties from fromProperty use OpenAPI type names as-is.
+            // Self-referencing branches (a variant containing itself) are excluded
+            // because they would create an illegal recursive type alias in C++.
+            // Binary branches (format: binary) are mapped to std::vector<std::uint8_t>
+            // so the multipart addVariantFormParameter helper can dispatch them as
+            // file parts via compile-time type checking.
+            // NOTE: Deduplication is deferred to lowerComposedTypes (step 5) so that
+            // oneOf semantics can be preserved when duplicate types would otherwise
+            // cause silent single-branch collapse.
+            List<String> branchTypes = branches.stream()
+                    .map(b -> {
+                        if (b.isBinary || b.isFile) {
+                            return "std::vector<std::uint8_t>";
+                        }
+                        return stripSharedPtr(b.dataType);
+                    })
+                    .map(this::resolveOpenApiTypeName)
+                    .filter(t -> !t.equals(cm.classname))
+                    .collect(Collectors.toList());
 
-        String resolvedType = lowerComposedTypes(branchTypes, composedKeyword);
+            String resolvedType = lowerComposedTypes(branchTypes, composedKeyword);
 
         // Record as variant model for getTypeDeclaration shared_ptr exclusion
         variantModels.add(cm.classname);
@@ -430,13 +432,14 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Ordered lowering rules for composed types:
-     * 1. anyOf: [T, null] → std::optional&lt;T&gt;
-     * 2. All strings/string-enums → std::string
-     * 3. Single non-null branch → that branch's type
-     * 4. Deduplication already applied upstream
-     * 5. std::variant&lt;Branches...&gt;
-     * 6. Empty/untyped → boost::json::value
+     * Ordered lowering rules for composed types (OAS-first):
+     * 1. anyOf/oneOf: [T, null] → std::optional&lt;T&gt;
+     * 2. anyOf only: all strings/string-enums → std::string
+     * 3. Remove null branches
+     * 4. Single non-null branch → that branch's type
+     * 5. Deduplicate identical branch types
+     * 6. Re-check: single branch after dedup (for oneOf, preserve duplicates)
+     * 7. Emit std::variant&lt;Branches...&gt; or boost::json::value
      */
     private String lowerComposedTypes(List<String> branchTypes, String composedKeyword) {
         if (branchTypes.isEmpty()) {
@@ -445,49 +448,117 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         // Rule 1: anyOf/oneOf: [T, null] → std::optional<T>
         // (null is represented as std::nullptr_t; [null, T] under anyOf or oneOf → optional<T>)
-        if (branchTypes.size() == 2) {
-            String nonNullBranch = null;
-            int nullCount = 0;
-            for (String bt : branchTypes) {
-                if ("std::nullptr_t".equals(bt)) {
-                    nullCount++;
-                } else {
-                    nonNullBranch = bt;
-                }
-            }
-            if (nullCount == 1 && nonNullBranch != null) {
+        int nullCount = (int) branchTypes.stream().filter("std::nullptr_t"::equals).count();
+        if (nullCount == 1 && branchTypes.size() == 2) {
+            String nonNullBranch = branchTypes.stream()
+                    .filter(bt -> !"std::nullptr_t".equals(bt))
+                    .findFirst().orElse(null);
+            if (nonNullBranch != null) {
                 return "std::optional<" + nonNullBranch + ">";
             }
         }
 
-        // Rule 2: Collapse anyOf/oneOf of only string and string-enums to std::string
-        if (branchTypes.stream().allMatch("std::string"::equals)) {
+        // Rule 2: For anyOf only, collapse all-string (including string-enum) to std::string.
+        // Do NOT apply to oneOf — exclusive semantics must be preserved.
+        if ("anyOf".equals(composedKeyword) && branchTypes.stream().allMatch("std::string"::equals)) {
             return "std::string";
         }
 
-        // Rule 3: Collapse single remaining non-null branch to that branch type
+        // Rule 3: Remove null branches for further processing.
         List<String> nonNullBranches = branchTypes.stream()
                 .filter(bt -> !"std::nullptr_t".equals(bt))
                 .collect(Collectors.toList());
 
-        // Rule 4: All-null or empty after filtering → boost::json::value
+        // Rule 4: All-null or empty → boost::json::value
         if (nonNullBranches.isEmpty()) {
             return "boost::json::value";
         }
 
-        if (nonNullBranches.size() == 1) {
-            return nonNullBranches.get(0);
+        // Rule 5: Deduplicate identical branch types.
+        List<String> deduped = nonNullBranches.stream()
+                .distinct()
+                .collect(Collectors.toList());
+
+        // Rule 6: For oneOf, if dedup would reduce to a single branch from
+        // multiple original branches, preserve duplicates to maintain the
+        // exclusive union semantics (prevent silent scalar collapse).
+        if ("oneOf".equals(composedKeyword) && deduped.size() == 1
+                && nonNullBranches.size() > 1) {
+            deduped = new ArrayList<>(nonNullBranches); // Keep all duplicates
         }
 
-        // Rule 5: Emit std::variant<Branches...>
+        // Re-check single branch after potential dedup
+        if (deduped.size() == 1) {
+            return deduped.get(0);
+        }
+
+        // Rule 7: Emit std::variant<Branches...>
         // Include null branch if present and there are multiple non-null branches.
-        // For a variant with 2+ non-null branches, null is a separate alternative.
-        List<String> variantBranches = new ArrayList<>(nonNullBranches);
+        List<String> variantBranches = new ArrayList<>(deduped);
         boolean hasNull = branchTypes.stream().anyMatch("std::nullptr_t"::equals);
-        if (hasNull && nonNullBranches.size() > 1) {
+        if (hasNull && deduped.size() > 1) {
             variantBranches.add("std::nullptr_t");
         }
         return "std::variant<" + String.join(", ", variantBranches) + ">";
+    }
+
+    /**
+     * Detects whether a schema is a null union (anyOf/oneOf with [T, null] or [null, T])
+     * that should lower to std::optional&lt;T&gt;. Returns the lowered type string,
+     * or null if the schema is not a simple null union.
+     */
+    private String detectNullUnion(Schema schema, String className) {
+        // Use raw List and cast explicitly because Schema is unparameterized.
+        List anyOfRaw = schema.getAnyOf();
+        List oneOfRaw = schema.getOneOf();
+        List<Schema> branches = null;
+        if (anyOfRaw != null && !anyOfRaw.isEmpty()) {
+            branches = anyOfRaw;
+        } else if (oneOfRaw != null && !oneOfRaw.isEmpty()) {
+            branches = oneOfRaw;
+        }
+        if (branches == null) {
+            return null;
+        }
+        if (branches.size() != 2) {
+            return null;
+        }
+
+        // Find the non-null branch using ModelUtils for correct null-type detection
+        // (handles both OAS 3.0 nullable and OAS 3.1 type: "null")
+        Schema nonNullBranch = null;
+        for (Object brObj : branches) {
+            Schema branch = (Schema) brObj;
+            if (!ModelUtils.isNullType(branch)) {
+                nonNullBranch = branch;
+            }
+        }
+        if (nonNullBranch == null) {
+            return null; // Both branches are null
+        }
+        // Verify exactly one null branch exists
+        long nullBranchCount = 0;
+        for (Object brObj : branches) {
+            if (ModelUtils.isNullType((Schema) brObj)) nullBranchCount++;
+        }
+        if (nullBranchCount != 1) {
+            return null;
+        }
+
+        // Resolve the non-null branch type. For $ref schemas, resolve to model name.
+        String nonNullType;
+        if (nonNullBranch.get$ref() != null) {
+            nonNullType = ModelUtils.getSimpleRef(nonNullBranch.get$ref());
+        } else {
+            nonNullType = getTypeDeclaration(nonNullBranch);
+        }
+
+        // Avoid self-referencing optional (optional of the model itself)
+        if (nonNullType.equals(className)) {
+            return "boost::json::value";
+        }
+
+        return "std::optional<" + nonNullType + ">";
     }
 
     /**
@@ -611,9 +682,85 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
+        // Pre-check: allOf scalar type conflicts — detect before the default
+        // pipeline consumes the composed schemas.
+        if (model != null && model.getAllOf() != null && !model.getAllOf().isEmpty()) {
+            List<String> allOfPrimitiveTypes = new ArrayList<>();
+            for (Object allOfItem : model.getAllOf()) {
+                if (allOfItem instanceof Schema) {
+                    Schema itemSchema = (Schema) allOfItem;
+                    String ref = itemSchema.get$ref();
+                    String resolvedType = null;
+                    // For $ref schemas, resolve to the target's type
+                    if (ref != null) {
+                        Schema resolvedRef = (openAPI != null)
+                            ? ModelUtils.getReferencedSchema(openAPI, itemSchema)
+                            : null;
+                        if (resolvedRef != null) {
+                            resolvedType = resolvedRef.getType();
+                        }
+                    } else {
+                        resolvedType = itemSchema.getType();
+                    }
+                    if (resolvedType != null && !"object".equals(resolvedType)) {
+                        allOfPrimitiveTypes.add(resolvedType);
+                    }
+                }
+            }
+            if (allOfPrimitiveTypes.size() >= 2) {
+                String firstType = allOfPrimitiveTypes.get(0);
+                for (int i = 1; i < allOfPrimitiveTypes.size(); i++) {
+                    if (!allOfPrimitiveTypes.get(i).equals(firstType)) {
+                        throw new RuntimeException(
+                            "allOf type conflict in schema '" + name
+                            + "': branches have incompatible types ["
+                            + String.join(", ", allOfPrimitiveTypes)
+                            + "]. allOf with scalar type conflicts is not supported.");
+                    }
+                }
+            }
+        }
+
+        // Pre-check: The OpenAPI 3.1 parser converts anyOf [T, null] into
+        // {type: T, nullable: true}, consuming the anyOf list.  Detect these
+        // nullable schemas and produce the correct std::optional<T> type.
+        boolean isNullableSchema = model != null
+            && Boolean.TRUE.equals(model.getNullable())
+            && model.getType() != null
+            && !"object".equals(model.getType())
+            && !"array".equals(model.getType());
+        String preComputedNullUnionType = null;
+        if (isNullableSchema) {
+            // Resolve the type to its C++ type and wrap in std::optional
+            String innerType = getTypeDeclaration(model);
+            // getTypeDeclaration already returns std::optional<T> for nullable.
+            // Use it directly if it starts with std::optional<.
+            if (innerType.startsWith("std::optional<")) {
+                preComputedNullUnionType = innerType;
+            } else {
+                preComputedNullUnionType = "std::optional<" + innerType + ">";
+            }
+        } else if (model != null) {
+            // Also try the anyOf/oneOf path for cases where the parser
+            // preserved the composed schema structure.
+            preComputedNullUnionType = detectNullUnion(model, name);
+        }
+
         CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel == null) {
             return null;
+        }
+
+        // Post-check: Apply the pre-computed null union type if the default
+        // pipeline consumed the composed schemas.
+        if (preComputedNullUnionType != null) {
+            codegenModel.dataType = preComputedNullUnionType;
+            codegenModel.vendorExtensions.put("x-cpp-type", preComputedNullUnionType);
+            codegenModel.vendorExtensions.put("x-cpp-composed-keyword",
+                model.getAnyOf() != null ? "anyOf" : "oneOf");
+            codegenModel.vendorExtensions.put("x-cpp-is-alias", true);
+            codegenModel.vendorExtensions.put("x-cpp-is-optional", true);
+            variantModels.add(name);
         }
 
         Set<String> oldImports = codegenModel.imports;
@@ -1036,8 +1183,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             branchTypes.add(childType);
         }
 
-        // Deduplicate identical types
-        branchTypes = branchTypes.stream().distinct().collect(Collectors.toList());
+        // Deduplication is deferred to lowerComposedTypes (step 5) so that
+        // oneOf semantics can be preserved when duplicate types would otherwise
+        // cause silent single-branch collapse.
         return lowerComposedTypes(branchTypes, composedKeyword);
     }
 

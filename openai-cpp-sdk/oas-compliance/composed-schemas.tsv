@@ -1,11 +1,12 @@
 case	result	cpp_type	notes
 AnyOfStringStringEnum	PASS	std::string	anyOf, 0 members, type alias
+OneOfStringStringEnum	PASS	std::variant<std::string, std::string>	oneOf, 0 members, type alias
 OneOfStringArray	PASS	std::variant<std::string, std::vector<ItemStruct>>	oneOf, 0 members, type alias
 AllOfObjectMerge	PASS	org::openapitools::client::model::AllOfObjectMerge	allOf, 5 members
 NullableString	DEFERRED	NOT_FOUND	Deferred (on allowlist)
-NullableEnum	FAIL	std::string	anyOf, 0 members, type alias | EXPECTED std::optional<std::string>
+NullableEnum	PASS	std::optional<std::string>	anyOf, 0 members, type alias
 Animal	PASS	std::variant<Mammal, Bird>	oneOf, 0 members, type alias
 DiscriminatorOneOf	PASS	std::variant<Mammal, Bird>	oneOf, 0 members, type alias
 MultiContentStreamEvent	PASS	std::variant<StreamProgress, StreamComplete, StreamError>	oneOf, 0 members, type alias
 MultipartMetaField	PASS	std::variant<std::vector<std::uint8_t>, MetaRecord>	oneOf, 0 members, type alias
-AllOfScalarConflict	FAIL	std::string	allOf conflict silently produced code (negative test)
+AllOfScalarConflict	PASS	codegen_error	allOf conflict (negative test, codegen errored)

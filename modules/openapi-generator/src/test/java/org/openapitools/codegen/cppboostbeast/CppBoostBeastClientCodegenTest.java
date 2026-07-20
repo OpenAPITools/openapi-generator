@@ -576,6 +576,160 @@ public class CppBoostBeastClientCodegenTest {
     }
 
     @Test
+    public void oneOfStringStringEnumPreservesBranches() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        // oneOf: [string, string-enum] must NOT collapse to plain std::string
+        // via the anyOf-only collapse rule.  Branches should remain distinct
+        // (std::variant<std::string, std::string>) to preserve the exclusive
+        // oneOf requirement.
+        ComposedSchema schema = new ComposedSchema();
+        schema.addOneOfItem(new StringSchema());
+        StringSchema enumSchema = new StringSchema();
+        enumSchema.addEnumItem("x");
+        enumSchema.addEnumItem("y");
+        schema.addOneOfItem(enumSchema);
+
+        String resolved = codegen.getTypeDeclaration(schema);
+        // For oneOf, the collapse path is different from anyOf:
+        //   - anyOf: anyOf-only Rule 2 (all-strings) → std::string
+        //   - oneOf: dedup+single-branch → no, Rule 6 preserves duplicates
+        // Since both branches resolve to std::string, the result is
+        // a variant with two identical string alternatives.
+        Assert.assertTrue(resolved.startsWith("std::variant<"),
+                "OneOfStringStringEnum should produce std::variant, not plain string. Got: " + resolved);
+    }
+
+    @Test
+    public void anyOfStringStringEnumCollapsesToString() throws IOException {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        // anyOf: [string, string-enum] → std::string (anyOf-only collapse)
+        ComposedSchema schema = new ComposedSchema();
+        schema.addAnyOfItem(new StringSchema());
+        StringSchema enumSchema = new StringSchema();
+        enumSchema.addEnumItem("alpha");
+        enumSchema.addEnumItem("beta");
+        schema.addAnyOfItem(enumSchema);
+
+        String resolved = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(resolved, "std::string",
+                "AnyOfStringStringEnum should collapse to std::string");
+    }
+
+    @Test(expectedExceptions = RuntimeException.class)
+    public void allOfScalarConflictThrows() throws IOException {
+        // This test verifies that an allOf with incompatible scalar types
+        // (e.g., allOf [string, integer]) causes a RuntimeException.
+        // We generate from a minimal spec with only the conflicting schema.
+        String specContent =
+            "openapi: 3.1.0\n" +
+            "info:\n" +
+            "  title: allOf conflict test\n" +
+            "  version: 1.0.0\n" +
+            "paths: {}\n" +
+            "components:\n" +
+            "  schemas:\n" +
+            "    AllOfScalarConflict:\n" +
+            "      allOf:\n" +
+            "        - type: string\n" +
+            "        - type: integer\n" +
+            "          format: int32\n";
+
+        java.nio.file.Path specFile = java.nio.file.Files.createTempFile("allof-conflict-", ".yaml");
+        specFile.toFile().deleteOnExit();
+        java.nio.file.Files.writeString(specFile, specContent);
+
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-conflict").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec(specFile.toAbsolutePath().toString())
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("packageName", "CppBoostBeastConflictTest");
+
+        try {
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        } catch (RuntimeException e) {
+            // Check the ROOT cause, not just the wrapper message
+            Throwable cause = e;
+            while (cause.getCause() != null && cause.getCause() != cause) {
+                cause = cause.getCause();
+            }
+            String message = cause.getMessage();
+            System.err.println("allOfScalarConflictThrows: root cause = " + cause.getClass().getName() + ": " + message);
+            if (message == null) {
+                message = e.getMessage();
+            }
+            Assert.assertTrue(message != null && (message.contains("allOf type conflict")
+                    || message.contains("AllOfScalarConflict")),
+                    "Exception root cause should mention allOf type conflict. Got: " + message);
+            throw e;
+        }
+    }
+
+    @Test
+    public void nullableStringEnumViaGateFixtures() throws IOException {
+        // Verify that NullableEnum in Gate A fixtures lowers to std::optional<...>
+        // (not plain std::string) by generating from the Gate A spec.
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-nullable").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("../../openai-cpp-sdk/oas-compliance/fixtures.yaml")
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("packageName", "CppBoostBeastNullableTest");
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path nullableEnumHeader = output.toPath().resolve("model/NullableEnum.h");
+        TestUtils.assertFileExists(nullableEnumHeader);
+        String nullableEnumContent = java.nio.file.Files.readString(nullableEnumHeader);
+        Assert.assertTrue(nullableEnumContent.contains("std::optional<"),
+                "NullableEnum header should contain std::optional<...>. Got: " + nullableEnumContent);
+        Assert.assertFalse(nullableEnumContent.contains("using NullableEnum = std::string;"),
+                "NullableEnum must not collapse to plain std::string.");
+
+        // NullableString is not generated as a stand-alone model file because
+        // the OpenAPI 3.1 parser converts anyOf [string, null] to a simple
+        // {type: string, nullable: true} schema, which doesn't produce a model
+        // header. This is expected — it works as std::optional<std::string>
+        // at the property/reference level.
+    }
+
+    @Test
+    public void oneOfStringStringEnumViaGateFixtures() throws IOException {
+        // Verify that OneOfStringStringEnum in Gate A fixtures preserves
+        // oneOf semantics (does NOT collapse to plain string).
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-oneof").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("../../openai-cpp-sdk/oas-compliance/fixtures.yaml")
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("packageName", "CppBoostBeastOneOfTest");
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path oneOfHeader = output.toPath().resolve("model/OneOfStringStringEnum.h");
+        TestUtils.assertFileExists(oneOfHeader);
+        String oneOfContent = java.nio.file.Files.readString(oneOfHeader);
+        // Must NOT collapse to plain std::string
+        Assert.assertFalse(oneOfContent.contains("using OneOfStringStringEnum = std::string;"),
+                "OneOfStringStringEnum must not collapse to std::string");
+        // Must produce a variant (type alias to variant distinguishes from object class)
+        Assert.assertTrue(oneOfContent.contains("using OneOfStringStringEnum = std::variant<"),
+                "OneOfStringStringEnum should be a using alias to std::variant");
+    }
+
+    @Test
     public void generatesVariantAwareApiIntegration() throws IOException {
         File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-variant-api").toFile();
         output.deleteOnExit();

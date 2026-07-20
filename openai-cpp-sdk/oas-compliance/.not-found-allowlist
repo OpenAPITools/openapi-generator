@@ -5,6 +5,9 @@
 # When the codegen is fixed to handle these cases, remove the entry
 # from this file and verify the TSV shows PASS with the expected type.
 #
-# NullableString — OAS 3.1 type: "null" branch is not yet handled by
-# the generator.  Expected lowering: std::optional<std::string>.
+# NullableString — OAS 3.1 anyOf [string, null] is parsed by the swagger
+# parser into {type: string, nullable: true}, which does not produce a
+# standalone model header (the model type is consumed into the type system
+# and works as std::optional<std::string> at reference/property level).
+# This is an expected limitation of the parser/generator pipeline chain.
 NullableString

@@ -17,6 +17,9 @@
 # --- anyOf string + string-enum → std::string collapse ---
 AnyOfStringStringEnum: std::string
 
+# --- oneOf string + string-enum — must NOT collapse to plain string ---
+OneOfStringStringEnum: std::variant<std::string, std::string>
+
 # --- oneOf string | array<ItemStruct> ---
 OneOfStringArray: std::variant<std::string, std::vector<ItemStruct>>
 

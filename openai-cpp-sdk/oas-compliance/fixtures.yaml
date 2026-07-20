@@ -189,6 +189,24 @@ components:
             - gamma
 
     # =========================================================================
+    # oneOf string + string-enum — must NOT collapse to plain string
+    # ONEOF-STRING-ENUM-NO-COLLAPSE-001
+    # =========================================================================
+    OneOfStringStringEnum:
+      description: >
+        oneOf over a plain string and a string enum.  The generator MUST NOT
+        apply the anyOf-only string+enum collapse.  Branches should remain
+        distinct (e.g., std::variant<std::string, std::string>) to preserve
+        the exclusive oneOf requirement.
+      oneOf:
+        - type: string
+        - type: string
+          enum:
+            - x
+            - y
+            - z
+
+    # =========================================================================
     # oneOf string + array of objects
     # ONEOF-STRING-ARRAY-001
     # =========================================================================
