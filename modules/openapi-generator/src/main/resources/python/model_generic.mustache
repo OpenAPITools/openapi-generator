@@ -336,12 +336,9 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         _items = []
         if self.{{{name}}}:
             for _item_{{{name}}} in self.{{{name}}}:
-                if _item_{{{name}}} is not None:
-                    _items.append(
-                         [{{#compatibleWithPythonLegacy}}_to_openapi_value(_inner_item){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_inner_item.to_dict(){{/compatibleWithPythonLegacy}} if _inner_item is not None else None for _inner_item in _item_{{{name}}}]
-                    )
-                else:
-                    _items.append(None)
+                _items.append(
+                     [{{#compatibleWithPythonLegacy}}_to_openapi_value(_inner_item){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_inner_item.to_dict(){{/compatibleWithPythonLegacy}} if _inner_item is not None else None for _inner_item in _item_{{{name}}}] if _item_{{{name}}} is not None else None
+                )
             _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _items
         {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
@@ -351,12 +348,9 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         _items = []
         if self.{{{name}}}:
             for _item_{{{name}}} in self.{{{name}}}:
-                if _item_{{{name}}} is not None:
-                    _items.append(
-                         {_inner_key: {{#compatibleWithPythonLegacy}}_to_openapi_value(_inner_value){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_inner_value.to_dict(){{/compatibleWithPythonLegacy}} if _inner_value is not None else None for _inner_key, _inner_value in _item_{{{name}}}.items()}
-                    )
-                else:
-                    _items.append(None)
+                _items.append(
+                     {_inner_key: {{#compatibleWithPythonLegacy}}_to_openapi_value(_inner_value){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_inner_value.to_dict(){{/compatibleWithPythonLegacy}} if _inner_value is not None else None for _inner_key, _inner_value in _item_{{{name}}}.items()} if _item_{{{name}}} is not None else None
+                )
             _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _items
         {{/items.items.isPrimitiveType}}
         {{/items.isMap}}
@@ -382,12 +376,9 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         _field_dict_of_array = {}
         if self.{{{name}}}:
             for _key_{{{name}}} in self.{{{name}}}:
-                if self.{{{name}}}[_key_{{{name}}}] is not None:
-                    _field_dict_of_array[_key_{{{name}}}] = [
-                        {{#compatibleWithPythonLegacy}}_to_openapi_value(_item){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_item.to_dict(){{/compatibleWithPythonLegacy}} if _item is not None else None for _item in self.{{{name}}}[_key_{{{name}}}]
-                    ]
-                else:
-                    _field_dict_of_array[_key_{{{name}}}] = None
+                _field_dict_of_array[_key_{{{name}}}] = [
+                    {{#compatibleWithPythonLegacy}}_to_openapi_value(_item){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_item.to_dict(){{/compatibleWithPythonLegacy}} if _item is not None else None for _item in self.{{{name}}}[_key_{{{name}}}]
+                ] if self.{{{name}}}[_key_{{{name}}}] is not None else None
             _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _field_dict_of_array
         {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
@@ -397,12 +388,9 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         _field_dict_of_dict = {}
         if self.{{{name}}}:
             for _key_{{{name}}}, _value_{{{name}}} in self.{{{name}}}.items():
-                if _value_{{{name}}} is not None:
-                    _field_dict_of_dict[_key_{{{name}}}] = {
-                        _key: {{#compatibleWithPythonLegacy}}_to_openapi_value(_value){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_value.to_dict(){{/compatibleWithPythonLegacy}} if _value is not None else None for _key, _value in _value_{{{name}}}.items()
-                    }
-                else:
-                    _field_dict_of_dict[_key_{{{name}}}] = None
+                _field_dict_of_dict[_key_{{{name}}}] = {
+                    _key: {{#compatibleWithPythonLegacy}}_to_openapi_value(_value){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_value.to_dict(){{/compatibleWithPythonLegacy}} if _value is not None else None for _key, _value in _value_{{{name}}}.items()
+                } if _value_{{{name}}} is not None else None
             _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _field_dict_of_dict
         {{/items.items.isPrimitiveType}}
         {{/items.isMap}}
@@ -414,10 +402,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         _field_dict = {}
         if self.{{{name}}}:
             for _key_{{{name}}} in self.{{{name}}}:
-                if self.{{{name}}}[_key_{{{name}}}] is not None:
-                    _field_dict[_key_{{{name}}}] = {{#compatibleWithPythonLegacy}}_to_openapi_value(self.{{{name}}}[_key_{{{name}}}]){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}self.{{{name}}}[_key_{{{name}}}].to_dict(){{/compatibleWithPythonLegacy}}
-                else:
-                    _field_dict[_key_{{{name}}}] = None
+                _field_dict[_key_{{{name}}}] = {{#compatibleWithPythonLegacy}}_to_openapi_value(self.{{{name}}}[_key_{{{name}}}]){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}self.{{{name}}}[_key_{{{name}}}].to_dict(){{/compatibleWithPythonLegacy}} if self.{{{name}}}[_key_{{{name}}}] is not None else None
             _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _field_dict
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
