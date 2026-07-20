@@ -77,12 +77,9 @@ class MapOfArrayOfModel(BaseModel):
         _field_dict_of_array = {}
         if self.shop_id_to_org_online_lip_map:
             for _key_shop_id_to_org_online_lip_map in self.shop_id_to_org_online_lip_map:
-                if self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map] is not None:
-                    _field_dict_of_array[_key_shop_id_to_org_online_lip_map] = [
-                        _item.to_dict() if _item is not None else None for _item in self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map]
-                    ]
-                else:
-                    _field_dict_of_array[_key_shop_id_to_org_online_lip_map] = None
+                _field_dict_of_array[_key_shop_id_to_org_online_lip_map] = [
+                    _item.to_dict() if _item is not None else None for _item in self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map]
+                ] if self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map] is not None else None
             _dict['shopIdToOrgOnlineLipMap'] = _field_dict_of_array
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

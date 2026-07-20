@@ -74,12 +74,9 @@ class ArrayOfArrayOfModel(BaseModel):
         _items = []
         if self.another_property:
             for _item_another_property in self.another_property:
-                if _item_another_property is not None:
-                    _items.append(
-                         [_inner_item.to_dict() if _inner_item is not None else None for _inner_item in _item_another_property]
-                    )
-                else:
-                    _items.append(None)
+                _items.append(
+                     [_inner_item.to_dict() if _inner_item is not None else None for _inner_item in _item_another_property] if _item_another_property is not None else None
+                )
             _dict['another_property'] = _items
         return _dict
 
