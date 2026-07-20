@@ -1049,6 +1049,115 @@ public class CppBoostBeastClientCodegenTest {
                 "Converter name must not contain std:: namespace prefix");
     }
 
+    @Test
+    public void generatesPureSseObjectFixture() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-pure-sse-object").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/pure-sse-object.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiSource = output.toPath().resolve("api/SSEApi.cpp");
+        String generatedApiSource = Files.readString(apiSource);
+
+        // Verify the pure SSE endpoint generates parseEventStream with fromJsonValue_Evt
+        // (not fromJsonValue_std::shared_ptr<Evt> or any invalid C++ identifier)
+        Assert.assertTrue(generatedApiSource.contains("parseEventStream<Evt>"),
+                "Pure SSE must parseEventStream with Evt (not shared_ptr wrapper)");
+        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_Evt"),
+                "Pure SSE must use fromJsonValue_Evt converter (not fromJsonValue_std::...)");
+
+        // Verify NO invalid converter names in the entire source
+        Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::"),
+                "Pure SSE object must not contain fromJsonValue_std:: (invalid C++ identifier)");
+        Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::shared_ptr"),
+                "Pure SSE object must not contain fromJsonValue_std::shared_ptr");
+
+        // Verify the return type is std::vector<Evt> (vector of plain objects, not shared_ptr)
+        Assert.assertTrue(generatedApiSource.contains("std::vector<Evt>"),
+                "Pure SSE return type header must be std::vector<Evt>");
+
+        // Verify Evt model template generates both member and free fromJsonValue functions
+        Path evtHeader = output.toPath().resolve("model/Evt.h");
+        String evtHeaderContent = Files.readString(evtHeader);
+        Assert.assertTrue(evtHeaderContent.contains("fromJsonValue_Evt"),
+                "Evt model header must declare fromJsonValue_Evt free function");
+
+        Path evtSource = output.toPath().resolve("model/Evt.cpp");
+        String evtSourceContent = Files.readString(evtSource);
+        Assert.assertTrue(evtSourceContent.contains("fromJsonValue_Evt"),
+                "Evt model source must define fromJsonValue_Evt free function");
+    }
+
+    @Test
+    public void generatesDualObjectSseFixture() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-dual-object-sse").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/dual-object-sse.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiSource = output.toPath().resolve("api/DualApi.cpp");
+        String generatedApiSource = Files.readString(apiSource);
+
+        // Verify dual-content operation generates stream method
+        Assert.assertTrue(generatedApiSource.contains("createItemStream"),
+                "Dual-content op must generate createItemStream method");
+
+        // Verify the stream method uses fromJsonValue_StreamEvent (valid C++ identifier)
+        // NOT fromJsonValue_std::shared_ptr<StreamEvent> (invalid C++ identifier)
+        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_StreamEvent"),
+                "Dual-content stream must use fromJsonValue_StreamEvent converter");
+        Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::"),
+                "Dual-content object stream must not contain fromJsonValue_std::");
+
+        // Verify the stream method uses parseEventStream with correct template param
+        Assert.assertTrue(generatedApiSource.contains("parseEventStream<StreamEvent>"),
+                "Dual-content must parseEventStream with StreamEvent (not shared_ptr wrapper)");
+
+        // Verify the stream method returns std::vector<StreamEvent>
+        Assert.assertTrue(generatedApiSource.contains("std::vector<StreamEvent>"),
+                "Dual-content stream must return std::vector<StreamEvent>");
+
+        // Verify path params are present in the stream method
+        Assert.assertTrue(generatedApiSource.contains("replacePathParameter(path, \"id\""),
+                "Dual-content stream method must include path parameter replacement");
+
+        // Verify query params are present with optional guard
+        Assert.assertTrue(generatedApiSource.contains("if (verbose)"),
+                "Dual-content stream method must guard optional query param");
+
+        // Verify header params are present with serializeHeaderParameterValue
+        Assert.assertTrue(generatedApiSource.contains("serializeHeaderParameterValue"),
+                "Dual-content stream method must use serializeHeaderParameterValue for headers");
+
+        // Verify body params are present in the stream method
+        Assert.assertTrue(generatedApiSource.contains("toRequestJsonValue"),
+                "Dual-content stream method must include body serialization");
+
+        // Verify Accept header is forced to text/event-stream
+        Assert.assertTrue(generatedApiSource.contains("text/event-stream"),
+                "Dual-content stream method must force Accept to text/event-stream");
+
+        // Verify the header declares the stream method with correct return type
+        Path apiHeader = output.toPath().resolve("api/DualApi.h");
+        String apiHeaderContent = Files.readString(apiHeader);
+        Assert.assertTrue(apiHeaderContent.contains("createItemStream"),
+                "Dual-content API header must declare createItemStream");
+        Assert.assertTrue(apiHeaderContent.contains("std::vector<StreamEvent>"),
+                "Dual-content API header must declare stream method returning std::vector<StreamEvent>");
+    }
+
     /**
      * Checks basic C++ syntactic validity of a generated source file:
      * balanced preprocessor guards, no missing/duplicate #endif.

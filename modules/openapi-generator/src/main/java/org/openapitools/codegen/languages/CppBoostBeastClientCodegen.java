@@ -1248,10 +1248,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // SSE endpoint and the operation-level flag is set, causing the
         // return type to be wrapped in std::vector<...>.
         // For dual-content ops (JSON + SSE), the operation-level flag is NOT
-        // set (return type stays JSON). Instead, if the operation has a
-        // boolean `stream` query parameter, a dedicated stream method is
+        // set (return type stays JSON). Instead, a dedicated stream method is
         // generated ({operationId}Stream) that sets Accept to text/event-stream
         // and returns std::vector<EventType> via parseEventStream.
+        // Note: Dual-content detection is driven by produces media types, not
+        // by the presence of a "stream" query parameter (the parameter is
+        // a client-side convention for choosing between JSON and SSE).
         if (operation.produces != null && !operation.produces.isEmpty()) {
             boolean hasEventStream = false;
             boolean hasJsonStream = false;
@@ -1266,7 +1268,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             boolean isPureSse = hasEventStream && !hasJsonStream;
             boolean isDualContent = hasEventStream && hasJsonStream;
             operation.vendorExtensions.put("x-codegen-streaming-response", isPureSse);
-            // For pure SSE ops, flag all 2xx responses as streaming.
+                // For pure SSE ops, flag all 2xx responses as streaming and
+                // set the stripped element type (without shared_ptr) for use in
+                // parseEventStream template param and converter name.
             // For dual-content ops, mark SSE responses (different datatype from returnType)
             // as streaming so the stream method template can identify them.
             // Also mark each response with x-codegen-return-compatible so the normal
@@ -1275,9 +1279,22 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             for (CodegenResponse response : operation.responses) {
                 if (isPureSse) {
                     response.vendorExtensions.put("x-codegen-streaming-response", true);
+                    if (response.dataType != null) {
+                        String streamElementType = stripSharedPtr(response.dataType);
+                        response.vendorExtensions.put("x-codegen-stream-element-type",
+                                streamElementType);
+                        // Propagate to operation level for use outside {{#responses}} scope
+                        operation.vendorExtensions.put("x-codegen-stream-element-type",
+                                streamElementType);
+                    }
                 } else if (isDualContent && response.is2xx && response.dataType != null
                         && !response.dataType.equals(operation.returnType)) {
                     response.vendorExtensions.put("x-codegen-streaming-response", true);
+                    if (response.dataType != null) {
+                        String streamElementType = stripSharedPtr(response.dataType);
+                        response.vendorExtensions.put("x-codegen-stream-element-type",
+                                streamElementType);
+                    }
                 }
                 boolean returnCompatible = response.dataType != null
                         && response.dataType.equals(operation.returnType);
@@ -1328,13 +1345,20 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     }
                 }
                 if (sseReturnType != null && sseBaseModelName != null) {
+                    // Full C++ type for the vector element (may contain std::shared_ptr<...>)
                     operation.vendorExtensions.put("x-codegen-dual-stream-return-type", sseReturnType);
+                    // Stripped base name (valid C++ identifier) for fromJsonValue_ converter
                     operation.vendorExtensions.put("x-codegen-dual-stream-base-name", sseBaseModelName);
+                    // Stripped element type for parseEventStream template param and vector element
+                    // (same as base name since both strip shared_ptr, but semantically distinct)
+                    String dualStreamElementType = stripSharedPtr(sseReturnType);
+                    operation.vendorExtensions.put("x-codegen-dual-stream-element-type", dualStreamElementType);
                     // Also propagate to each response so the template can access it
                     // from within the {{#responses}} context scope.
                     for (CodegenResponse response : operation.responses) {
                         response.vendorExtensions.put("x-codegen-dual-stream-return-type", sseReturnType);
                         response.vendorExtensions.put("x-codegen-dual-stream-base-name", sseBaseModelName);
+                        response.vendorExtensions.put("x-codegen-dual-stream-element-type", dualStreamElementType);
                     }
                 }
             }

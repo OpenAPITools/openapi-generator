@@ -735,6 +735,13 @@ void {{classname}}::fromJsonValue(boost::json::value const& value)
     fromJsonObject_internal(value.as_object());
 }
 
+{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value)
+{
+    {{classname}} result;
+    result.fromJsonValue(value);
+    return result;
+}
+
 boost::json::object {{classname}}::toJsonObject_internal() const
 {
     {{#parent}}

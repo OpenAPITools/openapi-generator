@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info:
+  title: Dual-content object SSE probe
+  version: 1.0.0
+paths:
+  /items/{id}:
+    post:
+      tags:
+        - Dual
+      operationId: createItem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: verbose
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: X-Trace
+          in: header
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePayload'
+      responses:
+        '200':
+          description: JSON or SSE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NormalResponse'
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamEvent'
+components:
+  schemas:
+    CreatePayload:
+      type: object
+      properties:
+        name:
+          type: string
+    NormalResponse:
+      type: object
+      properties:
+        id:
+          type: string
+    StreamEvent:
+      type: object
+      properties:
+        type:
+          type: string
+        data:
+          type: string
