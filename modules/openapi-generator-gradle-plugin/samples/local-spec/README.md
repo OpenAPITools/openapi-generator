@@ -1,6 +1,6 @@
 # Local Spec Sample
 
-This example assumes you have Gradle 6.8.3+ installed. No gradle wrapper is provided in samples.
+This example assumes you have Gradle 7.6.0+ installed. No gradle wrapper is provided in samples.
 
 First, publish the openapi-generator-gradle-plugin locally via `./gradlew assemble publishToMavenLocal` in the module directory.
 
@@ -19,5 +19,5 @@ gradle generateGoWithInvalidSpec    # expected outcome: BUILD FAILED
 The samples can be tested against other versions of the plugin using the `openApiGeneratorVersion` property. For example:
 
 ```bash
-gradle -PopenApiGeneratorVersion=7.23.0 openApiValidate
+gradle -PopenApiGeneratorVersion=7.24.0 openApiValidate
 ```

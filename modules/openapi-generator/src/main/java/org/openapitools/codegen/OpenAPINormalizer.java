@@ -995,7 +995,24 @@ public class OpenAPINormalizer {
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);
-            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
+            Schema additionalProperties = (Schema) schema.getAdditionalProperties();
+            if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, additionalProperties)) {
+                // OAS 3.1 allows a map value schema of `type: "null"` (e.g.
+                // `additionalProperties: { type: "null" }`). There's no OAS 3.0 equivalent type,
+                // so generators emit a fictional `Null` / `ModelNull` value type that fails to
+                // compile. Normalize it to an any-type nullable schema so the map value is
+                // generated as a normal (nullable) object instead.
+                Schema anyTypeNullable = new Schema();
+                anyTypeNullable.setNullable(true);
+                schema.setAdditionalProperties(anyTypeNullable);
+            } else {
+                Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
+                if (getRule(NORMALIZE_31SPEC)) {
+                    // capture the normalized value schema (e.g. an OAS 3.1 `type: [array, "null"]`
+                    // value is rewritten to a proper array schema), which would otherwise be lost.
+                    schema.setAdditionalProperties(normalized);
+                }
+            }
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof IntegerSchema) {
@@ -1626,6 +1643,7 @@ public class OpenAPINormalizer {
      */
     protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
         Map<Object, String> enumValues = new LinkedHashMap<>();
+        Map<Object, Boolean> deprecatedValues = new LinkedHashMap<>();
 
         if(schema.getTypes() != null && schema.getTypes().size() > 1) {
             // we cannot handle enums with multiple types
@@ -1646,10 +1664,15 @@ public class OpenAPINormalizer {
 
             Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
 
-            // Check if this sub-schema has an enum (with one or more values)
-            if (subSchema.getEnum() == null || subSchema.getEnum().isEmpty()) {
+            // Check if this sub-schema has an enum or const value (OAS 3.1 uses const for single-value enums)
+            boolean definesEnum = ModelUtils.hasEnum(subSchema);
+            if (!definesEnum && subSchema.getConst() == null) {
                 return schema;
             }
+            // If const is present but enum is not, treat const as a single enum value
+            List<Object> subSchemaEnumValues = definesEnum
+                    ? subSchema.getEnum()
+                    : Arrays.asList(subSchema.getConst());
 
             // Ensure all sub-schemas have the same type (if type is specified)
             if(subSchema.getTypes() != null && subSchema.getTypes().size() > 1) {
@@ -1664,8 +1687,9 @@ public class OpenAPINormalizer {
                     return schema;
                 }
             }
+            boolean subSchemaDeprecated = Boolean.TRUE.equals(subSchema.getDeprecated());
             // Add all enum values from this sub-schema to our collection
-            if(subSchema.getEnum().size() == 1) {
+            if(subSchemaEnumValues.size() == 1) {
                 String description = subSchema.getTitle() == null ? "" : subSchema.getTitle();
                 if(subSchema.getDescription() != null) {
                     if(!description.isEmpty()) {
@@ -1673,16 +1697,18 @@ public class OpenAPINormalizer {
                     }
                     description += subSchema.getDescription();
                 }
-                enumValues.put(subSchema.getEnum().get(0), description);
+                enumValues.put(subSchemaEnumValues.get(0), description);
+                deprecatedValues.put(subSchemaEnumValues.get(0), subSchemaDeprecated);
             } else {
-                for(Object e: subSchema.getEnum()) {
+                for(Object e: subSchemaEnumValues) {
                     enumValues.put(e, "");
+                    deprecatedValues.put(e, subSchemaDeprecated);
                 }
             }
 
         }
 
-        return createSimplifiedEnumSchema(schema, enumValues, schemaType, composedType);
+        return createSimplifiedEnumSchema(schema, enumValues, deprecatedValues, schemaType, composedType);
     }
 
 
@@ -1691,11 +1717,12 @@ public class OpenAPINormalizer {
      *
      * @param originalSchema Original schema to modify
      * @param enumValues Collected enum values
+     * @param deprecatedValues Per-value deprecated flags (aligned with enumValues key order)
      * @param schemaType Consistent type across sub-schemas
      * @param composedType Type of composed schema being simplified
      * @return Simplified enum schema
      */
-    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, String schemaType, String composedType) {
+    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, Map<Object, Boolean> deprecatedValues, String schemaType, String composedType) {
         // Clear the composed schema type
         if ("oneOf".equals(composedType)) {
             originalSchema.setOneOf(null);
@@ -1712,6 +1739,10 @@ public class OpenAPINormalizer {
         if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
             //set x-enum-descriptions only if there's at least one non-empty description
             originalSchema.addExtension(X_ENUM_DESCRIPTIONS, new ArrayList<>(enumValues.values()));
+        }
+        if (deprecatedValues != null && deprecatedValues.values().stream().anyMatch(Boolean.TRUE::equals)) {
+            // preserve per-value deprecated flags from OAS 3.1 oneOf/anyOf + const sub-schemas
+            originalSchema.addExtension("x-enum-deprecated", new ArrayList<>(deprecatedValues.values()));
         }
 
         LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);

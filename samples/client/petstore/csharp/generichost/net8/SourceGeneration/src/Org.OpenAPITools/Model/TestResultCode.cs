@@ -152,6 +152,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestResultCode? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             TestResultCode? result = rawValue == null
@@ -172,7 +175,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestResultCode? testResultCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testResultCode.HasValue ? TestResultCodeValueConverter.ToJsonValue(testResultCode.Value).ToString() : "null");
+            if (testResultCode.HasValue)
+                writer.WriteStringValue(TestResultCodeValueConverter.ToJsonValue(testResultCode.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 

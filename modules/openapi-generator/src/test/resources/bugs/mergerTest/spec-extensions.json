@@ -1,0 +1,42 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "1.0.0",
+    "title": "Extensions Test Spec"
+  },
+  "servers": [
+    { "url": "api.my-domain.com/my-context-root/v1" }
+  ],
+  "paths": {
+    "/ext-path": {
+      "x-custom-path-ext": "path-level-value",
+      "get": {
+        "tags": ["ext"],
+        "summary": "extensions test",
+        "operationId": "extOperation",
+        "x-custom-op-ext": "operation-level-value",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ExtModel" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ExtModel": {
+        "type": "object",
+        "x-custom-schema-ext": "schema-level-value",
+        "properties": {
+          "extField": { "type": "string" }
+        }
+      }
+    }
+  }
+}

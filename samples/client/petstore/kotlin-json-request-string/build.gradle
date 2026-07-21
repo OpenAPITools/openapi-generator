@@ -7,7 +7,7 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '2.2.20'
+    ext.kotlin_version = '2.4.0'
     ext.spotless_version = "7.2.1"
 
     repositories {
@@ -57,15 +57,9 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
-    implementation "com.squareup.okhttp3:okhttp:5.1.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0"
+    implementation "com.squareup.okhttp3:okhttp:5.4.0"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-    kotlinOptions {
-        freeCompilerArgs += "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
-    }
 }
 
 java {

@@ -189,9 +189,9 @@
     <swagger-annotations-version>2.2.7</swagger-annotations-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>5.14.4</junit-version>
-    <logback-version>1.5.33</logback-version>
+    <logback-version>1.5.35</logback-version>
     <cxf-version>3.5.9</cxf-version>
-    <jackson-jaxrs-version>2.17.1</jackson-jaxrs-version>
+    <jackson-jaxrs-version>2.18.9</jackson-jaxrs-version>
     <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

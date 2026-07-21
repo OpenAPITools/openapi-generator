@@ -23,6 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         sample:
+          - samples/client/petstore/csharp/generichost/latest/AnnotatedEnum
           - samples/client/petstore/csharp/generichost/latest/ComposedEnum
           - samples/client/petstore/csharp/generichost/latest/InlineEnumAnyOf
           - samples/client/petstore/csharp/generichost/latest/Tags
@@ -50,7 +51,7 @@ jobs:
           # - samples/client/petstore/csharp/unityWebRequest/net10/Petstore
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-dotnet@v5.4.0
+      - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: '10.x'
       - name: Build

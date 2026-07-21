@@ -85,6 +85,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': "FooGetDefaultResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -146,6 +147,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': "FooGetDefaultResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -207,6 +209,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': "FooGetDefaultResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,

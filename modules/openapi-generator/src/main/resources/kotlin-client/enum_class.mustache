@@ -204,7 +204,7 @@ internal object {{classname}}Serializer : KSerializer<{{classname}}> {
 
     override fun deserialize(decoder: Decoder): {{classname}} {
         val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
-        return {{classname}}.values().firstOrNull { it.value == value }
+        return {{classname}}.entries.firstOrNull { it.value == value }
             ?: throw IllegalArgumentException("Unknown enum value: $value")
     }
 
