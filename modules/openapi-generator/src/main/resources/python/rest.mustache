@@ -150,6 +150,11 @@ class RESTClientObject:
         else:
             self.pool_manager = urllib3.PoolManager(**pool_args)
 
+{{#useIndependentImplicitClients}}
+    def close(self) -> None:
+        self.pool_manager.clear()
+
+{{/useIndependentImplicitClients}}
     def request(
         self,
         method,

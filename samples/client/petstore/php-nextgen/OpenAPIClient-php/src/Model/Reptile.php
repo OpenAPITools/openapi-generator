@@ -34,7 +34,7 @@ namespace OpenAPI\Client\Model;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class Reptile implements ComposedInterface
+class Reptile implements AnyOfInterface
 {
     /**
      * The original name of the model.
@@ -53,7 +53,7 @@ class Reptile implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedTypes(): array
+    public static function getAnyOfTypes(): array
     {
         return [
             '\OpenAPI\Client\Model\Lizard',
@@ -64,7 +64,7 @@ class Reptile implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedDiscriminator(): ?string
+    public static function getAnyOfDiscriminator(): ?string
     {
         return self::DISCRIMINATOR;
     }
@@ -72,7 +72,7 @@ class Reptile implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedDiscriminatorMappings(): array
+    public static function getAnyOfDiscriminatorMappings(): array
     {
         return [
             'lizard' => '\OpenAPI\Client\Model\Lizard',

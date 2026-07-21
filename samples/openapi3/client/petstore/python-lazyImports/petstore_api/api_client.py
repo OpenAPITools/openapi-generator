@@ -82,7 +82,7 @@ class ApiClient:
     ) -> None:
         # use default configuration if none is provided
         if configuration is None:
-            configuration = Configuration.get_default()
+            configuration = Configuration.get_default_copy()
         self.configuration = configuration
 
         self.rest_client = rest.RESTClientObject(configuration)
@@ -94,11 +94,14 @@ class ApiClient:
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
         self.client_side_validation = configuration.client_side_validation
 
+    def close(self):
+        self.rest_client.close()
+
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        pass
+        self.close()
 
     @property
     def user_agent(self):
@@ -116,18 +119,15 @@ class ApiClient:
     _default = None
 
     @classmethod
+    def _get_default_or_new(cls):
+        if cls._default is not None:
+            return cls._default, False
+        return cls(), True
+
+    @classmethod
     def get_default(cls):
-        """Return new instance of ApiClient.
-
-        This method returns newly created, based on default constructor,
-        object of ApiClient class or returns a copy of default
-        ApiClient.
-
-        :return: The ApiClient object.
-        """
-        if cls._default is None:
-            cls._default = ApiClient()
-        return cls._default
+        """Return the registered default ApiClient, or a new client."""
+        return cls._get_default_or_new()[0]
 
     @classmethod
     def set_default(cls, default):
@@ -301,6 +301,12 @@ class ApiClient:
         if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
             # if not found, look for '1XX', '2XX', etc.
             response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
+
+        # If the response_type has not matched (eg. did not match the previous if statements) and the default response is available, use it.
+        if response_type is None and str(response_data.status) not in response_types_map \
+            and (not isinstance(response_data.status, int) or not 100 <= response_data.status <= 599 or str(response_data.status)[0] + "XX" not in response_types_map) \
+            and 'default' in response_types_map:
+            response_type = response_types_map['default']
 
         # deserialize response data
         response_text = None
@@ -672,7 +678,16 @@ class ApiClient:
         :param auth_setting: auth settings for the endpoint
         """
         if auth_setting['in'] == 'cookie':
-            headers['Cookie'] = auth_setting['value']
+            if not 'Cookie' in headers:
+                headers['Cookie'] = ""
+            else:
+                headers['Cookie'] += "; "
+            # Account for cookie value containing spaces and special characters
+            cookie_value = str(auth_setting['value'])
+            if not re.match("^\".*\"$", cookie_value):
+                cookie_value = cookie_value.replace("\"", "\\\"")
+                cookie_value = f"\"{cookie_value}\""
+            headers['Cookie'] += f"{auth_setting['key']}={cookie_value}"
         elif auth_setting['in'] == 'header':
             if auth_setting['type'] != 'http-signature':
                 headers[auth_setting['key']] = auth_setting['value']

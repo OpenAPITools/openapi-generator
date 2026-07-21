@@ -384,6 +384,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
     }
 
+    @Override
+    public String toExampleValue(Schema schema) {
+        if (schema.getExample() != null) {
+            return super.toExampleValue(schema);
+        }
+        return null;
+    }
+
     /**
      * returns the OpenAPI type for the property
      *
@@ -1038,6 +1046,28 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
         allVarsMap.keySet()
                 .removeAll(m.vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toSet()));
+
+        // if there is a parent, find the redefined vars
+        if (m.parent != null && m.parentSchema != null) {
+
+            // get the parent schema
+            Schema<?> parentSchema = ModelUtils.getSchemas(this.openAPI).get(m.parentSchema);
+
+            // if parent schema has properties, find the intersection
+            if (parentSchema != null && parentSchema.getProperties() != null) {
+                Set<String> varNames = parentSchema.getProperties().keySet();
+
+                // compute intersection of m.allVars and parent properties, this will give us the overridden properties
+                Map<String, CodegenProperty> overriddenProperties = m.allVars.stream()
+                        .filter(p -> varNames.contains(p.getBaseName()))
+                        .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
+
+                // overridden properties contain the properties that are redefined in the child model.
+                // add them to allVarsMap so that they are marked as inherited.
+                allVarsMap.putAll(overriddenProperties);
+            }
+        }
+
         // Update the allVars
         allVarsMap.values().forEach(p -> p.isInherited = true);
         // Update any other vars (requiredVars, optionalVars)
@@ -1341,6 +1371,18 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             if (end > 0) {
                 dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableList<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
+            }
+        } else if (returnType.startsWith("kotlin.collections.MutableSet")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableSet<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("Set");
+            }
+        } else if (returnType.startsWith("kotlin.collections.Set")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Set<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("Set");
             }
         } else if (returnType.startsWith("kotlin.collections.Map")) {
             int end = returnType.lastIndexOf(">");

@@ -293,4 +293,143 @@ public class CSharpClientCodegenTest {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
+
+    @Test
+    public void testNumericEnumJsonConverterUsesNumericOperations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/integer-enum.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        // Verify integer enum uses numeric JSON reader with validation
+        File intEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "IntegerEnum.cs")
+                .toString()
+        );
+        assertNotNull(intEnumFile, "Could not find file for model: IntegerEnum");
+        assertFileContains(intEnumFile.toPath(),
+                "reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "FromStringOrDefault(rawValue)",
+                "throw new JsonException()",
+                "writer.WriteNumberValue(",
+                "public static int ToJsonValue(IntegerEnum value)"
+        );
+        assertFileNotContains(intEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue(",
+                ": long",
+                ": byte"
+        );
+
+        // Verify long enum uses int64 reader with validation and actual int64 values
+        File longEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "LongEnum.cs")
+                .toString()
+        );
+        assertNotNull(longEnumFile, "Could not find file for model: LongEnum");
+        assertFileContains(longEnumFile.toPath(),
+                "enum LongEnum : long",
+                "reader.GetInt64().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "FromStringOrDefault(rawValue)",
+                "throw new JsonException()",
+                "writer.WriteNumberValue(",
+                "public static long ToJsonValue(LongEnum value)",
+                "AboveInt32Max = 2147483648",
+                "Int64Max = 9223372036854775807"
+        );
+        assertFileNotContains(longEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue("
+        );
+
+        // Verify floating-point enums match using invariant culture and write the original numeric values
+        File doubleEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "DoubleEnum.cs")
+                .toString()
+        );
+        assertNotNull(doubleEnumFile, "Could not find file for model: DoubleEnum");
+        assertFileContains(doubleEnumFile.toPath(),
+                "reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "(1.1d).ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "writer.WriteNumberValue(",
+                "public static double ToJsonValue(DoubleEnum value)",
+                "return 1.1d;",
+                "return -1.2d;"
+        );
+        assertFileNotContains(doubleEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue(",
+                "return (double) value"
+        );
+
+        File floatEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "FloatEnum.cs")
+                .toString()
+        );
+        assertNotNull(floatEnumFile, "Could not find file for model: FloatEnum");
+        assertFileContains(floatEnumFile.toPath(),
+                "reader.GetSingle().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "(1.1f).ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "public static float ToJsonValue(FloatEnum value)",
+                "return 1.1f;",
+                "return -1.2f;"
+        );
+
+        File decimalEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "DecimalEnum.cs")
+                .toString()
+        );
+        assertNotNull(decimalEnumFile, "Could not find file for model: DecimalEnum");
+        assertFileContains(decimalEnumFile.toPath(),
+                "reader.GetDecimal().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "(1.1m).ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "public static decimal ToJsonValue(DecimalEnum value)",
+                "return 1.1m;",
+                "return -1.2m;"
+        );
+
+        File byteEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "ByteEnum.cs")
+                .toString()
+        );
+        assertNotNull(byteEnumFile, "Could not find file for model: ByteEnum");
+        assertFileContains(byteEnumFile.toPath(),
+                "reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "public static int ToJsonValue(ByteEnum value)",
+                "writer.WriteNumberValue("
+        );
+
+        // Referenced enums use their registered converters; inline enums keep their value-mapping helpers.
+        File modelFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "ModelWithEnumProperties.cs")
+                .toString()
+        );
+        assertNotNull(modelFile, "Could not find file for model: ModelWithEnumProperties");
+        assertFileContains(modelFile.toPath(),
+                "JsonSerializer.Deserialize<IntegerEnum?>",
+                "JsonSerializer.Deserialize<LongEnum?>",
+                "JsonSerializer.Deserialize<DoubleEnum?>",
+                "JsonSerializer.Deserialize<FloatEnum?>",
+                "JsonSerializer.Deserialize<DecimalEnum?>",
+                "JsonSerializer.Deserialize<ByteEnum?>",
+                "inlineIntEnumRawValue = utf8JsonReader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineLongEnumRawValue = utf8JsonReader.GetInt64().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineDoubleEnumRawValue = utf8JsonReader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineByteEnumRawValue = utf8JsonReader.GetByte().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "InlineLongEnumEnum : long",
+                "InlineByteEnumEnum : byte",
+                "return 1.1d;",
+                "return -1.2d;"
+        );
+    }
 }

@@ -536,8 +536,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -546,7 +546,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::Client>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(TestSpecialTagsResponse::SuccessfulOperation
                     (body)
@@ -695,8 +694,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -705,7 +704,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<bool>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(FakeOuterBooleanSerializeResponse::OutputBoolean
                     (body)
@@ -786,8 +784,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -796,7 +794,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::OuterComposite>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(FakeOuterCompositeSerializeResponse::OutputComposite
                     (body)
@@ -877,8 +874,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -887,7 +884,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<f64>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(FakeOuterNumberSerializeResponse::OutputNumber
                     (body)
@@ -968,8 +964,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -978,7 +974,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<String>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(FakeOuterStringSerializeResponse::OutputString
                     (body)
@@ -1205,8 +1200,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1215,7 +1210,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::Client>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(TestClientModelResponse::SuccessfulOperation
                     (body)
@@ -1876,8 +1870,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1886,7 +1880,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::Client>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(TestClassnameResponse::SuccessfulOperation
                     (body)
@@ -2072,19 +2065,44 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
+
+                let (header, body) = response.into_parts();
                 let body = http_body_util::BodyExt::collect(body)
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
 
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                // Body has multiple variant schemas
+                let content_type = if let Some(content_type) = header.headers.get(CONTENT_TYPE) {
+                    content_type.to_str()
+                } else {
+                    return Err(ApiError(String::from("Missing content type header")));
+                };
 
+                let content_type = content_type.map(|s|
+                    s.split(';').next().expect("Splitting content type header failed").trim());
+
+                let body = match content_type {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                        // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                        let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<Vec<models::Pet>>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::B(body)
+                    },
+                    e => {
+                        return Err(ApiError(format!("Unexpected content type: {:?}", e)));
+                    }
+                };
 
                 Ok(FindPetsByStatusResponse::SuccessfulOperation
                     (body)
@@ -2180,19 +2198,44 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
+
+                let (header, body) = response.into_parts();
                 let body = http_body_util::BodyExt::collect(body)
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
 
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                // Body has multiple variant schemas
+                let content_type = if let Some(content_type) = header.headers.get(CONTENT_TYPE) {
+                    content_type.to_str()
+                } else {
+                    return Err(ApiError(String::from("Missing content type header")));
+                };
 
+                let content_type = content_type.map(|s|
+                    s.split(';').next().expect("Splitting content type header failed").trim());
+
+                let body = match content_type {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                        // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                        let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<Vec<models::Pet>>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<Vec<models::Pet>, Vec<models::Pet>>::B(body)
+                    },
+                    e => {
+                        return Err(ApiError(format!("Unexpected content type: {:?}", e)));
+                    }
+                };
 
                 Ok(FindPetsByTagsResponse::SuccessfulOperation
                     (body)
@@ -2499,19 +2542,44 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
+
+                let (header, body) = response.into_parts();
                 let body = http_body_util::BodyExt::collect(body)
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
 
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<models::Pet>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                // Body has multiple variant schemas
+                let content_type = if let Some(content_type) = header.headers.get(CONTENT_TYPE) {
+                    content_type.to_str()
+                } else {
+                    return Err(ApiError(String::from("Missing content type header")));
+                };
 
+                let content_type = content_type.map(|s|
+                    s.split(';').next().expect("Splitting content type header failed").trim());
+
+                let body = match content_type {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                        // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                        let body = serde_xml_rs::from_str::<models::Pet>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::Pet, models::Pet>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<models::Pet>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::Pet, models::Pet>::B(body)
+                    },
+                    e => {
+                        return Err(ApiError(format!("Unexpected content type: {:?}", e)));
+                    }
+                };
 
                 Ok(GetPetByIdResponse::SuccessfulOperation
                     (body)
@@ -2713,7 +2781,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
             multipart.add_stream("additional_metadata",  additional_metadata_cursor,  None as Option<&str>, Some(additional_metadata_mime));
 
-
             let file_str = match serde_json::to_string(&param_file) {
                 Ok(str) => str,
                 Err(e) => return Err(ApiError(format!("Unable to serialize file to string: {e}"))),
@@ -2724,7 +2791,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
             let file_cursor = Cursor::new(file_vec);
 
             multipart.add_stream("file",  file_cursor,  None as Option<&str>, Some(file_mime));
-
 
             let mut fields = match multipart.prepare() {
                 Ok(fields) => fields,
@@ -2751,7 +2817,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {multipart_header} - {e}")))
         });
-
 
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
@@ -2782,8 +2847,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -2792,7 +2857,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::ApiResponse>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(UploadFileResponse::SuccessfulOperation
                     (body)
@@ -2880,8 +2944,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -2890,7 +2954,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<std::collections::HashMap<String, i32>>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(GetInventoryResponse::SuccessfulOperation
                     (body)
@@ -2969,19 +3032,44 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
+
+                let (header, body) = response.into_parts();
                 let body = http_body_util::BodyExt::collect(body)
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
 
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<models::Order>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                // Body has multiple variant schemas
+                let content_type = if let Some(content_type) = header.headers.get(CONTENT_TYPE) {
+                    content_type.to_str()
+                } else {
+                    return Err(ApiError(String::from("Missing content type header")));
+                };
 
+                let content_type = content_type.map(|s|
+                    s.split(';').next().expect("Splitting content type header failed").trim());
+
+                let body = match content_type {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                        // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                        let body = serde_xml_rs::from_str::<models::Order>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::Order, models::Order>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<models::Order>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::Order, models::Order>::B(body)
+                    },
+                    e => {
+                        return Err(ApiError(format!("Unexpected content type: {:?}", e)));
+                    }
+                };
 
                 Ok(PlaceOrderResponse::SuccessfulOperation
                     (body)
@@ -3133,19 +3221,44 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
+
+                let (header, body) = response.into_parts();
                 let body = http_body_util::BodyExt::collect(body)
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
 
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<models::Order>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                // Body has multiple variant schemas
+                let content_type = if let Some(content_type) = header.headers.get(CONTENT_TYPE) {
+                    content_type.to_str()
+                } else {
+                    return Err(ApiError(String::from("Missing content type header")));
+                };
 
+                let content_type = content_type.map(|s|
+                    s.split(';').next().expect("Splitting content type header failed").trim());
+
+                let body = match content_type {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                        // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                        let body = serde_xml_rs::from_str::<models::Order>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::Order, models::Order>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<models::Order>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::Order, models::Order>::B(body)
+                    },
+                    e => {
+                        return Err(ApiError(format!("Unexpected content type: {:?}", e)));
+                    }
+                };
 
                 Ok(GetOrderByIdResponse::SuccessfulOperation
                     (body)
@@ -3462,7 +3575,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let response_x_rate_limit = match response.headers().get(HeaderName::from_static("x-rate-limit")) {
+                let (header, body) = response.into_parts();
+                let response_x_rate_limit = match header.headers.get(HeaderName::from_static("x-rate-limit")) {
                     Some(response_x_rate_limit) => {
                         let response_x_rate_limit = response_x_rate_limit.clone();
                         let response_x_rate_limit = match TryInto::<header::IntoHeaderValue<i32>>::try_into(response_x_rate_limit) {
@@ -3476,7 +3590,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     None => None,
                 };
 
-                let response_x_expires_after = match response.headers().get(HeaderName::from_static("x-expires-after")) {
+                let response_x_expires_after = match header.headers.get(HeaderName::from_static("x-expires-after")) {
                     Some(response_x_expires_after) => {
                         let response_x_expires_after = response_x_expires_after.clone();
                         let response_x_expires_after = match TryInto::<header::IntoHeaderValue<chrono::DateTime::<chrono::Utc>>>::try_into(response_x_expires_after) {
@@ -3490,19 +3604,44 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     None => None,
                 };
 
-                let body = response.into_body();
+
                 let body = http_body_util::BodyExt::collect(body)
+
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
 
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<String>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                // Body has multiple variant schemas
+                let content_type = if let Some(content_type) = header.headers.get(CONTENT_TYPE) {
+                    content_type.to_str()
+                } else {
+                    return Err(ApiError(String::from("Missing content type header")));
+                };
 
+                let content_type = content_type.map(|s|
+                    s.split(';').next().expect("Splitting content type header failed").trim());
+
+                let body = match content_type {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                        // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                        let body = serde_xml_rs::from_str::<String>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<String, String>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<String>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<String, String>::B(body)
+                    },
+                    e => {
+                        return Err(ApiError(format!("Unexpected content type: {:?}", e)));
+                    }
+                };
 
                 Ok(LoginUserResponse::SuccessfulOperation
                     {
@@ -3726,19 +3865,44 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
+
+                let (header, body) = response.into_parts();
                 let body = http_body_util::BodyExt::collect(body)
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
 
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
-                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                let body = serde_xml_rs::from_str::<models::User>(body)
-                    .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                // Body has multiple variant schemas
+                let content_type = if let Some(content_type) = header.headers.get(CONTENT_TYPE) {
+                    content_type.to_str()
+                } else {
+                    return Err(ApiError(String::from("Missing content type header")));
+                };
 
+                let content_type = content_type.map(|s|
+                    s.split(';').next().expect("Splitting content type header failed").trim());
+
+                let body = match content_type {
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/xml") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                        // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                        let body = serde_xml_rs::from_str::<models::User>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::User, models::User>::A(body)
+                    },
+                    Ok(ct) if ct.eq_ignore_ascii_case("application/json") => {
+                        let body = str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
+                        let body = serde_json::from_str::<models::User>(body)
+                            .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
+                        swagger::OneOf2::<models::User, models::User>::B(body)
+                    },
+                    e => {
+                        return Err(ApiError(format!("Unexpected content type: {:?}", e)));
+                    }
+                };
 
                 Ok(GetUserByNameResponse::SuccessfulOperation
                     (body)

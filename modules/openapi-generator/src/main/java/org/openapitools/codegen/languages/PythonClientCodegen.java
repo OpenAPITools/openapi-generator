@@ -25,17 +25,25 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /**
@@ -54,6 +62,51 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String LAZY_IMPORTS = "lazyImports";
     public static final String BUILD_SYSTEM = "buildSystem";
     public static final String SUPPORT_HTTPX_SYNC = "supportHttpxSync";
+    public static final String USE_INDEPENDENT_IMPLICIT_CLIENTS = "useIndependentImplicitClients";
+    private static final Set<String> SYNC_API_LIFECYCLE_METHODS =
+            Set.of("close", "__enter__", "__exit__");
+    private static final Set<String> ASYNC_API_LIFECYCLE_METHODS =
+            Set.of("close", "__aenter__", "__aexit__");
+    private static final Set<String> HTTPX_SYNC_API_LIFECYCLE_METHODS =
+            Set.of("close_sync", "__enter__", "__exit__");
+    private static final Set<String> INDEPENDENT_API_MEMBER_NAMES =
+            Set.of("_owned_api_client");
+    public static final String COMPATIBLE_WITH_PYTHON_LEGACY = "compatibleWithPythonLegacy";
+    private static final String COMPATIBLE_WITH_PYTHON_LEGACY_API = "compatibleWithPythonLegacyApi";
+    // Snapshot of BaseModel's public API in the minimum supported Pydantic 2.11.
+    // https://github.com/pydantic/pydantic/blob/v2.11.0/pydantic/main.py
+    private static final Set<String> PYDANTIC_BASE_MODEL_MEMBER_NAMES = Set.of(
+            "construct", "copy", "dict", "from_orm", "json",
+            "model_computed_fields", "model_config", "model_construct", "model_copy", "model_dump",
+            "model_dump_json", "model_extra", "model_fields", "model_fields_set", "model_json_schema",
+            "model_parametrized_name", "model_post_init", "model_rebuild", "model_validate",
+            "model_validate_json", "model_validate_strings", "parse_file", "parse_obj", "parse_raw",
+            "schema", "schema_json", "update_forward_refs", "validate");
+    private static final Set<String> GENERATED_MODEL_MEMBER_NAMES = Set.of(
+            "from_dict", "from_json", "to_dict", "to_json", "to_str");
+    private static final Set<String> LEGACY_MODEL_METADATA_MEMBER_NAMES =
+            Set.of("attribute_map", "openapi_types");
+    private static final Set<String> MODEL_FIELD_NAME_COLLISIONS;
+    private static final Set<String> MODEL_PUBLIC_MEMBER_NAMES;
+    private static final Set<String> MODEL_CLASS_BODY_NAMES = Set.of(
+            "ConfigDict", "classmethod", "datetime", "field_validator", "property");
+    private static final Set<String> PYDANTIC_PRIVATE_MEMBER_NAMES = Set.of(
+            "_abc_impl", "_calculate_keys", "_copy_and_set_values", "_get_value", "_iter",
+            "_setattr_handler");
+    static {
+        Set<String> fieldNames = new HashSet<>(PYDANTIC_BASE_MODEL_MEMBER_NAMES);
+        fieldNames.addAll(GENERATED_MODEL_MEMBER_NAMES);
+        MODEL_FIELD_NAME_COLLISIONS = Set.copyOf(fieldNames);
+
+        Set<String> publicNames = new HashSet<>(PYDANTIC_BASE_MODEL_MEMBER_NAMES);
+        publicNames.addAll(GENERATED_MODEL_MEMBER_NAMES);
+        // BaseModel.schema() is deprecated, and nameMappings are used to
+        // preserve schema fields. The generated property intentionally replaces it.
+        publicNames.remove("schema");
+        // Forwarding property type stubs use the built-in decorator.
+        publicNames.add("property");
+        MODEL_PUBLIC_MEMBER_NAMES = Set.copyOf(publicNames);
+    }
 
     @Setter protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -62,6 +115,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Setter protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
     @Setter protected String dateFormat = "%Y-%m-%d";
     @Setter protected boolean setEnsureAsciiToFalse = false;
+    @Setter protected boolean useIndependentImplicitClients = false;
+    @Setter protected boolean compatibleWithPythonLegacy = false;
 
     private String testFolder;
 
@@ -162,6 +217,19 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(CliOption.newBoolean(SUPPORT_HTTPX_SYNC, "Generate synchronous '_sync' variants of each API method (httpx library only). " +
                 "Each '_sync' method simply calls the corresponding async method and waits for its completion, " +
                 "so both synchronous and asynchronous methods are available from the same API class.").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(USE_INDEPENDENT_IMPLICIT_CLIENTS,
+                "Give API instances without an explicit or registered default ApiClient " +
+                "an owned client with a copied Configuration.")
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(COMPATIBLE_WITH_PYTHON_LEGACY,
+                "Enable compatibility with python-legacy. Currently, generated model field aliases preserve normalized Python constructor names while " +
+                        "accepting wire names, and to_dict() emits every declared field, using None for missing attributes, " +
+                        "under public names by default and wire names with serialize=True. Generic models expose " +
+                        "openapi_types and attribute_map, reject unknown constructor keys, and use legacy display and equality helpers. " +
+                        "Container conversion is limited to immediate list elements and dictionary values, matching python-legacy. " +
+                        "Synchronous urllib3 operations keep async_req, _preload_content, tuple " +
+                        "with_http_info() behavior, and integer _request_timeout inputs. JSON and request serialization remain unchanged.")
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -280,11 +348,32 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             additionalProperties.put(LAZY_IMPORTS, Boolean.valueOf(additionalProperties.get(LAZY_IMPORTS).toString()));
         }
 
+        if (additionalProperties.containsKey(COMPATIBLE_WITH_PYTHON_LEGACY)) {
+            setCompatibleWithPythonLegacy(convertPropertyToBooleanAndWriteBack(COMPATIBLE_WITH_PYTHON_LEGACY));
+        } else {
+            additionalProperties.put(COMPATIBLE_WITH_PYTHON_LEGACY, compatibleWithPythonLegacy);
+        }
+        // Model compatibility applies to every library, but operation compatibility
+        // matches the removed synchronous urllib3 python-legacy generator.
+        if (usesLegacyApiCompatibility()) {
+            additionalProperties.put(COMPATIBLE_WITH_PYTHON_LEGACY_API, true);
+        } else {
+            additionalProperties.remove(COMPATIBLE_WITH_PYTHON_LEGACY_API);
+        }
+
         if (additionalProperties.containsKey(BUILD_SYSTEM)) {
             String buildSystem = (String) additionalProperties.get(BUILD_SYSTEM);
             if ("hatchling".equals(buildSystem)) {
                 additionalProperties.put("hatchling", true);
             }
+        }
+
+        if (additionalProperties.containsKey(USE_INDEPENDENT_IMPLICIT_CLIENTS)) {
+            setUseIndependentImplicitClients(
+                    convertPropertyToBooleanAndWriteBack(USE_INDEPENDENT_IMPLICIT_CLIENTS));
+        } else {
+            additionalProperties.put(
+                    USE_INDEPENDENT_IMPLICIT_CLIENTS, useIndependentImplicitClients);
         }
 
         String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
@@ -482,6 +571,452 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
+        }
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
+        if (useIndependentImplicitClients) {
+            renameIndependentClientOperationMembers(
+                    objs.getOperations().getOperation());
+        }
+        return super.postProcessOperationsWithModels(objs, allModels);
+    }
+
+    private void renameIndependentClientOperationMembers(
+            List<CodegenOperation> operations) {
+        Set<String> apiMembers = independentClientApiMembers();
+        Set<String> occupiedMembers = new HashSet<>(apiMembers);
+        for (CodegenOperation operation : operations) {
+            if (!apiMembers.contains(operation.operationId)) {
+                occupiedMembers.addAll(generatedOperationMembers(operation.operationId));
+            }
+        }
+
+        for (CodegenOperation operation : operations) {
+            String originalName = operation.operationId;
+            if (!apiMembers.contains(originalName)) {
+                continue;
+            }
+
+            String candidate = "call_" + originalName;
+            int suffix = 2;
+            while (generatedOperationMembers(candidate).stream()
+                    .anyMatch(occupiedMembers::contains)) {
+                candidate = "call_" + originalName + "_" + suffix;
+                suffix++;
+            }
+
+            LOGGER.warn("{} conflicts with a generated API member. Renamed to {}",
+                    originalName, candidate);
+            operation.operationId = candidate;
+            operation.operationIdLowerCase = candidate.toLowerCase(Locale.ROOT);
+            operation.operationIdCamelCase = camelize(candidate);
+            operation.operationIdSnakeCase = underscore(candidate);
+            occupiedMembers.addAll(generatedOperationMembers(candidate));
+        }
+    }
+
+    private Set<String> independentClientApiMembers() {
+        Set<String> members = new HashSet<>(INDEPENDENT_API_MEMBER_NAMES);
+        boolean async = "asyncio".equals(getLibrary()) || "httpx".equals(getLibrary());
+        members.addAll(async
+                ? ASYNC_API_LIFECYCLE_METHODS
+                : SYNC_API_LIFECYCLE_METHODS);
+        if (supportsHttpxSync()) {
+            members.addAll(HTTPX_SYNC_API_LIFECYCLE_METHODS);
+        }
+        return members;
+    }
+
+    private Set<String> generatedOperationMembers(String operationId) {
+        Set<String> members = new HashSet<>(Set.of(
+                operationId,
+                operationId + "_with_http_info",
+                "_" + operationId + "_serialize"));
+        if (!usesLegacyApiCompatibility()) {
+            members.add(operationId + "_without_preload_content");
+        }
+        if (supportsHttpxSync()) {
+            members.add(operationId + "_sync");
+            members.add(operationId + "_sync_with_http_info");
+            members.add(operationId + "_sync_without_preload_content");
+        }
+        return members;
+    }
+
+    private boolean usesLegacyApiCompatibility() {
+        return compatibleWithPythonLegacy && DEFAULT_LIBRARY.equals(getLibrary());
+    }
+
+    private boolean supportsHttpxSync() {
+        return "httpx".equals(getLibrary())
+                && Boolean.parseBoolean(String.valueOf(
+                        additionalProperties.get(SUPPORT_HTTPX_SYNC)));
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (model == null || !model.oneOf.isEmpty() || !model.anyOf.isEmpty()) {
+                    continue;
+                }
+                List<CodegenProperty> generatedProperties = generatedProperties(model);
+                boolean hidesStorageNames = generatedProperties.stream().anyMatch(property ->
+                        property.vendorExtensions.containsKey(
+                                CodegenConstants.X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE));
+                if (hidesStorageNames) {
+                    configurePublicNameInputs(model.vars);
+                    configurePublicNameInputs(generatedProperties);
+                    configureHiddenStorageNames(model, generatedProperties);
+                }
+
+                List<CodegenProperty> inputNameProperties = new ArrayList<>();
+                boolean validatesInputNames = hidesStorageNames;
+                for (CodegenProperty property : generatedProperties) {
+                    if (property.vendorExtensions.containsKey(
+                            CodegenConstants.X_PY_PUBLIC_NAME_DIFFERS_FROM_WIRE)) {
+                        inputNameProperties.add(property);
+                        if (property.vendorExtensions.containsKey(
+                                CodegenConstants.X_PY_EXPLICIT_PUBLIC_NAME)) {
+                            validatesInputNames = true;
+                        }
+                    }
+                }
+                if (hidesStorageNames || !inputNameProperties.isEmpty()) {
+                    model.vendorExtensions.put(
+                            CodegenConstants.X_PY_PREPROCESSES_INPUT_NAMES, true);
+                    model.vendorExtensions.put(
+                            CodegenConstants.X_PY_INPUT_NAME_PROPERTIES,
+                            inputNameProperties);
+                }
+                if (validatesInputNames) {
+                    model.vendorExtensions.put(
+                            CodegenConstants.X_PY_VALIDATES_INPUT_NAMES, true);
+                }
+            }
+        }
+
+        Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+        for (ModelsMap modelsMap : processed.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (model != null && model.oneOf.isEmpty() && model.anyOf.isEmpty()) {
+                    for (CodegenProperty property : model.vars) {
+                        if (property.vendorExtensions.containsKey(
+                                CodegenConstants.X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE)) {
+                            model.vendorExtensions.put(
+                                    CodegenConstants.X_PY_HAS_PUBLIC_NAME_PROPERTIES, true);
+                            break;
+                        }
+                    }
+                    List<CodegenProperty> generatedProperties = generatedProperties(model);
+                    if (compatibleWithPythonLegacy
+                            || generatedProperties.stream().anyMatch(property ->
+                                    property.vendorExtensions.containsKey(
+                                            CodegenConstants.X_PY_EXPLICIT_PUBLIC_NAME))) {
+                        validateModelPropertyNames(model, generatedProperties);
+                    }
+                }
+            }
+        }
+        return processed;
+    }
+
+    private void configurePublicNameInputs(List<CodegenProperty> properties) {
+        for (CodegenProperty property : properties) {
+            String publicName = (String) property.vendorExtensions.getOrDefault(
+                    CodegenConstants.X_PY_PUBLIC_NAME, property.name);
+            property.vendorExtensions.put(CodegenConstants.X_PY_PUBLIC_NAME, publicName);
+            property.vendorExtensions.put(
+                    CodegenConstants.X_PY_PUBLIC_NAME_LITERAL,
+                    toPythonStringLiteral(publicName));
+            if (!publicName.equals(property.baseName)) {
+                property.vendorExtensions.put(
+                        CodegenConstants.X_PY_PUBLIC_NAME_DIFFERS_FROM_WIRE, true);
+            }
+        }
+    }
+
+    private static List<CodegenProperty> generatedProperties(CodegenModel model) {
+        // model.allVars can include fields inherited from a schema-mapped
+        // parent. Only generated models own input-name preprocessing here.
+        Set<String> generatedPropertyBaseNames = new HashSet<>();
+        for (CodegenModel ancestor = model; ancestor != null; ancestor = ancestor.parentModel) {
+            for (CodegenProperty property : ancestor.vars) {
+                generatedPropertyBaseNames.add(property.baseName);
+            }
+        }
+
+        List<CodegenProperty> properties = new ArrayList<>();
+        for (CodegenProperty property : model.allVars) {
+            if (generatedPropertyBaseNames.contains(property.baseName)) {
+                properties.add(property);
+            }
+        }
+        return properties;
+    }
+
+    private void configureHiddenStorageNames(
+            CodegenModel model, List<CodegenProperty> generatedProperties) {
+        Set<String> inputNames = new HashSet<>();
+        for (CodegenProperty property : model.allVars) {
+            inputNames.add(property.baseName);
+            inputNames.add((String) property.vendorExtensions.getOrDefault(
+                    CodegenConstants.X_PY_PUBLIC_NAME, property.name));
+        }
+
+        Set<String> hiddenStorageNames = new HashSet<>();
+        List<String> orderedHiddenStorageNames = new ArrayList<>();
+        for (CodegenProperty property : generatedProperties) {
+            if (property.vendorExtensions.containsKey(
+                            CodegenConstants.X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE)
+                    && !inputNames.contains(property.name)
+                    && hiddenStorageNames.add(property.name)) {
+                orderedHiddenStorageNames.add(property.name);
+            }
+        }
+        if (!orderedHiddenStorageNames.isEmpty()) {
+            model.vendorExtensions.put(
+                    CodegenConstants.X_PY_HIDDEN_STORAGE_NAMES,
+                    orderedHiddenStorageNames);
+        }
+    }
+
+    private void validateModelPropertyNames(
+            CodegenModel model, List<CodegenProperty> generatedProperties) {
+        Set<String> generatedMembers = generatedModelMembers(model);
+        // An unrelated nameMapping must not newly reject existing unmapped
+        // fields that collide with Pydantic or generated members.
+        Set<String> nameMappingGeneratedMembers =
+                nameMappingGeneratedModelMembers(model);
+        Map<String, CodegenProperty> inputNameOwners = new HashMap<>();
+        Map<String, CodegenProperty> memberNameOwners = new HashMap<>();
+        for (CodegenProperty property : generatedProperties) {
+            String publicName = (String) property.vendorExtensions.getOrDefault(
+                    CodegenConstants.X_PY_PUBLIC_NAME, property.name);
+            boolean explicitPublicName = property.vendorExtensions.containsKey(
+                    CodegenConstants.X_PY_EXPLICIT_PUBLIC_NAME);
+            boolean legacyMetadataCollision = compatibleWithPythonLegacy
+                    && (LEGACY_MODEL_METADATA_MEMBER_NAMES.contains(publicName)
+                    || LEGACY_MODEL_METADATA_MEMBER_NAMES.contains(property.name));
+            boolean publicNameCollision = generatedMembers.contains(publicName)
+                    && (explicitPublicName
+                    || legacyMetadataCollision
+                    || nameMappingGeneratedMembers.contains(publicName));
+            boolean storageNameCollision = generatedMembers.contains(property.name)
+                    && (explicitPublicName
+                    || legacyMetadataCollision
+                    || nameMappingGeneratedMembers.contains(property.name));
+            if (publicNameCollision || storageNameCollision) {
+                String generatedMemberName = publicNameCollision
+                        ? publicName
+                        : property.name;
+                throw new IllegalArgumentException(String.format(Locale.ROOT,
+                        "property %s in model %s uses generated Python member name %s",
+                        property.baseName, model.name, generatedMemberName));
+            }
+            if (explicitPublicName
+                    && (!publicName.matches("[A-Za-z_][A-Za-z0-9_]*")
+                    || PYTHON_KEYWORDS.contains(publicName)
+                    || publicName.startsWith("__"))) {
+                throw new IllegalArgumentException(String.format(Locale.ROOT,
+                        "property %s in model %s cannot use %s as its public Python name",
+                        property.baseName, model.name, publicName));
+            }
+            if (explicitPublicName
+                    && (!property.name.matches("[A-Za-z][A-Za-z0-9_]*")
+                    || PYTHON_KEYWORDS.contains(property.name)
+                    || MODEL_FIELD_NAME_COLLISIONS.contains(property.name)
+                    || MODEL_CLASS_BODY_NAMES.contains(property.name)
+                    || PYDANTIC_PRIVATE_MEMBER_NAMES.contains(property.name))) {
+                throw new IllegalArgumentException(String.format(Locale.ROOT,
+                        "property %s in model %s has invalid generated Python field name %s",
+                        property.baseName, model.name, property.name));
+            }
+
+            for (String inputName : List.of(property.baseName, publicName)) {
+                CodegenProperty owner = inputNameOwners.putIfAbsent(inputName, property);
+                if (owner != null
+                        && !owner.baseName.equals(property.baseName)
+                        && (explicitPublicName || owner.vendorExtensions.containsKey(
+                                CodegenConstants.X_PY_EXPLICIT_PUBLIC_NAME))) {
+                    throw new IllegalArgumentException(String.format(Locale.ROOT,
+                            "properties %s and %s in model %s both accept input name %s",
+                            owner.baseName, property.baseName, model.name, inputName));
+                }
+            }
+            for (String memberName : List.of(property.name, publicName)) {
+                CodegenProperty owner = memberNameOwners.putIfAbsent(memberName, property);
+                if (owner != null
+                        && !owner.baseName.equals(property.baseName)
+                        && (explicitPublicName || owner.vendorExtensions.containsKey(
+                                CodegenConstants.X_PY_EXPLICIT_PUBLIC_NAME))) {
+                    throw new IllegalArgumentException(String.format(Locale.ROOT,
+                            "properties %s and %s in model %s both use Python member name %s",
+                            owner.baseName, property.baseName, model.name, memberName));
+                }
+            }
+        }
+        for (CodegenProperty property : generatedProperties) {
+            if (!property.vendorExtensions.containsKey(
+                    CodegenConstants.X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE)) {
+                continue;
+            }
+            CodegenProperty inputOwner = inputNameOwners.get(property.name);
+            if (inputOwner != null && !inputOwner.baseName.equals(property.baseName)) {
+                throw new IllegalArgumentException(String.format(Locale.ROOT,
+                        "property %s in model %s uses generated storage name %s, "
+                                + "which is an input name for property %s",
+                        property.baseName, model.name, property.name, inputOwner.baseName));
+            }
+        }
+    }
+
+    private Set<String> generatedModelMembers(CodegenModel model) {
+        Set<String> members = new HashSet<>(MODEL_PUBLIC_MEMBER_NAMES);
+        if (compatibleWithPythonLegacy) {
+            members.addAll(LEGACY_MODEL_METADATA_MEMBER_NAMES);
+        }
+        members.addAll(PYDANTIC_PRIVATE_MEMBER_NAMES);
+        for (CodegenModel ancestor = model; ancestor != null; ancestor = ancestor.parentModel) {
+            if (ancestor.isAdditionalPropertiesTrue) {
+                members.add("additional_properties");
+            }
+            addMangledMember(members, ancestor.classname, "__properties");
+            if (ancestor.vendorExtensions.containsKey(
+                    CodegenConstants.X_PY_PREPROCESSES_INPUT_NAMES)) {
+                addMangledMember(members, ancestor.classname, "__preprocess_input_names");
+            }
+            if (ancestor.vendorExtensions.containsKey(
+                    CodegenConstants.X_PY_VALIDATES_INPUT_NAMES)) {
+                addMangledMember(members, ancestor.classname, "__validate_input_names");
+            }
+            if (ancestor.hasChildren && ancestor.discriminator != null) {
+                members.add("get_discriminator_value");
+                addMangledMember(members, ancestor.classname, "__discriminator_property_name");
+                addMangledMember(members, ancestor.classname, "__discriminator_value_class_map");
+            }
+            for (CodegenProperty property : ancestor.vars) {
+                if (property.isEnum) {
+                    members.add(property.name + "_validate_enum");
+                }
+                if (property.vendorExtensions.containsKey(CodegenConstants.X_REGEX)) {
+                    members.add(property.name + "_validate_regular_expression");
+                }
+                if (property.vendorExtensions.containsKey(
+                        CodegenConstants.X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE)) {
+                    members.add("_" + ancestor.classname + "_" + property.name + "_public_type");
+                }
+            }
+        }
+        return members;
+    }
+
+    private Set<String> nameMappingGeneratedModelMembers(CodegenModel model) {
+        Set<String> members = new HashSet<>();
+        for (CodegenModel ancestor = model; ancestor != null; ancestor = ancestor.parentModel) {
+            if (ancestor.vendorExtensions.containsKey(
+                    CodegenConstants.X_PY_PREPROCESSES_INPUT_NAMES)) {
+                addMangledMember(members, ancestor.classname, "__preprocess_input_names");
+            }
+            if (ancestor.vendorExtensions.containsKey(
+                    CodegenConstants.X_PY_VALIDATES_INPUT_NAMES)) {
+                addMangledMember(members, ancestor.classname, "__validate_input_names");
+            }
+            for (CodegenProperty property : ancestor.vars) {
+                if (!property.vendorExtensions.containsKey(
+                        CodegenConstants.X_PY_EXPLICIT_PUBLIC_NAME)) {
+                    continue;
+                }
+                boolean changesStorageName = !property.name.equals(
+                        toVarNameWithoutNameMapping(property.baseName));
+                if (changesStorageName && property.isEnum) {
+                    members.add(property.name + "_validate_enum");
+                }
+                if (changesStorageName
+                        && property.vendorExtensions.containsKey(CodegenConstants.X_REGEX)) {
+                    members.add(property.name + "_validate_regular_expression");
+                }
+                if (property.vendorExtensions.containsKey(
+                        CodegenConstants.X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE)) {
+                    members.add("_" + ancestor.classname + "_" + property.name + "_public_type");
+                }
+            }
+        }
+        return members;
+    }
+
+    private static void addMangledMember(
+            Set<String> members, String className, String privateName) {
+        if (className != null) {
+            members.add("_" + className.replaceFirst("^_+", "") + privateName);
+        }
+    }
+
+    @Override
+    public String toVarName(String name) {
+        String mappedName = nameMapping.get(name);
+        String fieldName = mappedName == null
+                ? super.toVarName(name)
+                : toVarNameWithoutNameMapping(mappedName);
+        if (mappedName != null
+                && (MODEL_FIELD_NAME_COLLISIONS.contains(fieldName)
+                || MODEL_CLASS_BODY_NAMES.contains(fieldName)
+                || PYDANTIC_PRIVATE_MEMBER_NAMES.contains(fieldName))) {
+            fieldName = escapeReservedWord(fieldName);
+        }
+        return fieldName;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        // Only operation signatures gain this control argument. Keep model
+        // field naming independent of the selected library.
+        if (usesLegacyApiCompatibility()
+                && "async_req".equals(parameter.paramName)) {
+            parameter.paramName = escapeReservedWord(parameter.paramName);
+        }
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        if (!model.oneOf.isEmpty() || !model.anyOf.isEmpty()) {
+            return;
+        }
+
+        String publicName = nameMapping.get(property.baseName);
+        if (publicName == null) {
+            if (!compatibleWithPythonLegacy) {
+                return;
+            }
+            publicName = property.name;
+            property.vendorExtensions.put(CodegenConstants.X_PY_LEGACY_PUBLIC_NAME, true);
+        } else {
+            property.vendorExtensions.put(CodegenConstants.X_PY_EXPLICIT_PUBLIC_NAME, true);
+        }
+        property.vendorExtensions.put(CodegenConstants.X_PY_PUBLIC_NAME, publicName);
+        property.vendorExtensions.put(
+                CodegenConstants.X_PY_PUBLIC_NAME_LITERAL,
+                toPythonStringLiteral(publicName));
+        if (!publicName.equals(property.baseName)) {
+            property.vendorExtensions.put(CodegenConstants.X_PY_PUBLIC_NAME_DIFFERS_FROM_WIRE, true);
+        }
+        if (!publicName.equals(property.name)) {
+            property.vendorExtensions.put(
+                    CodegenConstants.X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE, true);
+            // Pydantic 2 retains the deprecated BaseModel.schema() class method, so a
+            // mapped schema property intentionally overrides its type signature:
+            // https://github.com/pydantic/pydantic/blob/v2.11.0/pydantic/main.py
+            if ("schema".equals(publicName)) {
+                property.vendorExtensions.put(
+                        CodegenConstants.X_PY_PUBLIC_NAME_OVERRIDES_BASE_MODEL, true);
+            }
         }
     }
 

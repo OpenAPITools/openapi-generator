@@ -184,7 +184,7 @@
     {{/openApiNullable}}
   </dependencies>
   <properties>
-    <java.version>1.8</java.version>
+    <java.version>{{#useSealed}}17{{/useSealed}}{{^useSealed}}1.8{{/useSealed}}</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

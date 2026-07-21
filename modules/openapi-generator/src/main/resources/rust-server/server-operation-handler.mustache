@@ -242,7 +242,7 @@ where
       {{/bodyParam.exts.x-consumes-plain-text}}
     {{/exts.x-consumes-form}}
   {{/exts.x-consumes-multipart-form}}
-{{>server-request-body-instance}}
+{{>server-request-body}}
 
 {{/exts.x-has-request-body}}
                                 let result = api_impl.{{#exts}}{{{x-operation-id}}}{{/exts}}(
@@ -331,7 +331,7 @@ where
                                                     }
   {{/required}}
 {{/headers}}
-{{>server-response-body-instance}}
+{{>server-response-body}}
 
                                                 },
 {{/responses}}

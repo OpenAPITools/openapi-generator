@@ -435,6 +435,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         final CopyContent copyContent = new CopyContent();
+        final CacheLambda.CacheContent cacheContent = new CacheLambda.CacheContent();
 
         return super.addMustacheLambdas()
                 .put("camelcase_sanitize_param", new CamelCaseAndSanitizeLambda().generator(this).escapeAsParamName(true))
@@ -454,6 +455,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 .put("copyText", new CopyLambda(copyContent, WhiteSpaceStrategy.Strip, WhiteSpaceStrategy.StripLineBreakIfPresent))
                 .put("paste", new PasteLambda(copyContent, false))
                 .put("pasteOnce", new PasteLambda(copyContent, true))
+                .put("cache", new CacheLambda(cacheContent))
+                .put("recall", new RecallLambda(cacheContent, false))
+                .put("recallOnce", new RecallLambda(cacheContent, true))
                 .put("uniqueLines", new UniqueLambda("\n", false))
                 .put("unique", new UniqueLambda("\n", true))
                 .put("camel_case", new CamelCaseLambda())
@@ -589,6 +593,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                         cm.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, isZeroBased);
                     }
                 }
+            }
+
+            // C# maps an unformatted number schema to decimal, but CodegenModel does not set isDecimal.
+            if (cm.isEnum && cm.isNumeric && !cm.isInteger && !cm.isLong && !cm.isFloat && !cm.isDouble) {
+                cm.isDecimal = true;
             }
         }
         // process enum in models
@@ -849,6 +858,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
             // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
             property.isPrimitiveType = true;
+
+            // Propagate numeric type flags from the referenced enum model so templates
+            // can branch on isNumeric/isInteger/isLong/isFloat/isDouble/isDecimal.
+            property.isNumeric = refModel.isNumeric;
+            property.isInteger = refModel.isInteger;
+            property.isLong = refModel.isLong;
+            property.isFloat = refModel.isFloat;
+            property.isDouble = refModel.isDouble;
+            property.isDecimal = refModel.isDecimal;
         }
 
         this.patchPropertyIsInherited(model, property);

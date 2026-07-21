@@ -56,6 +56,8 @@ namespace Org.OpenAPITools.Extensions
                         s => s.GetRequiredService(typeof(RateLimitProvider<>).MakeGenericType(tokenType)));
                 }
             }
+
+            host.NotifyServicesAdded(services);
         }
     }
 }

@@ -1,4 +1,4 @@
-pytest >= 7.2.1
+pytest >= 9.0.3
 pytest-cov >= 2.8.1
 tox >= 3.9.0
 flake8 >= 4.0.0

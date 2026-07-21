@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.7
-- Generator version: 7.24.0-SNAPSHOT
+- Generator version: 7.25.0-SNAPSHOT
 
 
 
@@ -185,6 +185,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /merge-patch-json | 
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
 [****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
+[**MultipleResponseContentTypes**](docs/default_api.md#MultipleResponseContentTypes) | **POST** /multiple-response-content-types | Test multiple content types in a single response
 [****](docs/default_api.md#) | **GET** /one-of | 
 [****](docs/default_api.md#) | **GET** /override-server | 
 [****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.

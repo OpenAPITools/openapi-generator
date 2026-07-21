@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * A User who is purchasing from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class User {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

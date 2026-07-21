@@ -119,6 +119,35 @@ public class AbstractGoCodegenTest {
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "map[string]interface{}");
+
+        // Create object schema with nullable set to false
+        ModelUtils.setGenerateAliasAsModel(false);
+        schema = new ObjectSchema().additionalProperties(new StringSchema().nullable(false));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "map[string]string");
+
+        // Create object schema with nullable set to true
+        ModelUtils.setGenerateAliasAsModel(false);
+        schema = new ObjectSchema().additionalProperties(new StringSchema().nullable(true));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "map[string]*string");
+
+        // slice in object schema is no pointer, even if nullable (slices are already nullable by default in Golang)
+        ModelUtils.setGenerateAliasAsModel(false);
+        schema = new ObjectSchema().additionalProperties(new ArraySchema().nullable(true).items(new IntegerSchema().format("int32")));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "map[string][]int32");
+
+        // map in nested object schema is no pointer, even if nullable (maps are already nullable by default in Golang)
+        ModelUtils.setGenerateAliasAsModel(false);
+        schema = new ObjectSchema().additionalProperties(new ObjectSchema().nullable(true));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "map[string]map[string]interface{}");
+
+        // nested object schema with nullable set to true (maps itself are already nullable by default in Golang, so no pointer type needed there)
+        schema = new ObjectSchema().additionalProperties(new ObjectSchema().nullable(true).additionalProperties(new StringSchema().nullable(true)));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "map[string]map[string]*string");
     }
 
     @Test(description = "test that os import is added for array of binary parameters in operations")

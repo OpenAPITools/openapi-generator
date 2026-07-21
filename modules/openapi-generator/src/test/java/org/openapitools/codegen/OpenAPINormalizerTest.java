@@ -1568,9 +1568,16 @@ public class OpenAPINormalizerTest {
         assertEquals(schema14.getType(), null);
 
         Schema schema16 = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
-        assertEquals(schema16.getOneOf().size(),3);
-        assertEquals(((Schema) schema16.getOneOf().get(0)).getConst(), 1);
-        assertEquals(((Schema) schema16.getOneOf().get(0)).getDeprecated(), true);
+        // After normalization, oneOf with const values should be simplified to enum
+        assertEquals(schema16.getOneOf(), null);
+        assertEquals(schema16.getEnum().size(), 3);
+        assertEquals(schema16.getEnum().get(0), 1);
+        // per-value deprecated flags from oneOf sub-schemas should be preserved as x-enum-deprecated
+        List<Boolean> enumDeprecated = (List<Boolean>) schema16.getExtensions().get("x-enum-deprecated");
+        assertEquals(enumDeprecated.size(), 3);
+        assertEquals(enumDeprecated.get(0), Boolean.TRUE);
+        assertEquals(enumDeprecated.get(1), Boolean.FALSE);
+        assertEquals(enumDeprecated.get(2), Boolean.FALSE);
 
         Schema schema18 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
         // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead
@@ -1951,6 +1958,31 @@ public class OpenAPINormalizerTest {
                 "ImpliedObject.name property must be preserved after normalization");
         assertNull(impliedAfter.getNullable(),
                 "ImpliedObject must not be marked nullable (no null type was declared)");
+    }
+
+    @Test
+    public void testOpenAPINormalizer31SpecNullMapAdditionalProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_23945.yaml");
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("NullableMaps");
+
+        // `additionalProperties: { type: "null" }` must not keep the OAS 3.1 `null` type (which makes
+        // generators emit a fictional `Null` / `ModelNull` value type); it is normalized to an
+        // any-type nullable schema so the map value generates as a normal (nullable) object.
+        Schema stringMapValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("stringMap"));
+        assertNull(stringMapValue.getType());
+        assertNull(stringMapValue.getTypes());
+        assertTrue(stringMapValue.getNullable());
+
+        // `additionalProperties: { type: [array, "null"], items: ... }` is normalized to a proper
+        // (nullable) array value schema rather than being left half-converted.
+        Schema errorsValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("errorsByKey"));
+        assertEquals(errorsValue.getType(), "array");
+        assertTrue(errorsValue.getNullable());
+        assertNotNull(errorsValue.getItems());
     }
 
 }

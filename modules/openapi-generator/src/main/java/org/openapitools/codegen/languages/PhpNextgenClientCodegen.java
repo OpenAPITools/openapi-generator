@@ -124,7 +124,8 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("FormDataProcessor.mustache", toSrcPath(invokerPackage, srcBasePath), "FormDataProcessor.php"));
         supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toSrcPath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
         supportingFiles.add(new SupportingFile("ModelInterface.mustache", toSrcPath(modelPackage, srcBasePath), "ModelInterface.php"));
-        supportingFiles.add(new SupportingFile("ComposedInterface.mustache", toSrcPath(modelPackage, srcBasePath), "ComposedInterface.php"));
+        supportingFiles.add(new SupportingFile("OneOfInterface.mustache", toSrcPath(modelPackage, srcBasePath), "OneOfInterface.php"));
+        supportingFiles.add(new SupportingFile("AnyOfInterface.mustache", toSrcPath(modelPackage, srcBasePath), "AnyOfInterface.php"));
         supportingFiles.add(new SupportingFile("HeaderSelector.mustache", toSrcPath(invokerPackage, srcBasePath), "HeaderSelector.php"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));

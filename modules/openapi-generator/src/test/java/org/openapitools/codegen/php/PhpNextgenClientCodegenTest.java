@@ -354,13 +354,13 @@ public class PhpNextgenClientCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         // The marker interface used to recognize oneOf models is generated.
-        Assert.assertTrue(files.containsKey("ComposedInterface.php"), "Expected ComposedInterface.php to be generated.");
+        Assert.assertTrue(files.containsKey("OneOfInterface.php"), "Expected OneOfInterface.php to be generated.");
 
         // A oneOf without a discriminator becomes a dispatcher exposing its member types.
         List<String> fruit = Files.readAllLines(files.get("Fruit.php").toPath())
                 .stream().map(String::trim).collect(Collectors.toList());
-        Assert.assertListContains(fruit, a -> a.equals("class Fruit implements ComposedInterface"),
-                "Fruit must implement ComposedInterface");
+        Assert.assertListContains(fruit, a -> a.equals("class Fruit implements OneOfInterface"),
+                "Fruit must implement OneOfInterface");
         Assert.assertListContains(fruit, a -> a.equals("public const DISCRIMINATOR = null;"),
                 "Fruit has no discriminator");
         Assert.assertListContains(fruit, a -> a.equals("'\\OpenAPI\\Client\\Model\\Apple',"),
@@ -446,7 +446,7 @@ public class PhpNextgenClientCodegenTest {
         List<String> objectSerializer = Files.readAllLines(files.get("ObjectSerializer.php").toPath())
                 .stream().map(String::trim).collect(Collectors.toList());
         Assert.assertListContains(objectSerializer,
-                a -> a.contains("private static function deserializeComposed("),
+                a -> a.contains("private static function deserializeOneOf("),
                 "ObjectSerializer resolves oneOf schemas");
     }
 
@@ -468,14 +468,14 @@ public class PhpNextgenClientCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        // An anyOf schema reuses the same composed dispatcher machinery as oneOf.
-        Assert.assertTrue(files.containsKey("ComposedInterface.php"), "Expected ComposedInterface.php to be generated.");
+        // anyOf models get their own dedicated interface, separate from oneOf.
+        Assert.assertTrue(files.containsKey("AnyOfInterface.php"), "Expected AnyOfInterface.php to be generated.");
 
         // An anyOf without a discriminator becomes a dispatcher exposing its member types.
         List<String> smoothie = Files.readAllLines(files.get("Smoothie.php").toPath())
                 .stream().map(String::trim).collect(Collectors.toList());
-        Assert.assertListContains(smoothie, a -> a.equals("class Smoothie implements ComposedInterface"),
-                "Smoothie must implement ComposedInterface");
+        Assert.assertListContains(smoothie, a -> a.equals("class Smoothie implements AnyOfInterface"),
+                "Smoothie must implement AnyOfInterface");
         Assert.assertListContains(smoothie, a -> a.equals("public const DISCRIMINATOR = null;"),
                 "Smoothie has no discriminator");
         Assert.assertListContains(smoothie, a -> a.equals("'\\OpenAPI\\Client\\Model\\Apple',"),
@@ -486,8 +486,8 @@ public class PhpNextgenClientCodegenTest {
         // An anyOf with a discriminator exposes its property name and value mapping.
         List<String> reptile = Files.readAllLines(files.get("Reptile.php").toPath())
                 .stream().map(String::trim).collect(Collectors.toList());
-        Assert.assertListContains(reptile, a -> a.equals("class Reptile implements ComposedInterface"),
-                "Reptile must implement ComposedInterface");
+        Assert.assertListContains(reptile, a -> a.equals("class Reptile implements AnyOfInterface"),
+                "Reptile must implement AnyOfInterface");
         Assert.assertListContains(reptile, a -> a.equals("public const DISCRIMINATOR = 'reptileType';"),
                 "Reptile exposes its discriminator property by its wire (base) name");
         Assert.assertListContains(reptile, a -> a.equals("'lizard' => '\\OpenAPI\\Client\\Model\\Lizard',"),
