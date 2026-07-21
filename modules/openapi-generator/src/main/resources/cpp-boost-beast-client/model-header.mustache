@@ -210,7 +210,7 @@ protected:
     {{{dataType}}} m_{{name}};
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{^vendorExtensions.x-cpp-no-is-set}}
-    {{{dataType}}} m_{{name}} = {{{defaultValue}}};
+    {{{dataType}}} m_{{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{/isModel}}
     {{#isModel}}

@@ -1288,6 +1288,42 @@ public class CppBoostBeastClientCodegenTest {
                 "Non-cycle holder CycleHolder.leaf must NOT use std::shared_ptr<Leaf>");
     }
 
+    @Test
+    public void omitsEmptyDefaultInitializer() throws IOException {
+        // Verify that no generated model header contains the invalid C++ pattern
+        // `= ;` which occurs when defaultValue is null/blank in the template.
+        // Regression: ~37+ compilation errors from OpenAI corpus headers like
+        // `MessageRole m_Role = ;` when enum/model property has no default.
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-empty-default").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/composed-schema-lowering.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelDir = output.toPath().resolve("model");
+        List<Path> headers;
+        try (var stream = java.nio.file.Files.list(modelDir)) {
+            headers = stream
+                    .filter(p -> p.toString().endsWith(".h"))
+                    .collect(java.util.stream.Collectors.toList());
+        }
+        Assert.assertFalse(headers.isEmpty(), "Should have generated at least one model header");
+
+        for (Path header : headers) {
+            String content = java.nio.file.Files.readString(header);
+            // The pattern `= ;` is invalid C++ — it means defaultValue was null/blank
+            // but the template emitted `= {{{defaultValue}}}` without guarding.
+            // A valid assignment like `= 0;` or `= "";` should NOT match.
+            Assert.assertFalse(content.contains("= ;"),
+                    "Header " + header.getFileName() + " must not contain '= ;' (empty default initializer)");
+        }
+    }
+
     private static String extractMethod(String generatedApiSource, String methodSignature) {
         int methodStart = generatedApiSource.indexOf(methodSignature);
         Assert.assertTrue(methodStart >= 0, "Missing generated method: " + methodSignature);
