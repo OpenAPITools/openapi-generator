@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: PreAuthorize scopes
+  version: 1.0.0
+paths:
+  /api/overview:
+    get:
+      operationId: getOverview
+      tags:
+        - Overview
+      security:
+        - auth0:
+            - client-data:read
+        - auth0:
+            - utility-data:read
+      responses:
+        '200':
+          description: Ok
+  /api/combined:
+    get:
+      operationId: getCombined
+      tags:
+        - Overview
+      security:
+        - auth0:
+            - client-data:read
+            - utility-data:read
+        - auth0:
+            - other-data:read
+      responses:
+        '200':
+          description: Ok
+components:
+  securitySchemes:
+    auth0:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.test/oauth/token
+          scopes:
+            client-data:read: Read client data
+            utility-data:read: Read utility data
+            other-data:read: Read other data

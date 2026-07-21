@@ -111,6 +111,12 @@
         </plugins>
     </build>
     <dependencies>
+        {{#useSpringSecurityPreAuthorize}}
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        {{/useSpringSecurityPreAuthorize}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}{{^reactive}}mvc{{/reactive}}</artifactId>
