@@ -15,7 +15,6 @@
 #include <optional>
 #include <variant>
 
-#include <boost/lexical_cast.hpp>
 #include <boost/beast/http/status.hpp>
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
@@ -103,12 +102,32 @@ inline std::string toRawBodyValue(bool value) {
 
 template<typename T>
 std::string toRawBodyValue(const T& value) {
-    return boost::lexical_cast<std::string>(value);
+    std::ostringstream stream;
+    stream << value;
+    return stream.str();
+}
+
+template<typename T>
+std::string toRawBodyValue(const std::optional<T>& value) {
+    if (value.has_value()) {
+        return toRawBodyValue(value.value());
+    }
+    return "";
 }
 
 template<typename T>
 std::string toFormParameterValue(const T& value) {
-    return boost::lexical_cast<std::string>(value);
+    std::ostringstream stream;
+    stream << value;
+    return stream.str();
+}
+
+template<typename T>
+std::string toFormParameterValue(const std::optional<T>& value) {
+    if (value.has_value()) {
+        return toFormParameterValue(value.value());
+    }
+    return "";
 }
 
 template<typename T>
@@ -309,7 +328,7 @@ inline std::string serializeHeaderParameterValue(bool headerParameterValue) {
 template<typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, std::string>::type
 serializeHeaderParameterValue(const T& headerParameterValue) {
-    return boost::lexical_cast<std::string>(headerParameterValue);
+    return std::to_string(headerParameterValue);
 }
 
 template<typename T>

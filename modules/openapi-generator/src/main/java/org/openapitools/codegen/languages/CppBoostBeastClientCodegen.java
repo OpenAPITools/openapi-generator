@@ -1851,9 +1851,22 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // When a form parameter's type is a variant, the template uses
         // addVariantFormParameter to dispatch binary branches as file parts
         // and object branches as JSON parts.
-        if (parameter.isFormParam && parameter.dataType != null
-                && (parameter.dataType.startsWith("std::variant<")
-                    || variantModels.contains(parameter.dataType))) {
+        // Only set for actual std::variant types, not for models that alias
+        // to primitive types (e.g., VideoModel → std::string), which would
+        // cause instantiation of addVariantFormParameter<std::string> and
+        // an invalid std::visit call on a non-variant type.
+        boolean isVariantParam = false;
+        if (parameter.isFormParam && parameter.dataType != null) {
+            if (parameter.dataType.startsWith("std::variant<")) {
+                isVariantParam = true;
+            } else if (variantModels.contains(parameter.dataType)) {
+                String resolved = resolveThroughAliases(parameter.dataType);
+                if (resolved != null && resolved.startsWith("std::variant<")) {
+                    isVariantParam = true;
+                }
+            }
+        }
+        if (isVariantParam) {
             parameter.vendorExtensions.put("x-codegen-is-variant-form-param", true);
         }
     }

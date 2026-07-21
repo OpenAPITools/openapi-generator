@@ -17,8 +17,8 @@
 # --- anyOf string + string-enum → std::string collapse ---
 AnyOfStringStringEnum: std::string
 
-# --- oneOf string + string-enum — indistinguishable branches, falls back to json value ---
-OneOfStringStringEnum: boost::json::value (alias OneOfStringStringEnum)
+# --- oneOf string + string-enum — indistinguishable branches, collapses to std::string ---
+OneOfStringStringEnum: std::string
 
 # --- oneOf string | array<ItemStruct> ---
 OneOfStringArray: std::variant<std::string, std::vector<ItemStruct>>

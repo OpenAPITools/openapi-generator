@@ -1,6 +1,6 @@
 case	result	cpp_type	notes
 AnyOfStringStringEnum	PASS	std::string	anyOf, 0 members, type alias
-OneOfStringStringEnum	PASS	boost::json::value (alias OneOfStringStringEnum)	oneOf, 0 members, json value fallback
+OneOfStringStringEnum	PASS	std::string	oneOf, 0 members, type alias
 OneOfStringArray	PASS	std::variant<std::string, std::vector<ItemStruct>>	oneOf, 0 members, type alias
 AllOfObjectMerge	PASS	org::openapitools::client::model::AllOfObjectMerge	allOf, 5 members
 NullableString	DEFERRED	NOT_FOUND	Deferred (on allowlist)
