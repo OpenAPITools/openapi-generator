@@ -175,7 +175,13 @@
 {{#vendorExtensions.x-codegen-return-compatible}}
 {{#vendorExtensions.x-codegen-streaming-response}}
 {{#returnType}}
-        deserializedResponse = parseEventStream<{{#vendorExtensions.x-codegen-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{{dataType}}}{{/vendorExtensions.x-codegen-stream-element-type}}>(responseBody, fromJsonValue_{{#vendorExtensions.x-codegen-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{{dataType}}}{{/vendorExtensions.x-codegen-stream-element-type}});
+        {{#vendorExtensions.x-codegen-stream-element-type}}
+        deserializedResponse = parseEventStream<{{{.}}}>(responseBody, fromJsonValue_{{{.}}});
+        {{/vendorExtensions.x-codegen-stream-element-type}}
+        {{^vendorExtensions.x-codegen-stream-element-type}}
+        // SSE with primitive element type — use lambda instead of fromJsonValue_
+        deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody, [](boost::json::value const& v) { return boost::json::value_to<{{{dataType}}}>(v); });
+        {{/vendorExtensions.x-codegen-stream-element-type}}
         return deserializedResponse;
 {{/returnType}}
 {{/vendorExtensions.x-codegen-streaming-response}}
@@ -207,7 +213,12 @@
 {{#dataType}}
 {{#vendorExtensions.x-codegen-default-response-is-return-compatible}}
 {{#vendorExtensions.x-codegen-streaming-response}}
-    deserializedResponse = parseEventStream<{{#vendorExtensions.x-codegen-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{{dataType}}}{{/vendorExtensions.x-codegen-stream-element-type}}>(responseBody, fromJsonValue_{{#vendorExtensions.x-codegen-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{{dataType}}}{{/vendorExtensions.x-codegen-stream-element-type}});
+    {{#vendorExtensions.x-codegen-stream-element-type}}
+    deserializedResponse = parseEventStream<{{{.}}}>(responseBody, fromJsonValue_{{{.}}});
+    {{/vendorExtensions.x-codegen-stream-element-type}}
+    {{^vendorExtensions.x-codegen-stream-element-type}}
+    deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody, [](boost::json::value const& v) { return boost::json::value_to<{{{dataType}}}>(v); });
+    {{/vendorExtensions.x-codegen-stream-element-type}}
 {{/vendorExtensions.x-codegen-streaming-response}}
 {{^vendorExtensions.x-codegen-streaming-response}}
     ResponseBodyDeserializer<{{{dataType}}}>::deserialize(

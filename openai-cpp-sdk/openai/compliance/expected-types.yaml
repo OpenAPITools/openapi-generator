@@ -180,6 +180,6 @@ Tool: std::variant<FunctionTool, FileSearchTool, BetaComputerTool, ComputerUsePr
   WebSearchTool, MCPTool, CodeInterpreterTool, ProgrammaticToolCallingParam, ImageGenTool,
   BetaLocalShellToolParam, FunctionShellToolParam, CustomToolParam, NamespaceToolParam,
   ToolSearchToolParam, WebSearchPreviewTool, ApplyPatchToolParam>
-ToolChoiceParam: std::variant<BetaToolChoiceOptions, BetaToolChoiceAllowed, BetaToolChoiceTypes,
+ToolChoiceParam: std::variant<std::string, BetaToolChoiceAllowed, BetaToolChoiceTypes,
   BetaToolChoiceFunction, BetaToolChoiceMCP, BetaToolChoiceCustom, SpecificProgrammaticToolCallingParam,
   BetaSpecificApplyPatchParam, BetaSpecificFunctionShellParam>

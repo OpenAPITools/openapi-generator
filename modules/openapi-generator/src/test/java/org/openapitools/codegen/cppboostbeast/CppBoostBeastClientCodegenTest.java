@@ -472,8 +472,8 @@ public class CppBoostBeastClientCodegenTest {
                 "PetByType to_json should use VariantJsonHelper");
         Assert.assertFalse(petByTypeSourceContent.contains("boost::json::value_to<Cat>(value)"),
                 "PetByType from_json should not use value_to<Cat>");
-        Assert.assertTrue(petByTypeSourceContent.contains("return Cat(value);"),
-                "PetByType from_json should use Cat(value) constructor");
+        Assert.assertTrue(petByTypeSourceContent.contains("return fromJsonValue_Cat(value);"),
+                "PetByType from_json should use fromJsonValue_Cat(value) dispatch");
 
         // Verify C++17 compatibility: no `requires` keyword in generated sources
         Assert.assertFalse(petByTypeSourceContent.contains("requires "),
@@ -686,13 +686,15 @@ public class CppBoostBeastClientCodegenTest {
                 "All-null branches should produce boost::json::value");
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
-    public void oneOfStringStringEnumHardErrors() throws IOException {
+    @Test
+    public void oneOfStringStringEnumCollapsesToString() throws IOException {
         CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
         codegen.processOpts();
 
         // oneOf: [string, string-enum] must NOT produce std::variant<std::string, std::string>.
-        // The lowering engine now hard-errors because the branches are indistinguishable.
+        // Indistinguishable oneOf branches are collapsed to the single common type
+        // (std::string) to avoid invalid C++ variant types. The schema-level
+        // oneOf semantics are lost, but that is inherent in type erasure.
         ComposedSchema schema = new ComposedSchema();
         schema.addOneOfItem(new StringSchema());
         StringSchema enumSchema = new StringSchema();
@@ -700,7 +702,9 @@ public class CppBoostBeastClientCodegenTest {
         enumSchema.addEnumItem("y");
         schema.addOneOfItem(enumSchema);
 
-        codegen.getTypeDeclaration(schema);
+        String resolved = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(resolved, "std::string",
+                "oneOf [string, string-enum] should collapse to std::string");
     }
 
     @Test
@@ -863,12 +867,9 @@ public class CppBoostBeastClientCodegenTest {
         Path oneOfHeader = output.toPath().resolve("model/OneOfStringStringEnum.h");
         TestUtils.assertFileExists(oneOfHeader);
         String oneOfContent = java.nio.file.Files.readString(oneOfHeader);
-        // Must NOT produce std::variant or collapse to std::string
-        Assert.assertFalse(oneOfContent.contains("using OneOfStringStringEnum = std::variant<"),
-                "OneOfStringStringEnum must not produce std::variant (indistinguishable branches)");
-        // Falls back to boost::json::value
-        Assert.assertTrue(oneOfContent.contains("using OneOfStringStringEnum = boost::json::value;"),
-                "OneOfStringStringEnum should fall back to boost::json::value alias");
+        // Collapses to std::string since all branches resolve to the same type
+        Assert.assertTrue(oneOfContent.contains("using OneOfStringStringEnum = std::string;"),
+                "OneOfStringStringEnum should collapse to std::string (indistinguishable branches)");
     }
 
     @Test

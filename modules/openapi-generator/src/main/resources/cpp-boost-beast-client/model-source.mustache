@@ -214,7 +214,7 @@ std::size_t countVariantBranches(const boost::json::value& value, std::index_seq
     }
     {{#discriminator.mappedModels}}
     if (discValue == "{{mappingName}}") {
-        return {{modelName}}(value);
+        return fromJsonValue_{{modelName}}(value);
     }
     {{/discriminator.mappedModels}}
     throw std::invalid_argument("Unknown " + std::string("{{discriminator.propertyBaseName}}") + " value: " + discValue);
@@ -481,6 +481,19 @@ boost::json::value jsonValueConverterToJsonValue(const T& val, std::false_type) 
     return boost::json::value_from(val);
 }
 
+// Helper: dispatch fromJsonValue based on whether T has a fromJsonValue member.
+template <typename T>
+T jsonValueConverterFromJsonValue(const boost::json::value& jv, std::true_type) {
+    T result;
+    result.fromJsonValue(jv);
+    return result;
+}
+
+template <typename T>
+T jsonValueConverterFromJsonValue(const boost::json::value& jv, std::false_type) {
+    return boost::json::value_to<T>(jv);
+}
+
 template <typename Target>
 struct JsonValueConverter
 {
@@ -491,7 +504,7 @@ struct JsonValueConverter
 
     static Target fromJsonValue(const boost::json::value& jsonValue)
     {
-        return boost::json::value_to<Target>(jsonValue);
+        return jsonValueConverterFromJsonValue<Target>(jsonValue, HasModelFromJsonValue<Target>{});
     }
 };
 
@@ -752,7 +765,9 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     {{/parent}}
     {{#vars}}
     {{#vendorExtensions.x-stainless-const}}
+    {{#vendorExtensions.x-stainless-const-inline-value}}
     object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{{vendorExtensions.x-stainless-const-inline-value}}});
+    {{/vendorExtensions.x-stainless-const-inline-value}}
     {{/vendorExtensions.x-stainless-const}}
     {{^vendorExtensions.x-stainless-const}}
     {{#parent}}

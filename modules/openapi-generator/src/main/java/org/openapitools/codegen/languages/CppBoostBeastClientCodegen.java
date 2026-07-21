@@ -342,8 +342,34 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             if (cm.vendorExtensions.containsKey("x-cpp-type")) {
                 cm.vendorExtensions.put("x-cpp-is-alias", true);
                 String resolvedType = (String) cm.vendorExtensions.get("x-cpp-type");
-                if (resolvedType != null && resolvedType.startsWith("std::variant<")) {
+                // Resolve non-std:: types through the alias chain to detect
+                // models that alias to a variant (e.g., ResponsesServerEvent →
+                // ResponseStreamEvent → std::variant<...>).
+                String ultimateType = resolveThroughAliases(resolvedType);
+                if (ultimateType != null && ultimateType.startsWith("std::variant<")) {
                     cm.vendorExtensions.put("x-cpp-is-variant", true);
+                    cm.vendorExtensions.putIfAbsent("x-cpp-composed-keyword", "oneOf");
+                }
+            } else if (cm.parent != null && !cm.parent.isEmpty()
+                    && resolvedAliasTypes.containsKey(cm.parent)) {
+                // (e.g., ResponsesServerEvent : public ResponseStreamEvent) but where
+                // the parent is a resolved variant/alias. Since inheritance from a
+                // variant alias is invalid C++, treat this model as an alias too.
+                // Example: ResponsesServerEvent has anyOf: [ResponseStreamEvent] where
+                // ResponseStreamEvent = std::variant<...>.
+                String parentAlias = cm.parent;
+                cm.vendorExtensions.put("x-cpp-type", parentAlias);
+                cm.vendorExtensions.put("x-cpp-is-alias", true);
+                cm.dataType = parentAlias;
+                resolvedAliasTypes.put(cm.classname, parentAlias);
+                String parentResolvedType = resolvedAliasTypes.get(parentAlias);
+                if (parentResolvedType != null && parentResolvedType.startsWith("std::variant<")) {
+                    cm.vendorExtensions.put("x-cpp-is-variant", true);
+                    // Non-variant alias source template (Path B) only generates
+                    // stubs. For variant aliases (Path A), we need the composed
+                    // keyword to generate fromJsonValue_/toJsonValue_ functions.
+                    // Default to oneOf (conservative: exactly-one enforcement).
+                    cm.vendorExtensions.putIfAbsent("x-cpp-composed-keyword", "oneOf");
                 }
             }
         }
@@ -366,9 +392,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
             if (cm.dataType != null
                     && !cm.dataType.equals(cm.classname)
-                    && (cm.dataType.startsWith("std::") || "boost::json::value".equals(cm.dataType))) {
+                    && (cm.dataType.startsWith("std::") || "boost::json::value".equals(cm.dataType)
+                            || resolvedAliasTypes.containsKey(cm.dataType))) {
                 cm.vendorExtensions.put("x-cpp-type", cm.dataType);
                 cm.vendorExtensions.put("x-cpp-is-alias", true);
+                resolvedAliasTypes.put(cm.classname, cm.dataType);
                 if (cm.dataType.startsWith("std::variant<")) {
                     cm.vendorExtensions.put("x-cpp-is-variant", true);
                 }
@@ -407,6 +435,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
             if (cm.getIsAnyType()) {
                 cm.vendorExtensions.put("x-cpp-type", "boost::json::value");
+                resolvedAliasTypes.put(cm.classname, "boost::json::value");
                 cm.vendorExtensions.put("x-cpp-is-alias", true);
                 // Even for boost::json::value fallbacks, set the keyword so
                 // template code referencing vendorExtensions.x-cpp-composed-keyword
@@ -512,15 +541,60 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // Refresh alias/variant flags after Phase 1b resolution. Phase 2 in
         // postProcessModels may have set x-cpp-is-variant = true for models whose
         // types were later collapsed to plain types (e.g., std::string) by Phase 1b.
+        // Use transitive alias resolution so models aliased to a variant type
+        // (e.g., ResponsesServerEvent → ResponseStreamEvent → std::variant<...>)
+        // also get the variant flag.
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             for (ModelMap mo : entry.getValue().getModels()) {
                 CodegenModel cm = mo.getModel();
                 if (cm.vendorExtensions.containsKey("x-cpp-is-alias")) {
                     String resolvedType = (String) cm.vendorExtensions.get("x-cpp-type");
-                    if (resolvedType != null && resolvedType.startsWith("std::variant<")) {
+                    String ultimateType = resolveThroughAliases(resolvedType);
+                    if (ultimateType != null && ultimateType.startsWith("std::variant<")) {
                         cm.vendorExtensions.put("x-cpp-is-variant", true);
+                        cm.vendorExtensions.putIfAbsent("x-cpp-composed-keyword", "oneOf");
                     } else {
                         cm.vendorExtensions.remove("x-cpp-is-variant");
+                    }
+                }
+            }
+        }
+
+        // Phase 4b: Filter discriminator mappings to remove self-referential entries.
+        // After Phase 1b, all resolvedAliasTypes are final. A discriminator mapping
+        // like "ResponsesServerEvent" → ResponsesServerEvent where ResponsesServerEvent
+        // resolves to the same type as the current model (e.g., ResponseStreamEvent =
+        // std::variant<...>) would cause compile errors (constructing variant from self)
+        // and infinite recursion in fromJsonValue.
+        // The template uses discriminator.mappedModels (built-in CodegenModel field),
+        // NOT x-discriminator-mapping. We modify the actual CodegenModel discriminator.
+        for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
+            for (ModelMap mo : entry.getValue().getModels()) {
+                CodegenModel cm = mo.getModel();
+                if (cm.discriminator == null) continue;
+                String resolvedType = (String) cm.vendorExtensions.get("x-discriminator-resolved-type");
+                if (resolvedType == null) continue;
+                Set<CodegenDiscriminator.MappedModel> mappedModels = cm.discriminator.getMappedModels();
+                if (mappedModels == null || mappedModels.isEmpty()) continue;
+                Set<CodegenDiscriminator.MappedModel> filtered = new TreeSet<>();
+                boolean changed = false;
+                for (CodegenDiscriminator.MappedModel mm : mappedModels) {
+                    if (mm.getModelName() != null) {
+                        String resolvedTarget = resolveThroughAliases(mm.getModelName());
+                        if (resolvedTarget.equals(resolvedType)) {
+                            changed = true;
+                            continue; // skip self-referential mapping
+                        }
+                    }
+                    filtered.add(mm);
+                }
+                if (changed) {
+                    try {
+                        java.lang.reflect.Field field = CodegenDiscriminator.class.getDeclaredField("mappedModels");
+                        field.setAccessible(true);
+                        field.set(cm.discriminator, filtered);
+                    } catch (Exception ignored) {
+                        LOGGER.warn("Could not update discriminator mappedModels for '{}'", cm.classname);
                     }
                 }
             }
@@ -555,6 +629,25 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        // Phase 6: Add includes for discriminator-mapped models to variant
+        // alias headers/sources. The discriminator dispatch in the variant alias
+        // template calls fromJsonValue_{{modelName}}(value) or toJsonValue_{{modelName}}.
+        // Without the include, the compiler sees an undeclared identifier.
+        for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
+            for (ModelMap mo : entry.getValue().getModels()) {
+                CodegenModel cm = mo.getModel();
+                @SuppressWarnings("unchecked")
+                Map<String, String> mapping = (Map<String, String>)
+                        cm.vendorExtensions.get("x-discriminator-mapping");
+                if (mapping == null) continue;
+                for (String modelName : mapping.values()) {
+                    if (modelName != null) {
+                        collectImportsForType(modelName, cm);
                     }
                 }
             }
@@ -700,6 +793,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             cm.vendorExtensions.put("x-has-discriminator", true);
             cm.vendorExtensions.put("x-discriminator-property", cm.discriminator.getPropertyBaseName());
             cm.vendorExtensions.put("x-discriminator-mapping", cm.discriminator.getMapping());
+            // Self-referential discriminator entries are filtered in Phase 1b
+            // (postProcessAllModels) after all resolvedAliasTypes are populated.
+            // We store the resolved type so Phase 1b can check for self-refs.
+            cm.vendorExtensions.put("x-discriminator-resolved-type", resolvedType);
         }
 
         // Update data type so templates and references use the resolved type
@@ -782,18 +879,15 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 .distinct()
                 .collect(Collectors.toList());
 
-        // Rule 6: For oneOf with duplicate types after dedup, reject with
-        // a hard error. Previously this preserved duplicates by keeping all
-        // branches, but that produced unusable types like std::variant<T,T>.
-        // If branches have the same resolved type, they are indistinguishable
-        // at runtime and the schema should use anyOf or a discriminated union.
-        if ("oneOf".equals(composedKeyword) && deduped.size() == 1
-                && flattened.size() > 1) {
-            throw new RuntimeException(
-                "oneOf branches in composed type are not distinguishable: all branches "
-                + "resolve to the same C++ type '" + deduped.get(0) + "'. "
-                + "Use anyOf instead, or add a discriminator to distinguish branches.");
-        }
+        // Rule 6: For oneOf with duplicate types after dedup, the branches are
+        // indistinguishable at runtime. Previously this threw a hard error to
+        // alert the schema author, but Phase 1b may resolve alias branches to
+        // the same underlying type (e.g., Tracing_Configuration_1 = oneOf
+        // [string, Tracing_Configuration] where Tracing_Configuration resolves
+        // to std::string). In this case, fall through to single-branch handling
+        // below — the single deduped type is correct at the C++ level.
+        // (The schema-level oneOf semantics are lost, but that's inherent in
+        // type erasure; the schema should use anyOf for unambiguous collapse.)
 
         // Re-check single branch after potential dedup
         if (deduped.size() == 1) {
@@ -1410,15 +1504,22 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             // method template can skip responses whose dataType doesn't match the
             // operation return type (avoids type mismatch in deserializedResponse).
             for (CodegenResponse response : operation.responses) {
-                if (isPureSse) {
+                    if (isPureSse) {
                     response.vendorExtensions.put("x-codegen-streaming-response", true);
                     if (response.dataType != null) {
                         String streamElementType = stripSharedPtr(response.dataType);
-                        response.vendorExtensions.put("x-codegen-stream-element-type",
-                                streamElementType);
-                        // Propagate to operation level for use outside {{#responses}} scope
-                        operation.vendorExtensions.put("x-codegen-stream-element-type",
-                                streamElementType);
+                        // Only set element type for model types (uppercase first char).
+                        // Primitives like std::string don't have fromJsonValue_ free
+                        // functions and would produce invalid identifiers like
+                        // fromJsonValue_std::string.
+                        if (!streamElementType.startsWith("std::") && !streamElementType.startsWith("boost::")
+                                && Character.isUpperCase(streamElementType.charAt(0))) {
+                            response.vendorExtensions.put("x-codegen-stream-element-type",
+                                    streamElementType);
+                            // Propagate to operation level for use outside {{#responses}} scope
+                            operation.vendorExtensions.put("x-codegen-stream-element-type",
+                                    streamElementType);
+                        }
                     }
                 } else if (isDualContent && response.is2xx && response.dataType != null
                         && !response.dataType.equals(operation.returnType)) {
@@ -1584,6 +1685,24 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             // Compute the branch type using the full type declaration pipeline
             // but strip shared_ptr for variant members (value semantics).
             String childType = stripSharedPtr(getTypeDeclaration(child));
+            // Resolve $ref targets that are aliased to primitive types at the
+            // declaration point, before resolvedAliasTypes is available (it is
+            // populated during postProcessModels, which runs later). This handles
+            // inline schemas like CreateAssistantRequest_model = oneOf [string,
+            // $ref AssistantSupportedModels] where the target is anyOf [string,
+            // string-enum] → std::string, collapsing to just std::string.
+            if (!childType.startsWith("std::") && !childType.startsWith("boost::")
+                    && !childType.startsWith("std::shared_ptr<")) {
+                Schema resolvedTarget = child.get$ref() != null && openAPI != null
+                        ? ModelUtils.getReferencedSchema(openAPI, child) : null;
+                if (resolvedTarget != null) {
+                    String resolved = getTypeDeclaration(resolvedTarget);
+                    String stripped = stripSharedPtr(resolved);
+                    if (!stripped.equals(childType)) {
+                        childType = stripped;
+                    }
+                }
+            }
             branchTypes.add(childType);
         }
 

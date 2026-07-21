@@ -75,7 +75,7 @@ ResponseStreamEvent	PASS	std::variant<ResponseAudioDeltaEvent, ResponseAudioDone
 ResponseStreamOptions	PASS	org::openapitools::client::model::ResponseStreamOptions	anyOf, 1 members
 ResponsesClientEvent	PASS	org::openapitools::client::model::ResponsesClientEvent	anyOf, 31 members
 ResponsesClientEventResponseCreate	PASS	org::openapitools::client::model::ResponsesClientEventResponseCreate	allOf, 31 members
-ResponsesServerEvent	PASS	typename ResponsesServerEventModelMakeVoid<Types...>::type	anyOf, 0 members
+ResponsesServerEvent	PASS	ResponseStreamEvent	anyOf, 0 members
 RunCompletionUsage	PASS	org::openapitools::client::model::RunCompletionUsage	anyOf, 3 members
 RunStepCompletionUsage	PASS	org::openapitools::client::model::RunStepCompletionUsage	anyOf, 3 members
 RunStepStreamEvent	PASS	std::variant<RunStepStreamEvent_oneOf, RunStepStreamEvent_oneOf_1, RunStepStreamEvent_oneOf_2, RunStepStreamEvent_oneOf_3, RunStepStreamEvent_oneOf_4, RunStepStreamEvent_oneOf_5, RunStepStreamEvent_oneOf_6>	oneOf, 0 members
@@ -85,7 +85,7 @@ StopConfiguration	PASS	std::variant<std::string, std::vector<std::string>>	oneOf
 TextResponseFormatConfiguration	PASS	std::variant<BetaResponseFormatText, TextResponseFormatJsonSchema, BetaResponseFormatJsonObject>	oneOf, 0 members
 ThreadStreamEvent	PASS	org::openapitools::client::model::ThreadStreamEvent	oneOf, 2 members
 Tool	PASS	std::variant<FunctionTool, FileSearchTool, BetaComputerTool, ComputerUsePreviewTool, WebSearchTool, MCPTool, CodeInterpreterTool, ProgrammaticToolCallingParam, ImageGenTool, BetaLocalShellToolParam, FunctionShellToolParam, CustomToolParam, NamespaceToolParam, ToolSearchToolParam, WebSearchPreviewTool, ApplyPatchToolParam>	oneOf, 0 members
-ToolChoiceParam	PASS	std::variant<BetaToolChoiceOptions, BetaToolChoiceAllowed, BetaToolChoiceTypes, BetaToolChoiceFunction, BetaToolChoiceMCP, BetaToolChoiceCustom, SpecificProgrammaticToolCallingParam, BetaSpecificApplyPatchParam, BetaSpecificFunctionShellParam>	oneOf, 0 members
+ToolChoiceParam	PASS	std::variant<std::string, BetaToolChoiceAllowed, BetaToolChoiceTypes, BetaToolChoiceFunction, BetaToolChoiceMCP, BetaToolChoiceCustom, SpecificProgrammaticToolCallingParam, BetaSpecificApplyPatchParam, BetaSpecificFunctionShellParam>	oneOf, 0 members
 TranscriptionChunkingStrategy	PASS	std::variant<std::string, VadConfig>	oneOf, 0 members
 VectorStoreFileAttributes	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 Verbosity	PASS	std::optional<std::string>	anyOf, 0 members
@@ -103,7 +103,7 @@ VideoModel	PASS	std::string	anyOf, 0 members
 PersonalityEnum	PASS	std::string	anyOf, 0 members
 ItemField	PASS	std::variant<Message, Program, ProgramOutput, FunctionToolCall, ToolSearchCall, ToolSearchOutput, AdditionalTools, FunctionToolCallOutput, FileSearchToolCall, WebSearchToolCall, ImageGenToolCall, ComputerToolCall, ComputerToolCallOutputResource, ReasoningItem, CompactionBody, CodeInterpreterToolCall, LocalShellToolCall, LocalShellToolCallOutput, FunctionShellCall, FunctionShellCallOutput, ApplyPatchToolCall, ApplyPatchToolCallOutput, MCPListTools, MCPApprovalRequest, MCPApprovalResponseResource, MCPToolCall, CustomToolCall, CustomToolCallOutput>	oneOf, 0 members
 ThreadItem	PASS	std::variant<UserMessageItem, AssistantMessageItem, WidgetMessageItem, ClientToolCallItem, TaskItem, TaskGroupItem>	oneOf, 0 members
-BetaToolChoiceParam	PASS	std::variant<BetaToolChoiceOptions, BetaToolChoiceAllowed, BetaToolChoiceTypes, BetaToolChoiceFunction, BetaToolChoiceMCP, BetaToolChoiceCustom, BetaSpecificProgrammaticToolCallingParam, BetaSpecificApplyPatchParam, BetaSpecificFunctionShellParam>	oneOf, 0 members
+BetaToolChoiceParam	PASS	std::variant<std::string, BetaToolChoiceAllowed, BetaToolChoiceTypes, BetaToolChoiceFunction, BetaToolChoiceMCP, BetaToolChoiceCustom, BetaSpecificProgrammaticToolCallingParam, BetaSpecificApplyPatchParam, BetaSpecificFunctionShellParam>	oneOf, 0 members
 BetaConversationParam	PASS	std::variant<std::string, BetaConversationParam_2>	oneOf, 0 members
 BetaPersonalityEnum	PASS	std::string	anyOf, 0 members
 BetaReasoningEffort	PASS	std::optional<std::string>	anyOf, 0 members

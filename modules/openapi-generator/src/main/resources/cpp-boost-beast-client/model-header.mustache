@@ -135,9 +135,14 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
-    {{#vendorExtensions.x-stainless-const}}
-    {{{dataType}}} {{getter}}() const { return {{{vendorExtensions.x-stainless-const-inline-value}}}; }
-    {{/vendorExtensions.x-stainless-const}}
+{{#vendorExtensions.x-stainless-const}}
+{{#vendorExtensions.x-stainless-const-inline-value}}
+{{{dataType}}} {{getter}}() const { return {{{vendorExtensions.x-stainless-const-inline-value}}}; }
+{{/vendorExtensions.x-stainless-const-inline-value}}
+{{^vendorExtensions.x-stainless-const-inline-value}}
+{{{dataType}}} {{getter}}() const;
+{{/vendorExtensions.x-stainless-const-inline-value}}
+{{/vendorExtensions.x-stainless-const}}
     {{^vendorExtensions.x-stainless-const}}
     {{{dataType}}} {{getter}}() const;
     void {{setter}}({{{dataType}}} value);
