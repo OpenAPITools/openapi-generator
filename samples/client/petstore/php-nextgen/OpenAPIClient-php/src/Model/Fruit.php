@@ -34,7 +34,7 @@ namespace OpenAPI\Client\Model;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class Fruit implements ComposedInterface
+class Fruit implements OneOfInterface
 {
     /**
      * The original name of the model.
@@ -53,7 +53,7 @@ class Fruit implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedTypes(): array
+    public static function getOneOfTypes(): array
     {
         return [
             '\OpenAPI\Client\Model\Apple',
@@ -64,7 +64,7 @@ class Fruit implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedDiscriminator(): ?string
+    public static function getOneOfDiscriminator(): ?string
     {
         return self::DISCRIMINATOR;
     }
@@ -72,7 +72,7 @@ class Fruit implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedDiscriminatorMappings(): array
+    public static function getOneOfDiscriminatorMappings(): array
     {
         return [
             

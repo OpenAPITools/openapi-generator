@@ -1,6 +1,6 @@
 <?php
 /**
- * ComposedInterface
+ * OneOfInterface
  *
  * PHP version 8.1
  *
@@ -29,24 +29,24 @@
 namespace OpenAPI\Client\Model;
 
 /**
- * Interface implemented by models generated from a `oneOf` or `anyOf` schema.
+ * Interface implemented by models generated from a `oneOf` schema.
  *
- * A composed schema is not represented by a value object; instead a value is one of the
+ * A `oneOf` schema is not represented by a value object; instead a value is one of the
  * composed member types. Classes implementing this interface only carry the metadata that
  * {@see ObjectSerializer::deserialize()} needs to resolve the concrete member type.
  *
  * @package OpenAPI\Client\Model
  * @author  OpenAPI Generator team
  */
-interface ComposedInterface
+interface OneOfInterface
 {
     /**
-     * List of the types a value of this composed schema may be. Each entry uses the same
+     * List of the types a value of this `oneOf` schema may be. Each entry uses the same
      * notation as the values of {@see ModelInterface::openAPITypes()}.
      *
      * @return string[]
      */
-    public static function getComposedTypes(): array;
+    public static function getOneOfTypes(): array;
 
     /**
      * Name of the discriminator property used to resolve the concrete member type, or null
@@ -54,7 +54,7 @@ interface ComposedInterface
      *
      * @return string|null
      */
-    public static function getComposedDiscriminator(): ?string;
+    public static function getOneOfDiscriminator(): ?string;
 
     /**
      * Mapping of discriminator values to the concrete member type. Empty when the schema has
@@ -62,5 +62,5 @@ interface ComposedInterface
      *
      * @return array<string,string>
      */
-    public static function getComposedDiscriminatorMappings(): array;
+    public static function getOneOfDiscriminatorMappings(): array;
 }

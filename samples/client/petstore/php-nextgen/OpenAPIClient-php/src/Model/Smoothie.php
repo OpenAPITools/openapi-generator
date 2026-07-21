@@ -34,7 +34,7 @@ namespace OpenAPI\Client\Model;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class Smoothie implements ComposedInterface
+class Smoothie implements AnyOfInterface
 {
     /**
      * The original name of the model.
@@ -53,7 +53,7 @@ class Smoothie implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedTypes(): array
+    public static function getAnyOfTypes(): array
     {
         return [
             '\OpenAPI\Client\Model\Apple',
@@ -64,7 +64,7 @@ class Smoothie implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedDiscriminator(): ?string
+    public static function getAnyOfDiscriminator(): ?string
     {
         return self::DISCRIMINATOR;
     }
@@ -72,7 +72,7 @@ class Smoothie implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedDiscriminatorMappings(): array
+    public static function getAnyOfDiscriminatorMappings(): array
     {
         return [
             
