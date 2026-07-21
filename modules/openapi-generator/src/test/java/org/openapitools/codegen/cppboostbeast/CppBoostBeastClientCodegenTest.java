@@ -169,6 +169,10 @@ public class CppBoostBeastClientCodegenTest {
                 "JsonValueConverter<std::vector<std::map<std::string, std::shared_ptr<ChildModel>>>>::fromJsonValue",
                 "JsonValueConverter<std::map<std::string, std::vector<std::shared_ptr<ChildModel>>>>::fromJsonValue",
                 "vec = JsonValueConverter<std::vector<std::shared_ptr<ContainerModel>>>::fromJsonValue");
+        // Phase 5: Required field validation — missing required key throws with descriptive message
+        TestUtils.assertFileContains(containerSource,
+                "Required field 'requiredValue' not found in ContainerModel");
+
         TestUtils.assertFileNotContains(containerSource,
                 "mostInnerItems",
                 "m_Inner",
@@ -502,6 +506,19 @@ public class CppBoostBeastClientCodegenTest {
         long closes = betweenDeclAndThrow.chars().filter(ch -> ch == '}').count();
         Assert.assertEquals(opens, closes,
                 "discValue scope: braces must be balanced between declaration and throw (got " + opens + " open, " + closes + " close)");
+
+        // Phase 5: Discriminator mismatch — unknown value throws with clear message
+        Assert.assertTrue(petByTypeSourceContent.contains("Unknown discriminator value"),
+                "PetByType discriminator should throw on unknown mapping value");
+        Assert.assertTrue(petByTypeSourceContent.contains("pet_type"),
+                "PetByType discriminator throw should reference discriminator property name 'pet_type'");
+        int unknownDiscThrowPos = petByTypeSourceContent.indexOf("Unknown discriminator value");
+        Assert.assertTrue(unknownDiscThrowPos > 0 && unknownDiscThrowPos > discValueDecl,
+                "PetByType 'Unknown discriminator value' throw should appear after discValue declaration");
+
+        // Phase 5: Error path in variant error messages — InputParam oneOf errors include path
+        Assert.assertTrue(inputParamSourceContent.contains("errorPath"),
+                "InputParam oneOf source should reference errorPath for nested diagnostics");
 
         // Scenario 12: x-stainless-const property handling
         Path stainlessHeader = output.toPath().resolve("model/StainlessObject.h");
