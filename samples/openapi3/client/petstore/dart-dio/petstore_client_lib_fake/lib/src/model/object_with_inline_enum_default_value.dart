@@ -77,8 +77,9 @@ class _$ObjectWithInlineEnumDefaultValueSerializer implements PrimitiveSerialize
         case r'attribute':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(ObjectWithInlineEnumDefaultValueAttributeEnum),
-          ) as ObjectWithInlineEnumDefaultValueAttributeEnum;
+            specifiedType: const FullType.nullable(ObjectWithInlineEnumDefaultValueAttributeEnum),
+          ) as ObjectWithInlineEnumDefaultValueAttributeEnum?;
+          if (valueDes == null) continue;
           result.attribute = valueDes;
           break;
         default:

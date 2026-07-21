@@ -1211,6 +1211,87 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOneOfAllOfEnumRefDiscriminatorInheritance() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOfDiscriminator.yaml");
+        new OpenAPINormalizer(openAPI, Map.of()).normalize();
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        Schema inner = openAPI.getComponents().getSchemas().get("VehicleResponse");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel innerModel = codegen.fromModel("VehicleResponse", inner);
+        assertTrue(innerModel.getHasDiscriminatorWithNonEmptyMapping());
+        assertTrue(innerModel.discriminator.getIsEnum());
+        assertEquals("VehicleType", innerModel.discriminator.getPropertyType());
+        assertTrue(innerModel.getVars().get(0).isEnumRef);
+        
+        Schema car = openAPI.getComponents().getSchemas().get("Car");
+        CodegenModel carModel = codegen.fromModel("Car", car);
+        assertTrue(carModel.discriminator.getIsEnum());
+        assertEquals("VehicleType", carModel.discriminator.getPropertyType());
+        assertTrue(carModel.getVars().get(0).isEnumRef);
+
+        Schema bike = openAPI.getComponents().getSchemas().get("Bike");
+        CodegenModel bikeModel = codegen.fromModel("Bike", bike);
+        assertTrue(bikeModel.discriminator.getIsEnum());
+        assertEquals("VehicleType", bikeModel.discriminator.getPropertyType());
+        assertTrue(bikeModel.getVars().get(0).isEnumRef);
+    }
+
+    @Test
+    public void testOneOfAllOfInlineEnumDiscriminatorInheritance() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOfDiscriminator.yaml");
+        new OpenAPINormalizer(openAPI, Map.of()).normalize();
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        Schema inner = openAPI.getComponents().getSchemas().get("PetResponseEnumDisc");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel innerModel = codegen.fromModel("PetResponseEnumDisc", inner);
+        assertTrue(innerModel.getHasDiscriminatorWithNonEmptyMapping());
+        assertTrue(innerModel.discriminator.getIsEnum());
+        assertEquals("PetTypeEnum", innerModel.discriminator.getPropertyType());
+        assertFalse(innerModel.getVars().get(0).isEnumRef);
+
+        Schema dog = openAPI.getComponents().getSchemas().get("DogEnumDisc");
+        CodegenModel dogModel = codegen.fromModel("DogEnumDisc", dog);
+        assertTrue(dogModel.discriminator.getIsEnum());
+        assertEquals("PetTypeEnum", dogModel.discriminator.getPropertyType());
+        assertFalse(dogModel.getVars().get(0).isEnumRef);
+
+        Schema cat = openAPI.getComponents().getSchemas().get("CatEnumDisc");
+        CodegenModel catModel = codegen.fromModel("CatEnumDisc", cat);
+        assertTrue(catModel.discriminator.getIsEnum());
+        assertEquals("PetTypeEnum", catModel.discriminator.getPropertyType());
+        assertFalse(catModel.getVars().get(0).isEnumRef);
+    }
+
+    @Test
+    public void testOneOfAllOfInlineStringWithFormatDiscriminatorInheritance() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOfDiscriminator.yaml");
+        new OpenAPINormalizer(openAPI, Map.of()).normalize();
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        Schema inner = openAPI.getComponents().getSchemas().get("PetResponseUriDisc");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel innerModel = codegen.fromModel("PetResponseUriDisc", inner);
+        assertTrue(innerModel.getHasDiscriminatorWithNonEmptyMapping());
+        assertEquals("URI", innerModel.discriminator.getPropertyType());
+
+        Schema dog = openAPI.getComponents().getSchemas().get("DogUriDisc");
+        CodegenModel dogModel = codegen.fromModel("DogUriDisc", dog);
+        assertEquals("URI", dogModel.discriminator.getPropertyType());
+
+        Schema cat = openAPI.getComponents().getSchemas().get("CatUriDisc");
+        CodegenModel catModel = codegen.fromModel("CatUriDisc", cat);
+        assertEquals("URI", catModel.discriminator.getPropertyType());
+    }
+
+    @Test
     public void testParentName() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
@@ -2103,6 +2184,22 @@ public class DefaultCodegenTest {
 
         assertEquals("Simple-Property-Title", codegen.fromProperty("simpleProperty", (Schema) testProperties.get("simpleProperty")).title);
         assertEquals("Ref-Property-Title", codegen.fromProperty("refProperty", (Schema) testProperties.get("refProperty")).title);
+    }
+
+    @Test
+    public void testAllOfSingleRefSiblingExample() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/property-title.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map testProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("ModelWithTitledProperties").getProperties());
+
+        // a plain property keeps its example
+        assertEquals("Simple-Property-Example", codegen.fromProperty("simpleProperty", (Schema) testProperties.get("simpleProperty")).example);
+        // an `allOf: [ $ref ]` property must keep the example declared as a sibling of the allOf,
+        // instead of falling back to the literal "null" computed against the inner $ref schema
+        assertEquals("Ref-Property-Example", codegen.fromProperty("refProperty", (Schema) testProperties.get("refProperty")).example);
     }
 
     @Test

@@ -1,0 +1,463 @@
+openapi: 3.0.3
+info:
+  title: C++ Boost Beast API generation regression
+  version: 1.0.0
+paths:
+  /default-only:
+    get:
+      tags:
+        - Regression
+      operationId: getDefaultOnly
+      responses:
+        default:
+          description: Typed fallback
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+  /default-after-explicit:
+    get:
+      tags:
+        - Regression
+      operationId: getDefaultAfterExplicit
+      responses:
+        default:
+          description: Incompatible fallback
+          content:
+            application/json:
+              schema:
+                type: string
+        '200':
+          description: Explicit success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+  /void-default:
+    get:
+      tags:
+        - Regression
+      operationId: getVoidDefault
+      responses:
+        '200':
+          description: Explicit success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+        default:
+          description: Bodyless fallback
+  /empty-map:
+    get:
+      tags:
+        - Regression
+      operationId: getEmptyMap
+      responses:
+        '200':
+          description: Map response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+  /empty-free-form:
+    get:
+      tags:
+        - Regression
+      operationId: getEmptyFreeForm
+      responses:
+        '200':
+          description: Free-form response
+          content:
+            application/json:
+              schema: {}
+  /raw-text:
+    post:
+      tags:
+        - Regression
+      operationId: postRawText
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '204':
+          description: Accepted
+  /raw-binary:
+    post:
+      tags:
+        - Regression
+      operationId: postRawBinary
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '204':
+          description: Accepted
+  /raw-integer:
+    post:
+      tags:
+        - Regression
+      operationId: postRawInteger
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: integer
+              format: int32
+      responses:
+        '204':
+          description: Accepted
+  /raw-boolean:
+    post:
+      tags:
+        - Regression
+      operationId: postRawBoolean
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: boolean
+      responses:
+        '204':
+          description: Accepted
+  /raw-xml:
+    post:
+      tags:
+        - Regression
+      operationId: postRawXml
+      requestBody:
+        required: true
+        content:
+          application/xml:
+            schema:
+              type: string
+      responses:
+        '204':
+          description: Accepted
+  /structured-text:
+    post:
+      tags:
+        - Regression
+      operationId: postStructuredText
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/Payload'
+      responses:
+        '204':
+          description: Accepted
+  /structured-xml-request:
+    post:
+      tags:
+        - Regression
+      operationId: postStructuredXml
+      requestBody:
+        required: true
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Payload'
+      responses:
+        '204':
+          description: Accepted
+  /structured-xml-response:
+    get:
+      tags:
+        - Regression
+      operationId: getStructuredXml
+      responses:
+        '200':
+          description: Structured XML response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Payload'
+  /raw-xml-response:
+    get:
+      tags:
+        - Regression
+      operationId: getRawXml
+      responses:
+        '200':
+          description: Raw XML response
+          content:
+            application/xml:
+              schema:
+                type: string
+  /json-preferred-response:
+    get:
+      tags:
+        - Regression
+      operationId: getJsonPreferred
+      responses:
+        '200':
+          description: JSON should be selected for structured data
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Payload'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payload'
+  /multipart-form:
+    post:
+      tags:
+        - Regression
+      operationId: postMultipartForm
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '204':
+          description: Accepted
+  /urlencoded-form:
+    post:
+      tags:
+        - Regression
+      operationId: postUrlEncodedForm
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+                enabled:
+                  type: boolean
+      responses:
+        '204':
+          description: Accepted
+  /query-encoding:
+    get:
+      tags:
+        - Regression
+      operationId: getQueryEncoding
+      parameters:
+        - name: wire-name
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: values
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: csv-values
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: explicit-form-default-values
+          in: query
+          required: true
+          style: form
+          schema:
+            type: array
+            items:
+              type: string
+        - name: no-style-csv-values
+          in: query
+          required: true
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: no-style-exploded-values
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: space-values
+          in: query
+          required: true
+          style: spaceDelimited
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: pipe-values
+          in: query
+          required: true
+          style: pipeDelimited
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: optional-value
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: metadata
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: compact-metadata
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: scoped-metadata
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: wire-header
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: array-header
+          in: header
+          required: true
+          style: simple
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+        - name: object-header
+          in: header
+          required: true
+          style: simple
+          schema:
+            $ref: '#/components/schemas/Payload'
+      responses:
+        '204':
+          description: Accepted
+  /path-encoding/%20/{pathValues}/{atomicValue}:
+    get:
+      tags:
+        - Regression
+      operationId: getPathEncoding
+      parameters:
+        - name: atomicValue
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pathValues
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '204':
+          description: Accepted
+  /unexpected-typed:
+    get:
+      tags:
+        - Regression
+      operationId: getUnexpectedTyped
+      responses:
+        '200':
+          description: Declared typed response
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+  /unexpected-void:
+    delete:
+      tags:
+        - Regression
+      operationId: deleteUnexpectedVoid
+      responses:
+        '204':
+          description: Declared empty response
+  /response-range:
+    get:
+      tags:
+        - Regression
+      operationId: getResponseRange
+      responses:
+        2XX:
+          description: Other successful responses
+          content:
+            application/json:
+              schema:
+                type: string
+        '200':
+          description: Explicit response takes precedence
+          content:
+            application/json:
+              schema:
+                type: string
+  /same-path:
+    get:
+      tags:
+        - Regression
+      operationId: getSamePath
+      responses:
+        '204':
+          description: GET response
+    post:
+      tags:
+        - Regression
+      operationId: postSamePath
+      responses:
+        '204':
+          description: POST response
+components:
+  schemas:
+    Payload:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string

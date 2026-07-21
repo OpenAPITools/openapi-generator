@@ -21,8 +21,8 @@ repositories {
 
 dependencies {
     implementation("io.javalin:javalin:6.1.6")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.9")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.9")
     implementation("org.slf4j:slf4j-simple:2.0.13")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")

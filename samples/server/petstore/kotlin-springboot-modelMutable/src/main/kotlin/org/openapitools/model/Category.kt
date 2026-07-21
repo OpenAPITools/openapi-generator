@@ -23,14 +23,16 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class Category(
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") var id: kotlin.Long? = null,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("name")
     @get:JsonProperty("name") var name: kotlin.String? = null
 ) : java.io.Serializable {
 

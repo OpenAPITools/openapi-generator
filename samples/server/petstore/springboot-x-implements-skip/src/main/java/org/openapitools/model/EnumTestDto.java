@@ -30,7 +30,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class EnumTestDto {
 
   /**
@@ -188,6 +188,7 @@ public class EnumTestDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumNumberEnum enumNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<OuterEnumDto> outerEnum = JsonNullable.<OuterEnumDto>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

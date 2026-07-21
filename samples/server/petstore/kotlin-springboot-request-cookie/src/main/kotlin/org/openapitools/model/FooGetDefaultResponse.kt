@@ -24,9 +24,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class FooGetDefaultResponse(
 
     @field:Valid
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("string")
     @get:JsonProperty("string") val string: Foo? = null
 ) {
 

@@ -1540,92 +1540,138 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isObjectSchema(schema)) {
             if (schema.getDefault() != null) {
-                try {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append("new " + cp.datatypeWithEnum + "()");
-                    Map<String, Schema> propertySchemas = schema.getProperties();
-                    if(propertySchemas != null) {
-                        // With `parseOptions.setResolve(true)`, objects with 1 key-value pair are LinkedHashMap and objects with more than 1 are ObjectNode
-                        // When not set, objects of any size are ObjectNode
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        ObjectNode objectNode;
-                        if(!(schema.getDefault() instanceof ObjectNode)) {
-                            objectNode = objectMapper.valueToTree(schema.getDefault());
-                        } else {
-                            objectNode = (ObjectNode) schema.getDefault();
-
-                        }
-                        Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
-                        for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
-                            String key = defaultProperty.getKey();
-                            JsonNode value = defaultProperty.getValue();
-                            Schema propertySchema = propertySchemas.get(key);
-                            if (!value.isValueNode() || propertySchema == null) { //Skip complex objects for now
-                                continue;
-                            }
-
-                            String defaultPropertyExpression = null;
-                            if(ModelUtils.isLongSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText()+"l";
-                            } else if(ModelUtils.isIntegerSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText();
-                            } else if(ModelUtils.isDoubleSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText()+"d";
-                            } else if(ModelUtils.isFloatSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText()+"f";
-                            } else if(ModelUtils.isNumberSchema(propertySchema)) {
-                                defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
-                            } else if(ModelUtils.isURISchema(propertySchema)) {
-                                defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
-                            } else if(ModelUtils.isDateSchema(propertySchema)) {
-                                if("java8".equals(getDateLibrary())) {
-                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
-                                }
-                            } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
-                                if("java8".equals(getDateLibrary())) {
-                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
-                                            value.asText(),
-                                            "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
-                                }
-                            } else if(ModelUtils.isTimeLocalSchema(propertySchema)) {
-                                if("java8".equals(getDateLibrary())) {
-                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalTime.parse(\"%s\")", value.asText());
-                                }
-                            } else if(ModelUtils.isDateTimeLocalSchema(propertySchema)) {
-                                if("java8".equals(getDateLibrary())) {
-                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDateTime.parse(\"%s\")", value.asText());
-                                }
-                            } else if(ModelUtils.isUUIDSchema(propertySchema)) {
-                                defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
-                            } else if(ModelUtils.isStringSchema(propertySchema)) {
-                                defaultPropertyExpression = "\"" + value.asText() + "\"";
-                            } else if(ModelUtils.isBooleanSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText();
-                            }
-                            if(defaultPropertyExpression != null) {
-                                stringBuilder
-//                                        .append(System.lineSeparator())
-                                        .append(".")
-                                        .append(toVarName(key))
-                                        .append("(").append(defaultPropertyExpression).append(")");
-                            }
-                        }
-                    }
-                    return stringBuilder.toString();
-                } catch (ClassCastException e) {
-                    LOGGER.error("Can't resolve default value: "+schema.getDefault(), e);
-                    return null;
-                }
+                return toObjectDefaultValue(cp, schema.getDefault(), schema.getProperties());
             }
             return null;
         } else if (ModelUtils.isComposedSchema(schema)) {
             if (schema.getDefault() != null) {
-                return super.toDefaultValue(schema);
+                // A `$ref` to an object schema combined with a sibling `default` (or an explicit `allOf`)
+                // is parsed as a composed schema, so the object's properties live in the `allOf` members
+                // rather than directly on the schema. Resolve them and render the default the same way as a
+                // plain object schema. Falling through to `super.toDefaultValue(...)` here would emit the raw
+                // default (e.g. `{"one":"one"}`) as Java, which does not compile (see #23795).
+                Map<String, Schema> propertySchemas = getComposedSchemaProperties(schema);
+                if (!propertySchemas.isEmpty()) {
+                    return toObjectDefaultValue(cp, schema.getDefault(), propertySchemas);
+                }
+                return null;
             }
             return null;
         }
 
         return super.toDefaultValue(schema);
+    }
+
+    /**
+     * Renders the default value of an object-typed property as a Java fluent builder expression, e.g.
+     * {@code new Pet().name("doggie").id(1l)}. Only scalar (value node) default properties for which a
+     * matching property schema is known are rendered; nested objects are skipped.
+     *
+     * @param cp              the codegen property carrying the target Java type ({@code datatypeWithEnum})
+     * @param defaultValue    the raw default value from the schema (a {@code Map}/{@code ObjectNode})
+     * @param propertySchemas the resolved property schemas used to type each default entry
+     * @return the Java expression, or {@code null} if it cannot be resolved
+     */
+    private String toObjectDefaultValue(CodegenProperty cp, Object defaultValue, Map<String, Schema> propertySchemas) {
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("new " + cp.datatypeWithEnum + "()");
+            if (propertySchemas != null) {
+                // With `parseOptions.setResolve(true)`, objects with 1 key-value pair are LinkedHashMap and objects with more than 1 are ObjectNode
+                // When not set, objects of any size are ObjectNode
+                ObjectMapper objectMapper = new ObjectMapper();
+                ObjectNode objectNode;
+                if(!(defaultValue instanceof ObjectNode)) {
+                    objectNode = objectMapper.valueToTree(defaultValue);
+                } else {
+                    objectNode = (ObjectNode) defaultValue;
+
+                }
+                Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
+                for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
+                    String key = defaultProperty.getKey();
+                    JsonNode value = defaultProperty.getValue();
+                    Schema propertySchema = propertySchemas.get(key);
+                    if (!value.isValueNode() || propertySchema == null) { //Skip complex objects for now
+                        continue;
+                    }
+
+                    String defaultPropertyExpression = null;
+                    if(ModelUtils.isLongSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText()+"l";
+                    } else if(ModelUtils.isIntegerSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText();
+                    } else if(ModelUtils.isDoubleSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText()+"d";
+                    } else if(ModelUtils.isFloatSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText()+"f";
+                    } else if(ModelUtils.isNumberSchema(propertySchema)) {
+                        defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
+                    } else if(ModelUtils.isURISchema(propertySchema)) {
+                        defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
+                    } else if(ModelUtils.isDateSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
+                        }
+                    } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
+                                    value.asText(),
+                                    "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
+                        }
+                    } else if(ModelUtils.isTimeLocalSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalTime.parse(\"%s\")", value.asText());
+                        }
+                    } else if(ModelUtils.isDateTimeLocalSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDateTime.parse(\"%s\")", value.asText());
+                        }
+                    } else if(ModelUtils.isUUIDSchema(propertySchema)) {
+                        defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
+                    } else if(ModelUtils.isStringSchema(propertySchema)) {
+                        defaultPropertyExpression = "\"" + value.asText() + "\"";
+                    } else if(ModelUtils.isBooleanSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText();
+                    }
+                    if(defaultPropertyExpression != null) {
+                        stringBuilder
+//                                        .append(System.lineSeparator())
+                                .append(".")
+                                .append(toVarName(key))
+                                .append("(").append(defaultPropertyExpression).append(")");
+                    }
+                }
+            }
+            return stringBuilder.toString();
+        } catch (ClassCastException e) {
+            LOGGER.error("Can't resolve default value: "+defaultValue, e);
+            return null;
+        }
+    }
+
+    /**
+     * Collects the property schemas of a composed schema by merging the schema's own properties with the
+     * properties of every {@code allOf} member (dereferencing {@code $ref}s as needed). This is used to
+     * render object defaults declared via a `$ref` + sibling `default` or an explicit `allOf`.
+     *
+     * @param schema the composed schema
+     * @return the merged property schemas (never {@code null}; empty when none can be resolved)
+     */
+    private Map<String, Schema> getComposedSchemaProperties(Schema schema) {
+        Map<String, Schema> propertySchemas = new LinkedHashMap<>();
+        if (schema.getProperties() != null) {
+            propertySchemas.putAll(schema.getProperties());
+        }
+        if (schema.getAllOf() != null) {
+            for (Object member : schema.getAllOf()) {
+                Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, (Schema) member);
+                if (resolved != null && resolved.getProperties() != null) {
+                    propertySchemas.putAll(resolved.getProperties());
+                }
+            }
+        }
+        return propertySchemas;
     }
 
     private String getDefaultCollectionType(Schema schema) {
@@ -2126,13 +2172,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         // make sure the x-implements is always a List and always at least empty
         for (ModelMap mo : objs.getModels()) {
-            CodegenModel cm = mo.getModel();
-            if (cm.getVendorExtensions().containsKey(X_IMPLEMENTS)) {
-                List<String> xImplements = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
-                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
-            } else {
-                cm.getVendorExtensions().put(X_IMPLEMENTS, new ArrayList<String>());
-            }
+            normalizeVendorExtensionWithStringList(mo.getModel().getVendorExtensions(), X_IMPLEMENTS);
+        }
+
+        // make sure the x-class-extra-annotation is always a List and always at least empty
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel model = mo.getModel();
+            normalizeVendorExtensionWithStringList(model.getVendorExtensions(), VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName());
+            normalizeModelPropertyVendorExtensions(model, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
         }
 
         // skip interfaces predefined in open api spec in x-implements via additional property xImplementsSkip
@@ -2233,9 +2280,66 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             handleImplicitHeaders(op);
             handleConstantParams(op);
+            normalizeOperationParameterVendorExtensions(op, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
         }
 
         return objs;
+    }
+
+    /**
+     * Normalizes a model property vendor extension across all property collections.
+     * In this context, normalization means converting a missing value, a single string, or a list value
+     * into a predictable mutable {@code List<String>} on each property. The same property can appear in
+     * several model collections, so the collections are de-duplicated before updating the extension map.
+     *
+     * @param model model whose properties should be updated
+     * @param name  vendor extension name
+     */
+    private void normalizeModelPropertyVendorExtensions(CodegenModel model, String name) {
+        Set<CodegenProperty> properties = Collections.newSetFromMap(new IdentityHashMap<>());
+        properties.addAll(model.vars);
+        properties.addAll(model.allVars);
+        properties.addAll(model.requiredVars);
+        properties.addAll(model.optionalVars);
+        properties.addAll(model.readOnlyVars);
+        properties.addAll(model.readWriteVars);
+        properties.addAll(model.parentVars);
+        properties.addAll(model.parentRequiredVars);
+        properties.addAll(model.nonNullableVars);
+
+        for (CodegenProperty property : properties) {
+            normalizeVendorExtensionWithStringList(property.vendorExtensions, name);
+        }
+    }
+
+    /**
+     * Normalizes an operation parameter vendor extension across all parameter collections.
+     * In this context, normalization means converting a missing value, a single string, or a list value
+     * into a predictable mutable {@code List<String>} on each parameter. The same parameter can appear in
+     * several operation collections, so the collections are de-duplicated before updating the extension map.
+     *
+     * @param operation operation whose parameters should be updated
+     * @param name      vendor extension name
+     */
+    protected void normalizeOperationParameterVendorExtensions(CodegenOperation operation, String name) {
+        Set<CodegenParameter> parameters = Collections.newSetFromMap(new IdentityHashMap<>());
+        parameters.addAll(operation.allParams);
+        parameters.addAll(operation.bodyParams);
+        parameters.addAll(operation.pathParams);
+        parameters.addAll(operation.queryParams);
+        parameters.addAll(operation.headerParams);
+        parameters.addAll(operation.implicitHeadersParams);
+        parameters.addAll(operation.constantParams);
+        parameters.addAll(operation.formParams);
+        parameters.addAll(operation.cookieParams);
+        parameters.addAll(operation.requiredParams);
+        parameters.addAll(operation.optionalParams);
+        parameters.addAll(operation.requiredAndNotNullableParams);
+        parameters.addAll(operation.notNullableParams);
+
+        for (CodegenParameter parameter : parameters) {
+            normalizeVendorExtensionWithStringList(parameter.vendorExtensions, name);
+        }
     }
 
     @Override

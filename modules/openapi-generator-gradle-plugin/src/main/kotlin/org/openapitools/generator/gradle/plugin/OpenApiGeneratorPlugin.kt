@@ -95,12 +95,21 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                         "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
 
                     verbose.set(generate.verbose)
+                    quiet.set(generate.quiet)
                     validateSpec.set(generate.validateSpec)
                     generatorName.set(generate.generatorName)
                     outputDir.set(generate.outputDir)
                     inputSpec.set(generate.inputSpec)
                     inputSpecRootDirectory.set(generate.inputSpecRootDirectory)
                     inputSpecRootDirectorySkipMerge.set(generate.inputSpecRootDirectorySkipMerge)
+                    inputSpecFiles.from(generate.inputSpecFiles)
+                    mergedFileOutputDir.set(generate.mergedFileOutputDir)
+                    mergedFileName.set(generate.mergedFileName)
+                    mergedFileInfoName.set(generate.mergedFileInfoName)
+                    mergedFileInfoDescription.set(generate.mergedFileInfoDescription)
+                    mergedFileInfoVersion.set(generate.mergedFileInfoVersion)
+                    mergeMode.set(generate.mergeMode)
+                    mergeConflictStrategy.set(generate.mergeConflictStrategy)
                     remoteInputSpec.set(generate.remoteInputSpec)
                     templateDir.set(generate.templateDir)
                     templateResourcePath.set(generate.templateResourcePath)
@@ -122,11 +131,14 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     openapiGeneratorIgnoreList.set(generate.openapiGeneratorIgnoreList)
                     importMappings.set(generate.importMappings)
                     schemaMappings.set(generate.schemaMappings)
+                    forcedGenerateSchemas.set(generate.forcedGenerateSchemas)
                     inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
                     inlineSchemaOptions.set(generate.inlineSchemaOptions)
                     nameMappings.set(generate.nameMappings)
                     modelNameMappings.set(generate.modelNameMappings)
                     parameterNameMappings.set(generate.parameterNameMappings)
+                    enumNameMappings.set(generate.enumNameMappings)
+                    operationIdNameMappings.set(generate.operationIdNameMappings)
                     openapiNormalizer.set(generate.openapiNormalizer)
                     invokerPackage.set(generate.invokerPackage)
                     groupId.set(generate.groupId)
@@ -157,6 +169,9 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     engine.set(generate.engine)
                     cleanupOutput.set(generate.cleanupOutput)
                     dryRun.set(generate.dryRun)
+                    strictSpec.set(generate.strictSpec)
+                    minimalUpdate.set(generate.minimalUpdate)
+                    generateRecursiveDependentModels.set(generate.generateRecursiveDependentModels)
                     workerIsolation.set(generate.workerIsolation)
                     maxWorkerHeapSize.set(generate.maxWorkerHeapSize)
                 }
@@ -168,6 +183,5 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
         const val pluginGroup = "OpenAPI Tools"
     }
 }
-
 
 

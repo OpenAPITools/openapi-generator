@@ -20,10 +20,12 @@ package org.openapitools.codegen.goginserver;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -83,6 +85,42 @@ public class GoGinServerCodegenTest {
 
         TestUtils.assertFileContains(Paths.get(output + "/go/api_pet.go"),
                 "type PetAPI interface");
+    }
+
+    @Test
+    public void verifyDuplicateOperationIdsAreConsistent() throws IOException {
+        // Regression test for duplicate auto-generated operationIds (e.g. /foo and /foo/).
+        // go-gin-server's routers.mustache references handleFunctions.<Class>.{{operationId}}
+        // while interface-api.mustache/controller-api.mustache used to declare the method
+        // with {{nickname}}. nickname and operationId were deduplicated by two independent
+        // passes with inconsistent counter conventions (_1 vs _0), so routers referenced
+        // FooGet_0 while the handler/interface declared FooGet_1, producing uncompilable
+        // code. The fix makes those templates use {{operationId}} consistently.
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output)
+                .setInputSpec("src/test/resources/3_0/go-gin-server/duplicate-operation-ids.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // routers.go uses {{operationId}} to reference the handler method on the generated struct.
+        TestUtils.assertFileContains(Paths.get(output + "/go/routers.go"),
+                "handleFunctions.DefaultAPI.FooGet_0");
+        // controller-api.mustache now uses {{operationId}} for the handler method, matching
+        // the {{operationId}} reference in routers.go.
+        TestUtils.assertFileContains(Paths.get(output + "/go/api_default.go"),
+                "func (api *DefaultAPI) FooGet_0(");
+
+        // Negative assertion: the divergent _1 name must not appear anywhere.
+        String routers = new String(Files.readAllBytes(Paths.get(output + "/go/routers.go")), StandardCharsets.UTF_8);
+        String apiDefault = new String(Files.readAllBytes(Paths.get(output + "/go/api_default.go")), StandardCharsets.UTF_8);
+        Assert.assertFalse(routers.contains("FooGet_1"),
+                "nickname diverged from operationId (FooGet_1 present in routers.go)");
+        Assert.assertFalse(apiDefault.contains("FooGet_1"),
+                "nickname diverged from operationId (FooGet_1 present in api_default.go)");
     }
 
     private static CodegenConfigurator createDefaultCodegenConfigurator(File output) {

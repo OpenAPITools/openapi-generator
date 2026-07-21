@@ -27,9 +27,9 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -980,10 +980,39 @@ public class OpenAPINormalizer {
 
             return schema;
         } else if (ModelUtils.hasProperties(schema)) {
+            // OAS 3.1: if the type array includes "null", extract it and set nullable:true
+            // on the parent schema before normalizing its child properties.
+            // We intentionally do NOT call the full processNormalize31Spec here because
+            // that method can replace a JsonSchema with properties (but no explicit type)
+            // with an empty schema, discarding all properties.
+            if (getRule(NORMALIZE_31SPEC) && schema.getTypes() != null && schema.getTypes().contains("null")) {
+                schema.setNullable(true);
+                schema.getTypes().remove("null");
+                if (schema.getTypes().size() == 1) {
+                    schema.setType(String.valueOf(schema.getTypes().iterator().next()));
+                }
+            }
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);
-            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
+            Schema additionalProperties = (Schema) schema.getAdditionalProperties();
+            if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, additionalProperties)) {
+                // OAS 3.1 allows a map value schema of `type: "null"` (e.g.
+                // `additionalProperties: { type: "null" }`). There's no OAS 3.0 equivalent type,
+                // so generators emit a fictional `Null` / `ModelNull` value type that fails to
+                // compile. Normalize it to an any-type nullable schema so the map value is
+                // generated as a normal (nullable) object instead.
+                Schema anyTypeNullable = new Schema();
+                anyTypeNullable.setNullable(true);
+                schema.setAdditionalProperties(anyTypeNullable);
+            } else {
+                Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
+                if (getRule(NORMALIZE_31SPEC)) {
+                    // capture the normalized value schema (e.g. an OAS 3.1 `type: [array, "null"]`
+                    // value is rewritten to a proper array schema), which would otherwise be lost.
+                    schema.setAdditionalProperties(normalized);
+                }
+            }
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof IntegerSchema) {
@@ -1613,7 +1642,7 @@ public class OpenAPINormalizer {
      * @return Simplified schema
      */
     protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
-        Map<Object, String> enumValues = new LinkedHashMap<>();
+        Map<Object, EnumUtils.EnumExtensions> enumExtensions = new LinkedHashMap<>();
 
         if(schema.getTypes() != null && schema.getTypes().size() > 1) {
             // we cannot handle enums with multiple types
@@ -1634,10 +1663,15 @@ public class OpenAPINormalizer {
 
             Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
 
-            // Check if this sub-schema has an enum (with one or more values)
-            if (subSchema.getEnum() == null || subSchema.getEnum().isEmpty()) {
+            // Check if this sub-schema has an enum or const value (OAS 3.1 uses const for single-value enums)
+            boolean definesEnum = ModelUtils.hasEnum(subSchema);
+            if (!definesEnum && subSchema.getConst() == null) {
                 return schema;
             }
+            // If const is present but enum is not, treat const as a single enum value
+            List<Object> subSchemaEnumValues = definesEnum
+                    ? subSchema.getEnum()
+                    : Arrays.asList(subSchema.getConst());
 
             // Ensure all sub-schemas have the same type (if type is specified)
             if(subSchema.getTypes() != null && subSchema.getTypes().size() > 1) {
@@ -1652,8 +1686,9 @@ public class OpenAPINormalizer {
                     return schema;
                 }
             }
+            boolean subSchemaDeprecated = Boolean.TRUE.equals(subSchema.getDeprecated());
             // Add all enum values from this sub-schema to our collection
-            if(subSchema.getEnum().size() == 1) {
+            if(subSchemaEnumValues.size() == 1) {
                 String description = subSchema.getTitle() == null ? "" : subSchema.getTitle();
                 if(subSchema.getDescription() != null) {
                     if(!description.isEmpty()) {
@@ -1661,29 +1696,27 @@ public class OpenAPINormalizer {
                     }
                     description += subSchema.getDescription();
                 }
-                enumValues.put(subSchema.getEnum().get(0), description);
+                enumExtensions.put(subSchemaEnumValues.get(0), new EnumUtils.EnumExtensions(description, subSchemaDeprecated));
             } else {
-                for(Object e: subSchema.getEnum()) {
-                    enumValues.put(e, "");
+                for(Object e: subSchemaEnumValues) {
+                    enumExtensions.put(e, new EnumUtils.EnumExtensions("", subSchemaDeprecated));
                 }
             }
-
         }
 
-        return createSimplifiedEnumSchema(schema, enumValues, schemaType, composedType);
+        return createSimplifiedEnumSchema(schema, enumExtensions, schemaType, composedType);
     }
-
 
     /**
      * Creates a simplified enum schema from collected enum values.
      *
      * @param originalSchema Original schema to modify
-     * @param enumValues Collected enum values
+     * @param enumExtensions Collected enum values
      * @param schemaType Consistent type across sub-schemas
      * @param composedType Type of composed schema being simplified
      * @return Simplified enum schema
      */
-    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, String schemaType, String composedType) {
+    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, EnumUtils.EnumExtensions> enumExtensions, String schemaType, String composedType) {
         // Clear the composed schema type
         if ("oneOf".equals(composedType)) {
             originalSchema.setOneOf(null);
@@ -1691,16 +1724,7 @@ public class OpenAPINormalizer {
             originalSchema.setAnyOf(null);
         }
 
-        if (ModelUtils.getType(originalSchema) == null && schemaType != null) {
-            //if type was specified in subschemas, keep it in the main schema
-            ModelUtils.setType(originalSchema, schemaType);
-        }
-
-        originalSchema.setEnum(new ArrayList<>(enumValues.keySet()));
-        if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
-            //set x-enum-descriptions only if there's at least one non-empty description
-            originalSchema.addExtension(X_ENUM_DESCRIPTIONS, new ArrayList<>(enumValues.values()));
-        }
+        EnumUtils.createSimplifiedEnumSchema(originalSchema, enumExtensions, schemaType);
 
         LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);
 
@@ -1792,7 +1816,7 @@ public class OpenAPINormalizer {
                     return schema;
                 }
                 Map<String, String> mappings = new TreeMap<>();
-                // is the discriminator qttribute qlready in this schema?
+                // is the discriminator attribute already in this schema?
                 // if yes, it will be deleted in references oneOf to avoid duplicates
                 boolean hasProperty = findProperty(schema, discriminator.getPropertyName(), false, new HashSet<>()) != null;
                 discriminator.setMapping(mappings);

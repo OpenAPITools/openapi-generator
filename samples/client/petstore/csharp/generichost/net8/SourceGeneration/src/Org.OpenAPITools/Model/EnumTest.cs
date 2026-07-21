@@ -241,10 +241,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumIntegerEnum EnumIntegerEnumFromString(string value)
         {
-            if (value.Equals((1).ToString()))
+            if (value.Equals((1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumIntegerEnum.NUMBER_1;
 
-            if (value.Equals((-1).ToString()))
+            if (value.Equals((-1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumIntegerEnum.NUMBER_MINUS_1;
 
             throw new NotImplementedException($"Could not convert value to type EnumIntegerEnum: '{value}'");
@@ -257,10 +257,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumIntegerEnum? EnumIntegerEnumFromStringOrDefault(string value)
         {
-            if (value.Equals((1).ToString()))
+            if (value.Equals((1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumIntegerEnum.NUMBER_1;
 
-            if (value.Equals((-1).ToString()))
+            if (value.Equals((-1).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumIntegerEnum.NUMBER_MINUS_1;
 
             return null;
@@ -313,10 +313,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumIntegerOnlyEnum EnumIntegerOnlyEnumFromString(string value)
         {
-            if (value.Equals((2).ToString()))
+            if (value.Equals((2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumIntegerOnlyEnum.NUMBER_2;
 
-            if (value.Equals((-2).ToString()))
+            if (value.Equals((-2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumIntegerOnlyEnum.NUMBER_MINUS_2;
 
             throw new NotImplementedException($"Could not convert value to type EnumIntegerOnlyEnum: '{value}'");
@@ -329,10 +329,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumIntegerOnlyEnum? EnumIntegerOnlyEnumFromStringOrDefault(string value)
         {
-            if (value.Equals((2).ToString()))
+            if (value.Equals((2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumIntegerOnlyEnum.NUMBER_2;
 
-            if (value.Equals((-2).ToString()))
+            if (value.Equals((-2).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumIntegerOnlyEnum.NUMBER_MINUS_2;
 
             return null;
@@ -385,10 +385,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static EnumNumberEnum EnumNumberEnumFromString(string value)
         {
-            if (value.Equals("1.1"))
+            if (value.Equals((1.1d).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumNumberEnum.NUMBER_1_DOT_1;
 
-            if (value.Equals("-1.2"))
+            if (value.Equals((-1.2d).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumNumberEnum.NUMBER_MINUS_1_DOT_2;
 
             throw new NotImplementedException($"Could not convert value to type EnumNumberEnum: '{value}'");
@@ -401,10 +401,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumNumberEnum? EnumNumberEnumFromStringOrDefault(string value)
         {
-            if (value.Equals("1.1"))
+            if (value.Equals((1.1d).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumNumberEnum.NUMBER_1_DOT_1;
 
-            if (value.Equals("-1.2"))
+            if (value.Equals((-1.2d).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return EnumNumberEnum.NUMBER_MINUS_1_DOT_2;
 
             return null;
@@ -415,14 +415,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public static double EnumNumberEnumToJsonValue(EnumNumberEnum? value)
         {
             if (value == EnumNumberEnum.NUMBER_1_DOT_1)
-                return 1.1;
+                return 1.1d;
 
             if (value == EnumNumberEnum.NUMBER_MINUS_1_DOT_2)
-                return -1.2;
+                return -1.2d;
 
             throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
@@ -697,8 +696,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="EnumTest" />
     /// </summary>
-    public class EnumTestJsonConverter : JsonConverter<EnumTest>
+    public partial class EnumTestJsonConverter : JsonConverter<EnumTest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumTestJsonConverter" /> class.
+        /// </summary>
+        public EnumTestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="EnumTest" />
         /// </summary>
@@ -747,13 +756,40 @@ namespace Org.OpenAPITools.Model
                                 enumStringRequired = new Option<EnumTest.EnumStringRequiredEnum?>(EnumTest.EnumStringRequiredEnumFromStringOrDefault(enumStringRequiredRawValue));
                             break;
                         case "enum_integer":
-                            enumInteger = new Option<EnumTest.EnumIntegerEnum?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (EnumTest.EnumIntegerEnum?)null : (EnumTest.EnumIntegerEnum)utf8JsonReader.GetInt32());
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                                enumInteger = new Option<EnumTest.EnumIntegerEnum?>(null);
+                            else
+                            {
+                                string enumIntegerRawValue = utf8JsonReader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+                                EnumTest.EnumIntegerEnum? enumIntegerValue = EnumTest.EnumIntegerEnumFromStringOrDefault(enumIntegerRawValue);
+                                if (enumIntegerValue == null)
+                                    throw new JsonException();
+                                enumInteger = new Option<EnumTest.EnumIntegerEnum?>(enumIntegerValue);
+                            }
                             break;
                         case "enum_integer_only":
-                            enumIntegerOnly = new Option<EnumTest.EnumIntegerOnlyEnum?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (EnumTest.EnumIntegerOnlyEnum?)null : (EnumTest.EnumIntegerOnlyEnum)utf8JsonReader.GetInt32());
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                                enumIntegerOnly = new Option<EnumTest.EnumIntegerOnlyEnum?>(null);
+                            else
+                            {
+                                string enumIntegerOnlyRawValue = utf8JsonReader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+                                EnumTest.EnumIntegerOnlyEnum? enumIntegerOnlyValue = EnumTest.EnumIntegerOnlyEnumFromStringOrDefault(enumIntegerOnlyRawValue);
+                                if (enumIntegerOnlyValue == null)
+                                    throw new JsonException();
+                                enumIntegerOnly = new Option<EnumTest.EnumIntegerOnlyEnum?>(enumIntegerOnlyValue);
+                            }
                             break;
                         case "enum_number":
-                            enumNumber = new Option<EnumTest.EnumNumberEnum?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (EnumTest.EnumNumberEnum?)null : (EnumTest.EnumNumberEnum)utf8JsonReader.GetInt32());
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                                enumNumber = new Option<EnumTest.EnumNumberEnum?>(null);
+                            else
+                            {
+                                string enumNumberRawValue = utf8JsonReader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture);
+                                EnumTest.EnumNumberEnum? enumNumberValue = EnumTest.EnumNumberEnumFromStringOrDefault(enumNumberRawValue);
+                                if (enumNumberValue == null)
+                                    throw new JsonException();
+                                enumNumber = new Option<EnumTest.EnumNumberEnum?>(enumNumberValue);
+                            }
                             break;
                         case "enum_string":
                             string? enumStringRawValue = utf8JsonReader.GetString();
@@ -761,23 +797,16 @@ namespace Org.OpenAPITools.Model
                                 enumString = new Option<EnumTest.EnumStringEnum?>(EnumTest.EnumStringEnumFromStringOrDefault(enumStringRawValue));
                             break;
                         case "outerEnum":
-                            string? outerEnumRawValue = utf8JsonReader.GetString();
-                            outerEnum = new Option<OuterEnum?>(outerEnumRawValue == null ? null : OuterEnumValueConverter.FromStringOrDefault(outerEnumRawValue));
+                            outerEnum = new Option<OuterEnum?>(JsonSerializer.Deserialize<OuterEnum?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "outerEnumDefaultValue":
-                            string? outerEnumDefaultValueRawValue = utf8JsonReader.GetString();
-                            if (outerEnumDefaultValueRawValue != null)
-                                outerEnumDefaultValue = new Option<OuterEnumDefaultValue?>(OuterEnumDefaultValueValueConverter.FromStringOrDefault(outerEnumDefaultValueRawValue));
+                            outerEnumDefaultValue = new Option<OuterEnumDefaultValue?>(JsonSerializer.Deserialize<OuterEnumDefaultValue?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "outerEnumInteger":
-                            string? outerEnumIntegerRawValue = utf8JsonReader.GetString();
-                            if (outerEnumIntegerRawValue != null)
-                                outerEnumInteger = new Option<OuterEnumInteger?>(OuterEnumIntegerValueConverter.FromStringOrDefault(outerEnumIntegerRawValue));
+                            outerEnumInteger = new Option<OuterEnumInteger?>(JsonSerializer.Deserialize<OuterEnumInteger?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "outerEnumIntegerDefaultValue":
-                            string? outerEnumIntegerDefaultValueRawValue = utf8JsonReader.GetString();
-                            if (outerEnumIntegerDefaultValueRawValue != null)
-                                outerEnumIntegerDefaultValue = new Option<OuterEnumIntegerDefaultValue?>(OuterEnumIntegerDefaultValueValueConverter.FromStringOrDefault(outerEnumIntegerDefaultValueRawValue));
+                            outerEnumIntegerDefaultValue = new Option<OuterEnumIntegerDefaultValue?>(JsonSerializer.Deserialize<OuterEnumIntegerDefaultValue?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -866,15 +895,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("outerEnumDefaultValue", outerEnumDefaultValueRawValue);
             }
             if (enumTest.OuterEnumIntegerOption.IsSet)
-            {
-                var outerEnumIntegerRawValue = OuterEnumIntegerValueConverter.ToJsonValue(enumTest.OuterEnumInteger!.Value);
-                writer.WriteNumber("outerEnumInteger", outerEnumIntegerRawValue);
-            }
+                writer.WriteNumber("outerEnumInteger", OuterEnumIntegerValueConverter.ToJsonValue(enumTest.OuterEnumIntegerOption.Value!.Value));
+
             if (enumTest.OuterEnumIntegerDefaultValueOption.IsSet)
-            {
-                var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue!.Value);
-                writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
-            }
+                writer.WriteNumber("outerEnumIntegerDefaultValue", OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValueOption.Value!.Value));
         }
     }
 

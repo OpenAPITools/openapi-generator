@@ -26,10 +26,12 @@ data class UserList(
     @field:Valid
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("content")
     @get:JsonProperty("content") val content: kotlin.collections.List<User>? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("description")
     @get:JsonProperty("description") val description: kotlin.String? = null
 ) : java.io.Serializable {
 

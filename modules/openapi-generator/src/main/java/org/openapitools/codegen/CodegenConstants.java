@@ -36,6 +36,12 @@ public class CodegenConstants {
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
+    /**
+     * Wildcard token for {@code forcedGenerateSchemas}: when this value is present in the set,
+     * all schemas are generated even if they appear in schemaMappings or importMappings.
+     */
+    public static final String FORCE_GENERATE_ALL_SCHEMAS = "*";
+
     public static final String API_NAME = "apiName";
 
     public static final String API_PACKAGE = "apiPackage";
@@ -509,11 +515,26 @@ public class CodegenConstants {
     public static final String X_NULLABLE = "x-nullable";
     public static final String X_ENUM_VARNAMES = "x-enum-varnames";
     public static final String X_ENUM_DESCRIPTIONS = "x-enum-descriptions";
+    public static final String X_ENUM_DEPRECATED = "x-enum-deprecated";
     public static final String X_PY_TYPING = "x-py-typing";
     public static final String X_PY_EXAMPLE = "x-py-example";
     public static final String X_PY_EXAMPLE_IMPORT = "x-py-example-import";
     public static final String X_PY_FASTAPI_EXAMPLE = "x-py-fastapi-example";
     public static final String X_PY_NAME = "x-py-name";
+    public static final String X_PY_EXPLICIT_PUBLIC_NAME = "x-py-explicit-public-name";
+    public static final String X_PY_LEGACY_PUBLIC_NAME = "x-py-legacy-public-name";
+    public static final String X_PY_HAS_PUBLIC_NAME_PROPERTIES = "x-py-has-public-name-properties";
+    public static final String X_PY_HIDDEN_STORAGE_NAMES = "x-py-hidden-storage-names";
+    public static final String X_PY_INPUT_NAME_PROPERTIES = "x-py-input-name-properties";
+    public static final String X_PY_PREPROCESSES_INPUT_NAMES = "x-py-preprocesses-input-names";
+    public static final String X_PY_VALIDATES_INPUT_NAMES = "x-py-validates-input-names";
+    public static final String X_PY_PUBLIC_NAME = "x-py-public-name";
+    public static final String X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE = "x-py-public-name-differs-from-storage";
+    public static final String X_PY_PUBLIC_NAME_DIFFERS_FROM_WIRE = "x-py-public-name-differs-from-wire";
+    public static final String X_PY_PUBLIC_NAME_LITERAL = "x-py-public-name-literal";
+    public static final String X_PY_PUBLIC_NAME_OVERRIDES_BASE_MODEL = "x-py-public-name-overrides-base-model";
+    public static final String X_PY_PUBLIC_NAME_TYPING = "x-py-public-name-typing";
+    public static final String X_PY_WIRE_NAME_LITERAL = "x-py-wire-name-literal";
     public static final String X_PY_ENUM_TYPE = "x-py-enum-type";
     public static final String X_PY_READONLY = "x-py-readonly";
     public static final String X_PY_MODEL_IMPORTS = "x-py-model-imports";

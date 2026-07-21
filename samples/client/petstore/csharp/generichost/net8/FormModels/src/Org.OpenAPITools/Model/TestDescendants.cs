@@ -100,8 +100,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestDescendants" />
     /// </summary>
-    public class TestDescendantsJsonConverter : JsonConverter<TestDescendants>
+    public partial class TestDescendantsJsonConverter : JsonConverter<TestDescendants>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestDescendantsJsonConverter" /> class.
+        /// </summary>
+        public TestDescendantsJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestDescendants" />
         /// </summary>
@@ -149,9 +159,7 @@ namespace Org.OpenAPITools.Model
                             alternativeName = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "objectType":
-                            string objectTypeRawValue = utf8JsonReader.GetString();
-                            if (objectTypeRawValue != null)
-                                objectType = new Option<TestDescendantsObjectType?>(TestDescendantsObjectTypeValueConverter.FromStringOrDefault(objectTypeRawValue));
+                            objectType = new Option<TestDescendantsObjectType?>(JsonSerializer.Deserialize<TestDescendantsObjectType?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

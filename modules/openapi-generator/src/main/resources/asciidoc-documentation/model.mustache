@@ -17,12 +17,12 @@
 | Field Name| Required| Nullable | Type| Description | Format
 
 {{#vars}}
-| {{baseName}}
+| {{#tablecellcontent}}{{baseName}}{{/tablecellcontent}}
 | {{#required}}X{{/required}}
 | {{#isNullable}}X{{/isNullable}}
 | {{#isModel}}<<{{ dataType }}>>{{/isModel}} {{^container}}{{^allowableValues}} {{^isModel}}{{ dataType }}{{/isModel}}{{/allowableValues}}{{#allowableValues}}{{^allowableValues.empty}}<<{{ dataType }}>>{{/allowableValues.empty}}{{/allowableValues}} {{/container}} {{#isContainer}} of <<{{complexType}}>>{{/isContainer}}
-| {{description}}
-| {{{dataFormat}}} {{#isEnum}}_Enum:_ {{#_enum}}{{this}}, {{/_enum}}{{/isEnum}} {{^isEnum}}{{^container}}{{^allowableValues.empty}} {{#allowableValues.values}}{{this}}, {{/allowableValues.values}} {{/allowableValues.empty}}{{/container}}{{/isEnum}}
+| {{#tablecellcontent}}{{description}}{{/tablecellcontent}}
+| {{#tablecellcontent}}{{{dataFormat}}} {{#isEnum}}_Enum:_ {{#_enum}}{{this}}, {{/_enum}}{{/isEnum}} {{^isEnum}}{{^container}}{{^allowableValues.empty}} {{#allowableValues.values}}{{this}}, {{/allowableValues.values}} {{/allowableValues.empty}}{{/container}}{{/isEnum}}{{/tablecellcontent}}
 
 {{/vars}}
 |===
@@ -36,7 +36,7 @@
 | Enum Values
 
 {{#allowableValues.values}}
-| {{this}}
+| {{#tablecellcontent}}{{this}}{{/tablecellcontent}}
 {{/allowableValues.values}}
 
 |===

@@ -123,8 +123,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestResult" />
     /// </summary>
-    public class TestResultJsonConverter : JsonConverter<TestResult>
+    public partial class TestResultJsonConverter : JsonConverter<TestResult>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestResultJsonConverter" /> class.
+        /// </summary>
+        public TestResultJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestResult" />
         /// </summary>
@@ -162,9 +172,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "code":
-                            string codeRawValue = utf8JsonReader.GetString();
-                            if (codeRawValue != null)
-                                code = new Option<TestResultCode?>(TestResultCodeValueConverter.FromStringOrDefault(codeRawValue));
+                            code = new Option<TestResultCode?>(JsonSerializer.Deserialize<TestResultCode?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "data":
                             data = new Option<Dictionary<string, string>>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));

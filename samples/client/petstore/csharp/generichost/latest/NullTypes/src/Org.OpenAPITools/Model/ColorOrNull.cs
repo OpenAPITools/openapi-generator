@@ -94,8 +94,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ColorOrNull" />
     /// </summary>
-    public class ColorOrNullJsonConverter : JsonConverter<ColorOrNull>
+    public partial class ColorOrNullJsonConverter : JsonConverter<ColorOrNull>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColorOrNullJsonConverter" /> class.
+        /// </summary>
+        public ColorOrNullJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ColorOrNull" />
         /// </summary>

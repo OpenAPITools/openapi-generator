@@ -34,9 +34,29 @@ class PetApi:
     """
 
     def __init__(self, api_client=None) -> None:
+        # api_client remains publicly assignable. Retain the client acquired at
+        # construction so reassignment cannot transfer or discard ownership.
         if api_client is None:
-            api_client = ApiClient.get_default()
+            api_client, owns_api_client = ApiClient._get_default_or_new()
+        else:
+            owns_api_client = False
         self.api_client = api_client
+        self._owned_api_client: Optional[ApiClient] = (
+            api_client if owns_api_client else None
+        )
+
+
+    def close(self) -> None:
+        owned_api_client = self._owned_api_client
+        self._owned_api_client = None
+        if owned_api_client is not None:
+            owned_api_client.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
 
 
     @validate_call

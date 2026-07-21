@@ -268,17 +268,27 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="NullableClass" />
     /// </summary>
-    public class NullableClassJsonConverter : JsonConverter<NullableClass>
+    public partial class NullableClassJsonConverter : JsonConverter<NullableClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullableClassJsonConverter" /> class.
+        /// </summary>
+        public NullableClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize DateProp
         /// </summary>
-        public static string DatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string DatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize DatetimeProp
         /// </summary>
-        public static string DatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string DatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="NullableClass" />

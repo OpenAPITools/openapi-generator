@@ -177,6 +177,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override AreaCode? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             AreaCode? result = rawValue == null
@@ -197,7 +200,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, AreaCode? areaCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(areaCode.HasValue ? AreaCodeValueConverter.ToJsonValue(areaCode.Value).ToString() : "null");
+            if (areaCode.HasValue)
+                writer.WriteStringValue(AreaCodeValueConverter.ToJsonValue(areaCode.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

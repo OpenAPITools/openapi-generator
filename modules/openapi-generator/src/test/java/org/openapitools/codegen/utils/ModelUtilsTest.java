@@ -18,6 +18,7 @@
 package org.openapitools.codegen.utils;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -553,6 +554,23 @@ public class ModelUtilsTest {
         assertTrue(schema.getReadOnly());
         assertNull(schema.getWriteOnly());
         assertEquals(schema.get$ref(), "#/components/schemas/IntegerRef");
+    }
+
+    @Test
+    public void simplifyOneOfWithOnlyOneNonNullSubSchemaDoesNotMutateSharedSchema() {
+        OpenAPI openAPI = new OpenAPI().specVersion(SpecVersion.V31);
+        Schema sharedRef = new Schema<>().$ref("#/components/schemas/ContentType");
+        Schema nullableParent = new ComposedSchema().oneOf(new ArrayList<>(Arrays.asList(
+                new Schema<>().type("null"),
+                sharedRef)));
+
+        Schema simplified = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
+                openAPI, nullableParent, nullableParent.getOneOf());
+
+        assertNotSame(simplified, sharedRef);
+        assertEquals(simplified.get$ref(), sharedRef.get$ref());
+        assertTrue(simplified.getNullable());
+        assertNull(sharedRef.getNullable());
     }
 
     @Test

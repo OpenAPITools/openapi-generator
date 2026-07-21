@@ -47,6 +47,20 @@ paths:
           description: Successful operation
       tags:
       - multipart
+  /extra-annotation:
+    post:
+      description: MultipartFile extra annotation test
+      operationId: multipartExtraAnnotation
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/multipartExtraAnnotation_request"
+      responses:
+        "204":
+          description: Successful operation
+      tags:
+      - multipart
 components:
   schemas:
     MultipartMixedStatus:
@@ -96,5 +110,15 @@ components:
       required:
       - file
       - status
+      type: object
+    multipartExtraAnnotation_request:
+      properties:
+        file:
+          description: The file to upload.
+          format: binary
+          type: string
+          x-field-extra-annotation: '@jakarta.validation.constraints.NotNull'
+      required:
+      - file
       type: object
 

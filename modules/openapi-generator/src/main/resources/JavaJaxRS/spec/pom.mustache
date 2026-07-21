@@ -53,8 +53,12 @@
         </configuration>
       </plugin>
       <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.6</version>
+      </plugin>
+      <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.6</version>
+        <version>3.5.6</version>
         <executions>
           <execution>
             <goals>
@@ -135,8 +139,8 @@
         <version>3.0.2</version>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
@@ -180,12 +184,12 @@
     {{/openApiNullable}}
   </dependencies>
   <properties>
-    <java.version>1.8</java.version>
+    <java.version>{{#useSealed}}17{{/useSealed}}{{^useSealed}}1.8{{/useSealed}}</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jackson-version>2.19.2</jackson-version>
-    <junit-version>4.13.2</junit-version>
+    <junit-version>5.14.4</junit-version>
     <joda-version>2.10.13</joda-version>
 {{#useJakartaEe}}
     <javax.annotation-api-version>2.1.1</javax.annotation-api-version>

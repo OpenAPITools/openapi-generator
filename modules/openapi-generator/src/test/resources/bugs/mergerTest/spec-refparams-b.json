@@ -1,0 +1,24 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "RefParams B", "version": "1.0.0" },
+  "servers": [ { "url": "api.my-domain.com/my-context-root/v1" } ],
+  "paths": {
+    "/refparams": {
+      "parameters": [
+        { "$ref": "#/components/parameters/ParamB" }
+      ],
+      "post": {
+        "tags": ["refparams"],
+        "summary": "post refparams",
+        "operationId": "postRefParams",
+        "responses": { "200": { "description": "OK" } }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "ParamA": { "name": "paramA", "in": "query", "schema": { "type": "string" } },
+      "ParamB": { "name": "paramB", "in": "query", "schema": { "type": "string" } }
+    }
+  }
+}

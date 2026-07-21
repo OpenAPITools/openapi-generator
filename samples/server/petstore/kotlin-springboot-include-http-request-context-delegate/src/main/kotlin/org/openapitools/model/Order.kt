@@ -29,34 +29,40 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Order(
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("petId")
     @get:JsonProperty("petId") val petId: kotlin.Long? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("quantity")
     @get:JsonProperty("quantity") val quantity: kotlin.Int? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("shipDate")
     @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("status")
     @get:JsonProperty("status") val status: Order.Status? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("complete")
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
 ) : java.io.Serializable {
 

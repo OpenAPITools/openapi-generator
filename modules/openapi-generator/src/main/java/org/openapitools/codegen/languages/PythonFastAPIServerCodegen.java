@@ -101,6 +101,11 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         languageSpecificPrimitives.add("Dict");
         typeMapping.put("array", "List");
         typeMapping.put("map", "Dict");
+        // Binary response body: map OAS file/binary to built-in bytes (not the invalid Py2 type `file`).
+        // Multipart upload fields remain UploadFile via overrideFileFormParamTyping (#23793).
+        // See https://github.com/OpenAPITools/openapi-generator/issues/20775
+        typeMapping.put("file", "bytes");
+        typeMapping.put("binary", "bytes");
 
         outputFolder = "generated-code" + File.separator + NAME;
         modelTemplateFiles.put("model.mustache", ".py");
@@ -509,14 +514,16 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");
-        System.out.println("# Please support his work directly via https://paypal.me/krjakbrjak  \uD83D\uDE4F        #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");
+            System.out.println("# Please support his work directly via https://paypal.me/krjakbrjak  \uD83D\uDE4F        #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

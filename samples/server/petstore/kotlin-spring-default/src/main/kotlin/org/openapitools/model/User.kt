@@ -31,42 +31,50 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class User(
 
-    @Schema(example = "null", required = true, description = "")
+    @Schema(required = true, description = "")
+    @param:JsonProperty("username")
     @get:JsonProperty("username", required = true) val username: kotlin.String,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("firstName")
     @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("lastName")
     @get:JsonProperty("lastName") val lastName: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("email")
     @get:JsonProperty("email") val email: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("password")
     @get:JsonProperty("password") val password: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("phone")
     @get:JsonProperty("phone") val phone: kotlin.String? = null,
 
-    @Schema(example = "null", description = "User Status")
+    @Schema(description = "User Status")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("userStatus")
     @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
 ) : UserOrPet, UserOrPetOrArrayString {
 

@@ -12,11 +12,20 @@ import json
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
+{{#vendorExtensions.x-py-has-public-name-properties}}
+from typing import TYPE_CHECKING
+{{/vendorExtensions.x-py-has-public-name-properties}}
 
+{{^vendorExtensions.x-py-has-public-name-properties}}
+{{#hasChildren}}
+{{#discriminator}}
+from typing import TYPE_CHECKING
+{{/discriminator}}
+{{/hasChildren}}
+{{/vendorExtensions.x-py-has-public-name-properties}}
 {{#hasChildren}}
 {{#discriminator}}
 {{! If this model is a super class, importlib is used. So import the necessary modules for the type here. }}
-from typing import TYPE_CHECKING
 if TYPE_CHECKING:
 {{#mappedModels}}
     from {{packageName}}.models.{{model.classFilename}} import {{modelName}}
@@ -24,9 +33,28 @@ if TYPE_CHECKING:
 
 {{/discriminator}}
 {{/hasChildren}}
+{{#compatibleWithPythonLegacy}}
+
+{{>_legacy_model_dict_helpers}}
+
+
+{{/compatibleWithPythonLegacy}}
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
     {{#description}}{{{description}}}{{/description}}{{^description}}{{{classname}}}{{/description}}
+{{#compatibleWithPythonLegacy}}
+{{!
+python-legacy generic models exposed metadata and value helpers:
+https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/model.mustache#L37-L55
+https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/model.mustache#L203-L255
+}}
+
+    Attributes:
+      openapi_types (dict): The key is attribute name
+                            and the value is attribute type.
+      attribute_map (dict): The key is attribute name
+                            and the value is json key in definition.
+{{/compatibleWithPythonLegacy}}
     """ # noqa: E501
 {{#vars}}
     {{name}}: {{{vendorExtensions.x-py-typing}}}
@@ -34,11 +62,24 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#isAdditionalPropertiesTrue}}
     additional_properties: Dict[str, Any] = {}
 {{/isAdditionalPropertiesTrue}}
-    __properties: ClassVar[List[str]] = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
+{{#compatibleWithPythonLegacy}}
+    openapi_types: ClassVar[Dict[str, str]] = {
+{{#allVars}}
+        {{#vendorExtensions.x-py-public-name-literal}}{{{vendorExtensions.x-py-public-name-literal}}}{{/vendorExtensions.x-py-public-name-literal}}{{^vendorExtensions.x-py-public-name-literal}}{{#lambda.pythonStringLiteral}}{{{name}}}{{/lambda.pythonStringLiteral}}{{/vendorExtensions.x-py-public-name-literal}}: {{#lambda.pythonStringLiteral}}{{{dataType}}}{{/lambda.pythonStringLiteral}}{{^-last}},{{/-last}}
+{{/allVars}}
+    }
+
+    attribute_map: ClassVar[Dict[str, str]] = {
+{{#allVars}}
+        {{#vendorExtensions.x-py-public-name-literal}}{{{vendorExtensions.x-py-public-name-literal}}}{{/vendorExtensions.x-py-public-name-literal}}{{^vendorExtensions.x-py-public-name-literal}}{{#lambda.pythonStringLiteral}}{{{name}}}{{/lambda.pythonStringLiteral}}{{/vendorExtensions.x-py-public-name-literal}}: {{{vendorExtensions.x-py-wire-name-literal}}}{{^-last}},{{/-last}}
+{{/allVars}}
+    }
+{{/compatibleWithPythonLegacy}}
+    __properties: ClassVar[List[str]] = [{{#allVars}}{{{vendorExtensions.x-py-wire-name-literal}}}{{^-last}}, {{/-last}}{{/allVars}}]
 {{#vars}}
     {{#vendorExtensions.x-regex}}
 
-    @field_validator('{{{name}}}')
+    @field_validator('{{{name}}}', mode="before")
     def {{{name}}}_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         {{^required}}
@@ -53,10 +94,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         {{/isNullable}}
         {{/required}}
-        if not isinstance(value, str):
-            value = str(value)
-
-        if not re.match(r"{{{.}}}", value{{#vendorExtensions.x-modifiers}} ,re.{{{.}}}{{/vendorExtensions.x-modifiers}}):
+        if isinstance(value, str) and not re.match(r"{{{.}}}", value{{#vendorExtensions.x-modifiers}} ,re.{{{.}}}{{/vendorExtensions.x-modifiers}}):
             raise ValueError(r"must validate the regular expression {{{vendorExtensions.x-pattern}}}")
         return value
     {{/vendorExtensions.x-regex}}
@@ -97,10 +135,74 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{/isEnum}}
 {{/vars}}
 
+{{#vendorExtensions.x-py-preprocesses-input-names}}
+    @classmethod
+    def __preprocess_input_names(
+        cls,
+        obj: Any,
+        remove_hidden_storage_names: bool = True,
+    ) -> Any:
+        if not isinstance(obj, _Mapping):
+            return obj
+        obj = dict(obj)
+{{#vendorExtensions.x-py-input-name-properties}}
+{{#vendorExtensions.x-py-public-name-differs-from-wire}}
+{{#vendorExtensions.x-py-explicit-public-name}}
+        if (
+            {{{vendorExtensions.x-py-wire-name-literal}}} in obj
+            and {{{vendorExtensions.x-py-public-name-literal}}} in obj
+        ):
+            raise ValueError(
+                "%s received both %r and %r"
+                % (
+                    cls.__name__,
+                    {{{vendorExtensions.x-py-wire-name-literal}}},
+                    {{{vendorExtensions.x-py-public-name-literal}}},
+                )
+            )
+{{/vendorExtensions.x-py-explicit-public-name}}
+        if {{{vendorExtensions.x-py-wire-name-literal}}} not in obj and {{{vendorExtensions.x-py-public-name-literal}}} in obj:
+            obj[{{{vendorExtensions.x-py-wire-name-literal}}}] = obj[{{{vendorExtensions.x-py-public-name-literal}}}]
+        obj.pop({{{vendorExtensions.x-py-public-name-literal}}}, None)
+{{/vendorExtensions.x-py-public-name-differs-from-wire}}
+{{/vendorExtensions.x-py-input-name-properties}}
+{{#vendorExtensions.x-py-hidden-storage-names.size}}
+        if remove_hidden_storage_names:
+{{#vendorExtensions.x-py-hidden-storage-names}}
+            obj.pop({{#lambda.pythonStringLiteral}}{{{.}}}{{/lambda.pythonStringLiteral}}, None)
+{{/vendorExtensions.x-py-hidden-storage-names}}
+{{/vendorExtensions.x-py-hidden-storage-names.size}}
+        return obj
+
+{{/vendorExtensions.x-py-preprocesses-input-names}}
+{{#vendorExtensions.x-py-validates-input-names}}
+    # Pydantic passes the model instance to wrap validators during assignment:
+    # https://docs.pydantic.dev/2.11/migration/#changes-to-validators
+    # Private names also keep inherited model validators distinct:
+    # https://docs.pydantic.dev/2.11/concepts/validators/#on-inheritance
+    @_model_validator(mode="wrap")
+    @classmethod
+    def __validate_input_names(
+        cls,
+        obj: Any,
+        handler: _ModelWrapValidatorHandler[Self],
+    ) -> Self:
+        if not isinstance(obj, cls):
+            obj = cls.__preprocess_input_names(obj)
+        return handler(obj)
+
+{{/vendorExtensions.x-py-validates-input-names}}
     model_config = ConfigDict(
         validate_by_name=True,
         validate_by_alias=True,
         validate_assignment=True,
+{{#compatibleWithPythonLegacy}}
+{{!
+python-legacy generated explicit constructor parameters, so unknown kwargs failed:
+https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/model.mustache#L64-L100
+}}
+        extra="forbid",
+{{/compatibleWithPythonLegacy}}
         protected_namespaces=(),
     )
 
@@ -108,11 +210,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#hasChildren}}
 {{#discriminator}}
     # JSON field name that stores the object type
-    __discriminator_property_name: ClassVar[str] = '{{discriminator.propertyBaseName}}'
+    __discriminator_property_name: ClassVar[str] = {{#lambda.pythonSingleQuotedStringLiteral}}{{{discriminator.propertyBaseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}
 
     # discriminator mappings
     __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
-        {{#mappedModels}}'{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}{{/mappedModels}}
+        {{#mappedModels}}{{#lambda.pythonSingleQuotedStringLiteral}}{{{mappingName}}}{{/lambda.pythonSingleQuotedStringLiteral}}: '{{{modelName}}}'{{^-last}},{{/-last}}{{/mappedModels}}
     }
 
     @classmethod
@@ -127,19 +229,75 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{/discriminator}}
 {{/hasChildren}}
     def to_str(self) -> str:
+{{#compatibleWithPythonLegacy}}
+        """Returns the string representation of the model"""
+        return pprint.pformat(self.to_dict())
+{{/compatibleWithPythonLegacy}}
+{{^compatibleWithPythonLegacy}}
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
+{{/compatibleWithPythonLegacy}}
+{{#compatibleWithPythonLegacy}}
+
+    def __repr__(self) -> str:
+        """For print and pprint"""
+        return self.to_str()
+
+    def __eq__(self, other: object) -> bool:
+        """Returns true if both objects are equal"""
+        if not isinstance(other, {{classname}}):
+            return False
+
+{{#isAdditionalPropertiesTrue}}
+        return (
+            self.to_dict() == other.to_dict()
+            and self.additional_properties == other.additional_properties
+        )
+{{/isAdditionalPropertiesTrue}}
+{{^isAdditionalPropertiesTrue}}
+        return self.to_dict() == other.to_dict()
+{{/isAdditionalPropertiesTrue}}
+
+    def __ne__(self, other: object) -> bool:
+        """Returns true if both objects are not equal"""
+        if not isinstance(other, {{classname}}):
+            return True
+
+        return not (self == other)
+
+{{/compatibleWithPythonLegacy}}
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+{{#compatibleWithPythonLegacy}}
+        to_openapi_dict = _get_openapi_to_dict(self)
+        if to_openapi_dict is not None:
+            return json.dumps(to_jsonable_python(to_openapi_dict(self)))
         return json.dumps(to_jsonable_python(self.to_dict()))
+{{/compatibleWithPythonLegacy}}
+{{^compatibleWithPythonLegacy}}
+        return json.dumps(to_jsonable_python(self.to_dict()))
+{{/compatibleWithPythonLegacy}}
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[{{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#mappedModels}}{{{modelName}}}{{^-last}}, {{/-last}}{{/mappedModels}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}]:
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
+{{#compatibleWithPythonLegacy}}
+    def to_dict(self, serialize: bool = False) -> Dict[str, Any]:
+        """Return all declared model fields using public or wire names."""
+        return {
+{{#allVars}}
+            ({{{vendorExtensions.x-py-wire-name-literal}}} if serialize else {{#vendorExtensions.x-py-public-name-literal}}{{{vendorExtensions.x-py-public-name-literal}}}{{/vendorExtensions.x-py-public-name-literal}}{{^vendorExtensions.x-py-public-name-literal}}{{#lambda.pythonStringLiteral}}{{{name}}}{{/lambda.pythonStringLiteral}}{{/vendorExtensions.x-py-public-name-literal}}): _to_legacy_value(getattr(self, {{#lambda.pythonStringLiteral}}{{{name}}}{{/lambda.pythonStringLiteral}}, None), serialize),
+{{/allVars}}
+        }
+
+    def __openapi_generator_modern_projection(self) -> Dict[str, Any]:
+{{/compatibleWithPythonLegacy}}
+{{^compatibleWithPythonLegacy}}
     def to_dict(self) -> Dict[str, Any]:
+{{/compatibleWithPythonLegacy}}
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -180,9 +338,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             for _item_{{{name}}} in self.{{{name}}}:
                 if _item_{{{name}}}:
                     _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item_{{{name}}} if _inner_item is not None]
+                         [{{#compatibleWithPythonLegacy}}_to_openapi_value(_inner_item){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_inner_item.to_dict(){{/compatibleWithPythonLegacy}} for _inner_item in _item_{{{name}}} if _inner_item is not None]
                     )
-            _dict['{{{baseName}}}'] = _items
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _items
         {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
         {{#items.isMap}}
@@ -193,9 +351,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             for _item_{{{name}}} in self.{{{name}}}:
                 if _item_{{{name}}}:
                     _items.append(
-                         {_inner_key: _inner_value.to_dict() for _inner_key, _inner_value in _item_{{{name}}}.items()}
+                         {_inner_key: {{#compatibleWithPythonLegacy}}_to_openapi_value(_inner_value){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_inner_value.to_dict(){{/compatibleWithPythonLegacy}} for _inner_key, _inner_value in _item_{{{name}}}.items()}
                     )
-            _dict['{{{baseName}}}'] = _items
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _items
         {{/items.items.isPrimitiveType}}
         {{/items.isMap}}
         {{^items.isArray}}
@@ -207,8 +365,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         if self.{{{name}}}:
             for _item_{{{name}}} in self.{{{name}}}:
                 if _item_{{{name}}}:
-                    _items.append(_item_{{{name}}}.to_dict())
-            _dict['{{{baseName}}}'] = _items
+                    _items.append({{#compatibleWithPythonLegacy}}_to_openapi_value(_item_{{{name}}}){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_item_{{{name}}}.to_dict(){{/compatibleWithPythonLegacy}})
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _items
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
         {{/items.isMap}}
@@ -223,9 +381,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             for _key_{{{name}}} in self.{{{name}}}:
                 if self.{{{name}}}[_key_{{{name}}}] is not None:
                     _field_dict_of_array[_key_{{{name}}}] = [
-                        _item.to_dict() for _item in self.{{{name}}}[_key_{{{name}}}]
+                        {{#compatibleWithPythonLegacy}}_to_openapi_value(_item){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_item.to_dict(){{/compatibleWithPythonLegacy}} for _item in self.{{{name}}}[_key_{{{name}}}]
                     ]
-            _dict['{{{baseName}}}'] = _field_dict_of_array
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _field_dict_of_array
         {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
         {{#items.isMap}}
@@ -236,9 +394,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             for _key_{{{name}}}, _value_{{{name}}} in self.{{{name}}}.items():
                 if _value_{{{name}}} is not None:
                     _field_dict_of_dict[_key_{{{name}}}] = {
-                        _key: _value.to_dict() for _key, _value in _value_{{{name}}}.items()
+                        _key: {{#compatibleWithPythonLegacy}}_to_openapi_value(_value){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}_value.to_dict(){{/compatibleWithPythonLegacy}} for _key, _value in _value_{{{name}}}.items()
                     }
-            _dict['{{{baseName}}}'] = _field_dict_of_dict
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _field_dict_of_dict
         {{/items.items.isPrimitiveType}}
         {{/items.isMap}}
         {{^items.isMap}}
@@ -250,8 +408,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         if self.{{{name}}}:
             for _key_{{{name}}} in self.{{{name}}}:
                 if self.{{{name}}}[_key_{{{name}}}]:
-                    _field_dict[_key_{{{name}}}] = self.{{{name}}}[_key_{{{name}}}].to_dict()
-            _dict['{{{baseName}}}'] = _field_dict
+                    _field_dict[_key_{{{name}}}] = {{#compatibleWithPythonLegacy}}_to_openapi_value(self.{{{name}}}[_key_{{{name}}}]){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}self.{{{name}}}[_key_{{{name}}}].to_dict(){{/compatibleWithPythonLegacy}}
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = _field_dict
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
         {{/items.isArray}}
@@ -263,7 +421,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{^isEnumOrRef}}
         # override the default output from pydantic by calling `to_dict()` of {{{name}}}
         if self.{{{name}}}:
-            _dict['{{{baseName}}}'] = self.{{{name}}}.to_dict()
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = {{#compatibleWithPythonLegacy}}_to_openapi_value(self.{{{name}}}){{/compatibleWithPythonLegacy}}{{^compatibleWithPythonLegacy}}self.{{{name}}}.to_dict(){{/compatibleWithPythonLegacy}}
         {{/isEnumOrRef}}
         {{/isPrimitiveType}}
         {{/isContainer}}
@@ -280,16 +438,43 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         # set to None if {{{name}}} (nullable) is None
         # and model_fields_set contains the field
         if self.{{name}} is None and "{{{name}}}" in self.model_fields_set:
-            _dict['{{{baseName}}}'] = None
+            _dict[{{#lambda.pythonSingleQuotedStringLiteral}}{{{baseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}] = None
 
         {{/isNullable}}
         {{/allVars}}
         return _dict
 
+{{#compatibleWithPythonLegacy}}
+{{>_legacy_model_dict_registration}}
+
+{{/compatibleWithPythonLegacy}}
     {{#hasChildren}}
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Optional[{{#discriminator}}Union[{{#mappedModels}}{{{modelName}}}{{^-last}}, {{/-last}}{{/mappedModels}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}]:
         """Create an instance of {{{classname}}} from a dict"""
+    {{/hasChildren}}
+    {{^hasChildren}}
+    @classmethod
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of {{{classname}}} from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    {{/hasChildren}}
+{{#vendorExtensions.x-py-preprocesses-input-names}}
+
+        obj = _cast(
+            Dict[str, Any],
+            cls.__preprocess_input_names(
+                obj,
+                remove_hidden_storage_names={{#hasChildren}}{{#discriminator}}False{{/discriminator}}{{^discriminator}}True{{/discriminator}}{{/hasChildren}}{{^hasChildren}}True{{/hasChildren}},
+            ),
+        )
+
+{{/vendorExtensions.x-py-preprocesses-input-names}}
+    {{#hasChildren}}
         {{#discriminator}}
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
@@ -304,15 +489,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/discriminator}}
     {{/hasChildren}}
     {{^hasChildren}}
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of {{{classname}}} from a dict"""
-        if obj is None:
-            return None
+{{^vendorExtensions.x-py-preprocesses-input-names}}
 
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
+{{/vendorExtensions.x-py-preprocesses-input-names}}
         {{#disallowAdditionalPropertiesIfNotPresent}}
         {{^isAdditionalPropertiesTrue}}
         # raise errors for additional fields in the input
@@ -329,38 +508,38 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#items.isContainer}}
             {{#items.isArray}}
             {{#items.items.isPrimitiveType}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/items.items.isPrimitiveType}}
             {{^items.items.isPrimitiveType}}
-            "{{{baseName}}}": [
+            {{{vendorExtensions.x-py-wire-name-literal}}}: [
                     [{{{items.items.dataType}}}.from_dict(_inner_item) for _inner_item in _item]
-                    for _item in obj["{{{baseName}}}"]
-                ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+                    for _item in obj[{{{vendorExtensions.x-py-wire-name-literal}}}]
+                ] if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else None{{^-last}},{{/-last}}
             {{/items.items.isPrimitiveType}}
             {{/items.isArray}}
             {{#items.isMap}}
             {{#items.items.isPrimitiveType}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/items.items.isPrimitiveType}}
             {{^items.items.isPrimitiveType}}
-            "{{{baseName}}}": [
+            {{{vendorExtensions.x-py-wire-name-literal}}}: [
                     {_inner_key: {{{items.items.dataType}}}.from_dict(_inner_value) for _inner_key, _inner_value in _item.items()}
-                    for _item in obj["{{{baseName}}}"]
-                ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+                    for _item in obj[{{{vendorExtensions.x-py-wire-name-literal}}}]
+                ] if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else None{{^-last}},{{/-last}}
             {{/items.items.isPrimitiveType}}
             {{/items.isMap}}
             {{/items.isContainer}}
             {{^items.isContainer}}
             {{^items.isPrimitiveType}}
             {{#items.isEnumOrRef}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{^items.isEnumOrRef}}
-            "{{{baseName}}}": [{{{items.dataType}}}.from_dict(_item) for _item in obj["{{{baseName}}}"]] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: [{{{items.dataType}}}.from_dict(_item) for _item in obj[{{{vendorExtensions.x-py-wire-name-literal}}}]] if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else None{{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/items.isPrimitiveType}}
             {{/items.isContainer}}
             {{/isArray}}
@@ -369,7 +548,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{^items.isEnumOrRef}}
             {{#items.isContainer}}
             {{#items.isMap}}
-            "{{{baseName}}}": dict(
+            {{{vendorExtensions.x-py-wire-name-literal}}}: dict(
                 (_k, dict(
                     (_ik, {{{items.items.dataType}}}.from_dict(_iv))
                         for _ik, _iv in _v.items()
@@ -377,53 +556,53 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                     if _v is not None
                     else None
                 )
-                for _k, _v in obj["{{{baseName}}}"].items()
+                for _k, _v in obj[{{{vendorExtensions.x-py-wire-name-literal}}}].items()
             )
-            if obj.get("{{{baseName}}}") is not None
+            if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None
             else None{{^-last}},{{/-last}}
             {{/items.isMap}}
             {{#items.isArray}}
-            "{{{baseName}}}": {
+            {{{vendorExtensions.x-py-wire-name-literal}}}: {
                 _k: [{{{items.items.dataType}}}.from_dict(_item) for _item in _v] if _v is not None else None
-                for _k, _v in obj["{{{baseName}}}"].items()
+                for _k, _v in obj[{{{vendorExtensions.x-py-wire-name-literal}}}].items()
             }
-            if obj.get("{{{baseName}}}") is not None
+            if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None
             else None{{^-last}},{{/-last}}
             {{/items.isArray}}
             {{/items.isContainer}}
             {{^items.isContainer}}
-            "{{{baseName}}}": dict(
+            {{{vendorExtensions.x-py-wire-name-literal}}}: dict(
                 (_k, {{{items.dataType}}}.from_dict(_v))
-                for _k, _v in obj["{{{baseName}}}"].items()
+                for _k, _v in obj[{{{vendorExtensions.x-py-wire-name-literal}}}].items()
             )
-            if obj.get("{{{baseName}}}") is not None
+            if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None
             else None{{^-last}},{{/-last}}
             {{/items.isContainer}}
             {{/items.isEnumOrRef}}
             {{#items.isEnumOrRef}}
-            "{{{baseName}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: dict((_k, _v) for _k, _v in obj.get({{{vendorExtensions.x-py-wire-name-literal}}}).items()) if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else None{{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/items.isPrimitiveType}}
             {{/isMap}}
             {{/isContainer}}
             {{^isContainer}}
             {{^isPrimitiveType}}
             {{^isEnumOrRef}}
-            "{{{baseName}}}": {{{dataType}}}.from_dict(obj["{{{baseName}}}"]) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: {{{dataType}}}.from_dict(obj[{{{vendorExtensions.x-py-wire-name-literal}}}]) if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else None{{^-last}},{{/-last}}
             {{/isEnumOrRef}}
             {{#isEnumOrRef}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{#defaultValue}} if obj.get("{{baseName}}") is not None else {{{defaultValue}}}{{/defaultValue}}{{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{#defaultValue}} if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else {{{defaultValue}}}{{/defaultValue}}{{^-last}},{{/-last}}
             {{/isEnumOrRef}}
             {{/isPrimitiveType}}
             {{#isPrimitiveType}}
             {{#defaultValue}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}") if obj.get("{{{baseName}}}") is not None else {{{defaultValue}}}{{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) if obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None else {{{defaultValue}}}{{^-last}},{{/-last}}
             {{/defaultValue}}
             {{^defaultValue}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            {{{vendorExtensions.x-py-wire-name-literal}}}: obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
             {{/defaultValue}}
             {{/isPrimitiveType}}
             {{/isContainer}}
@@ -438,6 +617,22 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/isAdditionalPropertiesTrue}}
         return _obj
     {{/hasChildren}}
+{{#vendorExtensions.x-py-has-public-name-properties}}
+
+    if TYPE_CHECKING:
+{{#vars}}
+    {{#vendorExtensions.x-py-public-name-differs-from-storage}}
+
+        @property{{#vendorExtensions.x-py-public-name-overrides-base-model}}  # type: ignore[override]{{/vendorExtensions.x-py-public-name-overrides-base-model}}
+        def {{{vendorExtensions.x-py-public-name}}}(self) -> _{{classname}}_{{name}}_public_type:
+            return self.{{{name}}}
+
+        @{{{vendorExtensions.x-py-public-name}}}.setter
+        def {{{vendorExtensions.x-py-public-name}}}(self, value: _{{classname}}_{{name}}_public_type) -> None:{{#vendorExtensions.x-py-public-name-overrides-base-model}}  # pyright: ignore[reportIncompatibleMethodOverride]{{/vendorExtensions.x-py-public-name-overrides-base-model}}
+            self.{{{name}}} = value
+    {{/vendorExtensions.x-py-public-name-differs-from-storage}}
+{{/vars}}
+{{/vendorExtensions.x-py-has-public-name-properties}}
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
@@ -446,3 +641,31 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 # TODO: Rewrite to not use raise_errors
 {{classname}}.model_rebuild(raise_errors=False)
 {{/vendorExtensions.x-py-postponed-model-imports.size}}
+{{#vendorExtensions.x-py-has-public-name-properties}}
+
+if TYPE_CHECKING:
+{{#vars}}
+{{#vendorExtensions.x-py-public-name-differs-from-storage}}
+    _{{classname}}_{{name}}_public_type = {{{vendorExtensions.x-py-public-name-typing}}}
+{{/vendorExtensions.x-py-public-name-differs-from-storage}}
+{{/vars}}
+
+# Install forwarding properties after Pydantic has consumed the class
+# namespace and resolved any postponed model annotations.
+{{#vars}}
+{{#vendorExtensions.x-py-public-name-differs-from-storage}}
+setattr(
+    {{classname}},
+    {{{vendorExtensions.x-py-public-name-literal}}},
+    property(
+        lambda self: self.{{{name}}},
+        lambda self, value: setattr(
+            self,
+            {{#lambda.pythonStringLiteral}}{{{name}}}{{/lambda.pythonStringLiteral}},
+            value,
+        ),
+    ),
+)
+{{/vendorExtensions.x-py-public-name-differs-from-storage}}
+{{/vars}}
+{{/vendorExtensions.x-py-has-public-name-properties}}

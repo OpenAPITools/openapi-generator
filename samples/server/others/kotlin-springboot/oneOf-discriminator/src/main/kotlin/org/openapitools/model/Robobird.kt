@@ -27,16 +27,20 @@ import jakarta.validation.Valid
  */
 data class Robobird(
 
+    @param:JsonProperty("discriminator")
     @get:JsonProperty("discriminator", required = true) override val discriminator: kotlin.String = "ROBOBIRD",
 
+    @param:JsonProperty("another_discriminator")
     @get:JsonProperty("another_discriminator", required = true) override val anotherDiscriminator: kotlin.String = "ANOTHER_ROBOBIRD",
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("propertyB")
     @get:JsonProperty("propertyB") val propertyB: kotlin.String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("sameNameProperty")
     @get:JsonProperty("sameNameProperty") val sameNameProperty: kotlin.String? = null
 ) : Animal, AnotherAnimal {
 
