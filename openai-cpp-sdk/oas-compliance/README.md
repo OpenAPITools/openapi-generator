@@ -64,8 +64,8 @@ generator README template:
 Key sections:
 - **Breaking model strategy** — why empty shells were replaced with
   `std::variant`/`std::optional`/collapsed types.
-- **Nullability: omit vs null** — spec-aware field encoding policy
-  distinguishing absent from JSON null.
+- **Nullability: omit vs null** — two-state encode (disengaged = omit,
+  engaged = value); full tri-state (absent / null / value) deferred.
 - **Dual compliance gates** — the role of Gate A vs Gate B in the
   release pipeline.
 - **Media-type-driven streaming** — why streaming is driven by the
