@@ -220,28 +220,26 @@ std::size_t countVariantBranches(const boost::json::value& value, std::index_seq
 {{classname}} fromJsonValue_{{classname}}(boost::json::value const& value)
 {
     {{#discriminator}}
-    if (!value.is_object()) {
-        throw std::invalid_argument("Expected a JSON object for discriminated {{classname}}");
+    // Discriminator-aware dispatch: if the JSON has a discriminator
+    // property and it matches a known mapping, dispatch directly.
+    // Otherwise, fall through to branch-by-branch trial (handles
+    // missing discriminator, ambiguous values, and non-object inputs).
+    bool discriminatorMatched = false;
+    if (value.is_object()) {
+        const auto& jsonObject = value.as_object();
+        auto discIt = jsonObject.find("{{discriminator.propertyBaseName}}");
+        if (discIt != jsonObject.end() && discIt->value().is_string()) {
+            std::string discValue{discIt->value().as_string().data(), discIt->value().as_string().size()};
+            {{#discriminator.mappedModels}}
+            if (discValue == "{{mappingName}}") {
+                return fromJsonValue_{{modelName}}(value);
+            }
+            {{/discriminator.mappedModels}}
+            // Discriminator value not in known mappings — fall through
+            // to branch-by-branch trial.
+        }
     }
-    const auto& jsonObject = value.as_object();
-    auto discIt = jsonObject.find("{{discriminator.propertyBaseName}}");
-    if (discIt == jsonObject.end()) {
-        throw std::invalid_argument("Missing discriminator field '{{discriminator.propertyBaseName}}' for {{classname}}");
-    }
-    std::string discValue;
-    if (discIt->value().is_string()) {
-        discValue = {discIt->value().as_string().data(), discIt->value().as_string().size()};
-    } else {
-        discValue = boost::json::serialize(discIt->value());
-    }
-    {{#discriminator.mappedModels}}
-    if (discValue == "{{mappingName}}") {
-        return fromJsonValue_{{modelName}}(value);
-    }
-    {{/discriminator.mappedModels}}
-    throw std::invalid_argument("Unknown " + std::string("{{discriminator.propertyBaseName}}") + " value: " + discValue);
     {{/discriminator}}
-    {{^discriminator}}
     // Non-discriminated {{vendorExtensions.x-cpp-composed-keyword}} — enforce exactly-one for oneOf, first-match for anyOf
     constexpr bool isOneOf = "{{vendorExtensions.x-cpp-composed-keyword}}"[0] == 'o';
     std::size_t const variantSize = std::variant_size_v<{{classname}}>;
@@ -263,7 +261,6 @@ std::size_t countVariantBranches(const boost::json::value& value, std::index_seq
         }
     }
     return result;
-    {{/discriminator}}
 }
 
 
@@ -875,6 +872,23 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{#parent}}
     }
     {{/parent}}
+    {{/vendorExtensions.x-stainless-const}}
+    {{/vars}}
+    {{#vars}}
+    {{#vendorExtensions.x-stainless-const}}
+    {{#vendorExtensions.x-stainless-const-inline-value}}
+    // Reject JSON that has a const discriminator field with a different value.
+    {
+        const auto it = object.find("{{baseName}}");
+        if (it != object.end() && it->value().is_string()
+            && it->value().as_string() != {{{vendorExtensions.x-stainless-const-inline-value}}}) {
+            throw std::invalid_argument(
+                "Field '{{baseName}}' has unexpected value '"
+                + std::string(it->value().as_string().data(), it->value().as_string().size())
+                + "' for " + std::string("{{classname}}"));
+        }
+    }
+    {{/vendorExtensions.x-stainless-const-inline-value}}
     {{/vendorExtensions.x-stainless-const}}
     {{/vars}}
 }

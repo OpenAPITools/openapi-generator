@@ -9,7 +9,7 @@
     "name": "responses-array-input",
     "schema": "CreateResponse",
     "description": "Create response with array input (oneOf InputParam: array branch) and reasoning config",
-    "json": "{\"model\":\"gpt-5.6\",\"reasoning\":{\"effort\":\"low\"},\"input\":[{\"role\":\"user\",\"content\":[{\"type\":\"input_text\",\"text\":\"Write a short bedtime story about a unicorn.\"}]}]}"
+    "json": "{\"model\":\"gpt-5.6\",\"reasoning\":{\"effort\":\"low\"},\"input\":[{\"role\":\"user\",\"content\":[{\"type\":\"input_text\",\"text\":\"Write a short bedtime story about a unicorn.\"}],\"type\":\"message\"}]}"
   },
   {
     "name": "model-ids-shared-string",
@@ -75,7 +75,7 @@
     "name": "input-param-array",
     "schema": "InputParam",
     "description": "InputParam as an array of InputItems (oneOf: array branch)",
-    "json": "[{\"role\":\"user\",\"content\":[{\"type\":\"input_text\",\"text\":\"Hello\"}]},{\"role\":\"assistant\",\"content\":[{\"type\":\"output_text\",\"text\":\"Hi there!\"}]}]"
+    "json": "[{\"role\":\"user\",\"content\":[{\"type\":\"input_text\",\"text\":\"Hello\"}],\"type\":\"message\"},{\"role\":\"user\",\"content\":[{\"type\":\"input_text\",\"text\":\"How are you?\"}],\"type\":\"message\"}]"
   },
   {
     "name": "responses-full",
