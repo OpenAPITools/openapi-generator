@@ -7,7 +7,11 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 {{#useSpringSecurityPreAuthorize}}
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 {{/useSpringSecurityPreAuthorize}}
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,6 +30,17 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 {{/useSpringSecurityPreAuthorize}}
 public class OpenApiGeneratorApplication {
 
+{{#useSpringSecurityPreAuthorize}}
+    @Bean
+    @ConditionalOnMissingBean(SecurityFilterChain.class)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+            .build();
+    }
+
+{{/useSpringSecurityPreAuthorize}}
     public static void main(String[] args) {
         SpringApplication.run(OpenApiGeneratorApplication.class, args);
     }

@@ -4100,10 +4100,12 @@ public class SpringCodegenTest {
                 .contains("@PreAuthorize(\"hasAuthority('SCOPE_client-data:read''quoted')\")");
         assertThat(Files.readString(files.get("OpenApiGeneratorApplication.java").toPath()))
                 .contains("import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;")
-                .contains("@EnableMethodSecurity");
+                .contains("@EnableMethodSecurity")
+                .contains("@ConditionalOnMissingBean(SecurityFilterChain.class)")
+                .contains(".authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())");
         assertThat(Files.readString(files.get("pom.xml").toPath()))
-                .contains("<artifactId>spring-security-config</artifactId>")
-                .doesNotContain("<artifactId>spring-boot-starter-security</artifactId>");
+                .contains("<artifactId>spring-boot-starter-security</artifactId>")
+                .doesNotContain("<artifactId>spring-security-config</artifactId>");
     }
 
     @Test
