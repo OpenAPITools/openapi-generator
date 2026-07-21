@@ -117,17 +117,21 @@ func Assert{{classname}}Required(obj {{classname}}) error {
 		{{/isArray}}
 	{{/isNullable}}
 	{{#isModel}}
+	{{^isPrimitiveType}}
 {{#isNullable}}	{{/isNullable}}	if err := Assert{{baseType}}Required({{#isNullable}}*{{/isNullable}}obj.{{name}}); err != nil {
 {{#isNullable}}	{{/isNullable}}		return err
 {{#isNullable}}	{{/isNullable}}	}
+	{{/isPrimitiveType}}
 	{{/isModel}}
 	{{#isArray}}
 		{{#items.isModel}}
+		{{^items.isPrimitiveType}}
 {{#isNullable}}	{{/isNullable}}	for _, el := range {{#isNullable}}*{{/isNullable}}obj.{{name}} {
 {{#isNullable}}	{{/isNullable}}		if err := Assert{{items.baseType}}Required(el); err != nil {
 {{#isNullable}}	{{/isNullable}}			return err
 {{#isNullable}}	{{/isNullable}}		}
 {{#isNullable}}	{{/isNullable}}	}
+		{{/items.isPrimitiveType}}
 		{{/items.isModel}}
 		{{^items.isModel}}
 			{{#mostInnerItems.isModel}}
@@ -186,17 +190,21 @@ func Assert{{classname}}Constraints(obj {{classname}}) error {
 {{/isArray}}
 {{/isNullable}}
 {{#isModel}}
+{{^isPrimitiveType}}
 {{#isNullable}}     {{/isNullable}}	if err := Assert{{baseType}}Constraints({{#isNullable}}*{{/isNullable}}obj.{{name}}); err != nil {
 {{#isNullable}}     {{/isNullable}}		return err
 {{#isNullable}}     {{/isNullable}}	}
+{{/isPrimitiveType}}
 {{/isModel}}
 {{#isArray}}
 {{#items.isModel}}
+{{^items.isPrimitiveType}}
 {{#isNullable}}     {{/isNullable}}	for _, el := range {{#isNullable}}*{{/isNullable}}obj.{{name}} {
 {{#isNullable}}     {{/isNullable}}		if err := Assert{{items.baseType}}Constraints(el); err != nil {
 {{#isNullable}}     {{/isNullable}}			return err
 {{#isNullable}}     {{/isNullable}}		}
 {{#isNullable}}     {{/isNullable}}	}
+{{/items.isPrimitiveType}}
 {{/items.isModel}}
 {{^items.isModel}}
 {{#mostInnerItems.isModel}}

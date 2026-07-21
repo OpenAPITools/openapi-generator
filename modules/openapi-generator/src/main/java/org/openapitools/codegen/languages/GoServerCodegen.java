@@ -341,6 +341,12 @@ public class GoServerCodegen extends AbstractGoCodegen {
             decodeVarsByBaseName.put(v.baseName, v);
         }
         List<CodegenProperty> decodeVars = new ArrayList<>(decodeVarsByBaseName.values());
+        for (CodegenProperty v : decodeVars) {
+            clearModelFlagForPrimitives(v);
+        }
+        for (CodegenProperty v : model.vars) {
+            clearModelFlagForPrimitives(v);
+        }
         model.vendorExtensions.put("decodeVars", decodeVars);
 
         List<CodegenProperty> presenceCheckRequiredVars = decodeVars.stream()
@@ -375,6 +381,42 @@ public class GoServerCodegen extends AbstractGoCodegen {
                     .collect(Collectors.toList());
             model.vendorExtensions.put("assertRequiredVars", assertRequiredVars);
         }
+    }
+
+    /**
+     * oneOf/anyOf nullable enums often end up as Go {@code *string} while still marked
+     * {@code isModel=true}, which makes go-server templates emit non-existent Assertstring* helpers.
+     */
+    private void clearModelFlagForPrimitives(CodegenProperty property) {
+        if (property == null) {
+            return;
+        }
+        if (isGoPrimitiveProperty(property)) {
+            property.isModel = false;
+            property.isPrimitiveType = true;
+        }
+        clearModelFlagForPrimitives(property.items);
+        clearModelFlagForPrimitives(property.mostInnerItems);
+    }
+
+    private boolean isGoPrimitiveProperty(CodegenProperty property) {
+        if (property.isPrimitiveType || property.isString || property.isNumber || property.isInteger
+                || property.isLong || property.isBoolean || property.isFloat || property.isDouble
+                || property.isByteArray || property.isBinary || property.isFile
+                || property.isDate || property.isDateTime || property.isUuid) {
+            return true;
+        }
+        if (languageSpecificPrimitives().contains(property.baseType)) {
+            return true;
+        }
+        String dataType = property.dataType;
+        if (dataType == null) {
+            return false;
+        }
+        if (dataType.startsWith("*")) {
+            dataType = dataType.substring(1);
+        }
+        return languageSpecificPrimitives().contains(dataType);
     }
 
     @Override
