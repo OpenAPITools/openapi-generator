@@ -24,6 +24,8 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.tags.Tag;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
@@ -123,6 +125,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
+    public static final String USE_SPRING_SECURITY_PRE_AUTHORIZE = "useSpringSecurityPreAuthorize";
+    public static final String SPRING_SECURITY_AUTHORITY_PREFIX = "springSecurityAuthorityPrefix";
 
     @Getter
     public enum RequestMappingMode {
@@ -199,6 +203,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean substituteGenericPagedModel = false;
     @Getter @Setter
     protected String clientRegistrationId = null;
+    @Setter protected boolean useSpringSecurityPreAuthorize = false;
+    @Getter @Setter
+    protected String springSecurityAuthorityPrefix = "SCOPE_";
     @Setter protected boolean useEnumValueInterface = false;
     private String valuedEnumClassName = "ValuedEnum";
 
@@ -347,6 +354,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         );
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks", useJspecify));
         cliOptions.add(CliOption.newString(CLIENT_REGISTRATION_ID, "Client registration ID for OAuth2 in Spring HTTP Interface (@ClientRegistrationId annotation). Requires library=spring-http-interface and useSpringBoot4=true (Spring Security 7)."));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_SECURITY_PRE_AUTHORIZE,
+                "Generate Spring Security @PreAuthorize annotations from OAuth2/OpenID Connect security scopes.",
+                useSpringSecurityPreAuthorize));
+        cliOptions.add(CliOption.newString(SPRING_SECURITY_AUTHORITY_PREFIX,
+                "Prefix added to OAuth2/OpenID Connect scopes when generating Spring Security authorities.",
+                springSecurityAuthorityPrefix));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -573,6 +586,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
         convertPropertyToStringAndWriteBack(CLIENT_REGISTRATION_ID, this::setClientRegistrationId);
+        convertPropertyToBooleanAndWriteBack(USE_SPRING_SECURITY_PRE_AUTHORIZE, this::setUseSpringSecurityPreAuthorize);
+        convertPropertyToStringAndWriteBack(SPRING_SECURITY_AUTHORITY_PREFIX, this::setSpringSecurityAuthorityPrefix);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
@@ -591,6 +606,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (!isUseSpringBoot4()) {
                 throw new IllegalArgumentException(CLIENT_REGISTRATION_ID + " requires " + USE_SPRING_BOOT4 + "=true because @ClientRegistrationId is provided by Spring Security 7");
             }
+        }
+        if (useSpringSecurityPreAuthorize && !SPRING_BOOT.equals(library)) {
+            throw new IllegalArgumentException(USE_SPRING_SECURITY_PRE_AUTHORIZE
+                    + " is only supported with the " + SPRING_BOOT + " library");
         }
 
         if (isUseSpringBoot3() || isUseSpringBoot4()) {
@@ -1029,6 +1048,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                 normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_OPERATION_EXTRA_ANNOTATION.getName());
                 normalizeOperationParameterVendorExtensions(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
 
+                if (useSpringSecurityPreAuthorize) {
+                    addSpringSecurityPreAuthorize(operation);
+                }
+
                 if (isLibrary(SPRING_HTTP_INTERFACE) || isLibrary(SPRING_BOOT)) {
                     if (operation.isArray && "string".equalsIgnoreCase(operation.returnBaseType)) {
                         operation.vendorExtensions.put(VendorExtension.X_REACTIVE_RETURN_EXCEPT_LIST_OF_STRING.getName(), true);
@@ -1052,6 +1075,75 @@ public class SpringCodegen extends AbstractJavaCodegen
         removeImport(objs, "java.util.List");
 
         return objs;
+    }
+
+    /**
+     * Adds a Spring Security expression that preserves the OpenAPI security requirement semantics:
+     * entries in a {@code security} array are OR alternatives, while schemes and scopes in one
+     * entry are combined with AND.
+     */
+    private void addSpringSecurityPreAuthorize(CodegenOperation codegenOperation) {
+        Operation rawOperation = findOperation(codegenOperation.operationId);
+        if (rawOperation == null) {
+            LOGGER.warn("Could not find OpenAPI operation '{}' while generating @PreAuthorize.", codegenOperation.operationId);
+            return;
+        }
+
+        List<SecurityRequirement> requirements = rawOperation.getSecurity();
+        if (requirements == null) {
+            requirements = openAPI.getSecurity();
+        }
+        if (requirements == null || requirements.isEmpty()) {
+            return;
+        }
+
+        Map<String, SecurityScheme> schemes = openAPI.getComponents() != null
+                ? openAPI.getComponents().getSecuritySchemes() : null;
+        if (schemes == null || schemes.isEmpty()) {
+            return;
+        }
+
+        List<String> alternatives = new ArrayList<>();
+        for (SecurityRequirement requirement : requirements) {
+            if (requirement.isEmpty()) {
+                return;
+            }
+            List<String> groupAuthorities = new ArrayList<>();
+            for (Map.Entry<String, List<String>> entry : requirement.entrySet()) {
+                SecurityScheme scheme = schemes.get(entry.getKey());
+                if (scheme == null || (scheme.getType() != SecurityScheme.Type.OAUTH2
+                        && scheme.getType() != SecurityScheme.Type.OPENIDCONNECT)
+                        || entry.getValue() == null || entry.getValue().isEmpty()) {
+                    return;
+                }
+                for (String scope : entry.getValue()) {
+                    groupAuthorities.add("hasAuthority('" + springSecurityAuthorityPrefix + scope + "')");
+                }
+            }
+            String group = String.join(" and ", groupAuthorities);
+            alternatives.add(groupAuthorities.size() > 1 && requirements.size() > 1 ? "(" + group + ")" : group);
+        }
+
+        if (!alternatives.isEmpty()) {
+            codegenOperation.vendorExtensions.put("x-spring-security-pre-authorize", String.join(" or ", alternatives));
+        }
+    }
+
+    private Operation findOperation(String operationId) {
+        if (openAPI.getPaths() == null || operationId == null) {
+            return null;
+        }
+        for (PathItem pathItem : openAPI.getPaths().values()) {
+            if (pathItem.readOperations() == null) {
+                continue;
+            }
+            for (Operation operation : pathItem.readOperations()) {
+                if (operationId.equals(operation.getOperationId())) {
+                    return operation;
+                }
+            }
+        }
+        return null;
     }
 
     private interface DataTypeAssigner {
