@@ -494,7 +494,7 @@ public class CppBoostBeastClientCodegenTest {
         // within the same function scope as the declaration (no extra closing
         // brace between them).  The discValue declaration and all mapped-model
         // branches all sit at function scope (no inner {} block).
-        int discValueDecl = petByTypeSourceContent.indexOf("std::string discValue;");
+        int discValueDecl = petByTypeSourceContent.indexOf("std::string discValue{");
         int throwPos = petByTypeSourceContent.indexOf("throw std::invalid_argument", discValueDecl);
         String betweenDeclAndThrow = petByTypeSourceContent.substring(discValueDecl, throwPos);
         // Count braces: opening braces must be balanced before the throw
@@ -548,14 +548,12 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(variantPayloadSourceContent.contains("More than one matching branch for oneOf VariantPayload"),
                 "VariantPayload oneOf source should reject multi-match with descriptive error");
 
-        // ResponseStreamEvent uses discriminator (not non-discriminated path), so it should
-        // NOT contain the non-discriminated oneOf/anyOf logic at all
-        // (responseStreamEventSource variable already declared above at line ~338)
+        // ResponseStreamEvent uses discriminator path with a non-discriminated
+        // fallback (when the discriminator value is absent or not in known mappings).
+        // The discriminator branch must be present.
         String rseSourceContent = java.nio.file.Files.readString(responseStreamEventSource);
-        Assert.assertFalse(rseSourceContent.contains("isOneOf"),
-                "ResponseStreamEvent (discriminated) should not contain isOneOf compile-time flag");
-        Assert.assertFalse(rseSourceContent.contains("matchCount"),
-                "ResponseStreamEvent (discriminated) should not contain matchCount");
+        Assert.assertTrue(rseSourceContent.contains("Discriminator-aware"),
+                "ResponseStreamEvent should contain discriminator dispatch");
 
         // Scenario 17: AnyOfOverlapping, OverlappingObjectA, OverlappingObjectB,
         // ParentWithAnyOfOverlapping — verify files are generated

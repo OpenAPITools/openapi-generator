@@ -224,7 +224,6 @@ std::size_t countVariantBranches(const boost::json::value& value, std::index_seq
     // property and it matches a known mapping, dispatch directly.
     // Otherwise, fall through to branch-by-branch trial (handles
     // missing discriminator, ambiguous values, and non-object inputs).
-    bool discriminatorMatched = false;
     if (value.is_object()) {
         const auto& jsonObject = value.as_object();
         auto discIt = jsonObject.find("{{discriminator.propertyBaseName}}");
@@ -280,6 +279,11 @@ std::size_t countVariantBranches(const boost::json::value& value, std::index_seq
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
+
+{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value)
+{
+    return boost::json::value_to<{{classname}}>(value);
+}
 
 {{#modelNamespaceDeclarations}}
 }
