@@ -281,7 +281,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
      * are typed as FastAPI {@code UploadFile} instead of the client-side bytes/str union.
      * FastAPI parses multipart {@code format: binary} fields into {@link UploadFile} instances;
      * the default Pydantic-based union ({@code Union[StrictBytes, StrictStr, ...]}) rejects
-     * them with a 422 at request time.
+     * them with a 422 at request time. Array properties with {@code items.format: binary} use
+     * {@code List[UploadFile]} so multiple parts with the same field name bind correctly.
      *
      * @param operation the operation whose parameters may need rewriting
      * @return {@code true} if at least one parameter was rewritten
@@ -290,16 +291,23 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         boolean changed = false;
         for (CodegenParameter param : operation.allParams) {
             if (param.isFormParam && param.isFile) {
-                param.vendorExtensions.put(X_PY_TYPING, param.required ? "UploadFile" : "Optional[UploadFile]");
+                param.vendorExtensions.put(X_PY_TYPING, uploadFileFormParamTyping(param));
                 changed = true;
             }
         }
         for (CodegenParameter param : operation.formParams) {
             if (param.isFile) {
-                param.vendorExtensions.put(X_PY_TYPING, param.required ? "UploadFile" : "Optional[UploadFile]");
+                param.vendorExtensions.put(X_PY_TYPING, uploadFileFormParamTyping(param));
             }
         }
         return changed;
+    }
+
+    private static String uploadFileFormParamTyping(CodegenParameter param) {
+        if (param.isArray && param.isFile) {
+            return param.required ? "List[UploadFile]" : "Optional[List[UploadFile]]";
+        }
+        return param.required ? "UploadFile" : "Optional[UploadFile]";
     }
 
     private void addFastAPIUploadFileImport(OperationsMap objs) {
