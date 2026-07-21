@@ -30,6 +30,38 @@ paths:
       responses:
         '200':
           description: Ok
+  /api/authenticated:
+    get:
+      operationId: getAuthenticated
+      tags:
+        - Overview
+      security:
+        - auth0: []
+      responses:
+        '200':
+          description: Ok
+  /api/normalized:
+    get:
+      operationId: get-normalized
+      tags:
+        - Overview
+      security:
+        - auth0:
+            - client-data:read
+      responses:
+        '200':
+          description: Ok
+  /api/escaped:
+    get:
+      operationId: getEscaped
+      tags:
+        - Overview
+      security:
+        - auth0:
+            - "client-data:read'quoted"
+      responses:
+        '200':
+          description: Ok
 components:
   securitySchemes:
     auth0:
@@ -39,5 +71,6 @@ components:
           tokenUrl: https://example.test/oauth/token
           scopes:
             client-data:read: Read client data
+            "client-data:read'quoted": Read quoted client data
             utility-data:read: Read utility data
             other-data:read: Read other data
