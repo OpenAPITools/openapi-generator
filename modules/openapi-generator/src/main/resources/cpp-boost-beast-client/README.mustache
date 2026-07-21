@@ -73,20 +73,33 @@ The generator applies the following rules in order to every composed schema:
 
 ## Nullability: omit vs null policy
 
-The generator distinguishes **schema-absent** from **JSON-null** at the type level.
+### Current scope (Phase 2)
 
-| Schema situation | C++ type | `nullopt`/absent | JSON null |
-|------------------|----------|-----------------|-----------|
-| Property not required, type does **not** allow null | `T` | **Omit** field | Not representable |
-| Property allows null (`nullable`/`type: "null"`) | `std::optional<T>` | Omit field | `std::nullopt` → JSON `null` |
-| Property required and nullable | `std::optional<T>` | Encode `nullopt` as JSON `null` | Distinguishable from absent |
-| `anyOf: [T, null]` / nullable T | `std::optional<T>` | — | `std::nullopt` on null wire value |
+The generated encode logic uses a **two-state model** for optional fields:
 
-**Key principle:** absent and JSON null are semantically distinct per OpenAPI schema.
-When the schema allows null, `std::optional<T>` preserves that distinction:
-`std::nullopt` means JSON null; a disengaged `std::optional` on a non-nullable field
-means omit-from-wire. Encode logic checks the schema's nullability, not just the
-optional state.
+| Field kind | Encode behavior |
+|-----------|----------------|
+| Non-required, disengaged optional / isSet=false | **Key omitted** from JSON output |
+| Non-required, engaged optional / isSet=true | Key written with converted value |
+| Required, nullable, `std::nullopt` | Key written as JSON `null` |
+| Required, nullable, has value | Key written with converted value |
+
+For non-required fields, the current implementation omits the key when the
+optional is disengaged. The `JsonValueConverter<std::optional<T>>::toJsonValue`
+helper unwraps the inner value; the outer `has_value()` check at the call site
+prevents unreachable `null` output for absent optionals.
+
+### Deferred: full tri-state
+
+A full **tri-state model** (field absent / field present with JSON null / field
+present with JSON value) is **not yet implemented**.  When the schema allows null,
+the current implementation cannot distinguish "field was sent as JSON null" from
+"field was absent" for non-required properties — both result in the key being
+omitted on encode and `std::nullopt` on decode.
+
+A future phase may add a separate `null_state` flag per nullable field to
+preserve the absent-vs-null distinction on the wire, matching OAS 3.1's
+semantic model where a missing key and a present `null` value are distinct.
 
 ---
 
@@ -94,28 +107,25 @@ optional state.
 
 Release-quality changes for this generator must pass **both** compliance gates:
 
-| Gate | Role | Scope | Location |
-|------|------|-------|----------|
-| **A — OAS composition fixtures** | Spec correctness | ~15 named fixture schemas exercising every lowering rule | `openai-cpp-sdk/oas-compliance/` |
-| **B — OpenAI corpus** | Scale and realism | Full generate → compile → type-inventory against the pinned OpenAI document (~891 anyOf, ~254 oneOf, ~832 nullable branches) | `openai-cpp-sdk/openai/compliance/` |
+| Gate | Role | Scope |
+|------|------|-------|
+| **A — OAS composition fixtures** | Spec correctness | ~15 named fixture schemas exercising every lowering rule (no OpenAI dependency) |
+| **B — OpenAI corpus** | Scale and realism | Full generate → compile → type inventory → golden round-trips against the pinned OpenAI document (~891 anyOf, ~254 oneOf, ~832 nullable branches) |
 
 Release is blocked while either gate has non-deferred `FAIL`s.
-
-```bash
-# Run both gates sequentially:
-./openai-cpp-sdk/run-dual-gates.sh
-
-# Individual gates:
-./openai-cpp-sdk/oas-compliance/gate-a.sh          # Gate A only
-./openai-cpp-sdk/openai/compliance/harness.sh       # Gate B only
-```
 
 **Gate A** is OAS-only — no dependency on OpenAI type names, vendor extensions,
 or patterns. A Gate A failure always indicates a spec-level codegen defect.
 
-**Gate B** validates that the general lowering rules work at scale
-on a real-world document with hundreds of union schemas, discriminators,
-streaming endpoints, and multipart operations.
+**Gate B** validates that the general lowering rules work at scale on a real-world
+document. It runs the full pipeline: generate client code, C++ compile the library,
+inventory every composed schema's C++ type against expected types, and run golden
+round-trip tests that verify encode/decode fidelity for representative schemas.
+Non-deferred FAIL in any Gate B step blocks release.
+
+> **Maintainer note:** Both gates live in the `openai-cpp-sdk/` directory of the
+> OpenAPI Generator monorepo. See the `oas-compliance/README.md` and
+> `openai/compliance/MANIFEST.md` for gate-specific documentation and run commands.
 
 ---
 
@@ -205,9 +215,26 @@ Reviewers should evaluate the PR against:
 - **OAS compliance** — do the generated types and encode/decode faithfully
   represent the OpenAPI specification's composition rules?
 - **Corpus validation** — does the OpenAI corpus (Gate B) generate, compile,
-  and produce correct type inventories?
+  and produce correct type inventories and golden round-trips?
 - **Fixture coverage** — does every lowering rule have a dedicated Gate A
   fixture with a green PASS?
+
+---
+
+## CI policy
+
+The dual compliance gates are **not yet wired into CI**.  Until CI integration is
+complete, a maintainer must run the gates manually before tagging any release that
+includes changes to `cpp-boost-beast-client`:
+
+```sh
+# From the monorepo root:
+./openai-cpp-sdk/run-dual-gates.sh
+```
+
+Both gates must exit 0 with no non-deferred FAILs before the release proceeds.
+CI integration (parallel Gate A / Gate B execution on Beast-generator changes) is
+tracked as a separate work item.
 
 ---
 
