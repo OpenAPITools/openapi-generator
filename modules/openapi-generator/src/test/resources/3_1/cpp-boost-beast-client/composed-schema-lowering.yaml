@@ -126,13 +126,29 @@ paths:
 components:
   schemas:
     # Scenario 1: anyOf with string + string-enum → std::string
-    ModelIdsResponses:
+    # Plus transitive chain: ModelIdsShared → ModelIdsResponses → ModelIds → ModelIdsCompaction
+    # Each should collapse through $ref resolution to std::string.
+    ModelIdsShared:
       anyOf:
         - type: string
         - type: string
           enum:
             - id
             - ids
+    ModelIdsResponses:
+      anyOf:
+        - $ref: '#/components/schemas/ModelIdsShared'
+        - type: string
+          enum:
+            - ids
+    ModelIds:
+      anyOf:
+        - $ref: '#/components/schemas/ModelIdsShared'
+        - $ref: '#/components/schemas/ModelIdsResponses'
+    ModelIdsCompaction:
+      anyOf:
+        - $ref: '#/components/schemas/ModelIdsResponses'
+        - type: string
 
     # Scenario 2: oneOf string + array → std::variant<std::string, std::vector<InputItem>>
     InputParam:

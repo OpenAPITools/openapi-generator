@@ -356,6 +356,28 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertFalse(modelIdsContent.contains("class  ModelIdsResponses"),
                 "ModelIdsResponses should not contain class declaration (empty-shell)");
 
+        // Transitive anyOf string collapse through $ref chains:
+        // ModelIdsShared → std::string
+        Path modelIdsSharedHeader = output.toPath().resolve("model/ModelIdsShared.h");
+        TestUtils.assertFileExists(modelIdsSharedHeader);
+        String modelIdsSharedContent = java.nio.file.Files.readString(modelIdsSharedHeader);
+        Assert.assertTrue(modelIdsSharedContent.contains("using ModelIdsShared = std::string;"),
+                "ModelIdsShared should collapse to std::string alias (anyOf string+string-enum)");
+        // ModelIds (anyOf [$ref ModelIdsShared, $ref ModelIdsResponses]) → std::string
+        Path modelIdsHeaderFull = output.toPath().resolve("model/ModelIds.h");
+        TestUtils.assertFileExists(modelIdsHeaderFull);
+        String modelIdsFullContent = java.nio.file.Files.readString(modelIdsHeaderFull);
+        Assert.assertTrue(modelIdsFullContent.contains("using ModelIds = std::string;"),
+                "ModelIds should transitively collapse to std::string alias through $ref chain");
+        Assert.assertFalse(modelIdsFullContent.contains("std::variant<"),
+                "ModelIds must NOT produce std::variant (transitive string collapse should resolve)");
+        // ModelIdsCompaction (anyOf [$ref ModelIdsResponses, string]) → std::string
+        Path modelIdsCompHeader = output.toPath().resolve("model/ModelIdsCompaction.h");
+        TestUtils.assertFileExists(modelIdsCompHeader);
+        String modelIdsCompContent = java.nio.file.Files.readString(modelIdsCompHeader);
+        Assert.assertTrue(modelIdsCompContent.contains("using ModelIdsCompaction = std::string;"),
+                "ModelIdsCompaction should transitively collapse to std::string alias through $ref chain");
+
         // InputParam is a variant (oneOf string+array → std::variant<...>)
         Path inputParamHeader = output.toPath().resolve("model/InputParam.h");
         String inputParamContent = java.nio.file.Files.readString(inputParamHeader);

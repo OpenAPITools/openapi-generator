@@ -45,6 +45,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
     /** Tracks model names resolved as oneOf/anyOf variant types for shared_ptr exclusion. */
     private final Set<String> variantModels = new HashSet<>();
+    /** Caches resolved C++ types for composed models, keyed by model name.
+     *  Populated during Phase 1 of postProcessModels and used by Phase 1b to
+     *  transitively resolve $ref chains through model aliases (e.g., ModelIds
+     *  referencing ModelIdsShared, both ultimately std::string). */
+    private final Map<String, String> resolvedAliasTypes = new HashMap<>();
     protected String packageName = DEFAULT_PACKAGE_NAME;
 
     public CodegenType getTag() {
@@ -454,6 +459,73 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
 
+        // Phase 1b (global): Transitive resolution for model-reference branches.
+        // Runs once with ALL models available (unlike Phase 1b in postProcessModels
+        // which is per-batch and cannot see models processed in other batches).
+        // Resolves $ref chains like ModelIdsResponses → ModelIdsShared → std::string.
+        // Multiple passes needed for deep chains (A→B→C→string).
+        boolean typeChanged = true;
+        int phase1bPass = 0;
+        while (typeChanged && phase1bPass < 10) {
+            typeChanged = false;
+            phase1bPass++;
+            for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
+                for (ModelMap mo : entry.getValue().getModels()) {
+                    CodegenModel cm = mo.getModel();
+                    if (!cm.vendorExtensions.containsKey("x-cpp-type")) {
+                        continue;
+                    }
+                    String composedKeyword = (String) cm.vendorExtensions.get("x-cpp-composed-keyword");
+                    if (composedKeyword == null) {
+                        continue;
+                    }
+                    List<String> branchTypes = (List<String>) cm.vendorExtensions.get("x-cpp-branches");
+                    if (branchTypes == null) {
+                        continue;
+                    }
+                    List<String> resolved = branchTypes.stream()
+                            .map(this::resolveThroughAliases)
+                            .collect(Collectors.toList());
+                    if (resolved.equals(branchTypes)) {
+                        continue;
+                    }
+                    String currentType = (String) cm.vendorExtensions.get("x-cpp-type");
+                    String newType;
+                    try {
+                        newType = lowerComposedTypes(resolved, composedKeyword);
+                    } catch (RuntimeException e) {
+                        LOGGER.warn("Failed to re-lower composed types for '{}': {} — keeping current type '{}'",
+                                cm.classname, e.getMessage(), currentType);
+                        continue;
+                    }
+                    if (!newType.equals(currentType)) {
+                        cm.vendorExtensions.put("x-cpp-type", newType);
+                        // Keep original x-cpp-branches for import resolution.
+                        cm.dataType = newType;
+                        resolvedAliasTypes.put(cm.classname, newType);
+                        typeChanged = true;
+                    }
+                }
+            }
+        }
+
+        // Refresh alias/variant flags after Phase 1b resolution. Phase 2 in
+        // postProcessModels may have set x-cpp-is-variant = true for models whose
+        // types were later collapsed to plain types (e.g., std::string) by Phase 1b.
+        for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
+            for (ModelMap mo : entry.getValue().getModels()) {
+                CodegenModel cm = mo.getModel();
+                if (cm.vendorExtensions.containsKey("x-cpp-is-alias")) {
+                    String resolvedType = (String) cm.vendorExtensions.get("x-cpp-type");
+                    if (resolvedType != null && resolvedType.startsWith("std::variant<")) {
+                        cm.vendorExtensions.put("x-cpp-is-variant", true);
+                    } else {
+                        cm.vendorExtensions.remove("x-cpp-is-variant");
+                    }
+                }
+            }
+        }
+
         // Phase 5: Tag properties referencing a variant alias model so the template
         // dispatches via fromJsonValue_/toJsonValue_ free functions (which respect the
         // composed keyword — oneOf vs anyOf semantics) instead of the generic
@@ -613,6 +685,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 resolvedType = "boost::json::value";
             }
 
+        // Cache the resolved type for transitive resolution in Phase 1b
+        resolvedAliasTypes.put(cm.classname, resolvedType);
+
         // Record as variant model for getTypeDeclaration shared_ptr exclusion
         variantModels.add(cm.classname);
 
@@ -669,13 +744,41 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 .filter(bt -> !"std::nullptr_t".equals(bt))
                 .collect(Collectors.toList());
 
+        // Rule 3b: Flatten nested variants — extract inner types from std::variant<...>
+        // branches. This prevents types like std::variant<std::variant<A,B>, std::variant<C,D>>
+        // which are valid C++ but unwieldy and often unexpected. Instead produces
+        // std::variant<A,B,C,D>.
+        List<String> flattened = new ArrayList<>();
+        for (String bt : nonNullBranches) {
+            if (bt.startsWith("std::variant<") && bt.endsWith(">")) {
+                String inner = bt.substring(13, bt.length() - 1);
+                // Split on ", " at top level (not inside nested <>)
+                int depth = 0;
+                int start = 0;
+                for (int i = 0; i < inner.length(); i++) {
+                    char c = inner.charAt(i);
+                    if (c == '<') depth++;
+                    else if (c == '>') depth--;
+                    else if (c == ',' && depth == 0) {
+                        flattened.add(inner.substring(start, i).trim());
+                        start = i + 1;
+                    }
+                }
+                if (start < inner.length()) {
+                    flattened.add(inner.substring(start).trim());
+                }
+            } else {
+                flattened.add(bt);
+            }
+        }
+
         // Rule 4: All-null or empty → boost::json::value
-        if (nonNullBranches.isEmpty()) {
+        if (flattened.isEmpty()) {
             return "boost::json::value";
         }
 
         // Rule 5: Deduplicate identical branch types.
-        List<String> deduped = nonNullBranches.stream()
+        List<String> deduped = flattened.stream()
                 .distinct()
                 .collect(Collectors.toList());
 
@@ -685,7 +788,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // If branches have the same resolved type, they are indistinguishable
         // at runtime and the schema should use anyOf or a discriminated union.
         if ("oneOf".equals(composedKeyword) && deduped.size() == 1
-                && nonNullBranches.size() > 1) {
+                && flattened.size() > 1) {
             throw new RuntimeException(
                 "oneOf branches in composed type are not distinguishable: all branches "
                 + "resolve to the same C++ type '" + deduped.get(0) + "'. "
@@ -705,6 +808,34 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             variantBranches.add("std::nullptr_t");
         }
         return "std::variant<" + String.join(", ", variantBranches) + ">";
+    }
+
+    /**
+     * Resolves a type name transitively through the resolvedAliasTypes map.
+     * For example, if ModelIdsResponses → std::string and ModelIdsShared → std::string,
+     * then resolveThroughAliases("ModelIdsResponses") returns "std::string".
+     * <p>
+     * Cycles are prevented via a visited set. Returns the typeName unmodified
+     * when no alias resolution applies.
+     */
+    private String resolveThroughAliases(String typeName) {
+        if (typeName == null) {
+            return null;
+        }
+        Set<String> visited = new HashSet<>();
+        String current = typeName;
+        int maxDepth = 20;
+        for (int depth = 0; depth < maxDepth; depth++) {
+            String resolved = resolvedAliasTypes.get(current);
+            if (resolved == null || resolved.equals(current)) {
+                break;
+            }
+            if (!visited.add(current)) {
+                break;  // cycle detected
+            }
+            current = resolved;
+        }
+        return current;
     }
 
     /**
@@ -940,7 +1071,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                                 String existingType = allOfPropertyTypes.get(propName);
                                 if (!existingType.equals(propType)
                                         && !"object".equals(propType)
-                                        && !"object".equals(existingType)) {
+                                        && !"object".equals(existingType)
+                                        && !"unknown".equals(propType)
+                                        && !"unknown".equals(existingType)) {
                                     throw new RuntimeException(
                                         "allOf property type conflict in schema '" + name
                                         + "': property '" + propName + "' has incompatible types ["

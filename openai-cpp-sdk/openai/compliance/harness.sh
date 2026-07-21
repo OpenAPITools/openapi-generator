@@ -396,9 +396,16 @@ def analyze_model_header(model_name):
     with open(header_file) as f:
         content = f.read()
 
-    # Type alias?
-    if "using " in content and "= boost::json::value" in content:
-        return ("boost::json::value", False, 0)
+    # Type alias to another type (general using X = Y; detection)
+    for line in content.split("\n"):
+        stripped = line.strip()
+        if stripped.startswith("using ") and "=" in stripped and ";" in stripped:
+            alias_match = re.match(r'using\s+(\w+)\s*=\s*([^;]+);', stripped)
+            if alias_match and not stripped.startswith("using namespace"):
+                alias_target = alias_match.group(2).strip()
+                # Exclude self-referential using
+                if alias_target != model_name:
+                    return (alias_target, False, 0)
 
     # Count actual member variables (exclude *IsSet booleans)
     member_decls = re.findall(r"m_\w+(?:\s*=\s*[^;]+)?;", content)

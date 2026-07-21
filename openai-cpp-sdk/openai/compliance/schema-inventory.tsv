@@ -1,155 +1,155 @@
 schema	result	cpp_type	notes
-AdminApiKeyCreateResponse	PASS	org::openapitools::client::model::AdminApiKeyCreateResponse	allOf, 9 members
-AssistantStreamEvent	PASS	org::openapitools::client::model::AssistantStreamEvent	oneOf, 3 members
-AssistantsApiResponseFormatOption	PASS	org::openapitools::client::model::AssistantsApiResponseFormatOption	oneOf, 2 members
-AssistantsApiToolChoiceOption	PASS	org::openapitools::client::model::AssistantsApiToolChoiceOption	oneOf, 2 members
+AdminApiKeyCreateResponse	PASS	org::openapitools::client::model::AdminApiKeyCreateResponse	allOf, 8 members
+AssistantStreamEvent	PASS	std::variant<ThreadStreamEvent, RunStreamEvent_oneOf, RunStreamEvent_oneOf_1, RunStreamEvent_oneOf_2, RunStreamEvent_oneOf_3, RunStreamEvent_oneOf_4, RunStreamEvent_oneOf_5, RunStreamEvent_oneOf_6, RunStreamEvent_oneOf_7, RunStreamEvent_oneOf_8, RunStreamEvent_oneOf_9, RunStepStreamEvent_oneOf, RunStepStreamEvent_oneOf_1, RunStepStreamEvent_oneOf_2, RunStepStreamEvent_oneOf_3, RunStepStreamEvent_oneOf_4, RunStepStreamEvent_oneOf_5, RunStepStreamEvent_oneOf_6, MessageStreamEvent_oneOf, MessageStreamEvent_oneOf_1, MessageStreamEvent_oneOf_2, MessageStreamEvent_oneOf_3, MessageStreamEvent_oneOf_4, ErrorEvent, DoneEvent>	oneOf, 0 members
+AssistantsApiResponseFormatOption	PASS	std::variant<std::string, BetaResponseFormatText, BetaResponseFormatJsonObject, ResponseFormatJsonSchema>	oneOf, 0 members
+AssistantsApiToolChoiceOption	PASS	std::variant<std::string, AssistantsNamedToolChoice>	oneOf, 0 members
 ChatCompletionModalities	DEFERRED	NOT_FOUND	Deferred (on allowlist)
-ChatCompletionRequestAssistantMessageContentPart	PASS	org::openapitools::client::model::ChatCompletionRequestAssistantMessageContentPart	oneOf, 4 members
-ChatCompletionRequestMessage	PASS	org::openapitools::client::model::ChatCompletionRequestMessage	oneOf, 8 members
+ChatCompletionRequestAssistantMessageContentPart	PASS	std::variant<ChatCompletionRequestMessageContentPartText, ChatCompletionRequestMessageContentPartRefusal>	oneOf, 0 members
+ChatCompletionRequestMessage	PASS	std::variant<ChatCompletionRequestDeveloperMessage, ChatCompletionRequestSystemMessage, ChatCompletionRequestUserMessage, ChatCompletionRequestAssistantMessage, ChatCompletionRequestToolMessage, ChatCompletionRequestFunctionMessage>	oneOf, 0 members
 ChatCompletionRequestSystemMessageContentPart	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 ChatCompletionRequestToolMessageContentPart	DEFERRED	NOT_FOUND	Deferred (on allowlist)
-ChatCompletionRequestUserMessageContentPart	PASS	org::openapitools::client::model::ChatCompletionRequestUserMessageContentPart	oneOf, 6 members
+ChatCompletionRequestUserMessageContentPart	PASS	std::variant<ChatCompletionRequestMessageContentPartText, ChatCompletionRequestMessageContentPartImage, ChatCompletionRequestMessageContentPartAudio, ChatCompletionRequestMessageContentPartFile>	oneOf, 0 members
 ChatCompletionStreamOptions	PASS	org::openapitools::client::model::ChatCompletionStreamOptions	anyOf, 2 members
-ChatCompletionToolChoiceOption	PASS	org::openapitools::client::model::ChatCompletionToolChoiceOption	oneOf, 4 members
-ChunkingStrategyRequestParam	PASS	org::openapitools::client::model::ChunkingStrategyRequestParam	oneOf, 2 members
-ComputerAction	PASS	org::openapitools::client::model::ComputerAction	oneOf, 9 members
-ComputerToolCallOutputResource	PASS	org::openapitools::client::model::ComputerToolCallOutputResource	allOf, 7 members
-Content	PASS	org::openapitools::client::model::Content	oneOf, 12 members
-ConversationItem	PASS	org::openapitools::client::model::ConversationItem	oneOf, 37 members
-ConversationParam	PASS	org::openapitools::client::model::ConversationParam	oneOf, 1 members
+ChatCompletionToolChoiceOption	PASS	std::variant<std::string, ChatCompletionAllowedToolsChoice, ChatCompletionNamedToolChoice, ChatCompletionNamedToolChoiceCustom>	oneOf, 0 members
+ChunkingStrategyRequestParam	PASS	std::variant<AutoChunkingStrategyRequestParam, StaticChunkingStrategyRequestParam>	oneOf, 0 members
+ComputerAction	PASS	std::variant<ClickParam, BetaDoubleClickAction, DragParam, BetaKeyPressAction, BetaMoveParam, BetaScreenshotParam, BetaScrollParam, BetaTypeParam, BetaWaitParam>	oneOf, 0 members
+ComputerToolCallOutputResource	PASS	org::openapitools::client::model::ComputerToolCallOutputResource	allOf, 6 members
+Content	PASS	std::variant<InputTextContent, InputImageContent, InputFileContent, OutputTextContent, BetaRefusalContent, BetaReasoningTextContent>	oneOf, 0 members
+ConversationItem	PASS	std::variant<Message, FunctionToolCallResource, FunctionToolCallOutputResource, FileSearchToolCall, WebSearchToolCall, ImageGenToolCall, ComputerToolCall, ComputerToolCallOutputResource, ToolSearchCall, ToolSearchOutput, AdditionalTools, ReasoningItem, Program, ProgramOutput, CompactionBody, CodeInterpreterToolCall, LocalShellToolCall, LocalShellToolCallOutput, FunctionShellCall, FunctionShellCallOutput, ApplyPatchToolCall, ApplyPatchToolCallOutput, MCPListTools, MCPApprovalRequest, MCPApprovalResponseResource, MCPToolCall, CustomToolCall, CustomToolCallOutput>	oneOf, 0 members
+ConversationParam	PASS	std::variant<std::string, BetaConversationParam_2>	oneOf, 0 members
 CreateChatCompletionRequest	PASS	org::openapitools::client::model::CreateChatCompletionRequest	allOf, 37 members
-CreateEvalItem	PASS	org::openapitools::client::model::CreateEvalItem	oneOf, 3 members
+CreateEvalItem	PASS	std::variant<SimpleInputMessage, EvalItem>	oneOf, 0 members
 CreateModelResponseProperties	PASS	org::openapitools::client::model::CreateModelResponseProperties	allOf, 10 members
 CreateResponse	PASS	org::openapitools::client::model::CreateResponse	allOf, 31 members
-CreateSpeechResponseStreamEvent	PASS	org::openapitools::client::model::CreateSpeechResponseStreamEvent	anyOf, 3 members
-CreateTranscriptionResponseStreamEvent	PASS	org::openapitools::client::model::CreateTranscriptionResponseStreamEvent	anyOf, 10 members
+CreateSpeechResponseStreamEvent	PASS	std::variant<SpeechAudioDeltaEvent, SpeechAudioDoneEvent>	anyOf, 0 members
+CreateTranscriptionResponseStreamEvent	PASS	std::variant<TranscriptTextSegmentEvent, TranscriptTextDeltaEvent, TranscriptTextDoneEvent>	anyOf, 0 members
 CreateVectorStoreFileBatchRequest	PASS	org::openapitools::client::model::CreateVectorStoreFileBatchRequest	anyOf, 4 members
-CustomToolCallOutputResource	PASS	org::openapitools::client::model::CustomToolCallOutputResource	allOf, 7 members
-CustomToolCallResource	PASS	org::openapitools::client::model::CustomToolCallResource	allOf, 9 members
-DeletedConversation	PASS	org::openapitools::client::model::DeletedConversation	allOf, 3 members
-EvalGraderLabelModel	PASS	org::openapitools::client::model::EvalGraderLabelModel	allOf, 6 members
-EvalGraderPython	PASS	org::openapitools::client::model::EvalGraderPython	allOf, 5 members
-EvalGraderScoreModel	PASS	org::openapitools::client::model::EvalGraderScoreModel	allOf, 7 members
-EvalGraderStringCheck	PASS	org::openapitools::client::model::EvalGraderStringCheck	allOf, 5 members
-EvalGraderTextSimilarity	PASS	org::openapitools::client::model::EvalGraderTextSimilarity	allOf, 6 members
-EvalItemContent	PASS	org::openapitools::client::model::EvalItemContent	oneOf, 6 members
-EvalItemContentItem	PASS	org::openapitools::client::model::EvalItemContentItem	oneOf, 6 members
-FineTuneChatCompletionRequestAssistantMessage	PASS	org::openapitools::client::model::FineTuneChatCompletionRequestAssistantMessage	allOf, 8 members
-FunctionAndCustomToolCallOutput	PASS	org::openapitools::client::model::FunctionAndCustomToolCallOutput	oneOf, 9 members
-FunctionToolCallOutputResource	PASS	org::openapitools::client::model::FunctionToolCallOutputResource	allOf, 7 members
-FunctionToolCallResource	PASS	org::openapitools::client::model::FunctionToolCallResource	allOf, 9 members
-ImageEditStreamEvent	PASS	org::openapitools::client::model::ImageEditStreamEvent	anyOf, 9 members
-ImageGenStreamEvent	PASS	org::openapitools::client::model::ImageGenStreamEvent	anyOf, 9 members
+CustomToolCallOutputResource	PASS	org::openapitools::client::model::CustomToolCallOutputResource	allOf, 6 members
+CustomToolCallResource	PASS	org::openapitools::client::model::CustomToolCallResource	allOf, 8 members
+DeletedConversation	PASS	org::openapitools::client::model::DeletedConversation	allOf, 2 members
+EvalGraderLabelModel	PASS	org::openapitools::client::model::EvalGraderLabelModel	allOf, 5 members
+EvalGraderPython	PASS	org::openapitools::client::model::EvalGraderPython	allOf, 4 members
+EvalGraderScoreModel	PASS	org::openapitools::client::model::EvalGraderScoreModel	allOf, 6 members
+EvalGraderStringCheck	PASS	org::openapitools::client::model::EvalGraderStringCheck	allOf, 4 members
+EvalGraderTextSimilarity	PASS	org::openapitools::client::model::EvalGraderTextSimilarity	allOf, 5 members
+EvalItemContent	PASS	std::variant<std::string, InputTextContent, EvalItemContentOutputText, EvalItemInputImage, BetaInputAudio, std::vector<EvalItemContentItem>>	oneOf, 0 members
+EvalItemContentItem	PASS	std::variant<std::string, InputTextContent, EvalItemContentOutputText, EvalItemInputImage, BetaInputAudio>	oneOf, 0 members
+FineTuneChatCompletionRequestAssistantMessage	PASS	org::openapitools::client::model::FineTuneChatCompletionRequestAssistantMessage	allOf, 7 members
+FunctionAndCustomToolCallOutput	PASS	std::variant<InputTextContent, InputImageContent, InputFileContent>	oneOf, 0 members
+FunctionToolCallOutputResource	PASS	org::openapitools::client::model::FunctionToolCallOutputResource	allOf, 6 members
+FunctionToolCallResource	PASS	org::openapitools::client::model::FunctionToolCallResource	allOf, 8 members
+ImageEditStreamEvent	PASS	std::variant<ImageEditPartialImageEvent, ImageEditCompletedEvent>	anyOf, 0 members
+ImageGenStreamEvent	PASS	std::variant<ImageGenPartialImageEvent, ImageGenCompletedEvent>	anyOf, 0 members
 ImageRefParam	PASS	org::openapitools::client::model::ImageRefParam	anyOf, 2 members
-InputContent	PASS	org::openapitools::client::model::InputContent	oneOf, 9 members
-InputItem	PASS	org::openapitools::client::model::InputItem	oneOf, 36 members
-InputMessageResource	PASS	org::openapitools::client::model::InputMessageResource	allOf, 5 members
-InputParam	FAIL	org::openapitools::client::model::InputParam	EMPTY SHELL (oneOf, 0 members) | EXPECTED std::variant<std::string, std::vector<InputItem>>
-Item	PASS	org::openapitools::client::model::Item	oneOf, 35 members
-ItemResource	PASS	org::openapitools::client::model::ItemResource	oneOf, 37 members
-MessageStreamEvent	PASS	org::openapitools::client::model::MessageStreamEvent	oneOf, 2 members
+InputContent	PASS	std::variant<InputTextContent, InputImageContent, InputFileContent>	oneOf, 0 members
+InputItem	PASS	std::variant<EasyInputMessage, InputMessage, OutputMessage, FileSearchToolCall, ComputerToolCall, ComputerCallOutputItemParam, WebSearchToolCall, FunctionToolCall, FunctionCallOutputItemParam, ToolSearchCallItemParam, ToolSearchOutputItemParam, AdditionalToolsItemParam, ReasoningItem, CompactionSummaryItemParam, ImageGenToolCall, CodeInterpreterToolCall, LocalShellToolCall, LocalShellToolCallOutput, FunctionShellCallItemParam, FunctionShellCallOutputItemParam, ApplyPatchToolCallItemParam, ApplyPatchToolCallOutputItemParam, MCPListTools, MCPApprovalRequest, MCPApprovalResponse, MCPToolCall, CustomToolCallOutput, CustomToolCall, CompactionTriggerItemParam, ItemReferenceParam, ProgramItemParam, ProgramOutputItemParam>	oneOf, 0 members
+InputMessageResource	PASS	org::openapitools::client::model::InputMessageResource	allOf, 4 members
+InputParam	PASS	std::variant<std::string, std::vector<InputItem>>	oneOf, 0 members
+Item	PASS	std::variant<InputMessage, OutputMessage, FileSearchToolCall, ComputerToolCall, ComputerCallOutputItemParam, WebSearchToolCall, FunctionToolCall, FunctionCallOutputItemParam, ToolSearchCallItemParam, ToolSearchOutputItemParam, AdditionalToolsItemParam, ReasoningItem, CompactionSummaryItemParam, ImageGenToolCall, CodeInterpreterToolCall, LocalShellToolCall, LocalShellToolCallOutput, FunctionShellCallItemParam, FunctionShellCallOutputItemParam, ApplyPatchToolCallItemParam, ApplyPatchToolCallOutputItemParam, MCPListTools, MCPApprovalRequest, MCPApprovalResponse, MCPToolCall, CustomToolCallOutput, CustomToolCall>	oneOf, 0 members
+ItemResource	PASS	std::variant<InputMessageResource, OutputMessage, FileSearchToolCall, ComputerToolCall, ComputerToolCallOutputResource, WebSearchToolCall, FunctionToolCallResource, FunctionToolCallOutputResource, ToolSearchCall, ToolSearchOutput, AdditionalTools, ReasoningItem, Program, ProgramOutput, CompactionBody, ImageGenToolCall, CodeInterpreterToolCall, LocalShellToolCall, LocalShellToolCallOutput, FunctionShellCall, FunctionShellCallOutput, ApplyPatchToolCall, ApplyPatchToolCallOutput, MCPListTools, MCPApprovalRequest, MCPApprovalResponseResource, MCPToolCall, CustomToolCallResource, CustomToolCallOutputResource>	oneOf, 0 members
+MessageStreamEvent	PASS	std::variant<MessageStreamEvent_oneOf, MessageStreamEvent_oneOf_1, MessageStreamEvent_oneOf_2, MessageStreamEvent_oneOf_3, MessageStreamEvent_oneOf_4>	oneOf, 0 members
 Metadata	DEFERRED	NOT_FOUND	Deferred (on allowlist)
-ModelIds	FAIL	org::openapitools::client::model::ModelIds	EMPTY SHELL (anyOf, 0 members) | EXPECTED std::string
-ModelIdsCompaction	FAIL	org::openapitools::client::model::ModelIdsCompaction	EMPTY SHELL (anyOf, 0 members) | EXPECTED std::string
-ModelIdsResponses	FAIL	org::openapitools::client::model::ModelIdsResponses	EMPTY SHELL (anyOf, 0 members) | EXPECTED std::string
-ModelIdsShared	FAIL	org::openapitools::client::model::ModelIdsShared	EMPTY SHELL (anyOf, 0 members) | EXPECTED std::string
-OutputContent	PASS	org::openapitools::client::model::OutputContent	oneOf, 5 members
-OutputItem	PASS	org::openapitools::client::model::OutputItem	oneOf, 37 members
-OutputMessageContent	PASS	org::openapitools::client::model::OutputMessageContent	oneOf, 5 members
+ModelIds	PASS	std::string	anyOf, 0 members
+ModelIdsCompaction	PASS	std::string	anyOf, 0 members
+ModelIdsResponses	PASS	std::string	anyOf, 0 members
+ModelIdsShared	PASS	std::string	anyOf, 0 members
+OutputContent	PASS	std::variant<OutputTextContent, BetaRefusalContent, BetaReasoningTextContent>	oneOf, 0 members
+OutputItem	PASS	std::variant<OutputMessage, FileSearchToolCall, FunctionToolCall, FunctionToolCallOutputResource, WebSearchToolCall, ComputerToolCall, ComputerToolCallOutputResource, ReasoningItem, Program, ProgramOutput, ToolSearchCall, ToolSearchOutput, AdditionalTools, CompactionBody, ImageGenToolCall, CodeInterpreterToolCall, LocalShellToolCall, LocalShellToolCallOutput, FunctionShellCall, FunctionShellCallOutput, ApplyPatchToolCall, ApplyPatchToolCallOutput, MCPToolCall, MCPListTools, MCPApprovalRequest, MCPApprovalResponseResource, CustomToolCall, CustomToolCallOutputResource>	oneOf, 0 members
+OutputMessageContent	PASS	std::variant<OutputTextContent, BetaRefusalContent>	oneOf, 0 members
 PartialImages	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 Prompt	PASS	org::openapitools::client::model::Prompt	anyOf, 3 members
-RealtimeAudioFormats	PASS	org::openapitools::client::model::RealtimeAudioFormats	anyOf, 2 members
-RealtimeClientEvent	PASS	org::openapitools::client::model::RealtimeClientEvent	anyOf, 11 members
-RealtimeConversationItem	PASS	org::openapitools::client::model::RealtimeConversationItem	anyOf, 16 members
-RealtimeServerEvent	PASS	org::openapitools::client::model::RealtimeServerEvent	anyOf, 31 members
-RealtimeTranslationClientEvent	PASS	org::openapitools::client::model::RealtimeTranslationClientEvent	anyOf, 4 members
-RealtimeTranslationServerEvent	PASS	org::openapitools::client::model::RealtimeTranslationServerEvent	anyOf, 9 members
-RealtimeTruncation	PASS	org::openapitools::client::model::RealtimeTruncation	oneOf, 3 members
-RealtimeTurnDetection	PASS	org::openapitools::client::model::RealtimeTurnDetection	anyOf, 8 members
-ReasoningEffort	FAIL	org::openapitools::client::model::ReasoningEffort	EMPTY SHELL (anyOf, 0 members)
-Response	PASS	org::openapitools::client::model::Response	allOf, 35 members
+RealtimeAudioFormats	PASS	std::variant<PCM_audio_format, PCMU_audio_format, PCMA_audio_format>	anyOf, 0 members
+RealtimeClientEvent	PASS	std::variant<RealtimeClientEventConversationItemCreate, RealtimeClientEventConversationItemDelete, RealtimeClientEventConversationItemRetrieve, RealtimeClientEventConversationItemTruncate, RealtimeClientEventInputAudioBufferAppend, RealtimeClientEventInputAudioBufferClear, RealtimeClientEventOutputAudioBufferClear, RealtimeClientEventInputAudioBufferCommit, RealtimeClientEventResponseCancel, RealtimeClientEventResponseCreate, RealtimeClientEventSessionUpdate>	anyOf, 0 members
+RealtimeConversationItem	PASS	std::variant<RealtimeConversationItemMessageSystem, RealtimeConversationItemMessageUser, RealtimeConversationItemMessageAssistant, RealtimeConversationItemFunctionCall, RealtimeConversationItemFunctionCallOutput, RealtimeMCPApprovalResponse, RealtimeMCPListTools, RealtimeMCPToolCall, RealtimeMCPApprovalRequest>	anyOf, 0 members
+RealtimeServerEvent	PASS	std::variant<RealtimeServerEventConversationCreated, RealtimeServerEventConversationItemCreated, RealtimeServerEventConversationItemDeleted, RealtimeServerEventConversationItemInputAudioTranscriptionCompleted, RealtimeServerEventConversationItemInputAudioTranscriptionDelta, RealtimeServerEventConversationItemInputAudioTranscriptionFailed, RealtimeServerEventConversationItemRetrieved, RealtimeServerEventConversationItemTruncated, RealtimeServerEventError, RealtimeServerEventInputAudioBufferCleared, RealtimeServerEventInputAudioBufferCommitted, RealtimeServerEventInputAudioBufferDtmfEventReceived, RealtimeServerEventInputAudioBufferSpeechStarted, RealtimeServerEventInputAudioBufferSpeechStopped, RealtimeServerEventRateLimitsUpdated, RealtimeServerEventResponseAudioDelta, RealtimeServerEventResponseAudioDone, RealtimeServerEventResponseAudioTranscriptDelta, RealtimeServerEventResponseAudioTranscriptDone, RealtimeServerEventResponseContentPartAdded, RealtimeServerEventResponseContentPartDone, RealtimeServerEventResponseCreated, RealtimeServerEventResponseDone, RealtimeServerEventResponseFunctionCallArgumentsDelta, RealtimeServerEventResponseFunctionCallArgumentsDone, RealtimeServerEventResponseOutputItemAdded, RealtimeServerEventResponseOutputItemDone, RealtimeServerEventResponseTextDelta, RealtimeServerEventResponseTextDone, RealtimeServerEventSessionCreated, RealtimeServerEventSessionUpdated, RealtimeServerEventOutputAudioBufferStarted, RealtimeServerEventOutputAudioBufferStopped, RealtimeServerEventOutputAudioBufferCleared, RealtimeServerEventConversationItemAdded, RealtimeServerEventConversationItemDone, RealtimeServerEventInputAudioBufferTimeoutTriggered, RealtimeServerEventConversationItemInputAudioTranscriptionSegment, RealtimeServerEventMCPListToolsInProgress, RealtimeServerEventMCPListToolsCompleted, RealtimeServerEventMCPListToolsFailed, RealtimeServerEventResponseMCPCallArgumentsDelta, RealtimeServerEventResponseMCPCallArgumentsDone, RealtimeServerEventResponseMCPCallInProgress, RealtimeServerEventResponseMCPCallCompleted, RealtimeServerEventResponseMCPCallFailed>	anyOf, 0 members
+RealtimeTranslationClientEvent	PASS	std::variant<RealtimeTranslationClientEventSessionUpdate, RealtimeTranslationClientEventInputAudioBufferAppend, RealtimeTranslationClientEventSessionClose>	anyOf, 0 members
+RealtimeTranslationServerEvent	PASS	std::variant<RealtimeServerEventError, RealtimeTranslationServerEventSessionCreated, RealtimeTranslationServerEventSessionUpdated, RealtimeTranslationServerEventSessionClosed, RealtimeTranslationServerEventSessionInputTranscriptDelta, RealtimeTranslationServerEventSessionOutputTranscriptDelta, RealtimeTranslationServerEventSessionOutputAudioDelta>	anyOf, 0 members
+RealtimeTruncation	PASS	std::variant<std::string, Retention_ratio_truncation>	oneOf, 0 members
+RealtimeTurnDetection	PASS	std::variant<Server_VAD, Semantic_VAD>	anyOf, 0 members
+ReasoningEffort	PASS	std::optional<std::string>	anyOf, 0 members
+Response	PASS	org::openapitools::client::model::Response	allOf, 34 members
 ResponseError	PASS	org::openapitools::client::model::ResponseError	anyOf, 2 members
 ResponseModalities	DEFERRED	NOT_FOUND	Deferred (on allowlist)
 ResponsePromptVariables	DEFERRED	NOT_FOUND	Deferred (on allowlist)
-ResponseStreamEvent	PASS	org::openapitools::client::model::ResponseStreamEvent	anyOf, 24 members
+ResponseStreamEvent	PASS	std::variant<ResponseAudioDeltaEvent, ResponseAudioDoneEvent, ResponseAudioTranscriptDeltaEvent, ResponseAudioTranscriptDoneEvent, ResponseCodeInterpreterCallCodeDeltaEvent, ResponseCodeInterpreterCallCodeDoneEvent, ResponseCodeInterpreterCallCompletedEvent, ResponseCodeInterpreterCallInProgressEvent, ResponseCodeInterpreterCallInterpretingEvent, ResponseCompletedEvent, ResponseContentPartAddedEvent, ResponseContentPartDoneEvent, ResponseCreatedEvent, ResponseErrorEvent, ResponseFileSearchCallCompletedEvent, ResponseFileSearchCallInProgressEvent, ResponseFileSearchCallSearchingEvent, ResponseFunctionCallArgumentsDeltaEvent, ResponseFunctionCallArgumentsDoneEvent, ResponseInProgressEvent, ResponseFailedEvent, ResponseIncompleteEvent, ResponseOutputItemAddedEvent, ResponseOutputItemDoneEvent, ResponseReasoningSummaryPartAddedEvent, ResponseReasoningSummaryPartDoneEvent, ResponseReasoningSummaryTextDeltaEvent, ResponseReasoningSummaryTextDoneEvent, ResponseReasoningTextDeltaEvent, ResponseReasoningTextDoneEvent, ResponseRefusalDeltaEvent, ResponseRefusalDoneEvent, ResponseTextDeltaEvent, ResponseTextDoneEvent, ResponseWebSearchCallCompletedEvent, ResponseWebSearchCallInProgressEvent, ResponseWebSearchCallSearchingEvent, ResponseImageGenCallCompletedEvent, ResponseImageGenCallGeneratingEvent, ResponseImageGenCallInProgressEvent, ResponseImageGenCallPartialImageEvent, ResponseMCPCallArgumentsDeltaEvent, ResponseMCPCallArgumentsDoneEvent, ResponseMCPCallCompletedEvent, ResponseMCPCallFailedEvent, ResponseMCPCallInProgressEvent, ResponseMCPListToolsCompletedEvent, ResponseMCPListToolsFailedEvent, ResponseMCPListToolsInProgressEvent, ResponseOutputTextAnnotationAddedEvent, ResponseQueuedEvent, ResponseCustomToolCallInputDeltaEvent, ResponseCustomToolCallInputDoneEvent>	anyOf, 0 members
 ResponseStreamOptions	PASS	org::openapitools::client::model::ResponseStreamOptions	anyOf, 1 members
-ResponsesClientEvent	PASS	org::openapitools::client::model::ResponsesClientEvent	anyOf, 32 members
-ResponsesClientEventResponseCreate	PASS	org::openapitools::client::model::ResponsesClientEventResponseCreate	allOf, 32 members
-ResponsesServerEvent	PASS	org::openapitools::client::model::ResponsesServerEvent	anyOf, 24 members
+ResponsesClientEvent	PASS	org::openapitools::client::model::ResponsesClientEvent	anyOf, 31 members
+ResponsesClientEventResponseCreate	PASS	org::openapitools::client::model::ResponsesClientEventResponseCreate	allOf, 31 members
+ResponsesServerEvent	PASS	typename ResponsesServerEventModelMakeVoid<Types...>::type	anyOf, 0 members
 RunCompletionUsage	PASS	org::openapitools::client::model::RunCompletionUsage	anyOf, 3 members
 RunStepCompletionUsage	PASS	org::openapitools::client::model::RunStepCompletionUsage	anyOf, 3 members
-RunStepStreamEvent	PASS	org::openapitools::client::model::RunStepStreamEvent	oneOf, 2 members
-RunStreamEvent	PASS	org::openapitools::client::model::RunStreamEvent	oneOf, 2 members
-ServiceTier	FAIL	org::openapitools::client::model::ServiceTier	EMPTY SHELL (anyOf, 0 members)
-StopConfiguration	FAIL	org::openapitools::client::model::StopConfiguration	EMPTY SHELL (oneOf, 0 members)
-TextResponseFormatConfiguration	PASS	org::openapitools::client::model::TextResponseFormatConfiguration	oneOf, 5 members
-ThreadStreamEvent	PASS	org::openapitools::client::model::ThreadStreamEvent	oneOf, 3 members
-Tool	PASS	org::openapitools::client::model::Tool	oneOf, 42 members
-ToolChoiceParam	PASS	org::openapitools::client::model::ToolChoiceParam	oneOf, 5 members
-TranscriptionChunkingStrategy	PASS	org::openapitools::client::model::TranscriptionChunkingStrategy	oneOf, 4 members
+RunStepStreamEvent	PASS	std::variant<RunStepStreamEvent_oneOf, RunStepStreamEvent_oneOf_1, RunStepStreamEvent_oneOf_2, RunStepStreamEvent_oneOf_3, RunStepStreamEvent_oneOf_4, RunStepStreamEvent_oneOf_5, RunStepStreamEvent_oneOf_6>	oneOf, 0 members
+RunStreamEvent	PASS	std::variant<RunStreamEvent_oneOf, RunStreamEvent_oneOf_1, RunStreamEvent_oneOf_2, RunStreamEvent_oneOf_3, RunStreamEvent_oneOf_4, RunStreamEvent_oneOf_5, RunStreamEvent_oneOf_6, RunStreamEvent_oneOf_7, RunStreamEvent_oneOf_8, RunStreamEvent_oneOf_9>	oneOf, 0 members
+ServiceTier	PASS	std::optional<std::string>	anyOf, 0 members
+StopConfiguration	PASS	std::variant<std::string, std::vector<std::string>>	oneOf, 0 members
+TextResponseFormatConfiguration	PASS	std::variant<BetaResponseFormatText, TextResponseFormatJsonSchema, BetaResponseFormatJsonObject>	oneOf, 0 members
+ThreadStreamEvent	PASS	org::openapitools::client::model::ThreadStreamEvent	oneOf, 2 members
+Tool	PASS	std::variant<FunctionTool, FileSearchTool, BetaComputerTool, ComputerUsePreviewTool, WebSearchTool, MCPTool, CodeInterpreterTool, ProgrammaticToolCallingParam, ImageGenTool, BetaLocalShellToolParam, FunctionShellToolParam, CustomToolParam, NamespaceToolParam, ToolSearchToolParam, WebSearchPreviewTool, ApplyPatchToolParam>	oneOf, 0 members
+ToolChoiceParam	PASS	std::variant<BetaToolChoiceOptions, BetaToolChoiceAllowed, BetaToolChoiceTypes, BetaToolChoiceFunction, BetaToolChoiceMCP, BetaToolChoiceCustom, SpecificProgrammaticToolCallingParam, BetaSpecificApplyPatchParam, BetaSpecificFunctionShellParam>	oneOf, 0 members
+TranscriptionChunkingStrategy	PASS	std::variant<std::string, VadConfig>	oneOf, 0 members
 VectorStoreFileAttributes	DEFERRED	NOT_FOUND	Deferred (on allowlist)
-Verbosity	FAIL	org::openapitools::client::model::Verbosity	EMPTY SHELL (anyOf, 0 members)
-VoiceIdsOrCustomVoice	PASS	org::openapitools::client::model::VoiceIdsOrCustomVoice	anyOf, 1 members
-VoiceIdsShared	FAIL	org::openapitools::client::model::VoiceIdsShared	EMPTY SHELL (anyOf, 0 members)
+Verbosity	PASS	std::optional<std::string>	anyOf, 0 members
+VoiceIdsOrCustomVoice	PASS	std::variant<std::string, VoiceIdsOrCustomVoice_anyOf>	anyOf, 0 members
+VoiceIdsShared	PASS	std::string	anyOf, 0 members
 WebSearchApproximateLocation	DEFERRED	NOT_FOUND	Deferred (on allowlist)
-Annotation	PASS	org::openapitools::client::model::Annotation	oneOf, 9 members
-ToolCallCaller	PASS	org::openapitools::client::model::ToolCallCaller	oneOf, 2 members
-ToolCallCallerParam	PASS	org::openapitools::client::model::ToolCallCallerParam	oneOf, 2 members
-Filters	PASS	org::openapitools::client::model::Filters	anyOf, 4 members
-FunctionShellCallOutputOutcomeParam	PASS	org::openapitools::client::model::FunctionShellCallOutputOutcomeParam	oneOf, 2 members
-ApplyPatchOperationParam	PASS	org::openapitools::client::model::ApplyPatchOperationParam	oneOf, 3 members
-ReasoningModeEnum	FAIL	org::openapitools::client::model::ReasoningModeEnum	EMPTY SHELL (anyOf, 0 members)
-VideoModel	FAIL	org::openapitools::client::model::VideoModel	EMPTY SHELL (anyOf, 0 members)
-PersonalityEnum	FAIL	org::openapitools::client::model::PersonalityEnum	EMPTY SHELL (anyOf, 0 members)
-ItemField	PASS	org::openapitools::client::model::ItemField	oneOf, 37 members
-ThreadItem	PASS	org::openapitools::client::model::ThreadItem	oneOf, 18 members
-BetaToolChoiceParam	PASS	org::openapitools::client::model::BetaToolChoiceParam	oneOf, 5 members
-BetaConversationParam	PASS	org::openapitools::client::model::BetaConversationParam	oneOf, 1 members
-BetaPersonalityEnum	FAIL	org::openapitools::client::model::BetaPersonalityEnum	EMPTY SHELL (anyOf, 0 members)
-BetaReasoningEffort	FAIL	org::openapitools::client::model::BetaReasoningEffort	EMPTY SHELL (anyOf, 0 members)
-BetaReasoningModeEnum	FAIL	org::openapitools::client::model::BetaReasoningModeEnum	EMPTY SHELL (anyOf, 0 members)
-BetaVerbosity	FAIL	org::openapitools::client::model::BetaVerbosity	EMPTY SHELL (anyOf, 0 members)
-BetaTextResponseFormatConfiguration	PASS	org::openapitools::client::model::BetaTextResponseFormatConfiguration	oneOf, 5 members
-BetaTool	PASS	org::openapitools::client::model::BetaTool	oneOf, 42 members
-BetaWebSearchApproximateLocation	PASS	org::openapitools::client::model::BetaWebSearchApproximateLocation	anyOf, 5 members
-BetaFilters	PASS	org::openapitools::client::model::BetaFilters	anyOf, 4 members
-BetaInputItem	PASS	org::openapitools::client::model::BetaInputItem	oneOf, 39 members
-BetaItem	PASS	org::openapitools::client::model::BetaItem	oneOf, 38 members
-BetaToolCallCaller	PASS	org::openapitools::client::model::BetaToolCallCaller	oneOf, 2 members
-BetaFunctionAndCustomToolCallOutput	PASS	org::openapitools::client::model::BetaFunctionAndCustomToolCallOutput	oneOf, 9 members
-BetaToolCallCallerParam	PASS	org::openapitools::client::model::BetaToolCallCallerParam	oneOf, 2 members
-BetaApplyPatchOperationParam	PASS	org::openapitools::client::model::BetaApplyPatchOperationParam	oneOf, 3 members
-BetaFunctionShellCallOutputOutcomeParam	PASS	org::openapitools::client::model::BetaFunctionShellCallOutputOutcomeParam	oneOf, 2 members
-BetaComputerAction	PASS	org::openapitools::client::model::BetaComputerAction	oneOf, 9 members
+Annotation	PASS	std::variant<BetaFileCitationBody, BetaUrlCitationBody, BetaContainerFileCitationBody, BetaFilePath>	oneOf, 0 members
+ToolCallCaller	PASS	std::variant<DirectToolCallCaller, ProgramToolCallCaller>	oneOf, 0 members
+ToolCallCallerParam	PASS	std::variant<DirectToolCallCallerParam, ProgramToolCallCallerParam>	oneOf, 0 members
+Filters	PASS	std::variant<BetaComparisonFilter, CompoundFilter>	anyOf, 0 members
+FunctionShellCallOutputOutcomeParam	PASS	std::variant<BetaFunctionShellCallOutputTimeoutOutcome, BetaFunctionShellCallOutputExitOutcome>	oneOf, 0 members
+ApplyPatchOperationParam	PASS	std::variant<ApplyPatchCreateFileOperationParam, ApplyPatchDeleteFileOperationParam, ApplyPatchUpdateFileOperationParam>	oneOf, 0 members
+ReasoningModeEnum	PASS	std::string	anyOf, 0 members
+VideoModel	PASS	std::string	anyOf, 0 members
+PersonalityEnum	PASS	std::string	anyOf, 0 members
+ItemField	PASS	std::variant<Message, Program, ProgramOutput, FunctionToolCall, ToolSearchCall, ToolSearchOutput, AdditionalTools, FunctionToolCallOutput, FileSearchToolCall, WebSearchToolCall, ImageGenToolCall, ComputerToolCall, ComputerToolCallOutputResource, ReasoningItem, CompactionBody, CodeInterpreterToolCall, LocalShellToolCall, LocalShellToolCallOutput, FunctionShellCall, FunctionShellCallOutput, ApplyPatchToolCall, ApplyPatchToolCallOutput, MCPListTools, MCPApprovalRequest, MCPApprovalResponseResource, MCPToolCall, CustomToolCall, CustomToolCallOutput>	oneOf, 0 members
+ThreadItem	PASS	std::variant<UserMessageItem, AssistantMessageItem, WidgetMessageItem, ClientToolCallItem, TaskItem, TaskGroupItem>	oneOf, 0 members
+BetaToolChoiceParam	PASS	std::variant<BetaToolChoiceOptions, BetaToolChoiceAllowed, BetaToolChoiceTypes, BetaToolChoiceFunction, BetaToolChoiceMCP, BetaToolChoiceCustom, BetaSpecificProgrammaticToolCallingParam, BetaSpecificApplyPatchParam, BetaSpecificFunctionShellParam>	oneOf, 0 members
+BetaConversationParam	PASS	std::variant<std::string, BetaConversationParam_2>	oneOf, 0 members
+BetaPersonalityEnum	PASS	std::string	anyOf, 0 members
+BetaReasoningEffort	PASS	std::optional<std::string>	anyOf, 0 members
+BetaReasoningModeEnum	PASS	std::string	anyOf, 0 members
+BetaVerbosity	PASS	std::optional<std::string>	anyOf, 0 members
+BetaTextResponseFormatConfiguration	PASS	std::variant<BetaResponseFormatText, BetaTextResponseFormatJsonSchema, BetaResponseFormatJsonObject>	oneOf, 0 members
+BetaTool	PASS	std::variant<BetaFunctionTool, BetaFileSearchTool, BetaComputerTool, BetaComputerUsePreviewTool, BetaWebSearchTool, BetaMCPTool, BetaCodeInterpreterTool, BetaProgrammaticToolCallingParam, BetaImageGenTool, BetaLocalShellToolParam, BetaFunctionShellToolParam, BetaCustomToolParam, BetaNamespaceToolParam, BetaToolSearchToolParam, BetaWebSearchPreviewTool, BetaApplyPatchToolParam>	oneOf, 0 members
+BetaWebSearchApproximateLocation	PASS	org::openapitools::client::model::BetaWebSearchApproximateLocation	anyOf, 4 members
+BetaFilters	PASS	std::variant<BetaComparisonFilter, BetaCompoundFilter>	anyOf, 0 members
+BetaInputItem	PASS	std::variant<BetaEasyInputMessage, BetaInputMessage, BetaOutputMessage, BetaFileSearchToolCall, BetaComputerToolCall, BetaComputerCallOutputItemParam, BetaWebSearchToolCall, BetaFunctionToolCall, BetaFunctionCallOutputItemParam, BetaAgentMessageItemParam, BetaMultiAgentCallItemParam, BetaMultiAgentCallOutputItemParam, BetaToolSearchCallItemParam, BetaToolSearchOutputItemParam, BetaAdditionalToolsItemParam, BetaReasoningItem, BetaCompactionSummaryItemParam, BetaImageGenToolCall, BetaCodeInterpreterToolCall, BetaLocalShellToolCall, BetaLocalShellToolCallOutput, BetaFunctionShellCallItemParam, BetaFunctionShellCallOutputItemParam, BetaApplyPatchToolCallItemParam, BetaApplyPatchToolCallOutputItemParam, BetaMCPListTools, BetaMCPApprovalRequest, BetaMCPApprovalResponse, BetaMCPToolCall, BetaCustomToolCallOutput, BetaCustomToolCall, BetaCompactionTriggerItemParam, BetaItemReferenceParam, BetaProgramItemParam, BetaProgramOutputItemParam>	oneOf, 0 members
+BetaItem	PASS	std::variant<BetaInputMessage, BetaOutputMessage, BetaFileSearchToolCall, BetaComputerToolCall, BetaComputerCallOutputItemParam, BetaWebSearchToolCall, BetaFunctionToolCall, BetaFunctionCallOutputItemParam, BetaAgentMessageItemParam, BetaMultiAgentCallItemParam, BetaMultiAgentCallOutputItemParam, BetaToolSearchCallItemParam, BetaToolSearchOutputItemParam, BetaAdditionalToolsItemParam, BetaReasoningItem, BetaCompactionSummaryItemParam, BetaImageGenToolCall, BetaCodeInterpreterToolCall, BetaLocalShellToolCall, BetaLocalShellToolCallOutput, BetaFunctionShellCallItemParam, BetaFunctionShellCallOutputItemParam, BetaApplyPatchToolCallItemParam, BetaApplyPatchToolCallOutputItemParam, BetaMCPListTools, BetaMCPApprovalRequest, BetaMCPApprovalResponse, BetaMCPToolCall, BetaCustomToolCallOutput, BetaCustomToolCall>	oneOf, 0 members
+BetaToolCallCaller	PASS	std::variant<BetaDirectToolCallCaller, BetaProgramToolCallCaller>	oneOf, 0 members
+BetaFunctionAndCustomToolCallOutput	PASS	std::variant<BetaInputTextContent, BetaInputImageContent, BetaInputFileContent>	oneOf, 0 members
+BetaToolCallCallerParam	PASS	std::variant<BetaDirectToolCallCallerParam, BetaProgramToolCallCallerParam>	oneOf, 0 members
+BetaApplyPatchOperationParam	PASS	std::variant<ApplyPatchCreateFileOperationParam, ApplyPatchDeleteFileOperationParam, ApplyPatchUpdateFileOperationParam>	oneOf, 0 members
+BetaFunctionShellCallOutputOutcomeParam	PASS	std::variant<BetaFunctionShellCallOutputTimeoutOutcome, BetaFunctionShellCallOutputExitOutcome>	oneOf, 0 members
+BetaComputerAction	PASS	std::variant<BetaClickParam, BetaDoubleClickAction, BetaDragParam, BetaKeyPressAction, BetaMoveParam, BetaScreenshotParam, BetaScrollParam, BetaTypeParam, BetaWaitParam>	oneOf, 0 members
 BetaVectorStoreFileAttributes	DEFERRED	NOT_FOUND	Deferred (on allowlist)
-BetaOutputMessageContent	PASS	org::openapitools::client::model::BetaOutputMessageContent	oneOf, 5 members
-BetaAnnotation	PASS	org::openapitools::client::model::BetaAnnotation	oneOf, 9 members
-BetaInputContent	PASS	org::openapitools::client::model::BetaInputContent	oneOf, 9 members
-BetaModelIdsCompaction	FAIL	org::openapitools::client::model::BetaModelIdsCompaction	EMPTY SHELL (anyOf, 0 members)
-BetaModelIdsResponses	FAIL	org::openapitools::client::model::BetaModelIdsResponses	EMPTY SHELL (anyOf, 0 members)
-BetaModelIdsShared	FAIL	org::openapitools::client::model::BetaModelIdsShared	EMPTY SHELL (anyOf, 0 members)
-BetaItemResource	PASS	org::openapitools::client::model::BetaItemResource	oneOf, 40 members
-BetaCustomToolCallOutputResource	PASS	org::openapitools::client::model::BetaCustomToolCallOutputResource	allOf, 8 members
-BetaCustomToolCallResource	PASS	org::openapitools::client::model::BetaCustomToolCallResource	allOf, 10 members
-BetaFunctionToolCallOutputResource	PASS	org::openapitools::client::model::BetaFunctionToolCallOutputResource	allOf, 8 members
-BetaFunctionToolCallResource	PASS	org::openapitools::client::model::BetaFunctionToolCallResource	allOf, 10 members
-BetaComputerToolCallOutputResource	PASS	org::openapitools::client::model::BetaComputerToolCallOutputResource	allOf, 8 members
-BetaInputMessageResource	PASS	org::openapitools::client::model::BetaInputMessageResource	allOf, 6 members
-BetaItemField	PASS	org::openapitools::client::model::BetaItemField	oneOf, 40 members
-BetaResponse	PASS	org::openapitools::client::model::BetaResponse	allOf, 35 members
-BetaOutputItem	PASS	org::openapitools::client::model::BetaOutputItem	oneOf, 40 members
+BetaOutputMessageContent	PASS	std::variant<BetaOutputTextContent, BetaRefusalContent>	oneOf, 0 members
+BetaAnnotation	PASS	std::variant<BetaFileCitationBody, BetaUrlCitationBody, BetaContainerFileCitationBody, BetaFilePath>	oneOf, 0 members
+BetaInputContent	PASS	std::variant<BetaInputTextContent, BetaInputImageContent, BetaInputFileContent>	oneOf, 0 members
+BetaModelIdsCompaction	PASS	std::string	anyOf, 0 members
+BetaModelIdsResponses	PASS	std::string	anyOf, 0 members
+BetaModelIdsShared	PASS	std::string	anyOf, 0 members
+BetaItemResource	PASS	std::variant<BetaInputMessageResource, BetaOutputMessage, BetaFileSearchToolCall, BetaComputerToolCall, BetaComputerToolCallOutputResource, BetaWebSearchToolCall, BetaFunctionToolCallResource, BetaFunctionToolCallOutputResource, BetaAgentMessage, BetaMultiAgentCall, BetaMultiAgentCallOutput, BetaToolSearchCall, BetaToolSearchOutput, BetaAdditionalTools, BetaReasoningItem, BetaProgram, BetaProgramOutput, BetaCompactionBody, BetaImageGenToolCall, BetaCodeInterpreterToolCall, BetaLocalShellToolCall, BetaLocalShellToolCallOutput, BetaFunctionShellCall, BetaFunctionShellCallOutput, BetaApplyPatchToolCall, BetaApplyPatchToolCallOutput, BetaMCPListTools, BetaMCPApprovalRequest, BetaMCPApprovalResponseResource, BetaMCPToolCall, BetaCustomToolCallResource, BetaCustomToolCallOutputResource>	oneOf, 0 members
+BetaCustomToolCallOutputResource	PASS	org::openapitools::client::model::BetaCustomToolCallOutputResource	allOf, 7 members
+BetaCustomToolCallResource	PASS	org::openapitools::client::model::BetaCustomToolCallResource	allOf, 9 members
+BetaFunctionToolCallOutputResource	PASS	org::openapitools::client::model::BetaFunctionToolCallOutputResource	allOf, 7 members
+BetaFunctionToolCallResource	PASS	org::openapitools::client::model::BetaFunctionToolCallResource	allOf, 9 members
+BetaComputerToolCallOutputResource	PASS	org::openapitools::client::model::BetaComputerToolCallOutputResource	allOf, 7 members
+BetaInputMessageResource	PASS	org::openapitools::client::model::BetaInputMessageResource	allOf, 5 members
+BetaItemField	PASS	std::variant<BetaMessage, BetaProgram, BetaProgramOutput, BetaFunctionToolCall, BetaMultiAgentCall, BetaMultiAgentCallOutput, BetaToolSearchCall, BetaToolSearchOutput, BetaAdditionalTools, BetaAgentMessage, BetaFunctionToolCallOutput, BetaFileSearchToolCall, BetaWebSearchToolCall, BetaImageGenToolCall, BetaComputerToolCall, BetaComputerToolCallOutputResource, BetaReasoningItem, BetaCompactionBody, BetaCodeInterpreterToolCall, BetaLocalShellToolCall, BetaLocalShellToolCallOutput, BetaFunctionShellCall, BetaFunctionShellCallOutput, BetaApplyPatchToolCall, BetaApplyPatchToolCallOutput, BetaMCPListTools, BetaMCPApprovalRequest, BetaMCPApprovalResponseResource, BetaMCPToolCall, BetaCustomToolCall, BetaCustomToolCallOutput>	oneOf, 0 members
+BetaResponse	PASS	org::openapitools::client::model::BetaResponse	allOf, 34 members
+BetaOutputItem	PASS	std::variant<BetaOutputMessage, BetaFileSearchToolCall, BetaFunctionToolCall, BetaFunctionToolCallOutputResource, BetaAgentMessage, BetaMultiAgentCall, BetaMultiAgentCallOutput, BetaWebSearchToolCall, BetaComputerToolCall, BetaComputerToolCallOutputResource, BetaReasoningItem, BetaProgram, BetaProgramOutput, BetaToolSearchCall, BetaToolSearchOutput, BetaAdditionalTools, BetaCompactionBody, BetaImageGenToolCall, BetaCodeInterpreterToolCall, BetaLocalShellToolCall, BetaLocalShellToolCallOutput, BetaFunctionShellCall, BetaFunctionShellCallOutput, BetaApplyPatchToolCall, BetaApplyPatchToolCallOutput, BetaMCPToolCall, BetaMCPListTools, BetaMCPApprovalRequest, BetaMCPApprovalResponseResource, BetaCustomToolCall, BetaCustomToolCallOutputResource>	oneOf, 0 members
 BetaResponseError	PASS	org::openapitools::client::model::BetaResponseError	anyOf, 2 members
 BetaPrompt	PASS	org::openapitools::client::model::BetaPrompt	anyOf, 3 members
 BetaResponsePromptVariables	DEFERRED	NOT_FOUND	Deferred (on allowlist)
-BetaServiceTier	FAIL	org::openapitools::client::model::BetaServiceTier	EMPTY SHELL (anyOf, 0 members)
+BetaServiceTier	PASS	std::optional<std::string>	anyOf, 0 members
 BetaMetadata	DEFERRED	NOT_FOUND	Deferred (on allowlist)
-BetaOutputContent	PASS	org::openapitools::client::model::BetaOutputContent	oneOf, 5 members
-BetaInputParam	FAIL	org::openapitools::client::model::BetaInputParam	EMPTY SHELL (oneOf, 0 members)
-BetaContent	PASS	org::openapitools::client::model::BetaContent	oneOf, 12 members
-BetaResponsesServerEvent	PASS	org::openapitools::client::model::BetaResponsesServerEvent	anyOf, 28 members
-BetaResponseStreamEvent	PASS	org::openapitools::client::model::BetaResponseStreamEvent	anyOf, 25 members
-BetaResponsesClientEvent	PASS	org::openapitools::client::model::BetaResponsesClientEvent	anyOf, 34 members
-BetaResponsesClientEventResponseCreate	PASS	org::openapitools::client::model::BetaResponsesClientEventResponseCreate	allOf, 33 members
+BetaOutputContent	PASS	std::variant<BetaOutputTextContent, BetaRefusalContent, BetaReasoningTextContent>	oneOf, 0 members
+BetaInputParam	PASS	std::variant<std::string, std::vector<BetaInputItem>>	oneOf, 0 members
+BetaContent	PASS	std::variant<BetaInputTextContent, BetaInputImageContent, BetaInputFileContent, BetaOutputTextContent, BetaRefusalContent, BetaReasoningTextContent>	oneOf, 0 members
+BetaResponsesServerEvent	PASS	std::variant<BetaResponseAudioDeltaEvent, BetaResponseAudioDoneEvent, BetaResponseAudioTranscriptDeltaEvent, BetaResponseAudioTranscriptDoneEvent, BetaResponseCodeInterpreterCallCodeDeltaEvent, BetaResponseCodeInterpreterCallCodeDoneEvent, BetaResponseCodeInterpreterCallCompletedEvent, BetaResponseCodeInterpreterCallInProgressEvent, BetaResponseCodeInterpreterCallInterpretingEvent, BetaResponseCompletedEvent, BetaResponseContentPartAddedEvent, BetaResponseContentPartDoneEvent, BetaResponseCreatedEvent, BetaResponseErrorEvent, BetaResponseFileSearchCallCompletedEvent, BetaResponseFileSearchCallInProgressEvent, BetaResponseFileSearchCallSearchingEvent, BetaResponseFunctionCallArgumentsDeltaEvent, BetaResponseFunctionCallArgumentsDoneEvent, BetaResponseInProgressEvent, BetaResponseFailedEvent, BetaResponseIncompleteEvent, BetaResponseOutputItemAddedEvent, BetaResponseOutputItemDoneEvent, BetaResponseReasoningSummaryPartAddedEvent, BetaResponseReasoningSummaryPartDoneEvent, BetaResponseReasoningSummaryTextDeltaEvent, BetaResponseReasoningSummaryTextDoneEvent, BetaResponseReasoningTextDeltaEvent, BetaResponseReasoningTextDoneEvent, BetaResponseRefusalDeltaEvent, BetaResponseRefusalDoneEvent, BetaResponseTextDeltaEvent, BetaResponseTextDoneEvent, BetaResponseWebSearchCallCompletedEvent, BetaResponseWebSearchCallInProgressEvent, BetaResponseWebSearchCallSearchingEvent, BetaResponseImageGenCallCompletedEvent, BetaResponseImageGenCallGeneratingEvent, BetaResponseImageGenCallInProgressEvent, BetaResponseImageGenCallPartialImageEvent, BetaResponseMCPCallArgumentsDeltaEvent, BetaResponseMCPCallArgumentsDoneEvent, BetaResponseMCPCallCompletedEvent, BetaResponseMCPCallFailedEvent, BetaResponseMCPCallInProgressEvent, BetaResponseMCPListToolsCompletedEvent, BetaResponseMCPListToolsFailedEvent, BetaResponseMCPListToolsInProgressEvent, BetaResponseOutputTextAnnotationAddedEvent, BetaResponseQueuedEvent, BetaResponseCustomToolCallInputDeltaEvent, BetaResponseCustomToolCallInputDoneEvent, BetaResponseInjectCreatedEvent, BetaResponseInjectFailedEvent>	anyOf, 0 members
+BetaResponseStreamEvent	PASS	std::variant<BetaResponseAudioDeltaEvent, BetaResponseAudioDoneEvent, BetaResponseAudioTranscriptDeltaEvent, BetaResponseAudioTranscriptDoneEvent, BetaResponseCodeInterpreterCallCodeDeltaEvent, BetaResponseCodeInterpreterCallCodeDoneEvent, BetaResponseCodeInterpreterCallCompletedEvent, BetaResponseCodeInterpreterCallInProgressEvent, BetaResponseCodeInterpreterCallInterpretingEvent, BetaResponseCompletedEvent, BetaResponseContentPartAddedEvent, BetaResponseContentPartDoneEvent, BetaResponseCreatedEvent, BetaResponseErrorEvent, BetaResponseFileSearchCallCompletedEvent, BetaResponseFileSearchCallInProgressEvent, BetaResponseFileSearchCallSearchingEvent, BetaResponseFunctionCallArgumentsDeltaEvent, BetaResponseFunctionCallArgumentsDoneEvent, BetaResponseInProgressEvent, BetaResponseFailedEvent, BetaResponseIncompleteEvent, BetaResponseOutputItemAddedEvent, BetaResponseOutputItemDoneEvent, BetaResponseReasoningSummaryPartAddedEvent, BetaResponseReasoningSummaryPartDoneEvent, BetaResponseReasoningSummaryTextDeltaEvent, BetaResponseReasoningSummaryTextDoneEvent, BetaResponseReasoningTextDeltaEvent, BetaResponseReasoningTextDoneEvent, BetaResponseRefusalDeltaEvent, BetaResponseRefusalDoneEvent, BetaResponseTextDeltaEvent, BetaResponseTextDoneEvent, BetaResponseWebSearchCallCompletedEvent, BetaResponseWebSearchCallInProgressEvent, BetaResponseWebSearchCallSearchingEvent, BetaResponseImageGenCallCompletedEvent, BetaResponseImageGenCallGeneratingEvent, BetaResponseImageGenCallInProgressEvent, BetaResponseImageGenCallPartialImageEvent, BetaResponseMCPCallArgumentsDeltaEvent, BetaResponseMCPCallArgumentsDoneEvent, BetaResponseMCPCallCompletedEvent, BetaResponseMCPCallFailedEvent, BetaResponseMCPCallInProgressEvent, BetaResponseMCPListToolsCompletedEvent, BetaResponseMCPListToolsFailedEvent, BetaResponseMCPListToolsInProgressEvent, BetaResponseOutputTextAnnotationAddedEvent, BetaResponseQueuedEvent, BetaResponseCustomToolCallInputDeltaEvent, BetaResponseCustomToolCallInputDoneEvent>	anyOf, 0 members
+BetaResponsesClientEvent	PASS	std::variant<BetaResponsesClientEventResponseCreate, BetaResponseInjectEvent>	anyOf, 0 members
+BetaResponsesClientEventResponseCreate	PASS	org::openapitools::client::model::BetaResponsesClientEventResponseCreate	allOf, 32 members
 BetaCreateResponse	PASS	org::openapitools::client::model::BetaCreateResponse	allOf, 32 members
 BetaResponseStreamOptions	PASS	org::openapitools::client::model::BetaResponseStreamOptions	anyOf, 1 members
 BetaCreateModelResponseProperties	PASS	org::openapitools::client::model::BetaCreateModelResponseProperties	allOf, 10 members
