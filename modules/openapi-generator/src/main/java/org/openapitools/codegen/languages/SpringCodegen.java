@@ -1229,6 +1229,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (openApiNullable && !property.required && property.isNullable) {
             model.imports.add("JsonInclude");
         }
+        // Any nullable property is declared with the JsonNullable<T> type in the model template.
+        // Ensure the import is present whenever it is actually used, and only then. The template
+        // no longer emits an unconditional JsonNullable import, so model.imports is the single
+        // source of truth. AbstractJavaCodegen only adds it for optional+nullable; this also
+        // covers required+nullable.
+        if (openApiNullable && property.isNullable) {
+            model.imports.add("JsonNullable");
+        }
     }
 
     @Override

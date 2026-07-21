@@ -15,7 +15,6 @@ import java.util.Set;
 import org.openapitools.virtualan.model.Category;
 import org.openapitools.virtualan.model.Tag;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
