@@ -52,6 +52,28 @@ AllOfScalarConflict     PASS    codegen_error   allOf conflict detected
 | 1 | Empty-shell or type-mismatch failures |
 | 2 | Generation / tooling failure |
 
+## Design reference
+
+The full design rationale for variant-first composed-schema lowering,
+nullability policy, and media-type-driven streaming is documented in the
+generator README template:
+
+- `modules/openapi-generator/src/main/resources/cpp-boost-beast-client/README.mustache`
+  (shipped as `README.md` in every generated client)
+
+Key sections:
+- **Breaking model strategy** — why empty shells were replaced with
+  `std::variant`/`std::optional`/collapsed types.
+- **Nullability: omit vs null** — spec-aware field encoding policy
+  distinguishing absent from JSON null.
+- **Dual compliance gates** — the role of Gate A vs Gate B in the
+  release pipeline.
+- **Media-type-driven streaming** — why streaming is driven by the
+  `content` map, not boolean parameters.
+- **Non-standard format mappings** — `unixtime` → `std::int64_t` as
+  documented convenience mapping.
+- **Large breaking PR** — why this is acceptable and how to review it.
+
 ## Running both gates
 
 Use `./run-dual-gates.sh` from the `openai-cpp-sdk/` root to run Gate A
