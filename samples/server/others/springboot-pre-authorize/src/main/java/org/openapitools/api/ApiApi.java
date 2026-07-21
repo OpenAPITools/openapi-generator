@@ -29,6 +29,25 @@ public interface ApiApi {
         return Optional.empty();
     }
 
+    String PATH_GET_AUTHENTICATED = "/api/authenticated";
+    /**
+     * GET /api/authenticated
+     *
+     * @return Ok (status code 200)
+     */
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = ApiApi.PATH_GET_AUTHENTICATED
+    )
+    @PreAuthorize("isAuthenticated()")
+    default ResponseEntity<Void> getAuthenticated(
+        
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
     String PATH_GET_COMBINED = "/api/combined";
     /**
      * GET /api/combined
@@ -41,6 +60,44 @@ public interface ApiApi {
     )
     @PreAuthorize("(hasAuthority('SCOPE_client-data:read') and hasAuthority('SCOPE_utility-data:read')) or hasAuthority('SCOPE_other-data:read')")
     default ResponseEntity<Void> getCombined(
+        
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    String PATH_GET_ESCAPED = "/api/escaped";
+    /**
+     * GET /api/escaped
+     *
+     * @return Ok (status code 200)
+     */
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = ApiApi.PATH_GET_ESCAPED
+    )
+    @PreAuthorize("hasAuthority('SCOPE_client-data:read''quoted')")
+    default ResponseEntity<Void> getEscaped(
+        
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    String PATH_GET_NORMALIZED = "/api/normalized";
+    /**
+     * GET /api/normalized
+     *
+     * @return Ok (status code 200)
+     */
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = ApiApi.PATH_GET_NORMALIZED
+    )
+    @PreAuthorize("hasAuthority('SCOPE_client-data:read')")
+    default ResponseEntity<Void> getNormalized(
         
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

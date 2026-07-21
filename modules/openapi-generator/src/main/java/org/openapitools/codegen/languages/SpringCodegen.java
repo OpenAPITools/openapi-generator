@@ -1083,9 +1083,12 @@ public class SpringCodegen extends AbstractJavaCodegen
      * entry are combined with AND.
      */
     private void addSpringSecurityPreAuthorize(CodegenOperation codegenOperation) {
-        Operation rawOperation = findOperation(codegenOperation.operationId);
+        String originalOperationId = codegenOperation.operationIdOriginal != null
+                ? codegenOperation.operationIdOriginal
+                : codegenOperation.operationId;
+        Operation rawOperation = findOperation(originalOperationId);
         if (rawOperation == null) {
-            LOGGER.warn("Could not find OpenAPI operation '{}' while generating @PreAuthorize.", codegenOperation.operationId);
+            LOGGER.warn("Could not find OpenAPI operation '{}' while generating @PreAuthorize.", originalOperationId);
             return;
         }
 
@@ -1112,12 +1115,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             for (Map.Entry<String, List<String>> entry : requirement.entrySet()) {
                 SecurityScheme scheme = schemes.get(entry.getKey());
                 if (scheme == null || (scheme.getType() != SecurityScheme.Type.OAUTH2
-                        && scheme.getType() != SecurityScheme.Type.OPENIDCONNECT)
-                        || entry.getValue() == null || entry.getValue().isEmpty()) {
+                        && scheme.getType() != SecurityScheme.Type.OPENIDCONNECT)) {
                     return;
                 }
-                for (String scope : entry.getValue()) {
-                    groupAuthorities.add("hasAuthority('" + springSecurityAuthorityPrefix + scope + "')");
+                if (entry.getValue() == null || entry.getValue().isEmpty()) {
+                    groupAuthorities.add("isAuthenticated()");
+                } else {
+                    for (String scope : entry.getValue()) {
+                        groupAuthorities.add("hasAuthority('" + escapeSpelStringLiteral(springSecurityAuthorityPrefix + scope) + "')");
+                    }
                 }
             }
             String group = String.join(" and ", groupAuthorities);
@@ -1125,8 +1131,20 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (!alternatives.isEmpty()) {
-            codegenOperation.vendorExtensions.put("x-spring-security-pre-authorize", String.join(" or ", alternatives));
+            codegenOperation.vendorExtensions.put("x-spring-security-pre-authorize",
+                    escapeJavaStringLiteral(String.join(" or ", alternatives)));
         }
+    }
+
+    private String escapeSpelStringLiteral(String value) {
+        return value.replace("'", "''");
+    }
+
+    private String escapeJavaStringLiteral(String value) {
+        return value.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\r", "\\r")
+                .replace("\n", "\\n");
     }
 
     private Operation findOperation(String operationId) {

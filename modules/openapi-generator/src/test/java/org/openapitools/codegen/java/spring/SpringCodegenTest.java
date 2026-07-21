@@ -4086,11 +4086,24 @@ public class SpringCodegenTest {
                 .assertMethodAnnotations()
                 .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value",
                         "\"(hasAuthority('SCOPE_client-data:read') and hasAuthority('SCOPE_utility-data:read')) or hasAuthority('SCOPE_other-data:read')\""));
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getAuthenticated")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value", "\"isAuthenticated()\""));
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getNormalized")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value",
+                        "\"hasAuthority('SCOPE_client-data:read')\""));
         assertThat(Files.readString(files.get("ApiApi.java").toPath()))
-                .contains("import org.springframework.security.access.prepost.PreAuthorize;");
+                .contains("import org.springframework.security.access.prepost.PreAuthorize;")
+                .contains("@PreAuthorize(\"hasAuthority('SCOPE_client-data:read''quoted')\")");
         assertThat(Files.readString(files.get("OpenApiGeneratorApplication.java").toPath()))
                 .contains("import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;")
                 .contains("@EnableMethodSecurity");
+        assertThat(Files.readString(files.get("pom.xml").toPath()))
+                .contains("<artifactId>spring-security-config</artifactId>")
+                .doesNotContain("<artifactId>spring-boot-starter-security</artifactId>");
     }
 
     @Test
