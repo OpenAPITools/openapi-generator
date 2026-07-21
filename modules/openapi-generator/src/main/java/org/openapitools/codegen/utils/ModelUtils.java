@@ -2513,7 +2513,7 @@ public class ModelUtils {
      * @param subSchemas The oneOf or AnyOf schemas
      * @return The simplified schema
      */
-    public static Schema simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(OpenAPI openAPI, Schema schema, List<Schema> subSchemas) {
+    public static Schema simplifyOneOfAnyOfAllOfWithOnlyOneNonNullSubSchema(OpenAPI openAPI, Schema schema, List<Schema> subSchemas) {
         if (subSchemas.removeIf(subSchema -> isNullTypeSchema(openAPI, subSchema))) {
             schema.setNullable(true);
         }

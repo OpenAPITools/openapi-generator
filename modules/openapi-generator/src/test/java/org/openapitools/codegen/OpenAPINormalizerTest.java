@@ -354,6 +354,49 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSimplifyAllOf() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyAllOf_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AllOfTest");
+        assertEquals(schema.getAllOf().size(), 4);
+        assertNull(schema.getNullable());
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("SingleAllOfTest");
+        assertEquals(schema3.getAllOf().size(), 1);
+
+        Schema schema5 = openAPI.getComponents().getSchemas().get("ArrayAllOfTest");
+        Schema schema5_outer = ((Schema) schema5.getProperties().get("outer"));
+        assertNotNull(schema5_outer.getItems().getAllOf());
+        assertEquals(schema5_outer.getItems().getAllOf().size(), 1);
+        Schema schema5_outer_first = (Schema) schema5_outer.getItems().getAllOf().get(0);
+        assertEquals(schema5_outer_first.getType(), "array");
+        assertEquals(schema5_outer_first.getMinItems(), 1);
+        assertEquals(schema5_outer_first.getItems().getType(), "string");
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ALLOF", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("AllOfTest");
+        assertNull(schema2.getAllOf());
+        assertTrue(schema2 instanceof StringSchema);
+        assertTrue(schema2.getNullable());
+
+        Schema schema4 = openAPI.getComponents().getSchemas().get("SingleAllOfTest");
+        assertEquals(schema4.getAllOf(), null);
+        assertEquals(schema4.getType(), "string");
+        assertEquals(schema4.getEnum().size(), 2);
+
+        Schema schema6 = openAPI.getComponents().getSchemas().get("ArrayAllOfTest");
+        Schema schema6_outer = ((Schema) schema6.getProperties().get("outer"));
+        assertNull(schema6_outer.getItems().getAllOf());
+        assertEquals(schema6_outer.getItems().getType(), "array");
+        assertEquals(schema6_outer.getItems().getMinItems(), 1);
+        assertEquals(schema6_outer.getItems().getItems().getType(), "string");
+    }
+
+    @Test
     public void testOpenAPINormalizerSimplifyOneOfWithSingleRef() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
 

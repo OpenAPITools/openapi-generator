@@ -41,7 +41,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
-import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
+import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfAllOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
 public class OpenAPINormalizer {
@@ -76,7 +76,7 @@ public class OpenAPINormalizer {
     // when set to true, only keep the first tag in operation if there are more than one tag defined.
     final String KEEP_ONLY_FIRST_TAG_IN_OPERATION = "KEEP_ONLY_FIRST_TAG_IN_OPERATION";
 
-    // when set to true, complex composed schemas (a mix of oneOf/anyOf/anyOf and properties) with
+    // when set to true, complex composed schemas (a mix of oneOf/anyOf and properties) with
     // oneOf/anyOf containing only `required` and no properties (these are properties inter-dependency rules)
     // are removed as most generators cannot handle such case at the moment
     final String REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY = "REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY";
@@ -93,6 +93,11 @@ public class OpenAPINormalizer {
     // and if sub-schema contains "null", remove it and set nullable to true instead
     // and if sub-schema contains enum of "null", remove it and set nullable to true instead
     final String SIMPLIFY_ONEOF_ANYOF = "SIMPLIFY_ONEOF_ANYOF";
+
+    // when set to true, allOf schema with only one sub-schema is simplified to just the sub-schema
+    // and if sub-schema contains "null", remove it and set nullable to true instead
+    // and if sub-schema contains enum of "null", remove it and set nullable to true instead
+    final String SIMPLIFY_ALLOF = "SIMPLIFY_ALLOF";
 
     // when set to true, boolean enum will be converted to just boolean
     final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
@@ -210,6 +215,7 @@ public class OpenAPINormalizer {
         ruleNames.add(REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY);
         ruleNames.add(SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING);
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF);
+        ruleNames.add(SIMPLIFY_ALLOF);
         ruleNames.add(SIMPLIFY_BOOLEAN_ENUM);
         ruleNames.add(KEEP_ONLY_FIRST_TAG_IN_OPERATION);
         ruleNames.add(SET_TAGS_FOR_ALL_OPERATIONS);
@@ -943,7 +949,7 @@ public class OpenAPINormalizer {
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
-            normalizeSchema(result.getItems(), visitedSchemas);
+            result.setItems(normalizeSchema(result.getItems(), visitedSchemas));
             return result;
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
             return normalizeOneOf(schema, visitedSchemas);
@@ -1246,6 +1252,7 @@ public class OpenAPINormalizer {
 
         // process rules here
         processUseAllOfRefAsParent(schema);
+        schema = processSimplifyAllOf(schema);
 
         return schema;
     }
@@ -1348,6 +1355,43 @@ public class OpenAPINormalizer {
 
     // ===================== a list of rules =====================
     // all rules (functions ) start with the word "process"
+
+
+    /**
+     * If the schema is allOf and the sub-schemas is null, set `nullable: true`
+     * instead.
+     * If there's only one sub-schema, simply return the sub-schema directly.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    protected Schema processSimplifyAllOf(Schema schema) {
+        List<Schema> allOfSchemas = schema.getAllOf();
+        if (allOfSchemas == null) {
+            return schema;
+        }
+
+        // allOf containing $refs is intentional composition (inheritance, or $ref+sibling wrapping
+        // from normalizeReferenceSchema) — never simplify these, as the referenced schema may have
+        // no type/description yet still be a real model (e.g. after oneOf removal by discriminator mapping)
+        if (allOfSchemas.stream().anyMatch(s -> StringUtils.isNotEmpty(s.get$ref()))) {
+            return schema;
+        }
+        schema = simplifyOneOfAnyOfAllOfWithOnlyOneNonNullSubSchema(openAPI, schema, allOfSchemas);
+        
+        if (!getRule(SIMPLIFY_ALLOF)) {
+            return schema;
+        }
+
+        // clear allOf on primitive types (opt-in)
+        if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema) || ModelUtils.isBooleanSchema(schema)) {
+            if (schema.getSpecVersion().equals(SpecVersion.V30)) {
+                schema.setAllOf(null);
+            }
+        }
+
+        return schema;
+    }
 
     /**
      * Child schemas in `allOf` is considered a parent if it's a `$ref` (instead of inline schema).
@@ -1774,8 +1818,8 @@ public class OpenAPINormalizer {
                 }
             }
 
-            schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
-            if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
+            schema = simplifyOneOfAnyOfAllOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
+            if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema) || ModelUtils.isBooleanSchema(schema)) {
                 if (schema.getSpecVersion().equals(SpecVersion.V30)) {
                     schema.setOneOf(null);
                 } //else {
@@ -2142,7 +2186,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, anyOfSchemas);
+            schema = simplifyOneOfAnyOfAllOfWithOnlyOneNonNullSubSchema(openAPI, schema, anyOfSchemas);
         }
 
         return schema;

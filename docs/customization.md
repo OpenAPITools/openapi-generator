@@ -590,6 +590,13 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ONEOF_ANYOF=true
 ```
 
+- `SIMPLIFY_ALLOF`: when set to `true`, simplify allOf by 1) removing null (sub-schema) or enum of null (sub-schema) and setting nullable to true instead, and 2) simplifying allOf with a single sub-schema to just the sub-schema itself.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyAllOf_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ALLOF=true
+```
+
 - `KEEP_ONLY_FIRST_TAG_IN_OPERATION`: when set to `true`, only keep the first tag in operation if there are more than one tag defined.
 
 Example:
