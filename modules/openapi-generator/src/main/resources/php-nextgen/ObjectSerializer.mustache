@@ -490,7 +490,11 @@ class ObjectSerializer
             }
             return $data;
         } else {
-            $data = is_string($data) ? json_decode($data) : $data;
+            if (is_string($data)) {
+                $decoded = json_decode($data);
+                // Keep the original string if decode fails (nested values are already PHP strings).
+                $data = ($decoded !== null || $data === 'null') ? $decoded : $data;
+            }
 
             // A oneOf/anyOf schema is not a value object: dispatch here, after json_decode (so
             // members get the decoded value) but before the array-to-object cast (which breaks arrays).
