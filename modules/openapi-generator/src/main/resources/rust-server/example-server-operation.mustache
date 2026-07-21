@@ -13,6 +13,6 @@
 {{/allParams}}
         context: &C) -> Result<{{{operationId}}}Response, ApiError>
     {
-        info!("{{#exts}}{{{x-operation-id}}}{{/exts}}({{#allParams}}{{#exts}}{{{x-format-string}}}{{/exts}}{{^-last}}, {{/-last}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{{paramName}}}{{/allParams}}, context.get().0.clone());
+        info!("{{#exts}}{{{x-operation-id}}}{{/exts}}({{#allParams}}{:?}{{^-last}}, {{/-last}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{{paramName}}}{{/allParams}}, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
