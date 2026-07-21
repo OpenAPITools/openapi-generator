@@ -9,8 +9,9 @@
 //   ✓ anyOf at-least-one match enforcement (reject 0)
 //   ✓ discriminator value enforcement (unknown → throw)
 //   ✓ required property presence in object JSON
-//   ✓ enum / const membership on setter assignment
+//   ✓ enum / const membership on object property setters
 //   ✓ basic type-kind checks (string, bool, int, double, null)
+//   ✓ nested error-path diagnostics (e.g. ".field[0].nested")
 //
 //   ✗ String format validation (email, date-time, uri, etc.)
 //   ✗ Numeric range validation (minimum, maximum, multipleOf)
@@ -179,18 +180,21 @@ bool tryParseBranch(boost::json::value const& value, T& result, std::string* err
             std::size_t elemIndex = 0;
             for (auto& elemVal : value.as_array()) {
                 Elem converted;
-                std::string elemPath;
-                if (!tryParseBranch(elemVal, converted, errorPath)) {
+                // Build sub-path BEFORE recursive call so outer→inner
+                // order is preserved (outer index before inner details).
+                std::string itemPath;
+                if (errorPath) {
+                    itemPath = *errorPath + "[" + std::to_string(elemIndex) + "]";
+                }
+                if (!tryParseBranch(elemVal, converted, errorPath ? &itemPath : nullptr)) {
                     if (errorPath) {
-                        errorPath->append("[").append(std::to_string(elemIndex)).append("]");
+                        *errorPath = std::move(itemPath);
                     }
                     return false;
                 }
                 vec.push_back(std::move(converted));
                 ++elemIndex;
             }
-            // If any element failed, errorPath holds the failing index.
-            // On success, no path is appended.
             result = std::move(vec);
             return true;
         } else if constexpr (IsSpecialization<T, std::optional>{}) {
@@ -212,10 +216,20 @@ bool tryParseBranch(boost::json::value const& value, T& result, std::string* err
             }
             return true;
         } else {
-            // Model type — try fromJsonValue member
+            // Model type — try fromJsonValue member.
+            // Do NOT swallow model validation errors (required field, type
+            // mismatch, discriminator): propagate them via errorPath so the
+            // caller can include them in the final diagnostic.
             if constexpr (HasFromJsonValueMethod<T>{}) {
                 T candidate;
-                candidate.fromJsonValue(value);
+                try {
+                    candidate.fromJsonValue(value);
+                } catch (std::exception const& ex) {
+                    if (errorPath) {
+                        errorPath->append(": ").append(ex.what());
+                    }
+                    return false;
+                }
                 result = std::move(candidate);
                 return true;
             } else {
@@ -295,7 +309,15 @@ std::size_t countVariantBranches(const boost::json::value& value, std::index_seq
     if constexpr (isOneOf) {
         std::size_t matchCount = countVariantBranches<{{classname}}>(value, std::make_index_sequence<variantSize>{});
         if (matchCount == 0) {
-            throw std::invalid_argument("No matching branch for {{classname}} from JSON value");
+            // Re-run one trial to capture model error context in path
+            {{classname}} captureDummy;
+            std::string capturePath;
+            tryVariantBranches(value, captureDummy, std::make_index_sequence<variantSize>{}, &capturePath);
+            if (capturePath.empty()) {
+                throw std::invalid_argument("No matching branch for {{classname}} from JSON value");
+            }
+            throw std::invalid_argument(
+                "No matching branch for {{classname}} from JSON value at '" + capturePath + "'");
         }
         if (matchCount > 1) {
             throw std::invalid_argument("More than one matching branch for oneOf {{classname}}");
@@ -508,17 +530,19 @@ bool tryParseBranch(boost::json::value const& value, T& result, std::string* err
             std::size_t elemIndex = 0;
             for (auto& elemVal : value.as_array()) {
                 Elem converted;
-                if (!tryParseBranch(elemVal, converted, errorPath)) {
+                std::string itemPath;
+                if (errorPath) {
+                    itemPath = *errorPath + "[" + std::to_string(elemIndex) + "]";
+                }
+                if (!tryParseBranch(elemVal, converted, errorPath ? &itemPath : nullptr)) {
                     if (errorPath) {
-                        errorPath->append("[").append(std::to_string(elemIndex)).append("]");
+                        *errorPath = std::move(itemPath);
                     }
                     return false;
                 }
                 vec.push_back(std::move(converted));
                 ++elemIndex;
             }
-            // If any element failed, errorPath holds the failing index.
-            // On success, no path is appended.
             result = std::move(vec);
             return true;
         } else if constexpr (IsSpecialization<T, std::optional>{}) {
@@ -540,10 +564,20 @@ bool tryParseBranch(boost::json::value const& value, T& result, std::string* err
             }
             return true;
         } else {
-            // Model type — try fromJsonValue member
+            // Model type — try fromJsonValue member.
+            // Do NOT swallow model validation errors (required field, type
+            // mismatch, discriminator): propagate them via errorPath so the
+            // caller can include them in the final diagnostic.
             if constexpr (HasModelFromJsonValue<T>{}) {
                 T candidate;
-                candidate.fromJsonValue(value);
+                try {
+                    candidate.fromJsonValue(value);
+                } catch (std::exception const& ex) {
+                    if (errorPath) {
+                        errorPath->append(": ").append(ex.what());
+                    }
+                    return false;
+                }
                 result = std::move(candidate);
                 return true;
             } else {
@@ -736,19 +770,25 @@ struct JsonValueConverter<std::variant<Ts...>>
         // branches. Using countVariantBranches ensures that an ambiguous payload (matching
         // more than one branch) is rejected rather than silently taking the first match.
         constexpr std::size_t variantSize = sizeof...(Ts);
-        std::string errorPath;
+        // Count without path tracking to avoid cross-branch pollution
+        // on the shared errorPath pointer inside countVariantBranches.
         std::size_t matchCount = countVariantBranches<std::variant<Ts...>>(
-            jsonValue, std::make_index_sequence<variantSize>{}, &errorPath);
+            jsonValue, std::make_index_sequence<variantSize>{});
         if (matchCount == 0) {
-            throw std::invalid_argument("No matching variant branch for JSON value at '" + errorPath + "'");
+            // Re-run one more branch trial to capture the model-error
+            // context in the path for the thrown diagnostic.
+            std::variant<Ts...> dummy;
+            std::string capturePath;
+            tryVariantBranches(jsonValue, dummy, std::make_index_sequence<variantSize>{}, &capturePath);
+            throw std::invalid_argument("No matching variant branch for JSON value at '" + capturePath + "'");
         }
         if (matchCount > 1) {
             throw std::invalid_argument("More than one matching variant branch for JSON value");
         }
         std::variant<Ts...> result;
-        errorPath.clear();
-        if (!tryVariantBranches(jsonValue, result, std::make_index_sequence<variantSize>{}, &errorPath)) {
-            throw std::invalid_argument("No matching variant branch for JSON value at '" + errorPath + "'");
+        std::string retrievePath;
+        if (!tryVariantBranches(jsonValue, result, std::make_index_sequence<variantSize>{}, &retrievePath)) {
+            throw std::invalid_argument("No matching variant branch for JSON value at '" + retrievePath + "'");
         }
         return result;
     }
@@ -941,7 +981,12 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto {{name}}It = object.find("{{baseName}}");
         if ({{name}}It != object.end()) {
-            {{#vendorExtensions.x-cpp-variant-alias}}{{setter}}(fromJsonValue_{{vendorExtensions.x-cpp-variant-alias-name}}({{name}}It->value()));{{/vendorExtensions.x-cpp-variant-alias}}{{^vendorExtensions.x-cpp-variant-alias}}{{setter}}(JsonValueConverter<{{{dataType}}}>::fromJsonValue({{name}}It->value()));{{/vendorExtensions.x-cpp-variant-alias}}
+            try {
+                {{#vendorExtensions.x-cpp-variant-alias}}{{setter}}(fromJsonValue_{{vendorExtensions.x-cpp-variant-alias-name}}({{name}}It->value()));{{/vendorExtensions.x-cpp-variant-alias}}{{^vendorExtensions.x-cpp-variant-alias}}{{setter}}(JsonValueConverter<{{{dataType}}}>::fromJsonValue({{name}}It->value()));{{/vendorExtensions.x-cpp-variant-alias}}
+            } catch (std::exception const& ex) {
+                throw std::invalid_argument(
+                    "Decode failed for '{{baseName}}' in {{classname}}: " + std::string(ex.what()));
+            }
         }{{#required}} else {
             throw std::invalid_argument("Required field '{{baseName}}' not found in {{classname}}");
         }{{/required}}

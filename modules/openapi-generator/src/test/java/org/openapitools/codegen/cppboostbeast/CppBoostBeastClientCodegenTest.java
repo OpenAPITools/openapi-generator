@@ -172,6 +172,10 @@ public class CppBoostBeastClientCodegenTest {
         // Phase 5: Required field validation — missing required key throws with descriptive message
         TestUtils.assertFileContains(containerSource,
                 "Required field 'requiredValue' not found in ContainerModel");
+        // Phase 5: Property decode wrapped with .fieldName context in error message
+        TestUtils.assertFileContains(containerSource,
+                "Decode failed for 'requiredValue' in ContainerModel: ",
+                "Decode failed for 'optionalScalar' in ContainerModel: ");
 
         TestUtils.assertFileNotContains(containerSource,
                 "mostInnerItems",
@@ -516,9 +520,20 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(unknownDiscThrowPos > 0 && unknownDiscThrowPos > discValueDecl,
                 "PetByType 'Unknown discriminator value' throw should appear after discValue declaration");
 
-        // Phase 5: Error path in variant error messages — InputParam oneOf errors include path
-        Assert.assertTrue(inputParamSourceContent.contains("errorPath"),
-                "InputParam oneOf source should reference errorPath for nested diagnostics");
+        // Phase 5: Error path in variant error messages — concrete path-building patterns
+        // Array-index path segment: outer→inner ordering via pre-built sub-path
+        Assert.assertTrue(inputParamSourceContent.contains(
+                "itemPath = *errorPath + \"[\" + std::to_string(elemIndex) + \"]\""),
+                "InputParam source must build array-index sub-path in outer→inner order");
+        // Model exception capture: error path includes model error context
+        Assert.assertTrue(inputParamSourceContent.contains("errorPath->append(\": \")"),
+                "InputParam source must capture model exceptions into errorPath");
+        // Model exception capture appends ex.what()
+        Assert.assertTrue(inputParamSourceContent.contains("errorPath->append(\": \").append(ex.what())"),
+                "InputParam source must chain model exception message into errorPath");
+        // matchCount==0 re-run to capture model-error context in path
+        Assert.assertTrue(inputParamSourceContent.contains("capturePath"),
+                "InputParam source must use capturePath for matchCount==0 diagnostic");
 
         // Scenario 12: x-stainless-const property handling
         Path stainlessHeader = output.toPath().resolve("model/StainlessObject.h");
