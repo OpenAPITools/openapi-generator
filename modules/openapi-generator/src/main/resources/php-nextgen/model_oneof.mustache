@@ -1,4 +1,4 @@
-class {{classname}} implements ComposedInterface
+class {{classname}} implements OneOfInterface
 {
     /**
      * The original name of the model.
@@ -17,7 +17,7 @@ class {{classname}} implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedTypes(): array
+    public static function getOneOfTypes(): array
     {
         return [
             {{#composedSchemas}}{{#oneOf}}'{{{dataType}}}'{{^-last}},
@@ -28,7 +28,7 @@ class {{classname}} implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedDiscriminator(): ?string
+    public static function getOneOfDiscriminator(): ?string
     {
         return self::DISCRIMINATOR;
     }
@@ -36,7 +36,7 @@ class {{classname}} implements ComposedInterface
     /**
      * {@inheritdoc}
      */
-    public static function getComposedDiscriminatorMappings(): array
+    public static function getOneOfDiscriminatorMappings(): array
     {
         return [
             {{#discriminator}}{{#mappedModels}}'{{mappingName}}' => '\{{modelPackage}}\{{modelName}}'{{^-last}},
