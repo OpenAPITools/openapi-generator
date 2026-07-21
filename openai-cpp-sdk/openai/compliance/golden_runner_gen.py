@@ -64,15 +64,13 @@ VARIANT_ALIAS_SCHEMAS = {
     "ConversationParam",
 }
 
-# String-like aliases: the codegen declares fromJsonValue_X but the body
-# is never emitted in the .cpp file, so the symbol is missing at link time.
-# Use boost::json::value_to<T> / boost::json::value_from directly.
-# Maps schema -> underlying C++ type for value_to<T>.
-STRING_ALIAS_TYPES = {
-    "ModelIdsShared": "std::string",
-    "ModelIdsResponses": "std::string",
-    "ServiceTier": "std::optional<std::string>",
-    "ReasoningEffort": "std::optional<std::string>",
+# String-like aliases: have fromJsonValue_X and toJsonValue_X free functions
+# (now emitted for all aliases by the codegen).
+STRING_ALIAS_SCHEMAS = {
+    "ModelIdsShared",
+    "ModelIdsResponses",
+    "ServiceTier",
+    "ReasoningEffort",
 }
 
 
@@ -130,15 +128,14 @@ def generate_round_trip(schema: str, indent: str = "            ") -> str:
 {indent}        result.error = err.str();
 {indent}    }}
 {indent}}}"""
-    elif schema in STRING_ALIAS_TYPES:
-        underlying = STRING_ALIAS_TYPES[schema]
-        # String-like alias: fromJsonValue_X is declared but never defined
-        # (codegen bug). Use boost::json::value_to / value_from directly.
+    elif schema in STRING_ALIAS_SCHEMAS:
+        # String-like alias: use generated fromJsonValue_X / toJsonValue_X
+        # helpers (now emitted for all aliases in the codegen).
         return f"""{indent}{{
 {indent}    try {{
 {indent}        auto json_val = boost::json::parse(tc.json_input);
-{indent}        auto model = boost::json::value_to<{underlying}>(json_val);
-{indent}        auto output_val = boost::json::value_from(model);
+{indent}        auto model = fromJsonValue_{schema}(json_val);
+{indent}        auto output_val = toJsonValue_{schema}(model);
 {indent}        std::string input_str = boost::json::serialize(json_val);
 {indent}        std::string output_str = boost::json::serialize(output_val);
 {indent}        auto input_reparsed = boost::json::parse(input_str);
@@ -181,7 +178,7 @@ with open(test_runner_src, "w") as f:
     for schema in sorted(schemas):
         f.write(f'#include "{schema}.h"\n')
     f.write("""
-using namespace org::openapitools::client::model;
+using namespace model;
 
 struct TestCase {
     std::string name;

@@ -285,6 +285,11 @@ namespace {{this}} {
     return boost::json::value_to<{{classname}}>(value);
 }
 
+boost::json::value toJsonValue_{{classname}}({{classname}} const& value)
+{
+    return boost::json::value_from(value);
+}
+
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}

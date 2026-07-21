@@ -21,9 +21,7 @@ namespace {{this}} {
 /// </summary>
 using {{classname}} = {{{vendorExtensions.x-cpp-type}}};
 
-{{#vendorExtensions.x-cpp-is-variant}}
 boost::json::value toJsonValue_{{classname}}({{classname}} const& value);
-{{/vendorExtensions.x-cpp-is-variant}}
 {{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
 
 {{#modelNamespaceDeclarations}}
