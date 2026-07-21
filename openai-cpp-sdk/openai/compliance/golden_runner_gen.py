@@ -48,6 +48,125 @@ test_runner_bin = os.path.join(test_runner_dir, "golden_runner")
 
 schemas = set(c["schema"] for c in cases)
 
+# ---------------------------------------------------------------------------
+# Classify schemas by their generated C++ pattern
+# ---------------------------------------------------------------------------
+# Classes: have boost::json::value ctor + member toJsonValue()
+CLASS_SCHEMAS = {
+    "CreateResponse",
+    "ResponseStreamOptions",
+}
+
+# Variant aliases: have both fromJsonValue_X AND toJsonValue_X free functions
+# defined (not just declared) in the compiled library.
+VARIANT_ALIAS_SCHEMAS = {
+    "InputParam",
+    "ConversationParam",
+}
+
+# String-like aliases: the codegen declares fromJsonValue_X but the body
+# is never emitted in the .cpp file, so the symbol is missing at link time.
+# Use boost::json::value_to<T> / boost::json::value_from directly.
+# Maps schema -> underlying C++ type for value_to<T>.
+STRING_ALIAS_TYPES = {
+    "ModelIdsShared": "std::string",
+    "ModelIdsResponses": "std::string",
+    "ServiceTier": "std::optional<std::string>",
+    "ReasoningEffort": "std::optional<std::string>",
+}
+
+
+def generate_round_trip(schema: str, indent: str = "            ") -> str:
+    """Generate the round-trip body for a given schema, returning the TestResult."""
+    if schema in CLASS_SCHEMAS:
+        # Class: constructor from boost::json::value + member toJsonValue()
+        return f"""{indent}{{
+{indent}    try {{
+{indent}        auto json_val = boost::json::parse(tc.json_input);
+{indent}        {schema} model(json_val);
+{indent}        auto output_val = model.toJsonValue();
+{indent}        std::string input_str = boost::json::serialize(json_val);
+{indent}        std::string output_str = boost::json::serialize(output_val);
+{indent}        auto input_reparsed = boost::json::parse(input_str);
+{indent}        auto output_reparsed = boost::json::parse(output_str);
+{indent}        if (input_reparsed == output_reparsed) {{
+{indent}            result.passed = true;
+{indent}        }} else {{
+{indent}            std::ostringstream err;
+{indent}            err << "Round-trip mismatch"
+{indent}                << "  Input:  " << input_str.substr(0, 200) << "\\n"
+{indent}                << "  Output: " << output_str.substr(0, 200);
+{indent}            result.error = err.str();
+{indent}        }}
+{indent}    }} catch (const std::exception& e) {{
+{indent}        std::ostringstream err;
+{indent}        err << "Exception: " << e.what();
+{indent}        result.error = err.str();
+{indent}    }}
+{indent}}}"""
+    elif schema in VARIANT_ALIAS_SCHEMAS:
+        # Variant alias: free functions fromJsonValue_ + toJsonValue_
+        return f"""{indent}{{
+{indent}    try {{
+{indent}        auto json_val = boost::json::parse(tc.json_input);
+{indent}        auto model = fromJsonValue_{schema}(json_val);
+{indent}        auto output_val = toJsonValue_{schema}(model);
+{indent}        std::string input_str = boost::json::serialize(json_val);
+{indent}        std::string output_str = boost::json::serialize(output_val);
+{indent}        auto input_reparsed = boost::json::parse(input_str);
+{indent}        auto output_reparsed = boost::json::parse(output_str);
+{indent}        if (input_reparsed == output_reparsed) {{
+{indent}            result.passed = true;
+{indent}        }} else {{
+{indent}            std::ostringstream err;
+{indent}            err << "Round-trip mismatch"
+{indent}                << "  Input:  " << input_str.substr(0, 200) << "\\n"
+{indent}                << "  Output: " << output_str.substr(0, 200);
+{indent}            result.error = err.str();
+{indent}        }}
+{indent}    }} catch (const std::exception& e) {{
+{indent}        std::ostringstream err;
+{indent}        err << "Exception: " << e.what();
+{indent}        result.error = err.str();
+{indent}    }}
+{indent}}}"""
+    elif schema in STRING_ALIAS_TYPES:
+        underlying = STRING_ALIAS_TYPES[schema]
+        # String-like alias: fromJsonValue_X is declared but never defined
+        # (codegen bug). Use boost::json::value_to / value_from directly.
+        return f"""{indent}{{
+{indent}    try {{
+{indent}        auto json_val = boost::json::parse(tc.json_input);
+{indent}        auto model = boost::json::value_to<{underlying}>(json_val);
+{indent}        auto output_val = boost::json::value_from(model);
+{indent}        std::string input_str = boost::json::serialize(json_val);
+{indent}        std::string output_str = boost::json::serialize(output_val);
+{indent}        auto input_reparsed = boost::json::parse(input_str);
+{indent}        auto output_reparsed = boost::json::parse(output_str);
+{indent}        if (input_reparsed == output_reparsed) {{
+{indent}            result.passed = true;
+{indent}        }} else {{
+{indent}            std::ostringstream err;
+{indent}            err << "Round-trip mismatch"
+{indent}                << "  Input:  " << input_str.substr(0, 200) << "\\n"
+{indent}                << "  Output: " << output_str.substr(0, 200);
+{indent}            result.error = err.str();
+{indent}        }}
+{indent}    }} catch (const std::exception& e) {{
+{indent}        std::ostringstream err;
+{indent}        err << "Exception: " << e.what();
+{indent}        result.error = err.str();
+{indent}    }}
+{indent}}}"""
+    else:
+        # Unknown schema — should not happen if golden-cases.json is in sync
+        return f"""{indent}{{
+{indent}    result.name = tc.name;
+{indent}    result.passed = false;
+{indent}    result.error = "Unknown schema (no classification): " + tc.schema;
+{indent}}}"""
+
+
 with open(test_runner_src, "w") as f:
     f.write("""// Auto-generated golden case test runner
 #include <boost/json.hpp>
@@ -56,6 +175,7 @@ with open(test_runner_src, "w") as f:
 #include <vector>
 #include <cstdlib>
 #include <sstream>
+#include <optional>
 
 """)
     for schema in sorted(schemas):
@@ -96,48 +216,24 @@ std::vector<TestCase> parseCases() {
     return cases;
 }
 
-template<typename ModelT>
-TestResult testRoundTrip(const TestCase& tc) {
-    TestResult result{tc.name, false, ""};
-    try {
-        auto json_val = boost::json::parse(tc.json_input);
-        ModelT model(json_val);
-        auto output_val = model.toJsonValue();
-        std::string input_str = boost::json::serialize(json_val);
-        std::string output_str = boost::json::serialize(output_val);
-        auto input_reparsed = boost::json::parse(input_str);
-        auto output_reparsed = boost::json::parse(output_str);
-        if (input_reparsed == output_reparsed) {
-            result.passed = true;
-        } else {
-            std::ostringstream err;
-            err << "Round-trip mismatch"
-                << "  Input:  " << input_str.substr(0, 200)
-                << "  Output: " << output_str.substr(0, 200);
-            result.error = err.str();
-        }
-    } catch (const std::exception& e) {
-        std::ostringstream err;
-        err << "Exception: " << e.what();
-        result.error = err.str();
-    }
-    return result;
-}
-
 int main() {
     auto cases = parseCases();
     int passed = 0;
     int failed = 0;
 
     for (const auto& tc : cases) {
-        TestResult result;
+        TestResult result{tc.name, false, ""};
 """)
-    for case_entry in cases:
+    # Generate per-schema dispatch chain
+    for i, case_entry in enumerate(cases):
         schema = case_entry["schema"]
-        f.write(
-            f'        if (tc.schema == "{schema}") result = testRoundTrip<{schema}>(tc); else\n'
-        )
-    f.write("""        {
+        if i == 0:
+            f.write(f'        if (tc.schema == "{schema}") {{\n')
+        else:
+            f.write(f'        }} else if (tc.schema == "{schema}") {{\n')
+        f.write(generate_round_trip(schema))
+        f.write("\n")
+    f.write("""        } else {
             result.name = tc.name;
             result.passed = false;
             result.error = "Unknown schema: " + tc.schema;

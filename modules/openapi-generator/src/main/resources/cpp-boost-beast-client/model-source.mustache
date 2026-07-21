@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <boost/json.hpp>
 
 {{#modelNamespaceDeclarations}}
@@ -100,9 +101,19 @@ struct IsSpecialization : std::false_type {};
 template <template <typename...> class Template, typename... Args>
 struct IsSpecialization<Template<Args...>, Template> : std::true_type {};
 
+// Forward declarations for variant dispatch helpers (defined below).
+template<typename Variant, std::size_t I>
+bool tryVariantIndex(const boost::json::value& value, Variant& result);
+
+template<typename Variant, std::size_t... Is>
+bool tryVariantBranches(const boost::json::value& value, Variant& result, std::index_sequence<Is...>);
+
+template<typename Variant, std::size_t... Is>
+std::size_t countVariantBranches(const boost::json::value& value, std::index_sequence<Is...>);
+
 // Try to parse a variant branch from JSON. Returns true on success.
-// Handles primitives, containers (vector, optional), and model types
-// with fromJsonValue member.
+// Handles primitives, containers (vector, optional, variant), and model
+// types with fromJsonValue member.
 template<typename T>
 bool tryParseBranch(boost::json::value const& value, T& result) {
     try {
@@ -150,6 +161,17 @@ bool tryParseBranch(boost::json::value const& value, T& result) {
             Inner converted;
             if (!tryParseBranch(value, converted)) return false;
             result = std::move(converted);
+            return true;
+        } else if constexpr (IsSpecialization<T, std::variant>{}) {
+            // Nested variant — dispatch through tryVariantBranches, which
+            // calls tryParseBranch for each alternative and picks the first
+            // that matches. The fallback for each alternative checks for a
+            // member fromJsonValue() method, so model-class branches (which
+            // have one) or variant branches (which recurse) parse correctly.
+            constexpr std::size_t variantSize = std::variant_size_v<T>;
+            if (!tryVariantBranches(value, result, std::make_index_sequence<variantSize>{})) {
+                return false;
+            }
             return true;
         } else {
             // Model type — try fromJsonValue member
@@ -379,6 +401,16 @@ struct IsSpecialization : std::false_type {};
 template <template <typename...> class Template, typename... Args>
 struct IsSpecialization<Template<Args...>, Template> : std::true_type {};
 
+// Forward declarations for variant dispatch helpers (defined below).
+template<typename Variant, std::size_t I>
+bool tryVariantIndex(const boost::json::value& value, Variant& result);
+
+template<typename Variant, std::size_t... Is>
+bool tryVariantBranches(const boost::json::value& value, Variant& result, std::index_sequence<Is...>);
+
+template<typename Variant, std::size_t... Is>
+std::size_t countVariantBranches(const boost::json::value& value, std::index_sequence<Is...>);
+
 // Try to parse a variant branch from JSON. Returns true on success.
 template<typename T>
 bool tryParseBranch(boost::json::value const& value, T& result) {
@@ -427,6 +459,17 @@ bool tryParseBranch(boost::json::value const& value, T& result) {
             Inner converted;
             if (!tryParseBranch(value, converted)) return false;
             result = std::move(converted);
+            return true;
+        } else if constexpr (IsSpecialization<T, std::variant>{}) {
+            // Nested variant — dispatch through tryVariantBranches, which
+            // calls tryParseBranch for each alternative and picks the first
+            // that matches. The fallback for each alternative checks for a
+            // member fromJsonValue() method, so model-class branches (which
+            // have one) or variant branches (which recurse) parse correctly.
+            constexpr std::size_t variantSize = std::variant_size_v<T>;
+            if (!tryVariantBranches(value, result, std::make_index_sequence<variantSize>{})) {
+                return false;
+            }
             return true;
         } else {
             // Model type — try fromJsonValue member
