@@ -33,7 +33,7 @@ hold union data).
 | Before | After |
 |--------|-------|
 | Empty struct `AnyOfStringArray {}` | `std::variant<std::string, std::vector<ItemStruct>>` |
-| Composed → `{}` on wire | Correct encode/decode via `to_json`/`from_json` |
+| Composed → `{}` on wire | Correct encode/decode via `toJsonValue`/`fromJsonValue` |
 | Polymorphism disabled | `oneOf`/`anyOf`/`allOf` fully supported |
 
 ### Ordered composition lowering
