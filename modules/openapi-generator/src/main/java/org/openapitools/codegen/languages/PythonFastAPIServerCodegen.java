@@ -243,6 +243,38 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     }
 
     @Override
+    protected PydanticType getPydanticParameterType(CodegenParameter parameter,
+                                                    Set<String> modelImports,
+                                                    Set<String> exampleImports,
+                                                    Set<String> postponedModelImports,
+                                                    Set<String> postponedExampleImports,
+                                                    PythonImports moduleImports,
+                                                    String classname) {
+        // Path/query/header values always arrive as strings on the wire and rely on Pydantic
+        // coercion, so they must not use strict types. Body params keep the strict default.
+        if (parameter.isQueryParam || parameter.isPathParam || parameter.isHeaderParam) {
+            return new PydanticCoercibleType(
+                    modelImports,
+                    exampleImports,
+                    postponedModelImports,
+                    postponedExampleImports,
+                    moduleImports,
+                    classname
+            );
+        }
+
+        return super.getPydanticParameterType(
+                parameter,
+                modelImports,
+                exampleImports,
+                postponedModelImports,
+                postponedExampleImports,
+                moduleImports,
+                classname
+        );
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
