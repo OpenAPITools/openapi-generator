@@ -32,7 +32,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             if (ruleConfiguration.isEnableNullableAttributeRecommendation()) {
                 rules.add(ValidationRule.warn(
                         "Schema uses the 'nullable' attribute.",
-                        "The 'nullable' attribute is deprecated in OpenAPI 3.1, and may no longer be supported in future releases. Consider migrating to the 'null' type.",
+                        "The 'nullable' attribute was removed in OpenAPI 3.1 and is IGNORED by the generator: the property will be treated as non-nullable. To make a property nullable in OpenAPI 3.1, add 'null' to its 'type' (e.g. type: ['string', 'null']).",
                         OpenApiSchemaValidations::checkNullableAttribute
                 ));
             }
@@ -109,7 +109,9 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
     /**
      * JSON Schema uses the 'nullable' attribute.
      * <p>
-     * The 'nullable' attribute is supported in OpenAPI Specification 3.0.x, but it is deprecated in OpenAPI 3.1 and above.
+     * The 'nullable' attribute is supported in OpenAPI Specification 3.0.x. It was removed in OpenAPI 3.1
+     * and above, where it is not a valid keyword: the generator ignores it and treats the property as
+     * non-nullable. Use the 'null' type instead (e.g. type: ['string', 'null']).
      *
      * @param schema An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
@@ -123,14 +125,14 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
                 // ModelUtils.isNullable checks schema.getNullable(), but swagger-parser does not populate
                 // that field when parsing OAS 3.1 documents — 'nullable' is not a valid 3.1 keyword, so
                 // the parser stores it as a raw extension under the key "nullable" instead.
-                // We must check both paths to catch the deprecated usage in either case,
+                // We must check both paths to catch the ignored 'nullable' usage in either case,
                 // regardless of whether the value is true or false.
                 boolean hasNullableExtension = schema.getExtensions() != null
                         && schema.getExtensions().containsKey("nullable");
                 if (ModelUtils.isNullable(schema) || schema.getNullable() != null || hasNullableExtension) {
                     result = new ValidationRule.Fail();
                     result.setDetails(String.format(Locale.ROOT,
-                            "OAS document is version '%s'. Schema '%s' uses 'nullable' attribute, which has been deprecated in OAS 3.1.",
+                            "OAS document is version '%s'. Schema '%s' uses the 'nullable' attribute, which was removed in OAS 3.1 and is IGNORED: the property is treated as non-nullable. To make it nullable, add 'null' to its 'type' (e.g. type: ['string', 'null']).",
                             schemaWrapper.getOpenAPI().getOpenapi(), nameOf(schema)));
                     return result;
                 }
