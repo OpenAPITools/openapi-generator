@@ -110,8 +110,8 @@ public class CppBoostBeastClientCodegenTest {
         TestUtils.assertFileContains(derivedSource,
                 "boost::json::object object = BaseModel::toJsonObject_internal();",
                 "BaseModel::fromJsonObject_internal(object);",
-                "if (!DerivedModelBaseValuePropertyIsInherited<BaseModel>::value)",
-                "if (!DerivedModelLocalValuePropertyIsInherited<BaseModel>::value)",
+                "if constexpr (!DerivedModelBaseValuePropertyIsInherited<BaseModel>::value)",
+                "if constexpr (!DerivedModelLocalValuePropertyIsInherited<BaseModel>::value)",
                 "return readBaseValueProperty<BaseModel>",
                 "writeBaseValueProperty<BaseModel>");
         TestUtils.assertFileContains(containerHeader,

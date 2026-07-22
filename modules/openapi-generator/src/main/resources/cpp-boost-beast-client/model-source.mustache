@@ -941,7 +941,7 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     {{/vendorExtensions.x-cpp-const}}
     {{^vendorExtensions.x-cpp-const}}
     {{#parent}}
-    if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+    if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
     {{/parent}}
     {{#required}}
         object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());
@@ -958,7 +958,12 @@ boost::json::object {{classname}}::toJsonObject_internal() const
         // serialized; when disengaged, the key is simply not written. This matches the
         // most common OpenAPI use case (optional properties omitted when absent).
         {{#vendorExtensions.x-cpp-no-is-set}}
+        {{#parent}}
+        if (m_{{name}}.value.has_value()) {
+        {{/parent}}
+        {{^parent}}
         if (m_{{name}}.has_value()) {
+        {{/parent}}
             {{#vendorExtensions.x-cpp-variant-alias}}object["{{baseName}}"] = toJsonValue_{{vendorExtensions.x-cpp-variant-alias-name}}({{getter}}());{{/vendorExtensions.x-cpp-variant-alias}}{{^vendorExtensions.x-cpp-variant-alias}}object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{getter}}());{{/vendorExtensions.x-cpp-variant-alias}}
         }
         {{/vendorExtensions.x-cpp-no-is-set}}
@@ -983,7 +988,14 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     m_{{name}}IsSet = false;
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{#vendorExtensions.x-cpp-no-is-set}}
+    {{#parent}}
+    if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+        m_{{name}}.value.reset();
+    }
+    {{/parent}}
+    {{^parent}}
     m_{{name}}.reset();
+    {{/parent}}
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{/required}}
     {{/vendorExtensions.x-cpp-const}}
@@ -991,7 +1003,7 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{#vars}}
     {{^vendorExtensions.x-cpp-const}}
     {{#parent}}
-    if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+    if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
     {{/parent}}
     {
         const auto {{name}}It = object.find("{{baseName}}");
