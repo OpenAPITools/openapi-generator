@@ -12,6 +12,7 @@
 #include <openssl/err.h>
 #include <openssl/ssl.h>
 
+#include <algorithm>
 #include <array>
 #include <chrono>
 #include <functional>
@@ -40,6 +41,9 @@ public:
 
     void feed(const std::string_view chunk) {
         m_pending.append(chunk.data(), chunk.size());
+        if (!consumeInitialByteOrderMark()) {
+            return;
+        }
         drain(false);
     }
 
@@ -50,6 +54,31 @@ public:
     }
 
 private:
+    bool consumeInitialByteOrderMark() {
+        if (!m_atStreamStart) {
+            return true;
+        }
+
+        static constexpr std::array<unsigned char, 3> utf8ByteOrderMark{
+            0xef, 0xbb, 0xbf};
+        const std::size_t comparableBytes =
+            (std::min)(m_pending.size(), utf8ByteOrderMark.size());
+        for (std::size_t index = 0; index < comparableBytes; ++index) {
+            if (static_cast<unsigned char>(m_pending[index]) !=
+                    utf8ByteOrderMark[index]) {
+                m_atStreamStart = false;
+                return true;
+            }
+        }
+        if (m_pending.size() < utf8ByteOrderMark.size()) {
+            return false;
+        }
+
+        m_pending.erase(0, utf8ByteOrderMark.size());
+        m_atStreamStart = false;
+        return true;
+    }
+
     void drain(const bool endOfStream) {
         std::size_t cursor = 0;
         while (cursor < m_pending.size()) {
@@ -126,6 +155,7 @@ private:
     }
 
     std::function<void(const std::string &)> m_onEvent;
+    bool m_atStreamStart = true;
     std::string m_pending;
     std::string m_data;
 };
@@ -296,7 +326,9 @@ streamBody(SyncReadStream &stream,
             }
             break;
         }
-        throwOperationError(readError, "read body chunk");
+        if (readError != boost::beast::http::error::need_buffer) {
+            throwOperationError(readError, "read body chunk");
+        }
 
         const std::size_t bytesRead =
             bodyBuf.size() - parser.get().body().size;
@@ -488,6 +520,7 @@ HttpClientImpl::executeHttpsStream(
             }),
         "write");
 
+    tcpStream.expires_never();
     const boost::beast::http::status status = ::streamBody(
         tlsStream, m_ioc, m_operationTimeout, m_responseBodyLimit,
         std::move(onEvent),

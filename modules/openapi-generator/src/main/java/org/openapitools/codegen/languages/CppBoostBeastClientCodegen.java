@@ -42,6 +42,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     private static final String X_CODEGEN_QUERY_MAP_DEEP_OBJECT =
             "x-codegen-query-map-deep-object";
     private static final String X_CODEGEN_RESPONSE_RANGE = "x-codegen-response-range";
+    private static final String X_CODEGEN_RESPONSE_IS_ONE_OF = "x-codegen-response-is-oneof";
+    private static final String X_CODEGEN_STREAM_IS_ONE_OF = "x-codegen-stream-is-oneof";
+    private static final String X_CODEGEN_DUAL_STREAM_IS_ONE_OF = "x-codegen-dual-stream-is-oneof";
     private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
     /** Tracks model names resolved as oneOf/anyOf variant types for shared_ptr exclusion. */
     private final Set<String> variantModels = new HashSet<>();
@@ -50,6 +53,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
      *  transitively resolve $ref chains through model aliases (e.g., ModelIds
      *  referencing ModelIdsShared, both ultimately std::string). */
     private final Map<String, String> resolvedAliasTypes = new HashMap<>();
+    /** Retains composition semantics after named schemas are lowered to C++ aliases. */
+    private final Map<String, String> composedKeywordsByModel = new HashMap<>();
     protected String packageName = DEFAULT_PACKAGE_NAME;
 
     public CodegenType getTag() {
@@ -414,6 +419,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     fallbackKeyword = "oneOf";
                 }
                 cm.vendorExtensions.put("x-cpp-composed-keyword", fallbackKeyword);
+                composedKeywordsByModel.put(cm.classname, fallbackKeyword);
             }
         }
 
@@ -441,6 +447,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 // template code referencing vendorExtensions.x-cpp-composed-keyword
                 // does not encounter an undefined variable.
                 cm.vendorExtensions.put("x-cpp-composed-keyword", "oneOf");
+                composedKeywordsByModel.put(cm.classname, "oneOf");
             }
         }
 
@@ -600,6 +607,24 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
         }
 
+        // Type-erased oneOf aliases still need to validate the original branch
+        // constraints before accepting the JSON value.
+        for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
+            for (ModelMap modelMap : entry.getValue().getModels()) {
+                CodegenModel codegenModel = modelMap.getModel();
+                if ("oneOf".equals(codegenModel.vendorExtensions.get("x-cpp-composed-keyword"))
+                        && "boost::json::value".equals(codegenModel.vendorExtensions.get("x-cpp-type"))
+                        && codegenModel.getComposedSchemas() != null
+                        && codegenModel.getComposedSchemas().getOneOf() != null
+                        && !codegenModel.getComposedSchemas().getOneOf().isEmpty()) {
+                    codegenModel.vendorExtensions.put(
+                            "x-cpp-type-erased-oneof-branches",
+                            buildTypeErasedOneOfBranches(codegenModel, allModels));
+                    codegenModel.vendorExtensions.put("x-cpp-type-erased-oneof", true);
+                }
+            }
+        }
+
         // Phase 4b: Filter discriminator mappings to remove self-referential entries.
         // After Phase 1b, all resolvedAliasTypes are final. A discriminator mapping
         // like "ParentServerEvent" → ParentServerEvent where ParentServerEvent
@@ -617,20 +642,23 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 Set<CodegenDiscriminator.MappedModel> mappedModels = cm.discriminator.getMappedModels();
                 if (mappedModels == null || mappedModels.isEmpty()) continue;
                 Set<CodegenDiscriminator.MappedModel> filtered = new TreeSet<>();
-                boolean changed = false;
                 for (CodegenDiscriminator.MappedModel mm : mappedModels) {
                     if (mm.getModelName() != null) {
                         String resolvedTarget = resolveThroughAliases(mm.getModelName());
                         if (resolvedTarget.equals(resolvedType)) {
-                            changed = true;
                             continue; // skip self-referential mapping
                         }
                     }
-                    filtered.add(mm);
+                    CodegenDiscriminator.MappedModel escapedMapping =
+                            new CodegenDiscriminator.MappedModel(
+                                    escapeCppStringContent(mm.getMappingName()),
+                                    mm.getModelName(),
+                                    mm.getSchemaName(),
+                                    mm.isExplicitMapping());
+                    escapedMapping.setModel(mm.getModel());
+                    filtered.add(escapedMapping);
                 }
-                if (changed) {
-                    cm.discriminator.setMappedModels(filtered);
-                }
+                cm.discriminator.setMappedModels(filtered);
             }
         }
 
@@ -830,6 +858,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         cm.vendorExtensions.put("x-cpp-type", resolvedType);
         cm.vendorExtensions.put("x-cpp-branches", branchTypes);
         cm.vendorExtensions.put("x-cpp-composed-keyword", composedKeyword);
+        composedKeywordsByModel.put(cm.classname, composedKeyword);
 
         // Store per-branch isEnum metadata for Phase 1b re-lowering.
         // Phase 1b resolves model-name branch types through aliases to
@@ -867,6 +896,111 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             this.isEnum = isEnum;
             this.isStringLike = isStringLike;
         }
+    }
+
+    private List<Map<String, Object>> buildTypeErasedOneOfBranches(
+            CodegenModel codegenModel, Map<String, CodegenModel> allModels) {
+        List<Map<String, Object>> validationBranches = new ArrayList<>();
+        for (CodegenProperty branch : codegenModel.getComposedSchemas().getOneOf()) {
+            String originalType = stripSharedPtr(branch.dataType);
+            CodegenModel referencedModel = allModels.get(originalType);
+            String resolvedType = resolveThroughAliases(originalType);
+            if (referencedModel != null && referencedModel.dataType != null) {
+                resolvedType = resolveThroughAliases(stripSharedPtr(referencedModel.dataType));
+            }
+            resolvedType = resolveOpenApiTypeName(resolvedType);
+
+            Map<String, Object> validationBranch = new LinkedHashMap<>();
+            if ("std::string".equals(resolvedType)) {
+                validationBranch.put("is-string", true);
+                List<Object> enumValues = getEnumValues(branch, referencedModel);
+                if (!enumValues.isEmpty()) {
+                    validationBranch.put("has-enum-values", true);
+                    List<Map<String, String>> escapedValues = new ArrayList<>();
+                    for (Object enumValue : enumValues) {
+                        escapedValues.add(Collections.singletonMap(
+                                "literal", escapeCppStringContent(String.valueOf(enumValue))));
+                    }
+                    validationBranch.put("enum-values", escapedValues);
+                }
+            } else if ("bool".equals(resolvedType)) {
+                validationBranch.put("is-boolean", true);
+            } else if ("std::int32_t".equals(resolvedType) || "int32_t".equals(resolvedType)) {
+                validationBranch.put("is-int32", true);
+            } else if ("std::int64_t".equals(resolvedType) || "int64_t".equals(resolvedType)) {
+                validationBranch.put("is-integer", true);
+            } else if ("double".equals(resolvedType) || "float".equals(resolvedType)) {
+                validationBranch.put("is-number", true);
+            } else if ("std::nullptr_t".equals(resolvedType)) {
+                validationBranch.put("is-null", true);
+            } else if (resolvedType != null && resolvedType.startsWith("std::vector<")) {
+                validationBranch.put("is-array", true);
+            } else if (resolvedType != null
+                    && (resolvedType.startsWith("std::map<")
+                    || (!resolvedType.startsWith("std::")
+                    && !resolvedType.startsWith("boost::")))) {
+                validationBranch.put("is-object", true);
+            } else {
+                validationBranch.put("is-any", true);
+            }
+            validationBranches.add(validationBranch);
+        }
+        return validationBranches;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<Object> getEnumValues(
+            CodegenProperty branch, CodegenModel referencedModel) {
+        Map<String, Object> allowableValues = branch.allowableValues;
+        if ((allowableValues == null || allowableValues.get("values") == null)
+                && referencedModel != null) {
+            allowableValues = referencedModel.allowableValues;
+        }
+        if (allowableValues == null || !(allowableValues.get("values") instanceof List)) {
+            return Collections.emptyList();
+        }
+        return (List<Object>) allowableValues.get("values");
+    }
+
+    private static String escapeCppStringContent(String value) {
+        if (value == null) {
+            return "";
+        }
+        StringBuilder escaped = new StringBuilder(value.length());
+        for (int index = 0; index < value.length(); index++) {
+            char character = value.charAt(index);
+            switch (character) {
+                case '\\':
+                    escaped.append("\\\\");
+                    break;
+                case '"':
+                    escaped.append("\\\"");
+                    break;
+                case '\n':
+                    escaped.append("\\n");
+                    break;
+                case '\r':
+                    escaped.append("\\r");
+                    break;
+                case '\t':
+                    escaped.append("\\t");
+                    break;
+                case '\b':
+                    escaped.append("\\b");
+                    break;
+                case '\f':
+                    escaped.append("\\f");
+                    break;
+                default:
+                    if (character < 0x20 || character == 0x7f) {
+                        escaped.append(String.format(Locale.ROOT, "\\%03o", (int) character));
+                    } else {
+                        escaped.append(character);
+                    }
+                    break;
+            }
+        }
+        return escaped.toString();
     }
 
     /**
@@ -1372,7 +1506,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         codegenModel.imports.add("#include <vector>");
 
         // Fixed-const properties: OAS 3.1 `const`, single-value `enum`, or optional
-        // vendor enhancer `x-stainless-const`. Portable path is OAS `const` / single enum —
+        // vendor extension `x-stainless-const`. Portable path is OAS `const` / single enum —
         // vendor extensions are never required for correct encode/decode.
         if (codegenModel.vars != null) {
             Map<String, Schema> allProps = new LinkedHashMap<>();
@@ -1435,6 +1569,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 if (isStringConst || "std::string".equals(var.dataType)
                         || "std::optional<std::string>".equals(var.dataType)) {
                     var.vendorExtensions.put("x-cpp-const-is-string", true);
+                } else if (var.isBoolean || "bool".equals(var.dataType)
+                        || "std::optional<bool>".equals(var.dataType)) {
+                    var.vendorExtensions.put("x-cpp-const-is-boolean", true);
                 }
                 // Keep stainless keys as aliases so older template forks still work.
                 var.vendorExtensions.put("x-stainless-const", true);
@@ -1595,6 +1732,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     private void addApiResponseMetadata(CodegenOperation operation) {
         boolean hasDefaultResponse = false;
         for (CodegenResponse response : operation.responses) {
+            response.vendorExtensions.put("x-codegen-return-compatible",
+                    Objects.equals(operation.returnType, response.dataType));
+            response.vendorExtensions.put(X_CODEGEN_RESPONSE_IS_ONE_OF,
+                    isOneOfResponse(response));
             response.vendorExtensions.put(X_CODEGEN_EMPTY_BODY_TOLERANT,
                     response.isMap || response.isFreeFormObject || response.isAnyType);
             if (response.isRange()) {
@@ -1617,7 +1758,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // For dual-content ops (JSON + SSE), the operation-level flag is NOT
         // set (return type stays JSON). Instead, a dedicated stream method is
         // generated ({operationId}Stream) that sets Accept to text/event-stream
-        // and returns std::vector<EventType> via parseEventStream.
+        // and returns std::vector<EventType> via incremental event conversion.
         // Note: Dual-content detection is driven by produces media types, not
         // by the presence of a "stream" query parameter (the parameter is
         // a client-side convention for choosing between JSON and SSE).
@@ -1637,7 +1778,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             operation.vendorExtensions.put("x-codegen-streaming-response", isPureSse);
                 // For pure SSE ops, flag all 2xx responses as streaming and
                 // set the stripped element type (without shared_ptr) for use in
-                // parseEventStream template param and converter name.
+                // the event vector element and converter name.
             // For dual-content ops, mark SSE responses (different datatype from returnType)
             // as streaming so the stream method template can identify them.
             // Also mark each response with x-codegen-return-compatible so the normal
@@ -1646,6 +1787,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             for (CodegenResponse response : operation.responses) {
                     if (isPureSse) {
                     response.vendorExtensions.put("x-codegen-streaming-response", true);
+                    if (isOneOfResponse(response)
+                            || isOneOfMediaType(response, "text/event-stream")) {
+                        operation.vendorExtensions.put(X_CODEGEN_STREAM_IS_ONE_OF, true);
+                    }
                     if (response.dataType != null) {
                         String streamElementType = stripSharedPtr(response.dataType);
                         // Only set element type for model types (uppercase first char).
@@ -1670,9 +1815,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                                 streamElementType);
                     }
                 }
-                boolean returnCompatible = response.dataType != null
-                        && response.dataType.equals(operation.returnType);
-                response.vendorExtensions.put("x-codegen-return-compatible", returnCompatible);
             }
             // If a pure SSE operation has no response schema (no data type
             // on any 2xx response), returnType will be null and the
@@ -1699,12 +1841,16 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     if (!response.is2xx || response.getContent() == null) continue;
                     CodegenMediaType sseMediaType = response.getContent().get("text/event-stream");
                     if (sseMediaType != null && sseMediaType.getSchema() != null) {
-                        String rawType = sseMediaType.getSchema().dataType;
+                        CodegenProperty sseSchema = sseMediaType.getSchema();
+                        String rawType = sseSchema.dataType;
                         if (rawType != null) {
                             sseReturnType = rawType;
                             // Derive a valid C++ identifier for the fromJsonValue_ converter.
                             // Strip std::shared_ptr<X> wrapper down to just X.
                             sseBaseModelName = stripSharedPtr(rawType);
+                            if (isOneOfSchema(sseSchema)) {
+                                operation.vendorExtensions.put(X_CODEGEN_DUAL_STREAM_IS_ONE_OF, true);
+                            }
                             break;
                         }
                     }
@@ -1731,12 +1877,15 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     }
                 }
                 if (sseReturnType != null && sseBaseModelName != null) {
+                    if (isOneOfType(sseReturnType)) {
+                        operation.vendorExtensions.put(X_CODEGEN_DUAL_STREAM_IS_ONE_OF, true);
+                    }
                     operation.vendorExtensions.put("x-codegen-dual-content", true);
                     // Full C++ type for the vector element (may contain std::shared_ptr<...>)
                     operation.vendorExtensions.put("x-codegen-dual-stream-return-type", sseReturnType);
                     // Stripped base name (valid C++ identifier) for fromJsonValue_ converter
                     operation.vendorExtensions.put("x-codegen-dual-stream-base-name", sseBaseModelName);
-                    // Stripped element type for parseEventStream template param and vector element
+                    // Stripped element type for event conversion and the vector element
                     // (same as base name since both strip shared_ptr, but semantically distinct)
                     String dualStreamElementType = stripSharedPtr(sseReturnType);
                     operation.vendorExtensions.put("x-codegen-dual-stream-element-type", dualStreamElementType);
@@ -1750,6 +1899,39 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 }
             }
         }
+    }
+
+    private boolean isOneOfResponse(CodegenResponse response) {
+        if (response.getContent() != null) {
+            for (Map.Entry<String, CodegenMediaType> contentEntry : response.getContent().entrySet()) {
+                String mediaType = contentEntry.getKey();
+                CodegenMediaType codegenMediaType = contentEntry.getValue();
+                if (mediaType != null && mediaType.toLowerCase(Locale.ROOT).contains("json")
+                        && codegenMediaType != null && isOneOfSchema(codegenMediaType.getSchema())) {
+                    return true;
+                }
+            }
+        }
+        return isOneOfType(response.dataType);
+    }
+
+    private boolean isOneOfMediaType(CodegenResponse response, String mediaType) {
+        if (response.getContent() == null) {
+            return false;
+        }
+        CodegenMediaType codegenMediaType = response.getContent().get(mediaType);
+        return codegenMediaType != null && isOneOfSchema(codegenMediaType.getSchema());
+    }
+
+    private boolean isOneOfSchema(CodegenProperty schema) {
+        return schema != null
+                && (Boolean.TRUE.equals(schema.vendorExtensions.get("x-cpp-is-oneof"))
+                || isOneOfType(schema.dataType));
+    }
+
+    private boolean isOneOfType(String dataType) {
+        String unwrappedType = stripSharedPtr(dataType);
+        return "oneOf".equals(composedKeywordsByModel.get(unwrappedType));
     }
 
     /**

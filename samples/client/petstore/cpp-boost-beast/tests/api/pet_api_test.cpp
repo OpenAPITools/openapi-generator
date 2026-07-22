@@ -65,6 +65,7 @@ BOOST_AUTO_TEST_CASE(addPet) {
     {
         "id": 0,
         "name": "doggie",
+        "photoUrls": [],
         "status": "available"
     })JSON";
 
@@ -83,6 +84,7 @@ BOOST_AUTO_TEST_CASE(updatePet_success) {
     {
         "id": 1,
         "name": "cat",
+        "photoUrls": [],
         "status": "available"
     })JSON";
 

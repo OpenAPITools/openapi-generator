@@ -29,7 +29,19 @@ namespace beast = boost::beast;
 namespace http = boost::beast::http;
 namespace ssl = boost::asio::ssl;
 using tcp = boost::asio::ip::tcp;
+using org::openapitools::client::api::HttpClient;
 using org::openapitools::client::api::HttpClientImpl;
+
+class BufferedOnlyHttpClient final : public HttpClient {
+public:
+    std::pair<http::status, std::string> execute(
+        const std::string &,
+        const std::string &,
+        const std::string &,
+        const std::map<std::string, std::string> &) override {
+        return {http::status::ok, "buffered"};
+    }
+};
 
 const char testServerCertificatePem[] = R"PEM(-----BEGIN CERTIFICATE-----
 MIIDjzCCAnegAwIBAgIUapcP6xBH1z5Lnub2alXHWLwLABwwDQYJKoZIhvcNAQEL
@@ -559,6 +571,13 @@ boost::system::error_code captureExecutionError(HttpClientImpl &httpClient,
 
 BOOST_AUTO_TEST_SUITE(HttpClientBehaviorTest)
 
+BOOST_AUTO_TEST_CASE(buffered_only_adapter_inherits_streaming_fallback) {
+    BufferedOnlyHttpClient httpClient;
+    BOOST_REQUIRE_THROW(
+        httpClient.executeStream("GET", "/stream", "", {}, [](const std::string &) {}),
+        std::logic_error);
+}
+
 BOOST_AUTO_TEST_CASE(shared_client_execute_calls_are_serialized) {
     SerializedLifecycleHttpClient httpClient;
     std::exception_ptr firstExecutionException;
@@ -864,6 +883,55 @@ BOOST_AUTO_TEST_CASE(http_stream_frames_sse_events_across_chunks) {
     BOOST_REQUIRE_EQUAL(receivedEvents[0], "{\"n\":1}");
     BOOST_REQUIRE_EQUAL(receivedEvents[1], "{\"n\":2}");
     BOOST_REQUIRE_EQUAL(receivedEvents[2], "line-a\nline-b");
+}
+
+BOOST_AUTO_TEST_CASE(http_stream_strips_split_utf8_bom) {
+    const std::vector<std::string> wireChunks{
+        std::string(1, static_cast<char>(0xef)),
+        std::string(1, static_cast<char>(0xbb)),
+        std::string(1, static_cast<char>(0xbf)) + "data: first-event\n\n"};
+    ChunkedStreamingServer server(wireChunks);
+    HttpClientImpl httpClient(
+        "127.0.0.1",
+        server.port(),
+        HttpClientImpl::Transport::Http,
+        11,
+        std::chrono::milliseconds(1000));
+
+    std::vector<std::string> receivedEvents;
+    const http::status status = httpClient.executeStream(
+        "GET", "/bom", "", {},
+        [&receivedEvents](const std::string &eventData) {
+            receivedEvents.push_back(eventData);
+        });
+    server.waitForCompletion();
+
+    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE_EQUAL(receivedEvents.size(), 1U);
+    BOOST_REQUIRE_EQUAL(receivedEvents.front(), "first-event");
+}
+
+BOOST_AUTO_TEST_CASE(http_stream_refills_buffer_body_storage) {
+    const std::string eventPayload(70000, 'x');
+    ChunkedStreamingServer server({"data: " + eventPayload + "\n\n"});
+    HttpClientImpl httpClient(
+        "127.0.0.1",
+        server.port(),
+        HttpClientImpl::Transport::Http,
+        11,
+        std::chrono::milliseconds(1000));
+
+    std::vector<std::string> receivedEvents;
+    const http::status status = httpClient.executeStream(
+        "GET", "/large-event", "", {},
+        [&receivedEvents](const std::string &eventData) {
+            receivedEvents.push_back(eventData);
+        });
+    server.waitForCompletion();
+
+    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE_EQUAL(receivedEvents.size(), 1U);
+    BOOST_REQUIRE_EQUAL(receivedEvents.front(), eventPayload);
 }
 
 BOOST_AUTO_TEST_CASE(http_stream_empty_body) {

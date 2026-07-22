@@ -163,7 +163,7 @@
                 {{^vendorExtensions.x-codegen-stream-element-type}}
                 appendParsedEvent(deserializedResponse, eventData,
                     [](boost::json::value const& v) {
-                        return boost::json::value_to<{{{returnType}}}>(v);
+                        return {{#vendorExtensions.x-codegen-stream-is-oneof}}OneOf{{/vendorExtensions.x-codegen-stream-is-oneof}}ResponseJsonValueConverter<{{{returnType}}}>::convert(v);
                     });
                 {{/vendorExtensions.x-codegen-stream-element-type}}
 {{/returnType}}
@@ -212,7 +212,7 @@
 {{^vendorExtensions.x-codegen-streaming-response}}
 {{#returnType}}
 {{#dataType}}
-        ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
+        {{#vendorExtensions.x-codegen-response-is-oneof}}OneOf{{/vendorExtensions.x-codegen-response-is-oneof}}ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
             deserializedResponse,
             responseBody,
             responseContentType,
@@ -415,7 +415,9 @@
                 appendParsedEvent(
                     deserializedResponse,
                     eventData,
-                    fromJsonValue_{{{vendorExtensions.x-codegen-dual-stream-base-name}}});
+                    [](boost::json::value const& value) {
+                        return {{#vendorExtensions.x-codegen-dual-stream-is-oneof}}OneOf{{/vendorExtensions.x-codegen-dual-stream-is-oneof}}ResponseJsonValueConverter<{{{vendorExtensions.x-codegen-dual-stream-element-type}}}>::convert(value);
+                    });
             });
     }
     catch(const std::exception& exception) {

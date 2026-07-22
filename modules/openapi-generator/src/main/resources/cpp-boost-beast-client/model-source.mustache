@@ -38,6 +38,7 @@
 #include <type_traits>
 #include <utility>
 #include <cstdint>
+#include <limits>
 #include <boost/json.hpp>
 
 {{#modelNamespaceDeclarations}}
@@ -285,7 +286,24 @@ bool tryVariantIndex(const boost::json::value& value, Variant& result, std::stri
 
 template<typename Variant, std::size_t... Is>
 bool tryVariantBranches(const boost::json::value& value, Variant& result, std::index_sequence<Is...>, std::string* errorPath) {
-    return (tryVariantIndex<Variant, Is>(value, result, errorPath) || ...);
+    const std::string initialErrorPath = errorPath == nullptr ? std::string() : *errorPath;
+    std::string bestErrorPath = initialErrorPath;
+    auto tryBranch = [&](auto branchIndex) {
+        std::string branchErrorPath = initialErrorPath;
+        if (tryVariantIndex<Variant, decltype(branchIndex)::value>(
+                value, result, errorPath == nullptr ? nullptr : &branchErrorPath)) {
+            return true;
+        }
+        if (branchErrorPath.size() > bestErrorPath.size()) {
+            bestErrorPath = std::move(branchErrorPath);
+        }
+        return false;
+    };
+    const bool matched = (tryBranch(std::integral_constant<std::size_t, Is>{}) || ...);
+    if (!matched && errorPath != nullptr) {
+        *errorPath = std::move(bestErrorPath);
+    }
+    return matched;
 }
 
 // Count how many variant branches match the JSON value (no short-circuit).
@@ -294,7 +312,21 @@ template<typename Variant, std::size_t... Is>
 std::size_t countVariantBranches(const boost::json::value& value, std::index_sequence<Is...>, std::string* errorPath) {
     std::size_t count = 0;
     Variant temp;
-    ((tryVariantIndex<Variant, Is>(value, temp, errorPath) ? ++count : 0), ...);
+    const std::string initialErrorPath = errorPath == nullptr ? std::string() : *errorPath;
+    std::string bestErrorPath = initialErrorPath;
+    auto countBranch = [&](auto branchIndex) {
+        std::string branchErrorPath = initialErrorPath;
+        if (tryVariantIndex<Variant, decltype(branchIndex)::value>(
+                value, temp, errorPath == nullptr ? nullptr : &branchErrorPath)) {
+            ++count;
+        } else if (branchErrorPath.size() > bestErrorPath.size()) {
+            bestErrorPath = std::move(branchErrorPath);
+        }
+    };
+    (countBranch(std::integral_constant<std::size_t, Is>{}), ...);
+    if (count == 0 && errorPath != nullptr) {
+        *errorPath = std::move(bestErrorPath);
+    }
     return count;
 }
 }
@@ -309,10 +341,14 @@ std::size_t countVariantBranches(const boost::json::value& value, std::index_seq
     if (value.is_object()) {
         const auto& jsonObject = value.as_object();
         auto discIt = jsonObject.find("{{discriminator.propertyBaseName}}");
-        if (discIt != jsonObject.end() && discIt->value().is_string()) {
+        if (discIt != jsonObject.end()) {
+            if (!discIt->value().is_string()) {
+                throw std::invalid_argument(
+                    "Discriminator field '{{discriminator.propertyBaseName}}' for {{classname}} must be a string");
+            }
             std::string discValue{discIt->value().as_string().data(), discIt->value().as_string().size()};
             {{#discriminator.mappedModels}}
-            if (discValue == "{{mappingName}}") {
+            if (discValue == "{{{mappingName}}}") {
                 return fromJsonValue_{{modelName}}(value);
             }
             {{/discriminator.mappedModels}}
@@ -372,36 +408,12 @@ std::size_t countVariantBranches(const boost::json::value& value, std::index_seq
 {{/modelNamespaceDeclarations}}
 
 {{/vendorExtensions.x-cpp-is-variant}}
-{{#vendorExtensions.x-cpp-is-alias}}{{^vendorExtensions.x-cpp-is-variant}}
-#include "{{classname}}.h"
-
-{{#imports}}{{{this}}}
-{{/imports}}
-#include <boost/json.hpp>
-
-{{#modelNamespaceDeclarations}}
-namespace {{this}} {
-{{/modelNamespaceDeclarations}}
-
-{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value)
-{
-    return boost::json::value_to<{{classname}}>(value);
-}
-
-boost::json::value toJsonValue_{{classname}}({{classname}} const& value)
-{
-    return boost::json::value_from(value);
-}
-
-{{#modelNamespaceDeclarations}}
-}
-{{/modelNamespaceDeclarations}}
-{{/vendorExtensions.x-cpp-is-variant}}{{/vendorExtensions.x-cpp-is-alias}}
-{{^vendorExtensions.x-cpp-is-alias}}
+{{^vendorExtensions.x-cpp-is-variant}}
 #include "{{classname}}.h"
 
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 #include <map>
 #include <memory>
 #include <stdexcept>
@@ -662,7 +674,24 @@ bool tryVariantIndex(const boost::json::value& value, Variant& result, std::stri
 
 template<typename Variant, std::size_t... Is>
 bool tryVariantBranches(const boost::json::value& value, Variant& result, std::index_sequence<Is...>, std::string* errorPath) {
-    return (tryVariantIndex<Variant, Is>(value, result, errorPath) || ...);
+    const std::string initialErrorPath = errorPath == nullptr ? std::string() : *errorPath;
+    std::string bestErrorPath = initialErrorPath;
+    auto tryBranch = [&](auto branchIndex) {
+        std::string branchErrorPath = initialErrorPath;
+        if (tryVariantIndex<Variant, decltype(branchIndex)::value>(
+                value, result, errorPath == nullptr ? nullptr : &branchErrorPath)) {
+            return true;
+        }
+        if (branchErrorPath.size() > bestErrorPath.size()) {
+            bestErrorPath = std::move(branchErrorPath);
+        }
+        return false;
+    };
+    const bool matched = (tryBranch(std::integral_constant<std::size_t, Is>{}) || ...);
+    if (!matched && errorPath != nullptr) {
+        *errorPath = std::move(bestErrorPath);
+    }
+    return matched;
 }
 
 // Count how many variant branches match the JSON value (no short-circuit).
@@ -671,7 +700,21 @@ template<typename Variant, std::size_t... Is>
 std::size_t countVariantBranches(const boost::json::value& value, std::index_sequence<Is...>, std::string* errorPath) {
     std::size_t count = 0;
     Variant temp;
-    ((tryVariantIndex<Variant, Is>(value, temp, errorPath) ? ++count : 0), ...);
+    const std::string initialErrorPath = errorPath == nullptr ? std::string() : *errorPath;
+    std::string bestErrorPath = initialErrorPath;
+    auto countBranch = [&](auto branchIndex) {
+        std::string branchErrorPath = initialErrorPath;
+        if (tryVariantIndex<Variant, decltype(branchIndex)::value>(
+                value, temp, errorPath == nullptr ? nullptr : &branchErrorPath)) {
+            ++count;
+        } else if (branchErrorPath.size() > bestErrorPath.size()) {
+            bestErrorPath = std::move(branchErrorPath);
+        }
+    };
+    (countBranch(std::integral_constant<std::size_t, Is>{}), ...);
+    if (count == 0 && errorPath != nullptr) {
+        *errorPath = std::move(bestErrorPath);
+    }
     return count;
 }
 
@@ -892,6 +935,7 @@ struct JsonValueConverter<std::map<std::string, MappedValue>>
     }
 };
 
+{{^vendorExtensions.x-cpp-is-alias}}
 void writePrettyJson(std::ostream& output, boost::json::value const& value, std::string& indent)
 {
     if (value.is_object()) {
@@ -940,8 +984,65 @@ void writePrettyJson(std::ostream& output, boost::json::value const& value, std:
 
     output << boost::json::serialize(value);
 }
+{{/vendorExtensions.x-cpp-is-alias}}
 }
 
+{{#vendorExtensions.x-cpp-is-alias}}{{^vendorExtensions.x-cpp-is-variant}}
+{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value)
+{
+    {{#vendorExtensions.x-cpp-type-erased-oneof}}
+    std::size_t matchingBranches = 0;
+    {{#vendorExtensions.x-cpp-type-erased-oneof-branches}}
+    {
+        bool branchMatches = false;
+        {{#is-string}}
+        if (value.is_string()) {
+            {{#has-enum-values}}
+            const auto stringValue = value.as_string();
+            branchMatches = {{#enum-values}}stringValue == "{{{literal}}}"{{^-last}} || {{/-last}}{{/enum-values}};
+            {{/has-enum-values}}
+            {{^has-enum-values}}
+            branchMatches = true;
+            {{/has-enum-values}}
+        }
+        {{/is-string}}
+        {{#is-boolean}}branchMatches = value.is_bool();{{/is-boolean}}
+        {{#is-int32}}
+        if (value.is_int64()) {
+            const auto integerValue = value.as_int64();
+            branchMatches = integerValue >= (std::numeric_limits<std::int32_t>::min)()
+                && integerValue <= (std::numeric_limits<std::int32_t>::max)();
+        }
+        {{/is-int32}}
+        {{#is-integer}}branchMatches = value.is_int64();{{/is-integer}}
+        {{#is-number}}branchMatches = value.is_int64() || value.is_double();{{/is-number}}
+        {{#is-null}}branchMatches = value.is_null();{{/is-null}}
+        {{#is-array}}branchMatches = value.is_array();{{/is-array}}
+        {{#is-object}}branchMatches = value.is_object();{{/is-object}}
+        {{#is-any}}branchMatches = true;{{/is-any}}
+        if (branchMatches) {
+            ++matchingBranches;
+        }
+    }
+    {{/vendorExtensions.x-cpp-type-erased-oneof-branches}}
+    if (matchingBranches != 1) {
+        throw std::invalid_argument(
+            "JSON value must match exactly one branch of {{classname}}");
+    }
+    return value;
+    {{/vendorExtensions.x-cpp-type-erased-oneof}}
+    {{^vendorExtensions.x-cpp-type-erased-oneof}}
+    return JsonValueConverter<{{classname}}>::fromJsonValue(value);
+    {{/vendorExtensions.x-cpp-type-erased-oneof}}
+}
+
+boost::json::value toJsonValue_{{classname}}({{classname}} const& value)
+{
+    return JsonValueConverter<{{classname}}>::toJsonValue(value);
+}
+{{/vendorExtensions.x-cpp-is-variant}}{{/vendorExtensions.x-cpp-is-alias}}
+
+{{^vendorExtensions.x-cpp-is-alias}}
 {{classname}}::{{classname}}(boost::json::value const& value)
 {
     fromJsonValue(value);
@@ -1109,19 +1210,29 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
             }
             {{/vendorExtensions.x-cpp-const-is-string}}
             {{^vendorExtensions.x-cpp-const-is-string}}
-            const bool expectedJsonKind = it->value().is_int64()
-                || it->value().is_double()
-                || it->value().is_bool();
-            if (!expectedJsonKind) {
+            {{#vendorExtensions.x-cpp-const-is-boolean}}
+            if (!it->value().is_bool()) {
                 throw std::invalid_argument(
-                    "Field '{{baseName}}' expected a JSON number or boolean for const value in {{classname}}");
+                    "Field '{{baseName}}' expected a JSON boolean for const value in {{classname}}");
             }
-            if ((it->value().is_int64() && it->value().as_int64() != static_cast<std::int64_t>({{{vendorExtensions.x-cpp-const-inline-value}}}))
-                || (it->value().is_double() && it->value().as_double() != static_cast<double>({{{vendorExtensions.x-cpp-const-inline-value}}}))
-                || (it->value().is_bool() && it->value().as_bool() != static_cast<bool>({{{vendorExtensions.x-cpp-const-inline-value}}}))) {
+            if (it->value().as_bool() != static_cast<bool>({{{vendorExtensions.x-cpp-const-inline-value}}})) {
                 throw std::invalid_argument(
                     "Field '{{baseName}}' has unexpected const value for {{classname}}");
             }
+            {{/vendorExtensions.x-cpp-const-is-boolean}}
+            {{^vendorExtensions.x-cpp-const-is-boolean}}
+            const bool expectedJsonKind = it->value().is_int64()
+                || it->value().is_double();
+            if (!expectedJsonKind) {
+                throw std::invalid_argument(
+                    "Field '{{baseName}}' expected a JSON number for const value in {{classname}}");
+            }
+            if ((it->value().is_int64() && it->value().as_int64() != static_cast<std::int64_t>({{{vendorExtensions.x-cpp-const-inline-value}}}))
+                || (it->value().is_double() && it->value().as_double() != static_cast<double>({{{vendorExtensions.x-cpp-const-inline-value}}}))) {
+                throw std::invalid_argument(
+                    "Field '{{baseName}}' has unexpected const value for {{classname}}");
+            }
+            {{/vendorExtensions.x-cpp-const-is-boolean}}
             {{/vendorExtensions.x-cpp-const-is-string}}
         }
     }
@@ -1181,10 +1292,11 @@ void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}
 {
     vec = JsonValueConverter<std::vector<std::shared_ptr<{{{classname}}}>>>::fromJsonValue(boost::json::parse(json));
 }
+{{/vendorExtensions.x-cpp-is-alias}}
 
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}
-{{/vendorExtensions.x-cpp-is-alias}}
+{{/vendorExtensions.x-cpp-is-variant}}
 {{/model}}
 {{/models}}

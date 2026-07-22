@@ -33,14 +33,14 @@ hold union data).
 | Before | After |
 |--------|-------|
 | Empty struct `AnyOfStringArray {}` | `std::variant<std::string, std::vector<ItemStruct>>` |
-| Composed → `{}` on wire | Correct encode/decode via `to_json`/`from_json` |
+| Composed → `{}` on wire | Correct encode/decode via `toJsonValue`/`fromJsonValue` |
 | Polymorphism disabled | `oneOf`/`anyOf`/`allOf` fully supported |
 
 ### Ordered composition lowering
 
 The generator applies the following rules in order to every composed schema:
 
-1. **Flatten compatible `allOf` object composition** into one struct. Conflict → error.
+1. **Merge compatible `allOf` object composition** through generated inheritance and property aggregation. Conflict → error.
 2. **Lower `anyOf`/`oneOf` null unions** with a single non-null branch to `std::optional<T>` (and OAS 3.0 `nullable`).
 3. **Collapse `anyOf` of only string and string-enums to `std::string`.**  
    Does **not** apply this collapse to `oneOf` unless exclusivity is proven.
@@ -60,7 +60,7 @@ The generator applies the following rules in order to every composed schema:
 | `boolean` | `bool` |
 | `anyOf: [T, null]` / nullable `T` | `std::optional<T>` |
 | `oneOf` / non-null `anyOf` unions | `std::variant<...>` |
-| `allOf` object | Flattened struct |
+| `allOf` object | Inherited/merged value class |
 | array | `std::vector<T>` |
 | map / `additionalProperties` | `std::map<std::string, T>` |
 | free-form JSON | `boost::json::value` |
@@ -216,9 +216,9 @@ Reviewers should evaluate the PR against:
 ## Requirements
 
 - C++17 compiler (GCC 7+, Clang 8+, MSVC 2019+)
-- CMake 3.15+
+- CMake 3.14+
 - Boost 1.75+ (Beast, Asio, JSON)
-- OpenSSL 1.1.1+
+- OpenSSL 1.1.0+
 
 ## Build
 

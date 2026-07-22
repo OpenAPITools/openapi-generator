@@ -123,6 +123,58 @@ paths:
             text/event-stream:
               schema:
                 $ref: '#/components/schemas/ResponseStreamEvent'
+  /inline-anyof-response:
+    get:
+      tags:
+        - ComposedSchema
+      operationId: getInlineAnyOfResponse
+      responses:
+        '200':
+          description: Inline anyOf response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/OverlappingObjectA'
+                  - $ref: '#/components/schemas/OverlappingObjectB'
+  /inline-oneof-events:
+    get:
+      tags:
+        - ComposedSchema
+      operationId: getInlineOneOfEvents
+      responses:
+        '200':
+          description: Inline oneOf SSE response
+          content:
+            text/event-stream:
+              schema:
+                oneOf:
+                  - type: string
+                  - type: integer
+                    format: int32
+  /dual-primitive-stream:
+    get:
+      tags:
+        - ComposedSchema
+      operationId: getDualPrimitiveStream
+      responses:
+        '200':
+          description: Primitive JSON or SSE response
+          content:
+            application/json:
+              schema:
+                type: string
+            text/event-stream:
+              schema:
+                type: string
+  /no-content:
+    delete:
+      tags:
+        - ComposedSchema
+      operationId: deleteWithoutContent
+      responses:
+        '204':
+          description: Deleted successfully
 components:
   schemas:
     # Scenario 1: anyOf with string + string-enum → std::string
@@ -163,7 +215,7 @@ components:
         name:
           type: string
 
-    # Scenario 3: allOf flattened — CreateResponse has model and input directly
+    # Scenario 3: allOf merge — CreateResponse inherits model and adds input
     CreateResponse:
       allOf:
         - $ref: '#/components/schemas/CreateResponseBase'
@@ -220,6 +272,7 @@ components:
         mapping:
           cat: Cat
           dog: Dog
+          'cat"quoted': Cat
     Cat:
       type: object
       properties:
@@ -268,8 +321,11 @@ components:
           type: integer
           format: int32
           const: 42
+        enabled:
+          type: boolean
+          const: true
 
-    # Scenario 12b: optional x-stainless-const vendor enhancer (still supported)
+    # Scenario 12b: optional x-stainless-const vendor extension (still supported)
     StainlessObject:
       type: object
       properties:
@@ -349,7 +405,7 @@ components:
         value:
           $ref: '#/components/schemas/AnyOfStringInteger'
 
-    # Scenario 17: anyOf of two overlapping object schemas (no discriminator).
+    # Scenario 18: anyOf of two overlapping object schemas (no discriminator).
     # When a JSON payload matches both branches (e.g., {"name":"foo"} matches both
     # OverlappingObjectA and OverlappingObjectB), property-level fromJsonValue must
     # accept first-match (anyOf) rather than rejecting multi-match (oneOf).
@@ -375,7 +431,7 @@ components:
         data:
           $ref: '#/components/schemas/AnyOfOverlapping'
 
-    # Scenario 18: SSE stream event for testing parseEventStream wiring
+    # Scenario 19: SSE stream event for testing incremental SSE wiring
     # Uses discriminator on 'type' field for correct branch selection.
     ResponseStreamEvent:
       anyOf:

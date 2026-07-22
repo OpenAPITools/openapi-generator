@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <map>
+#include <stdexcept>
 #include <string>
 #include <utility>
 
@@ -32,11 +33,14 @@ public:
     /// Incomplete events at EOF are discarded. Returns the HTTP status code.
     /// Throws std::invalid_argument if onEvent is empty.
     virtual boost::beast::http::status
-    executeStream(const std::string &verb,
-                  const std::string &target,
-                  const std::string &body,
-                  const std::map<std::string, std::string> &headers,
-                  std::function<void(const std::string &)> onEvent) = 0;
+    executeStream(const std::string &,
+                  const std::string &,
+                  const std::string &,
+                  const std::map<std::string, std::string> &,
+                  std::function<void(const std::string &)>) {
+        throw std::logic_error(
+            "Streaming is not supported by this HttpClient implementation");
+    }
 };
 
 

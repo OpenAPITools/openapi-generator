@@ -38,10 +38,11 @@
 // parse/serialization of valid instances matching the generated types.
 // ============================================================================
 
-
 #include "Pet.h"
 
 #include <cstddef>
+#include <cstdint>
+#include <limits>
 #include <map>
 #include <memory>
 #include <stdexcept>
@@ -178,6 +179,12 @@ bool tryParseBranch(boost::json::value const& value, T& result, std::string* err
             if (raw < (std::numeric_limits<std::int32_t>::min)() || raw > (std::numeric_limits<std::int32_t>::max)()) return false;
             result = static_cast<std::int32_t>(raw);
             return true;
+        } else if constexpr (std::is_same_v<T, std::uint8_t>) {
+            if (!value.is_int64()) return false;
+            auto raw = value.as_int64();
+            if (raw < 0 || raw > 255) return false;
+            result = static_cast<std::uint8_t>(raw);
+            return true;
         } else if constexpr (std::is_same_v<T, std::int64_t>) {
             if (!value.is_int64()) return false;
             result = value.as_int64();
@@ -293,7 +300,24 @@ bool tryVariantIndex(const boost::json::value& value, Variant& result, std::stri
 
 template<typename Variant, std::size_t... Is>
 bool tryVariantBranches(const boost::json::value& value, Variant& result, std::index_sequence<Is...>, std::string* errorPath) {
-    return (tryVariantIndex<Variant, Is>(value, result, errorPath) || ...);
+    const std::string initialErrorPath = errorPath == nullptr ? std::string() : *errorPath;
+    std::string bestErrorPath = initialErrorPath;
+    auto tryBranch = [&](auto branchIndex) {
+        std::string branchErrorPath = initialErrorPath;
+        if (tryVariantIndex<Variant, decltype(branchIndex)::value>(
+                value, result, errorPath == nullptr ? nullptr : &branchErrorPath)) {
+            return true;
+        }
+        if (branchErrorPath.size() > bestErrorPath.size()) {
+            bestErrorPath = std::move(branchErrorPath);
+        }
+        return false;
+    };
+    const bool matched = (tryBranch(std::integral_constant<std::size_t, Is>{}) || ...);
+    if (!matched && errorPath != nullptr) {
+        *errorPath = std::move(bestErrorPath);
+    }
+    return matched;
 }
 
 // Count how many variant branches match the JSON value (no short-circuit).
@@ -302,7 +326,21 @@ template<typename Variant, std::size_t... Is>
 std::size_t countVariantBranches(const boost::json::value& value, std::index_sequence<Is...>, std::string* errorPath) {
     std::size_t count = 0;
     Variant temp;
-    ((tryVariantIndex<Variant, Is>(value, temp, errorPath) ? ++count : 0), ...);
+    const std::string initialErrorPath = errorPath == nullptr ? std::string() : *errorPath;
+    std::string bestErrorPath = initialErrorPath;
+    auto countBranch = [&](auto branchIndex) {
+        std::string branchErrorPath = initialErrorPath;
+        if (tryVariantIndex<Variant, decltype(branchIndex)::value>(
+                value, temp, errorPath == nullptr ? nullptr : &branchErrorPath)) {
+            ++count;
+        } else if (branchErrorPath.size() > bestErrorPath.size()) {
+            bestErrorPath = std::move(branchErrorPath);
+        }
+    };
+    (countBranch(std::integral_constant<std::size_t, Is>{}), ...);
+    if (count == 0 && errorPath != nullptr) {
+        *errorPath = std::move(bestErrorPath);
+    }
     return count;
 }
 
@@ -572,6 +610,8 @@ void writePrettyJson(std::ostream& output, boost::json::value const& value, std:
     output << boost::json::serialize(value);
 }
 }
+
+
 
 Pet::Pet(boost::json::value const& value)
 {

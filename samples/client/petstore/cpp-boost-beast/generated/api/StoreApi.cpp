@@ -16,6 +16,7 @@
 #include <string>
 #include <type_traits>
 #include <cstdint>
+#include <limits>
 #include <functional>
 #include <map>
 #include <array>
@@ -614,15 +615,6 @@ struct ResponseJsonValueConverter<std::map<std::string, T>> {
     }
 };
 
-// Trait: detects whether a type has a fromJsonValue member function (C++17 compat)
-template <typename T, typename = void>
-struct HasFromJsonValueMethod : std::false_type {};
-
-template <typename T>
-struct HasFromJsonValueMethod<T,
-    std::void_t<decltype(std::declval<T&>().fromJsonValue(std::declval<const boost::json::value&>()))>>
-    : std::true_type {};
-
 // Trait: detects whether a type is a specialization of a template (e.g. std::vector<T>)
 template <typename T, template <typename...> class Template>
 struct IsSpecialization : std::false_type {};
@@ -630,9 +622,18 @@ struct IsSpecialization : std::false_type {};
 template <template <typename...> class Template, typename... Args>
 struct IsSpecialization<Template<Args...>, Template> : std::true_type {};
 
+template<typename Variant, std::size_t I>
+bool tryVariantAlternative(const boost::json::value& value, Variant& result);
+
+template<typename Variant, std::size_t... Is>
+bool tryFirstVariantAlternative(
+    const boost::json::value& value,
+    Variant& result,
+    std::index_sequence<Is...>);
+
 // Variant branch trial helpers — tries to parse a JSON value into a specific type.
 // These are defined OUTSIDE the anonymous namespace so they can be referenced by
-// ResponseJsonValueConverter specializations and parseEventStream.
+// ResponseJsonValueConverter specializations and SSE event conversion.
 template<typename T>
 bool tryParseBranch(const boost::json::value& value, T& result) {
     try {
@@ -643,6 +644,12 @@ bool tryParseBranch(const boost::json::value& value, T& result) {
         } else if constexpr (std::is_same_v<T, bool>) {
             if (!value.is_bool()) return false;
             result = boost::json::value_to<bool>(value);
+            return true;
+        } else if constexpr (std::is_same_v<T, std::uint8_t>) {
+            if (!value.is_int64()) return false;
+            auto raw = value.as_int64();
+            if (raw < 0 || raw > 255) return false;
+            result = static_cast<std::uint8_t>(raw);
             return true;
         } else if constexpr (std::is_same_v<T, std::int32_t>) {
             if (!value.is_int64()) return false;
@@ -683,6 +690,10 @@ bool tryParseBranch(const boost::json::value& value, T& result) {
             if (!tryParseBranch(value, converted)) return false;
             result = std::move(converted);
             return true;
+        } else if constexpr (IsSpecialization<T, std::variant>{}) {
+            constexpr std::size_t variantSize = std::variant_size_v<T>;
+            return tryFirstVariantAlternative(
+                value, result, std::make_index_sequence<variantSize>{});
         } else if constexpr (IsSpecialization<T, std::map>{}) {
             if (!value.is_object()) return false;
             using MappedType = typename T::mapped_type;
@@ -696,7 +707,7 @@ bool tryParseBranch(const boost::json::value& value, T& result) {
             return true;
         } else {
             // Model type with fromJsonValue member
-            if constexpr (HasFromJsonValueMethod<T>{}) {
+            if constexpr (HasFromJsonValue<T>{}) {
                 T candidate;
                 candidate.fromJsonValue(value);
                 result = std::move(candidate);
@@ -722,6 +733,14 @@ bool tryVariantAlternative(const boost::json::value& value, Variant& result) {
 }
 
 template<typename Variant, std::size_t... Is>
+bool tryFirstVariantAlternative(
+    const boost::json::value& value,
+    Variant& result,
+    std::index_sequence<Is...>) {
+    return (tryVariantAlternative<Variant, Is>(value, result) || ...);
+}
+
+template<typename Variant, std::size_t... Is>
 bool tryAllVariantAlternatives(const boost::json::value& value, Variant& result, std::index_sequence<Is...>) {
     // Evaluate ALL alternatives without short-circuiting (comma-fold instead of ||-fold)
     // so ambiguous matches (multiple alternatives matching the same JSON value) are
@@ -734,6 +753,25 @@ bool tryAllVariantAlternatives(const boost::json::value& value, Variant& result,
 
 template<typename... Ts>
 struct ResponseJsonValueConverter<std::variant<Ts...>> {
+    static std::variant<Ts...> convert(const boost::json::value& responseValue) {
+        std::variant<Ts...> result;
+        if (!tryFirstVariantAlternative(responseValue, result, std::index_sequence_for<Ts...>{})) {
+            throw std::invalid_argument(
+                "JSON value does not match any variant alternative");
+        }
+        return result;
+    }
+};
+
+template<typename T>
+struct OneOfResponseJsonValueConverter {
+    static T convert(const boost::json::value& responseValue) {
+        return ResponseJsonValueConverter<T>::convert(responseValue);
+    }
+};
+
+template<typename... Ts>
+struct OneOfResponseJsonValueConverter<std::variant<Ts...>> {
     static std::variant<Ts...> convert(const boost::json::value& responseValue) {
         std::variant<Ts...> result;
         if (!tryAllVariantAlternatives(responseValue, result, std::index_sequence_for<Ts...>{})) {
@@ -784,6 +822,28 @@ struct ResponseBodyDeserializer<std::string> {
     }
 };
 
+template<typename T>
+struct OneOfResponseBodyDeserializer : ResponseBodyDeserializer<T> {};
+
+template<typename... Ts>
+struct OneOfResponseBodyDeserializer<std::variant<Ts...>> {
+    static void deserialize(
+        std::variant<Ts...>& convertedResponse,
+        const std::string& responseBody,
+        const std::string& responseContentType,
+        bool tolerateEmptyBody) {
+        if (!isJsonContentType(responseContentType)) {
+            throw std::invalid_argument(
+                "Content type '" + responseContentType + "' does not support structured response bodies");
+        }
+        if (tolerateEmptyBody && responseBody.empty()) {
+            return;
+        }
+        convertedResponse = OneOfResponseJsonValueConverter<std::variant<Ts...>>::convert(
+            boost::json::parse(responseBody));
+    }
+};
+
 /// Parse one SSE event data payload (JSON) into a typed event and append it.
 template<typename EventVariant, typename Converter>
 void appendParsedEvent(std::vector<EventVariant>& events,
@@ -792,77 +852,6 @@ void appendParsedEvent(std::vector<EventVariant>& events,
     events.push_back(converter(boost::json::parse(eventData)));
 }
 
-/// Parse a full text/event-stream body into typed events (buffered helper).
-/// Prefer executeStream + appendParsedEvent for incremental delivery.
-/// Multi-line data fields are joined with LF per WHATWG SSE.
-template<typename EventVariant, typename Converter>
-std::vector<EventVariant> parseEventStream(const std::string& responseBody, Converter&& converter) {
-    std::vector<EventVariant> events;
-    std::string pending = responseBody;
-    std::string currentData;
-    std::size_t cursor = 0;
-
-    auto dispatch = [&]() {
-        if (currentData.empty()) {
-            return;
-        }
-        if (currentData.back() == '\n') {
-            currentData.pop_back();
-        }
-        appendParsedEvent(events, currentData, converter);
-        currentData.clear();
-    };
-
-    while (cursor < pending.size()) {
-        std::size_t lineEnd = cursor;
-        bool foundEol = false;
-        while (lineEnd < pending.size()) {
-            const char ch = pending[lineEnd];
-            if (ch == '\n' || ch == '\r') {
-                foundEol = true;
-                break;
-            }
-            ++lineEnd;
-        }
-        if (!foundEol) {
-            break; // incomplete trailing line discarded at EOF
-        }
-
-        const std::string line = pending.substr(cursor, lineEnd - cursor);
-        cursor = lineEnd + 1;
-        if (pending[lineEnd] == '\r' && cursor < pending.size() &&
-            pending[cursor] == '\n') {
-            ++cursor;
-        }
-
-        if (line.empty()) {
-            dispatch();
-            continue;
-        }
-        if (line[0] == ':') {
-            continue;
-        }
-
-        std::string field;
-        std::string value;
-        const auto colon = line.find(':');
-        if (colon == std::string::npos) {
-            field = line;
-        } else {
-            field = line.substr(0, colon);
-            value = line.substr(colon + 1);
-            if (!value.empty() && value[0] == ' ') {
-                value.erase(0, 1);
-            }
-        }
-        if (field == "data") {
-            currentData.append(value);
-            currentData.push_back('\n');
-        }
-    }
-    // WHATWG: discard incomplete trailing event (no terminating blank line).
-    return events;
-}
 }
 
 StoreApiException::StoreApiException(boost::beast::http::status statusCode, std::string what)

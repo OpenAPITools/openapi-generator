@@ -413,6 +413,8 @@ public class CppBoostBeastClientCodegenTest {
                 "InputParam to_json should use std::visit");
         Assert.assertTrue(inputParamSourceContent.contains("VariantJsonHelper<"),
                 "InputParam to_json should use VariantJsonHelper");
+        Assert.assertTrue(inputParamSourceContent.contains("#include <limits>"),
+                "Variant sources using numeric_limits must include <limits>");
 
         // PetByType is a discriminated variant
         Path petByTypeSource = output.toPath().resolve("model/PetByType.cpp");
@@ -421,6 +423,10 @@ public class CppBoostBeastClientCodegenTest {
                 "PetByType from_json should reference discriminator");
         Assert.assertTrue(petByTypeSourceContent.contains("pet_type"),
                 "PetByType from_json should reference pet_type discriminator property");
+        Assert.assertTrue(petByTypeSourceContent.contains("must be a string"),
+                "PetByType must reject a non-string discriminator before structural matching");
+        Assert.assertTrue(petByTypeSourceContent.contains("cat\\\"quoted"),
+                "PetByType must emit escaped discriminator mapping string literals");
 
         // OptionalScore (oneOf null+number → std::optional<double>) is not generated
         // as a stand-alone file by the current pipeline — the OpenAPI 3.1 parser
@@ -534,6 +540,8 @@ public class CppBoostBeastClientCodegenTest {
         // matchCount==0 re-run to capture model-error context in path
         Assert.assertTrue(inputParamSourceContent.contains("capturePath"),
                 "InputParam source must use capturePath for matchCount==0 diagnostic");
+        Assert.assertTrue(inputParamSourceContent.contains("initialErrorPath"),
+                "Variant branch trials must isolate error paths between alternatives");
 
         // Scenario 12a: OAS const without vendor extensions
         Path oasConstHeader = output.toPath().resolve("model/OasConstObject.h");
@@ -543,6 +551,14 @@ public class CppBoostBeastClientCodegenTest {
                 "OasConstObject string const getter should inline from OAS const");
         Assert.assertTrue(oasConstContent.contains("int32_t getCount() const { return 42; }"),
                 "OasConstObject integer const getter should inline from OAS const");
+        String oasConstSourceContent = java.nio.file.Files.readString(
+                output.toPath().resolve("model/OasConstObject.cpp"));
+        Assert.assertTrue(oasConstSourceContent.contains("expected a JSON number for const value"),
+                "Numeric const properties must reject non-number JSON kinds");
+        Assert.assertTrue(oasConstSourceContent.contains("expected a JSON boolean for const value"),
+                "Boolean const properties must require a JSON boolean");
+        Assert.assertFalse(oasConstSourceContent.contains("expected a JSON number or boolean"),
+                "Numeric and boolean const validation must not share a coercing kind check");
 
         // Scenario 12b: optional x-stainless-const still works
         Path stainlessHeader = output.toPath().resolve("model/StainlessObject.h");
@@ -568,13 +584,19 @@ public class CppBoostBeastClientCodegenTest {
         // The anyOf path comment is also present (both branches emitted textually by if constexpr)
 
         // DedupTest is now boost::json::value alias (not variant) — source uses
-        // value_to/value_from; no oneOf matching logic needed.
+        // JsonValueConverter which dispatches through model conversion helpers
+        // for model-containing types (e.g., std::optional<SomeObject>) and falls
+        // back to value_to/value_from for plain types.
         Path dedupSource = output.toPath().resolve("model/DedupTest.cpp");
         String dedupSourceContent = java.nio.file.Files.readString(dedupSource);
-        Assert.assertTrue(dedupSourceContent.contains("value_to<DedupTest>"),
-                "DedupTest alias source should use value_to for deserialization");
-        Assert.assertTrue(dedupSourceContent.contains("value_from"),
-                "DedupTest alias source should use value_from for serialization");
+        Assert.assertTrue(dedupSourceContent.contains("JsonValueConverter<DedupTest>::toJsonValue"),
+                "DedupTest alias source should use JsonValueConverter for serialization");
+        Assert.assertTrue(dedupSourceContent.contains("matchingBranches"),
+                "Type-erased oneOf aliases must retain branch validation");
+        Assert.assertTrue(dedupSourceContent.contains("stringValue == \"a\""),
+                "Type-erased oneOf aliases must retain string-enum constraints");
+        Assert.assertTrue(dedupSourceContent.contains("value.is_int64()"),
+                "Type-erased oneOf aliases must reject unrelated JSON kinds");
 
         // VariantPayload (oneOf variant) source must also contain exactly-one checking
         Path variantPayloadSource = output.toPath().resolve("model/VariantPayload.cpp");
@@ -593,7 +615,7 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(rseSourceContent.contains("Discriminator-aware"),
                 "ResponseStreamEvent should contain discriminator dispatch");
 
-        // Scenario 17: AnyOfOverlapping, OverlappingObjectA, OverlappingObjectB,
+        // Scenario 18: AnyOfOverlapping, OverlappingObjectA, OverlappingObjectB,
         // ParentWithAnyOfOverlapping — verify files are generated
         TestUtils.assertFileExists(output.toPath().resolve("model/AnyOfOverlapping.h"));
         TestUtils.assertFileExists(output.toPath().resolve("model/OverlappingObjectA.h"));
@@ -910,6 +932,15 @@ public class CppBoostBeastClientCodegenTest {
         String nullableStringContent = java.nio.file.Files.readString(nullableStringHeader);
         Assert.assertTrue(nullableStringContent.contains("using NullableString = std::optional<std::string>;"),
                 "NullableString must emit optional alias header. Got: " + nullableStringContent);
+        Path nullableStringSource = output.toPath().resolve("model/NullableString.cpp");
+        TestUtils.assertFileContains(nullableStringSource,
+                "JsonValueConverter<NullableString>::fromJsonValue(value)");
+        TestUtils.assertFileContains(nullableStringSource,
+                "JsonValueConverter<NullableString>::toJsonValue(value)");
+        TestUtils.assertFileContains(nullableStringSource,
+                "struct JsonValueConverter<std::optional<T>>");
+        TestUtils.assertFileContains(nullableStringSource,
+                "return JsonValueConverter<T>::fromJsonValue(jsonValue)");
     }
 
     @Test
@@ -961,16 +992,27 @@ public class CppBoostBeastClientCodegenTest {
                 "Generated API source must have std::variant specialization for ResponseJsonValueConverter");
         Assert.assertTrue(generatedApiSource.contains("ResponseJsonValueConverter<std::optional<T>>"),
                 "Generated API source must have std::optional specialization for ResponseJsonValueConverter");
+        Assert.assertTrue(generatedApiSource.contains("OneOfResponseJsonValueConverter<std::variant<Ts...>>"),
+                "Generated API source must preserve exactly-one response decoding for oneOf variants");
+        Assert.assertTrue(generatedApiSource.contains("tryFirstVariantAlternative"),
+                "Generated API source must use first-match response decoding for anyOf variants");
+        Assert.assertTrue(generatedApiSource.contains("std::is_same_v<T, std::uint8_t>"),
+                "Generated API source must decode bounded uint8 variant branches");
+        Assert.assertTrue(generatedApiSource.contains("IsSpecialization<T, std::variant>"),
+                "Generated API source must recurse into nested variant alternatives");
+        Assert.assertTrue(generatedApiSource.contains("#include <limits>"),
+                "Generated API source using numeric_limits must include <limits>");
 
-        // Verify the SSE streaming helper is present
-        Assert.assertTrue(generatedApiSource.contains("parseEventStream"),
-                "Generated API source must contain parseEventStream helper");
+        Assert.assertFalse(generatedApiSource.contains("parseEventStream"),
+                "Generated API source must not contain the unused buffered SSE parser");
 
         // Verify trait-based dispatch for toRequestJsonValue
         Assert.assertTrue(generatedApiSource.contains("HasRequestToJsonValue"),
                 "Generated API source must contain HasRequestToJsonValue trait");
         Assert.assertTrue(generatedApiSource.contains("HasFromJsonValue"),
                 "Generated API source must contain HasFromJsonValue trait");
+        Assert.assertFalse(generatedApiSource.contains("HasFromJsonValueMethod"),
+                "Generated API source must reuse one fromJsonValue detection trait");
 
         // Verify postVariantBody method serializes variant body param
         String postVariantBodyMethod = extractMethod(generatedApiSource, "postVariantBody(");
@@ -978,8 +1020,8 @@ public class CppBoostBeastClientCodegenTest {
                 "serializedRequestBody = boost::json::serialize(toRequestJsonValue(inputParam));"),
                 "postVariantBody must serialize using toRequestJsonValue");
         Assert.assertTrue(postVariantBodyMethod.contains(
-                "ResponseBodyDeserializer<InputParam>::deserialize("),
-                "postVariantBody must deserialize using ResponseBodyDeserializer<InputParam>");
+                "OneOfResponseBodyDeserializer<InputParam>::deserialize("),
+                "postVariantBody must preserve oneOf response semantics");
 
         // Verify postAliasBody method serializes alias body param
         String postAliasBodyMethod = extractMethod(generatedApiSource, "postAliasBody(");
@@ -1075,7 +1117,7 @@ public class CppBoostBeastClientCodegenTest {
 
         // AnyOfPropertyHolder source must dispatch property (de)serialization via
         // fromJsonValue_/toJsonValue_ free functions (keyword-faithful: anyOf first-match)
-        // rather than JsonValueConverter<AnyOfStringInteger> (always oneOf exactly-one).
+        // rather than the generic converter, so the named alias keeps its own keyword semantics.
         Path anyOfHolderSource = output.toPath().resolve("model/AnyOfPropertyHolder.cpp");
         TestUtils.assertFileExists(anyOfHolderSource);
         String anyOfHolderSourceContent = java.nio.file.Files.readString(anyOfHolderSource);
@@ -1088,7 +1130,7 @@ public class CppBoostBeastClientCodegenTest {
         // (for non-alias-referenced variant types) but the property must NOT use it.
         Assert.assertFalse(anyOfHolderSourceContent.contains("JsonValueConverter<AnyOfStringInteger>"),
                 "AnyOfPropertyHolder must NOT use JsonValueConverter<AnyOfStringInteger> "
-                + "(that path always enforces exactly-one semantics)");
+                + "(named aliases must use their generated converter)");
 
         // Verify new fixture: ParentWithAnyOfOverlapping — parent referencing anyOf of
         // two overlapping object schemas (no discriminator). The generated property
@@ -1127,8 +1169,8 @@ public class CppBoostBeastClientCodegenTest {
                 "ComposedSchemaApi.h must declare getDualStreamStream streaming overload for dual-content op");
         Assert.assertTrue(generatedApiSource.contains("getDualStreamStream"),
                 "ComposedSchemaApi.cpp must implement getDualStreamStream for dual-content op");
-        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_ResponseStreamEvent"),
-                "ComposedSchemaApi.cpp streaming path must use fromJsonValue_ResponseStreamEvent");
+        Assert.assertTrue(generatedApiSource.contains("ResponseJsonValueConverter<ResponseStreamEvent>::convert"),
+                "Dual-content streaming must use the generic response converter");
         Assert.assertTrue(generatedApiSource.contains("text/event-stream"),
                 "ComposedSchemaApi.cpp streaming path must set Accept header to text/event-stream");
         // Verify converter name is a valid C++ identifier (no :: or < or shared_ptr)
@@ -1136,6 +1178,43 @@ public class CppBoostBeastClientCodegenTest {
                 "Converter name must not contain std::shared_ptr< (invalid C++ identifier)");
         Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::"),
                 "Converter name must not contain std:: namespace prefix");
+
+        String inlineAnyOfMethod = extractMethod(generatedApiSource, "getInlineAnyOfResponse(");
+        Assert.assertTrue(inlineAnyOfMethod.contains(
+                "ResponseBodyDeserializer<GetInlineAnyOfResponse_200_response>::deserialize("),
+                "Inline anyOf responses must use first-match variant decoding");
+        Assert.assertFalse(inlineAnyOfMethod.contains("OneOfResponseBodyDeserializer"),
+                "Inline anyOf responses must not use exactly-one decoding");
+
+        String inlineOneOfStreamMethod = extractMethod(generatedApiSource, "getInlineOneOfEvents(");
+        Assert.assertTrue(inlineOneOfStreamMethod.contains(
+                "fromJsonValue_GetInlineOneOfEvents_200_response"),
+                "Inline oneOf SSE responses must use the generated exactly-one converter");
+
+        String dualPrimitiveMethod = extractMethod(generatedApiSource, "getDualPrimitiveStreamStream(");
+        Assert.assertTrue(dualPrimitiveMethod.contains(
+                "ResponseJsonValueConverter<std::string>::convert(value)"),
+                "Primitive dual-content SSE responses must use the generic response converter");
+
+        String noContentMethod = extractMethod(generatedApiSource, "deleteWithoutContent(");
+        Assert.assertTrue(noContentMethod.contains("status(204)"),
+                "No-content operations must handle their successful status");
+        Assert.assertTrue(noContentMethod.contains("return;"),
+                "Successful no-content operations must return normally");
+
+        String httpClientHeader = Files.readString(output.toPath().resolve("api/HttpClient.h"));
+        Assert.assertTrue(httpClientHeader.contains("Streaming is not supported"),
+                "Custom HttpClient adapters must inherit a non-pure streaming fallback");
+        Assert.assertFalse(httpClientHeader.contains("onEvent) = 0"),
+                "executeStream must not remain pure virtual");
+
+        String httpClientSource = Files.readString(output.toPath().resolve("api/HttpClientImpl.cpp"));
+        Assert.assertTrue(httpClientSource.contains("consumeInitialByteOrderMark"),
+                "SSE framing must strip a split UTF-8 BOM at stream start");
+        Assert.assertTrue(httpClientSource.contains("http::error::need_buffer"),
+                "Incremental Beast reads must accept need_buffer as a refill signal");
+        Assert.assertTrue(httpClientSource.contains("tcpStream.expires_never()"),
+                "HTTPS streaming must disable the stale tcp_stream expiry");
     }
 
     @Test
@@ -1205,18 +1284,16 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(generatedApiSource.contains("createItemStream"),
                 "Dual-content op must generate createItemStream method");
 
-        // Verify the stream method uses fromJsonValue_StreamEvent (valid C++ identifier)
-        // NOT fromJsonValue_std::shared_ptr<StreamEvent> (invalid C++ identifier)
-        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_StreamEvent"),
-                "Dual-content stream must use fromJsonValue_StreamEvent converter");
+        Assert.assertTrue(generatedApiSource.contains("ResponseJsonValueConverter<StreamEvent>::convert"),
+                "Dual-content stream must use the generic typed response converter");
         Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::"),
                 "Dual-content object stream must not contain fromJsonValue_std::");
 
-        // Verify the stream method uses executeStream + appendParsedEvent with StreamEvent converter
+        // Verify the stream method uses executeStream + appendParsedEvent with StreamEvent conversion
         Assert.assertTrue(generatedApiSource.contains("executeStream("),
                 "Dual-content stream must use executeStream for incremental delivery");
-        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_StreamEvent"),
-                "Dual-content must appendParsedEvent with StreamEvent converter (not shared_ptr wrapper)");
+        Assert.assertTrue(generatedApiSource.contains("ResponseJsonValueConverter<StreamEvent>::convert"),
+                "Dual-content must append parsed events through the typed converter");
 
         // Verify the stream method returns std::vector<StreamEvent>
         Assert.assertTrue(generatedApiSource.contains("std::vector<StreamEvent>"),
