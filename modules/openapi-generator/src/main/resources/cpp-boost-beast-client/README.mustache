@@ -67,7 +67,7 @@ The generator applies the following rules in order to every composed schema:
 | object struct | Value class |
 | cyclic edge | `std::shared_ptr<T>` |
 | `enum` string | `enum class` + string conversion |
-| Discriminator literal | Fixed on encode |
+| Discriminator literal | Fixed on encode when branch schema declares a `const` (OAS 3.1) or single-value `enum`; otherwise not injected |
 
 ---
 
