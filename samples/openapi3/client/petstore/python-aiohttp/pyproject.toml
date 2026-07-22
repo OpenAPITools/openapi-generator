@@ -12,7 +12,7 @@ include = ["petstore_api/py.typed"]
 [tool.poetry.dependencies]
 python = "^3.10"
 python-dateutil = ">= 2.8.2"
-aiohttp = ">= 3.13.5"
+aiohttp = ">= 3.14.1"
 aiohttp-retry = ">= 2.8.3"
 pem = ">= 19.3.0"
 pycryptodome = ">= 3.9.0"
@@ -20,7 +20,7 @@ pydantic = ">= 2.11"
 typing-extensions = ">= 4.7.1"
 
 [tool.poetry.dev-dependencies]
-pytest = ">= 8.4.2"
+pytest = ">= 9.0.3"
 pytest-cov = ">= 2.8.1"
 tox = ">= 3.9.0"
 flake8 = ">= 4.0.0"

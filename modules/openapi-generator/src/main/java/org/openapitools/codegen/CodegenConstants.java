@@ -515,6 +515,7 @@ public class CodegenConstants {
     public static final String X_NULLABLE = "x-nullable";
     public static final String X_ENUM_VARNAMES = "x-enum-varnames";
     public static final String X_ENUM_DESCRIPTIONS = "x-enum-descriptions";
+    public static final String X_ENUM_DEPRECATED = "x-enum-deprecated";
     public static final String X_PY_TYPING = "x-py-typing";
     public static final String X_PY_EXAMPLE = "x-py-example";
     public static final String X_PY_EXAMPLE_IMPORT = "x-py-example-import";

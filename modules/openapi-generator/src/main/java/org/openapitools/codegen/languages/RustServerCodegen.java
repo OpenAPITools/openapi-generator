@@ -1753,7 +1753,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             }
         } else if (param.isArray) {
-            param.vendorExtensions.put("x-format-string", "{:?}");
+            boolean itemsAreEnum = param.items != null && param.items.getIsEnumOrRef();
+            param.vendorExtensions.put("x-format-string", itemsAreEnum ? "{}" : "{:?}");
             if (param.items.isString) {
                 // We iterate through the list of string and ensure they end up in the format vec!["example".to_string()]
                 example = (param.example != null)
@@ -1765,7 +1766,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 example = (param.example != null) ? param.example : "&Vec::new()";
             }
         } else {
-            param.vendorExtensions.put("x-format-string", "{:?}");
+            param.vendorExtensions.put("x-format-string", param.getIsEnumOrRef() ? "{}" : "{:?}");
             // Check if this is a model-type enum (allowableValues with values list)
             if (param.allowableValues != null && param.allowableValues.containsKey("values")) {
                 List<?> values = (List<?>) param.allowableValues.get("values");
@@ -1798,7 +1799,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             param.vendorExtensions.put("x-example", "None");
         } else {
             // Not required, so override the format string and example
-            param.vendorExtensions.put("x-format-string", "{:?}");
+            boolean itemsAreEnum = param.isArray && param.items != null && param.items.getIsEnumOrRef();
+            param.vendorExtensions.put("x-format-string", (param.getIsEnumOrRef() || itemsAreEnum) ? "{}" : "{:?}");
             String exampleString = (example != null) ? "Some(" + example + ")" : "None";
             param.vendorExtensions.put("x-example", exampleString);
         }

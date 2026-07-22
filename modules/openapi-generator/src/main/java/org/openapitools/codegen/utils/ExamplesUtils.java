@@ -14,7 +14,10 @@ import java.util.*;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class ExamplesUtils {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ExamplesUtils.class);
+
+    private static final String APPLICATION_JSON = "application/json";
 
     /**
      * Return examples of API response.
@@ -36,20 +39,25 @@ public class ExamplesUtils {
         if (content == null || content.isEmpty())
             return Collections.emptyMap();
 
-        if (content.containsKey("application/json")) {
-            Map<String, Example> examples = content.get("application/json").getExamples();
+        if (content.containsKey(APPLICATION_JSON)) {
+            Map<String, Example> examples = content.get(APPLICATION_JSON).getExamples();
             if (content.size() > 1 && examples != null && !examples.isEmpty()) {
-                once(LOGGER).warn("More than one content media type found in response. Only response examples of the application/json will be taken for codegen.");
+                once(LOGGER).info("More than one content media type found in response. Only response examples of the application/json will be taken for codegen.");
             }
 
             return examples;
         }
 
-        once(LOGGER).warn("No application/json content media type found in response. Response examples can currently only be generated for application/json media type.");
+        if (containsContextMediaTypeWithExamples(content)) {
+            once(LOGGER).info("Found one or more content media type(s) with examples in response, but none was application/json. Examples can currently only be generated for application/json media type.");
+        }
 
         return Collections.emptyMap();
     }
 
+    private static boolean containsContextMediaTypeWithExamples(Content content) {
+        return content.values().stream().anyMatch(mediaType -> mediaType.getExamples() != null && !mediaType.getExamples().isEmpty());
+    }
 
     /**
      * Return actual examples objects of API response with values and processed from references (unaliased)
