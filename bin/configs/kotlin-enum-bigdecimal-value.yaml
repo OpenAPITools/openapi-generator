@@ -1,0 +1,9 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-enum-bigdecimal-value
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/issue-enum-bigdecimal-value.yml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-enum-bigdecimal-value
+  serializationLibrary: gson
+globalProperties:
+  models: ""
