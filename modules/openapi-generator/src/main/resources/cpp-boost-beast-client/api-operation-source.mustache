@@ -145,6 +145,38 @@
 {{/hasProduces}}
 
     auto statusCode = boost::beast::http::status::unknown;
+{{#vendorExtensions.x-codegen-streaming-response}}
+{{#returnType}}
+    {{#vendorExtensions.x-codegen-stream-element-type}}std::vector<{{{.}}}>{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}std::vector<{{{returnType}}}>{{/vendorExtensions.x-codegen-stream-element-type}} deserializedResponse;
+{{/returnType}}
+    try {
+        statusCode = m_client->executeStream(
+            "{{httpMethod}}",
+            path,
+            serializedRequestBody,
+            headers,
+            [&deserializedResponse](const std::string &eventData) {
+{{#returnType}}
+                {{#vendorExtensions.x-codegen-stream-element-type}}
+                appendParsedEvent(deserializedResponse, eventData, fromJsonValue_{{{.}}});
+                {{/vendorExtensions.x-codegen-stream-element-type}}
+                {{^vendorExtensions.x-codegen-stream-element-type}}
+                appendParsedEvent(deserializedResponse, eventData,
+                    [](boost::json::value const& v) {
+                        return boost::json::value_to<{{{returnType}}}>(v);
+                    });
+                {{/vendorExtensions.x-codegen-stream-element-type}}
+{{/returnType}}
+            });
+    }
+    catch(const std::exception& exception) {
+        handleStdException(exception);
+    }
+    catch(...) {
+        handleUncaughtException();
+    }
+{{/vendorExtensions.x-codegen-streaming-response}}
+{{^vendorExtensions.x-codegen-streaming-response}}
     std::string responseBody;
     try {
         std::tie(statusCode, responseBody) =
@@ -161,13 +193,9 @@
     }
 
 {{#returnType}}
-{{#vendorExtensions.x-codegen-streaming-response}}
-    {{#vendorExtensions.x-codegen-stream-element-type}}std::vector<{{{.}}}>{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}std::vector<{{{returnType}}}>{{/vendorExtensions.x-codegen-stream-element-type}} deserializedResponse;
-{{/vendorExtensions.x-codegen-streaming-response}}
-{{^vendorExtensions.x-codegen-streaming-response}}
     {{{.}}} deserializedResponse = {{{defaultResponse}}};
-{{/vendorExtensions.x-codegen-streaming-response}}
 {{/returnType}}
+{{/vendorExtensions.x-codegen-streaming-response}}
 {{#responses}}
 {{^isDefault}}
     if ({{#isRange}}static_cast<unsigned int>(statusCode) / 100U == {{vendorExtensions.x-codegen-response-range}}U{{/isRange}}{{^isRange}}statusCode == boost::beast::http::status({{code}}){{/isRange}}) {
@@ -175,14 +203,10 @@
 {{#vendorExtensions.x-codegen-return-compatible}}
 {{#vendorExtensions.x-codegen-streaming-response}}
 {{#returnType}}
-        {{#vendorExtensions.x-codegen-stream-element-type}}
-        deserializedResponse = parseEventStream<{{{.}}}>(responseBody, fromJsonValue_{{{.}}});
-        {{/vendorExtensions.x-codegen-stream-element-type}}
-        {{^vendorExtensions.x-codegen-stream-element-type}}
-        // SSE with primitive element type — use lambda instead of fromJsonValue_
-        deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody, [](boost::json::value const& v) { return boost::json::value_to<{{{dataType}}}>(v); });
-        {{/vendorExtensions.x-codegen-stream-element-type}}
         return deserializedResponse;
+{{/returnType}}
+{{^returnType}}
+        return;
 {{/returnType}}
 {{/vendorExtensions.x-codegen-streaming-response}}
 {{^vendorExtensions.x-codegen-streaming-response}}
@@ -213,12 +237,7 @@
 {{#dataType}}
 {{#vendorExtensions.x-codegen-default-response-is-return-compatible}}
 {{#vendorExtensions.x-codegen-streaming-response}}
-    {{#vendorExtensions.x-codegen-stream-element-type}}
-    deserializedResponse = parseEventStream<{{{.}}}>(responseBody, fromJsonValue_{{{.}}});
-    {{/vendorExtensions.x-codegen-stream-element-type}}
-    {{^vendorExtensions.x-codegen-stream-element-type}}
-    deserializedResponse = parseEventStream<{{{dataType}}}>(responseBody, [](boost::json::value const& v) { return boost::json::value_to<{{{dataType}}}>(v); });
-    {{/vendorExtensions.x-codegen-stream-element-type}}
+    return deserializedResponse;
 {{/vendorExtensions.x-codegen-streaming-response}}
 {{^vendorExtensions.x-codegen-streaming-response}}
     ResponseBodyDeserializer<{{{dataType}}}>::deserialize(
@@ -226,8 +245,8 @@
         responseBody,
         responseContentType,
         {{#vendorExtensions.x-codegen-empty-body-tolerant}}true{{/vendorExtensions.x-codegen-empty-body-tolerant}}{{^vendorExtensions.x-codegen-empty-body-tolerant}}false{{/vendorExtensions.x-codegen-empty-body-tolerant}});
-{{/vendorExtensions.x-codegen-streaming-response}}
     return deserializedResponse;
+{{/vendorExtensions.x-codegen-streaming-response}}
 {{/vendorExtensions.x-codegen-default-response-is-return-compatible}}
 {{^vendorExtensions.x-codegen-default-response-is-return-compatible}}
     throw {{classname}}Exception(statusCode, "{{{message}}}");
@@ -385,13 +404,19 @@
     headers["Accept"] = "text/event-stream";
 
     auto statusCode = boost::beast::http::status::unknown;
-    std::string responseBody;
+    {{#vendorExtensions.x-codegen-dual-stream-element-type}}std::vector<{{{.}}}>{{/vendorExtensions.x-codegen-dual-stream-element-type}}{{^vendorExtensions.x-codegen-dual-stream-element-type}}std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>{{/vendorExtensions.x-codegen-dual-stream-element-type}} deserializedResponse;
     try {
-        std::tie(statusCode, responseBody) =
-            m_client->execute("{{httpMethod}}",
-                              path,
-                              serializedRequestBody,
-                              headers);
+        statusCode = m_client->executeStream(
+            "{{httpMethod}}",
+            path,
+            serializedRequestBody,
+            headers,
+            [&deserializedResponse](const std::string &eventData) {
+                appendParsedEvent(
+                    deserializedResponse,
+                    eventData,
+                    fromJsonValue_{{{vendorExtensions.x-codegen-dual-stream-base-name}}});
+            });
     }
     catch(const std::exception& exception) {
         handleStdException(exception);
@@ -400,12 +425,10 @@
         handleUncaughtException();
     }
 
-    {{#vendorExtensions.x-codegen-dual-stream-element-type}}std::vector<{{{.}}}>{{/vendorExtensions.x-codegen-dual-stream-element-type}}{{^vendorExtensions.x-codegen-dual-stream-element-type}}std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>{{/vendorExtensions.x-codegen-dual-stream-element-type}} deserializedResponse;
 {{#responses}}
 {{^isDefault}}
     if ({{#isRange}}static_cast<unsigned int>(statusCode) / 100U == {{vendorExtensions.x-codegen-response-range}}U{{/isRange}}{{^isRange}}statusCode == boost::beast::http::status({{code}}){{/isRange}}) {
 {{#is2xx}}
-        deserializedResponse = parseEventStream<{{#vendorExtensions.x-codegen-dual-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-dual-stream-element-type}}{{^vendorExtensions.x-codegen-dual-stream-element-type}}{{{vendorExtensions.x-codegen-dual-stream-return-type}}}{{/vendorExtensions.x-codegen-dual-stream-element-type}}>(responseBody, fromJsonValue_{{{vendorExtensions.x-codegen-dual-stream-base-name}}});
         return deserializedResponse;
 {{/is2xx}}
 {{^is2xx}}

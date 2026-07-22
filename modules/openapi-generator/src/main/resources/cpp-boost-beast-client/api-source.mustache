@@ -746,33 +746,83 @@ struct ResponseBodyDeserializer<std::string> {
     }
 };
 
-/// Parse a text/event-stream response body into a vector of typed events.
-/// Each event's data field is parsed as JSON and converted via the converter
-/// callable (e.g. a function pointer to fromJsonValue_{Type}).
-/// The converter takes a boost::json::value const& and returns EventVariant.
+/// Parse one SSE event data payload (JSON) into a typed event and append it.
+template<typename EventVariant, typename Converter>
+void appendParsedEvent(std::vector<EventVariant>& events,
+                       const std::string& eventData,
+                       Converter&& converter) {
+    events.push_back(converter(boost::json::parse(eventData)));
+}
+
+/// Parse a full text/event-stream body into typed events (buffered helper).
+/// Prefer executeStream + appendParsedEvent for incremental delivery.
+/// Multi-line data fields are joined with LF per WHATWG SSE.
 template<typename EventVariant, typename Converter>
 std::vector<EventVariant> parseEventStream(const std::string& responseBody, Converter&& converter) {
     std::vector<EventVariant> events;
-    std::istringstream stream(responseBody);
-    std::string line;
+    std::string pending = responseBody;
     std::string currentData;
-    while (std::getline(stream, line)) {
-        if (line.empty() || line == "\r") {
-            if (!currentData.empty()) {
-                auto jsonValue = boost::json::parse(currentData);
-                events.push_back(converter(jsonValue));
-                currentData.clear();
+    std::size_t cursor = 0;
+
+    auto dispatch = [&]() {
+        if (currentData.empty()) {
+            return;
+        }
+        if (currentData.back() == '\n') {
+            currentData.pop_back();
+        }
+        appendParsedEvent(events, currentData, converter);
+        currentData.clear();
+    };
+
+    while (cursor < pending.size()) {
+        std::size_t lineEnd = cursor;
+        bool foundEol = false;
+        while (lineEnd < pending.size()) {
+            const char ch = pending[lineEnd];
+            if (ch == '\n' || ch == '\r') {
+                foundEol = true;
+                break;
             }
-        } else if (line.rfind("data: ", 0) == 0) {
-            currentData += line.substr(6);
-        } else if (line.rfind("data:", 0) == 0) {
-            currentData += line.substr(5);
+            ++lineEnd;
+        }
+        if (!foundEol) {
+            break; // incomplete trailing line discarded at EOF
+        }
+
+        const std::string line = pending.substr(cursor, lineEnd - cursor);
+        cursor = lineEnd + 1;
+        if (pending[lineEnd] == '\r' && cursor < pending.size() &&
+            pending[cursor] == '\n') {
+            ++cursor;
+        }
+
+        if (line.empty()) {
+            dispatch();
+            continue;
+        }
+        if (line[0] == ':') {
+            continue;
+        }
+
+        std::string field;
+        std::string value;
+        const auto colon = line.find(':');
+        if (colon == std::string::npos) {
+            field = line;
+        } else {
+            field = line.substr(0, colon);
+            value = line.substr(colon + 1);
+            if (!value.empty() && value[0] == ' ') {
+                value.erase(0, 1);
+            }
+        }
+        if (field == "data") {
+            currentData.append(value);
+            currentData.push_back('\n');
         }
     }
-    if (!currentData.empty()) {
-        auto jsonValue = boost::json::parse(currentData);
-        events.push_back(converter(jsonValue));
-    }
+    // WHATWG: discard incomplete trailing event (no terminating blank line).
     return events;
 }
 }

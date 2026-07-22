@@ -828,12 +828,18 @@ private:
     std::thread serverThread_;
 };
 
-BOOST_AUTO_TEST_CASE(http_stream_receives_body_in_chunks) {
-    const std::vector<std::string> expectedChunks{"chunk one ",
-                                                   "chunk two ",
-                                                   "chunk three"};
-    const std::string expectedBody = "chunk one chunk two chunk three";
-    ChunkedStreamingServer server(expectedChunks,
+BOOST_AUTO_TEST_CASE(http_stream_frames_sse_events_across_chunks) {
+    // Event boundaries cross TCP write chunks; framer must reassemble.
+    const std::vector<std::string> wireChunks{
+        "data: {\"n\":1}\n\n"
+        "da",
+        "ta: {\"n\":2}\n",
+        "\n"
+        ": heartbeat\n"
+        "data: line-a\n"
+        "data: line-b\n"
+        "\n"};
+    ChunkedStreamingServer server(wireChunks,
                                   std::chrono::milliseconds(50));
     HttpClientImpl httpClient(
         "127.0.0.1",
@@ -842,25 +848,22 @@ BOOST_AUTO_TEST_CASE(http_stream_receives_body_in_chunks) {
         11,
         std::chrono::milliseconds(1000));
 
-    std::vector<std::string> receivedChunks;
-    std::mutex chunkMutex;
+    std::vector<std::string> receivedEvents;
+    std::mutex eventMutex;
     const http::status status = httpClient.executeStream(
         "GET", "/stream", "", {},
-        [&receivedChunks, &chunkMutex](const std::string &chunk) {
-            std::lock_guard<std::mutex> lock(chunkMutex);
-            receivedChunks.push_back(chunk);
+        [&receivedEvents, &eventMutex](const std::string &eventData) {
+            std::lock_guard<std::mutex> lock(eventMutex);
+            receivedEvents.push_back(eventData);
         });
 
     server.waitForCompletion();
 
     BOOST_REQUIRE_EQUAL(status, http::status::ok);
-
-    std::string assembledBody;
-    for (const auto &chunk : receivedChunks) {
-        assembledBody += chunk;
-    }
-    BOOST_REQUIRE_EQUAL(assembledBody, expectedBody);
-    BOOST_REQUIRE(receivedChunks.size() >= 3);
+    BOOST_REQUIRE_EQUAL(receivedEvents.size(), 3U);
+    BOOST_REQUIRE_EQUAL(receivedEvents[0], "{\"n\":1}");
+    BOOST_REQUIRE_EQUAL(receivedEvents[1], "{\"n\":2}");
+    BOOST_REQUIRE_EQUAL(receivedEvents[2], "line-a\nline-b");
 }
 
 BOOST_AUTO_TEST_CASE(http_stream_empty_body) {
@@ -872,22 +875,22 @@ BOOST_AUTO_TEST_CASE(http_stream_empty_body) {
         11,
         std::chrono::milliseconds(1000));
 
-    std::vector<std::string> receivedChunks;
+    std::vector<std::string> receivedEvents;
     const http::status status = httpClient.executeStream(
         "GET", "/empty", "", {},
-        [&receivedChunks](const std::string &chunk) {
-            receivedChunks.push_back(chunk);
+        [&receivedEvents](const std::string &eventData) {
+            receivedEvents.push_back(eventData);
         });
 
     server.waitForCompletion();
 
     BOOST_REQUIRE_EQUAL(status, http::status::ok);
-    BOOST_REQUIRE(receivedChunks.empty());
+    BOOST_REQUIRE(receivedEvents.empty());
 }
 
-BOOST_AUTO_TEST_CASE(http_stream_single_chunk) {
-    const std::string expectedBody = "single chunk response";
-    ChunkedStreamingServer server({expectedBody});
+BOOST_AUTO_TEST_CASE(http_stream_single_sse_event) {
+    const std::string wire = "data: {\"ok\":true}\n\n";
+    ChunkedStreamingServer server({wire});
     HttpClientImpl httpClient(
         "127.0.0.1",
         server.port(),
@@ -895,22 +898,44 @@ BOOST_AUTO_TEST_CASE(http_stream_single_chunk) {
         11,
         std::chrono::milliseconds(1000));
 
-    std::vector<std::string> receivedChunks;
+    std::vector<std::string> receivedEvents;
     const http::status status = httpClient.executeStream(
         "GET", "/single", "", {},
-        [&receivedChunks](const std::string &chunk) {
-            receivedChunks.push_back(chunk);
+        [&receivedEvents](const std::string &eventData) {
+            receivedEvents.push_back(eventData);
         });
 
     server.waitForCompletion();
 
     BOOST_REQUIRE_EQUAL(status, http::status::ok);
-    BOOST_REQUIRE_EQUAL(receivedChunks.size(), 1U);
-    BOOST_REQUIRE_EQUAL(receivedChunks[0], expectedBody);
+    BOOST_REQUIRE_EQUAL(receivedEvents.size(), 1U);
+    BOOST_REQUIRE_EQUAL(receivedEvents[0], "{\"ok\":true}");
+}
+
+BOOST_AUTO_TEST_CASE(http_stream_discards_incomplete_event_at_eof) {
+    ChunkedStreamingServer server({"data: incomplete-without-blank-line"});
+    HttpClientImpl httpClient(
+        "127.0.0.1",
+        server.port(),
+        HttpClientImpl::Transport::Http,
+        11,
+        std::chrono::milliseconds(1000));
+
+    std::vector<std::string> receivedEvents;
+    const http::status status = httpClient.executeStream(
+        "GET", "/incomplete", "", {},
+        [&receivedEvents](const std::string &eventData) {
+            receivedEvents.push_back(eventData);
+        });
+
+    server.waitForCompletion();
+
+    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE(receivedEvents.empty());
 }
 
 BOOST_AUTO_TEST_CASE(http_stream_body_limit_is_enforced) {
-    ChunkedStreamingServer server({"exceeds eight bytes"});
+    ChunkedStreamingServer server({"data: exceeds eight bytes\n\n"});
     HttpClientImpl limitedHttpClient(
         "127.0.0.1",
         server.port(),

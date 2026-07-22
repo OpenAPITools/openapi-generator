@@ -25,11 +25,11 @@ public:
             const std::string &body,
             const std::map<std::string, std::string> &headers) = 0;
 
-    /// Execute an HTTP request and yield response body chunks/events
-    /// incrementally via callback. Used by SSE / text/event-stream endpoints.
-    /// Chunks are raw bytes; the caller is responsible for framing events
-    /// from the chunk stream.
-    /// Returns the HTTP status code on success.
+    /// Execute an HTTP request and yield complete SSE events incrementally
+    /// via callback. Used by text/event-stream endpoints.
+    /// Each onEvent invocation receives one event's data payload (multi-line
+    /// data fields joined by LF), framed per the WHATWG SSE specification.
+    /// Incomplete events at EOF are discarded. Returns the HTTP status code.
     /// Throws std::invalid_argument if onEvent is empty.
     virtual boost::beast::http::status
     executeStream(const std::string &verb,

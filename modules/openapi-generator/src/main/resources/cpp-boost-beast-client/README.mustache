@@ -149,8 +149,9 @@ includes same-status multi-content operations where one media type is
 2. **SSE decoding** — When `text/event-stream` is selected, the generator emits
    an event-stream parser that decodes each SSE `data:` line using the
    schema from the `text/event-stream` media type entry (often a `oneOf` union).
-3. **Transport** — Full-buffer response is sufficient for initial compliance;
-   incremental SSE transport is deferred (documented below).
+3. **Transport** — Streaming operations use `HttpClient::executeStream`, which
+   reads the response body incrementally and delivers complete SSE events
+   (WHATWG-framed `data` payloads) via callback as they arrive.
 
 ### Explicitly forbidden as core OAS behavior
 
@@ -163,11 +164,11 @@ parameters — not OAS keywords. The generator does not special-case them.
 
 ### Incremental SSE transport
 
-The current transport returns a full-buffer `(status, body)` pair. For streaming
-media types this is sufficient for schema compliance testing but insufficient for
-low-latency incremental event delivery. A streaming-read API on `HttpClient`
-(chunk callback, iterator range, or async generator) is deferred to a later phase.
-Until then, streaming endpoints buffer the entire SSE response before parsing.
+`HttpClient::executeStream` performs incremental `async_read_some` reads and
+frames Server-Sent Events per the WHATWG specification. Each callback receives
+one complete event's data payload (multi-line `data:` fields joined by LF).
+Generated streaming operations parse each event as it is framed. Incomplete
+events at EOF are discarded.
 
 ---
 

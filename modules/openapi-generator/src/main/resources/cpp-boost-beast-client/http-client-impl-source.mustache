@@ -17,6 +17,7 @@
 #include <functional>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <utility>
 
 #include "api/HttpClientImpl.h"
@@ -26,6 +27,108 @@ namespace {
 
 using OperationCompletion =
     std::function<void(const boost::beast::error_code &)>;
+
+/// Incremental Server-Sent Events framer (WHATWG HTML SSE).
+/// Feeds raw body bytes and invokes onEvent once per complete event with the
+/// event's data payload (multi-line data joined by LF). Incomplete events at
+/// EOF are discarded. Comment lines and non-data fields are ignored for the
+/// callback payload.
+class SseEventFramer {
+public:
+    explicit SseEventFramer(std::function<void(const std::string &)> onEvent)
+        : m_onEvent(std::move(onEvent)) {}
+
+    void feed(const std::string_view chunk) {
+        m_pending.append(chunk.data(), chunk.size());
+        drain(false);
+    }
+
+    void finish() {
+        drain(true);
+        m_pending.clear();
+        m_data.clear();
+    }
+
+private:
+    void drain(const bool endOfStream) {
+        std::size_t cursor = 0;
+        while (cursor < m_pending.size()) {
+            std::size_t lineEnd = cursor;
+            bool foundEol = false;
+            while (lineEnd < m_pending.size()) {
+                const char ch = m_pending[lineEnd];
+                if (ch == '\n') {
+                    foundEol = true;
+                    break;
+                }
+                if (ch == '\r') {
+                    // Hold a trailing CR until we know whether LF follows (CRLF).
+                    if (lineEnd + 1 == m_pending.size() && !endOfStream) {
+                        break;
+                    }
+                    foundEol = true;
+                    break;
+                }
+                ++lineEnd;
+            }
+            if (!foundEol) {
+                break;
+            }
+
+            const std::string line = m_pending.substr(cursor, lineEnd - cursor);
+            cursor = lineEnd + 1;
+            if (m_pending[lineEnd] == '\r' && cursor < m_pending.size() &&
+                m_pending[cursor] == '\n') {
+                ++cursor;
+            }
+            processLine(line);
+        }
+        m_pending.erase(0, cursor);
+    }
+
+    void processLine(const std::string &line) {
+        if (line.empty()) {
+            dispatchEvent();
+            return;
+        }
+        if (line[0] == ':') {
+            return;
+        }
+
+        std::string field;
+        std::string value;
+        const auto colon = line.find(':');
+        if (colon == std::string::npos) {
+            field = line;
+        } else {
+            field = line.substr(0, colon);
+            value = line.substr(colon + 1);
+            if (!value.empty() && value[0] == ' ') {
+                value.erase(0, 1);
+            }
+        }
+
+        if (field == "data") {
+            m_data.append(value);
+            m_data.push_back('\n');
+        }
+    }
+
+    void dispatchEvent() {
+        if (m_data.empty()) {
+            return;
+        }
+        if (m_data.back() == '\n') {
+            m_data.pop_back();
+        }
+        m_onEvent(m_data);
+        m_data.clear();
+    }
+
+    std::function<void(const std::string &)> m_onEvent;
+    std::string m_pending;
+    std::string m_data;
+};
 
 void throwOperationError(const boost::beast::error_code &operationError,
                          const char *operationName) {
@@ -162,6 +265,7 @@ streamBody(SyncReadStream &stream,
     const boost::beast::http::status status = parser.get().result();
 
     std::array<char, 65536> bodyBuf;
+    SseEventFramer framer(std::move(onEvent));
 
     while (!parser.is_done()) {
         parser.get().body().data = bodyBuf.data();
@@ -185,11 +289,10 @@ streamBody(SyncReadStream &stream,
         // end_of_stream is expected when the body is delimited by
         // connection close; the parser has consumed what was sent.
         if (readError == boost::beast::http::error::end_of_stream) {
-            // Emit any data that was written to the buffer before EOF.
             const std::size_t bytesRead =
                 bodyBuf.size() - parser.get().body().size;
             if (bytesRead > 0) {
-                onEvent(std::string(bodyBuf.data(), bytesRead));
+                framer.feed(std::string_view(bodyBuf.data(), bytesRead));
             }
             break;
         }
@@ -198,10 +301,11 @@ streamBody(SyncReadStream &stream,
         const std::size_t bytesRead =
             bodyBuf.size() - parser.get().body().size;
         if (bytesRead > 0) {
-            onEvent(std::string(bodyBuf.data(), bytesRead));
+            framer.feed(std::string_view(bodyBuf.data(), bytesRead));
         }
     }
 
+    framer.finish();
     return status;
 }
 

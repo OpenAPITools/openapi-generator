@@ -965,10 +965,12 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(generatedApiSource.contains("#include <variant>"),
                 "Generated API source must include <variant>");
 
-        // Verify SSE streaming endpoint uses parseEventStream with fromJsonValue_ converter
+        // Verify SSE streaming endpoint uses executeStream + appendParsedEvent
         String getStreamEventsMethod = extractMethod(generatedApiSource, "getStreamEvents(");
-        Assert.assertTrue(getStreamEventsMethod.contains("parseEventStream<ResponseStreamEvent>(responseBody, fromJsonValue_ResponseStreamEvent)"),
-                "getStreamEvents must use parseEventStream with fromJsonValue_ResponseStreamEvent converter");
+        Assert.assertTrue(getStreamEventsMethod.contains("executeStream("),
+                "getStreamEvents must use executeStream for incremental SSE delivery");
+        Assert.assertTrue(getStreamEventsMethod.contains("appendParsedEvent(deserializedResponse, eventData, fromJsonValue_ResponseStreamEvent)"),
+                "getStreamEvents must appendParsedEvent with fromJsonValue_ResponseStreamEvent converter");
         Assert.assertTrue(generatedApiSource.contains("std::vector<ResponseStreamEvent>"),
                 "Generated API source must have std::vector<ResponseStreamEvent> for streaming endpoint");
 
@@ -1124,10 +1126,12 @@ public class CppBoostBeastClientCodegenTest {
         Path apiSource = output.toPath().resolve("api/SSEApi.cpp");
         String generatedApiSource = Files.readString(apiSource);
 
-        // Verify the pure SSE endpoint generates parseEventStream with fromJsonValue_Evt
+        // Verify the pure SSE endpoint uses executeStream + appendParsedEvent with fromJsonValue_Evt
         // (not fromJsonValue_std::shared_ptr<Evt> or any invalid C++ identifier)
-        Assert.assertTrue(generatedApiSource.contains("parseEventStream<Evt>"),
-                "Pure SSE must parseEventStream with Evt (not shared_ptr wrapper)");
+        Assert.assertTrue(generatedApiSource.contains("executeStream("),
+                "Pure SSE must use executeStream for incremental delivery");
+        Assert.assertTrue(generatedApiSource.contains("appendParsedEvent(deserializedResponse, eventData, fromJsonValue_Evt)"),
+                "Pure SSE must appendParsedEvent with fromJsonValue_Evt (not shared_ptr wrapper)");
         Assert.assertTrue(generatedApiSource.contains("fromJsonValue_Evt"),
                 "Pure SSE must use fromJsonValue_Evt converter (not fromJsonValue_std::...)");
 
@@ -1180,9 +1184,11 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::"),
                 "Dual-content object stream must not contain fromJsonValue_std::");
 
-        // Verify the stream method uses parseEventStream with correct template param
-        Assert.assertTrue(generatedApiSource.contains("parseEventStream<StreamEvent>"),
-                "Dual-content must parseEventStream with StreamEvent (not shared_ptr wrapper)");
+        // Verify the stream method uses executeStream + appendParsedEvent with StreamEvent converter
+        Assert.assertTrue(generatedApiSource.contains("executeStream("),
+                "Dual-content stream must use executeStream for incremental delivery");
+        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_StreamEvent"),
+                "Dual-content must appendParsedEvent with StreamEvent converter (not shared_ptr wrapper)");
 
         // Verify the stream method returns std::vector<StreamEvent>
         Assert.assertTrue(generatedApiSource.contains("std::vector<StreamEvent>"),
