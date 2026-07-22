@@ -1,0 +1,22 @@
+{
+  "verbose": false,
+  "debug": false,
+  "exec": "ts-node -r tsconfig-paths/register ./app.ts",
+  "ignore": [
+    "mochawesome-report",
+    "node_modules",
+    "./test",
+    "**/*.d.ts",
+    "*.test.ts",
+    "*.spec.ts",
+    "fixtures/*",
+    "test/**/*",
+    "docs/*"
+  ],
+  "events": {
+    "restart": ""
+  },
+  "watch": ["./app", "./configs", "./app.ts"],
+  "ext": "ts",
+  "inspect": true
+}
