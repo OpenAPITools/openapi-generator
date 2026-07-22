@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -860,9 +861,9 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             List<Map<String, Object>> values = (List<Map<String, Object>>) extension;
             for (Map<String, Object> value : values) {
                 Map<String, Object> enumVar = new HashMap<>();
-                enumVar.put("name", toEnumVarName((String) value.get("identifier"), dataType));
-                enumVar.put("value", toEnumValue(value.get("numericValue").toString(), dataType));
-                enumVar.put("isString", isDataTypeString(dataType));
+                enumVar.put(ENUM_NAME, toEnumVarName((String) value.get("identifier"), dataType));
+                enumVar.put(ENUM_VALUE, toEnumValue(value.get("numericValue").toString(), dataType));
+                enumVar.put(ENUM_IS_STRING, isDataTypeString(dataType));
                 if (value.containsKey("description")) {
                     enumVar.put("description", value.get("description").toString());
                 }

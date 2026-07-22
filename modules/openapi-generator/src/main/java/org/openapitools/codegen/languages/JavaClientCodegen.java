@@ -1231,10 +1231,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                         if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
                             String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
-                            for (Map<String, Object> enumVars : (List<Map<String, Object>>) var.getAllowableValues().get("enumVars")) {
-                                if (defaultValue.equals(enumVars.get("name"))) {
+                            for (Map<String, Object> enumVars : (List<Map<String, Object>>) var.getAllowableValues().get(ENUM_VARS)) {
+                                if (defaultValue.equals(enumVars.get(ENUM_NAME))) {
                                     // update default to use the string directly instead of enum string
-                                    var.defaultValue = (String) enumVars.get("value");
+                                    var.defaultValue = (String) enumVars.get(ENUM_VALUE);
                                 }
                             }
                         }
