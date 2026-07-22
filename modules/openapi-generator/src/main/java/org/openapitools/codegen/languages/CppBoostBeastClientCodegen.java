@@ -1300,10 +1300,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // $ref), getTypeDeclaration resolves the target and returns the
         // correct C++ type.  For arrays, getTypeDeclaration returns the
         // container type (e.g. std::vector<...>) without optional wrapping,
-        // so we wrap it here.  Inline object schemas must stay excluded
+        // so we wrap it here.  Inline object schemas (type=object, no $ref)
+        // are full class models — they stay out of the alias precomputation
         // because getTypeDeclaration would return the raw OAS type name
-        // "object" instead of the model name — those are normal class models
-        // and are handled by the default pipeline.
+        // "object" instead of the model name.  They are handled separately
+        // below via variant model registration.
         boolean isNullableSchema = model != null
             && Boolean.TRUE.equals(model.getNullable())
             && (model.get$ref() != null
@@ -1345,6 +1346,18 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             codegenModel.isAlias = false;
             resolvedAliasTypes.put(name, preComputedNullUnionType);
             variantModels.add(name);
+        }
+
+        // Post-check: Inline nullable object schemas (type=object, nullable=true,
+        // no $ref) are full class models with properties — they cannot use the
+        // alias path. Register them as variant models so $ref references use value
+        // semantics (std::shared_ptr<NullableObject> → NullableObject) and tag
+        // the model as optional for correct null-value representation.
+        if (model != null && model.get$ref() == null
+                && "object".equals(model.getType())
+                && Boolean.TRUE.equals(model.getNullable())) {
+            variantModels.add(name);
+            codegenModel.vendorExtensions.put("x-cpp-is-optional", true);
         }
 
         Set<String> oldImports = codegenModel.imports;
@@ -1759,14 +1772,30 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         if (ModelUtils.isArraySchema(p)) {
             // Use getItems() directly to handle both OpenAPI 3.0 and 3.1
             Schema inner = p.getItems();
+            String arrayType;
             if (inner != null) {
-                return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+                arrayType = getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+            } else {
+                arrayType = "std::vector<boost::json::value>";
             }
-            return "std::vector<boost::json::value>";
+            // Nullable arrays must be wrapped in std::optional so null JSON
+            // values are representable. The array branch returns before the
+            // nullable fallback checks at the end of this method.
+            if (ModelUtils.isNullable(p)) {
+                return "std::optional<" + arrayType + ">";
+            }
+            return arrayType;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             String innerType = inner == null ? "boost::json::value" : getTypeDeclaration(inner);
-            return getSchemaType(p) + "<std::string, " + innerType + ">";
+            String mapType = getSchemaType(p) + "<std::string, " + innerType + ">";
+            // Nullable maps must be wrapped in std::optional so null JSON
+            // values are representable. The map branch returns before the
+            // nullable fallback checks at the end of this method.
+            if (ModelUtils.isNullable(p)) {
+                return "std::optional<" + mapType + ">";
+            }
+            return mapType;
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "std::string";
         } else if (ModelUtils.isStringSchema(p)
