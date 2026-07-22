@@ -60,8 +60,8 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<Category> getCategory() const;
-    void setCategory(std::shared_ptr<Category> value);
+    Category getCategory() const;
+    void setCategory(Category value);
 
     /// <summary>
     /// 
@@ -99,7 +99,7 @@ protected:
 protected:
     int64_t m_Id = 0L;
     bool m_IdIsSet = false;
-    std::shared_ptr<Category> m_Category;
+    Category m_Category;
     bool m_CategoryIsSet = false;
     std::string m_Name = "";
     std::vector<std::string> m_PhotoUrls;
@@ -113,10 +113,10 @@ std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Pe
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<Pet>>& vec, const std::string& json);
 
-}
-}
-}
-}
+Pet fromJsonValue_Pet(boost::json::value const& value);
 
-
+}
+}
+}
+}
 #endif /* BOOST_BEAST_OPENAPI_CLIENT_Pet_MODEL_H_ */

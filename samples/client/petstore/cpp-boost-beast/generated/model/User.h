@@ -129,10 +129,10 @@ std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Us
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<User>>& vec, const std::string& json);
 
-}
-}
-}
-}
+User fromJsonValue_User(boost::json::value const& value);
 
-
+}
+}
+}
+}
 #endif /* BOOST_BEAST_OPENAPI_CLIENT_User_MODEL_H_ */
