@@ -498,7 +498,11 @@ class ObjectSerializer
             }
             return $data;
         } else {
-            $data = is_string($data) ? json_decode($data) : $data;
+            if (is_string($data)) {
+                $decoded = json_decode($data);
+                // Keep the original string if decode fails (nested values are already PHP strings).
+                $data = ($decoded !== null || $data === 'null') ? $decoded : $data;
+            }
 
             // A oneOf/anyOf schema is not a value object: dispatch here, after json_decode (so
             // members get the decoded value) but before the array-to-object cast (which breaks arrays).
@@ -549,6 +553,23 @@ class ObjectSerializer
     }
 
     /**
+     * Returns true when $data's PHP type is compatible with the OpenAPI primitive $type.
+     * Prevents settype() coercion (e.g. "abc" → 0 for integer) from producing a false match
+     * when iterating over oneOf/anyOf candidate types.
+     * Non-primitive types always return true and are validated downstream by ModelInterface::valid().
+     */
+    private static function isPrimitiveTypeCompatible(mixed $data, string $type): bool
+    {
+        return match($type) {
+            'int', 'integer' => is_int($data),
+            'float', 'double', 'number' => is_int($data) || is_float($data),
+            'bool', 'boolean' => is_bool($data),
+            'string' => is_string($data),
+            default => true,
+        };
+    }
+
+    /**
      * Deserialize data into one of the member types of a `oneOf` schema.
      *
      * When the schema declares a discriminator, its value selects the member type directly.
@@ -577,6 +598,9 @@ class ObjectSerializer
         }
 
         foreach ($class::getOneOfTypes() as $type) {
+            if (!self::isPrimitiveTypeCompatible($data, $type)) {
+                continue;
+            }
             try {
                 $instance = self::deserialize($data, $type, $httpHeaders);
             } catch (\Throwable $e) {
@@ -627,6 +651,9 @@ class ObjectSerializer
         }
 
         foreach ($class::getAnyOfTypes() as $type) {
+            if (!self::isPrimitiveTypeCompatible($data, $type)) {
+                continue;
+            }
             try {
                 $instance = self::deserialize($data, $type, $httpHeaders);
             } catch (\Throwable $e) {
