@@ -435,13 +435,13 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(singleBranchContent.contains("using SingleBranchTest = std::string;"),
                 "SingleBranchTest should emit using alias to std::string");
 
-        // DedupTest is a variant (oneOf string+string-enum+integer → std::variant<...>)
+        // DedupTest (oneOf string+string-enum+integer) — string branches collapse to
+        // std::string but the open-string + string-enum overlap loses oneOf exclusivity.
+        // Must type-erase to boost::json::value.
         Path dedupHeader = output.toPath().resolve("model/DedupTest.h");
         String dedupContent = java.nio.file.Files.readString(dedupHeader);
-        Assert.assertTrue(dedupContent.contains("using DedupTest = std::variant<std::string, int32_t>;"),
-                "DedupTest should emit using alias to std::variant");
-        Assert.assertTrue(dedupContent.contains("toJsonValue_DedupTest(DedupTest const& value);"),
-                "DedupTest header should declare toJsonValue_DedupTest");
+        Assert.assertTrue(dedupContent.contains("using DedupTest = boost::json::value;"),
+                "DedupTest should emit boost::json::value (oneOf string overlap not representable)");
 
         // AllNullTest (anyOf null+null) should be an alias to boost::json::value
         Path allNullHeader = output.toPath().resolve("model/AllNullTest.h");
@@ -456,8 +456,8 @@ public class CppBoostBeastClientCodegenTest {
         // Verify variant model headers include <variant>
         Assert.assertTrue(inputParamContent.contains("#include <variant>"),
                 "InputParam (variant) header should include <variant>");
-        Assert.assertTrue(dedupContent.contains("#include <variant>"),
-                "DedupTest (variant) header should include <variant>");
+        Assert.assertFalse(dedupContent.contains("#include <variant>"),
+                "DedupTest (boost::json::value alias) header should NOT include <variant>");
 
         // Verify include guards: each header has exactly one #ifndef and one #endif
         // (check the alias and non-alias paths)
@@ -567,15 +567,14 @@ public class CppBoostBeastClientCodegenTest {
                 "InputParam oneOf source should use countVariantBranches for exactly-one check");
         // The anyOf path comment is also present (both branches emitted textually by if constexpr)
 
-        // DedupTest (oneOf variant) source must also contain exactly-one checking
+        // DedupTest is now boost::json::value alias (not variant) — source uses
+        // value_to/value_from; no oneOf matching logic needed.
         Path dedupSource = output.toPath().resolve("model/DedupTest.cpp");
         String dedupSourceContent = java.nio.file.Files.readString(dedupSource);
-        Assert.assertTrue(dedupSourceContent.contains("isOneOf"),
-                "DedupTest oneOf source should contain isOneOf compile-time flag");
-        Assert.assertTrue(dedupSourceContent.contains("matchCount"),
-                "DedupTest oneOf source should count matching branches");
-        Assert.assertTrue(dedupSourceContent.contains("More than one matching branch for oneOf DedupTest"),
-                "DedupTest oneOf source should reject multi-match with descriptive error");
+        Assert.assertTrue(dedupSourceContent.contains("value_to<DedupTest>"),
+                "DedupTest alias source should use value_to for deserialization");
+        Assert.assertTrue(dedupSourceContent.contains("value_from"),
+                "DedupTest alias source should use value_from for serialization");
 
         // VariantPayload (oneOf variant) source must also contain exactly-one checking
         Path variantPayloadSource = output.toPath().resolve("model/VariantPayload.cpp");
@@ -691,7 +690,9 @@ public class CppBoostBeastClientCodegenTest {
         CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
         codegen.processOpts();
 
-        // oneOf: [string, string-enum, integer] → after dedup: std::variant<std::string, int32_t>
+        // oneOf: [string, string-enum, integer] — string branches collapse to
+        // std::string but the open-string + string-enum overlap loses oneOf
+        // exclusivity. Must type-erase to boost::json::value.
         ComposedSchema schema = new ComposedSchema();
         schema.addOneOfItem(new StringSchema());
         StringSchema enumSchema = new StringSchema();
@@ -701,8 +702,8 @@ public class CppBoostBeastClientCodegenTest {
         schema.addOneOfItem(new IntegerSchema());
 
         String resolved = codegen.getTypeDeclaration(schema);
-        Assert.assertEquals(resolved, "std::variant<std::string, int32_t>",
-                "Duplicate string branches should be deduplicated");
+        Assert.assertEquals(resolved, "boost::json::value",
+                "oneOf [string, string-enum, integer] must type-erase to boost::json::value");
     }
 
     @Test

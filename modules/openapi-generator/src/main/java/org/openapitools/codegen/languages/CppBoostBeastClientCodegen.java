@@ -941,21 +941,28 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 .distinct()
                 .collect(Collectors.toList());
 
-        // Rule 6: oneOf open-string + string-enum both erase to std::string.
-        // Under JSON Schema oneOf, enum members match BOTH branches (invalid oneOf),
-        // so collapsing to std::string hides the exclusivity failure. Prefer open JSON
-        // over a false exclusive union. anyOf keeps the string collapse (rule 2).
-        if ("oneOf".equals(composedKeyword)
-                && deduped.size() == 1
-                && "std::string".equals(deduped.get(0))
-                && nonNullMeta.size() > 1) {
-            boolean hasOpenString = nonNullMeta.stream()
-                    .anyMatch(b -> b.isStringLike && !b.isEnum);
+        // Rule 6: oneOf string branches that lose exclusivity after type lowering.
+        // Branches [open-string, string-enum] or [string-enum-A, string-enum-B] all
+        // collapse to std::string after type lowering, so every string value matches
+        // every original string-like branch. Under JSON Schema oneOf, this means
+        // values matching multiple original branches cannot be detected (count is
+        // artificially 1 instead of 2+), causing false acceptance of invalid oneOf
+        // inputs. Type-erase to boost::json::value when multiple string-like branches
+        // collapse and at least one has enum constraints (the constraint is the only
+        // thing that distinguishes otherwise-identical branches). anyOf keeps the
+        // string collapse (rule 2) since first-match is correct behavior.
+        if ("oneOf".equals(composedKeyword) && nonNullMeta.size() > 1) {
+            long preDedupStringCount = nonNullMeta.stream()
+                    .filter(b -> b.isStringLike)
+                    .count();
+            long postDedupStringCount = deduped.stream()
+                    .filter("std::string"::equals)
+                    .count();
             boolean hasStringEnum = nonNullMeta.stream()
                     .anyMatch(b -> b.isStringLike && b.isEnum);
-            if (hasOpenString && hasStringEnum) {
+            if (preDedupStringCount > postDedupStringCount && hasStringEnum) {
                 LOGGER.warn(
-                        "oneOf open-string + string-enum branches erase to std::string; "
+                        "oneOf string branches erase to std::string; "
                                 + "emitting boost::json::value to avoid false exclusive-union fidelity");
                 return "boost::json::value";
             }
