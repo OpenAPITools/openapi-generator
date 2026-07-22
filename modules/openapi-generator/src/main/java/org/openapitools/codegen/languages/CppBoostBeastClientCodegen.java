@@ -1278,13 +1278,22 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         }
 
         // Pre-check: The OpenAPI 3.1 parser converts anyOf [T, null] into
-        // {type: T, nullable: true}, consuming the anyOf list.  Detect these
-        // nullable schemas and produce the correct std::optional<T> type.
+        // {type: T, nullable: true} or {$ref: X, nullable: true}, consuming
+        // the anyOf list.  Detect these nullable schemas and produce the
+        // correct std::optional<T> type.
+        //
+        // For $ref schemas (normalised anyOf/oneOf [T, null] where T was a
+        // $ref), getTypeDeclaration resolves the target and returns the
+        // correct C++ type.  For arrays, getTypeDeclaration returns the
+        // container type (e.g. std::vector<...>) without optional wrapping,
+        // so we wrap it here.  Inline object schemas must stay excluded
+        // because getTypeDeclaration would return the raw OAS type name
+        // "object" instead of the model name — those are normal class models
+        // and are handled by the default pipeline.
         boolean isNullableSchema = model != null
             && Boolean.TRUE.equals(model.getNullable())
-            && model.getType() != null
-            && !"object".equals(model.getType())
-            && !"array".equals(model.getType());
+            && (model.get$ref() != null
+                || (model.getType() != null && !"object".equals(model.getType())));
         String preComputedNullUnionType = null;
         if (isNullableSchema) {
             // Resolve the type to its C++ type and wrap in std::optional
