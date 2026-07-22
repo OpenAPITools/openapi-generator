@@ -174,7 +174,9 @@ bool tryParseBranch(boost::json::value const& value, T& result, std::string* err
             return true;
         } else if constexpr (std::is_same_v<T, std::int32_t>) {
             if (!value.is_int64()) return false;
-            result = static_cast<std::int32_t>(value.as_int64());
+            auto raw = value.as_int64();
+            if (raw < (std::numeric_limits<std::int32_t>::min)() || raw > (std::numeric_limits<std::int32_t>::max)()) return false;
+            result = static_cast<std::int32_t>(raw);
             return true;
         } else if constexpr (std::is_same_v<T, std::int64_t>) {
             if (!value.is_int64()) return false;
@@ -230,6 +232,27 @@ bool tryParseBranch(boost::json::value const& value, T& result, std::string* err
             if (!tryVariantBranches(value, result, std::make_index_sequence<variantSize>{}, errorPath)) {
                 return false;
             }
+            return true;
+        } else if constexpr (IsSpecialization<T, std::map>{}) {
+            // std::map<std::string, MappedType> — iterate object entries.
+            if (!value.is_object()) return false;
+            using MappedType = typename T::mapped_type;
+            T m;
+            for (auto& entry : value.as_object()) {
+                MappedType converted;
+                std::string itemPath;
+                if (errorPath) {
+                    itemPath = *errorPath + "[\"" + std::string(entry.key()) + "\"]";
+                }
+                if (!tryParseBranch(entry.value(), converted, errorPath ? &itemPath : nullptr)) {
+                    if (errorPath) {
+                        *errorPath = std::move(itemPath);
+                    }
+                    return false;
+                }
+                m.emplace(std::string(entry.key()), std::move(converted));
+            }
+            result = std::move(m);
             return true;
         } else {
             // Model type — try fromJsonValue member.

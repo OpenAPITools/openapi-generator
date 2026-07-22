@@ -475,9 +475,30 @@ boost::json::value toRequestJsonValue(const std::vector<T>& requestValues);
 template<typename T>
 boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestValues);
 
+template<typename... Ts>
+boost::json::value toRequestJsonValue(const std::variant<Ts...>& requestValue);
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::optional<T>& requestValue);
+
 template<typename T>
 boost::json::value toRequestJsonValue(const std::shared_ptr<T>& requestValue) {
     return requestValue == nullptr ? boost::json::value(nullptr) : requestValue->toJsonValue();
+}
+
+template<typename... Ts>
+boost::json::value toRequestJsonValue(const std::variant<Ts...>& requestValue) {
+    return std::visit([](auto const& v) -> boost::json::value {
+        return toRequestJsonValue(v);
+    }, requestValue);
+}
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::optional<T>& requestValue) {
+    if (requestValue.has_value()) {
+        return toRequestJsonValue(requestValue.value());
+    }
+    return boost::json::value(nullptr);
 }
 
 template<typename T>
@@ -497,21 +518,6 @@ boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestVal
         requestObject.emplace(requestEntry.first, toRequestJsonValue(requestEntry.second));
     }
     return requestObject;
-}
-
-template<typename... Ts>
-boost::json::value toRequestJsonValue(const std::variant<Ts...>& requestValue) {
-    return std::visit([](auto const& v) -> boost::json::value {
-        return toRequestJsonValue(v);
-    }, requestValue);
-}
-
-template<typename T>
-boost::json::value toRequestJsonValue(const std::optional<T>& requestValue) {
-    if (requestValue.has_value()) {
-        return toRequestJsonValue(requestValue.value());
-    }
-    return boost::json::value(nullptr);
 }
 
 /// addVariantFormParameter definition (forward-declared above).
@@ -640,7 +646,9 @@ bool tryParseBranch(const boost::json::value& value, T& result) {
             return true;
         } else if constexpr (std::is_same_v<T, std::int32_t>) {
             if (!value.is_int64()) return false;
-            result = static_cast<std::int32_t>(value.as_int64());
+            auto raw = value.as_int64();
+            if (raw < (std::numeric_limits<std::int32_t>::min)() || raw > (std::numeric_limits<std::int32_t>::max)()) return false;
+            result = static_cast<std::int32_t>(raw);
             return true;
         } else if constexpr (std::is_same_v<T, std::int64_t>) {
             if (!value.is_int64()) return false;
@@ -674,6 +682,17 @@ bool tryParseBranch(const boost::json::value& value, T& result) {
             Inner converted;
             if (!tryParseBranch(value, converted)) return false;
             result = std::move(converted);
+            return true;
+        } else if constexpr (IsSpecialization<T, std::map>{}) {
+            if (!value.is_object()) return false;
+            using MappedType = typename T::mapped_type;
+            T m;
+            for (auto& entry : value.as_object()) {
+                MappedType converted;
+                if (!tryParseBranch(entry.value(), converted)) return false;
+                m.emplace(std::string(entry.key()), std::move(converted));
+            }
+            result = std::move(m);
             return true;
         } else {
             // Model type with fromJsonValue member

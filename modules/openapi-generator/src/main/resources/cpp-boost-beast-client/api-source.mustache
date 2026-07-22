@@ -635,7 +635,9 @@ bool tryParseBranch(const boost::json::value& value, T& result) {
             return true;
         } else if constexpr (std::is_same_v<T, std::int32_t>) {
             if (!value.is_int64()) return false;
-            result = static_cast<std::int32_t>(value.as_int64());
+            auto raw = value.as_int64();
+            if (raw < (std::numeric_limits<std::int32_t>::min)() || raw > (std::numeric_limits<std::int32_t>::max)()) return false;
+            result = static_cast<std::int32_t>(raw);
             return true;
         } else if constexpr (std::is_same_v<T, std::int64_t>) {
             if (!value.is_int64()) return false;
