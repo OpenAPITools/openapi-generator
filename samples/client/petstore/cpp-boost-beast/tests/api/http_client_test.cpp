@@ -18,6 +18,7 @@
 #include <string>
 #include <thread>
 #include <utility>
+#include <vector>
 
 #include "api/HttpClientImpl.h"
 
@@ -734,6 +735,201 @@ BOOST_AUTO_TEST_CASE(https_response_body_limit_is_enforced) {
 
     BOOST_REQUIRE(executionError == http::error::body_limit);
     BOOST_REQUIRE(tlsServer.responseSent());
+}
+
+class ChunkedStreamingServer final {
+public:
+    ChunkedStreamingServer(const std::vector<std::string> &chunks,
+                           std::chrono::milliseconds interChunkDelay =
+                               std::chrono::milliseconds::zero(),
+                           http::status responseStatus = http::status::ok)
+        : acceptor_(serverIoContext_,
+                    tcp::endpoint(asio::ip::address_v4::loopback(), 0)),
+          chunks_(chunks),
+          interChunkDelay_(interChunkDelay),
+          responseStatus_(responseStatus),
+          serverThread_(&ChunkedStreamingServer::serve, this) {}
+
+    ~ChunkedStreamingServer() {
+        if (serverThread_.joinable()) {
+            serverThread_.join();
+        }
+    }
+
+    ChunkedStreamingServer(const ChunkedStreamingServer &) = delete;
+    ChunkedStreamingServer &operator=(const ChunkedStreamingServer &) = delete;
+
+    std::string port() const {
+        return std::to_string(acceptor_.local_endpoint().port());
+    }
+
+    void waitForCompletion() {
+        if (serverThread_.joinable()) {
+            serverThread_.join();
+        }
+        if (serverException_) {
+            std::rethrow_exception(serverException_);
+        }
+    }
+
+private:
+    void serve() {
+        try {
+            tcp::socket acceptedSocket =
+                acceptLoopbackConnection(acceptor_, serverIoContext_);
+
+            const std::string statusLine =
+                "HTTP/1.1 " +
+                std::to_string(static_cast<int>(responseStatus_)) + " " +
+                std::string(http::obsolete_reason(responseStatus_)) + "\r\n"
+                "Content-Type: text/event-stream\r\n"
+                "Cache-Control: no-cache\r\n"
+                "Connection: close\r\n"
+                "\r\n";
+
+            beast::error_code writeError;
+            asio::write(acceptedSocket,
+                        asio::buffer(statusLine.data(), statusLine.size()),
+                        writeError);
+            if (writeError) {
+                throw boost::system::system_error(writeError,
+                                                  "write response header");
+            }
+
+            for (const auto &chunk : chunks_) {
+                if (interChunkDelay_ !=
+                    std::chrono::milliseconds::zero()) {
+                    std::this_thread::sleep_for(interChunkDelay_);
+                }
+
+                asio::write(acceptedSocket,
+                            asio::buffer(chunk.data(), chunk.size()),
+                            writeError);
+                if (writeError) {
+                    throw boost::system::system_error(
+                        writeError, "write body chunk");
+                }
+            }
+
+            beast::error_code shutdownError;
+            acceptedSocket.shutdown(tcp::socket::shutdown_both,
+                                    shutdownError);
+        } catch (...) {
+            serverException_ = std::current_exception();
+        }
+    }
+
+    asio::io_context serverIoContext_;
+    tcp::acceptor acceptor_;
+    std::vector<std::string> chunks_;
+    std::chrono::milliseconds interChunkDelay_;
+    http::status responseStatus_;
+    std::exception_ptr serverException_;
+    std::thread serverThread_;
+};
+
+BOOST_AUTO_TEST_CASE(http_stream_receives_body_in_chunks) {
+    const std::vector<std::string> expectedChunks{"chunk one ",
+                                                   "chunk two ",
+                                                   "chunk three"};
+    const std::string expectedBody = "chunk one chunk two chunk three";
+    ChunkedStreamingServer server(expectedChunks,
+                                  std::chrono::milliseconds(50));
+    HttpClientImpl httpClient(
+        "127.0.0.1",
+        server.port(),
+        HttpClientImpl::Transport::Http,
+        11,
+        std::chrono::milliseconds(1000));
+
+    std::vector<std::string> receivedChunks;
+    std::mutex chunkMutex;
+    const http::status status = httpClient.executeStream(
+        "GET", "/stream", "", {},
+        [&receivedChunks, &chunkMutex](const std::string &chunk) {
+            std::lock_guard<std::mutex> lock(chunkMutex);
+            receivedChunks.push_back(chunk);
+        });
+
+    server.waitForCompletion();
+
+    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+
+    std::string assembledBody;
+    for (const auto &chunk : receivedChunks) {
+        assembledBody += chunk;
+    }
+    BOOST_REQUIRE_EQUAL(assembledBody, expectedBody);
+    BOOST_REQUIRE(receivedChunks.size() >= 3);
+}
+
+BOOST_AUTO_TEST_CASE(http_stream_empty_body) {
+    ChunkedStreamingServer server({});
+    HttpClientImpl httpClient(
+        "127.0.0.1",
+        server.port(),
+        HttpClientImpl::Transport::Http,
+        11,
+        std::chrono::milliseconds(1000));
+
+    std::vector<std::string> receivedChunks;
+    const http::status status = httpClient.executeStream(
+        "GET", "/empty", "", {},
+        [&receivedChunks](const std::string &chunk) {
+            receivedChunks.push_back(chunk);
+        });
+
+    server.waitForCompletion();
+
+    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE(receivedChunks.empty());
+}
+
+BOOST_AUTO_TEST_CASE(http_stream_single_chunk) {
+    const std::string expectedBody = "single chunk response";
+    ChunkedStreamingServer server({expectedBody});
+    HttpClientImpl httpClient(
+        "127.0.0.1",
+        server.port(),
+        HttpClientImpl::Transport::Http,
+        11,
+        std::chrono::milliseconds(1000));
+
+    std::vector<std::string> receivedChunks;
+    const http::status status = httpClient.executeStream(
+        "GET", "/single", "", {},
+        [&receivedChunks](const std::string &chunk) {
+            receivedChunks.push_back(chunk);
+        });
+
+    server.waitForCompletion();
+
+    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE_EQUAL(receivedChunks.size(), 1U);
+    BOOST_REQUIRE_EQUAL(receivedChunks[0], expectedBody);
+}
+
+BOOST_AUTO_TEST_CASE(http_stream_body_limit_is_enforced) {
+    ChunkedStreamingServer server({"exceeds eight bytes"});
+    HttpClientImpl limitedHttpClient(
+        "127.0.0.1",
+        server.port(),
+        HttpClientImpl::Transport::Http,
+        11,
+        std::chrono::milliseconds(1000),
+        8);
+
+    bool exceptionThrown = false;
+    try {
+        limitedHttpClient.executeStream(
+            "GET", "/limited", "", {},
+            [](const std::string &) {});
+    } catch (const boost::system::system_error &) {
+        exceptionThrown = true;
+    }
+    server.waitForCompletion();
+
+    BOOST_REQUIRE(exceptionThrown);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

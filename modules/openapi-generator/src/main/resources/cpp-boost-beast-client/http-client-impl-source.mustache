@@ -12,6 +12,7 @@
 #include <openssl/err.h>
 #include <openssl/ssl.h>
 
+#include <array>
 #include <chrono>
 #include <functional>
 #include <stdexcept>
@@ -131,6 +132,80 @@ boost::beast::error_code runTimedOperation(
 } // namespace
 
 
+template <typename SyncReadStream, typename Cancel>
+boost::beast::http::status
+streamBody(SyncReadStream &stream,
+           boost::asio::io_context &ioContext,
+           const std::chrono::milliseconds operationTimeout,
+           const std::uint64_t responseBodyLimit,
+           std::function<void(const std::string &)> onEvent,
+           Cancel cancel) {
+    boost::beast::flat_buffer readBuf;
+    boost::beast::http::response_parser<boost::beast::http::buffer_body> parser;
+    parser.body_limit(responseBodyLimit);
+
+    throwOperationError(
+        runTimedOperation(ioContext, operationTimeout, "read header",
+            [&stream, &readBuf, &parser](
+                const OperationCompletion &completion) {
+                boost::beast::http::async_read_header(
+                    stream, readBuf, parser,
+                    [completion](
+                        const boost::beast::error_code &ec,
+                        std::size_t) {
+                        completion(ec);
+                    });
+            },
+            cancel),
+        "read header");
+
+    const boost::beast::http::status status = parser.get().result();
+
+    std::array<char, 65536> bodyBuf;
+
+    while (!parser.is_done()) {
+        parser.get().body().data = bodyBuf.data();
+        parser.get().body().size = bodyBuf.size();
+        parser.get().body().more = true;
+
+        const boost::beast::error_code readError =
+            runTimedOperation(ioContext, operationTimeout, "read body chunk",
+                [&stream, &readBuf, &parser](
+                    const OperationCompletion &completion) {
+                    boost::beast::http::async_read_some(
+                        stream, readBuf, parser,
+                        [completion](
+                            const boost::beast::error_code &ec,
+                            std::size_t) {
+                            completion(ec);
+                        });
+                },
+                cancel);
+
+        // end_of_stream is expected when the body is delimited by
+        // connection close; the parser has consumed what was sent.
+        if (readError == boost::beast::http::error::end_of_stream) {
+            // Emit any data that was written to the buffer before EOF.
+            const std::size_t bytesRead =
+                bodyBuf.size() - parser.get().body().size;
+            if (bytesRead > 0) {
+                onEvent(std::string(bodyBuf.data(), bytesRead));
+            }
+            break;
+        }
+        throwOperationError(readError, "read body chunk");
+
+        const std::size_t bytesRead =
+            bodyBuf.size() - parser.get().body().size;
+        if (bytesRead > 0) {
+            onEvent(std::string(bodyBuf.data(), bytesRead));
+        }
+    }
+
+    return status;
+}
+
+
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
@@ -203,21 +278,134 @@ HttpClientImpl::executeStream(
     if (!onEvent) {
         throw std::invalid_argument("onEvent callback must not be empty");
     }
-    // Lock once, then execute the full HTTP exchange via the internal
-    // prepare/send/receive path to avoid deadlocking on m_executeMutex.
-    // The response body is replayed through the callback.
-    // True incremental SSE streaming (async_read_some with event framing)
-    // is deferred to Phase 4.
+
     const std::lock_guard<std::mutex> executeLock(m_executeMutex);
     HttpRequest request = prepareRequest(verb, target, body, headers);
-    HttpResponse response;
+
     if (m_transport == Transport::Https) {
-        response = executeHttpsRequest(request);
-    } else {
-        response = executeHttpRequest(request);
+        return executeHttpsStream(request, std::move(onEvent));
     }
-    onEvent(response.second);
-    return response.first;
+
+    return executeHttpStream(request, std::move(onEvent));
+}
+
+boost::beast::http::status
+HttpClientImpl::executeHttpStream(
+    HttpRequest &request,
+    std::function<void(const std::string &)> onEvent) {
+    boost::asio::ip::tcp::socket socket = connectSocket();
+    sendRequest(socket, request);
+
+    const boost::beast::http::status status = ::streamBody(
+        socket, m_ioc, m_operationTimeout, m_responseBodyLimit,
+        std::move(onEvent),
+        [&socket]() {
+            boost::beast::error_code ec;
+            socket.close(ec);
+        });
+
+    closeSocket(socket);
+    return status;
+}
+
+boost::beast::http::status
+HttpClientImpl::executeHttpsStream(
+    HttpRequest &request,
+    std::function<void(const std::string &)> onEvent) {
+    boost::asio::ssl::context tlsContext(
+        boost::asio::ssl::context::tls_client);
+    configureTlsContext(tlsContext);
+
+    TlsStream tlsStream(m_ioc, tlsContext);
+    boost::beast::error_code hostAddressError;
+    const boost::asio::ip::address hostAddress =
+        boost::asio::ip::make_address(m_host, hostAddressError);
+    const bool hostIsIpAddress =
+        !hostAddressError && (hostAddress.is_v4() || hostAddress.is_v6());
+    if (!hostIsIpAddress) {
+        ::ERR_clear_error();
+        if (!SSL_set_tlsext_host_name(
+                tlsStream.native_handle(), m_host.c_str())) {
+            throwOpenSslError("set TLS SNI hostname");
+        }
+    }
+    tlsStream.set_verify_callback(
+        boost::asio::ssl::host_name_verification(m_host));
+
+    const auto resolvedEndpoints = resolveHost();
+    boost::beast::tcp_stream &tcpStream =
+        boost::beast::get_lowest_layer(tlsStream);
+
+    tcpStream.expires_after(m_operationTimeout);
+    throwOperationError(
+        runAsyncOperation(
+            m_ioc,
+            "connect",
+            [&tcpStream, &resolvedEndpoints](
+                const OperationCompletion &operationCompletion) {
+                tcpStream.async_connect(
+                    resolvedEndpoints,
+                    [operationCompletion](
+                        const boost::beast::error_code &connectError,
+                        const boost::asio::ip::tcp::endpoint &) {
+                        operationCompletion(connectError);
+                    });
+            }),
+        "connect");
+
+    tcpStream.expires_after(m_operationTimeout);
+    throwOperationError(
+        runAsyncOperation(
+            m_ioc,
+            "TLS handshake",
+            [&tlsStream](
+                const OperationCompletion &operationCompletion) {
+                tlsStream.async_handshake(
+                    boost::asio::ssl::stream_base::client,
+                    operationCompletion);
+            }),
+        "TLS handshake");
+
+    tcpStream.expires_after(m_operationTimeout);
+    throwOperationError(
+        runAsyncOperation(
+            m_ioc,
+            "write",
+            [&tlsStream, &request](
+                const OperationCompletion &operationCompletion) {
+                boost::beast::http::async_write(
+                    tlsStream,
+                    request,
+                    [operationCompletion](
+                        const boost::beast::error_code &writeError,
+                        const std::size_t) {
+                        operationCompletion(writeError);
+                    });
+            }),
+        "write");
+
+    const boost::beast::http::status status = ::streamBody(
+        tlsStream, m_ioc, m_operationTimeout, m_responseBodyLimit,
+        std::move(onEvent),
+        [&tcpStream]() {
+            tcpStream.close();
+        });
+
+    tcpStream.expires_after(m_operationTimeout);
+    const boost::beast::error_code shutdownError = runAsyncOperation(
+        m_ioc,
+        "TLS shutdown",
+        [&tlsStream](const OperationCompletion &operationCompletion) {
+            tlsStream.async_shutdown(operationCompletion);
+        });
+
+    if (shutdownError &&
+        shutdownError != boost::asio::ssl::error::stream_truncated &&
+        shutdownError != boost::asio::error::eof) {
+        throwOperationError(shutdownError, "TLS shutdown");
+    }
+
+    return status;
 }
 
 HttpClientImpl::HttpResponse

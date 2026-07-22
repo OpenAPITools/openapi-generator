@@ -1,6 +1,7 @@
 #ifndef BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_
 #define BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_
 
+#include <functional>
 #include <map>
 #include <string>
 #include <utility>
@@ -23,6 +24,19 @@ public:
             const std::string &target,
             const std::string &body,
             const std::map<std::string, std::string> &headers) = 0;
+
+    /// Execute an HTTP request and yield response body chunks/events
+    /// incrementally via callback. Used by SSE / text/event-stream endpoints.
+    /// Chunks are raw bytes; the caller is responsible for framing events
+    /// from the chunk stream.
+    /// Returns the HTTP status code on success.
+    /// Throws std::invalid_argument if onEvent is empty.
+    virtual boost::beast::http::status
+    executeStream(const std::string &verb,
+                  const std::string &target,
+                  const std::string &body,
+                  const std::map<std::string, std::string> &headers,
+                  std::function<void(const std::string &)> onEvent) = 0;
 };
 
 
