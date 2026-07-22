@@ -303,7 +303,18 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         return changed;
     }
 
-    private static String uploadFileFormParamTyping(CodegenParameter param) {
+    /**
+     * Returns the FastAPI type string for a binary multipart form parameter to store in
+     * {@code x-py-typing}.
+     * <p>
+     * A single {@code format: binary} field becomes {@code UploadFile} or {@code Optional[UploadFile]}.
+     * An array of binary items becomes {@code List[UploadFile]} or {@code Optional[List[UploadFile]]}
+     * so multiple parts sharing the same field name bind correctly.
+     *
+     * @param param the form parameter being typed
+     * @return Python typing for the generated endpoint signature
+     */
+    private String uploadFileFormParamTyping(CodegenParameter param) {
         if (param.isArray && param.isFile) {
             return param.required ? "List[UploadFile]" : "Optional[List[UploadFile]]";
         }
