@@ -565,6 +565,13 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                         // Keep original x-cpp-branches for import resolution.
                         cm.dataType = newType;
                         resolvedAliasTypes.put(cm.classname, newType);
+                        // Refresh discriminator resolved type — Phase 4b uses this
+                        // to filter self-referential mappings and it must reflect
+                        // the final post-collapse type, not the pre-collapse value
+                        // cached during Phase 1a (updateAllModels).
+                        if (cm.discriminator != null) {
+                            cm.vendorExtensions.put("x-discriminator-resolved-type", newType);
+                        }
                         typeChanged = true;
                     }
                 }
