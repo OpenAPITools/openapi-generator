@@ -566,6 +566,8 @@ class ObjectSerializer
             'float', 'double', 'number' => is_int($data) || is_float($data),
             'bool', 'boolean' => is_bool($data),
             'string' => is_string($data),
+            'array' => is_array($data),
+            'object' => is_object($data),
             default => true,
         };
     }
