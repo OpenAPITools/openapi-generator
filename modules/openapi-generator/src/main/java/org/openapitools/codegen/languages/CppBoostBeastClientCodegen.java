@@ -487,6 +487,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+        // Build model index for enum lookup in Phase 1b.
+        Map<String, CodegenModel> allModels = getAllModels(processed);
 
         // Phase 1b (global): Transitive resolution for model-reference branches.
         // Runs once with ALL models available (unlike Phase 1b in postProcessModels
@@ -521,9 +523,38 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     String currentType = (String) cm.vendorExtensions.get("x-cpp-type");
                     String newType;
                     try {
-                        // Phase 1b only has C++ type strings (enum metadata already
-                        // erased). Alias-chain collapse to a single type is intentional.
-                        newType = lowerComposedTypesFromCppTypes(resolved, composedKeyword);
+                        // Reconstruct ComposedBranch objects using resolved C++ type
+                        // strings and per-branch isEnum metadata.  Without isEnum, a
+                        // oneOf [open-string, string-enum] whose branches resolve to
+                        // ["std::string", "std::string"] through the alias chain would
+                        // collapse to plain std::string (Rule 7), losing the oneOf overlap
+                        // detection (Rule 6) that correctly type-erases to boost::json::value.
+                        //
+                        // Branch isEnum comes from two sources:
+                        //   1. For branches whose original type is a model name (not a C++
+                        //      type string), look up the CodegenModel to check isEnum.
+                        //   2. Fall back to stored x-cpp-branch-is-enum metadata from the
+                        //      first lowering pass (handles inline enum schemas where the
+                        //      CodegenProperty.isEnum flag was set directly).
+                        @SuppressWarnings("unchecked")
+                        List<Boolean> storedIsEnum = (List<Boolean>) cm.vendorExtensions.get("x-cpp-branch-is-enum");
+                        List<ComposedBranch> branchesWithMeta = new ArrayList<>();
+                        for (int i = 0; i < resolved.size(); i++) {
+                            boolean isEnum = false;
+                            if ("std::string".equals(resolved.get(i))) {
+                                // Source 1: Look up the original branch model for enum status.
+                                String originalType = branchTypes.get(i);
+                                CodegenModel branchModel = allModels.get(originalType);
+                                isEnum = branchModel != null && branchModel.isEnum;
+                                // Source 2: Fall back to stored metadata from first pass.
+                                if (!isEnum && storedIsEnum != null && i < storedIsEnum.size()) {
+                                    isEnum = storedIsEnum.get(i);
+                                }
+                            }
+                            boolean isStringLike = "std::string".equals(resolved.get(i));
+                            branchesWithMeta.add(new ComposedBranch(resolved.get(i), isEnum, isStringLike));
+                        }
+                        newType = lowerComposedTypes(branchesWithMeta, composedKeyword);
                     } catch (RuntimeException e) {
                         LOGGER.warn("Failed to re-lower composed types for '{}': {} — keeping current type '{}'",
                                 cm.classname, e.getMessage(), currentType);
@@ -792,6 +823,17 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         cm.vendorExtensions.put("x-cpp-type", resolvedType);
         cm.vendorExtensions.put("x-cpp-branches", branchTypes);
         cm.vendorExtensions.put("x-cpp-composed-keyword", composedKeyword);
+
+        // Store per-branch isEnum metadata for Phase 1b re-lowering.
+        // Phase 1b resolves model-name branch types through aliases to
+        // C++ type strings but the isEnum flag (used by Rule 6 for oneOf
+        // open-string + string-enum overlap detection) is not derivable
+        // from C++ type strings alone — both open strings and string enums
+        // produce "std::string".
+        List<Boolean> branchIsEnumFlags = composedBranches.stream()
+                .map(cb -> cb.isEnum)
+                .collect(Collectors.toList());
+        cm.vendorExtensions.put("x-cpp-branch-is-enum", branchIsEnumFlags);
 
         if (cm.discriminator != null) {
             cm.vendorExtensions.put("x-has-discriminator", true);

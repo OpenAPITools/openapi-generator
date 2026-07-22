@@ -622,6 +622,33 @@ public class CppBoostBeastClientCodegenTest {
                 "ParentWithAnyOfOverlapping deserialization must use fromJsonValue_AnyOfOverlapping");
         Assert.assertTrue(parentOverlappingSourceContent.contains("toJsonValue_AnyOfOverlapping"),
                 "ParentWithAnyOfOverlapping serialization must use toJsonValue_AnyOfOverlapping");
+
+        // Scenario 16a: OneOfWithStringOverlap (oneOf open-string + string-enum via $ref)
+        // must emit boost::json::value (not collapse to std::string).
+        Path oneOfStringOverlapHeader = output.toPath().resolve("model/OneOfWithStringOverlap.h");
+        TestUtils.assertFileExists(oneOfStringOverlapHeader);
+        String oneOfStringOverlapContent = java.nio.file.Files.readString(oneOfStringOverlapHeader);
+        Assert.assertTrue(oneOfStringOverlapContent.contains("using OneOfWithStringOverlap = boost::json::value;"),
+                "OneOfWithStringOverlap (oneOf open-string + string-enum via $ref) should emit "
+                + "boost::json::value");
+        Assert.assertFalse(oneOfStringOverlapContent.contains("using OneOfWithStringOverlap = std::string;"),
+                "OneOfWithStringOverlap must NOT collapse to std::string — oneOf overlap "
+                + "requires boost::json::value");
+
+        // Scenario 16b: StringOverlapHolder property references OneOfWithStringOverlap
+        // which is a using-alias for boost::json::value. Verify the property uses the
+        // typedef (the alias model name, not a plain std::string).
+        Path stringOverlapHolderHeader = output.toPath().resolve("model/StringOverlapHolder.h");
+        TestUtils.assertFileExists(stringOverlapHolderHeader);
+        String stringOverlapHolderContent = java.nio.file.Files.readString(stringOverlapHolderHeader);
+        Assert.assertTrue(stringOverlapHolderContent.contains("OneOfWithStringOverlap getOverlap()"),
+                "StringOverlapHolder should declare getOverlap() returning OneOfWithStringOverlap");
+        Assert.assertTrue(stringOverlapHolderContent.contains("void setOverlap(OneOfWithStringOverlap"),
+                "StringOverlapHolder should declare setOverlap(OneOfWithStringOverlap)");
+        // The property type is the alias name rather than boost::json::value directly.
+        // Either form is correct — the alias resolves to boost::json::value at compile time.
+        Assert.assertFalse(stringOverlapHolderContent.contains("std::string m_Overlap"),
+                "StringOverlapHolder overlap property must NOT be std::string");
     }
 
     @Test

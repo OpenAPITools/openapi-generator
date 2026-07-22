@@ -316,7 +316,31 @@ components:
         - type: integer
           format: int32
 
-    # Scenario 16: Model referencing AnyOfStringInteger as a property — validates
+    # Scenario 16a: oneOf with $ref to open-string + string-enum models.
+    # Both branches transitively resolve to std::string, exposing the
+    # oneOf overlap (any enum value matches BOTH branches).  Phase 1b
+    # must NOT collapse to std::string — boost::json::value is correct.
+    OpenStringModel:
+      type: string
+    StringEnumModel:
+      type: string
+      enum:
+        - foo
+        - bar
+    OneOfWithStringOverlap:
+      oneOf:
+        - $ref: '#/components/schemas/OpenStringModel'
+        - $ref: '#/components/schemas/StringEnumModel'
+
+    # Scenario 16b: Model referencing OneOfWithStringOverlap to verify
+    # the property-level fromJsonValue uses JsonValueConverter<boost::json::value>.
+    StringOverlapHolder:
+      type: object
+      properties:
+        overlap:
+          $ref: '#/components/schemas/OneOfWithStringOverlap'
+
+    # Scenario 17: Model referencing AnyOfStringInteger as a property — validates
     # that property-level fromJsonValue uses exactly-one matching (correct for oneOf)
     # and does NOT throw for anyOf first-match (string|integer are non-overlapping).
     AnyOfPropertyHolder:
