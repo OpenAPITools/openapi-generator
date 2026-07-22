@@ -76,13 +76,7 @@ public class {{classname}} {
      * {{description}}
      * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
-{{#isDeprecated}}
-     * @deprecated
-{{/isDeprecated}}
      */
-    {{#isDeprecated}}
-    @Deprecated
-    {{/isDeprecated}}
     private ResponseSpec {{operationId}}RequestCreation({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullableArgument}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullableArgument}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
         Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         {{#allParams}}
@@ -179,7 +173,13 @@ public class {{classname}} {
     * {{description}}
     * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
+{{#isDeprecated}}
+     * @deprecated
+{{/isDeprecated}}
      */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     public {{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullableArgument}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullable_var_annotations}} {{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
         {{#returnType}}ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}
         {{#returnType}}return {{/returnType}}{{operationId}}RequestCreation({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).body(localVarReturnType);
@@ -196,7 +196,13 @@ public class {{classname}} {
      * {{description}}
      * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
+{{#isDeprecated}}
+     * @deprecated
+{{/isDeprecated}}
      */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     public {{#returnType}}ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}ResponseEntity<Void>{{/returnType}} {{operationId}}WithHttpInfo({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullableArgument}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullable_var_annotations}} {{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
         {{#returnType}}ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}
         return {{operationId}}RequestCreation({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).toEntity(localVarReturnType);
@@ -214,7 +220,13 @@ public class {{classname}} {
      * {{description}}
      * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
+{{#isDeprecated}}
+     * @deprecated
+{{/isDeprecated}}
      */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     public ResponseSpec {{operationId}}WithResponseSpec({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullableArgument}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullableArgument}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
         return {{operationId}}RequestCreation({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     }

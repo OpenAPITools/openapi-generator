@@ -265,8 +265,10 @@ namespace Org.OpenAPITools.Client
 
             foreach (IHttpClientBuilder instance in builders)
             {
-                OnAddApiHttpClientBuilder(instance);
-                builder?.Invoke(instance);
+                bool suppressDefault = false;
+                OnAddApiHttpClientBuilder(instance, builder, ref suppressDefault);
+                if (!suppressDefault)
+                    builder?.Invoke(instance);
             }
 
             HttpClientsAdded = true;
@@ -275,12 +277,17 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Applies configuration to each HttpClient after registration.
-        /// Implement this partial method in a separate file to provide custom defaults;
-        /// the caller's <c>builder</c> action runs after.
+        /// Applies configuration to each HttpClient.
+        /// Implement this partial method to prepend configuration, invoke <paramref name="userBuilder"/> at the
+        /// desired position, and append further configuration. Set <paramref name="suppressDefault"/> to
+        /// <c>true</c> when you invoke <paramref name="userBuilder"/> yourself to prevent a second invocation,
+        /// or to ignore the user's builder entirely.
+        /// If this method is not implemented, <paramref name="userBuilder"/> is invoked automatically.
         /// </summary>
-        /// <param name="builder"></param>
-        partial void OnAddApiHttpClientBuilder(IHttpClientBuilder builder);
+        /// <param name="builder">The <see cref="IHttpClientBuilder"/> to configure.</param>
+        /// <param name="userBuilder">The caller-supplied builder action, or <c>null</c> if none was provided.</param>
+        /// <param name="suppressDefault">Set to <c>true</c> to prevent the default invocation of <paramref name="userBuilder"/>.</param>
+        partial void OnAddApiHttpClientBuilder(IHttpClientBuilder builder, Action<IHttpClientBuilder> userBuilder, ref bool suppressDefault);
 
         /// <summary>
         /// Called at the end of the constructor after all JSON converters and services are registered.

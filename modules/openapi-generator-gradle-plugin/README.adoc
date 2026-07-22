@@ -98,7 +98,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "7.23.0"
+  id "org.openapi.generator" version "7.24.0"
 }
 ----
 
@@ -114,7 +114,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:7.23.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:7.24.0"
   }
 }
 
@@ -950,7 +950,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:7.23.0') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:7.24.0') {
             exclude group: 'com.google.guava'
         }
     }

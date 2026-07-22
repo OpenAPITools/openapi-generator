@@ -34,7 +34,7 @@ import javax.annotation.Generated;
 @JacksonXmlRootElement(localName = "Pet")
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Pet {
 
   private Long id;

@@ -27,9 +27,9 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +41,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.EnumUtils.ANY_OF;
+import static org.openapitools.codegen.utils.EnumUtils.ONE_OF;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -169,6 +171,8 @@ public class OpenAPINormalizer {
     final String LOOSE_NULL_DEFINITIONS = "LOOSE_NULL_DEFINITIONS";
 
     // ============= end of rules =============
+
+    private static final String ONE_OF_ANY_OF_ENUM_SIMPLIFIED = "Simplified {} with enum sub-schemas to single enum: {} since rule {} was enabled";
 
     /**
      * Factory constructor for OpenAPINormalizer.
@@ -1642,114 +1646,18 @@ public class OpenAPINormalizer {
      * @return Simplified schema
      */
     protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
-        Map<Object, String> enumValues = new LinkedHashMap<>();
-        Map<Object, Boolean> deprecatedValues = new LinkedHashMap<>();
-
-        if(schema.getTypes() != null && schema.getTypes().size() > 1) {
-            // we cannot handle enums with multiple types
-            return schema;
+        Schema enumSchema = EnumUtils.simplifyComposedSchemaWithEnums(schema, subSchemas, composedType, openAPI);
+        if (hasComposedSchemaWithEnumsBeenSimplified(schema, composedType)) {
+            LOGGER.debug(ONE_OF_ANY_OF_ENUM_SIMPLIFIED, composedType, enumSchema, SIMPLIFY_ONEOF_ANYOF_ENUM);
         }
-
-        if(subSchemas.size() < 2) {
-            //do not process if there's less than 2 sub-schemas. It will be normalized later, and this prevents
-            //named enum schemas from being converted to inline enum schemas
-            return schema;
-        }
-        String schemaType = ModelUtils.getType(schema);
-
-        for (Object item : subSchemas) {
-            if (!(item instanceof Schema)) {
-                return schema;
-            }
-
-            Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
-
-            // Check if this sub-schema has an enum or const value (OAS 3.1 uses const for single-value enums)
-            boolean definesEnum = ModelUtils.hasEnum(subSchema);
-            if (!definesEnum && subSchema.getConst() == null) {
-                return schema;
-            }
-            // If const is present but enum is not, treat const as a single enum value
-            List<Object> subSchemaEnumValues = definesEnum
-                    ? subSchema.getEnum()
-                    : Arrays.asList(subSchema.getConst());
-
-            // Ensure all sub-schemas have the same type (if type is specified)
-            if(subSchema.getTypes() != null && subSchema.getTypes().size() > 1) {
-                // we cannot handle enums with multiple types
-                return schema;
-            }
-            String subSchemaType = ModelUtils.getType(subSchema);
-            if (subSchemaType != null) {
-                if (schemaType == null) {
-                    schemaType = subSchemaType;
-                } else if (!schemaType.equals(subSchema.getType())) {
-                    return schema;
-                }
-            }
-            boolean subSchemaDeprecated = Boolean.TRUE.equals(subSchema.getDeprecated());
-            // Add all enum values from this sub-schema to our collection
-            if(subSchemaEnumValues.size() == 1) {
-                String description = subSchema.getTitle() == null ? "" : subSchema.getTitle();
-                if(subSchema.getDescription() != null) {
-                    if(!description.isEmpty()) {
-                        description += " - ";
-                    }
-                    description += subSchema.getDescription();
-                }
-                enumValues.put(subSchemaEnumValues.get(0), description);
-                deprecatedValues.put(subSchemaEnumValues.get(0), subSchemaDeprecated);
-            } else {
-                for(Object e: subSchemaEnumValues) {
-                    enumValues.put(e, "");
-                    deprecatedValues.put(e, subSchemaDeprecated);
-                }
-            }
-
-        }
-
-        return createSimplifiedEnumSchema(schema, enumValues, deprecatedValues, schemaType, composedType);
+        return enumSchema;
     }
 
-
-    /**
-     * Creates a simplified enum schema from collected enum values.
-     *
-     * @param originalSchema Original schema to modify
-     * @param enumValues Collected enum values
-     * @param deprecatedValues Per-value deprecated flags (aligned with enumValues key order)
-     * @param schemaType Consistent type across sub-schemas
-     * @param composedType Type of composed schema being simplified
-     * @return Simplified enum schema
-     */
-    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, Map<Object, Boolean> deprecatedValues, String schemaType, String composedType) {
-        // Clear the composed schema type
-        if ("oneOf".equals(composedType)) {
-            originalSchema.setOneOf(null);
-        } else if ("anyOf".equals(composedType)) {
-            originalSchema.setAnyOf(null);
-        }
-
-        if (ModelUtils.getType(originalSchema) == null && schemaType != null) {
-            //if type was specified in subschemas, keep it in the main schema
-            ModelUtils.setType(originalSchema, schemaType);
-        }
-
-        originalSchema.setEnum(new ArrayList<>(enumValues.keySet()));
-        if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
-            //set x-enum-descriptions only if there's at least one non-empty description
-            originalSchema.addExtension(X_ENUM_DESCRIPTIONS, new ArrayList<>(enumValues.values()));
-        }
-        if (deprecatedValues != null && deprecatedValues.values().stream().anyMatch(Boolean.TRUE::equals)) {
-            // preserve per-value deprecated flags from OAS 3.1 oneOf/anyOf + const sub-schemas
-            originalSchema.addExtension("x-enum-deprecated", new ArrayList<>(deprecatedValues.values()));
-        }
-
-        LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);
-
-        return originalSchema;
+    private boolean hasComposedSchemaWithEnumsBeenSimplified(Schema schema, String composedType) {
+        boolean oneOfSimplified = ONE_OF.equals(composedType) && schema.getOneOf() == null;
+        boolean anyOfSimplified = ANY_OF.equals(composedType) && schema.getAnyOf() == null;
+        return oneOfSimplified || anyOfSimplified;
     }
-
 
     /**
      * If the schema is oneOf and the sub-schemas is null, set `nullable: true`
@@ -1835,7 +1743,7 @@ public class OpenAPINormalizer {
                     return schema;
                 }
                 Map<String, String> mappings = new TreeMap<>();
-                // is the discriminator qttribute qlready in this schema?
+                // is the discriminator attribute already in this schema?
                 // if yes, it will be deleted in references oneOf to avoid duplicates
                 boolean hasProperty = findProperty(schema, discriminator.getPropertyName(), false, new HashSet<>()) != null;
                 discriminator.setMapping(mappings);

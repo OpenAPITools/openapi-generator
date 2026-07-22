@@ -1484,7 +1484,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
         if let Some(param_enum_form_string) = param_enum_form_string {
         #[allow(clippy::uninlined_format_args)]
         params.push(("enum_form_string",
-            format!("{:?}", param_enum_form_string)
+            format!("{}", param_enum_form_string)
         ));
         }
 
