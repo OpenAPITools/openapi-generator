@@ -1608,8 +1608,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 }
             }
             // Dual-content: generate stream method
+            // Only emit the stream method if we can resolve a concrete SSE
+            // element type from the response content. Without it, the template
+            // would produce an invalid std::vector<> with an empty parameter.
             if (isDualContent) {
-                operation.vendorExtensions.put("x-codegen-dual-content", true);
                 // Resolve SSE response type from the response content media-type map.
                 // Specs may expose a single 200 with both application/json and
                 // text/event-stream. Look for text/event-stream in any 2xx response.
@@ -1651,6 +1653,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     }
                 }
                 if (sseReturnType != null && sseBaseModelName != null) {
+                    operation.vendorExtensions.put("x-codegen-dual-content", true);
                     // Full C++ type for the vector element (may contain std::shared_ptr<...>)
                     operation.vendorExtensions.put("x-codegen-dual-stream-return-type", sseReturnType);
                     // Stripped base name (valid C++ identifier) for fromJsonValue_ converter
