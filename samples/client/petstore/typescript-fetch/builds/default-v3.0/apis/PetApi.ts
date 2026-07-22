@@ -91,7 +91,12 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+            const token = this.configuration.accessToken;
+            const tokenString = await token("petstore_auth", ["write:pets", "read:pets"]);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
 
 
@@ -146,7 +151,12 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+            const token = this.configuration.accessToken;
+            const tokenString = await token("petstore_auth", ["write:pets", "read:pets"]);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
 
 
@@ -201,7 +211,12 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+            const token = this.configuration.accessToken;
+            const tokenString = await token("petstore_auth", ["write:pets", "read:pets"]);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
 
 
@@ -257,7 +272,12 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+            const token = this.configuration.accessToken;
+            const tokenString = await token("petstore_auth", ["write:pets", "read:pets"]);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
 
 
@@ -363,7 +383,12 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+            const token = this.configuration.accessToken;
+            const tokenString = await token("petstore_auth", ["write:pets", "read:pets"]);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
 
 
@@ -414,7 +439,12 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+            const token = this.configuration.accessToken;
+            const tokenString = await token("petstore_auth", ["write:pets", "read:pets"]);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
 
         const consumes: runtime.Consume[] = [
@@ -488,7 +518,12 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+            const token = this.configuration.accessToken;
+            const tokenString = await token("petstore_auth", ["write:pets", "read:pets"]);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
 
         const consumes: runtime.Consume[] = [
@@ -572,7 +607,12 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+            const token = this.configuration.accessToken;
+            const tokenString = await token("petstore_auth", ["write:pets", "read:pets"]);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
         }
 
         const consumes: runtime.Consume[] = [
