@@ -1297,6 +1297,108 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generateSerializableModelWithParentCtorCallNeeded() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue8366-inheritance-parent-ctor-call.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/JarFile.kt");
+        assertFileContains(
+                path,
+                ") : kotlin.collections.HashMap<String, kotlin.Any>(), java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+        assertFileNotContains(path, ") : kotlin.collections.HashMap<String, kotlin.Any> {");
+    }
+
+    @Test
+    public void generateNonSerializableModelWithParentCtorCallNeeded() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue8366-inheritance-parent-ctor-call.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/JarFile.kt");
+        assertFileContains(
+                path,
+                ") : kotlin.collections.HashMap<String, kotlin.Any>() {"
+        );
+        assertFileNotContains(
+                path,
+                "java.io.Serializable",
+                ") : kotlin.collections.HashMap<String, kotlin.Any> {"
+        );
+    }
+
+    @Test
+    public void generateNonSerializableModelWithParentCtorCallNeededAndXimplements() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SCHEMA_IMPLEMENTS, Map.of(
+                "JarFile", List.of("com.some.pack.ExtraInterface")
+        ));
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue8366-inheritance-parent-ctor-call.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/JarFile.kt");
+        assertFileContains(
+                path,
+                ") : kotlin.collections.HashMap<String, kotlin.Any>(), com.some.pack.ExtraInterface {"
+        );
+        assertFileNotContains(
+                path,
+                "java.io.Serializable"
+        );
+    }
+
+    @Test
     public void generateHttpInterfaceReactiveWithReactorResponseEntity() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
