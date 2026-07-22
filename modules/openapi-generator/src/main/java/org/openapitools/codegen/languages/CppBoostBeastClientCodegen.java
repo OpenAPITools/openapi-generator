@@ -591,13 +591,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     filtered.add(mm);
                 }
                 if (changed) {
-                    try {
-                        java.lang.reflect.Field field = CodegenDiscriminator.class.getDeclaredField("mappedModels");
-                        field.setAccessible(true);
-                        field.set(cm.discriminator, filtered);
-                    } catch (Exception ignored) {
-                        LOGGER.warn("Could not update discriminator mappedModels for '{}'", cm.classname);
-                    }
+                    cm.discriminator.setMappedModels(filtered);
                 }
             }
         }
