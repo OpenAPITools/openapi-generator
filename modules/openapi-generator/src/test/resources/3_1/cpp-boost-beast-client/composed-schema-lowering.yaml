@@ -103,7 +103,7 @@ paths:
       operationId: getDualStream
       summary: Dual-content endpoint — produces both JSON and event-stream
       description: >
-        OpenAI-style shape: a single 200 response with both application/json
+        Dual-content shape: a single 200 response with both application/json
         and text/event-stream media types. The stream query parameter toggles
         between JSON (default) and SSE streaming.
       parameters:
@@ -192,8 +192,8 @@ components:
         - type: "null"
         - type: number
 
-    # Scenario 6: OpenAI-style temperature (anyOf number + null)
-    OpenAITemperature:
+    # Scenario 6: nullable number temperature (anyOf number + null)
+    NullableTemperature:
       type: object
       properties:
         temperature:

@@ -1,8 +1,0 @@
-# Schemas in fixtures.yaml whose generated C++ header does not yet exist.
-# Each entry is a root-composed schema name from fixtures.yaml.
-# These are DEFERRED (not FAIL) in the inventory report.
-#
-# When the codegen is fixed to handle these cases, remove the entry
-# from this file and verify the TSV shows PASS with the expected type.
-#
-# (Empty — NullableString now emits a std::optional alias header.)

@@ -284,12 +284,12 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(tempSourceContent.contains("m_Temperature.reset()"),
                 "TemperatureContainer.cpp should use reset() for optional deserialization");
 
-        // Scenario 5: OpenAITemperature — anyOf [number, null] property is std::optional<double>
-        Path openaiTempHeader = output.toPath().resolve("model/OpenAITemperature.h");
-        TestUtils.assertFileExists(openaiTempHeader);
-        String openaiTempContent = java.nio.file.Files.readString(openaiTempHeader);
-        Assert.assertTrue(openaiTempContent.contains("std::optional<double> m_Temperature"),
-                "OpenAITemperature should declare std::optional<double> m_Temperature member");
+        // Scenario 5: NullableTemperature — anyOf [number, null] property is std::optional<double>
+        Path nullableTempHeader = output.toPath().resolve("model/NullableTemperature.h");
+        TestUtils.assertFileExists(nullableTempHeader);
+        String nullableTempContent = java.nio.file.Files.readString(nullableTempHeader);
+        Assert.assertTrue(nullableTempContent.contains("std::optional<double> m_Temperature"),
+                "NullableTemperature should declare std::optional<double> m_Temperature member");
 
         // Scenario 6: RefHolder — properties that $ref composed models without shared_ptr
         Path refHolderHeader = output.toPath().resolve("model/RefHolder.h");
@@ -427,7 +427,7 @@ public class CppBoostBeastClientCodegenTest {
         // converts oneOf [null, number] into {type: number, nullable: true} which
         // does not produce a model header.  It works as std::optional<double> at
         // the property/reference level.  This is a parser-level limitation.
-        TestUtils.assertFileExists(output.toPath().resolve("model/OpenAITemperature.h"));
+        TestUtils.assertFileExists(output.toPath().resolve("model/NullableTemperature.h"));
 
         // SingleBranchTest is an alias (anyOf string-enum → std::string)
         Path singleBranchHeader = output.toPath().resolve("model/SingleBranchTest.h");
@@ -862,7 +862,7 @@ public class CppBoostBeastClientCodegenTest {
 
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
-                .setInputSpec("../../openai-cpp-sdk/oas-compliance/fixtures.yaml")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/oas-compliance/fixtures.yaml")
                 .setOutputDir(output.getAbsolutePath())
                 .addAdditionalProperty("packageName", "CppBoostBeastNullableTest");
 
@@ -892,7 +892,7 @@ public class CppBoostBeastClientCodegenTest {
 
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
-                .setInputSpec("../../openai-cpp-sdk/oas-compliance/fixtures.yaml")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/oas-compliance/fixtures.yaml")
                 .setOutputDir(output.getAbsolutePath())
                 .addAdditionalProperty("packageName", "CppBoostBeastOneOfTest");
 
@@ -1329,7 +1329,7 @@ public class CppBoostBeastClientCodegenTest {
     public void omitsEmptyDefaultInitializer() throws IOException {
         // Verify that no generated model header contains the invalid C++ pattern
         // `= ;` which occurs when defaultValue is null/blank in the template.
-        // Regression: ~37+ compilation errors from OpenAI corpus headers like
+        // Regression: ~37+ compilation errors from large real-world corpus headers like
         // `MessageRole m_Role = ;` when enum/model property has no default.
         File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-empty-default").toFile();
         output.deleteOnExit();

@@ -5,8 +5,7 @@ info:
   description: >
     Generic OpenAPI 3.1 document exercising every composed-schema lowering
     rule that cpp-boost-beast-client must support.  No vendor-specific type
-    names, vendor extensions, or OpenAI imports.  Gate A of the dual
-    compliance harness.
+    names or vendor extensions required.
 
 paths:
   # ---------------------------------------------------------------------------

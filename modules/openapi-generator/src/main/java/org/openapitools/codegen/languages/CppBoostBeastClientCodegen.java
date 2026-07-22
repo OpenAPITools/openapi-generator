@@ -343,8 +343,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 cm.vendorExtensions.put("x-cpp-is-alias", true);
                 String resolvedType = (String) cm.vendorExtensions.get("x-cpp-type");
                 // Resolve non-std:: types through the alias chain to detect
-                // models that alias to a variant (e.g., ResponsesServerEvent →
-                // ResponseStreamEvent → std::variant<...>).
+                // models that alias to a variant (e.g., ParentServerEvent →
+                // StreamEventUnion → std::variant<...>).
                 String ultimateType = resolveThroughAliases(resolvedType);
                 if (ultimateType != null && ultimateType.startsWith("std::variant<")) {
                     cm.vendorExtensions.put("x-cpp-is-variant", true);
@@ -352,11 +352,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 }
             } else if (cm.parent != null && !cm.parent.isEmpty()
                     && resolvedAliasTypes.containsKey(cm.parent)) {
-                // (e.g., ResponsesServerEvent : public ResponseStreamEvent) but where
+                // (e.g., ParentServerEvent : public StreamEventUnion) but where
                 // the parent is a resolved variant/alias. Since inheritance from a
                 // variant alias is invalid C++, treat this model as an alias too.
-                // Example: ResponsesServerEvent has anyOf: [ResponseStreamEvent] where
-                // ResponseStreamEvent = std::variant<...>.
+                // Example: ParentServerEvent has anyOf: [StreamEventUnion] where
+                // StreamEventUnion = std::variant<...>.
                 String parentAlias = cm.parent;
                 cm.vendorExtensions.put("x-cpp-type", parentAlias);
                 cm.vendorExtensions.put("x-cpp-is-alias", true);
@@ -544,7 +544,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // postProcessModels may have set x-cpp-is-variant = true for models whose
         // types were later collapsed to plain types (e.g., std::string) by Phase 1b.
         // Use transitive alias resolution so models aliased to a variant type
-        // (e.g., ResponsesServerEvent → ResponseStreamEvent → std::variant<...>)
+        // (e.g., ParentServerEvent → StreamEventUnion → std::variant<...>)
         // also get the variant flag.
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             for (ModelMap mo : entry.getValue().getModels()) {
@@ -564,8 +564,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         // Phase 4b: Filter discriminator mappings to remove self-referential entries.
         // After Phase 1b, all resolvedAliasTypes are final. A discriminator mapping
-        // like "ResponsesServerEvent" → ResponsesServerEvent where ResponsesServerEvent
-        // resolves to the same type as the current model (e.g., ResponseStreamEvent =
+        // like "ParentServerEvent" → ParentServerEvent where ParentServerEvent
+        // resolves to the same type as the current model (e.g., StreamEventUnion =
         // std::variant<...>) would cause compile errors (constructing variant from self)
         // and infinite recursion in fromJsonValue.
         // The template uses discriminator.mappedModels (built-in CodegenModel field),
@@ -1606,9 +1606,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             if (isDualContent) {
                 operation.vendorExtensions.put("x-codegen-dual-content", true);
                 // Resolve SSE response type from the response content media-type map.
-                // For OpenAI-shaped specs, a single 200 response has both
-                // application/json → NormalResponse and text/event-stream → StreamEvent.
-                // We look for the text/event-stream media type in any 2xx response.
+                // Specs may expose a single 200 with both application/json and
+                // text/event-stream. Look for text/event-stream in any 2xx response.
                 String sseReturnType = null;
                 String sseBaseModelName = null;
                 for (CodegenResponse response : operation.responses) {

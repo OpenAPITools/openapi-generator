@@ -103,29 +103,21 @@ semantic model where a missing key and a present `null` value are distinct.
 
 ---
 
-## Dual compliance gates
+## Compliance testing
 
-Release-quality changes for this generator must pass **both** compliance gates:
+Composition lowering is covered by unit tests and OAS fixture specs under:
 
-| Gate | Role | Scope |
-|------|------|-------|
-| **A — OAS composition fixtures** | Spec correctness | ~15 named fixture schemas exercising every lowering rule (no OpenAI dependency) |
-| **B — OpenAI corpus** | Scale and realism | Full generate → compile → type inventory → golden round-trips against the pinned OpenAI document (~891 anyOf, ~254 oneOf, ~832 nullable branches) |
+```text
+modules/openapi-generator/src/test/resources/3_1/cpp-boost-beast-client/
+modules/openapi-generator/src/test/resources/3_1/cpp-boost-beast-client/oas-compliance/
+```
 
-Release is blocked while either gate has non-deferred `FAIL`s.
+Run:
 
-**Gate A** is OAS-only — no dependency on OpenAI type names, vendor extensions,
-or patterns. A Gate A failure always indicates a spec-level codegen defect.
-
-**Gate B** validates that the general lowering rules work at scale on a real-world
-document. It runs the full pipeline: generate client code, C++ compile the library,
-inventory every composed schema's C++ type against expected types, and run golden
-round-trip tests that verify encode/decode fidelity for representative schemas.
-Non-deferred FAIL in any Gate B step blocks release.
-
-> **Maintainer note:** Both gates live in the `openai-cpp-sdk/` directory of the
-> OpenAPI Generator monorepo. See the `oas-compliance/README.md` and
-> `openai/compliance/MANIFEST.md` for gate-specific documentation and run commands.
+```sh
+./mvnw -pl modules/openapi-generator \
+  -Dtest=CppBoostBeastClientCodegenTest,CppBoostBeastClientApiCodegenTest test
+```
 
 ---
 
@@ -203,7 +195,7 @@ This work ships as a single, large, explicitly-breaking pull request that:
 1. Eliminates the prior empty-shell composed-model output entirely.
 2. Replaces it with `std::variant` / `std::optional` / collapsed types.
 3. Updates every mustache template for models and API operations.
-4. Adds dual compliance gates (Gate A + Gate B).
+4. Adds OAS composition fixtures and unit tests for lowering rules.
 5. Adds media-type-driven streaming support.
 
 **No attempt is made to preserve backward compatibility with prior generated
@@ -215,27 +207,8 @@ OpenAPI Generator language target.
 Reviewers should evaluate the PR against:
 - **OAS compliance** — do the generated types and encode/decode faithfully
   represent the OpenAPI specification's composition rules?
-- **Corpus validation** — does the OpenAI corpus (Gate B) generate, compile,
-  and produce correct type inventories and golden round-trips?
-- **Fixture coverage** — does every lowering rule have a dedicated Gate A
-  fixture with a green PASS?
-
----
-
-## CI policy
-
-The dual compliance gates are **not yet wired into CI**.  Until CI integration is
-complete, a maintainer must run the gates manually before tagging any release that
-includes changes to `cpp-boost-beast-client`:
-
-```sh
-# From the monorepo root:
-./openai-cpp-sdk/run-dual-gates.sh
-```
-
-Both gates must exit 0 with no non-deferred FAILs before the release proceeds.
-CI integration (parallel Gate A / Gate B execution on Beast-generator changes) is
-tracked as a separate work item.
+- **Fixture coverage** — does every lowering rule have dedicated unit/fixture
+  coverage with green tests?
 
 ---
 
