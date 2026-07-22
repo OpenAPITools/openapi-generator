@@ -1072,13 +1072,22 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{#vars}}
     {{#vendorExtensions.x-cpp-const}}
     {{#vendorExtensions.x-cpp-const-inline-value}}
-    // Reject JSON that has a const field with a different value (OAS const / single enum).
+    // Reject JSON that has a const field with a different value or unexpected JSON kind
+    // (OAS const / single enum). Missing required const keys are also rejected.
     {
         const auto it = object.find("{{baseName}}");
+        {{#required}}
+        if (it == object.end()) {
+            throw std::invalid_argument("Required field '{{baseName}}' not found in {{classname}}");
+        }
+        {{/required}}
         if (it != object.end()) {
             {{#vendorExtensions.x-cpp-const-is-string}}
-            if (it->value().is_string()
-                && it->value().as_string() != {{{vendorExtensions.x-cpp-const-inline-value}}}) {
+            if (!it->value().is_string()) {
+                throw std::invalid_argument(
+                    "Field '{{baseName}}' expected a JSON string for const value in {{classname}}");
+            }
+            if (it->value().as_string() != {{{vendorExtensions.x-cpp-const-inline-value}}}) {
                 throw std::invalid_argument(
                     "Field '{{baseName}}' has unexpected value '"
                     + std::string(it->value().as_string().data(), it->value().as_string().size())
@@ -1086,6 +1095,13 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
             }
             {{/vendorExtensions.x-cpp-const-is-string}}
             {{^vendorExtensions.x-cpp-const-is-string}}
+            const bool expectedJsonKind = it->value().is_int64()
+                || it->value().is_double()
+                || it->value().is_bool();
+            if (!expectedJsonKind) {
+                throw std::invalid_argument(
+                    "Field '{{baseName}}' expected a JSON number or boolean for const value in {{classname}}");
+            }
             if ((it->value().is_int64() && it->value().as_int64() != static_cast<std::int64_t>({{{vendorExtensions.x-cpp-const-inline-value}}}))
                 || (it->value().is_double() && it->value().as_double() != static_cast<double>({{{vendorExtensions.x-cpp-const-inline-value}}}))
                 || (it->value().is_bool() && it->value().as_bool() != static_cast<bool>({{{vendorExtensions.x-cpp-const-inline-value}}}))) {
