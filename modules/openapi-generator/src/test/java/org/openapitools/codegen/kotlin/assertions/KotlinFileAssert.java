@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.com.intellij.psi.PsiManager;
 import org.jetbrains.kotlin.config.CompilerConfiguration;
 import org.jetbrains.kotlin.psi.KtClass;
 import org.jetbrains.kotlin.psi.KtFile;
+import org.jetbrains.kotlin.psi.KtNamedFunction;
 
 import java.io.File;
 import java.util.Arrays;
@@ -48,5 +49,15 @@ public class KotlinFileAssert extends AbstractAssert<KotlinFileAssert, KtFile> {
                 .hasSize(1);
 
         return new ClassAssert(this, ktClasses.get(0));
+    }
+
+    public FunctionAssert assertFunction(final String functionName) {
+        final List<KtNamedFunction> functions = Arrays.stream(actual.findChildrenByClass(KtNamedFunction.class))
+                .filter(func -> Objects.equals(func.getName(), functionName)).collect(Collectors.toList());
+        Assertions.assertThat(functions)
+                .withFailMessage("Expected file to have single function %s, but found %s", functionName, functions.size())
+                .hasSize(1);
+
+        return new FunctionAssert(this, functions.get(0));
     }
 }

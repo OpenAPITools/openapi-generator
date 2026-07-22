@@ -6,9 +6,11 @@ import org.assertj.core.util.CanIgnoreReturnValue;
 import org.jetbrains.kotlin.psi.KtClass;
 import org.jetbrains.kotlin.psi.KtNamedFunction;
 import org.jetbrains.kotlin.psi.KtParameter;
+import org.jetbrains.kotlin.psi.KtSecondaryConstructor;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @CanIgnoreReturnValue
@@ -43,6 +45,21 @@ public class ClassAssert extends AbstractAssert<ClassAssert, KtClass>  {
                 .hasSize(1);
 
         return new PrimaryConstructorParameterAssert(this, parameters.get(0));
+    }
+
+    public ClassAssert assertAnySecondaryConstructorSatisfies(final Consumer<KtSecondaryConstructor> requirements) {
+        Assertions.assertThat(actual.getSecondaryConstructors())
+                .anySatisfy(requirements);
+
+        return this;
+    }
+
+    public CompanionAssert assertCompanion() {
+        Assertions.assertThat(actual.getCompanionObjects())
+                .withFailMessage("Expected class to have a single companion object, but found %s", actual.getCompanionObjects().size())
+                .hasSize(1);
+
+        return new CompanionAssert(this, actual.getCompanionObjects().get(0));
     }
 
     public KotlinFileAssert toFile() {
