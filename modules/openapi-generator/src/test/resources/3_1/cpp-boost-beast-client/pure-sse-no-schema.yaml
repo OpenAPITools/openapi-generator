@@ -1,0 +1,15 @@
+openapi: 3.1.0
+info:
+  title: Pure SSE no-schema probe
+  version: 1.0.0
+paths:
+  /events:
+    get:
+      tags:
+        - SSE
+      operationId: getEvents
+      responses:
+        '200':
+          description: SSE streaming with no response schema
+          content:
+            text/event-stream: {}

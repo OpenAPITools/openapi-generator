@@ -1596,6 +1596,17 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                         && response.dataType.equals(operation.returnType);
                 response.vendorExtensions.put("x-codegen-return-compatible", returnCompatible);
             }
+            // If a pure SSE operation has no response schema (no data type
+            // on any 2xx response), returnType will be null and the
+            // mustache template would produce std::vector<void>, which
+            // is invalid C++. Clear the streaming flag so the normal
+            // non-streaming void path is used instead.
+            if (isPureSse && operation.returnType == null) {
+                operation.vendorExtensions.put("x-codegen-streaming-response", false);
+                for (CodegenResponse r : operation.responses) {
+                    r.vendorExtensions.put("x-codegen-streaming-response", false);
+                }
+            }
             // Dual-content: generate stream method
             if (isDualContent) {
                 operation.vendorExtensions.put("x-codegen-dual-content", true);

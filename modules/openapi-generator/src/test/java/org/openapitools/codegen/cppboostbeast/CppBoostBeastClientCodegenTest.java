@@ -1223,6 +1223,43 @@ public class CppBoostBeastClientCodegenTest {
                 "Dual-content API header must declare stream method returning std::vector<StreamEvent>");
     }
 
+    @Test
+    public void rejectsPureSseWithoutResponseSchema() throws IOException {
+        // A pure SSE operation with no response schema must NOT generate
+        // std::vector<void> (invalid C++). Instead, the streaming flag
+        // should be cleared and the return type should be void.
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-pure-sse-no-schema").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/pure-sse-no-schema.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiHeader = output.toPath().resolve("api/SSEApi.h");
+        String generatedApiHeader = Files.readString(apiHeader);
+
+        // Must NOT contain std::vector<void> — that would fail compilation
+        Assert.assertFalse(generatedApiHeader.contains("std::vector<void>"),
+                "Pure SSE with no schema must not generate std::vector<void>");
+
+        // The getEvents declaration must use void (not std::vector<...>)
+        int getEventsPos = generatedApiHeader.indexOf("getEvents(");
+        Assert.assertTrue(getEventsPos >= 0, "Pure SSE with no schema must declare getEvents method");
+        String beforeGetEvents = generatedApiHeader.substring(Math.max(0, getEventsPos - 60), getEventsPos);
+        Assert.assertFalse(beforeGetEvents.contains("std::vector<"),
+                "Pure SSE with no schema must not wrap getEvents return type in std::vector<>");
+
+        // Verify the source uses the non-streaming execute path
+        Path apiSource = output.toPath().resolve("api/SSEApi.cpp");
+        String generatedApiSource = Files.readString(apiSource);
+        Assert.assertTrue(generatedApiSource.contains("m_client->execute("),
+                "Pure SSE with no schema must use non-streaming execute");
+    }
+
     /**
      * Checks basic C++ syntactic validity of a generated source file:
      * balanced preprocessor guards, no missing/duplicate #endif.
