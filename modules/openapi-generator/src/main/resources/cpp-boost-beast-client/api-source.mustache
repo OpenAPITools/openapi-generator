@@ -670,6 +670,17 @@ bool tryParseBranch(const boost::json::value& value, T& result) {
             if (!tryParseBranch(value, converted)) return false;
             result = std::move(converted);
             return true;
+        } else if constexpr (IsSpecialization<T, std::map>{}) {
+            if (!value.is_object()) return false;
+            using MappedType = typename T::mapped_type;
+            T m;
+            for (auto& entry : value.as_object()) {
+                MappedType converted;
+                if (!tryParseBranch(entry.value(), converted)) return false;
+                m.emplace(std::string(entry.key()), std::move(converted));
+            }
+            result = std::move(m);
+            return true;
         } else {
             // Model type with fromJsonValue member
             if constexpr (HasFromJsonValueMethod<T>{}) {

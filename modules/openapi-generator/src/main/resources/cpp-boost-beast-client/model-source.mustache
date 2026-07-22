@@ -215,6 +215,27 @@ bool tryParseBranch(boost::json::value const& value, T& result, std::string* err
                 return false;
             }
             return true;
+        } else if constexpr (IsSpecialization<T, std::map>{}) {
+            // std::map<std::string, MappedType> — iterate object entries.
+            if (!value.is_object()) return false;
+            using MappedType = typename T::mapped_type;
+            T m;
+            for (auto& entry : value.as_object()) {
+                MappedType converted;
+                std::string itemPath;
+                if (errorPath) {
+                    itemPath = *errorPath + "[\"" + std::string(entry.key()) + "\"]";
+                }
+                if (!tryParseBranch(entry.value(), converted, errorPath ? &itemPath : nullptr)) {
+                    if (errorPath) {
+                        *errorPath = std::move(itemPath);
+                    }
+                    return false;
+                }
+                m.emplace(std::string(entry.key()), std::move(converted));
+            }
+            result = std::move(m);
+            return true;
         } else {
             // Model type — try fromJsonValue member.
             // Do NOT swallow model validation errors (required field, type
@@ -562,6 +583,27 @@ bool tryParseBranch(boost::json::value const& value, T& result, std::string* err
             if (!tryVariantBranches(value, result, std::make_index_sequence<variantSize>{}, errorPath)) {
                 return false;
             }
+            return true;
+        } else if constexpr (IsSpecialization<T, std::map>{}) {
+            // std::map<std::string, MappedType> — iterate object entries.
+            if (!value.is_object()) return false;
+            using MappedType = typename T::mapped_type;
+            T m;
+            for (auto& entry : value.as_object()) {
+                MappedType converted;
+                std::string itemPath;
+                if (errorPath) {
+                    itemPath = *errorPath + "[\"" + std::string(entry.key()) + "\"]";
+                }
+                if (!tryParseBranch(entry.value(), converted, errorPath ? &itemPath : nullptr)) {
+                    if (errorPath) {
+                        *errorPath = std::move(itemPath);
+                    }
+                    return false;
+                }
+                m.emplace(std::string(entry.key()), std::move(converted));
+            }
+            result = std::move(m);
             return true;
         } else {
             // Model type — try fromJsonValue member.
