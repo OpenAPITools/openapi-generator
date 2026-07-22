@@ -464,9 +464,30 @@ boost::json::value toRequestJsonValue(const std::vector<T>& requestValues);
 template<typename T>
 boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestValues);
 
+template<typename... Ts>
+boost::json::value toRequestJsonValue(const std::variant<Ts...>& requestValue);
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::optional<T>& requestValue);
+
 template<typename T>
 boost::json::value toRequestJsonValue(const std::shared_ptr<T>& requestValue) {
     return requestValue == nullptr ? boost::json::value(nullptr) : requestValue->toJsonValue();
+}
+
+template<typename... Ts>
+boost::json::value toRequestJsonValue(const std::variant<Ts...>& requestValue) {
+    return std::visit([](auto const& v) -> boost::json::value {
+        return toRequestJsonValue(v);
+    }, requestValue);
+}
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::optional<T>& requestValue) {
+    if (requestValue.has_value()) {
+        return toRequestJsonValue(requestValue.value());
+    }
+    return boost::json::value(nullptr);
 }
 
 template<typename T>
@@ -486,21 +507,6 @@ boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestVal
         requestObject.emplace(requestEntry.first, toRequestJsonValue(requestEntry.second));
     }
     return requestObject;
-}
-
-template<typename... Ts>
-boost::json::value toRequestJsonValue(const std::variant<Ts...>& requestValue) {
-    return std::visit([](auto const& v) -> boost::json::value {
-        return toRequestJsonValue(v);
-    }, requestValue);
-}
-
-template<typename T>
-boost::json::value toRequestJsonValue(const std::optional<T>& requestValue) {
-    if (requestValue.has_value()) {
-        return toRequestJsonValue(requestValue.value());
-    }
-    return boost::json::value(nullptr);
 }
 
 /// addVariantFormParameter definition (forward-declared above).
