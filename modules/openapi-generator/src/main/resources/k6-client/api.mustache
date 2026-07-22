@@ -1,0 +1,70 @@
+// @ts-ignore
+import http from 'k6/http';
+// @ts-ignore
+import { FileData } from 'k6/http';
+
+{{#imports}}
+    {{#import}}
+import { {{classname}} } from './{{classname}}.js';
+    {{/import}}
+{{/imports}}
+
+export class {{classname}} {
+
+    constructor(private baseUrl: string) {}
+
+    {{#operations}}
+    {{#operation}}
+    /**
+    * @summary {{ summary }}
+    *
+    {{#responses}}
+    * @returns { {{#dataType}}{{#isArray}}{{baseType}}[]{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}{{/dataType}}{{^dataType}}undefined{{/dataType}} } - {{code}}
+    {{/responses}}
+    */
+    public {{operationId}}({{#allParams}}{{^isArray}}{{{paramName}}}: {{dataType}}{{/isArray}}{{#isArray}}{{{paramName}}}: {{baseType}}[]{{/isArray}}{{^-last}}, {{/-last}}{{/allParams}}): {
+        code: number,
+        headers: {
+            [key: string]: string,
+        },
+        body?: {{#uniqueResponseTypes}}{{#isMap}}{ [key: string]: any }{{/isMap}}{{#isArray}}{{arrayModelType}}[]{{/isArray}}{{#isPrimitiveType}}{{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}}{{/isPrimitiveType}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}},
+    } {
+        const url: string = `${this.baseUrl}{{#lambda.urlLambda}}{{path}}{{/lambda.urlLambda}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#allParams}}{{#isQueryParam}}{{{paramName}}}=${{#lambda.braces}}{{paramName}}{{/lambda.braces}}{{^-last}}&{{/-last}}{{/isQueryParam}}{{/allParams}}`;
+        {{#hasFormParams}}
+
+        const form = {
+            {{#formParams}}
+            {{paramName}},
+            {{/formParams}}
+        };
+        {{/hasFormParams}}
+        {{#hasBodyParam}}
+
+        const reqHeaders = {
+            'Content-Type': `{{#consumes.0}}{{mediaType}}{{/consumes.0}}`
+        };
+        {{/hasBodyParam}}
+        {{#hasFormParams}}
+
+        const reqHeaders = {
+            'Content-Type': `{{#consumes.0}}{{mediaType}}{{/consumes.0}}`
+        };
+        {{/hasFormParams}}
+
+        const { code, headers: resHeaders, body } = http.{{#lambda.lower}}{{httpMethod}}{{/lambda.lower}}(url{{#hasBodyParam}}, {{#bodyParam}}{{paramName}}, { headers: reqHeaders }{{/bodyParam}}{{/hasBodyParam}}{{#hasFormParams}}, form, { headers: reqHeaders }{{/hasFormParams}});
+
+        let responseBody = undefined;
+
+        if (body) {
+            try {
+                responseBody = JSON.parse(body);
+            } catch (error) {
+                responseBody = body;
+            }
+        }
+
+        return { code, headers: resHeaders, body: responseBody as {{#uniqueResponseTypes}}{{#isMap}}{ [key: string]: any }{{/isMap}}{{#isArray}}{{arrayModelType}}[]{{/isArray}}{{#isPrimitiveType}}{{#dataType}}{{dataType}}{{/dataType}}{{^dataType}}undefined{{/dataType}}{{/isPrimitiveType}}{{^-last}} | {{/-last}}{{/uniqueResponseTypes}} };
+    }
+    {{/operation}}
+    {{/operations}}
+}
