@@ -257,7 +257,19 @@ components:
         - type: "null"
         - type: "null"
 
-    # Scenario 12: x-stainless-const property handling
+    # Scenario 12a: OAS 3.1 const (no vendor extension required)
+    OasConstObject:
+      type: object
+      properties:
+        type:
+          type: string
+          const: text
+        count:
+          type: integer
+          format: int32
+          const: 42
+
+    # Scenario 12b: optional x-stainless-const vendor enhancer (still supported)
     StainlessObject:
       type: object
       properties:

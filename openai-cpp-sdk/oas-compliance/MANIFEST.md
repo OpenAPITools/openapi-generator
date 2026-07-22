@@ -32,6 +32,7 @@ actual C++ type and the expected type produces a FAIL.
 | Case ID                        | Schema                 | Composition    | Expected lowering                          | Negative? |
 |--------------------------------|------------------------|----------------|--------------------------------------------|-----------|
 | ANYOF-STRING-ENUM-COLLAPSE-001 | `AnyOfStringStringEnum`| anyOf          | `std::string`                              |           |
+| ONEOF-STRING-ENUM-NO-COLLAPSE-001 | `OneOfStringStringEnum` | oneOf       | `boost::json::value` (no blind string collapse) |     |
 | ONEOF-STRING-ARRAY-001         | `OneOfStringArray`     | oneOf          | `std::variant<std::string, std::vector<ItemStruct>>` |     |
 | ALLOF-OBJECT-MERGE-001         | `AllOfObjectMerge`     | allOf          | Flattened struct (merged class)            |           |
 | ALLOF-SCALAR-CONFLICT-001      | `AllOfScalarConflict`  | allOf          | Codegen error (not silent) — in `fixtures-negative.yaml` | ✓ |

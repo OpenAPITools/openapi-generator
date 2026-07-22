@@ -535,14 +535,21 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertTrue(inputParamSourceContent.contains("capturePath"),
                 "InputParam source must use capturePath for matchCount==0 diagnostic");
 
-        // Scenario 12: x-stainless-const property handling
+        // Scenario 12a: OAS const without vendor extensions
+        Path oasConstHeader = output.toPath().resolve("model/OasConstObject.h");
+        TestUtils.assertFileExists(oasConstHeader);
+        String oasConstContent = java.nio.file.Files.readString(oasConstHeader);
+        Assert.assertTrue(oasConstContent.contains("std::string getType() const { return \"text\"; }"),
+                "OasConstObject string const getter should inline from OAS const");
+        Assert.assertTrue(oasConstContent.contains("int32_t getCount() const { return 42; }"),
+                "OasConstObject integer const getter should inline from OAS const");
+
+        // Scenario 12b: optional x-stainless-const still works
         Path stainlessHeader = output.toPath().resolve("model/StainlessObject.h");
         TestUtils.assertFileExists(stainlessHeader);
         String stainlessContent = java.nio.file.Files.readString(stainlessHeader);
-        // String const getter should return quoted value
         Assert.assertTrue(stainlessContent.contains("std::string getType() const { return \"text\"; }"),
                 "StainlessObject string const getter should inline the quoted value");
-        // Integer const getter should return unquoted value
         Assert.assertTrue(stainlessContent.contains("int32_t getCount() const { return 42; }"),
                 "StainlessObject integer const getter should inline the value");
 
@@ -717,14 +724,13 @@ public class CppBoostBeastClientCodegenTest {
     }
 
     @Test
-    public void oneOfStringStringEnumCollapsesToString() throws IOException {
+    public void oneOfStringStringEnumDoesNotBlindCollapseToString() throws IOException {
         CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
         codegen.processOpts();
 
-        // oneOf: [string, string-enum] must NOT produce std::variant<std::string, std::string>.
-        // Indistinguishable oneOf branches are collapsed to the single common type
-        // (std::string) to avoid invalid C++ variant types. The schema-level
-        // oneOf semantics are lost, but that is inherent in type erasure.
+        // oneOf: [string, string-enum] must NOT collapse like anyOf.
+        // Under JSON Schema oneOf, enum members match both branches (invalid).
+        // Emitting std::string would hide that; prefer boost::json::value.
         ComposedSchema schema = new ComposedSchema();
         schema.addOneOfItem(new StringSchema());
         StringSchema enumSchema = new StringSchema();
@@ -733,8 +739,8 @@ public class CppBoostBeastClientCodegenTest {
         schema.addOneOfItem(enumSchema);
 
         String resolved = codegen.getTypeDeclaration(schema);
-        Assert.assertEquals(resolved, "std::string",
-                "oneOf [string, string-enum] should collapse to std::string");
+        Assert.assertEquals(resolved, "boost::json::value",
+                "oneOf [string, string-enum] must not blind-collapse to std::string");
     }
 
     @Test
@@ -871,17 +877,16 @@ public class CppBoostBeastClientCodegenTest {
         Assert.assertFalse(nullableEnumContent.contains("using NullableEnum = std::string;"),
                 "NullableEnum must not collapse to plain std::string.");
 
-        // NullableString is not generated as a stand-alone model file because
-        // the OpenAPI 3.1 parser converts anyOf [string, null] to a simple
-        // {type: string, nullable: true} schema, which doesn't produce a model
-        // header. This is expected — it works as std::optional<std::string>
-        // at the property/reference level.
+        Path nullableStringHeader = output.toPath().resolve("model/NullableString.h");
+        TestUtils.assertFileExists(nullableStringHeader);
+        String nullableStringContent = java.nio.file.Files.readString(nullableStringHeader);
+        Assert.assertTrue(nullableStringContent.contains("using NullableString = std::optional<std::string>;"),
+                "NullableString must emit optional alias header. Got: " + nullableStringContent);
     }
 
     @Test
     public void oneOfStringStringEnumViaGateFixtures() throws IOException {
-        // Verify that OneOfStringStringEnum in Gate A fixtures falls back to
-        // boost::json::value (instead of producing unusable std::variant<T,T>).
+        // oneOf open-string + string-enum must not claim exclusive std::string.
         File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-oneof").toFile();
         output.deleteOnExit();
 
@@ -897,9 +902,10 @@ public class CppBoostBeastClientCodegenTest {
         Path oneOfHeader = output.toPath().resolve("model/OneOfStringStringEnum.h");
         TestUtils.assertFileExists(oneOfHeader);
         String oneOfContent = java.nio.file.Files.readString(oneOfHeader);
-        // Collapses to std::string since all branches resolve to the same type
-        Assert.assertTrue(oneOfContent.contains("using OneOfStringStringEnum = std::string;"),
-                "OneOfStringStringEnum should collapse to std::string (indistinguishable branches)");
+        Assert.assertTrue(oneOfContent.contains("using OneOfStringStringEnum = boost::json::value;"),
+                "OneOfStringStringEnum should be boost::json::value (no false exclusive string union)");
+        Assert.assertFalse(oneOfContent.contains("using OneOfStringStringEnum = std::string;"),
+                "OneOfStringStringEnum must not blind-collapse to std::string");
     }
 
     @Test

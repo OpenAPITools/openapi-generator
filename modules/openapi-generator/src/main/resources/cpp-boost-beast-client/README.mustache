@@ -186,12 +186,13 @@ entries, not as core OAS vocabulary.
 
 | Format | OAS status | C++ type | Notes |
 |--------|-----------|----------|-------|
-| `unixtime` | **Non-standard** (not in OAS format registry) | `std::int64_t` | Mapped via `typeMappings`/`formatMapping` in the generator config. Emitted as integer seconds since Unix epoch. The OpenAPI corpus uses this for ~141 timestamp fields. |
+| `unixtime` | **Non-standard** (not in OAS format registry) | `std::int64_t` | Optional generator convenience in `getSchemaType` when `format: unixtime` appears. Not core OAS vocabulary. |
 
-This mapping is a convenience for the OpenAI corpus and similar APIs that use
-Unix-time integers. It does **not** imply that `unixtime` is a standard OAS format.
-Any API using a different time representation (ISO 8601 strings, millisecond
-epochs, etc.) must define its own schema.
+This mapping is a **documented non-standard convenience** for APIs that encode
+Unix-epoch seconds as integers. It does **not** imply that `unixtime` is a
+standard OAS format. Specs that omit `format: unixtime` are unaffected. Any API
+using a different time representation (ISO 8601 strings, millisecond epochs,
+etc.) must define its own schema.
 
 ---
 

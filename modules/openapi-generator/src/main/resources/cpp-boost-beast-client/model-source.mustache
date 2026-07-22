@@ -751,6 +751,44 @@ struct JsonValueConverter<std::vector<Element>>
     }
 };
 
+// anyOf-compatible first-match decode for property-level / untagged variants.
+// Named oneOf aliases use free functions with exactly-one enforcement.
+// Inline oneOf properties call fromJsonValueExactlyOne via the object template.
+template <typename Variant>
+Variant fromJsonValueFirstMatch(const boost::json::value& jsonValue)
+{
+    constexpr std::size_t variantSize = std::variant_size_v<Variant>;
+    Variant result;
+    std::string errorPath;
+    if (!tryVariantBranches(jsonValue, result, std::make_index_sequence<variantSize>{}, &errorPath)) {
+        throw std::invalid_argument("No matching variant branch for JSON value at '" + errorPath + "'");
+    }
+    return result;
+}
+
+template <typename Variant>
+Variant fromJsonValueExactlyOne(const boost::json::value& jsonValue)
+{
+    constexpr std::size_t variantSize = std::variant_size_v<Variant>;
+    std::size_t matchCount = countVariantBranches<Variant>(
+        jsonValue, std::make_index_sequence<variantSize>{});
+    if (matchCount == 0) {
+        Variant dummy;
+        std::string capturePath;
+        tryVariantBranches(jsonValue, dummy, std::make_index_sequence<variantSize>{}, &capturePath);
+        throw std::invalid_argument("No matching variant branch for JSON value at '" + capturePath + "'");
+    }
+    if (matchCount > 1) {
+        throw std::invalid_argument("More than one matching variant branch for JSON value");
+    }
+    Variant result;
+    std::string retrievePath;
+    if (!tryVariantBranches(jsonValue, result, std::make_index_sequence<variantSize>{}, &retrievePath)) {
+        throw std::invalid_argument("No matching variant branch for JSON value at '" + retrievePath + "'");
+    }
+    return result;
+}
+
 template <typename... Ts>
 struct JsonValueConverter<std::variant<Ts...>>
 {
@@ -764,33 +802,10 @@ struct JsonValueConverter<std::variant<Ts...>>
 
     static std::variant<Ts...> fromJsonValue(const boost::json::value& jsonValue)
     {
-        // Enforce exactly-one matching (oneOf semantics) for property-level variants.
-        // The lowering engine (lowerComposedTypes) deduplicates identical branches and
-        // collapses overlapping types, so the only remaining variants have distinguishable
-        // branches. Using countVariantBranches ensures that an ambiguous payload (matching
-        // more than one branch) is rejected rather than silently taking the first match.
-        constexpr std::size_t variantSize = sizeof...(Ts);
-        // Count without path tracking to avoid cross-branch pollution
-        // on the shared errorPath pointer inside countVariantBranches.
-        std::size_t matchCount = countVariantBranches<std::variant<Ts...>>(
-            jsonValue, std::make_index_sequence<variantSize>{});
-        if (matchCount == 0) {
-            // Re-run one more branch trial to capture the model-error
-            // context in the path for the thrown diagnostic.
-            std::variant<Ts...> dummy;
-            std::string capturePath;
-            tryVariantBranches(jsonValue, dummy, std::make_index_sequence<variantSize>{}, &capturePath);
-            throw std::invalid_argument("No matching variant branch for JSON value at '" + capturePath + "'");
-        }
-        if (matchCount > 1) {
-            throw std::invalid_argument("More than one matching variant branch for JSON value");
-        }
-        std::variant<Ts...> result;
-        std::string retrievePath;
-        if (!tryVariantBranches(jsonValue, result, std::make_index_sequence<variantSize>{}, &retrievePath)) {
-            throw std::invalid_argument("No matching variant branch for JSON value at '" + retrievePath + "'");
-        }
-        return result;
+        // Default property-level path: anyOf first-match (≥1). oneOf exactly-one
+        // is applied by named free functions or fromJsonValueExactlyOne when the
+        // property is tagged x-cpp-is-oneof / x-cpp-composed-keyword=oneOf.
+        return fromJsonValueFirstMatch<std::variant<Ts...>>(jsonValue);
     }
 };
 
@@ -919,12 +934,12 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     boost::json::object object;
     {{/parent}}
     {{#vars}}
-    {{#vendorExtensions.x-stainless-const}}
-    {{#vendorExtensions.x-stainless-const-inline-value}}
-    object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{{vendorExtensions.x-stainless-const-inline-value}}});
-    {{/vendorExtensions.x-stainless-const-inline-value}}
-    {{/vendorExtensions.x-stainless-const}}
-    {{^vendorExtensions.x-stainless-const}}
+    {{#vendorExtensions.x-cpp-const}}
+    {{#vendorExtensions.x-cpp-const-inline-value}}
+    object["{{baseName}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{{vendorExtensions.x-cpp-const-inline-value}}});
+    {{/vendorExtensions.x-cpp-const-inline-value}}
+    {{/vendorExtensions.x-cpp-const}}
+    {{^vendorExtensions.x-cpp-const}}
     {{#parent}}
     if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
     {{/parent}}
@@ -951,7 +966,7 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     {{#parent}}
     }
     {{/parent}}
-    {{/vendorExtensions.x-stainless-const}}
+    {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
     return object;
 }
@@ -962,7 +977,7 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{{parent}}}::fromJsonObject_internal(object);
     {{/parent}}
     {{#vars}}
-    {{^vendorExtensions.x-stainless-const}}
+    {{^vendorExtensions.x-cpp-const}}
     {{^required}}
     {{^vendorExtensions.x-cpp-no-is-set}}
     m_{{name}}IsSet = false;
@@ -971,10 +986,10 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     m_{{name}}.reset();
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{/required}}
-    {{/vendorExtensions.x-stainless-const}}
+    {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
     {{#vars}}
-    {{^vendorExtensions.x-stainless-const}}
+    {{^vendorExtensions.x-cpp-const}}
     {{#parent}}
     if (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
     {{/parent}}
@@ -982,7 +997,7 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
         const auto {{name}}It = object.find("{{baseName}}");
         if ({{name}}It != object.end()) {
             try {
-                {{#vendorExtensions.x-cpp-variant-alias}}{{setter}}(fromJsonValue_{{vendorExtensions.x-cpp-variant-alias-name}}({{name}}It->value()));{{/vendorExtensions.x-cpp-variant-alias}}{{^vendorExtensions.x-cpp-variant-alias}}{{setter}}(JsonValueConverter<{{{dataType}}}>::fromJsonValue({{name}}It->value()));{{/vendorExtensions.x-cpp-variant-alias}}
+                {{#vendorExtensions.x-cpp-variant-alias}}{{setter}}(fromJsonValue_{{vendorExtensions.x-cpp-variant-alias-name}}({{name}}It->value()));{{/vendorExtensions.x-cpp-variant-alias}}{{^vendorExtensions.x-cpp-variant-alias}}{{#vendorExtensions.x-cpp-is-oneof}}{{setter}}(fromJsonValueExactlyOne<{{{dataType}}}>({{name}}It->value()));{{/vendorExtensions.x-cpp-is-oneof}}{{^vendorExtensions.x-cpp-is-oneof}}{{setter}}(JsonValueConverter<{{{dataType}}}>::fromJsonValue({{name}}It->value()));{{/vendorExtensions.x-cpp-is-oneof}}{{/vendorExtensions.x-cpp-variant-alias}}
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for '{{baseName}}' in {{classname}}: " + std::string(ex.what()));
@@ -994,29 +1009,41 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{#parent}}
     }
     {{/parent}}
-    {{/vendorExtensions.x-stainless-const}}
+    {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
     {{#vars}}
-    {{#vendorExtensions.x-stainless-const}}
-    {{#vendorExtensions.x-stainless-const-inline-value}}
-    // Reject JSON that has a const discriminator field with a different value.
+    {{#vendorExtensions.x-cpp-const}}
+    {{#vendorExtensions.x-cpp-const-inline-value}}
+    // Reject JSON that has a const field with a different value (OAS const / single enum).
     {
         const auto it = object.find("{{baseName}}");
-        if (it != object.end() && it->value().is_string()
-            && it->value().as_string() != {{{vendorExtensions.x-stainless-const-inline-value}}}) {
-            throw std::invalid_argument(
-                "Field '{{baseName}}' has unexpected value '"
-                + std::string(it->value().as_string().data(), it->value().as_string().size())
-                + "' for " + std::string("{{classname}}"));
+        if (it != object.end()) {
+            {{#vendorExtensions.x-cpp-const-is-string}}
+            if (it->value().is_string()
+                && it->value().as_string() != {{{vendorExtensions.x-cpp-const-inline-value}}}) {
+                throw std::invalid_argument(
+                    "Field '{{baseName}}' has unexpected value '"
+                    + std::string(it->value().as_string().data(), it->value().as_string().size())
+                    + "' for " + std::string("{{classname}}"));
+            }
+            {{/vendorExtensions.x-cpp-const-is-string}}
+            {{^vendorExtensions.x-cpp-const-is-string}}
+            if ((it->value().is_int64() && it->value().as_int64() != static_cast<std::int64_t>({{{vendorExtensions.x-cpp-const-inline-value}}}))
+                || (it->value().is_double() && it->value().as_double() != static_cast<double>({{{vendorExtensions.x-cpp-const-inline-value}}}))
+                || (it->value().is_bool() && it->value().as_bool() != static_cast<bool>({{{vendorExtensions.x-cpp-const-inline-value}}}))) {
+                throw std::invalid_argument(
+                    "Field '{{baseName}}' has unexpected const value for {{classname}}");
+            }
+            {{/vendorExtensions.x-cpp-const-is-string}}
         }
     }
-    {{/vendorExtensions.x-stainless-const-inline-value}}
-    {{/vendorExtensions.x-stainless-const}}
+    {{/vendorExtensions.x-cpp-const-inline-value}}
+    {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
 }
 
 {{#vars}}
-{{^vendorExtensions.x-stainless-const}}
+{{^vendorExtensions.x-cpp-const}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
     {{#parent}}
@@ -1054,7 +1081,7 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{/required}}
 }
-{{/vendorExtensions.x-stainless-const}}
+{{/vendorExtensions.x-cpp-const}}
 {{/vars}}
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data)

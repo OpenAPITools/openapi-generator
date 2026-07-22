@@ -521,7 +521,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     String currentType = (String) cm.vendorExtensions.get("x-cpp-type");
                     String newType;
                     try {
-                        newType = lowerComposedTypes(resolved, composedKeyword);
+                        // Phase 1b only has C++ type strings (enum metadata already
+                        // erased). Alias-chain collapse to a single type is intentional.
+                        newType = lowerComposedTypesFromCppTypes(resolved, composedKeyword);
                     } catch (RuntimeException e) {
                         LOGGER.warn("Failed to re-lower composed types for '{}': {} — keeping current type '{}'",
                                 cm.classname, e.getMessage(), currentType);
@@ -755,20 +757,28 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             // NOTE: Deduplication is deferred to lowerComposedTypes (step 5) so that
             // oneOf semantics can be preserved when duplicate types would otherwise
             // cause silent single-branch collapse.
-            List<String> branchTypes = branches.stream()
-                    .map(b -> {
-                        if (b.isBinary || b.isFile) {
-                            return "std::vector<std::uint8_t>";
-                        }
-                        return stripSharedPtr(b.dataType);
-                    })
-                    .map(this::resolveOpenApiTypeName)
-                    .filter(t -> !t.equals(cm.classname))
+            List<ComposedBranch> composedBranches = new ArrayList<>();
+            for (CodegenProperty b : branches) {
+                String cppType;
+                if (b.isBinary || b.isFile) {
+                    cppType = "std::vector<std::uint8_t>";
+                } else {
+                    cppType = resolveOpenApiTypeName(stripSharedPtr(b.dataType));
+                }
+                if (cppType.equals(cm.classname)) {
+                    continue;
+                }
+                boolean isStringLike = b.isString || "std::string".equals(cppType)
+                        || "string".equals(b.dataType);
+                composedBranches.add(new ComposedBranch(cppType, b.isEnum, isStringLike));
+            }
+            List<String> branchTypes = composedBranches.stream()
+                    .map(cb -> cb.cppType)
                     .collect(Collectors.toList());
 
             String resolvedType;
             try {
-                resolvedType = lowerComposedTypes(branchTypes, composedKeyword);
+                resolvedType = lowerComposedTypes(composedBranches, composedKeyword);
             } catch (RuntimeException e) {
                 // Fallback: if lowering fails (e.g., indistinguishable oneOf branches),
                 // treat as boost::json::value and log the warning rather than crashing
@@ -803,6 +813,19 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         cm.dataType = resolvedType;
     }
 
+    /** Branch metadata used by ordered composition lowering. */
+    private static final class ComposedBranch {
+        final String cppType;
+        final boolean isEnum;
+        final boolean isStringLike;
+
+        ComposedBranch(String cppType, boolean isEnum, boolean isStringLike) {
+            this.cppType = cppType;
+            this.isEnum = isEnum;
+            this.isStringLike = isStringLike;
+        }
+    }
+
     /**
      * Ordered lowering rules for composed types (OAS-first):
      * 1. anyOf/oneOf: [T, null] → std::optional&lt;T&gt;
@@ -810,16 +833,20 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
      * 3. Remove null branches
      * 4. Single non-null branch → that branch's type
      * 5. Deduplicate identical branch types
-     * 6. Re-check: single branch after dedup (for oneOf, preserve duplicates)
-     * 7. Emit std::variant&lt;Branches...&gt; or boost::json::value
+     * 6. oneOf open-string + string-enum (type-erased) → boost::json::value
+     *    (do not pretend exclusivity after both erase to std::string)
+     * 7. oneOf multi-branch → single identical C++ type (alias collapse) → that type
+     * 8. Emit std::variant&lt;Branches...&gt; or boost::json::value
      */
-    private String lowerComposedTypes(List<String> branchTypes, String composedKeyword) {
-        if (branchTypes.isEmpty()) {
+    private String lowerComposedTypes(List<ComposedBranch> branches, String composedKeyword) {
+        if (branches == null || branches.isEmpty()) {
             return "boost::json::value";
         }
+        List<String> branchTypes = branches.stream()
+                .map(b -> b.cppType)
+                .collect(Collectors.toList());
 
         // Rule 1: anyOf/oneOf: [T, null] → std::optional<T>
-        // (null is represented as std::nullptr_t; [null, T] under anyOf or oneOf → optional<T>)
         int nullCount = (int) branchTypes.stream().filter("std::nullptr_t"::equals).count();
         if (nullCount == 1 && branchTypes.size() == 2) {
             String nonNullBranch = branchTypes.stream()
@@ -830,26 +857,25 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
         }
 
-        // Rule 2: For anyOf only, collapse all-string (including string-enum) to std::string.
-        // Do NOT apply to oneOf — exclusive semantics must be preserved.
+        // Rule 2: anyOf-only collapse of all-string (including string-enum) to std::string.
+        // Do NOT apply this collapse to oneOf — exclusive semantics differ.
         if ("anyOf".equals(composedKeyword) && branchTypes.stream().allMatch("std::string"::equals)) {
             return "std::string";
         }
 
         // Rule 3: Remove null branches for further processing.
-        List<String> nonNullBranches = branchTypes.stream()
-                .filter(bt -> !"std::nullptr_t".equals(bt))
+        List<ComposedBranch> nonNullMeta = branches.stream()
+                .filter(b -> !"std::nullptr_t".equals(b.cppType))
+                .collect(Collectors.toList());
+        List<String> nonNullBranches = nonNullMeta.stream()
+                .map(b -> b.cppType)
                 .collect(Collectors.toList());
 
-        // Rule 3b: Flatten nested variants — extract inner types from std::variant<...>
-        // branches. This prevents types like std::variant<std::variant<A,B>, std::variant<C,D>>
-        // which are valid C++ but unwieldy and often unexpected. Instead produces
-        // std::variant<A,B,C,D>.
+        // Rule 3b: Flatten nested variants
         List<String> flattened = new ArrayList<>();
         for (String bt : nonNullBranches) {
             if (bt.startsWith("std::variant<") && bt.endsWith(">")) {
                 String inner = bt.substring(13, bt.length() - 1);
-                // Split on ", " at top level (not inside nested <>)
                 int depth = 0;
                 int start = 0;
                 for (int i = 0; i < inner.length(); i++) {
@@ -879,29 +905,49 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 .distinct()
                 .collect(Collectors.toList());
 
-        // Rule 6: For oneOf with duplicate types after dedup, the branches are
-        // indistinguishable at runtime. Previously this threw a hard error to
-        // alert the schema author, but Phase 1b may resolve alias branches to
-        // the same underlying type (e.g., Tracing_Configuration_1 = oneOf
-        // [string, Tracing_Configuration] where Tracing_Configuration resolves
-        // to std::string). In this case, fall through to single-branch handling
-        // below — the single deduped type is correct at the C++ level.
-        // (The schema-level oneOf semantics are lost, but that's inherent in
-        // type erasure; the schema should use anyOf for unambiguous collapse.)
+        // Rule 6: oneOf open-string + string-enum both erase to std::string.
+        // Under JSON Schema oneOf, enum members match BOTH branches (invalid oneOf),
+        // so collapsing to std::string hides the exclusivity failure. Prefer open JSON
+        // over a false exclusive union. anyOf keeps the string collapse (rule 2).
+        if ("oneOf".equals(composedKeyword)
+                && deduped.size() == 1
+                && "std::string".equals(deduped.get(0))
+                && nonNullMeta.size() > 1) {
+            boolean hasOpenString = nonNullMeta.stream()
+                    .anyMatch(b -> b.isStringLike && !b.isEnum);
+            boolean hasStringEnum = nonNullMeta.stream()
+                    .anyMatch(b -> b.isStringLike && b.isEnum);
+            if (hasOpenString && hasStringEnum) {
+                LOGGER.warn(
+                        "oneOf open-string + string-enum branches erase to std::string; "
+                                + "emitting boost::json::value to avoid false exclusive-union fidelity");
+                return "boost::json::value";
+            }
+        }
 
-        // Re-check single branch after potential dedup
+        // Rule 7: Single branch after dedup (including oneOf alias chains that
+        // resolve to the same underlying C++ type without enum/open-string mix).
         if (deduped.size() == 1) {
             return deduped.get(0);
         }
 
-        // Rule 7: Emit std::variant<Branches...>
-        // Include null branch if present and there are multiple non-null branches.
+        // Rule 8: Emit std::variant<Branches...>
         List<String> variantBranches = new ArrayList<>(deduped);
         boolean hasNull = branchTypes.stream().anyMatch("std::nullptr_t"::equals);
         if (hasNull && deduped.size() > 1) {
             variantBranches.add("std::nullptr_t");
         }
         return "std::variant<" + String.join(", ", variantBranches) + ">";
+    }
+
+    /** Convenience overload for callers that only have C++ type strings. */
+    private String lowerComposedTypesFromCppTypes(List<String> branchTypes, String composedKeyword) {
+        List<ComposedBranch> branches = new ArrayList<>();
+        for (String t : branchTypes) {
+            boolean isString = "std::string".equals(t);
+            branches.add(new ComposedBranch(t, false, isString));
+        }
+        return lowerComposedTypes(branches, composedKeyword);
     }
 
     /**
@@ -1234,6 +1280,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 model.getAnyOf() != null ? "anyOf" : "oneOf");
             codegenModel.vendorExtensions.put("x-cpp-is-alias", true);
             codegenModel.vendorExtensions.put("x-cpp-is-optional", true);
+            // Force a model header/source so Gate A inventory and $ref users get
+            // `using NullableString = std::optional<std::string>;`. DefaultCodegen
+            // marks plain nullable primitives as isAlias and skips file emission.
+            codegenModel.isAlias = false;
+            resolvedAliasTypes.put(name, preComputedNullUnionType);
             variantModels.add(name);
         }
 
@@ -1248,16 +1299,14 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // Every model header declares vector conversion helpers.
         codegenModel.imports.add("#include <vector>");
 
-        // Propagate x-stainless-const const values from schema to property vendor extensions.
-        // The const value tells the getter what to return inline.
-        // Check all properties including those inherited via allOf from parent schemas.
+        // Fixed-const properties: OAS 3.1 `const`, single-value `enum`, or optional
+        // vendor enhancer `x-stainless-const`. Portable path is OAS `const` / single enum —
+        // vendor extensions are never required for correct encode/decode.
         if (codegenModel.vars != null) {
-            // Build a combined property map from the model schema and its allOf parents
             Map<String, Schema> allProps = new LinkedHashMap<>();
             if (model.getProperties() != null) {
                 allProps.putAll(model.getProperties());
             }
-            // Walk allOf references to collect parent properties
             if (model.getAllOf() != null && openAPI != null) {
                 for (Object parentObj : model.getAllOf()) {
                     if (parentObj instanceof Schema) {
@@ -1270,36 +1319,55 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
             for (CodegenProperty var : codegenModel.vars) {
                 Object rawProp = allProps.get(var.baseName);
-                if (rawProp instanceof Schema) {
-                    Schema varSchema = (Schema) rawProp;
-                    if (varSchema.getExtensions() != null
-                            && Boolean.TRUE.equals(varSchema.getExtensions().get("x-stainless-const"))) {
-                        String constRawValue = null;
-                        if (varSchema.getConst() != null) {
-                            constRawValue = varSchema.getConst().toString();
-                        } else if (varSchema.getEnum() != null && !varSchema.getEnum().isEmpty()) {
-                            constRawValue = varSchema.getEnum().get(0).toString();
-                        }
-                        if (constRawValue == null && var.example != null) {
-                            constRawValue = var.example;
-                        }
-                        if (constRawValue == null) {
-                            constRawValue = "std::string".equals(var.dataType) ? "" : "0";
-                        }
-                        var.vendorExtensions.put("x-stainless-const-value", constRawValue);
-                        if ("std::string".equals(var.dataType)) {
-                            var.vendorExtensions.put("x-stainless-const-inline-value",
-                                    "\"" + constRawValue + "\"");
-                        } else if ("std::optional<std::string>".equals(var.dataType)) {
-                            var.vendorExtensions.put("x-stainless-const-inline-value",
-                                    "std::optional<std::string>{\"" + constRawValue + "\"}");
-                        } else {
-                            var.vendorExtensions.put("x-stainless-const-inline-value",
-                                    constRawValue);
-                        }
-                        var.vendorExtensions.put("x-stainless-const", true);
-                    }
+                if (!(rawProp instanceof Schema)) {
+                    continue;
                 }
+                Schema varSchema = (Schema) rawProp;
+                boolean hasOasConst = varSchema.getConst() != null;
+                boolean hasSingleValueEnum = varSchema.getEnum() != null
+                        && varSchema.getEnum().size() == 1;
+                boolean hasStainlessConst = varSchema.getExtensions() != null
+                        && Boolean.TRUE.equals(varSchema.getExtensions().get("x-stainless-const"));
+                if (!(hasOasConst || hasSingleValueEnum || hasStainlessConst)) {
+                    continue;
+                }
+                String constRawValue = null;
+                if (varSchema.getConst() != null) {
+                    constRawValue = varSchema.getConst().toString();
+                } else if (varSchema.getEnum() != null && !varSchema.getEnum().isEmpty()) {
+                    constRawValue = varSchema.getEnum().get(0).toString();
+                }
+                if (constRawValue == null && var.example != null) {
+                    constRawValue = var.example;
+                }
+                if (constRawValue == null) {
+                    constRawValue = "std::string".equals(var.dataType) ? "" : "0";
+                }
+                String inlineValue;
+                boolean isStringConst = "std::string".equals(var.dataType)
+                        || "std::optional<std::string>".equals(var.dataType)
+                        || (var.isString && !var.isInteger && !var.isLong && !var.isNumber
+                        && !var.isBoolean);
+                if ("std::optional<std::string>".equals(var.dataType)) {
+                    inlineValue = "std::optional<std::string>{\"" + constRawValue + "\"}";
+                } else if (isStringConst || "std::string".equals(var.dataType)) {
+                    inlineValue = "\"" + constRawValue + "\"";
+                } else {
+                    inlineValue = constRawValue;
+                }
+                // Neutral OAS-first flag used by templates.
+                var.vendorExtensions.put("x-cpp-const", true);
+                var.vendorExtensions.put("x-cpp-const-value", constRawValue);
+                var.vendorExtensions.put("x-cpp-const-inline-value", inlineValue);
+                // Mustache is truthy on key presence — only set when string-typed.
+                if (isStringConst || "std::string".equals(var.dataType)
+                        || "std::optional<std::string>".equals(var.dataType)) {
+                    var.vendorExtensions.put("x-cpp-const-is-string", true);
+                }
+                // Keep stainless keys as aliases so older template forks still work.
+                var.vendorExtensions.put("x-stainless-const", true);
+                var.vendorExtensions.put("x-stainless-const-value", constRawValue);
+                var.vendorExtensions.put("x-stainless-const-inline-value", inlineValue);
             }
         }
 
@@ -1680,7 +1748,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             composedKeyword = "anyOf";
         }
 
-        List<String> branchTypes = new ArrayList<>();
+        List<ComposedBranch> composedBranches = new ArrayList<>();
         for (Schema child : children) {
             // Compute the branch type using the full type declaration pipeline
             // but strip shared_ptr for variant members (value semantics).
@@ -1691,11 +1759,13 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             // inline schemas like CreateAssistantRequest_model = oneOf [string,
             // $ref AssistantSupportedModels] where the target is anyOf [string,
             // string-enum] → std::string, collapsing to just std::string.
+            Schema resolvedChild = child;
             if (!childType.startsWith("std::") && !childType.startsWith("boost::")
                     && !childType.startsWith("std::shared_ptr<")) {
                 Schema resolvedTarget = child.get$ref() != null && openAPI != null
                         ? ModelUtils.getReferencedSchema(openAPI, child) : null;
                 if (resolvedTarget != null) {
+                    resolvedChild = resolvedTarget;
                     String resolved = getTypeDeclaration(resolvedTarget);
                     String stripped = stripSharedPtr(resolved);
                     if (!stripped.equals(childType)) {
@@ -1703,13 +1773,36 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     }
                 }
             }
-            branchTypes.add(childType);
+            boolean isEnum = resolvedChild.getEnum() != null && !resolvedChild.getEnum().isEmpty();
+            boolean isStringLike = ModelUtils.isStringSchema(resolvedChild)
+                    || "std::string".equals(childType);
+            composedBranches.add(new ComposedBranch(childType, isEnum, isStringLike));
         }
 
         // Deduplication is deferred to lowerComposedTypes (step 5) so that
         // oneOf semantics can be preserved when duplicate types would otherwise
         // cause silent single-branch collapse.
-        return lowerComposedTypes(branchTypes, composedKeyword);
+        return lowerComposedTypes(composedBranches, composedKeyword);
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required,
+                                        boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty prop = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        if (prop == null || p == null) {
+            return prop;
+        }
+        // Tag inline composed properties so templates can honor oneOf vs anyOf
+        // decode rules (exactly-one vs first-match) instead of always using
+        // the generic JsonValueConverter exactly-one path.
+        if (p.getOneOf() != null && !p.getOneOf().isEmpty()) {
+            prop.vendorExtensions.put("x-cpp-composed-keyword", "oneOf");
+            prop.vendorExtensions.put("x-cpp-is-oneof", true);
+        } else if (p.getAnyOf() != null && !p.getAnyOf().isEmpty()) {
+            prop.vendorExtensions.put("x-cpp-composed-keyword", "anyOf");
+            prop.vendorExtensions.put("x-cpp-is-anyof", true);
+        }
+        return prop;
     }
 
     @Override
@@ -1880,8 +1973,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getSchemaType(Schema p) {
-        // Handle format: unixtime — maps to int64_t (not int32_t)
-        if ("unixtime".equals(p.getFormat())) {
+        // Non-standard format (NOT core OAS vocabulary). Documented generator
+        // convenience for corpora that use Unix-epoch integer timestamps.
+        // Disable by not using format: unixtime in the source document.
+        if (p != null && "unixtime".equals(p.getFormat())) {
             return "int64_t";
         }
         String openAPIType = super.getSchemaType(p);

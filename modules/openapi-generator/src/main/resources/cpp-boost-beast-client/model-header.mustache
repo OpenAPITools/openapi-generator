@@ -133,18 +133,18 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
-{{#vendorExtensions.x-stainless-const}}
-{{#vendorExtensions.x-stainless-const-inline-value}}
-{{{dataType}}} {{getter}}() const { return {{{vendorExtensions.x-stainless-const-inline-value}}}; }
-{{/vendorExtensions.x-stainless-const-inline-value}}
-{{^vendorExtensions.x-stainless-const-inline-value}}
+{{#vendorExtensions.x-cpp-const}}
+{{#vendorExtensions.x-cpp-const-inline-value}}
+{{{dataType}}} {{getter}}() const { return {{{vendorExtensions.x-cpp-const-inline-value}}}; }
+{{/vendorExtensions.x-cpp-const-inline-value}}
+{{^vendorExtensions.x-cpp-const-inline-value}}
 {{{dataType}}} {{getter}}() const;
-{{/vendorExtensions.x-stainless-const-inline-value}}
-{{/vendorExtensions.x-stainless-const}}
-    {{^vendorExtensions.x-stainless-const}}
+{{/vendorExtensions.x-cpp-const-inline-value}}
+{{/vendorExtensions.x-cpp-const}}
+    {{^vendorExtensions.x-cpp-const}}
     {{{dataType}}} {{getter}}() const;
     void {{setter}}({{{dataType}}} value);
-    {{/vendorExtensions.x-stainless-const}}
+    {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
 
 protected:
@@ -186,7 +186,7 @@ protected:
 
 protected:
     {{#vars}}
-    {{^vendorExtensions.x-stainless-const}}
+    {{^vendorExtensions.x-cpp-const}}
     {{#parent}}
     {{^isContainer}}
     {{^isModel}}
@@ -229,7 +229,7 @@ protected:
     bool m_{{name}}IsSet = false;
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{/required}}
-    {{/vendorExtensions.x-stainless-const}}
+    {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
 };
 

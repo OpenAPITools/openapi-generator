@@ -195,9 +195,10 @@ components:
     OneOfStringStringEnum:
       description: >
         oneOf over a plain string and a string enum.  The generator MUST NOT
-        apply the anyOf-only string+enum collapse.  Branches should remain
-        distinct (e.g., std::variant<std::string, std::string>) to preserve
-        the exclusive oneOf requirement.
+        apply the anyOf-only string+enum collapse.  std::variant<std::string,
+        std::string> is invalid C++, and collapsing to std::string hides that
+        enum members match both branches (invalid oneOf).  Emit boost::json::value
+        instead of a false exclusive typed union.
       oneOf:
         - type: string
         - type: string

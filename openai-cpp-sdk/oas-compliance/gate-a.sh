@@ -377,11 +377,12 @@ def analyze_model_header(model_name):
 
     # Type alias to boost::json::value?
     if "using " in content and "= boost::json::value" in content:
-        # Check if it's a using alias
+        # Check if it's a using alias — report the C++ type only so expected-types
+        # matching is consistent with other aliases (std::string, std::variant, …).
         for line in content.split("\n"):
             if "using " in line and "= boost::json::value" in line:
                 alias_name = line.split("using ")[1].split(" =")[0].strip()
-                return (f"boost::json::value (alias {alias_name})", False, 0, "json value fallback")
+                return ("boost::json::value", False, 0, f"json value fallback alias {alias_name}")
 
     # Type alias to another type?
     for line in content.split("\n"):
