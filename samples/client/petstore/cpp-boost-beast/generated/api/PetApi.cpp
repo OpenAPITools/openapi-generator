@@ -704,7 +704,13 @@ bool tryVariantAlternative(const boost::json::value& value, Variant& result) {
 
 template<typename Variant, std::size_t... Is>
 bool tryAllVariantAlternatives(const boost::json::value& value, Variant& result, std::index_sequence<Is...>) {
-    return (tryVariantAlternative<Variant, Is>(value, result) || ...);
+    // Evaluate ALL alternatives without short-circuiting (comma-fold instead of ||-fold)
+    // so ambiguous matches (multiple alternatives matching the same JSON value) are
+    // properly detected and rejected. This enforces oneOf semantics: exactly one
+    // alternative must match. Zero or >1 matches both fail.
+    std::size_t matchCount = 0;
+    ((matchCount += (tryVariantAlternative<Variant, Is>(value, result) ? 1 : 0)), ...);
+    return matchCount == 1;
 }
 
 template<typename... Ts>
@@ -712,7 +718,9 @@ struct ResponseJsonValueConverter<std::variant<Ts...>> {
     static std::variant<Ts...> convert(const boost::json::value& responseValue) {
         std::variant<Ts...> result;
         if (!tryAllVariantAlternatives(responseValue, result, std::index_sequence_for<Ts...>{})) {
-            throw std::invalid_argument("No matching variant branch for JSON value");
+            throw std::invalid_argument(
+                "JSON value does not match exactly one variant alternative "
+                "(oneOf semantics: zero or multiple alternatives matched)");
         }
         return result;
     }

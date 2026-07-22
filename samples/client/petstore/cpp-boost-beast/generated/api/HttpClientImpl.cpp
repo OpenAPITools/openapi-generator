@@ -130,7 +130,6 @@ private:
     std::string m_data;
 };
 
-
 void throwOperationError(const boost::beast::error_code &operationError,
                          const char *operationName) {
     if (operationError) {
