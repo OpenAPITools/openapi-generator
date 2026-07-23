@@ -6713,6 +6713,39 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldUseAliasModelDefaultValueForAliasAsModelProperties_issue23988() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_23988.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // A property that $refs an array/map alias is typed as the generated alias model, so its
+        // default value must instantiate the alias model rather than the inlined collection type
+        // (which is not assignable to the alias and does not compile).
+        JavaFileAssert.assertThat(files.get("MyObject.java"))
+                .fileContains("private ItemArray itemArray = new ItemArray();")
+                .fileContains("private ItemMap itemMap = new ItemMap();");
+    }
+
+    @Test
     public void testClientRegistrationIdAnnotation() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-http-interface");
