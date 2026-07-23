@@ -1441,6 +1441,45 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void doNotMergeDistinctInlineEnumsSharingTheSameValues() {
+        // Regression test for #23978: two inline enum properties that share the same enum values
+        // but represent different things (distinguished only by their description) must each be
+        // promoted to their own schema.  The structural-signature fallback in matchGenerated()
+        // strips 'description', so without an enum guard it would wrongly unify them and the
+        // second property would silently reuse the first enum's type (regression in 7.23.0).
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        StringSchema statusEnum = new StringSchema();
+        statusEnum.setDescription("Lifecycle status of the order");
+        statusEnum.setEnum(java.util.Arrays.asList("ACTIVE", "INACTIVE"));
+
+        StringSchema visibilityEnum = new StringSchema();
+        visibilityEnum.setDescription("Whether the order is visible to the customer");
+        visibilityEnum.setEnum(java.util.Arrays.asList("ACTIVE", "INACTIVE"));
+
+        openapi.getComponents().addSchemas("Order", new ObjectSchema()
+                .title("Order")
+                .addProperty("status", statusEnum)
+                .addProperty("visibility", visibilityEnum));
+
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> options = new HashMap<>();
+        options.put("RESOLVE_INLINE_ENUMS", "true");
+        resolver.setInlineSchemaOptions(options);
+        resolver.flatten(openapi);
+
+        Schema order = openapi.getComponents().getSchemas().get("Order");
+        String statusRef = ((Schema) order.getProperties().get("status")).get$ref();
+        String visibilityRef = ((Schema) order.getProperties().get("visibility")).get$ref();
+        assertNotNull("status enum must be promoted to its own schema", statusRef);
+        assertNotNull("visibility enum must be promoted to its own schema", visibilityRef);
+        assertFalse("Distinct inline enums sharing the same values must not be merged (#23978)",
+                statusRef.equals(visibilityRef));
+    }
+
+    @Test
     public void deduplicateComponentsRemovesNumberedDuplicateOfTitledSchemaAndRewritesRefs() {
         // Regression test: when flattening creates a numbered duplicate of a titled component
         // (e.g. FlowSegment_1 alongside FlowSegment) because matchGenerated() missed the match
