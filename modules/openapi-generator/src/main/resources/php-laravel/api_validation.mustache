@@ -1,9 +1,9 @@
 $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     {{#pathParams}}'{{baseName}}' => ${{paramName}},{{/pathParams}}
                 ],
-                $request->all(),
             ),
             [
             {{#allParams}}
