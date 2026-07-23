@@ -3404,36 +3404,16 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty df = DiscriminatorUtils.discriminatorFound(openAPI, composedSchemaName, sc, discPropName, new TreeSet<String>());
                 String modelName = ModelUtils.getSimpleRef(ref);
                 if (df == null || !df.isString || !df.required) {
-                    String msgSuffix = "";
-                    if (df == null) {
-                        msgSuffix += discPropName + " is missing from the schema, define it as required and type string";
-                    } else {
-                        if (!df.isString) {
-                            msgSuffix += "invalid type for " + discPropName + ", set it to string";
-                        }
-                        if (!df.required) {
-                            String spacer = "";
-                            if (msgSuffix.length() != 0) {
-                                spacer = ". ";
-                            }
-                            msgSuffix += spacer + "invalid optional definition of " + discPropName + ", include it in required";
-                        }
-                    }
-                    once(LOGGER).warn("'{}' defines discriminator '{}', but the referenced schema '{}' is incorrect. {}",
-                            composedSchemaName, discPropName, modelName, msgSuffix);
+                    once(LOGGER).warn(getDiscriminatorSchemaError(df, discPropName, modelName, composedSchemaName));
                 }
-                MappedModel mm = new MappedModel(modelName, toModelName(modelName), modelName, false);
+                MappedModel mm = new MappedModel(modelName, modelName, modelName, false);
                 descendentSchemas.add(mm);
                 Schema cs = ModelUtils.getSchema(openAPI, modelName);
                 if (cs == null) { // cannot lookup the model based on the name
                     once(LOGGER).error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
                 } else {
-                    Map<String, Object> vendorExtensions = cs.getExtensions();
-                    if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey(X_DISCRIMINATOR_VALUE)) {
-                        String xDiscriminatorValue = (String) vendorExtensions.get(X_DISCRIMINATOR_VALUE);
-                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName), modelName, true);
-                        descendentSchemas.add(mm);
-                    }
+                    discriminatorVendorExtensionValue(cs)
+                            .ifPresent(discriminatorValue -> descendentSchemas.add(new MappedModel(discriminatorValue, modelName, modelName, true)));
                 }
             }
         }
@@ -3483,13 +3463,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
             currentSchemaName = queue.remove(0);
             Schema cs = schemas.get(currentSchemaName);
-            Map<String, Object> vendorExtensions = cs.getExtensions();
-            String mappingName =
-                    Optional.ofNullable(vendorExtensions)
-                            .map(ve -> ve.get(X_DISCRIMINATOR_VALUE))
-                            .map(discriminatorValue -> (String) discriminatorValue)
+            String mappingName = discriminatorVendorExtensionValue(cs)
                             .orElse(currentSchemaName);
-            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), currentSchemaName, !mappingName.equals(currentSchemaName));
+            MappedModel mm = new MappedModel(mappingName, currentSchemaName, currentSchemaName, !mappingName.equals(currentSchemaName));
             descendentSchemas.add(mm);
         }
         return descendentSchemas;
@@ -3560,7 +3536,8 @@ public class DefaultCodegen implements CodegenConfig {
         boolean legacyUseCase = (this.getLegacyDiscriminatorBehavior() && uniqueDescendants.isEmpty());
         if (!this.getLegacyDiscriminatorBehavior() || legacyUseCase) {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
-            List<MappedModel> otherDescendants = getAllOfDescendants(schemaName);
+            List<MappedModel> otherDescendants =
+                    adjustModelNames(getAllOfDescendants(schemaName));
             for (MappedModel otherDescendant : otherDescendants) {
                 // add only if the mapping names are not the same and the model names are not the same
                 boolean matched = false;
@@ -3579,7 +3556,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
-            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, schema);
+            List<MappedModel> otherDescendants =
+                    adjustModelNames(getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, schema));
             for (MappedModel otherDescendant : otherDescendants) {
                 // add only if the model names are not the same
                 if (uniqueDescendants.stream().map(MappedModel::getModelName).noneMatch(it -> it.equals(otherDescendant.getModelName()))) {
@@ -8819,5 +8797,11 @@ public class DefaultCodegen implements CodegenConfig {
                 operation.allParams.add(p);
             }
         }
+    }
+
+    private List<MappedModel> adjustModelNames(List<MappedModel> mappedModels) {
+        return mappedModels.stream()
+                .peek(mappedModel -> mappedModel.setModelName(toModelName(mappedModel.getSchemaName())))
+                .collect(Collectors.toList());
     }
 }
