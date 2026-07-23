@@ -215,7 +215,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
 
     /**
      * Expand each composed type's union hint transitively: a member that is itself a composed type
-     * is replaced by its own leaf members. {@see ObjectSerializer::deserializeComposed()} unwraps
+     * is replaced by its own leaf members. The generated {@code ObjectSerializer} dispatches
      * nested composition down to the leaf instance, so a property typed with an intermediate
      * composed member would otherwise reject the leaf the deserializer actually returns.
      */
