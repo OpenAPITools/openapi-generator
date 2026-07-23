@@ -64,7 +64,7 @@ import {{javaxPackage}}.annotation.Generated;
 <%={{ }}=%>
 {{/useRequestMappingOnController}}
 {{#operations}}
-public class {{classname}}Controller implements {{classname}} {
+public {{^jdk8-default-interface}}abstract {{/jdk8-default-interface}}class {{classname}}Controller implements {{classname}} {
 {{#isDelegate}}
 
     private final {{classname}}Delegate delegate;
