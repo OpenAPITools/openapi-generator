@@ -831,7 +831,7 @@ public class DefaultGeneratorTest {
         generator.configureGeneratorProperties();
 
         List<File> files = new ArrayList<>();
-        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<String> filteredSchemas = ModelUtils.getUnusedSchemas(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
         List<ModelMap> aliasModels = new ArrayList<>();
         generator.generateModels(files, allModels, filteredSchemas, aliasModels);
@@ -884,7 +884,7 @@ public class DefaultGeneratorTest {
         generator.configureGeneratorProperties();
 
         List<File> files = new ArrayList<>();
-        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<String> filteredSchemas = ModelUtils.getUnusedSchemas(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
         List<ModelMap> aliasModels = new ArrayList<>();
         generator.generateModels(files, allModels, filteredSchemas, aliasModels);
@@ -967,7 +967,7 @@ public class DefaultGeneratorTest {
         generator.configureGeneratorProperties();
 
         List<File> files = new ArrayList<>();
-        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<String> filteredSchemas = ModelUtils.getUnusedSchemas(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
         List<ModelMap> aliasModels = new ArrayList<>();
         // The bug causes a StackOverflowError when calling generateModels
