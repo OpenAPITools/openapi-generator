@@ -548,6 +548,39 @@ public class PhpNextgenClientCodegenTest {
     }
 
     @Test
+    public void testNestedComposedPropertyTypeIsFlattenedToLeaves() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Zoo.featuredCreature references Creature = anyOf(Mammal, Reptile), and BOTH members are
+        // themselves composed (Mammal oneOf Whale/Zebra, Reptile anyOf Lizard/Snake).
+        // deserializeComposed unwraps to the leaf instance, so the property union must flatten the
+        // intermediate composed types to their leaves: Whale|Zebra|Lizard|Snake.
+        List<String> zoo = Files.readAllLines(files.get("Zoo.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function getFeaturedCreature(): \\OpenAPI\\Client\\Model\\Whale|\\OpenAPI\\Client\\Model\\Zebra|\\OpenAPI\\Client\\Model\\Lizard|\\OpenAPI\\Client\\Model\\Snake|null"),
+                "nested composed property union flattens intermediate composed members to their leaves");
+        Assert.assertListNotContains(zoo,
+                a -> a.contains("FeaturedCreature") && (a.contains("\\OpenAPI\\Client\\Model\\Mammal") || a.contains("\\OpenAPI\\Client\\Model\\Reptile")),
+                "intermediate composed types (Mammal, Reptile) must not appear in the flattened union");
+    }
+
+    @Test
     public void testOneOfAsPropertyType() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
