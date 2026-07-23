@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.ENUM_VARS;
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_BYTE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -449,7 +450,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
                     // Since we iterate enumVars for modelInnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
                     // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
-                    List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
+                    List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get(ENUM_VARS);
                     List<Map<String, Object>> newEnumVars = new ArrayList<>();
                     for (Map<String, String> enumVar : enumVars) {
                         Map<String, Object> mixedVars = new HashMap<>(enumVar);
@@ -463,7 +464,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                     }
 
                     if (!newEnumVars.isEmpty()) {
-                        model.allowableValues.put("enumVars", newEnumVars);
+                        model.allowableValues.put(ENUM_VARS, newEnumVars);
                     }
                 }
             } else {
@@ -473,7 +474,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * Update codegen property's enum by adding "enumVars" (with name and value)
+     * Update codegen property's enum by adding {@value CodegenConstants#ENUM_VARS} (with name and value)
      *
      * @param var list of CodegenProperty
      */

@@ -117,12 +117,12 @@ public class PythonFastAPIServerCodegenTest {
         assertFileExists(baseApi);
 
         // Required binary form field becomes `UploadFile = File(...)`
-        assertFileContains(api, "csv_file: UploadFile = File(..., description=\"The CSV file to upload\")");
+        assertFileContains(api, "csv_file: UploadFile = File(..., description=\"The CSV file to upload\", alias=\"csv_file\")");
         // Optional binary form field becomes `Optional[UploadFile] = File(None, ...)`
-        assertFileContains(api, "image: Optional[UploadFile] = File(None, description=\"Optional image upload\")");
+        assertFileContains(api, "image: Optional[UploadFile] = File(None, description=\"Optional image upload\", alias=\"image\")");
 
         // Sibling non-binary form fields still use Form()
-        assertFileContains(api, "collection_name: Annotated[StrictStr, Field(description=\"Name of the collection\")] = Form(None, description=\"Name of the collection\")");
+        assertFileContains(api, "collection_name: Annotated[StrictStr, Field(description=\"Name of the collection\")] = Form(None, description=\"Name of the collection\", alias=\"collection_name\")");
 
         // The legacy client-side bytes union must not appear for the server signature
         assertFileNotContains(api, "Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]");
@@ -135,6 +135,44 @@ public class PythonFastAPIServerCodegenTest {
         // Abstract base class uses UploadFile directly (no Annotated wrapper)
         assertFileContains(baseApi, "csv_file: UploadFile,");
         assertFileContains(baseApi, "image: Optional[UploadFile],");
+    }
+
+    @Test(description = "multipart array of binary form fields are typed as List[UploadFile]")
+    public void testMultipartArrayOfBinaryUsesListUploadFile() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+        final Path api = Paths.get(outputPath + "src/openapi_server/apis/multipart_api.py");
+        final Path baseApi = Paths.get(outputPath + "src/openapi_server/apis/multipart_api_base.py");
+
+        assertFileExists(api);
+        assertFileExists(baseApi);
+
+        assertFileContains(api, "files: Optional[List[UploadFile]] = File(None, description=\"Many files\", alias=\"files\")");
+        assertFileContains(baseApi, "files: Optional[List[UploadFile]],");
+
+        assertFileContains(api, "file: Optional[UploadFile] = File(None, description=\"One file\", alias=\"file\")");
+        assertFileContains(baseApi, "file: Optional[UploadFile],");
+
+        assertFileNotContains(api, "files: Optional[UploadFile] = File(None, description=\"Many files\")");
+        assertFileNotContains(baseApi, "files: Optional[UploadFile],");
+    }
+
+    @Test(description = "multipart Form/File use OpenAPI wire names via alias (#17111 parity for form fields)")
+    public void testMultipartFormFieldsUseWireNameAlias() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String multipartPath = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+        final Path multipartApi = Paths.get(multipartPath + "src/openapi_server/apis/multipart_api.py");
+
+        assertFileExists(multipartApi);
+        assertFileContains(multipartApi, "status_array: Optional[List[MultipartMixedStatus]] = Form(None, description=\"\", alias=\"statusArray\")");
+
+        final DefaultCodegen petstoreCodegen = new PythonFastAPIServerCodegen();
+        final String petstorePath = generateFiles(petstoreCodegen, "src/test/resources/3_0/python-fastapi/petstore.yaml");
+        final Path petApi = Paths.get(petstorePath + "src/openapi_server/apis/pet_api.py");
+
+        assertFileExists(petApi);
+        assertFileContains(petApi, "additional_metadata: Annotated[Optional[StrictStr], Field(description=\"Additional data to pass to server\")] = Form(None, description=\"Additional data to pass to server\", alias=\"additionalMetadata\")");
+        assertFileContains(petApi, "file: Optional[UploadFile] = File(None, description=\"file to upload\", alias=\"file\")");
     }
 
     @Test(description = "binary response body is typed as bytes, not invalid file (#20775)")

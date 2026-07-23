@@ -40,6 +40,7 @@ import java.io.Writer;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -967,7 +968,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
                     if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
-                        return "\"" + ((List<Object>) codegenProperty.allowableValues.get("values")).get(0) + "\"";
+                        return "\"" + ((List<Object>) codegenProperty.allowableValues.get(ENUM_VALUES)).get(0) + "\"";
                     } else {
                         return "\"" + codegenProperty.name + "_example\"";
                     }

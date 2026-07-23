@@ -59,6 +59,8 @@ import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 
+import static org.openapitools.codegen.CodegenConstants.*;
+
 /**
  * C++ HTTP Library Server Code Generator.
  * This code generator creates C++ server stubs using the httplib library for handling HTTP requests.
@@ -1304,9 +1306,9 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                         var.vendorExtensions.put("isOptionalEnum", true);
                     } else {
                         // Required enum: Use first value which is always UNSPECIFIED (added by setEnumVendorExtensions)
-                        if (var.allowableValues != null && var.allowableValues.containsKey("values")) {
+                        if (var.allowableValues != null && var.allowableValues.containsKey(ENUM_VALUES)) {
                             @SuppressWarnings("unchecked")
-                            List<Object> values = (List<Object>) var.allowableValues.get("values");
+                            List<Object> values = (List<Object>) var.allowableValues.get(ENUM_VALUES);
                             if (values != null && !values.isEmpty()) {
                                 // First value is always safe (UNSPECIFIED) after setEnumVendorExtensions
                                 String enumIdentifier = values.get(0).toString();
@@ -2439,9 +2441,9 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             LOGGER.warn("No enum values found for variable {} in model {}", var.name, model.classname);
         }
 
-        var.vendorExtensions.put("values", convertedValues);
+        var.vendorExtensions.put(ENUM_VALUES, convertedValues);
         var._enum = convertedValues;  // Also set it on the var itself for Mustache access
-        var.allowableValues.put("values", convertedValues);  // Also update allowableValues for template
+        var.allowableValues.put(ENUM_VALUES, convertedValues);  // Also update allowableValues for template
 
         // Create enumCases for use in helper functions
         List<Map<String, String>> enumCases = new ArrayList<>();
@@ -2451,8 +2453,8 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 String originalVal = enumValues.get(i);  // Original value (e.g., "200")
                 String convertedVal = convertedValues.get(i);  // Converted C++ identifier (e.g., "_200")
                 Map<String, String> caseMap = new HashMap<>();
-                caseMap.put("name", convertedVal);  // C++ enum identifier
-                caseMap.put("value", originalVal);  // Original JSON value
+                caseMap.put(ENUM_NAME, convertedVal);  // C++ enum identifier
+                caseMap.put(ENUM_VALUE, originalVal);  // Original JSON value
                 caseMap.put("enumName", shortEnumName);  // Use short name
                 enumCases.add(caseMap);
             }

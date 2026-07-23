@@ -488,8 +488,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                 property.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, true);
             } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
-                if (property.allowableValues.containsKey("values")) {
-                    final List<?> allowableValues = (List<?>) property.allowableValues.get("values");
+                if (property.allowableValues.containsKey(ENUM_VALUES)) {
+                    final List<?> allowableValues = (List<?>) property.allowableValues.get(ENUM_VALUES);
                     boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
                     property.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, isZeroBased);
                 }
@@ -587,8 +587,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                     cm.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, true);
                 } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
-                    if (cm.allowableValues.containsKey("values")) {
-                        final List<?> allowableValues = (List<?>) cm.allowableValues.get("values");
+                    if (cm.allowableValues.containsKey(ENUM_VALUES)) {
+                        final List<?> allowableValues = (List<?>) cm.allowableValues.get(ENUM_VALUES);
                         boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
                         cm.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, isZeroBased);
                     }
@@ -892,7 +892,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         // this is inline with C# enums with string values
         if ("string?".equals(dataType)) {
             enumVars.forEach((enumVar) -> {
-                enumVar.put("isString", true);
+                enumVar.put(ENUM_IS_STRING, true);
             });
         }
 
@@ -905,7 +905,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     }
 
     /**
-     * Update codegen property's enum by adding "enumVars" (with name and value)
+     * Update codegen property's enum by adding {@value CodegenConstants#ENUM_VARS} (with name and value)
      *
      * @param var list of CodegenProperty
      */
@@ -1912,7 +1912,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         boolean hasAllowableValues = p.allowableValues != null && !p.allowableValues.isEmpty();
         if (hasAllowableValues) {
             //support examples for inline enums
-            final List<?> values = (List<?>) p.allowableValues.get("values");
+            final List<?> values = (List<?>) p.allowableValues.get(ENUM_VALUES);
             example = String.valueOf(values.get(0));
         } else if (p.defaultValue == null) {
             example = p.example;
