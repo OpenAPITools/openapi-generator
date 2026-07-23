@@ -125,6 +125,36 @@ interface FakeApiInterface {
 
 
     /**
+     * Operation getParameterNameMapping
+     *
+     * test query parameter name sanitization
+     * @param null | string $filterClientName
+     * @param null | int[] $filterUserIds
+     * @return \OpenAPI\Server\Model\NoContent200
+     */
+    public function getParameterNameMapping(
+            ?string $filterClientName,
+            ?array $filterUserIds,
+    ):
+        \OpenAPI\Server\Model\NoContent200
+    ;
+
+
+    /**
+     * Operation postParameterNameMapping
+     *
+     * test form parameter name sanitization
+     * @param int $clientId
+     * @return \OpenAPI\Server\Model\NoContent200
+     */
+    public function postParameterNameMapping(
+            int $clientId,
+    ):
+        \OpenAPI\Server\Model\NoContent200
+    ;
+
+
+    /**
      * Operation testAdditionalPropertiesReference
      *
      * test referenced additionalProperties

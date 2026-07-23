@@ -1,14 +1,14 @@
 $validator = Validator::make(
             array_merge(
                 [
-                    {{#pathParams}}'{{paramName}}' => ${{paramName}},{{/pathParams}}
+                    {{#pathParams}}'{{baseName}}' => ${{paramName}},{{/pathParams}}
                 ],
                 $request->all(),
             ),
             [
             {{#allParams}}
             {{^bodyParam}}
-                '{{paramName}}' => [
+                '{{baseName}}' => [
                 {{#isFile}}
                     'file',
                 {{/isFile}}

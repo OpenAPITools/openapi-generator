@@ -101,7 +101,7 @@ class PetController extends Controller
                     'required',
                     'integer',
                 ],
-                'apiKey' => [
+                'api_key' => [
                     'string',
                 ],
             ],
@@ -112,7 +112,7 @@ class PetController extends Controller
         }
 
 
-        $apiKey = $request->string('apiKey')->value();
+        $apiKey = $request->string('api_key')->value();
 
 
         $apiResult = $this->api->deletePet($petId, $apiKey);
