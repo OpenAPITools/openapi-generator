@@ -164,8 +164,22 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
      * used wherever the model is referenced. A model that declares both contributes all members.
      */
     private void collectComposedTypeHint(CodegenModel model, Map<String, String> composedTypeHints) {
-        if (model == null || model.getComposedSchemas() == null) {
+        Set<String> memberTypes = directComposedMemberTypes(model);
+        if (memberTypes.isEmpty()) {
             return;
+        }
+
+        composedTypeHints.put("\\" + modelPackage + "\\" + model.classname, String.join("|", memberTypes));
+    }
+
+    /**
+     * The immediate (non-recursive) oneOf/anyOf member types of a composed model, containers
+     * collapsed to {@code array}. Empty when the model is not a composition.
+     */
+    private Set<String> directComposedMemberTypes(CodegenModel model) {
+        Set<String> memberTypes = new LinkedHashSet<>();
+        if (model == null || model.getComposedSchemas() == null) {
+            return memberTypes;
         }
 
         CodegenComposedSchemas composed = model.getComposedSchemas();
@@ -176,16 +190,27 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         if (composed.getAnyOf() != null) {
             members.addAll(composed.getAnyOf());
         }
-        if (members.isEmpty()) {
-            return;
-        }
-
-        Set<String> memberTypes = new LinkedHashSet<>();
         for (CodegenProperty member : members) {
             memberTypes.add((member.isArray || member.isMap) ? "array" : member.dataType);
         }
+        return memberTypes;
+    }
 
-        composedTypeHints.put("\\" + modelPackage + "\\" + model.classname, String.join("|", memberTypes));
+    /**
+     * Split a flattened union into doc-link entries. A class member (starts with {@code \}) gets a
+     * {@code complexType} - its bare class name - for the {@code .md} link; a primitive gets none.
+     */
+    private List<Map<String, String>> composedLeafDocEntries(String union) {
+        List<Map<String, String>> entries = new ArrayList<>();
+        for (String leaf : union.split("\\|")) {
+            Map<String, String> entry = new HashMap<>();
+            entry.put("dataType", leaf);
+            if (leaf.startsWith("\\")) {
+                entry.put("complexType", leaf.substring(leaf.lastIndexOf('\\') + 1));
+            }
+            entries.add(entry);
+        }
+        return entries;
     }
 
     /**
@@ -344,6 +369,14 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     private ModelsMap postProcessModelsMap(ModelsMap objs, Map<String, String> composedTypeHints) {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
+
+            // Surface a composed model's flattened leaf types so the doc page lists the concrete
+            // types users actually work with, matching the generated method signatures.
+            String composedKey = "\\" + modelPackage + "\\" + model.classname;
+            if (composedTypeHints.containsKey(composedKey)) {
+                model.vendorExtensions.putIfAbsent("x-php-composed-leaves",
+                        composedLeafDocEntries(composedTypeHints.get(composedKey)));
+            }
 
             for (CodegenProperty prop : model.vars) {
                 prop.vendorExtensions.putIfAbsent("x-php-prop-type",

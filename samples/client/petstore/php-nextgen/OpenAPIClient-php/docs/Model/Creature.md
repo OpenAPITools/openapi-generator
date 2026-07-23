@@ -5,7 +5,9 @@ It is never instantiated directly — use one of the concrete types.
 
 ## anyOf
 
-- [**\OpenAPI\Client\Model\Mammal**](Mammal.md)
-- [**\OpenAPI\Client\Model\Reptile**](Reptile.md)
+- [**\OpenAPI\Client\Model\Whale**](Whale.md)
+- [**\OpenAPI\Client\Model\Zebra**](Zebra.md)
+- [**\OpenAPI\Client\Model\Lizard**](Lizard.md)
+- [**\OpenAPI\Client\Model\Snake**](Snake.md)
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
