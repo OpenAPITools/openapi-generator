@@ -331,6 +331,27 @@ public class CSharpClientCodegenTest {
                 ": byte"
         );
 
+        File modelWithEnumPropertiesFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "ModelWithEnumProperties.cs")
+                .toString()
+        );
+        assertNotNull(modelWithEnumPropertiesFile, "Could not find file for model: ModelWithEnumProperties");
+        String modelWithEnumProperties = Files.readString(modelWithEnumPropertiesFile.toPath());
+        assertThat(modelWithEnumProperties).contains(
+                "ModelWithEnumProperties.NullableInlineIntEnumEnum? nullableInlineIntEnumValue = " +
+                        "ModelWithEnumProperties.NullableInlineIntEnumEnumFromStringOrDefault(nullableInlineIntEnumRawValue);",
+                "nullableInlineIntEnum = new Option<ModelWithEnumProperties.NullableInlineIntEnumEnum?>(" +
+                        "nullableInlineIntEnumValue);"
+        );
+        assertThat(modelWithEnumProperties).doesNotContain(
+                "if (nullableInlineIntEnumValue == null)\n                                    throw new JsonException();",
+                "if (inlineIntEnumValue == null)\n                                    throw new JsonException();"
+        );
+        assertThat(modelWithEnumProperties).contains(
+                "if (inlineIntEnumValue != null)\n" +
+                        "                                    inlineIntEnum = new Option<ModelWithEnumProperties.InlineIntEnumEnum?>(inlineIntEnumValue);"
+        );
+
         // Verify long enum uses int64 reader with validation and actual int64 values
         File longEnumFile = files.get(Paths
                 .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "LongEnum.cs")

@@ -94,6 +94,16 @@ components:
           x-enum-varnames:
             - None
             - Some
+        nullableInlineIntEnum:
+          type: integer
+          format: int32
+          nullable: true
+          enum:
+            - 0
+            - 1
+          x-enum-varnames:
+            - None
+            - Some
         inlineLongEnum:
           type: integer
           format: int64
