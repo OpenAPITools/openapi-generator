@@ -842,17 +842,21 @@ use {{invokerPackage}}\ObjectSerializer;
         );
 
         {{#servers.0}}
-        # Preserve the original behavior of server indexing.
-        if ($hostIndex === null) {
-            $hostIndex = $this->hostIndex;
-        }
+        if ($this->config->getIgnoreOperationHosts()) {
+            $operationHost = $this->config->getHost();
+        } else {
+            # Preserve the original behavior of server indexing.
+            if ($hostIndex === null) {
+                $hostIndex = $this->hostIndex;
+            }
 
-        $hostSettings = $this->getHostSettingsFor{{operationId}}();
+            $hostSettings = $this->getHostSettingsFor{{operationId}}();
 
-        if ($hostIndex < 0 || $hostIndex >= count($hostSettings)) {
-            throw new InvalidArgumentException("Invalid index {$hostIndex} when selecting the host. Must be less than ".count($hostSettings));
+            if ($hostIndex < 0 || $hostIndex >= count($hostSettings)) {
+                throw new InvalidArgumentException("Invalid index {$hostIndex} when selecting the host. Must be less than ".count($hostSettings));
+            }
+            $operationHost = Configuration::getHostString($hostSettings, $hostIndex, $variables);
         }
-        $operationHost = Configuration::getHostString($hostSettings, $hostIndex, $variables);
         {{/servers.0}}
         {{^servers.0}}
         $operationHost = $this->config->getHost();
