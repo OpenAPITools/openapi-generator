@@ -363,6 +363,10 @@ components:
           type: string
         value:
           type: integer
+    NullableDataObject:
+      anyOf:
+        - $ref: '#/components/schemas/DataObject'
+        - type: "null"
 
     # Scenario 15: Non-discriminated anyOf string|integer — tests first-match (no multi-throw)
     # After lowering: anyOf [string, integer] → std::variant<std::string, int32_t>

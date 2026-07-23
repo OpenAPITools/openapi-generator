@@ -198,6 +198,35 @@ public class CppBoostBeastClientCodegenTest {
     }
 
     @Test
+    public void generatesNullableInheritedPropertyStorage() throws IOException {
+        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-nullable-inheritance").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_0/cpp-boost-beast-client/nullable-inherited-property.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path derivedHeader = output.toPath().resolve("model/NullablePropertyDerived.h");
+        TestUtils.assertFileContains(derivedHeader,
+                "NullablePropertyDerivedNullableValuePropertyIsInherited<NullablePropertyBase>::value",
+                "bool hasOptionalValue() const",
+                "void resetOptionalValue()");
+
+        Path derivedSource = output.toPath().resolve("model/NullablePropertyDerived.cpp");
+        TestUtils.assertFileContains(derivedSource,
+                "if constexpr (!NullablePropertyDerivedNullableValuePropertyIsInherited<NullablePropertyBase>::value)",
+                "m_NullableValue.hasOptionalValue()",
+                "m_NullableValue.resetOptionalValue()");
+        TestUtils.assertFileNotContains(derivedSource,
+                "m_NullableValue.value.has_value()",
+                "m_NullableValue.value.reset()");
+    }
+
+    @Test
     public void resolvesInlineOneOfToVariant() throws IOException {
         CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
         codegen.processOpts();
@@ -332,6 +361,15 @@ public class CppBoostBeastClientCodegenTest {
         // Scenario 12: VariantPayload (oneOf binary+object) model file exists
         TestUtils.assertFileExists(output.toPath().resolve("model/VariantPayload.h"));
         TestUtils.assertFileExists(output.toPath().resolve("model/DataObject.h"));
+
+        Path nullableDataObjectHeader = output.toPath().resolve("model/NullableDataObject.h");
+        TestUtils.assertFileContains(nullableDataObjectHeader,
+                "using NullableDataObject = std::optional<DataObject>;");
+        Path nullableDataObjectSource = output.toPath().resolve("model/NullableDataObject.cpp");
+        TestUtils.assertFileContains(nullableDataObjectSource,
+                "JsonValueConverter<NullableDataObject>::fromJsonValue(value)",
+                "JsonValueConverter<NullableDataObject>::toJsonValue(value)",
+                "return JsonValueConverter<T>::fromJsonValue(jsonValue)");
 
         // Scenario 13: TimestampContainer has unixtime → int64_t properties
         Path timestampContainerHeader = output.toPath().resolve("model/TimestampContainer.h");

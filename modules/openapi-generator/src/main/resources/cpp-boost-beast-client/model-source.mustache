@@ -1120,7 +1120,7 @@ boost::json::object {{classname}}::toJsonObject_internal() const
         // most common OpenAPI use case (optional properties omitted when absent).
         {{#vendorExtensions.x-cpp-no-is-set}}
         {{#parent}}
-        if (m_{{name}}.value.has_value()) {
+        if (m_{{name}}.hasOptionalValue()) {
         {{/parent}}
         {{^parent}}
         if (m_{{name}}.has_value()) {
@@ -1151,7 +1151,7 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{#vendorExtensions.x-cpp-no-is-set}}
     {{#parent}}
     if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
-        m_{{name}}.value.reset();
+        m_{{name}}.resetOptionalValue();
     }
     {{/parent}}
     {{^parent}}

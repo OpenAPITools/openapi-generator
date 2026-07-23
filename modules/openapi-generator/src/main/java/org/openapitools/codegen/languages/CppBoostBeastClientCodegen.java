@@ -91,6 +91,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
     public CppBoostBeastClientCodegen() {
         super();
+        openapiNormalizer.put("NORMALIZER_CLASS", CppBoostBeastOpenAPINormalizer.class.getName());
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -179,6 +180,43 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         importMapping.put("std::monostate", "#include <variant>");
         importMapping.put("std::shared_ptr", "#include <memory>");
         importMapping.put("AnyType", "#include \"AnyType.h\"");
+    }
+
+    /** Retains [Model, null] unions while preserving default normalization elsewhere. */
+    public static final class CppBoostBeastOpenAPINormalizer extends OpenAPINormalizer {
+        public CppBoostBeastOpenAPINormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
+            super(openAPI, inputRules);
+        }
+
+        @Override
+        protected Schema processSimplifyAnyOf(Schema schema) {
+            return nullableModelRef(schema.getAnyOf()) == null
+                    ? super.processSimplifyAnyOf(schema) : schema;
+        }
+
+        @Override
+        protected Schema processSimplifyOneOf(Schema schema) {
+            return nullableModelRef(schema.getOneOf()) == null
+                    ? super.processSimplifyOneOf(schema) : schema;
+        }
+
+        private String nullableModelRef(List<Schema> branches) {
+            if (branches == null || branches.size() != 2) {
+                return null;
+            }
+            String referencedModel = null;
+            int nullBranches = 0;
+            for (Schema branch : branches) {
+                if (ModelUtils.isNullTypeSchema(openAPI, branch)) {
+                    nullBranches++;
+                } else if (branch.get$ref() != null) {
+                    referencedModel = ModelUtils.getSimpleRef(branch.get$ref());
+                } else {
+                    return null;
+                }
+            }
+            return nullBranches == 1 ? referencedModel : null;
+        }
     }
 
 

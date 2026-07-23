@@ -76,6 +76,16 @@ struct {{classname}}ModelPropertyStorage<ValueType, false>
     {
     }
 
+    bool hasOptionalValue() const
+    {
+        return value.has_value();
+    }
+
+    void resetOptionalValue()
+    {
+        value.reset();
+    }
+
     ValueType value;
 };
 
@@ -83,6 +93,15 @@ template <typename ValueType>
 struct {{classname}}ModelPropertyStorage<ValueType, true>
 {
     explicit {{classname}}ModelPropertyStorage(ValueType = ValueType())
+    {
+    }
+
+    bool hasOptionalValue() const
+    {
+        return false;
+    }
+
+    void resetOptionalValue()
     {
     }
 };
