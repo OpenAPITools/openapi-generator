@@ -48,7 +48,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.X_ONE_OF_NAME;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -1653,7 +1653,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 // Add numeric discriminant values for enum variants
                 @SuppressWarnings("unchecked")
                 List<Map<String, Object>> enumVars =
-                    (List<Map<String, Object>>) model.allowableValues.get("enumVars");
+                    (List<Map<String, Object>>) model.allowableValues.get(ENUM_VARS);
 
                 if (enumVars != null) {
                     for (Map<String, Object> enumVar : enumVars) {
@@ -1753,7 +1753,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             }
         } else if (param.isArray) {
-            param.vendorExtensions.put("x-format-string", "{:?}");
+            boolean itemsAreEnum = param.items != null && param.items.getIsEnumOrRef();
+            param.vendorExtensions.put("x-format-string", itemsAreEnum ? "{}" : "{:?}");
             if (param.items.isString) {
                 // We iterate through the list of string and ensure they end up in the format vec!["example".to_string()]
                 example = (param.example != null)
@@ -1765,10 +1766,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 example = (param.example != null) ? param.example : "&Vec::new()";
             }
         } else {
-            param.vendorExtensions.put("x-format-string", "{:?}");
+            param.vendorExtensions.put("x-format-string", param.getIsEnumOrRef() ? "{}" : "{:?}");
             // Check if this is a model-type enum (allowableValues with values list)
-            if (param.allowableValues != null && param.allowableValues.containsKey("values")) {
-                List<?> values = (List<?>) param.allowableValues.get("values");
+            if (param.allowableValues != null && param.allowableValues.containsKey(ENUM_VALUES)) {
+                List<?> values = (List<?>) param.allowableValues.get(ENUM_VALUES);
                 if (!values.isEmpty()) {
                     // Use the first enum value as the example.
                     String firstEnumValue = values.get(0).toString();
@@ -1798,7 +1799,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             param.vendorExtensions.put("x-example", "None");
         } else {
             // Not required, so override the format string and example
-            param.vendorExtensions.put("x-format-string", "{:?}");
+            boolean itemsAreEnum = param.isArray && param.items != null && param.items.getIsEnumOrRef();
+            param.vendorExtensions.put("x-format-string", (param.getIsEnumOrRef() || itemsAreEnum) ? "{}" : "{:?}");
             String exampleString = (example != null) ? "Some(" + example + ")" : "None";
             param.vendorExtensions.put("x-example", exampleString);
         }

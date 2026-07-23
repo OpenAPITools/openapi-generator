@@ -162,8 +162,8 @@ async def get_pet_by_id(
 )
 async def update_pet_with_form(
     petId: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")] = Path(..., description="ID of pet that needs to be updated"),
-    name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = Form(None, description="Updated name of the pet"),
-    status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = Form(None, description="Updated status of the pet"),
+    name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = Form(None, description="Updated name of the pet", alias="name"),
+    status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = Form(None, description="Updated status of the pet", alias="status"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
@@ -207,8 +207,8 @@ async def delete_pet(
 )
 async def upload_file(
     petId: Annotated[StrictInt, Field(description="ID of pet to update")] = Path(..., description="ID of pet to update"),
-    additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = Form(None, description="Additional data to pass to server"),
-    file: Optional[UploadFile] = File(None, description="file to upload"),
+    additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = Form(None, description="Additional data to pass to server", alias="additionalMetadata"),
+    file: Optional[UploadFile] = File(None, description="file to upload", alias="file"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),

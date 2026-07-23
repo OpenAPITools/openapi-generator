@@ -40,7 +40,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
+import static org.openapitools.codegen.CodegenConstants.*;
 
 /**
  * <p>Mustache templates are located in {@code src/main/resources/java-helidon/common/} and {@code src/main/resources/java-helidon/client/}.
@@ -412,10 +412,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
                         if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
                             String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
-                            for (Map<String, Object> enumVars : (List<Map<String, Object>>) var.getAllowableValues().get("enumVars")) {
-                                if (defaultValue.equals(enumVars.get("name"))) {
+                            for (Map<String, Object> enumVars : (List<Map<String, Object>>) var.getAllowableValues().get(ENUM_VARS)) {
+                                if (defaultValue.equals(enumVars.get(ENUM_NAME))) {
                                     // update default to use the string directly instead of enum string
-                                    var.defaultValue = (String) enumVars.get("value");
+                                    var.defaultValue = (String) enumVars.get(ENUM_VALUE);
                                 }
                             }
                         }

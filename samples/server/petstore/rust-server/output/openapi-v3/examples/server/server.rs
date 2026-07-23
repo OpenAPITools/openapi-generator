@@ -193,7 +193,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         url: String,
         context: &C) -> Result<CallbackWithHeaderPostResponse, ApiError>
     {
-        info!("callback_with_header_post(\"{}\") - X-Span-ID: {:?}", url, context.get().0.clone());
+        info!("callback_with_header_post({:?}) - X-Span-ID: {:?}", url, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -232,7 +232,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         iambool: bool,
         context: &C) -> Result<GetWithBooleanParameterResponse, ApiError>
     {
-        info!("get_with_boolean_parameter({}) - X-Span-ID: {:?}", iambool, context.get().0.clone());
+        info!("get_with_boolean_parameter({:?}) - X-Span-ID: {:?}", iambool, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -250,7 +250,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         x_header: String,
         context: &C) -> Result<MandatoryRequestHeaderGetResponse, ApiError>
     {
-        info!("mandatory_request_header_get(\"{}\") - X-Span-ID: {:?}", x_header, context.get().0.clone());
+        info!("mandatory_request_header_get({:?}) - X-Span-ID: {:?}", x_header, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -324,7 +324,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         required_with_example: i32,
         context: &C) -> Result<QueryExampleGetResponse, ApiError>
     {
-        info!("query_example_get(\"{}\", {}) - X-Span-ID: {:?}", required_no_example, required_with_example, context.get().0.clone());
+        info!("query_example_get({:?}, {:?}) - X-Span-ID: {:?}", required_no_example, required_with_example, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -341,7 +341,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         url: String,
         context: &C) -> Result<RegisterCallbackPostResponse, ApiError>
     {
-        info!("register_callback_post(\"{}\") - X-Span-ID: {:?}", url, context.get().0.clone());
+        info!("register_callback_post({:?}) - X-Span-ID: {:?}", url, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -467,7 +467,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         path_param_b: String,
         context: &C) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, ApiError>
     {
-        info!("multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(\"{}\", \"{}\") - X-Span-ID: {:?}", path_param_a, path_param_b, context.get().0.clone());
+        info!("multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get({:?}, {:?}) - X-Span-ID: {:?}", path_param_a, path_param_b, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -485,7 +485,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         repo_id: String,
         context: &C) -> Result<GetRepoInfoResponse, ApiError>
     {
-        info!("get_repo_info(\"{}\") - X-Span-ID: {:?}", repo_id, context.get().0.clone());
+        info!("get_repo_info({:?}) - X-Span-ID: {:?}", repo_id, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 

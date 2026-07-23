@@ -39,6 +39,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -927,7 +928,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isEnum) {
                 // When inline enum, set example to first allowable value
-                List<Object> values = (List<Object>) codegenParameter.allowableValues.get("values");
+                List<Object> values = (List<Object>) codegenParameter.allowableValues.get(ENUM_VALUES);
                 codegenParameter.example = String.valueOf(values.get(0));
             }
             if (codegenParameter.isString || "String".equalsIgnoreCase(codegenParameter.baseType)) {
@@ -992,7 +993,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isEnum) {
                 // When inline enum, set example to first allowable value
-                List<Object> values = (List<Object>) codegenProperty.allowableValues.get("values");
+                List<Object> values = (List<Object>) codegenProperty.allowableValues.get(ENUM_VALUES);
                 codegenProperty.example = String.valueOf(values.get(0));
             }
             if (codegenProperty.isString || "String".equalsIgnoreCase(codegenProperty.baseType)) {
@@ -1061,8 +1062,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + count);
             }
         } else if (codegenModel.isEnum) {
-            List<Map<String, String>> enumVars = (List<Map<String, String>>) codegenModel.allowableValues.get("enumVars");
-            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get("name");
+            List<Map<String, String>> enumVars = (List<Map<String, String>>) codegenModel.allowableValues.get(ENUM_VARS);
+            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get(ENUM_NAME);
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
             if (modelMaps.get(subModel) == null) {
