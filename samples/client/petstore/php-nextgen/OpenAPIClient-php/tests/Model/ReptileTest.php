@@ -1,6 +1,6 @@
 <?php
 /**
- * MammalTest
+ * ReptileTest
  *
  * PHP version 8.1
  *
@@ -30,14 +30,14 @@ namespace OpenAPI\Client\Test\Model;
 use PHPUnit\Framework\TestCase;
 
 /**
- * MammalTest Class Doc Comment
+ * ReptileTest Class Doc Comment
  *
- * @description Mammal
+ * @description Reptile
  * @package     OpenAPI\Client
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class MammalTest extends TestCase
+class ReptileTest extends TestCase
 {
 
     /**
@@ -69,9 +69,9 @@ class MammalTest extends TestCase
     }
 
     /**
-     * Test "Mammal"
+     * Test "Reptile"
      */
-    public function testMammal()
+    public function testReptile()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

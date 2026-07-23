@@ -499,15 +499,23 @@ class ObjectSerializer
             }
             return $data;
         } else {
-            $data = is_string($data) ? json_decode($data) : $data;
+            if (is_string($data)) {
+                $decoded = json_decode($data);
+                // Keep the original string if decode fails (nested values are already PHP strings).
+                $data = ($decoded !== null || $data === 'null') ? $decoded : $data;
+            }
+
+            // A oneOf/anyOf schema is not a value object: dispatch here, after json_decode (so
+            // members get the decoded value) but before the array-to-object cast (which breaks arrays).
+            if (is_subclass_of($class, '\OpenAPI\Client\Model\OneOfInterface')) {
+                return self::deserializeOneOf($data, $class, $httpHeaders);
+            }
+            if (is_subclass_of($class, '\OpenAPI\Client\Model\AnyOfInterface')) {
+                return self::deserializeAnyOf($data, $class, $httpHeaders);
+            }
 
             if (is_array($data)) {
                 $data = (object) $data;
-            }
-
-            // A oneOf schema is not a value object: resolve the data to one of its member types.
-            if (is_subclass_of($class, '\OpenAPI\Client\Model\OneOfInterface')) {
-                return self::deserializeOneOf($data, $class, $httpHeaders);
             }
 
             // If a discriminator is defined and points to a valid subclass, use it.
@@ -546,13 +554,32 @@ class ObjectSerializer
     }
 
     /**
+     * Returns true when $data's PHP type is compatible with the OpenAPI primitive $type.
+     * Prevents settype() coercion (e.g. "abc" → 0 for integer) from producing a false match
+     * when iterating over oneOf/anyOf candidate types.
+     * Non-primitive types always return true and are validated downstream by ModelInterface::valid().
+     */
+    private static function isPrimitiveTypeCompatible(mixed $data, string $type): bool
+    {
+        return match($type) {
+            'int', 'integer' => is_int($data),
+            'float', 'double', 'number' => is_int($data) || is_float($data),
+            'bool', 'boolean' => is_bool($data),
+            'string' => is_string($data),
+            'array' => is_array($data),
+            'object' => is_object($data),
+            default => true,
+        };
+    }
+
+    /**
      * Deserialize data into one of the member types of a `oneOf` schema.
      *
      * When the schema declares a discriminator, its value selects the member type directly.
      * Otherwise each member type is tried in turn and the first one that yields a valid model
      * (or a non-null primitive) is returned.
      *
-     * @param mixed         $data        the data already decoded to an object
+     * @param mixed         $data        the decoded data to resolve to a member type
      * @param string        $class       a class name implementing OneOfInterface
      * @param string[]|null $httpHeaders HTTP headers
      *
@@ -560,19 +587,29 @@ class ObjectSerializer
      */
     private static function deserializeOneOf(mixed $data, string $class, ?array $httpHeaders): mixed
     {
+        // $data is already decoded (see deserialize()). Read the discriminator from an object view
+        // of it, but deserialize each member from the original $data so array and scalar members
+        // keep their own type handling instead of being coerced to an object here.
+        $probe = is_array($data) ? (object) $data : $data;
+
         $discriminator = $class::getOneOfDiscriminator();
-        if ($discriminator !== null && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
+        if ($discriminator !== null && is_object($probe) && isset($probe->{$discriminator}) && is_string($probe->{$discriminator})) {
             $mappings = $class::getOneOfDiscriminatorMappings();
-            if (isset($mappings[$data->{$discriminator}])) {
-                return self::deserialize($data, $mappings[$data->{$discriminator}], $httpHeaders);
+            if (isset($mappings[$probe->{$discriminator}])) {
+                return self::deserialize($data, $mappings[$probe->{$discriminator}], $httpHeaders);
             }
         }
 
         foreach ($class::getOneOfTypes() as $type) {
+            if (!self::isPrimitiveTypeCompatible($data, $type)) {
+                continue;
+            }
             try {
                 $instance = self::deserialize($data, $type, $httpHeaders);
             } catch (\Throwable $e) {
-                // The data does not match this member type, try the next one.
+                // Any failure means the data does not match this member type; try the next one.
+                // The broad catch is intentional: a real failure is not hidden, since the loop
+                // throws below when no member type matches.
                 continue;
             }
 
@@ -586,6 +623,59 @@ class ObjectSerializer
         }
 
         throw new \InvalidArgumentException(sprintf('No matching schema in oneOf %s for the given data', $class));
+    }
+
+    /**
+     * Deserialize data into one of the member types of an `anyOf` schema.
+     *
+     * When the schema declares a discriminator, its value selects the member type directly.
+     * Otherwise each member type is tried in turn and the first one that yields a valid model
+     * (or a non-null primitive) is returned.
+     *
+     * @param mixed         $data        the decoded data to resolve to a member type
+     * @param string        $class       a class name implementing AnyOfInterface
+     * @param string[]|null $httpHeaders HTTP headers
+     *
+     * @return mixed an instance of one of the `anyOf` member types
+     */
+    private static function deserializeAnyOf(mixed $data, string $class, ?array $httpHeaders): mixed
+    {
+        // $data is already decoded (see deserialize()). Read the discriminator from an object view
+        // of it, but deserialize each member from the original $data so array and scalar members
+        // keep their own type handling instead of being coerced to an object here.
+        $probe = is_array($data) ? (object) $data : $data;
+
+        $discriminator = $class::getAnyOfDiscriminator();
+        if ($discriminator !== null && is_object($probe) && isset($probe->{$discriminator}) && is_string($probe->{$discriminator})) {
+            $mappings = $class::getAnyOfDiscriminatorMappings();
+            if (isset($mappings[$probe->{$discriminator}])) {
+                return self::deserialize($data, $mappings[$probe->{$discriminator}], $httpHeaders);
+            }
+        }
+
+        foreach ($class::getAnyOfTypes() as $type) {
+            if (!self::isPrimitiveTypeCompatible($data, $type)) {
+                continue;
+            }
+            try {
+                $instance = self::deserialize($data, $type, $httpHeaders);
+            } catch (\Throwable $e) {
+                // Any failure means the data does not match this member type; try the next one.
+                // The broad catch is intentional: a real failure is not hidden, since the loop
+                // throws below when no member type matches.
+                continue;
+            }
+
+            if ($instance instanceof ModelInterface) {
+                if ($instance->valid()) {
+                    return $instance;
+                }
+            } elseif ($instance !== null) {
+                return $instance;
+            }
+        }
+
+        throw new \InvalidArgumentException(sprintf('No matching schema in anyOf %s for the given data', $class));
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zoo
+ * Lizard
  *
  * PHP version 8.1
  *
@@ -34,15 +34,14 @@ use ReturnTypeWillChange;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
- * Zoo Class Doc Comment
+ * Lizard Class Doc Comment
  *
- * @description A model that uses oneOf and anyOf schemas as property types.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements ArrayAccess<string, mixed>
  */
-class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
+class Lizard implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -51,7 +50,7 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
      *
      * @var string
      */
-    protected static string $openAPIModelName = 'Zoo';
+    protected static string $openAPIModelName = 'Lizard';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -59,12 +58,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'favorite_mammal' => '\OpenAPI\Client\Model\Mammal',
-        'optional_mammal' => '\OpenAPI\Client\Model\Mammal',
-        'snack' => '\OpenAPI\Client\Model\Fruit',
-        'mammals' => '\OpenAPI\Client\Model\Mammal[]',
-        'favorite_reptile' => '\OpenAPI\Client\Model\Reptile',
-        'drink' => '\OpenAPI\Client\Model\Smoothie'
+        'loves_rocks' => 'bool',
+        'reptile_type' => 'string'
     ];
 
     /**
@@ -73,12 +68,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'favorite_mammal' => null,
-        'optional_mammal' => null,
-        'snack' => null,
-        'mammals' => null,
-        'favorite_reptile' => null,
-        'drink' => null
+        'loves_rocks' => null,
+        'reptile_type' => null
     ];
 
     /**
@@ -87,12 +78,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'favorite_mammal' => false,
-        'optional_mammal' => false,
-        'snack' => false,
-        'mammals' => false,
-        'favorite_reptile' => false,
-        'drink' => false
+        'loves_rocks' => false,
+        'reptile_type' => false
     ];
 
     /**
@@ -171,12 +158,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $attributeMap = [
-        'favorite_mammal' => 'favoriteMammal',
-        'optional_mammal' => 'optionalMammal',
-        'snack' => 'snack',
-        'mammals' => 'mammals',
-        'favorite_reptile' => 'favoriteReptile',
-        'drink' => 'drink'
+        'loves_rocks' => 'lovesRocks',
+        'reptile_type' => 'reptileType'
     ];
 
     /**
@@ -185,12 +168,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $setters = [
-        'favorite_mammal' => 'setFavoriteMammal',
-        'optional_mammal' => 'setOptionalMammal',
-        'snack' => 'setSnack',
-        'mammals' => 'setMammals',
-        'favorite_reptile' => 'setFavoriteReptile',
-        'drink' => 'setDrink'
+        'loves_rocks' => 'setLovesRocks',
+        'reptile_type' => 'setReptileType'
     ];
 
     /**
@@ -199,12 +178,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $getters = [
-        'favorite_mammal' => 'getFavoriteMammal',
-        'optional_mammal' => 'getOptionalMammal',
-        'snack' => 'getSnack',
-        'mammals' => 'getMammals',
-        'favorite_reptile' => 'getFavoriteReptile',
-        'drink' => 'getDrink'
+        'loves_rocks' => 'getLovesRocks',
+        'reptile_type' => 'getReptileType'
     ];
 
     /**
@@ -254,12 +229,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('favorite_mammal', $data ?? [], null);
-        $this->setIfExists('optional_mammal', $data ?? [], null);
-        $this->setIfExists('snack', $data ?? [], null);
-        $this->setIfExists('mammals', $data ?? [], null);
-        $this->setIfExists('favorite_reptile', $data ?? [], null);
-        $this->setIfExists('drink', $data ?? [], null);
+        $this->setIfExists('loves_rocks', $data ?? [], null);
+        $this->setIfExists('reptile_type', $data ?? [], null);
     }
 
     /**
@@ -287,11 +258,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
-        if ($this->container['favorite_mammal'] === null) {
-            $invalidProperties[] = "'favorite_mammal' can't be null";
-        }
-        if ($this->container['favorite_reptile'] === null) {
-            $invalidProperties[] = "'favorite_reptile' can't be null";
+        if ($this->container['reptile_type'] === null) {
+            $invalidProperties[] = "'reptile_type' can't be null";
         }
         return $invalidProperties;
     }
@@ -306,163 +274,55 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
 
 
     /**
-     * Gets favorite_mammal
+     * Gets loves_rocks
      *
-     * @return \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra
+     * @return bool|null
      */
-    public function getFavoriteMammal(): \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra
+    public function getLovesRocks(): ?bool
     {
-        return $this->container['favorite_mammal'];
+        return $this->container['loves_rocks'];
     }
 
     /**
-     * Sets favorite_mammal
+     * Sets loves_rocks
      *
-     * @param \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra $favorite_mammal favorite_mammal
+     * @param bool|null $loves_rocks loves_rocks
      *
      * @return $this
      */
-    public function setFavoriteMammal(\OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra $favorite_mammal): static
+    public function setLovesRocks(?bool $loves_rocks): static
     {
-        if (is_null($favorite_mammal)) {
-            throw new InvalidArgumentException('non-nullable favorite_mammal cannot be null');
+        if (is_null($loves_rocks)) {
+            throw new InvalidArgumentException('non-nullable loves_rocks cannot be null');
         }
-        $this->container['favorite_mammal'] = $favorite_mammal;
+        $this->container['loves_rocks'] = $loves_rocks;
 
         return $this;
     }
 
     /**
-     * Gets optional_mammal
+     * Gets reptile_type
      *
-     * @return \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|null
+     * @return string
      */
-    public function getOptionalMammal(): \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|null
+    public function getReptileType(): string
     {
-        return $this->container['optional_mammal'];
+        return $this->container['reptile_type'];
     }
 
     /**
-     * Sets optional_mammal
+     * Sets reptile_type
      *
-     * @param \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|null $optional_mammal optional_mammal
+     * @param string $reptile_type reptile_type
      *
      * @return $this
      */
-    public function setOptionalMammal(\OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|null $optional_mammal): static
+    public function setReptileType(string $reptile_type): static
     {
-        if (is_null($optional_mammal)) {
-            throw new InvalidArgumentException('non-nullable optional_mammal cannot be null');
+        if (is_null($reptile_type)) {
+            throw new InvalidArgumentException('non-nullable reptile_type cannot be null');
         }
-        $this->container['optional_mammal'] = $optional_mammal;
-
-        return $this;
-    }
-
-    /**
-     * Gets snack
-     *
-     * @return \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null
-     */
-    public function getSnack(): \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null
-    {
-        return $this->container['snack'];
-    }
-
-    /**
-     * Sets snack
-     *
-     * @param \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null $snack snack
-     *
-     * @return $this
-     */
-    public function setSnack(\OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null $snack): static
-    {
-        if (is_null($snack)) {
-            throw new InvalidArgumentException('non-nullable snack cannot be null');
-        }
-        $this->container['snack'] = $snack;
-
-        return $this;
-    }
-
-    /**
-     * Gets mammals
-     *
-     * @return (\OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra)[]|null
-     */
-    public function getMammals(): ?array
-    {
-        return $this->container['mammals'];
-    }
-
-    /**
-     * Sets mammals
-     *
-     * @param (\OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra)[]|null $mammals mammals
-     *
-     * @return $this
-     */
-    public function setMammals(?array $mammals): static
-    {
-        if (is_null($mammals)) {
-            throw new InvalidArgumentException('non-nullable mammals cannot be null');
-        }
-        $this->container['mammals'] = $mammals;
-
-        return $this;
-    }
-
-    /**
-     * Gets favorite_reptile
-     *
-     * @return \OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake
-     */
-    public function getFavoriteReptile(): \OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake
-    {
-        return $this->container['favorite_reptile'];
-    }
-
-    /**
-     * Sets favorite_reptile
-     *
-     * @param \OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake $favorite_reptile favorite_reptile
-     *
-     * @return $this
-     */
-    public function setFavoriteReptile(\OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake $favorite_reptile): static
-    {
-        if (is_null($favorite_reptile)) {
-            throw new InvalidArgumentException('non-nullable favorite_reptile cannot be null');
-        }
-        $this->container['favorite_reptile'] = $favorite_reptile;
-
-        return $this;
-    }
-
-    /**
-     * Gets drink
-     *
-     * @return \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null
-     */
-    public function getDrink(): \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null
-    {
-        return $this->container['drink'];
-    }
-
-    /**
-     * Sets drink
-     *
-     * @param \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null $drink drink
-     *
-     * @return $this
-     */
-    public function setDrink(\OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null $drink): static
-    {
-        if (is_null($drink)) {
-            throw new InvalidArgumentException('non-nullable drink cannot be null');
-        }
-        $this->container['drink'] = $drink;
+        $this->container['reptile_type'] = $reptile_type;
 
         return $this;
     }
