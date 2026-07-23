@@ -224,7 +224,10 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         for (String composedType : composedTypeHints.keySet()) {
             Set<String> leaves = new LinkedHashSet<>();
             collectLeafTypes(composedType, composedTypeHints, new LinkedHashSet<>(), leaves);
-            resolved.put(composedType, String.join("|", leaves));
+            // No leaves means a fully cyclic composition; keep the original hint, not an empty type.
+            if (!leaves.isEmpty()) {
+                resolved.put(composedType, String.join("|", leaves));
+            }
         }
         composedTypeHints.putAll(resolved);
     }
