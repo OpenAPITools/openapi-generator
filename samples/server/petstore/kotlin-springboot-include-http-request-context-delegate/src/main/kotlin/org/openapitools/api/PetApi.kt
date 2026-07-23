@@ -468,7 +468,7 @@ interface PetApi {
     suspend fun uploadFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,
         @ApiParam(value = "") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?,
-        @ApiParam(value = "file detail") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile,
+        @ApiParam(value = "file detail") @Valid @RequestPart("file", required = false) file: org.springframework.http.codec.multipart.Part?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
     ): ResponseEntity<ModelApiResponse> {
         return getDelegate().uploadFile(petId, additionalMetadata, file, exchange)

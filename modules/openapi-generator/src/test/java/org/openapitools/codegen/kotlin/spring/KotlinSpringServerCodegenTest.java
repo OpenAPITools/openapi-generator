@@ -56,6 +56,8 @@ import static org.openapitools.codegen.languages.features.DocumentationProviderF
 
 public class KotlinSpringServerCodegenTest {
 
+    private static final String MULTIPART_SPEC = "src/test/resources/3_0/form-multipart-binary-array.yaml";
+
     @Test(description = "test embedded enum array")
     public void embeddedEnumArrayTest() throws Exception {
         String baseModelPackage = "zz";
@@ -462,6 +464,26 @@ public class KotlinSpringServerCodegenTest {
                         + "    )");
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/NonNullableMultipartfileArrayApiController.kt"),
                 "files: Array<org.springframework.web.multipart.MultipartFile>"
+                        + "    )");
+    }
+
+    @Test
+    public void testNullableMultipartFileReactive() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/feat-multipartfile_nullable.yaml",
+                Map.of(KotlinSpringServerCodegen.REACTIVE, true));
+
+        assertFileContains(files.get("NullableMultipartfileApiController.kt").toPath(),
+                "file: org.springframework.http.codec.multipart.Part?"
+                        + "    )");
+        assertFileContains(files.get("NullableMultipartfileArrayApiController.kt").toPath(),
+                "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>?"
+                        + "    )");
+        assertFileContains(files.get("NonNullableMultipartfileApiController.kt").toPath(),
+                "file: org.springframework.http.codec.multipart.Part?"
+                        + "    )");
+        assertFileContains(files.get("NonNullableMultipartfileArrayApiController.kt").toPath(),
+                "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>"
                         + "    )");
     }
 
@@ -1017,35 +1039,102 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestPart() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        Map<String, File> files = generateFromContract(
+                MULTIPART_SPEC,
+                Map.of(
+                        KotlinSpringServerCodegen.REACTIVE, true,
+                        KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true));
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/petstore-with-tags.yaml");
-        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
+        assertReactiveMultipartParameters(files, "Controller.kt");
+        assertReactiveMultipartParameters(files, "Service.kt");
+        assertReactiveMultipartParameters(files, "ServiceImpl.kt");
+        assertReactiveMultipartParameters(files, "Test.kt");
+    }
 
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
+    @Test
+    public void givenMultipartForm_whenGenerateReactiveDelegate_thenParametersUseRequestPart() throws IOException {
+        Map<String, File> files = generateFromContract(
+                MULTIPART_SPEC,
+                Map.of(
+                        KotlinSpringServerCodegen.REACTIVE, true,
+                        KotlinSpringServerCodegen.DELEGATE_PATTERN, true));
 
-        DefaultGenerator generator = new DefaultGenerator();
+        assertReactiveMultipartParameters(files, ".kt");
+        assertReactiveMultipartParameters(files, "Delegate.kt");
+    }
 
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+    @Test
+    public void givenMultipartForm_whenGenerateBlockingServer_thenMultipartFileTypesRemain() throws IOException {
+        Map<String, File> files = generateFromContract(
+                MULTIPART_SPEC,
+                Map.of(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true));
 
-        generator.opts(input).generate();
+        assertBlockingMultipartParameters(files, "Controller.kt");
+        assertBlockingMultipartParameters(files, "Service.kt");
+        assertBlockingMultipartParameters(files, "ServiceImpl.kt");
+        assertBlockingMultipartParameters(files, "Test.kt");
+    }
 
-        Path outputFilepath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+    @Test
+    public void givenMultipartForm_whenGenerateReactiveDeclarativeHttpInterface_thenMultipartFileTypesRemain() throws IOException {
+        Map<String, File> files = generateFromContract(
+                MULTIPART_SPEC,
+                Map.of(
+                        KotlinSpringServerCodegen.REACTIVE, true,
+                        KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
 
-        assertFileContains(outputFilepath,
-                "@Parameter(description = \"Additional data to pass to server\") @Valid @RequestParam(value = \"additionalMetadata\", required = false) additionalMetadata: kotlin.String?");
-        assertFileContains(outputFilepath,
-                "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.web.multipart.MultipartFile");
+        Path apiFile = files.get("MultipartApi.kt").toPath();
+        assertFileContains(apiFile,
+                "files: Array<org.springframework.web.multipart.MultipartFile>",
+                "file: org.springframework.web.multipart.MultipartFile",
+                "status: MultipartMixedStatus",
+                "marker: MultipartMixedRequestMarker?",
+                "statusArray: kotlin.collections.List<MultipartMixedStatus>?");
+        assertFileNotContains(apiFile, "org.springframework.http.codec.multipart.Part");
+    }
+
+    private void assertReactiveMultipartParameters(Map<String, File> files, String fileSuffix) {
+        Path arrayFile = files.get("MultipartArrayApi" + fileSuffix).toPath();
+        Path singleFile = files.get("MultipartSingleApi" + fileSuffix).toPath();
+        Path mixedFile = files.get("MultipartMixedApi" + fileSuffix).toPath();
+
+        assertFileContains(arrayFile,
+                "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>");
+        assertFileContains(singleFile,
+                "file: org.springframework.http.codec.multipart.Part?");
+        assertFileContains(mixedFile,
+                "status: MultipartMixedStatus",
+                "file: org.springframework.http.codec.multipart.Part",
+                "marker: MultipartMixedRequestMarker?",
+                "statusArray: kotlin.collections.List<MultipartMixedStatus>?");
+        assertFileNotContains(arrayFile,
+                "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>?");
+        assertFileNotContains(mixedFile,
+                "file: org.springframework.http.codec.multipart.Part?");
+        assertFileNotContains(arrayFile, "org.springframework.web.multipart.MultipartFile");
+        assertFileNotContains(singleFile, "org.springframework.web.multipart.MultipartFile");
+        assertFileNotContains(mixedFile, "org.springframework.web.multipart.MultipartFile");
+    }
+
+    private void assertBlockingMultipartParameters(Map<String, File> files, String fileSuffix) {
+        Path arrayFile = files.get("MultipartArrayApi" + fileSuffix).toPath();
+        Path singleFile = files.get("MultipartSingleApi" + fileSuffix).toPath();
+        Path mixedFile = files.get("MultipartMixedApi" + fileSuffix).toPath();
+
+        assertFileContains(arrayFile,
+                "files: Array<org.springframework.web.multipart.MultipartFile>");
+        assertFileContains(singleFile,
+                "file: org.springframework.web.multipart.MultipartFile");
+        assertFileContains(mixedFile,
+                "status: MultipartMixedStatus",
+                "file: org.springframework.web.multipart.MultipartFile",
+                "marker: MultipartMixedRequestMarker?",
+                "statusArray: kotlin.collections.List<MultipartMixedStatus>?");
+        assertFileNotContains(arrayFile, "org.springframework.http.codec.multipart.Part");
+        assertFileNotContains(singleFile, "org.springframework.http.codec.multipart.Part");
+        assertFileNotContains(mixedFile, "org.springframework.http.codec.multipart.Part");
 
     }
 
