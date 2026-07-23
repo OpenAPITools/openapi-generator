@@ -1,4 +1,6 @@
 {
+  "name": "GIT_USER_ID/GIT_REPO_ID",
+  "version": "1.0.0",
   "minimum-stability": "RC",
   "repositories": [
     {
