@@ -3,7 +3,9 @@
 {{^lazyImports}}
 {{>exports_api}}
 {{/lazyImports}}
-{{#lazyImports}}if __import__("typing").TYPE_CHECKING:
+{{#lazyImports}}import typing as _typing
+
+if _typing.TYPE_CHECKING:
     {{>exports_api}}
 else:
     from lazy_imports import LazyModule, as_package, load
