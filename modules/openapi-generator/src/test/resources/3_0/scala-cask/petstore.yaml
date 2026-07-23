@@ -18,6 +18,36 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /issue-20214-int-enums:
+    post:
+      tags:
+        - intEnums
+      operationId: intEnumExample
+      summary: added to reproduce
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enumFilter:
+                  type: integer
+                  format: int32
+                  enum:
+                    - 0
+                    - 1
+                    - 2
+              required:
+                - enumFilter
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
   /complex-types:
     post:
       tags:
