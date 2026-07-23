@@ -26,6 +26,9 @@ def test_lazy_imports_use_standard_library() -> None:
                 import petstore_api.api
                 import petstore_api.models
 
+                assert not any(name.startswith("petstore_api.models.") for name in sys.modules)
+                assert not any(name.startswith("petstore_api.api.") for name in sys.modules)
+
                 assert importlib.util.find_spec("petstore_api.api") is not None
                 assert importlib.util.find_spec("petstore_api.models") is not None
                 assert "Pet" in petstore_api.__all__
@@ -35,6 +38,13 @@ def test_lazy_imports_use_standard_library() -> None:
                 assert "Pet" in dir(petstore_api.models)
                 assert "DefaultApi" in petstore_api.api.__all__
                 assert "DefaultApi" in dir(petstore_api.api)
+
+                from petstore_api.api import DefaultApi
+
+                assert DefaultApi is petstore_api.api.DefaultApi
+                assert DefaultApi is petstore_api.DefaultApi
+                assert "petstore_api.api.default_api" in sys.modules
+                assert "petstore_api.api.pet_api" not in sys.modules
 
                 from petstore_api import Pet
 
