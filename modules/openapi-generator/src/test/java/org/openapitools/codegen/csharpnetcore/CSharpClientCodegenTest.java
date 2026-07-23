@@ -343,9 +343,17 @@ public class CSharpClientCodegenTest {
                 "nullableInlineIntEnum = new Option<ModelWithEnumProperties.NullableInlineIntEnumEnum?>(" +
                         "nullableInlineIntEnumValue);"
         );
+        assertThat(modelWithEnumProperties)
+                .containsPattern(
+                "if \\(utf8JsonReader.TokenType == JsonTokenType.Null\\)\\s+" +
+                        "nullableInlineIntEnum = new Option<ModelWithEnumProperties.NullableInlineIntEnumEnum\\?>\\(null\\);")
+                .containsPattern(
+                        "if \\(utf8JsonReader.TokenType != JsonTokenType.Null\\)\\s+\\{\\s+" +
+                                "string inlineIntEnumRawValue");
         assertThat(modelWithEnumProperties).doesNotContain(
                 "if (nullableInlineIntEnumValue == null)\n                                    throw new JsonException();",
-                "if (inlineIntEnumValue == null)\n                                    throw new JsonException();"
+                "if (inlineIntEnumValue == null)\n                                    throw new JsonException();",
+                "inlineIntEnum = new Option<ModelWithEnumProperties.InlineIntEnumEnum?>(null);"
         );
         assertThat(modelWithEnumProperties).contains(
                 "if (inlineIntEnumValue != null)\n" +
