@@ -50,8 +50,15 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -3899,6 +3906,230 @@ public class JavaClientCodegenTest {
                 "String responseBody = new String(localVarResponseBody.readAllBytes());",
                 "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
         );
+    }
+
+    @Test
+    public void issue24057NativeInputStreamSync() {
+        Path apiFile = generateIssue24057Native(false, true);
+
+        assertFileContains(
+                apiFile,
+                "public InputStream download() throws ApiException {",
+                "InputStream responseValue = localVarResponseBody;",
+                "localVarResponseBody = null;",
+                "AtomicReference<InputStream> localVarRequestBody = new AtomicReference<>(body);",
+                "Supplier<InputStream> localVarRequestBodySupplier = () -> localVarRequestBody.getAndSet(null);",
+                "HttpRequest.BodyPublishers.ofInputStream(localVarRequestBodySupplier)"
+        );
+        assertFileNotContains(
+                apiFile,
+                "File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);",
+                "memberVarObjectMapper.writeValueAsBytes(body)",
+                "HttpRequest.BodyPublishers.ofInputStream(() -> body)"
+        );
+    }
+
+    @Test
+    public void issue24057NativeInputStreamAsync() {
+        Path apiFile = generateIssue24057Native(true, true);
+
+        assertFileContains(
+                apiFile,
+                "public CompletableFuture<InputStream> download() throws ApiException {",
+                "InputStream responseValue = localVarResponseBody;",
+                "localVarResponseBody = null;",
+                "localVarHttpInfoFuture.cancel(mayInterruptIfRunning);",
+                "boolean completeResponse(InputStream localVarResponseBody)",
+                "localVarResult.completeResponse(localVarResponseBody);",
+                "CompletableFuture<HttpResponse<InputStream>> localVarTransportFuture",
+                "localVarTransportFuture.cancel(mayInterruptIfRunning);",
+                "localVarProcessingFuture.whenComplete((localVarApiResponse, localVarThrowable) -> {",
+                "AtomicReference<InputStream> localVarRequestBody = new AtomicReference<>(body);",
+                "HttpRequest.BodyPublishers.ofInputStream(localVarRequestBodySupplier)"
+        );
+        assertFileNotContains(
+                apiFile,
+                "File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);",
+                "memberVarObjectMapper.writeValueAsBytes(body)",
+                "HttpRequest.BodyPublishers.ofInputStream(() -> body)"
+        );
+    }
+
+    @Test
+    public void issue24057NativeDefaultMappingAndJsonControls() {
+        Path apiFile = generateIssue24057Native(false, false);
+
+        assertFileContains(
+                apiFile,
+                "File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);",
+                "memberVarObjectMapper.writeValueAsBytes(payload)"
+        );
+    }
+
+    @Test
+    public void issue24057NativeNonBinaryInputStreamMappingKeepsJsonHandling() {
+        Path apiFile = generateIssue24057Native(
+                false,
+                Collections.emptyMap(),
+                Map.of("Payload", "InputStream"));
+
+        assertFileContains(
+                apiFile,
+                "byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(inputStream);",
+                "InputStream responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<InputStream>() {})"
+        );
+        assertFileNotContains(
+                apiFile,
+                "InputStream responseValue = localVarResponseBody;",
+                "AtomicReference<InputStream> localVarRequestBody = new AtomicReference<>(inputStream);"
+        );
+    }
+
+    @Test
+    public void issue24057NativeInputStreamAsyncRuntimeOwnership() throws Exception {
+        Path output = generateIssue24057NativeOutput(true, true, false);
+
+        compileAndRunIssue24057RuntimeHarness(output, "async-ownership");
+    }
+
+    @Test
+    public void issue24057NativeInputStreamRequestPublisherIsOneShot() throws Exception {
+        Path output = generateIssue24057NativeOutput(true, true, false);
+
+        compileAndRunIssue24057RuntimeHarness(output, "plain-replay");
+    }
+
+    @Test
+    public void issue24057NativeInputStreamGzipPublisherIsOneShot() throws Exception {
+        Path output = generateIssue24057NativeOutput(true, true, true);
+        Path apiFile = output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+
+        assertFileContains(
+                apiFile,
+                "localVarRequestBuilder.header(\"Content-Encoding\", \"gzip\");",
+                "ApiClient.gzipRequestBody(localVarRequestBodySupplier)"
+        );
+        assertFileNotContains(
+                apiFile,
+                "HttpRequest.BodyPublishers.ofInputStream(() -> body)",
+                "memberVarObjectMapper.writeValueAsBytes(body)"
+        );
+        compileAndRunIssue24057RuntimeHarness(output, "gzip-replay");
+    }
+
+    private Path generateIssue24057Native(boolean asyncNative, boolean mapStreams) {
+        return generateIssue24057Native(
+                asyncNative,
+                mapStreams ? Map.of(
+                        "file", "InputStream",
+                        "binary", "InputStream") : Collections.emptyMap(),
+                Collections.emptyMap());
+    }
+
+    private Path generateIssue24057Native(
+            boolean asyncNative,
+            Map<String, String> typeMappings,
+            Map<String, String> schemaMappings) {
+        return generateIssue24057NativeOutput(asyncNative, typeMappings, schemaMappings, false)
+                .resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+    }
+
+    private Path generateIssue24057NativeOutput(
+            boolean asyncNative,
+            boolean mapStreams,
+            boolean useGzipFeature) {
+        return generateIssue24057NativeOutput(
+                asyncNative,
+                mapStreams ? Map.of(
+                        "file", "InputStream",
+                        "binary", "InputStream") : Collections.emptyMap(),
+                Collections.emptyMap(),
+                useGzipFeature);
+    }
+
+    private Path generateIssue24057NativeOutput(
+            boolean asyncNative,
+            Map<String, String> typeMappings,
+            Map<String, String> schemaMappings,
+            boolean useGzipFeature) {
+        Path output = newTempFolder();
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put("asyncNative", asyncNative);
+        properties.put(JavaClientCodegen.SUPPORT_STREAMING, true);
+        properties.put("useGzipFeature", useGzipFeature);
+        properties.put("openApiNullable", false);
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue24057.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        if (!typeMappings.isEmpty()) {
+            configurator.setTypeMappings(typeMappings);
+        }
+        if (!schemaMappings.isEmpty()) {
+            configurator.setSchemaMappings(schemaMappings);
+        }
+        if (!typeMappings.isEmpty() || !schemaMappings.isEmpty()) {
+            configurator.setImportMappings(Map.of("InputStream", "java.io.InputStream"));
+        }
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output;
+    }
+
+    private void compileAndRunIssue24057RuntimeHarness(Path output, String scenario) throws Exception {
+        Path classes = Files.createDirectories(output.resolve("runtime-test-classes"));
+        Path harness = Paths.get("src/test/resources/3_0/java/native/NativeInputStreamRuntimeHarness.java");
+        List<File> sources;
+        try (java.util.stream.Stream<Path> generatedSources = Files.walk(output.resolve("src/main/java"))) {
+            sources = generatedSources
+                    .filter(path -> path.toString().endsWith(".java"))
+                    .map(Path::toFile)
+                    .collect(Collectors.toCollection(ArrayList::new));
+        }
+        sources.add(harness.toFile());
+        sources.add(Paths.get("src/test/resources/3_0/java/native/Generated.java").toFile());
+
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        assertNotNull(compiler, "A JDK compiler is required for the generated-client runtime test");
+        DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
+        try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, Locale.ROOT, StandardCharsets.UTF_8)) {
+            Iterable<? extends JavaFileObject> units = fileManager.getJavaFileObjectsFromFiles(sources);
+            List<String> options = List.of(
+                    "--release", "11",
+                    "-classpath", System.getProperty("java.class.path"),
+                    "-d", classes.toString());
+            boolean compiled = compiler.getTask(null, fileManager, diagnostics, options, null, units).call();
+            String diagnosticText = diagnostics.getDiagnostics().stream()
+                    .map(Object::toString)
+                    .collect(Collectors.joining(System.lineSeparator()));
+            Assert.assertTrue(compiled, "Generated runtime harness did not compile:\n" + diagnosticText);
+        }
+
+        try (URLClassLoader classLoader = new URLClassLoader(
+                new java.net.URL[]{classes.toUri().toURL()},
+                getClass().getClassLoader())) {
+            Class<?> harnessClass = Class.forName(
+                    "xyz.abcdef.runtime.NativeInputStreamRuntimeHarness",
+                    true,
+                    classLoader);
+            try {
+                harnessClass.getMethod("run", String.class).invoke(null, scenario);
+            } catch (InvocationTargetException e) {
+                Throwable cause = e.getCause();
+                if (cause instanceof AssertionError) {
+                    throw (AssertionError) cause;
+                }
+                if (cause instanceof Exception) {
+                    throw (Exception) cause;
+                }
+                throw new AssertionError("Generated runtime harness failed", cause);
+            }
+        }
     }
 
     @Test

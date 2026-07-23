@@ -1011,6 +1011,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 if ("String".equals(op.returnType) && op.producesTextPlain()) {
                     op.vendorExtensions.put("x-java-text-plain-string", true);
                 }
+                if (isLibrary(NATIVE)) {
+                    if ((op.isResponseBinary || op.isResponseFile) && mapsToInputStream(op.returnType)) {
+                        op.vendorExtensions.put("x-java-native-response-input-stream", true);
+                    }
+                    if (op.bodyParam != null
+                            && (op.bodyParam.isBinary || op.bodyParam.isFile)
+                            && mapsToInputStream(op.bodyParam.dataType)) {
+                        op.vendorExtensions.put("x-java-native-body-input-stream", true);
+                    }
+                }
             }
         }
 
@@ -1043,6 +1053,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         return objs;
+    }
+
+    private boolean mapsToInputStream(String dataType) {
+        return "java.io.InputStream".equals(dataType)
+                || "java.io.InputStream".equals(importMapping.get(dataType));
     }
 
     @Override
