@@ -122,7 +122,7 @@ public class SpringCodegenTest {
                 .hasReturnType("ResponseEntity<Void>")
                 .assertMethodAnnotations()
                 .hasSize(2)
-                .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "\"getZebras\""))
+                .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "ZebrasApi.OPERATION_GET_ZEBRAS"))
                 .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
                         "method", "RequestMethod.GET",
                         "value", "ZebrasApi.PATH_GET_ZEBRAS"
@@ -200,7 +200,7 @@ public class SpringCodegenTest {
                 .hasReturnType("ResponseEntity<Void>")
                 .assertMethodAnnotations()
                 .hasSize(2)
-                .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "\"getZebras\""))
+                .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "ZebrasApi.OPERATION_GET_ZEBRAS"))
                 .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
                         "method", "RequestMethod.GET",
                         "value", "ZebrasApi.PATH_GET_ZEBRAS"
@@ -2328,11 +2328,11 @@ public class SpringCodegenTest {
         return new Object[][]{
                 {DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(), (Consumer<String>) outputPath -> {
                     assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/NoneApi.java"),
-                            "@Operation( operationId = \"getNone\", summary = \"No Tag\", responses = {");
+                            "@Operation( operationId = NoneApi.OPERATION_GET_NONE, summary = \"No Tag\", responses = {");
                     assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SingleApi.java"),
-                            "@Operation( operationId = \"getSingleTag\", summary = \"Single Tag\", tags = { \"tag1\" }, responses = {");
+                            "@Operation( operationId = SingleApi.OPERATION_GET_SINGLE_TAG, summary = \"Single Tag\", tags = { \"tag1\" }, responses = {");
                     assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/MultipleApi.java"),
-                            "@Operation( operationId = \"getMultipleTags\", summary = \"Multiple Tags\", tags = { \"tag1\", \"tag2\" }, responses = {");
+                            "@Operation( operationId = MultipleApi.OPERATION_GET_MULTIPLE_TAGS, summary = \"Multiple Tags\", tags = { \"tag1\", \"tag2\" }, responses = {");
                 }}
         };
     }
@@ -2443,7 +2443,7 @@ public class SpringCodegenTest {
                 .containsWithName("Operation")
                 .containsWithNameAndAttributes("Operation",
                         ImmutableMap.of(
-                                "operationId", "\"updatePet\"",
+                                "operationId", "PetApi.OPERATION_UPDATE_PET",
                                 //"security", "{ @SecurityRequirement(name = \"petstore_auth\", scopes = { \"write:pets\", \"read:pets\" }) }",
                                 "externalDocs", "@ExternalDocumentation(description = \"API documentation for the updatePet operation\", url = \"http://petstore.swagger.io/v2/doc/updatePet\")"
                         )
