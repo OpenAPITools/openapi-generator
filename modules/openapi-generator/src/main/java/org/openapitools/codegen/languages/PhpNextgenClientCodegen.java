@@ -210,8 +210,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
      * recursively; {@code visiting} guards against cycles in self-referential schemas.
      */
     private void collectLeafTypes(String type, Map<String, String> composedTypeHints, Set<String> visiting, Set<String> leaves) {
-        if (!composedTypeHints.containsKey(type) || !visiting.add(type)) {
+        if (!composedTypeHints.containsKey(type)) {
             leaves.add(type);
+            return;
+        }
+        if (!visiting.add(type)) {
             return;
         }
         for (String member : composedTypeHints.get(type).split("\\|")) {
