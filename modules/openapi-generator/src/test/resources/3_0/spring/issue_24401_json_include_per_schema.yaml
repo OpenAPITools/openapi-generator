@@ -1,0 +1,99 @@
+openapi: 3.0.0
+info:
+  title: JsonInclude per-schema import isolation test
+  version: 1.0.0
+  description: >
+    Each schema holds exactly one property covering one required/optional x
+    nullable/non-nullable combination. Isolating a single case per model ensures the
+    generated imports (JsonInclude, JsonSetter, Nulls, JsonNullable) are correct for
+    every case on their own, without another property masking a missing import.
+paths:
+  /test:
+    post:
+      operationId: testPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequiredNonNullable'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    # required + non-nullable
+    RequiredNonNullable:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+          nullable: false
+    # required + nullable
+    RequiredNullable:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+          nullable: true
+    # optional + non-nullable
+    OptionalNonNullable:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+    # optional + non-nullable with a default value
+    OptionalNonNullableWithDefault:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          default: "defaultValue"
+    # optional + nullable
+    OptionalNullable:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: true
+    # manual per-property override: even with generateJsonIncludeAnnotations=false the
+    # annotation (and its import) must still be emitted from the vendor extension.
+    ManualOverride:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          x-jackson-json-include-policy: NON_EMPTY
+    # forced override on an optional + nullable (JsonNullable<T>) property: the automatic path emits
+    # nothing here, but an explicit vendor extension must be respected and its import added.
+    ForcedOnJsonNullable:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: true
+          x-jackson-json-include-policy: NON_NULL
+    # manual per-property override of NONE: the sentinel means "emit no annotation", so neither the
+    # @JsonInclude annotation nor its import must be generated (otherwise the output fails to compile).
+    ManualNone:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          x-jackson-json-include-policy: NONE
+    # manual per-property override of NONE padded with whitespace: must be treated identically to a
+    # bare NONE (normalization must trim before comparing), i.e. emit no annotation, no validation error.
+    ManualNonePadded:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          x-jackson-json-include-policy: "  NONE  "

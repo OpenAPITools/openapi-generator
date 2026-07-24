@@ -8294,57 +8294,333 @@ public class SpringCodegenTest {
     }
 
     /**
-     * Scenario 4 (openApiNullable=true): optional+nullable field must carry
-     * {@code @JsonInclude(JsonInclude.Include.NON_ABSENT)} so that Jackson
-     * excludes {@code JsonNullable.undefined()} from serialized output.
+     * Issue #24401: the {@code @JsonInclude(NON_ABSENT)} annotation must no longer be emitted for
+     * {@code JsonNullable<T>} fields, as the JsonNullable module already governs their inclusion.
      */
     @Test
-    void optionalNullableField_withOpenApiNullable_hasNonAbsentAnnotation() throws IOException {
+    void optionalNullableField_withOpenApiNullable_hasNoJsonIncludeAnnotation() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 SPRING_BOOT,
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
 
         Path modelFile = files.get("TestModel.java").toPath();
-        // NON_ABSENT must be present — only optionalNullable (JsonNullable<T>) gets this annotation
-        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_ABSENT)");
-        // JsonNullable field must be present
-        assertFileContains(modelFile, "private JsonNullable<String> optionalNullable");
-        // NON_NULL must also be present (for optionalNonNullable fields)
-        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
-        assertFileContains(modelFile, "import com.fasterxml.jackson.annotation.JsonInclude");
+        assertFileNotContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_ABSENT)");
+        JavaFileAssert.assertThat(files.get("TestModel.java"))
+                .assertProperty("optionalNullable").withType("JsonNullable<String>")
+                .assertPropertyAnnotations().doesNotContainWithName("JsonInclude");
     }
 
     /**
-     * Without openApiNullable the optional+nullable field is a plain nullable type —
-     * no {@code @JsonInclude(NON_ABSENT)} should be emitted.
+     * Issue #24401 (safe-but-noisy): with no flags set, the generator defaults to weak/7.23.0 behavior —
+     * NO policy {@code @JsonInclude} or {@code @JsonSetter(nulls)} annotations are emitted, deferring
+     * entirely to the global ObjectMapper.
      */
     @Test
-    void optionalNullableField_withoutOpenApiNullable_hasNoNonAbsentAnnotation() throws IOException {
+    void jsonInclude_unset_emitsNoPolicyAnnotations() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.java").toPath();
+        assertFileNotContains(modelFile, "@JsonInclude(");
+        assertFileNotContains(modelFile, "@JsonSetter(");
+    }
+
+    /**
+     * Issue #24401: default matrix for JAVA-SPRING when {@code generateJsonIncludeAnnotations=true}
+     * (openApiNullable=true). required non-nullable -> NON_NULL, required nullable -> ALWAYS,
+     * optional non-nullable -> NON_NULL (default policy), optional nullable -> no annotation.
+     */
+    @Test
+    void jsonInclude_defaultMatrix() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        JavaFileAssert.assertThat(files.get("TestModel.java"))
+                .assertProperty("requiredNonNullable").assertPropertyAnnotations()
+                .containsWithNameAndAttributes("JsonInclude", Map.of("value", "JsonInclude.Include.NON_NULL")).toProperty().toType()
+                .assertProperty("requiredNullable").assertPropertyAnnotations()
+                .containsWithNameAndAttributes("JsonInclude", Map.of("value", "JsonInclude.Include.ALWAYS")).toProperty().toType()
+                .assertProperty("optionalNonNullable").assertPropertyAnnotations()
+                .containsWithNameAndAttributes("JsonInclude", Map.of("value", "JsonInclude.Include.NON_NULL")).toProperty().toType()
+                .assertProperty("optionalNullable").assertPropertyAnnotations()
+                .doesNotContainWithName("JsonInclude");
+    }
+
+    /**
+     * Issue #24401 (safe-but-noisy): {@code generateJsonSetterNullsAnnotations=true} emits
+     * {@code @JsonSetter(nulls = Nulls.SKIP)} on optional non-nullable fields (openApiNullable=false);
+     * leaving it unset emits none.
+     */
+    @Test
+    void jsonSetterNulls_generateFlag_controlsEmission() throws IOException {
+        Map<String, File> withFlag = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "false",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+        assertFileContains(withFlag.get("OptionalNonNullable.java").toPath(), "@JsonSetter(nulls = Nulls.SKIP)");
+
+        Map<String, File> unset = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
                 SPRING_BOOT,
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "false"));
-
-        Path modelFile = files.get("TestModel.java").toPath();
-        // Without openApiNullable the field is String optionalNullable, not JsonNullable
-        assertFileNotContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_ABSENT)");
+        assertFileNotContains(unset.get("OptionalNonNullable.java").toPath(), "@JsonSetter(");
     }
 
     /**
-     * Optional+non-nullable fields must still have {@code @JsonInclude(NON_NULL)} regardless
-     * of the openApiNullable setting.
+     * Issue #24401 regression: when Lombok generates the setter ({@code lombok.Setter}), the manual
+     * setter method (and the {@code @JsonSetter} annotation that used to live only on it) is skipped
+     * entirely. {@code @JsonSetter(nulls = Nulls.SKIP)} must be emitted on the field itself so it is
+     * still honored by Jackson even though no explicit setter method is generated.
      */
     @Test
-    void optionalNonNullableField_alwaysHasNonNullAnnotation() throws IOException {
+    void jsonSetterNulls_generateFlag_appliesWithLombokSetter() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.OPENAPI_NULLABLE, "false");
+        additionalProperties.put(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true");
+        additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Getter;@lombok.Setter");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("OptionalNonNullable.java"))
+                .hasNoMethod("setOptionalNonNullable");
+        assertFileContains(files.get("OptionalNonNullable.java").toPath(), "@JsonSetter(nulls = Nulls.SKIP)");
+    }
+
+    /**
+     * Issue #24401: {@code optionalNonNullPropertyJsonInclude} changes the policy emitted for
+     * optional non-nullable properties (when {@code generateJsonIncludeAnnotations=true}).
+     */
+    @Test
+    void jsonInclude_optionalNonNullPolicy_nonEmpty() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 SPRING_BOOT,
-                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NON_EMPTY"));
+
+        JavaFileAssert.assertThat(files.get("TestModel.java"))
+                .assertProperty("optionalNonNullable").assertPropertyAnnotations()
+                .containsWithNameAndAttributes("JsonInclude", Map.of("value", "JsonInclude.Include.NON_EMPTY")).toProperty().toType()
+                // required-field protection is unaffected by the optional policy
+                .assertProperty("requiredNonNullable").assertPropertyAnnotations()
+                .containsWithNameAndAttributes("JsonInclude", Map.of("value", "JsonInclude.Include.NON_NULL"));
+    }
+
+    /**
+     * Issue #24401: {@code optionalNonNullPropertyJsonInclude=NONE} emits no annotation on optional
+     * non-nullable properties, deferring to the global ObjectMapper. Required-field protection stays.
+     */
+    @Test
+    void jsonInclude_optionalNonNullPolicy_none() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NONE"));
+
+        JavaFileAssert.assertThat(files.get("TestModel.java"))
+                .assertProperty("optionalNonNullable").assertPropertyAnnotations()
+                .doesNotContainWithName("JsonInclude").toProperty().toType()
+                .assertProperty("requiredNonNullable").assertPropertyAnnotations()
+                .containsWithNameAndAttributes("JsonInclude", Map.of("value", "JsonInclude.Include.NON_NULL"));
+    }
+
+    /**
+     * Issue #24401: {@code generateJsonIncludeAnnotations=false} removes ALL policy @JsonInclude
+     * annotations, including the required-field protection, letting the global ObjectMapper win.
+     */
+    @Test
+    void jsonInclude_generateJsonIncludeAnnotations_false() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
 
         Path modelFile = files.get("TestModel.java").toPath();
-        assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
-        assertFileContains(modelFile, "private String optionalNonNullable");
+        assertFileNotContains(modelFile, "@JsonInclude(");
+    }
+
+    /**
+     * Issue #24401: a manual per-property {@code x-jackson-json-include-policy} vendor extension
+     * always overrides the automatic behavior, even when {@code generateJsonIncludeAnnotations=false}.
+     */
+    @Test
+    void jsonInclude_manualOverride_winsOverGenerateFlag() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_override.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+
+        JavaFileAssert.assertThat(files.get("TestModel.java"))
+                .assertProperty("overridden").assertPropertyAnnotations()
+                .containsWithNameAndAttributes("JsonInclude", Map.of("value", "JsonInclude.Include.NON_EMPTY")).toProperty().toType()
+                // no automatic annotation on the non-overridden optional field
+                .assertProperty("plain").assertPropertyAnnotations()
+                .doesNotContainWithName("JsonInclude");
+    }
+
+    /**
+     * Issue #24401: with one property per schema, each generated model must import exactly the
+     * Jackson annotations its single property needs — no more, no less.
+     */
+    @Test
+    void jsonInclude_perSchemaImports() throws IOException {
+        final String jsonInclude = "com.fasterxml.jackson.annotation.JsonInclude";
+        final String jsonSetter = "com.fasterxml.jackson.annotation.JsonSetter";
+        final String nulls = "com.fasterxml.jackson.annotation.Nulls";
+        final String jsonNullable = "org.openapitools.jackson.nullable.JsonNullable";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        // required non-nullable -> @JsonInclude(NON_NULL); no setter machinery
+        JavaFileAssert.assertThat(files.get("RequiredNonNullable.java"))
+                .hasImports(jsonInclude).hasNoImports(jsonSetter, nulls);
+        // required nullable -> @JsonInclude(ALWAYS)
+        JavaFileAssert.assertThat(files.get("RequiredNullable.java"))
+                .hasImports(jsonInclude).hasNoImports(jsonSetter, nulls);
+        // optional non-nullable with openApiNullable=true -> @JsonInclude(NON_NULL), no @JsonSetter
+        JavaFileAssert.assertThat(files.get("OptionalNonNullable.java"))
+                .hasImports(jsonInclude).hasNoImports(jsonSetter, nulls);
+        // optional nullable with openApiNullable=true -> JsonNullable<T>, NO @JsonInclude
+        JavaFileAssert.assertThat(files.get("OptionalNullable.java"))
+                .hasImports(jsonNullable).hasNoImports(jsonInclude, jsonSetter, nulls);
+    }
+
+    /**
+     * Issue #24401: with openApiNullable=false, optional non-nullable adds @JsonSetter(Nulls.SKIP);
+     * optional nullable is a plain type needing none of the Jackson import machinery.
+     */
+    @Test
+    void jsonInclude_perSchemaImports_withoutOpenApiNullable() throws IOException {
+        final String jsonInclude = "com.fasterxml.jackson.annotation.JsonInclude";
+        final String jsonSetter = "com.fasterxml.jackson.annotation.JsonSetter";
+        final String nulls = "com.fasterxml.jackson.annotation.Nulls";
+        final String jsonNullable = "org.openapitools.jackson.nullable.JsonNullable";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "false",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+
+        // optional non-nullable -> @JsonInclude(NON_NULL) + @JsonSetter(Nulls.SKIP)
+        JavaFileAssert.assertThat(files.get("OptionalNonNullable.java"))
+                .hasImports(jsonInclude, jsonSetter, nulls).hasNoImports(jsonNullable);
+        // optional nullable (plain String) -> no policy annotation, no import machinery
+        JavaFileAssert.assertThat(files.get("OptionalNullable.java"))
+                .hasNoImports(jsonInclude, jsonSetter, nulls, jsonNullable);
+    }
+
+    /**
+     * Issue #24401: even with {@code generateJsonIncludeAnnotations=false}, a manual per-property
+     * vendor extension must still emit its annotation AND the JsonInclude import must be present.
+     */
+    @Test
+    void jsonInclude_manualOverride_emitsImport_whenAnnotationsDisabled() throws IOException {
+        final String jsonInclude = "com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+
+        JavaFileAssert.assertThat(files.get("ManualOverride.java"))
+                .hasImports(jsonInclude)
+                .assertProperty("value").assertPropertyAnnotations()
+                .containsWithNameAndAttributes("JsonInclude", Map.of("value", "JsonInclude.Include.NON_EMPTY"));
+        // A schema without the override must not import JsonInclude when annotations are disabled
+        JavaFileAssert.assertThat(files.get("OptionalNonNullable.java")).hasNoImports(jsonInclude);
+    }
+
+    /**
+     * Issue #24401: a forced override on an optional+nullable ({@code JsonNullable<T>}) property must be
+     * respected — the annotation is emitted and the JsonInclude import is added, even though the
+     * automatic path emits nothing for JsonNullable fields.
+     */
+    @Test
+    void jsonInclude_forcedOverride_onJsonNullable_emitsAnnotationAndImport() throws IOException {
+        final String jsonInclude = "com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        JavaFileAssert.assertThat(files.get("ForcedOnJsonNullable.java"))
+                .hasImports(jsonInclude)
+                .assertProperty("value").withType("JsonNullable<String>").assertPropertyAnnotations()
+                .containsWithNameAndAttributes("JsonInclude", Map.of("value", "JsonInclude.Include.NON_NULL"));
+    }
+
+    /**
+     * Issue #24401: a manual per-property override of {@code NONE} means "emit no annotation". Neither the
+     * {@code @JsonInclude} annotation nor its import may be generated, otherwise the output fails to compile.
+     */
+    @Test
+    void jsonInclude_manualOverride_none_emitsNoAnnotationOrImport() throws IOException {
+        final String jsonInclude = "com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        JavaFileAssert.assertThat(files.get("ManualNone.java"))
+                .hasNoImports(jsonInclude)
+                .assertProperty("value").assertPropertyAnnotations()
+                .doesNotContainWithName("JsonInclude");
+    }
+
+    /**
+     * Issue #24401: a whitespace-padded {@code NONE} override must be treated identically to a bare
+     * {@code NONE} — the sentinel comparison must trim before checking, otherwise it falls through to
+     * validation and generation fails for a value that should simply suppress the annotation.
+     */
+    @Test
+    void jsonInclude_manualOverride_paddedNone_emitsNoAnnotationOrImport() throws IOException {
+        final String jsonInclude = "com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        JavaFileAssert.assertThat(files.get("ManualNonePadded.java"))
+                .hasNoImports(jsonInclude)
+                .assertProperty("value").assertPropertyAnnotations()
+                .doesNotContainWithName("JsonInclude");
+    }
+
+    /**
+     * Issue #24401: an invalid manual per-property override must fail fast with an actionable error
+     * during generation rather than emitting uncompilable Java.
+     */
+    @Test
+    void jsonInclude_manualOverride_invalid_failsWithActionableError() {
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_invalid_override.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true")))
+                .hasStackTraceContaining("x-jackson-json-include-policy")
+                .hasStackTraceContaining("NOT_A_REAL_POLICY");
     }
 
     @Test

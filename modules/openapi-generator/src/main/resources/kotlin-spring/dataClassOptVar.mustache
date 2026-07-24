@@ -2,9 +2,8 @@
     @Schema({{#example}}example = "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeInNormalString}}{{{.}}}{{/lambdaEscapeInNormalString}}{{/lambdaRemoveLineBreak}}", {{/example}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}description = "{{{description}}}"){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}
     @ApiModelProperty({{#example}}example = "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeInNormalString}}{{{.}}}{{/lambdaEscapeInNormalString}}{{/lambdaRemoveLineBreak}}", {{/example}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}"){{/swagger1AnnotationLibrary}}{{#deprecated}}
     @Deprecated(message = ""){{/deprecated}}{{#vendorExtensions.x-field-extra-annotation}}
-    {{{.}}}{{/vendorExtensions.x-field-extra-annotation}}{{^isNullable}}
-    @field:JsonInclude(JsonInclude.Include.NON_NULL){{/isNullable}}{{#vendorExtensions.x-is-jackson-optional-nullable}}
-    @field:JsonInclude(JsonInclude.Include.NON_ABSENT){{/vendorExtensions.x-is-jackson-optional-nullable}}{{#vendorExtensions.x-has-json-setter-nulls-skip}}
+    {{{.}}}{{/vendorExtensions.x-field-extra-annotation}}{{#vendorExtensions.x-jackson-json-include-policy}}
+    @field:JsonInclude(JsonInclude.Include.{{{vendorExtensions.x-jackson-json-include-policy}}}){{/vendorExtensions.x-jackson-json-include-policy}}{{#vendorExtensions.x-has-json-setter-nulls-skip}}
     @field:JsonSetter(nulls = Nulls.SKIP){{/vendorExtensions.x-has-json-setter-nulls-skip}}{{#vendorExtensions.x-has-json-setter-nulls-fail}}
     @field:JsonSetter(nulls = Nulls.FAIL){{/vendorExtensions.x-has-json-setter-nulls-fail}}
     @param:JsonProperty("{{{baseName}}}")
