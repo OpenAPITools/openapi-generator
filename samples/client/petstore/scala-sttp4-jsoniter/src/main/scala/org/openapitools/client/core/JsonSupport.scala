@@ -20,6 +20,9 @@ import com.github.plokhotnyuk.jsoniter_scala.circe.JsoniterScalaCodec.*
 object JsonSupport extends AdditionalTypeSerializers:
   inline given CodecMakerConfig = CodecMakerConfig.withAllowRecursiveTypes(true)
 
+  given [A](using JsonValueCodec[A]): JsonValueCodec[Option[A]] = deriveJsonCodec
+  given [A](using JsonValueCodec[A]): JsonValueCodec[Seq[A]] = deriveJsonCodec
+
   inline def deriveJsonCodec[A](using inline config: CodecMakerConfig): JsonValueCodec[A] =
     JsonCodecMaker.make(config)
 
