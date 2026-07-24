@@ -95,6 +95,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String JERSEY3 = "jersey3";
     public static final String NATIVE = "native";
     public static final String OKHTTP_GSON = "okhttp-gson";
+    public static final String OKHTTP = "okhttp";
     public static final String RESTEASY = "resteasy";
     public static final String RESTTEMPLATE = "resttemplate";
     public static final String WEBCLIENT = "webclient";
@@ -184,7 +185,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Setter protected int maxAttemptsForRetry = 1;
     @Setter protected long waitTimeMillis = 10l;
-    private final Set<String> JSPECIFY_SUPPORTED_LIBRARIES = new TreeSet<>(Arrays.asList(RESTCLIENT, WEBCLIENT, NATIVE, RESTTEMPLATE));
+    private final Set<String> JSPECIFY_SUPPORTED_LIBRARIES = new TreeSet<>(Arrays.asList(RESTCLIENT, WEBCLIENT, NATIVE, RESTTEMPLATE, OKHTTP));
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -250,16 +251,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated."));
-        cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
+        cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson and okhttp libraries."));
         cliOptions.add(CliOption.newBoolean(USE_VERTX_5, "Whether to use Vert.x 5 syntax."));
         cliOptions.add(CliOption.newBoolean(USE_PLAY_WS, "Use Play! Async HTTP client (Play WS API)"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
-        cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception. Only jersey2, jersey3, okhttp-gson, vertx, microprofile support this option."));
+        cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception. Only jersey2, jersey3, okhttp-gson, okhttp, vertx, microprofile support this option."));
         cliOptions.add(CliOption.newBoolean(ASYNC_NATIVE, "If true, async handlers will be used, instead of the sync version"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
-        cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
+        cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + ", and " + OKHTTP + " libraries"));
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newString(MICROPROFILE_MUTINY, "Whether to use async types for microprofile (currently only Smallrye Mutiny is supported)."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "Should generated API Clients be annotated with @RegisterProvider(ApiExceptionMapper.class).").defaultValue("true"));
@@ -267,20 +268,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, restclient, libraries"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT_DESC + " (only available for okhttp-gson library)", this.withAWSV4Signature));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT_DESC + " (only available for okhttp-gson and okhttp libraries)", this.withAWSV4Signature));
         cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle properties to the gradle.properties file"));
-        cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson only)"));
+        cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson and okhttp only)"));
         cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newString(CONFIG_KEY_FROM_CLASS_NAME, "If true, set tag as key in @RegisterRestClient. Default to false. Only `microprofile` supports this option."));
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson, okhttp support this option."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
-        cliOptions.add(CliOption.newString(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to \"true\" will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY native, jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to \"static\" does the same as \"true\", but also makes the generated arguments class static with single parameter instantiation.").defaultValue("false"));
+        cliOptions.add(CliOption.newString(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to \"true\" will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY native, jersey2, jersey3, okhttp-gson, okhttp, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to \"static\" does the same as \"true\", but also makes the generated arguments class static with single parameter instantiation.").defaultValue("false"));
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, restclient and webclient, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient`, `okhttp`, `feign`, `restclient`, `resttemplate`, `webclient` libraries."));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
-        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 instead of Jackson 2. Supported for 'native', 'apache-httpclient', and 'jersey3' libraries (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true).", this.useJackson3));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 instead of Jackson 2. Supported for 'native', 'apache-httpclient', 'jersey3', and 'okhttp' libraries (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true).", this.useJackson3));
         cliOptions.add(CliOption.newBoolean(SUPPORT_VERTX_FUTURE, "Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater.", this.supportVertxFuture));
         cliOptions.add(CliOption.newBoolean(USE_SEALED_ONE_OF_INTERFACES, "Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient, RestClient and Microprofile (with Jackson).", this.useSealedOneOfInterfaces));
         cliOptions.add(CliOption.newBoolean(USE_UNARY_INTERCEPTOR, "If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption", this.useUnaryInterceptor));
@@ -292,6 +293,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 13.2.1. JSON processing: Jackson 2.18.9 or Gson 2.10.1");
         supportedLibraries.put(FEIGN_HC5, "HTTP client: OpenFeign 13.2.1/HttpClient5 5.4.2. JSON processing: Jackson 2.18.9 or Gson 2.10.1");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 4.11.0. JSON processing: Gson 2.10.1. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
+        supportedLibraries.put(OKHTTP, "HTTP client: OkHttp 5.4.0. JSON processing: Gson 2.10.1, Jackson 2.x/3.x, or JSON-B. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 4.11.0. JSON processing: Gson 2.10.1 (Retrofit 2.5.0) or Jackson 2.18.9. Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 5.3.33 (6.2.x if `useJakartaEe=true`, 7.x.x if `useSpringBoot4=true`). JSON processing: Jackson 2.x (3.x if `useJackson3=true`)");
         supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.1.18 (7.x.x if `useSpringBoot4=true`). JSON processing: Jackson 2.18.9 (3.x if `useJackson3=true`)");
@@ -355,7 +357,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public String getHelp() {
-        return "Generates a Java client library (HTTP lib: Jersey (1.x, 2.x), Retrofit (2.x), OpenFeign (10.x) and more.";
+        return "Generates a Java client library (HTTP lib: Jersey (1.x, 2.x), Retrofit (2.x), OpenFeign (10.x), OkHttp and more.";
     }
 
     @Override
@@ -385,6 +387,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         final boolean libJersey3 = isLibrary(JERSEY3);
         final boolean libMicroprofile = isLibrary(MICROPROFILE);
         final boolean libNative = isLibrary(NATIVE);
+        final boolean libOkHttp = isLibrary(OKHTTP);
         final boolean libOkHttpGson = isLibrary(OKHTTP_GSON) || StringUtils.isBlank(getLibrary());
         final boolean libRestAssured = isLibrary(REST_ASSURED);
         final boolean libRestClient = isLibrary(RESTCLIENT);
@@ -395,15 +398,30 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         final boolean libWebClient = isLibrary(WEBCLIENT);
 
         // default jackson unless overridden by setSerializationLibrary
-        this.jackson = !additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY) ||
-                SERIALIZATION_LIBRARY_JACKSON.equals(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
+        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
+            this.serializationLibrary = String.valueOf(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
+        }
+
+        if (this.serializationLibrary == null) {
+            if (libOkHttp || libOkHttpGson) {
+                this.serializationLibrary = SERIALIZATION_LIBRARY_GSON;
+            } else if (libMicroprofile) {
+                this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
+            }
+        }
+        additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, serializationLibrary);
+
+        this.jackson = SERIALIZATION_LIBRARY_JACKSON.equals(serializationLibrary);
+        additionalProperties.put("isJackson", jackson);
+        additionalProperties.put("isGson", SERIALIZATION_LIBRARY_GSON.equals(serializationLibrary));
+        additionalProperties.put("isJsonb", SERIALIZATION_LIBRARY_JSONB.equals(serializationLibrary));
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup);
         convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
         if (useJackson3 && (libRestClient || libRestTemplate || libWebClient) && !useSpringBoot4) {
             throw new IllegalArgumentException("useJackson3 for the restclient, resttemplate, and webclient libraries requires useSpringBoot4=true");
-        } else if (useJackson3 && !libNative && !libApache && !libJersey3 && !libRestClient && !libRestTemplate && !libWebClient) {
-            throw new IllegalArgumentException("useJackson3 is only supported for the 'native', 'apache-httpclient', 'jersey3', 'restclient', 'resttemplate', and 'webclient' libraries. " +
+        } else if (useJackson3 && !libNative && !libApache && !libJersey3 && !libRestClient && !libRestTemplate && !libWebClient && !libOkHttp) {
+            throw new IllegalArgumentException("useJackson3 is only supported for the 'native', 'apache-httpclient', 'jersey3', 'restclient', 'resttemplate', 'webclient', and 'okhttp' libraries. " +
                     "The Spring libraries also require useSpringBoot4=true.");
         }
 
@@ -567,7 +585,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
             supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.mustache", authFolder, "HttpBearerAuth.java"));
             supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
-            if (libOkHttpGson && withAWSV4Signature) {
+            if ((libOkHttp || libOkHttpGson) && withAWSV4Signature) {
                 supportingFiles.add(new SupportingFile("auth/AWS4Auth.mustache", authFolder, "AWS4Auth.java"));
             }
         }
@@ -585,8 +603,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("BeanValidationException.mustache", invokerFolder,
                     "BeanValidationException.java"));
         }
-
-        convertPropertyToStringAndWriteBack(CodegenConstants.SERIALIZATION_LIBRARY, this::setSerializationLibrary);
 
         //TODO: add auto-generated doc to feign
         if (libFeign) {
@@ -625,6 +641,21 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
             }
             supportingFiles.add(new SupportingFile("EncodingUtils.mustache", invokerFolder, "EncodingUtils.java"));
+
+            // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+            // In principle, this should be enabled by default for all code generators. However due to limitations
+            // in other code generators, support needs to be enabled on a case-by-case basis.
+            // The flag below should be set for all Java libraries, but the templates need to be ported
+            // one by one for each library.
+            supportsAdditionalPropertiesWithComposedSchema = true;
+        } else if (libOkHttp) {
+            // the "okhttp" library template requires "ApiCallback.mustache" for async call
+            supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
+            supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
+            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+            supportingFiles.add(new SupportingFile("ProgressRequestBody.mustache", invokerFolder, "ProgressRequestBody.java"));
+            supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
+            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
 
             // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
             // In principle, this should be enabled by default for all code generators. However due to limitations
@@ -850,7 +881,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-                if (!useJackson3 || libNative || libApache || libJersey3 || libRestTemplate || libWebClient) {
+                if (!useJackson3 || libNative || libApache || libJersey3 || libRestTemplate || libWebClient || libOkHttp) {
                     supportingFiles.add(new SupportingFile("RFC3339InstantDeserializer.mustache", invokerFolder, "RFC3339InstantDeserializer.java"));
                     supportingFiles.add(new SupportingFile("RFC3339JavaTimeModule.mustache", invokerFolder, "RFC3339JavaTimeModule.java"));
                 }
@@ -889,8 +920,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         // authentication related files
         // has OAuth defined
         if (ProcessUtils.hasOAuthMethods(openAPI)) {
-            // for okhttp-gson (default), check to see if OAuth is defined and included OAuth-related files accordingly
-            if (libOkHttpGson) {
+            // for okhttp-gson (default) or okhttp, check to see if OAuth is defined and included OAuth-related files accordingly
+            if (libOkHttpGson || libOkHttp) {
                 supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
                 supportingFiles.add(new SupportingFile("auth/RetryingOAuth.mustache", authFolder, "RetryingOAuth.java"));
             }
@@ -915,7 +946,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
-        if (this.getSingleRequestParameter() && (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(OKHTTP_GSON) || isLibrary(NATIVE))) {
+        if (this.getSingleRequestParameter() && (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(OKHTTP_GSON) || isLibrary(NATIVE) || isLibrary(OKHTTP))) {
             // loop through operations to set x-group-parameters extension to true if useSingleRequestParameter option is enabled
             OperationMap operations = objs.getOperations();
             if (operations != null) {
@@ -1265,6 +1296,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         for (ModelMap mo : models) {
             CodegenModel cm = mo.getModel();
 
+            if (supportsAdditionalPropertiesWithComposedSchema) {
+                cm.isAdditionalPropertiesTrue = true;
+            }
+
             cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
             if (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(NATIVE) || isLibrary(OKHTTP_GSON)) {
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
@@ -1379,7 +1414,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
+        if (jackson) {
             for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
                 Map<String, String> oneImport = new HashMap<>();
                 oneImport.put("import", importMapping.get(i));

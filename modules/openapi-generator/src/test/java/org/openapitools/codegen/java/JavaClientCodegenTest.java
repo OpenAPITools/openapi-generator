@@ -89,6 +89,7 @@ public class JavaClientCodegenTest {
         MICROPROFILE("microprofile", Serializer.JSONB, Set.of(Serializer.JACKSON)),
         NATIVE("native", Serializer.JACKSON),
         OKHTTP("okhttp-gson", Serializer.GSON),
+        OKHTTP_GENERIC("okhttp", Serializer.GSON, Set.of(Serializer.JACKSON, Serializer.JSONB)),
         REST_ASSURED("rest-assured", Serializer.GSON, Set.of(Serializer.JACKSON)),
         RESTEASY("resteasy", Serializer.JACKSON),
         REST_CLIENT("restclient", Serializer.JACKSON),
@@ -228,6 +229,53 @@ public class JavaClientCodegenTest {
         javaClientCodegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
         Assertions.assertEquals(Arrays.asList(pathParam1, pathParam2, queryParamRequired, queryParamOptional), codegenOperation.allParams);
+    }
+
+    @Test
+    public void testOkHttp() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.OKHTTP);
+        codegen.processOpts();
+
+        assertEquals(JavaClientCodegen.OKHTTP, codegen.getLibrary());
+        assertTrue((Boolean) codegen.additionalProperties().get("isGson"));
+    }
+
+    @Test
+    public void testOkHttpWithJackson() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.OKHTTP);
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
+        codegen.processOpts();
+
+        assertEquals(JavaClientCodegen.OKHTTP, codegen.getLibrary());
+        assertTrue((Boolean) codegen.additionalProperties().get("isJackson"));
+        assertEquals(JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON, codegen.additionalProperties().get(CodegenConstants.SERIALIZATION_LIBRARY));
+    }
+
+    @Test
+    public void testOkHttpWithJackson3() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.OKHTTP);
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
+        codegen.additionalProperties().put(JavaClientCodegen.USE_JACKSON_3, true);
+        codegen.processOpts();
+
+        assertEquals(JavaClientCodegen.OKHTTP, codegen.getLibrary());
+        assertTrue((Boolean) codegen.additionalProperties().get("isJackson"));
+        assertTrue((Boolean) codegen.additionalProperties().get(JavaClientCodegen.USE_JACKSON_3));
+    }
+
+    @Test
+    public void testOkHttpWithJsonb() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.OKHTTP);
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JSONB);
+        codegen.processOpts();
+
+        assertEquals(codegen.getLibrary(), JavaClientCodegen.OKHTTP);
+        assertTrue((Boolean) codegen.additionalProperties().get("isJsonb"));
+        assertEquals(codegen.additionalProperties().get(CodegenConstants.SERIALIZATION_LIBRARY), JavaClientCodegen.SERIALIZATION_LIBRARY_JSONB);
     }
 
     @Test
@@ -4626,7 +4674,8 @@ public class JavaClientCodegenTest {
                 {"webclient", true, false},
                 {"resttemplate", false, true},
                 {"resttemplate", true, true},
-                {"native", false, true}
+                {"native", false, true},
+                {"okhttp", false, true}
         };
     }
 
@@ -4684,6 +4733,31 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(files.get("client/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
 
+    }
+
+    @Test
+    public void testJspecifyOkHttpSingleRequestParameter() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", "okhttp",
+                Map.of(USE_JSPECIFY, true,
+                        "containerDefaultToNull", true,
+                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "true"
+                ),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .setValidateSpec(false)
+                                .addTypeMapping("OffsetDateTime", "java.time.Instant")
+                                .addTypeMapping("BigDecimal", "java.math.BigDecimal"));
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "public class APIfooDtParamGetRequest {",
+                        "private java.time.@Nullable Instant dtParam;",
+                        "private java.time.@Nullable Instant dtQuery;",
+                        "private java.time.@Nullable Instant dtCookie;",
+                        "public APIfooDtParamGetRequest dtParam(java.time.@Nullable Instant dtParam) {",
+                        "private APIfooDtParamGetRequest() {"
+                );
     }
 
     @DataProvider(name = "replaceOneOf")
@@ -4797,6 +4871,107 @@ public class JavaClientCodegenTest {
 
         assertThat(codegen.additionalProperties())
                 .containsEntry(SUPPORT_URL_QUERY, false);
+    }
+
+    @Test
+    public void testOkHttpDependencyVersions() throws IOException {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<okhttp-version>5.4.0</okhttp-version>")
+                .contains("<gson-version>2.10.1</gson-version>");
+
+        assertThat(output.resolve("build.gradle")).content()
+                .contains("okhttp_version = \"5.4.0\"")
+                .contains("implementation 'com.google.code.gson:gson:2.10.1'");
+    }
+
+    @Test
+    public void testOkHttpComposedSchemaAdditionalProperties() throws IOException {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP)
+                .setInputSpec("src/test/resources/3_0/composed-schemas.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // Dog is a composed schema (allOf). Since we enabled supportsAdditionalPropertiesWithComposedSchema,
+        // it should have the additionalProperties field.
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Dog.java")).content()
+                .contains("private Map<String, Object> additionalProperties;");
+    }
+
+    @Test
+    public void testOkHttpWithJackson2DependencyVersions() throws IOException {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP)
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<okhttp-version>5.4.0</okhttp-version>")
+                .contains("<jackson-version>2.17.1</jackson-version>");
+
+        assertThat(output.resolve("build.gradle")).content()
+                .contains("okhttp_version = \"5.4.0\"")
+                .contains("jackson_version = \"2.17.1\"");
+    }
+
+    @Test
+    public void testOkHttpWithJackson3DependencyVersions() throws IOException {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP)
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON)
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<okhttp-version>5.4.0</okhttp-version>")
+                .contains("<jackson-version>3.2.1</jackson-version>");
+
+        assertThat(output.resolve("build.gradle")).content()
+                .contains("okhttp_version = \"5.4.0\"")
+                .contains("jackson_version = \"3.2.1\"");
+    }
+
+    @Test
+    public void testOkHttpWithJsonbDependencyVersions() throws IOException {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP)
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JSONB)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<okhttp-version>5.4.0</okhttp-version>")
+                .contains("<jsonb-api-version>3.0.1</jsonb-api-version>");
+
+        assertThat(output.resolve("build.gradle")).content()
+                .contains("okhttp_version = \"5.4.0\"")
+                .contains("implementation 'jakarta.json.bind:jakarta.json.bind-api:3.0.1'");
     }
 
     private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {

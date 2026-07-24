@@ -1,0 +1,13 @@
+generatorName: java
+outputDir: samples/client/petstore/java/okhttp-jspecify
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/okhttp-jspecify.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: petstore-okhttp-jspecify
+  hideGenerationTimestamp: true
+  useJspecify: true
+  containerDefaultToNull: true
+typeMappings:
+  OffsetDateTime: java.time.Instant
+  BigDecimal: java.math.BigDecimal

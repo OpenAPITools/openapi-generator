@@ -1539,8 +1539,17 @@ public class ApiClient {
 
         List<Pair> updatedQueryParams = new ArrayList<>(queryParams);
 
+        String localVarPayload = requestBodyToString(reqBody);
+
         // update parameters with authentication settings
-        updateParamsForAuth(authNames, updatedQueryParams, headerParams, cookieParams, requestBodyToString(reqBody), method, URI.create(url));
+        for (String authName : authNames) {
+            Authentication auth = authentications.get(authName);
+            if (auth == null) {
+                throw new RuntimeException("Authentication undefined: " + authName);
+            }
+            URI currentUri = URI.create(buildUrl(baseUrl, path, updatedQueryParams, collectionQueryParams));
+            auth.applyToParams(updatedQueryParams, headerParams, cookieParams, localVarPayload, method, currentUri);
+        }
 
         final Request.Builder reqBuilder = new Request.Builder().url(buildUrl(baseUrl, path, updatedQueryParams, collectionQueryParams));
         processHeaderParams(headerParams, reqBuilder);
