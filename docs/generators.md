@@ -160,6 +160,7 @@ The following generators are available:
 * [scala-play-server](generators/scala-play-server.md)  
 * [scalatra](generators/scalatra.md)  
 * [spring](generators/spring.md)  
+* [typescript-express-zod-server (experimental)](generators/typescript-express-zod-server.md)  
 * [typescript-nestjs-server (beta)](generators/typescript-nestjs-server.md)  
 
 

@@ -1,0 +1,38 @@
+name: TypeScript Express Zod
+
+on:
+  pull_request:
+    paths:
+      - samples/server/petstore/typescript-express-zod-server/**
+      - samples/client/petstore/typescript-express-zod-client/**
+      - .github/workflows/samples-typescript-express-zod.yaml
+jobs:
+  build:
+    name: Test TypeScript Express Zod
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # server
+          - samples/server/petstore/typescript-express-zod-server
+          # client
+          - samples/client/petstore/typescript-express-zod-client
+        node-version:
+          - 20
+          - 22
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install
+        working-directory: ${{ matrix.sample }}
+        run: |
+          npm i
+
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: npm run test
