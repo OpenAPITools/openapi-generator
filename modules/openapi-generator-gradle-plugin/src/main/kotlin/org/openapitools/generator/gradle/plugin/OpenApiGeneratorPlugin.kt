@@ -87,6 +87,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     remoteInputSpec.set(validate.remoteInputSpec)
                     recommend.set(validate.recommend)
                     treatWarningsAsErrors.set(validate.treatWarningsAsErrors)
+                    skipUnusedModels.set(validate.skipUnusedModels)
                 }
 
                 register("openApiGenerate", GenerateTask::class.java).configure {
