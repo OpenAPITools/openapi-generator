@@ -43,7 +43,7 @@ public class SpecialModelName {
   /**
    * Constructor with all args parameters
    */
-  public SpecialModelName(@JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME) Long $specialPropertyName) {
+  public SpecialModelName(@JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME) @javax.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 

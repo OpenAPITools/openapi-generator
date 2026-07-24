@@ -53,7 +53,7 @@ public class Cat extends Animal {
   /**
    * Constructor with all args parameters
    */
-  public Cat(@JsonProperty(JSON_PROPERTY_DECLAWED) Boolean declawed, @JsonProperty(JSON_PROPERTY_CLASS_NAME) String className, @JsonProperty(JSON_PROPERTY_COLOR) String color) {
+  public Cat(@JsonProperty(JSON_PROPERTY_DECLAWED) @javax.annotation.Nullable Boolean declawed, @JsonProperty(JSON_PROPERTY_CLASS_NAME) @javax.annotation.Nonnull String className, @JsonProperty(JSON_PROPERTY_COLOR) @javax.annotation.Nullable String color) {
     super(className, color);
     this.declawed = declawed;
   }

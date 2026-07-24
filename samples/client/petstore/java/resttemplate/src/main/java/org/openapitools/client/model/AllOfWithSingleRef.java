@@ -48,7 +48,7 @@ public class AllOfWithSingleRef {
   /**
    * Constructor with all args parameters
    */
-  public AllOfWithSingleRef(@JsonProperty(JSON_PROPERTY_USERNAME) String username, @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE) SingleRefType singleRefType) {
+  public AllOfWithSingleRef(@JsonProperty(JSON_PROPERTY_USERNAME) @javax.annotation.Nullable String username, @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE) @javax.annotation.Nullable SingleRefType singleRefType) {
     this.username = username;
     this.singleRefType = singleRefType;
   }

@@ -2875,9 +2875,10 @@ public class JavaClientCodegenTest {
                 .hasParameter("type").toConstructor()
                 .toFileAssert()
                 .assertConstructor("LocalDate", "String", "String")
-                .hasParameter("dateOfBirth").toConstructor()
-                .hasParameter("name").toConstructor()
-                .hasParameter("type").toConstructor();
+                // all-args constructor parameters must carry the same nullability annotations as the fields/setters (#24109)
+                .hasParameter("dateOfBirth").assertParameterAnnotations().containsWithName("javax.annotation.Nullable").toParameter().toConstructor()
+                .hasParameter("name").assertParameterAnnotations().containsWithName("javax.annotation.Nullable").toParameter().toConstructor()
+                .hasParameter("type").assertParameterAnnotations().containsWithName("javax.annotation.Nonnull").toParameter().toConstructor();
         JavaFileAssert.assertThat(files.get("Cat.java"))
                 .assertConstructor("Integer", "String", "LocalDate", "String", "String");
 

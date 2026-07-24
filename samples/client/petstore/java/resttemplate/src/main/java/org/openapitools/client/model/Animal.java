@@ -60,7 +60,7 @@ public class Animal {
   /**
    * Constructor with all args parameters
    */
-  public Animal(@JsonProperty(JSON_PROPERTY_CLASS_NAME) String className, @JsonProperty(JSON_PROPERTY_COLOR) String color) {
+  public Animal(@JsonProperty(JSON_PROPERTY_CLASS_NAME) @javax.annotation.Nonnull String className, @JsonProperty(JSON_PROPERTY_COLOR) @javax.annotation.Nullable String color) {
     this.className = className;
     this.color = color;
   }

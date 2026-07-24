@@ -42,7 +42,7 @@ public class ClassModel {
   /**
    * Constructor with all args parameters
    */
-  public ClassModel(@JsonProperty(JSON_PROPERTY_PROPERTY_CLASS) String propertyClass) {
+  public ClassModel(@JsonProperty(JSON_PROPERTY_PROPERTY_CLASS) @javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

@@ -44,7 +44,7 @@ public class FooGetDefaultResponse {
   /**
    * Constructor with all args parameters
    */
-  public FooGetDefaultResponse(@JsonProperty(JSON_PROPERTY_STRING) Foo string) {
+  public FooGetDefaultResponse(@JsonProperty(JSON_PROPERTY_STRING) @javax.annotation.Nullable Foo string) {
     this.string = string;
   }
 

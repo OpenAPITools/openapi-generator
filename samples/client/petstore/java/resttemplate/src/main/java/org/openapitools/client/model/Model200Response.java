@@ -48,7 +48,7 @@ public class Model200Response {
   /**
    * Constructor with all args parameters
    */
-  public Model200Response(@JsonProperty(JSON_PROPERTY_NAME) Integer name, @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS) String propertyClass) {
+  public Model200Response(@JsonProperty(JSON_PROPERTY_NAME) @javax.annotation.Nullable Integer name, @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS) @javax.annotation.Nullable String propertyClass) {
     this.name = name;
     this.propertyClass = propertyClass;
   }

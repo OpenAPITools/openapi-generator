@@ -43,7 +43,7 @@ public class OuterObjectWithEnumProperty {
   /**
    * Constructor with all args parameters
    */
-  public OuterObjectWithEnumProperty(@JsonProperty(JSON_PROPERTY_VALUE) OuterEnumInteger value) {
+  public OuterObjectWithEnumProperty(@JsonProperty(JSON_PROPERTY_VALUE) @javax.annotation.Nonnull OuterEnumInteger value) {
     this.value = value;
   }
 
