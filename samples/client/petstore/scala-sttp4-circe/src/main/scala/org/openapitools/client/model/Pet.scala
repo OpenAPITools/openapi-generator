@@ -30,7 +30,7 @@ object Pet {
   import io.circe.syntax._
   import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[Pet] = deriveEncoder
+  implicit val encoder: Encoder[Pet] = deriveEncoder[Pet].mapJson(_.dropNullValues)
   implicit val decoder: Decoder[Pet] = deriveDecoder
 }
 object PetEnums {

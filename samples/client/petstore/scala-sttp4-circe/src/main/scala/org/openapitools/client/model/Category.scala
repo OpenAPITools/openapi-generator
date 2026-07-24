@@ -25,6 +25,6 @@ object Category {
   import io.circe.syntax._
   import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[Category] = deriveEncoder
+  implicit val encoder: Encoder[Category] = deriveEncoder[Category].mapJson(_.dropNullValues)
   implicit val decoder: Decoder[Category] = deriveDecoder
 }
