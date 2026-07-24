@@ -237,40 +237,28 @@
                         {{^isMap}}
                         {{#isInnerEnum}}
                         {{#vendorExtensions.x-enum-byte}}
-                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
-                                {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}null);
-                            else
-                            {
-                                string {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue = utf8JsonReader.{{>EnumJsonReaderMethod}}().ToString(System.Globalization.CultureInfo.InvariantCulture);
-                                {{classname}}.{{{datatypeWithEnum}}}? {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Value = {{classname}}.{{{datatypeWithEnum}}}FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue);
-                                if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Value == null)
-                                    throw new JsonException();
-                                {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Value);
-                            }
+                            {{>NumericInnerEnumJsonRead}}
                         {{/vendorExtensions.x-enum-byte}}
                         {{^vendorExtensions.x-enum-byte}}
                         {{#isNumeric}}
-                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                            {{>NumericInnerEnumJsonRead}}
+                        {{/isNumeric}}
+                        {{^isNumeric}}
+                            string{{nrt?}} {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue = utf8JsonReader.GetString();
+                            {{#isNullable}}
+                            if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue == null)
                                 {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}null);
                             else
+                            {{/isNullable}}
+                            {{^isNullable}}
+                            if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue != null)
+                            {{/isNullable}}
                             {
-                                string {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue = utf8JsonReader.{{>EnumJsonReaderMethod}}().ToString(System.Globalization.CultureInfo.InvariantCulture);
                                 {{classname}}.{{{datatypeWithEnum}}}? {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Value = {{classname}}.{{{datatypeWithEnum}}}FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue);
                                 if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Value == null)
                                     throw new JsonException();
                                 {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Value);
                             }
-                        {{/isNumeric}}
-                        {{^isNumeric}}
-                            string{{nrt?}} {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue = utf8JsonReader.GetString();
-                            {{! A nullable enum may be explicitly null in the payload; still mark the Option as set so a present-but-null value is not rejected as missing. }}
-                            {{#isNullable}}
-                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue == null ? null : {{classname}}.{{{datatypeWithEnum}}}FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue));
-                            {{/isNullable}}
-                            {{^isNullable}}
-                            if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue != null)
-                                {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{classname}}.{{{datatypeWithEnum}}}FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue));
-                            {{/isNullable}}
                         {{/isNumeric}}
                         {{/vendorExtensions.x-enum-byte}}
                         {{/isInnerEnum}}

@@ -124,7 +124,12 @@ namespace Org.OpenAPITools.Model
                         case "objectType":
                             string objectTypeRawValue = utf8JsonReader.GetString();
                             if (objectTypeRawValue != null)
-                                objectType = new Option<Descendant2.ObjectTypeEnum?>(Descendant2.ObjectTypeEnumFromStringOrDefault(objectTypeRawValue));
+                            {
+                                Descendant2.ObjectTypeEnum? objectTypeValue = Descendant2.ObjectTypeEnumFromStringOrDefault(objectTypeRawValue);
+                                if (objectTypeValue == null)
+                                    throw new JsonException();
+                                objectType = new Option<Descendant2.ObjectTypeEnum?>(objectTypeValue);
+                            }
                             break;
                         default:
                             break;
