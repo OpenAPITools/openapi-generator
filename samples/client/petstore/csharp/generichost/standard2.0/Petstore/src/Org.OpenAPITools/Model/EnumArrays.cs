@@ -290,7 +290,12 @@ namespace Org.OpenAPITools.Model
                         case "just_symbol":
                             string justSymbolRawValue = utf8JsonReader.GetString();
                             if (justSymbolRawValue != null)
-                                justSymbol = new Option<EnumArrays.JustSymbolEnum?>(EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue));
+                            {
+                                EnumArrays.JustSymbolEnum? justSymbolValue = EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue);
+                                if (justSymbolValue == null)
+                                    throw new JsonException();
+                                justSymbol = new Option<EnumArrays.JustSymbolEnum?>(justSymbolValue);
+                            }
                             break;
                         default:
                             break;

@@ -186,7 +186,12 @@ namespace Org.OpenAPITools.Model
                         case "pet_type":
                             string petTypeRawValue = utf8JsonReader.GetString();
                             if (petTypeRawValue != null)
-                                petType = new Option<ChildCat.PetTypeEnum?>(ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue));
+                            {
+                                ChildCat.PetTypeEnum? petTypeValue = ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue);
+                                if (petTypeValue == null)
+                                    throw new JsonException();
+                                petType = new Option<ChildCat.PetTypeEnum?>(petTypeValue);
+                            }
                             break;
                         default:
                             break;

@@ -41,11 +41,10 @@ import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 public class CSharpClientCodegenTest {
 
     @Test
-    public void testGenericHostNullableEnumDeserializesPresentNull() throws IOException {
-        // For a required + nullable enum, the generated generichost JsonConverter must assign
-        // the backing Option even when the JSON value is null; otherwise the required-property
-        // check rejects a present-but-null value with "Property is required". Non-nullable enums
-        // keep the original non-null guard, so their generated output is unchanged.
+    public void testGenericHostInnerStringEnumUnknownHandlingPreservesNullBehavior() throws IOException {
+        // Unknown enum values must throw for both nullable and non-nullable properties.
+        // Preserve the existing null-token behavior: nullable properties record a present
+        // null, while non-nullable string properties retain their existing null guard.
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec(
@@ -65,12 +64,23 @@ public class CSharpClientCodegenTest {
         File requiredClass = files.get(Paths.get(output.getAbsolutePath(),
                 "src", "Org.OpenAPITools", "Model", "RequiredClass.cs").toString());
         assertNotNull(requiredClass);
-        // required + nullable enum: a null raw value still sets the Option (mapped to null)
-        assertFileContains(requiredClass.toPath(),
-                "requiredNullableEnumString = new Option<RequiredClass.RequiredNullableEnumStringEnum?>(requiredNullableEnumStringRawValue == null ? null :");
-        // required + non-nullable enum: keeps the original guard (unchanged behavior)
-        assertFileContains(requiredClass.toPath(),
-                "if (requiredNotnullableEnumStringRawValue != null)");
+        String requiredClassContents = Files.readString(requiredClass.toPath());
+        assertThat(requiredClassContents)
+                .containsPattern(
+                        "if \\(requiredNullableEnumStringRawValue == null\\)\\s+" +
+                                "requiredNullableEnumString = new Option<RequiredClass.RequiredNullableEnumStringEnum\\?>\\(null\\);")
+                .containsPattern(
+                        "if \\(requiredNotnullableEnumStringRawValue != null\\)\\s+\\{");
+        assertThat(requiredClassContents).contains(
+                "if (requiredNullableEnumStringValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (requiredNotnullableEnumStringValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (!requiredNullableEnumString.IsSet)\n" +
+                        "                throw new ArgumentException(\"Property is required for class RequiredClass.\", nameof(requiredNullableEnumString));",
+                "if (!requiredNotnullableEnumString.IsSet)\n" +
+                        "                throw new ArgumentException(\"Property is required for class RequiredClass.\", nameof(requiredNotnullableEnumString));"
+        );
     }
 
     @Test
@@ -337,27 +347,59 @@ public class CSharpClientCodegenTest {
         );
         assertNotNull(modelWithEnumPropertiesFile, "Could not find file for model: ModelWithEnumProperties");
         String modelWithEnumProperties = Files.readString(modelWithEnumPropertiesFile.toPath());
+
+        // Unknown non-null enum values are rejected consistently for nullable and non-nullable
+        // string, numeric, and byte-backed inner enums.
         assertThat(modelWithEnumProperties).contains(
+                "if (inlineIntEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (nullableInlineIntEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (inlineStringEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (nullableInlineStringEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (inlineByteEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (nullableInlineByteEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "inlineIntEnum = new Option<ModelWithEnumProperties.InlineIntEnumEnum?>(inlineIntEnumValue);",
                 "ModelWithEnumProperties.NullableInlineIntEnumEnum? nullableInlineIntEnumValue = " +
                         "ModelWithEnumProperties.NullableInlineIntEnumEnumFromStringOrDefault(nullableInlineIntEnumRawValue);",
                 "nullableInlineIntEnum = new Option<ModelWithEnumProperties.NullableInlineIntEnumEnum?>(" +
-                        "nullableInlineIntEnumValue);"
+                        "nullableInlineIntEnumValue);",
+                "inlineStringEnum = new Option<ModelWithEnumProperties.InlineStringEnumEnum?>(inlineStringEnumValue);",
+                "nullableInlineStringEnum = new Option<ModelWithEnumProperties.NullableInlineStringEnumEnum?>(" +
+                        "nullableInlineStringEnumValue);"
         );
+
+        // Numeric and byte-backed enums record an explicit JSON null as present so existing
+        // nullability validation can distinguish it from a missing property.
         assertThat(modelWithEnumProperties)
                 .containsPattern(
-                "if \\(utf8JsonReader.TokenType == JsonTokenType.Null\\)\\s+" +
-                        "nullableInlineIntEnum = new Option<ModelWithEnumProperties.NullableInlineIntEnumEnum\\?>\\(null\\);")
+                        "if \\(utf8JsonReader.TokenType == JsonTokenType.Null\\)\\s+" +
+                                "inlineIntEnum = new Option<ModelWithEnumProperties.InlineIntEnumEnum\\?>\\(null\\);")
                 .containsPattern(
-                        "if \\(utf8JsonReader.TokenType != JsonTokenType.Null\\)\\s+\\{\\s+" +
-                                "string inlineIntEnumRawValue");
-        assertThat(modelWithEnumProperties).doesNotContain(
-                "if (nullableInlineIntEnumValue == null)\n                                    throw new JsonException();",
-                "if (inlineIntEnumValue == null)\n                                    throw new JsonException();",
-                "inlineIntEnum = new Option<ModelWithEnumProperties.InlineIntEnumEnum?>(null);"
-        );
+                        "if \\(utf8JsonReader.TokenType == JsonTokenType.Null\\)\\s+" +
+                                "nullableInlineIntEnum = new Option<ModelWithEnumProperties.NullableInlineIntEnumEnum\\?>\\(null\\);")
+                .containsPattern(
+                        "if \\(inlineStringEnumRawValue != null\\)\\s+\\{")
+                .containsPattern(
+                        "if \\(nullableInlineStringEnumRawValue == null\\)\\s+" +
+                                "nullableInlineStringEnum = new Option<ModelWithEnumProperties.NullableInlineStringEnumEnum\\?>\\(null\\);")
+                .containsPattern(
+                        "if \\(utf8JsonReader.TokenType == JsonTokenType.Null\\)\\s+" +
+                                "inlineByteEnum = new Option<ModelWithEnumProperties.InlineByteEnumEnum\\?>\\(null\\);")
+                .containsPattern(
+                        "if \\(utf8JsonReader.TokenType == JsonTokenType.Null\\)\\s+" +
+                                "nullableInlineByteEnum = new Option<ModelWithEnumProperties.NullableInlineByteEnumEnum\\?>\\(null\\);");
+
+        // Required numeric checks distinguish a missing property from a present null.
         assertThat(modelWithEnumProperties).contains(
-                "if (inlineIntEnumValue != null)\n" +
-                        "                                    inlineIntEnum = new Option<ModelWithEnumProperties.InlineIntEnumEnum?>(inlineIntEnumValue);"
+                "if (!requiredInlineIntEnum.IsSet)\n" +
+                        "                throw new ArgumentException(\"Property is required for class ModelWithEnumProperties.\", nameof(requiredInlineIntEnum));",
+                "if (requiredInlineIntEnum.IsSet && requiredInlineIntEnum.Value == null)\n" +
+                        "                throw new ArgumentNullException(nameof(requiredInlineIntEnum), \"Property is not nullable for class ModelWithEnumProperties.\");"
         );
 
         // Verify long enum uses int64 reader with validation and actual int64 values
@@ -455,6 +497,9 @@ public class CSharpClientCodegenTest {
                 "inlineLongEnumRawValue = utf8JsonReader.GetInt64().ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "inlineDoubleEnumRawValue = utf8JsonReader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
                 "inlineByteEnumRawValue = utf8JsonReader.GetByte().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "nullableInlineByteEnumRawValue = utf8JsonReader.GetByte().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineStringEnumRawValue = utf8JsonReader.GetString()",
+                "nullableInlineStringEnumRawValue = utf8JsonReader.GetString()",
                 "InlineLongEnumEnum : long",
                 "InlineByteEnumEnum : byte",
                 "return 1.1d;",

@@ -750,39 +750,58 @@ namespace Org.OpenAPITools.Model
                         case "enum_string_required":
                             string enumStringRequiredRawValue = utf8JsonReader.GetString();
                             if (enumStringRequiredRawValue != null)
-                                enumStringRequired = new Option<EnumTest.EnumStringRequiredEnum?>(EnumTest.EnumStringRequiredEnumFromStringOrDefault(enumStringRequiredRawValue));
+                            {
+                                EnumTest.EnumStringRequiredEnum? enumStringRequiredValue = EnumTest.EnumStringRequiredEnumFromStringOrDefault(enumStringRequiredRawValue);
+                                if (enumStringRequiredValue == null)
+                                    throw new JsonException();
+                                enumStringRequired = new Option<EnumTest.EnumStringRequiredEnum?>(enumStringRequiredValue);
+                            }
                             break;
                         case "enum_integer":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                                enumInteger = new Option<EnumTest.EnumIntegerEnum?>(null);
+                            else
                             {
                                 string enumIntegerRawValue = utf8JsonReader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
                                 EnumTest.EnumIntegerEnum? enumIntegerValue = EnumTest.EnumIntegerEnumFromStringOrDefault(enumIntegerRawValue);
-                                if (enumIntegerValue != null)
-                                    enumInteger = new Option<EnumTest.EnumIntegerEnum?>(enumIntegerValue);
+                                if (enumIntegerValue == null)
+                                    throw new JsonException();
+                                enumInteger = new Option<EnumTest.EnumIntegerEnum?>(enumIntegerValue);
                             }
                             break;
                         case "enum_integer_only":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                                enumIntegerOnly = new Option<EnumTest.EnumIntegerOnlyEnum?>(null);
+                            else
                             {
                                 string enumIntegerOnlyRawValue = utf8JsonReader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
                                 EnumTest.EnumIntegerOnlyEnum? enumIntegerOnlyValue = EnumTest.EnumIntegerOnlyEnumFromStringOrDefault(enumIntegerOnlyRawValue);
-                                if (enumIntegerOnlyValue != null)
-                                    enumIntegerOnly = new Option<EnumTest.EnumIntegerOnlyEnum?>(enumIntegerOnlyValue);
+                                if (enumIntegerOnlyValue == null)
+                                    throw new JsonException();
+                                enumIntegerOnly = new Option<EnumTest.EnumIntegerOnlyEnum?>(enumIntegerOnlyValue);
                             }
                             break;
                         case "enum_number":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                                enumNumber = new Option<EnumTest.EnumNumberEnum?>(null);
+                            else
                             {
                                 string enumNumberRawValue = utf8JsonReader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture);
                                 EnumTest.EnumNumberEnum? enumNumberValue = EnumTest.EnumNumberEnumFromStringOrDefault(enumNumberRawValue);
-                                if (enumNumberValue != null)
-                                    enumNumber = new Option<EnumTest.EnumNumberEnum?>(enumNumberValue);
+                                if (enumNumberValue == null)
+                                    throw new JsonException();
+                                enumNumber = new Option<EnumTest.EnumNumberEnum?>(enumNumberValue);
                             }
                             break;
                         case "enum_string":
                             string enumStringRawValue = utf8JsonReader.GetString();
                             if (enumStringRawValue != null)
-                                enumString = new Option<EnumTest.EnumStringEnum?>(EnumTest.EnumStringEnumFromStringOrDefault(enumStringRawValue));
+                            {
+                                EnumTest.EnumStringEnum? enumStringValue = EnumTest.EnumStringEnumFromStringOrDefault(enumStringRawValue);
+                                if (enumStringValue == null)
+                                    throw new JsonException();
+                                enumString = new Option<EnumTest.EnumStringEnum?>(enumStringValue);
+                            }
                             break;
                         case "outerEnum":
                             outerEnum = new Option<OuterEnum?>(JsonSerializer.Deserialize<OuterEnum?>(ref utf8JsonReader, jsonSerializerOptions));
