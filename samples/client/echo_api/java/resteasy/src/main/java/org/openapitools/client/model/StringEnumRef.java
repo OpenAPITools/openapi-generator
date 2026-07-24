@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Gets or Sets StringEnumRef
@@ -32,7 +34,18 @@ public enum StringEnumRef {
   
   UNCLASSIFIED("unclassified");
 
+  private static final Map<String, StringEnumRef> cacheByValue = new HashMap<>();
+
   private String value;
+
+  static {
+    for (StringEnumRef e: values()) {
+      String key = e.value;
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
+      }
+    }
+  }
 
   StringEnumRef(String value) {
     this.value = value;
@@ -50,10 +63,9 @@ public enum StringEnumRef {
 
   @JsonCreator
   public static StringEnumRef fromValue(String value) {
-    for (StringEnumRef b : StringEnumRef.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
+    StringEnumRef result = cacheByValue.get(value);
+    if (result != null) {
+      return result;
     }
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }

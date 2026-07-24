@@ -25,6 +25,8 @@ import io.github.threetenjaxb.core.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Gets or Sets OuterEnumDefaultValue
@@ -40,7 +42,18 @@ public enum OuterEnumDefaultValue {
   @XmlEnumValue("delivered")
   DELIVERED("delivered");
 
+  private static final Map<String, OuterEnumDefaultValue> cacheByValue = new HashMap<>();
+
   private String value;
+
+  static {
+    for (OuterEnumDefaultValue e: values()) {
+      String key = e.value;
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
+      }
+    }
+  }
 
   OuterEnumDefaultValue(String value) {
     this.value = value;
@@ -58,10 +71,9 @@ public enum OuterEnumDefaultValue {
 
   @JsonCreator
   public static OuterEnumDefaultValue fromValue(String value) {
-    for (OuterEnumDefaultValue b : OuterEnumDefaultValue.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
+    OuterEnumDefaultValue result = cacheByValue.get(value);
+    if (result != null) {
+      return result;
     }
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
