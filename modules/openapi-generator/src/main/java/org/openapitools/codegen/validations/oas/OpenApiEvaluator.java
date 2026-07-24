@@ -56,6 +56,29 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
             validationResult.consume(schemaValidations.validate(wrapper));
         });
 
+        // Per-occurrence check: default value not in enum.
+        // Uses getAllSchemasInDocument to also cover inline schemas in path operations.
+        if (ruleConfiguration.isEnableRecommendations()
+                && ruleConfiguration.isEnableDefaultNotInEnumRecommendation()) {
+            ValidationRule defaultNotInEnumRule = ValidationRule.create(Severity.WARNING,
+                    "Schema has default value not in enum",
+                    "While technically valid, a default outside the enum may cause "
+                            + "generators to emit incorrect default values.",
+                    s -> ValidationRule.Pass.empty());
+            for (Schema schema : ModelUtils.getAllSchemasInDocument(specification)) {
+                List<?> enumList = schema.getEnum();
+                Object defaultValue = schema.getDefault();
+                if (enumList != null && !enumList.isEmpty()
+                        && defaultValue != null
+                        && !enumList.contains(defaultValue)) {
+                    validationResult.addResult(Validated.invalid(defaultNotInEnumRule,
+                            String.format(Locale.ROOT,
+                                    "Schema has default value '%s' not in enum %s",
+                                    defaultValue, enumList)));
+                }
+            }
+        }
+
         List<Parameter> parameters = new ArrayList<>(50);
 
         Paths paths = specification.getPaths();
