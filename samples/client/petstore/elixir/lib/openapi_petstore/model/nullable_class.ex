@@ -37,8 +37,12 @@ defmodule OpenapiPetstore.Model.NullableClass do
     :object_items_nullable => %{optional(String.t) => map()} | nil
   }
 
+  alias OpenapiPetstore.Deserializer
+
   def decode(value) do
     value
+     |> Deserializer.deserialize(:date_prop, :date, nil)
+     |> Deserializer.deserialize(:datetime_prop, :datetime, nil)
   end
 end
 

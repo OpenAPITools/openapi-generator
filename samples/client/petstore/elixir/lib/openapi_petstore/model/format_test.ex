@@ -45,8 +45,12 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :pattern_with_digits_and_delimiter => String.t | nil
   }
 
+  alias OpenapiPetstore.Deserializer
+
   def decode(value) do
     value
+     |> Deserializer.deserialize(:date, :date, nil)
+     |> Deserializer.deserialize(:dateTime, :datetime, nil)
   end
 end
 
