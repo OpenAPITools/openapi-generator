@@ -12,6 +12,14 @@
       switch (key) {
         {{#vendorExtensions.x-self-and-ancestor-only-props}}
         case r'{{baseName}}':
+          {{#vendorExtensions.x-is-optional}}
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const {{>serialization/built_value/variable_serializer_type}},
+          ) as {{{vendorExtensions.x-unwrapped-datatype-nullable}}};
+          result.{{{name}}} = Optional.present(valueDes);
+          {{/vendorExtensions.x-is-optional}}
+          {{^vendorExtensions.x-is-optional}}
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType{{#isNullable}}.nullable{{/isNullable}}{{^isNullable}}{{^required}}.nullable{{/required}}{{/isNullable}}({{#isContainer}}{{baseType}}, [{{#isMap}}FullType(String), {{/isMap}}{{#items}}{{>serialization/built_value/variable_serializer_type}}{{/items}}]{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}),
@@ -51,6 +59,7 @@
           {{/isModel}}
           {{/isEnum}}
           {{/isContainer}}
+          {{/vendorExtensions.x-is-optional}}
           break;
         {{/vendorExtensions.x-self-and-ancestor-only-props}}
         default:

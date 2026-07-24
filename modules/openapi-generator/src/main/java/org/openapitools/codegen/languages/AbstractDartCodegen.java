@@ -634,6 +634,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (useOptional) {
             for (ModelMap modelMap : objs.getModels()) {
                 CodegenModel model = modelMap.getModel();
+                boolean hasOptionalProperties = false;
 
                 boolean shouldUseOptional;
 
@@ -648,9 +649,12 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                     for (CodegenProperty prop : model.vars) {
                         if (!prop.required && !prop.dataType.startsWith("Optional<")) {
                             wrapPropertyWithOptional(prop);
+                            hasOptionalProperties = true;
                         }
                     }
                 }
+
+                model.vendorExtensions.put("x-has-optional-properties", hasOptionalProperties);
             }
         }
 
@@ -665,6 +669,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         boolean hasNullableSuffix = property.dataType.endsWith("?");
         String baseType = hasNullableSuffix ? property.dataType.substring(0, property.dataType.length() - 1) : property.dataType;
+        property.vendorExtensions.put("x-unwrapped-datatype-nullable", baseType + "?");
         property.dataType = "Optional<" + baseType + "?" + ">";
 
         if (property.datatypeWithEnum != null && !property.datatypeWithEnum.startsWith("Optional<")) {
@@ -672,6 +677,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             baseType = hasNullableSuffix ? property.datatypeWithEnum.substring(0, property.datatypeWithEnum.length() - 1) : property.datatypeWithEnum;
             property.datatypeWithEnum = "Optional<" + baseType + "?" + ">";
         }
+
+        property.isNullable = false;
     }
 
     @Override
