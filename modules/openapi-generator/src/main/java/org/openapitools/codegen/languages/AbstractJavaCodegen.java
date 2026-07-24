@@ -302,6 +302,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
+        typeMapping.put("null", "Object");
 
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
@@ -1092,6 +1093,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
+        // Intercept "null" explicitly to prevent complex object resolution
+        if (p != null && "null".equalsIgnoreCase(p.getType())) {
+            return "Object";
+        }
+
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
@@ -1911,16 +1917,29 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getSchemaType(Schema p) {
+        if (p == null) {
+            LOGGER.error("Schema is null");
+            return "Object";
+        }
+
+        // 1. First, call the parent method to extract the schema type string
         String openAPIType = super.getSchemaType(p);
 
-        // don't apply renaming on types from the typeMapping
+        if (null == openAPIType) {
+            LOGGER.error("No Type defined for Schema {}", p);
+            return "Object"; // Safe fallback to prevent NullPointerException later
+        }
+
+        // 2. Intercept the "null" type string immediately before it routes to typeMapping or toModelName
+        if ("null".equalsIgnoreCase(openAPIType) || "null".equalsIgnoreCase(p.getType())) {
+            return "Object";
+        }
+
+        // 3. Don't apply renaming on types from the typeMapping
         if (typeMapping.containsKey(openAPIType)) {
             return typeMapping.get(openAPIType);
         }
 
-        if (null == openAPIType) {
-            LOGGER.error("No Type defined for Schema {}", p);
-        }
         return toModelName(openAPIType);
     }
 

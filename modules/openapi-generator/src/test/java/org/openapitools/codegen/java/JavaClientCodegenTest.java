@@ -4766,6 +4766,15 @@ public class JavaClientCodegenTest {
         assertThat(content)
                 .contains("import io.swagger.v3.oas.annotations.tags.*;")
                 .contains("@Tag(");
+
+    }
+
+    @Test
+    public void testNullTypeMapsToObject() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        Schema nullSchema = new Schema().type("null");
+        Assert.assertEquals(codegen.getSchemaType(nullSchema), "Object");
+        Assert.assertEquals(codegen.getTypeDeclaration(nullSchema), "Object");
     }
 
     @DataProvider(name = "rxJavaOptions")
