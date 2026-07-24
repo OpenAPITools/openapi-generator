@@ -124,15 +124,15 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
-    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE = "optionalNonNullPropertyJsonInclude";
-    public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS = "generateJsonIncludeAnnotations";
-    public static final String GENERATE_JSON_SETTER_NULLS_ANNOTATIONS = "generateJsonSetterNullsAnnotations";
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE = CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE;
+    public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS = CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS;
+    public static final String GENERATE_JSON_SETTER_NULLS_ANNOTATIONS = CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS;
     /**
      * Universal per-property vendor extension holding the resolved Jackson {@code @JsonInclude} policy
      * (e.g. {@code NON_NULL}, {@code ALWAYS}). When absent, no {@code @JsonInclude} annotation is emitted.
      * A value set directly in the spec is treated as a manual override and always wins.
      */
-    public static final String JSON_INCLUDE_POLICY_EXTENSION = "x-jackson-json-include-policy";
+    public static final String JSON_INCLUDE_POLICY_EXTENSION = VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY.getName();
 
     @Getter
     public enum RequestMappingMode {
@@ -1655,6 +1655,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MINIMUM_MESSAGE);
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
+        extensions.add(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY);
         return extensions;
     }
 

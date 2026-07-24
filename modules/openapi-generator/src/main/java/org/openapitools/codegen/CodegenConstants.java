@@ -415,6 +415,15 @@ public class CodegenConstants {
     public static final String USE_VERTX_5 = "useVertx5";
     public static final String USE_VERTX_5_DESC = "Setting this property to true will generate Vert.x 5 specific callbacks using Callables.";
 
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE = "optionalNonNullPropertyJsonInclude";
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE_DESC = "The Jackson @JsonInclude policy to apply to optional, non-nullable properties (ignored unless generateJsonIncludeAnnotations is true).";
+
+    public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS = "generateJsonIncludeAnnotations";
+    public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS_DESC = "Generate field-level @JsonInclude annotations controlling Jackson serialization inclusion. When unset or false, no @JsonInclude annotations are generated and the project-wide ObjectMapper policy applies.";
+
+    public static final String GENERATE_JSON_SETTER_NULLS_ANNOTATIONS = "generateJsonSetterNullsAnnotations";
+    public static final String GENERATE_JSON_SETTER_NULLS_ANNOTATIONS_DESC = "Generate field-level @JsonSetter(nulls = ...) annotations controlling Jackson deserialization null-handling for optional, non-nullable properties. When unset or false, no @JsonSetter annotations are generated and the project-wide ObjectMapper policy applies.";
+
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
             "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
