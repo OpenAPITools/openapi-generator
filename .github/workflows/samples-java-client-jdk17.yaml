@@ -109,8 +109,6 @@ jobs:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
 
-      - name: Build
+      - name: Build with Gradle
         working-directory: ${{ matrix.sample }}
-        # the microprofile library does not generate a Gradle build; skip samples without a wrapper
-        if: ${{ hashFiles(format('{0}/gradlew', matrix.sample)) != '' }}
         run: /bin/sh gradlew build -x test --no-daemon

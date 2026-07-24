@@ -1,9 +1,16 @@
 README.md
+build.gradle
 docs/DefaultApi.md
 docs/IntegerEnum.md
 docs/Pony.md
 docs/Type.md
+gradle.properties
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
 pom.xml
+settings.gradle
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java
 src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java

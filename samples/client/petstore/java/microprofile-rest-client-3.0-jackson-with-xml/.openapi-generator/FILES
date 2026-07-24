@@ -1,4 +1,5 @@
 README.md
+build.gradle
 docs/Category.md
 docs/ModelApiResponse.md
 docs/Order.md
@@ -8,7 +9,13 @@ docs/StoreApi.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
+gradle.properties
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
 pom.xml
+settings.gradle
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java
 src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java
