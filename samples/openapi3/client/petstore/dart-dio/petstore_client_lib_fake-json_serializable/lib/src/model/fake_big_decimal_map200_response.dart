@@ -17,11 +17,9 @@ part 'fake_big_decimal_map200_response.g.dart';
   explicitToJson: true,
 )
 class FakeBigDecimalMap200Response {
-  /// Returns a new [FakeBigDecimalMap200Response] instance.
+/// Returns a new [FakeBigDecimalMap200Response] instance.
   FakeBigDecimalMap200Response({
-
      this.someId,
-
      this.someMap,
   });
 
@@ -53,6 +51,7 @@ class FakeBigDecimalMap200Response {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is FakeBigDecimalMap200Response &&
+    runtimeType == other.runtimeType &&
       other.someId == someId &&
       other.someMap == someMap;
 

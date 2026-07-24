@@ -18,9 +18,8 @@ part 'deprecated_object.g.dart';
   explicitToJson: true,
 )
 class DeprecatedObject {
-  /// Returns a new [DeprecatedObject] instance.
+/// Returns a new [DeprecatedObject] instance.
   DeprecatedObject({
-
      this.name,
   });
 
@@ -40,6 +39,7 @@ class DeprecatedObject {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is DeprecatedObject &&
+    runtimeType == other.runtimeType &&
       other.name == name;
 
     @override

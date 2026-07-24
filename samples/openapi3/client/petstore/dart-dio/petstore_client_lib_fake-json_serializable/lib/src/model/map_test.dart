@@ -17,15 +17,11 @@ part 'map_test.g.dart';
   explicitToJson: true,
 )
 class MapTest {
-  /// Returns a new [MapTest] instance.
+/// Returns a new [MapTest] instance.
   MapTest({
-
      this.mapMapOfString,
-
      this.mapOfEnumString,
-
      this.directMap,
-
      this.indirectMap,
   });
 
@@ -82,6 +78,7 @@ class MapTest {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is MapTest &&
+    runtimeType == other.runtimeType &&
       other.mapMapOfString == mapMapOfString &&
       other.mapOfEnumString == mapOfEnumString &&
       other.directMap == directMap &&

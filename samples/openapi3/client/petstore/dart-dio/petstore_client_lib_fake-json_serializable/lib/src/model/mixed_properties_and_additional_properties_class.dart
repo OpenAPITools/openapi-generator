@@ -18,13 +18,10 @@ part 'mixed_properties_and_additional_properties_class.g.dart';
   explicitToJson: true,
 )
 class MixedPropertiesAndAdditionalPropertiesClass {
-  /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance.
+/// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance.
   MixedPropertiesAndAdditionalPropertiesClass({
-
      this.uuid,
-
      this.dateTime,
-
      this.map,
   });
 
@@ -68,6 +65,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
+    runtimeType == other.runtimeType &&
       other.uuid == uuid &&
       other.dateTime == dateTime &&
       other.map == map;

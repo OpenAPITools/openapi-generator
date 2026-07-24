@@ -18,9 +18,8 @@ part 'foo_get_default_response.g.dart';
   explicitToJson: true,
 )
 class FooGetDefaultResponse {
-  /// Returns a new [FooGetDefaultResponse] instance.
+/// Returns a new [FooGetDefaultResponse] instance.
   FooGetDefaultResponse({
-
      this.string,
   });
 
@@ -40,6 +39,7 @@ class FooGetDefaultResponse {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is FooGetDefaultResponse &&
+    runtimeType == other.runtimeType &&
       other.string == string;
 
     @override

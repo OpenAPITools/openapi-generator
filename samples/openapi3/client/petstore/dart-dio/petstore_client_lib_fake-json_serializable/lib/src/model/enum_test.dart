@@ -21,23 +21,15 @@ part 'enum_test.g.dart';
   explicitToJson: true,
 )
 class EnumTest {
-  /// Returns a new [EnumTest] instance.
+/// Returns a new [EnumTest] instance.
   EnumTest({
-
      this.enumString,
-
     required  this.enumStringRequired,
-
      this.enumInteger,
-
      this.enumNumber,
-
      this.outerEnum,
-
      this.outerEnumInteger,
-
      this.outerEnumDefaultValue,
-
      this.outerEnumIntegerDefaultValue,
   });
 
@@ -149,6 +141,7 @@ class EnumTest {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
+    runtimeType == other.runtimeType &&
       other.enumString == enumString &&
       other.enumStringRequired == enumStringRequired &&
       other.enumInteger == enumInteger &&
