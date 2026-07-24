@@ -39,6 +39,11 @@ A per-property override set via the `x-jackson-json-include-policy` vendor exten
 ** `false` → same weak behavior, warning silenced.
 ** `true` → emit `@JsonSetter(nulls = ...)` on optional non-nullable properties.
 
+[NOTE]
+====
+This also affects the `kotlin-spring` strict-null (PATCH) behavior. In `7.24.x`, an optional non-nullable property generated with `openApiNullable=true` emitted `@JsonSetter(nulls = Nulls.FAIL)`, so an explicit `null` in the payload was rejected. From `7.25.0`, that annotation is only emitted when `generateJsonSetterNullsAnnotations=true`. Leaving the option unset (or `false`) means an explicit `null` is handled by the global `ObjectMapper` instead of failing. Set `generateJsonSetterNullsAnnotations=true` to restore the strict `Nulls.FAIL` behavior.
+====
+
 ==== Note
 
 `@JsonInclude(NON_ABSENT)` is no longer emitted on `JsonNullable<T>` fields: the `JsonNullable` module already governs their inclusion, so the annotation was redundant.

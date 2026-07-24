@@ -57,6 +57,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateBuilders|Whether to generate builders for models| |false|
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |generateGenericResponseEntity|Use a generic type for the `ResponseEntity` wrapping return values of generated API methods. If enabled, method are generated with return type ResponseEntity&lt;?&gt;| |false|
+|generateJsonIncludeAnnotations|Whether to generate policy @JsonInclude annotations on model properties. When true, emits spec-honest annotations (required-field protection and the optional non-nullable policy from optionalNonNullPropertyJsonInclude). When false, none are generated and the global ObjectMapper owns inclusion. When left unset it defaults to false (7.23.0-equivalent output) and logs a warning; set it explicitly to silence the warning. A per-property override set via the `x-jackson-json-include-policy` vendor extension is always honored regardless of this flag.| |false|
+|generateJsonSetterNullsAnnotations|Whether to generate @JsonSetter(nulls = ...) annotations on optional non-nullable model properties. When true, emits @JsonSetter so an explicit null in the payload does not overwrite the field. When false, none are generated and deserialization null-handling defers to the global ObjectMapper. When left unset it defaults to false (7.23.0-equivalent output) and logs a warning; set it explicitly to silence the warning.| |false|
 |generatePageableConstraintValidation|Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library=spring-boot.| |false|
 |generateSortValidation|Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library=spring-boot.| |false|
 |generatedConstructorWithRequiredArgs|Whether to generate constructors with required args for models| |true|
@@ -76,6 +78,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |modelPackage|package for generated models| |org.openapitools.model|
 |openApiNullable|Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.| |true|
 |optionalAcceptNullable|Use `ofNullable` instead of just `of` to accept null values when using Optional.| |true|
+|optionalNonNullPropertyJsonInclude|The Jackson @JsonInclude policy emitted for optional, non-nullable model properties when generateJsonIncludeAnnotations is true. NONE emits no annotation, deferring fully to the global ObjectMapper inclusion policy.|<dl><dt>**NON_NULL**</dt><dd>Omit the property when its value is null (default, spec-safe for non-nullable fields).</dd><dt>**NON_EMPTY**</dt><dd>Omit the property when its value is null or considered empty.</dd><dt>**NON_DEFAULT**</dt><dd>Omit the property when its value equals the default.</dd><dt>**NONE**</dt><dd>Emit no @JsonInclude annotation; defer to the global ObjectMapper.</dd></dl>|NON_NULL|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
@@ -146,6 +149,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-minimum-message|Add this property whenever you need to customize the invalidation error message for the minimum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-maximum-message|Add this property whenever you need to customize the invalidation error message for the maximum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-spring-api-version|Value for 'version' attribute in @RequestMapping (for Spring 7 and above).|OPERATION|null
+|x-jackson-json-include-policy|Manually override the resolved Jackson `@JsonInclude` policy for this property. Must be one of `ALWAYS`, `NON_NULL`, `NON_ABSENT`, `NON_EMPTY`, `NON_DEFAULT`, `USE_DEFAULTS`, `CUSTOM`, or `NONE` to emit no annotation. Always wins over the automatic required/nullable matrix and the `optionalNonNullPropertyJsonInclude` option.|FIELD|resolved automatically per the required/nullable matrix
 
 
 ## IMPORT MAPPING
