@@ -26,6 +26,7 @@ public class Category {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Long> id = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name = "default-name";
 
   public Category() {

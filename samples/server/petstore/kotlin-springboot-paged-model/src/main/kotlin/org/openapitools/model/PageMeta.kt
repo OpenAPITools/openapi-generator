@@ -1,6 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -21,15 +22,19 @@ import jakarta.validation.Valid
  */
 data class PageMeta(
 
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("size")
     @get:JsonProperty("size", required = true) val propertySize: kotlin.Long,
 
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("number")
     @get:JsonProperty("number", required = true) val number: kotlin.Long,
 
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("totalElements")
     @get:JsonProperty("totalElements", required = true) val totalElements: kotlin.Long,
 
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("totalPages")
     @get:JsonProperty("totalPages", required = true) val totalPages: kotlin.Long
 ) : java.io.Serializable {

@@ -29,6 +29,7 @@ public class CategoryDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name = "default-name";
 
   public CategoryDto() {

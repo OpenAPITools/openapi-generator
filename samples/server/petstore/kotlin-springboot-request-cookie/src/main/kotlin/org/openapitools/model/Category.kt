@@ -24,6 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Category(
 
     @Schema(required = true, description = "")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("name")
     @get:JsonProperty("name", required = true) val name: kotlin.String = "default-name",
 

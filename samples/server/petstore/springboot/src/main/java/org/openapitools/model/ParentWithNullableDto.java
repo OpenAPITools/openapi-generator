@@ -77,7 +77,6 @@ public class ParentWithNullableDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable TypeEnum type;
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullableDto type(@Nullable TypeEnum type) {

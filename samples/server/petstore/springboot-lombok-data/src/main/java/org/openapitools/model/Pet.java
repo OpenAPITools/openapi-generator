@@ -52,6 +52,7 @@ public class Pet {
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
   
@@ -59,6 +60,7 @@ public class Pet {
   @JsonProperty("photoUrls")
 
   @lombok.Builder.Default
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
   

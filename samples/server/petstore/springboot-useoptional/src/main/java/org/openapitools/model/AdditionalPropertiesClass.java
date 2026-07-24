@@ -57,7 +57,6 @@ public class AdditionalPropertiesClass {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Object> anytype1 = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
