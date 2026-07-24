@@ -38,10 +38,10 @@ JsonSchemaDict = typing.TypedDict(
     'JsonSchema',
     {
         'additionalProperties': 'JsonSchema',
-        'allOf': typing.List['JsonSchema'],
-        'anyOf': typing.List['JsonSchema'],
+        'allOf': list['JsonSchema'],
+        'anyOf': list['JsonSchema'],
         'default': typing.Any,
-        'enum': typing.List[typing.Any],
+        'enum': list[typing.Any],
         'exclusiveMaximum': typing.Union[int, float],
         'exclusiveMinimum': typing.Union[int, float],
         'format': str,
@@ -56,11 +56,11 @@ JsonSchemaDict = typing.TypedDict(
         'minProperties': int,
         'multipleOf': typing.Union[int, float],
         'not': 'JsonSchema',
-        'oneOf': typing.List['JsonSchema'],
+        'oneOf': list['JsonSchema'],
         'pattern': str,
-        'properties': typing.Dict[str, 'JsonSchema'],
+        'properties': dict[str, 'JsonSchema'],
         '$ref': str,
-        'required': typing.List[str],
+        'required': list[str],
         'type': str,
         'uniqueItems': bool,
     },
@@ -73,7 +73,7 @@ JsonSchema = typing.Union['JsonSchemaDict', bool]
 class JsonSchemaTestSchema:
     description: str
     schema: JsonSchema
-    tests: typing.List[JsonSchemaTestCase]
+    tests: list[JsonSchemaTestCase]
     comment: typing.Optional[str] = None
 
 
@@ -266,7 +266,7 @@ file_name_to_tag_name = {
     'unknownKeyword': None
 }
 
-def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
+def get_json_schema_test_schemas(file_path: tuple[str]) -> list[JsonSchemaTestSchema]:
     json_schema_test_schemas = []
     filename = file_path[-1]
     exclude_file_reason = FILEPATH_TO_EXCLUDE_REASON.get(file_path)
@@ -297,19 +297,19 @@ OpenApiSchema = typing.TypedDict(
     {
         'type': str,
         'items': 'OpenApiSchema',
-        'properties': typing.Dict[str, 'OpenApiSchema'],
+        'properties': dict[str, 'OpenApiSchema'],
         '$ref': str
     },
     total=False
 )
 
-JsonSchemaTestCases = typing.Dict[str, JsonSchemaTestCase]
+JsonSchemaTestCases = dict[str, JsonSchemaTestCase]
 
 OpenApiComponents = typing.TypedDict(
     'OpenApiComponents',
     {
-        'schemas': typing.Dict[str, OpenApiSchema],
-        'x-schema-test-examples': typing.Dict[str, JsonSchemaTestCases]
+        'schemas': dict[str, OpenApiSchema],
+        'x-schema-test-examples': dict[str, JsonSchemaTestCases]
     }
 )
 
@@ -324,21 +324,21 @@ OpenApiMediaType = typing.TypedDict(
 
 class OpenApiRequestBody(typing.TypedDict, total=False):
     description: str
-    content: typing.Dict[str, OpenApiMediaType]
+    content: dict[str, OpenApiMediaType]
     required: bool
 
 class OpenApiResponseObject(typing.TypedDict):
     description: str
-    headers: typing.Optional[typing.Dict[str, typing.Any]] = None
-    content: typing.Optional[typing.Dict[str, OpenApiMediaType]] = None
+    headers: typing.Optional[dict[str, typing.Any]] = None
+    content: typing.Optional[dict[str, OpenApiMediaType]] = None
 
 class OpenApiOperation(typing.TypedDict, total=False):
-    tags: typing.List[str]
+    tags: list[str]
     summary: str
     description: str
     operationId: str
     requestBody: OpenApiRequestBody
-    responses: typing.Dict[str, OpenApiResponseObject]
+    responses: dict[str, OpenApiResponseObject]
 
 class OpenApiPathItem(typing.TypedDict, total=False):
     summary: str
@@ -352,7 +352,7 @@ class OpenApiPathItem(typing.TypedDict, total=False):
     patch: OpenApiOperation
     trace: OpenApiOperation
 
-OpenApiPaths = typing.Dict[str, OpenApiPathItem]
+OpenApiPaths = dict[str, OpenApiPathItem]
 
 
 @dataclasses.dataclass
@@ -375,9 +375,9 @@ class OpenApiServer:
 @dataclasses.dataclass
 class OpenApiDocument:
     openapi: str
-    servers: typing.List[OpenApiServer]
+    servers: list[OpenApiServer]
     info: OpenApiDocumentInfo
-    tags: typing.List[OpenApiTag]
+    tags: list[OpenApiTag]
     paths: OpenApiPaths
     components: OpenApiComponents
 
@@ -409,8 +409,8 @@ def get_test_case_name(test: JsonSchemaTestSchema) -> str:
 
 def get_component_schemas_and_test_examples(
     json_schema_test_file: str,
-    folders: typing.Tuple[str]
-) -> typing.Tuple[typing.Dict[str, OpenApiSchema], typing.Dict[str, typing.Dict[str, JsonSchemaTestSchema]]]:
+    folders: tuple[str]
+) -> tuple[dict[str, OpenApiSchema], dict[str, dict[str, JsonSchemaTestSchema]]]:
     component_schemas = {}
     component_name_to_test_examples = {}
     for folder in folders:
@@ -433,7 +433,7 @@ def get_component_schemas_and_test_examples(
 
 def generate_post_operation_with_request_body(
     component_name: str,
-    tags: typing.List[OpenApiTag]
+    tags: list[OpenApiTag]
 ) -> OpenApiOperation:
     method = 'post'
     ref_schema_path = f'#/components/schemas/{component_name}'
@@ -464,7 +464,7 @@ def generate_post_operation_with_request_body(
 
 def generate_post_operation_with_response_content_schema(
     component_name: str,
-    tags: typing.List[OpenApiTag]
+    tags: list[OpenApiTag]
 ) -> OpenApiOperation:
     method = 'post'
     ref_schema_path = f'#/components/schemas/{component_name}'

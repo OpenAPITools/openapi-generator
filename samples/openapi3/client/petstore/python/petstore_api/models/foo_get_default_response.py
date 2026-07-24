@@ -18,9 +18,9 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.foo import Foo
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -29,8 +29,8 @@ class FooGetDefaultResponse(BaseModel):
     FooGetDefaultResponse
     """ # noqa: E501
     string: Optional[Foo] = None
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["string"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["string"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -53,7 +53,7 @@ class FooGetDefaultResponse(BaseModel):
         """Create an instance of FooGetDefaultResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -64,7 +64,7 @@ class FooGetDefaultResponse(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -85,6 +85,14 @@ class FooGetDefaultResponse(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of FooGetDefaultResponse from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of FooGetDefaultResponse from a dict"""
         if obj is None:
             return None

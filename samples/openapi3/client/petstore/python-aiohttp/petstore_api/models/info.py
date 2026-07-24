@@ -18,9 +18,9 @@ import re  # noqa: F401
 import json
 
 from pydantic import ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.base_discriminator import BaseDiscriminator
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -29,7 +29,7 @@ class Info(BaseDiscriminator):
     Info
     """ # noqa: E501
     val: Optional[BaseDiscriminator] = None
-    __properties: ClassVar[List[str]] = ["_typeName", "val"]
+    __properties: ClassVar[list[str]] = ["_typeName", "val"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -52,7 +52,7 @@ class Info(BaseDiscriminator):
         """Create an instance of Info from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -62,7 +62,7 @@ class Info(BaseDiscriminator):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -77,6 +77,14 @@ class Info(BaseDiscriminator):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of Info from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Info from a dict"""
         if obj is None:
             return None

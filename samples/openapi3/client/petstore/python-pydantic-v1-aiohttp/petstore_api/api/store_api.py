@@ -22,8 +22,6 @@ from typing import overload, Optional, Union, Awaitable
 from typing_extensions import Annotated
 from pydantic import Field, StrictStr, conint
 
-from typing import Dict
-
 from petstore_api.models.order import Order
 
 from petstore_api.api_client import ApiClient
@@ -165,7 +163,7 @@ class StoreApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    async def get_inventory(self, **kwargs) -> Dict[str, int]:  # noqa: E501
+    async def get_inventory(self, **kwargs) -> dict[str, int]:  # noqa: E501
         """Returns pet inventories by status  # noqa: E501
 
         Returns a map of status codes to quantities  # noqa: E501
@@ -177,7 +175,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: Dict[str, int]
+        :rtype: dict[str, int]
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -211,7 +209,7 @@ class StoreApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Dict[str, int], status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(dict[str, int], status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -261,7 +259,7 @@ class StoreApi:
         _auth_settings = ['api_key']  # noqa: E501
 
         _response_types_map = {
-            '200': "Dict[str, int]",
+            '200': "dict[str, int]",
         }
 
         return await self.api_client.call_api(

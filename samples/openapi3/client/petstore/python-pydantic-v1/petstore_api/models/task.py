@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict
+from typing import Any
 from pydantic import BaseModel, Field, StrictStr
 from petstore_api.models.task_activity import TaskActivity
 
@@ -28,7 +28,7 @@ class Task(BaseModel):
     """
     id: StrictStr = Field(...)
     activity: TaskActivity = Field(...)
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["id", "activity"]
 
     class Config:

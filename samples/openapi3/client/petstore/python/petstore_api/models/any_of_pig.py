@@ -21,7 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, f
 from typing import Optional
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
-from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
+from typing import Union, Any, TYPE_CHECKING, Optional
 from typing_extensions import Literal, Self
 from pydantic import Field
 
@@ -40,7 +40,7 @@ class AnyOfPig(BaseModel):
         actual_instance: Optional[Union[BasquePig, DanishPig]] = None
     else:
         actual_instance: Any = None
-    any_of_schemas: Set[str] = { "BasquePig", "DanishPig" }
+    any_of_schemas: set[str] = { "BasquePig", "DanishPig" }
 
     model_config = {
         "validate_assignment": True,
@@ -80,7 +80,7 @@ class AnyOfPig(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+    def from_dict(cls, obj: dict[str, Any]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
@@ -117,7 +117,7 @@ class AnyOfPig(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], BasquePig, DanishPig]]:
+    def to_dict(self) -> Optional[Union[dict[str, Any], BasquePig, DanishPig]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

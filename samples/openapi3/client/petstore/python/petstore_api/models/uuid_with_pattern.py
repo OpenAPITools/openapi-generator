@@ -18,9 +18,9 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from uuid import UUID
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -29,8 +29,8 @@ class UuidWithPattern(BaseModel):
     UuidWithPattern
     """ # noqa: E501
     id: Optional[UUID] = None
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["id"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["id"]
 
     @field_validator('id', mode="before")
     def id_validate_regular_expression(cls, value):
@@ -63,7 +63,7 @@ class UuidWithPattern(BaseModel):
         """Create an instance of UuidWithPattern from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -74,7 +74,7 @@ class UuidWithPattern(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -92,6 +92,14 @@ class UuidWithPattern(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of UuidWithPattern from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of UuidWithPattern from a dict"""
         if obj is None:
             return None

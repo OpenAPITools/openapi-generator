@@ -19,8 +19,8 @@ import json
 
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -34,7 +34,7 @@ class Order(BaseModel):
     ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
     status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
-    __properties: ClassVar[List[str]] = ["id", "petId", "quantity", "shipDate", "status", "complete"]
+    __properties: ClassVar[list[str]] = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):
@@ -67,7 +67,7 @@ class Order(BaseModel):
         """Create an instance of Order from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -77,7 +77,7 @@ class Order(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -89,6 +89,14 @@ class Order(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of Order from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Order from a dict"""
         if obj is None:
             return None

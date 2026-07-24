@@ -63,6 +63,24 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try",
             "while", "with", "yield");
 
+    /**
+     * Names which should never be treated as model imports for Python.
+     * <p>
+     * These can leak into {@code CodegenModel.imports} from generic container/import collection logic
+     * (e.g. schema keywords like {@code array} or typing/builtin names), and then later get
+     * incorrectly converted into model import statements.
+     */
+    private static final Set<String> PYTHON_NON_MODEL_IMPORTS = Collections.unmodifiableSet(new HashSet<>(
+            Arrays.asList(
+                    // OpenAPI schema keywords (should never be imported)
+                    "array", "map", "set", "object",
+                    // Python builtins
+                    "list", "dict", "tuple", "set", "type",
+                    // typing names (capitalized)
+                    "List", "Dict", "Tuple", "Set", "Type"
+            )
+    ));
+
     protected String packageName = "openapi_client";
     @Setter protected String packageVersion = "1.0.0";
     @Setter protected String projectName; // for setup.py, e.g. petstore-api
@@ -109,8 +127,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         languageSpecificPrimitives.add("float");
         languageSpecificPrimitives.add("list");
         languageSpecificPrimitives.add("dict");
-        languageSpecificPrimitives.add("List");
-        languageSpecificPrimitives.add("Dict");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
@@ -152,6 +168,21 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         regexModifiers.put('s', "DOTALL");
         regexModifiers.put('u', "UNICODE");
         regexModifiers.put('x', "VERBOSE");
+    }
+
+    @Override
+    protected boolean shouldAddImport(String type) {
+        if (type == null) {
+            return false;
+        }
+        // Reject type expressions (e.g. list[str], dict[str, Foo]) and other non-symbol entries early.
+        if (type.indexOf('[') >= 0 || type.indexOf(']') >= 0 || type.indexOf('<') >= 0 || type.indexOf('>') >= 0) {
+            return false;
+        }
+        if (PYTHON_NON_MODEL_IMPORTS.contains(type)) {
+            return false;
+        }
+        return super.shouldAddImport(type);
     }
 
     @Override
@@ -1061,7 +1092,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (!model.oneOf.isEmpty()) { // oneOfValidationError
                 codegenProperties = model.getComposedSchemas().getOneOf();
                 moduleImports.add("typing", "Any");
-                moduleImports.add("typing", "List");
                 moduleImports.add(PYDANTIC, "Field");
                 moduleImports.add(PYDANTIC, "StrictStr");
                 moduleImports.add(PYDANTIC, "ValidationError");
@@ -1097,11 +1127,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // if model_generic.mustache is used
             if (model.oneOf.isEmpty() && model.anyOf.isEmpty() && !model.isEnum) {
                 moduleImports.add("typing", "ClassVar");
-                moduleImports.add("typing", "Dict");
                 moduleImports.add("typing", "Any");
-                if (this.disallowAdditionalPropertiesIfNotPresent || model.isAdditionalPropertiesTrue) {
-                    moduleImports.add("typing", "List");
-                }
             }
 
             // if pydantic model
@@ -1741,7 +1767,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
          *  The Python / Pydantic type can be as expressive as needed:
          *
          *  - it could simply be `str`
-         *  - or something more complex like `Optional[List[Dict[str, List[int]]]]`.
+         *  - or something more complex like `Optional[list[dict[str, list[int]]]]`.
          *
          *  Note that the default value (if available) and/or the metadata about
          *  the field / variable being defined are *not* part of the
@@ -1943,13 +1969,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 // Also, having a set instead of list creates complications:
                 // random JSON serialization order, unable to easily serialize
                 // to JSON, etc.
-                //pt.setType("Set");
-                //moduleImports.add("typing", "Set");
-                pt.setType("List");
-                moduleImports.add(TYPING, "List");
+                // pt.setType("set");
+                pt.setType("list");
             } else {
-                pt.setType("List");
-                moduleImports.add(TYPING, "List");
+                pt.setType("list");
             }
             pt.addTypeParam(collectionItemType(cp.getItems()));
             return pt;
@@ -1993,8 +2016,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         private PythonType mapType(IJsonSchemaValidationProperties cp) {
-            moduleImports.add(TYPING, "Dict");
-            PythonType pt = new PythonType("Dict");
+            PythonType pt = new PythonType("dict");
             pt.addTypeParam(new PythonType("str"));
             pt.addTypeParam(collectionItemType(cp.getItems()));
             return pt;
@@ -2082,9 +2104,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 pt.addTypeParam(strt);
 
                 if (cp.getIsBinary()) {
-                    moduleImports.add(TYPING, "Tuple");
-
-                    PythonType tt = new PythonType("Tuple");
+                    PythonType tt = new PythonType("tuple");
                     // this string is a filename, not a validated value
                     tt.addTypeParam(new PythonType("str"));
                     tt.addTypeParam(bytest);
@@ -2104,9 +2124,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 pt.addTypeParam(new PythonType("StrictStr"));
 
                 if (cp.getIsBinary()) {
-                    moduleImports.add(TYPING, "Tuple");
-
-                    PythonType tt = new PythonType("Tuple");
+                    PythonType tt = new PythonType("tuple");
                     tt.addTypeParam(new PythonType("StrictStr"));
                     tt.addTypeParam(new PythonType("StrictBytes"));
 

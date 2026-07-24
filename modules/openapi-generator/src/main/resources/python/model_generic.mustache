@@ -9,7 +9,7 @@ import json
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 {{#vendorExtensions.x-py-has-public-name-properties}}
@@ -60,7 +60,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
     {{name}}: {{{vendorExtensions.x-py-typing}}}
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
 {{/isAdditionalPropertiesTrue}}
 {{#compatibleWithPythonLegacy}}
     openapi_types: ClassVar[Dict[str, str]] = {
@@ -75,7 +75,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 {{/allVars}}
     }
 {{/compatibleWithPythonLegacy}}
-    __properties: ClassVar[List[str]] = [{{#allVars}}{{{vendorExtensions.x-py-wire-name-literal}}}{{^-last}}, {{/-last}}{{/allVars}}]
+    __properties: ClassVar[list[str]] = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
 {{#vars}}
     {{#vendorExtensions.x-regex}}
 
@@ -213,12 +213,12 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
     __discriminator_property_name: ClassVar[str] = {{#lambda.pythonSingleQuotedStringLiteral}}{{{discriminator.propertyBaseName}}}{{/lambda.pythonSingleQuotedStringLiteral}}
 
     # discriminator mappings
-    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
+    __discriminator_value_class_map: ClassVar[dict[str, str]] = {
         {{#mappedModels}}{{#lambda.pythonSingleQuotedStringLiteral}}{{{mappingName}}}{{/lambda.pythonSingleQuotedStringLiteral}}: '{{{modelName}}}'{{^-last}},{{/-last}}{{/mappedModels}}
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
+    def get_discriminator_value(cls, obj: dict[str, Any]) -> Optional[str]:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -296,7 +296,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
     def __openapi_generator_modern_projection(self) -> Dict[str, Any]:
 {{/compatibleWithPythonLegacy}}
 {{^compatibleWithPythonLegacy}}
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
 {{/compatibleWithPythonLegacy}}
         """Return the dictionary representation of the model using alias.
 
@@ -313,7 +313,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         * Fields in `self.additional_properties` are added to the output dict.
         {{/isAdditionalPropertiesTrue}}
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             {{#vendorExtensions.x-py-readonly}}
             "{{{.}}}",
             {{/vendorExtensions.x-py-readonly}}
@@ -450,7 +450,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 {{/compatibleWithPythonLegacy}}
     {{#hasChildren}}
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[{{#discriminator}}Union[{{#mappedModels}}{{{modelName}}}{{^-last}}, {{/-last}}{{/mappedModels}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}]:
+    def from_dict(cls, obj: dict[str, Any]) -> Optional[{{#discriminator}}Union[{{#mappedModels}}{{{modelName}}}{{^-last}}, {{/-last}}{{/mappedModels}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}]:
         """Create an instance of {{{classname}}} from a dict"""
     {{/hasChildren}}
     {{^hasChildren}}
@@ -490,6 +490,14 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
     {{/hasChildren}}
     {{^hasChildren}}
 {{^vendorExtensions.x-py-preprocesses-input-names}}
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of {{{classname}}} from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
 
 {{/vendorExtensions.x-py-preprocesses-input-names}}
         {{#disallowAdditionalPropertiesIfNotPresent}}

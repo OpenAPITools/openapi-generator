@@ -19,8 +19,8 @@ import json
 
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictStr, model_validator as _model_validator
-from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional, cast as _cast
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 from typing import TYPE_CHECKING
@@ -31,8 +31,8 @@ class SecondRef(BaseModel):
     """ # noqa: E501
     category: Optional[StrictStr] = None
     circular_ref: Optional[CircularReferenceModel] = Field(default=None, validation_alias=AliasChoices("circular_ref", "_circular_ref"), serialization_alias="circular_ref", alias="_circular_ref")
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["category", "circular_ref"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["category", "circular_ref"]
 
     @classmethod
     def __preprocess_input_names(
@@ -96,7 +96,7 @@ class SecondRef(BaseModel):
         """Create an instance of SecondRef from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -107,7 +107,7 @@ class SecondRef(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 

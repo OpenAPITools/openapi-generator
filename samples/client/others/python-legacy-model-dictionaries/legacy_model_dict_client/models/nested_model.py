@@ -19,8 +19,8 @@ import json
 
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional, cast as _cast
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -114,7 +114,7 @@ class NestedModel(BaseModel):
         "camel_case": "camelCase",
         "nested_read_only_value": "nestedReadOnlyValue"
     }
-    __properties: ClassVar[List[str]] = ["camelCase", "nestedReadOnlyValue"]
+    __properties: ClassVar[list[str]] = ["camelCase", "nestedReadOnlyValue"]
 
     @classmethod
     def __preprocess_input_names(
@@ -195,7 +195,7 @@ class NestedModel(BaseModel):
           are ignored.
         * OpenAPI `readOnly` fields are excluded.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "nested_read_only_value",
         ])
 

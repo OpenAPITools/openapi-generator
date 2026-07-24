@@ -16,11 +16,11 @@ from __future__ import annotations
 import json
 import pprint
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from legacy_model_dict_client.models.legacy_model import LegacyModel
 from legacy_model_dict_client.models.nested_model import NestedModel
 from pydantic import StrictStr, Field
-from typing import Union, List, Set, Optional, Dict
+from typing import Union, Optional
 from typing_extensions import Literal, Self
 from pydantic_core import to_jsonable_python
 
@@ -93,7 +93,7 @@ def _to_openapi_value(value: Any) -> Any:
     return value
 
 
-ONEOFMODEL_ONE_OF_SCHEMAS = ["Dict[str, NestedModel]", "LegacyModel", "List[NestedModel]", "str"]
+ONEOFMODEL_ONE_OF_SCHEMAS = ["LegacyModel", "dict[str, NestedModel]", "list[NestedModel]", "str"]
 
 class OneOfModel(BaseModel):
     """
@@ -101,14 +101,14 @@ class OneOfModel(BaseModel):
     """
     # data type: LegacyModel
     oneof_schema_1_validator: Optional[LegacyModel] = None
-    # data type: List[NestedModel]
-    oneof_schema_2_validator: Optional[List[NestedModel]] = None
-    # data type: Dict[str, NestedModel]
-    oneof_schema_3_validator: Optional[Dict[str, NestedModel]] = None
+    # data type: list[NestedModel]
+    oneof_schema_2_validator: Optional[list[NestedModel]] = None
+    # data type: dict[str, NestedModel]
+    oneof_schema_3_validator: Optional[dict[str, NestedModel]] = None
     # data type: str
     oneof_schema_4_validator: Optional[StrictStr] = None
-    actual_instance: Optional[Union[Dict[str, NestedModel], LegacyModel, List[NestedModel], str]] = None
-    one_of_schemas: Set[str] = { "Dict[str, NestedModel]", "LegacyModel", "List[NestedModel]", "str" }
+    actual_instance: Optional[Union[LegacyModel, dict[str, NestedModel], list[NestedModel], str]] = None
+    one_of_schemas: set[str] = { "LegacyModel", "dict[str, NestedModel]", "list[NestedModel]", "str" }
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -136,13 +136,13 @@ class OneOfModel(BaseModel):
             error_messages.append(f"Error! Input type `{type(v)}` is not `LegacyModel`")
         else:
             match += 1
-        # validate data type: List[NestedModel]
+        # validate data type: list[NestedModel]
         try:
             instance.oneof_schema_2_validator = v
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # validate data type: Dict[str, NestedModel]
+        # validate data type: dict[str, NestedModel]
         try:
             instance.oneof_schema_3_validator = v
             match += 1
@@ -156,15 +156,15 @@ class OneOfModel(BaseModel):
             error_messages.append(str(e))
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in OneOfModel with oneOf schemas: Dict[str, NestedModel], LegacyModel, List[NestedModel], str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in OneOfModel with oneOf schemas: LegacyModel, dict[str, NestedModel], list[NestedModel], str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in OneOfModel with oneOf schemas: Dict[str, NestedModel], LegacyModel, List[NestedModel], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in OneOfModel with oneOf schemas: LegacyModel, dict[str, NestedModel], list[NestedModel], str. Details: " + ", ".join(error_messages))
         else:
             return v
 
     @classmethod
-    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
+    def from_dict(cls, obj: Union[str, dict[str, Any]]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
@@ -180,7 +180,7 @@ class OneOfModel(BaseModel):
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into List[NestedModel]
+        # deserialize data into list[NestedModel]
         try:
             # validation
             instance.oneof_schema_2_validator = json.loads(json_str)
@@ -189,7 +189,7 @@ class OneOfModel(BaseModel):
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into Dict[str, NestedModel]
+        # deserialize data into dict[str, NestedModel]
         try:
             # validation
             instance.oneof_schema_3_validator = json.loads(json_str)
@@ -210,10 +210,10 @@ class OneOfModel(BaseModel):
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into OneOfModel with oneOf schemas: Dict[str, NestedModel], LegacyModel, List[NestedModel], str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into OneOfModel with oneOf schemas: LegacyModel, dict[str, NestedModel], list[NestedModel], str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into OneOfModel with oneOf schemas: Dict[str, NestedModel], LegacyModel, List[NestedModel], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into OneOfModel with oneOf schemas: LegacyModel, dict[str, NestedModel], list[NestedModel], str. Details: " + ", ".join(error_messages))
         else:
             return instance
 

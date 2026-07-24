@@ -1805,7 +1805,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .build();
 
         defaultIncludes = new HashSet<>(
-                Arrays.asList("double",
+                Arrays.asList(
+                        "double",
                         "int",
                         "long",
                         "short",
@@ -1818,7 +1819,19 @@ public class DefaultCodegen implements CodegenConfig {
                         "Void",
                         "Integer",
                         "Long",
-                        "Float")
+                        "Float",
+                        // OpenAPI primitive/container keywords (these are schema-level concepts, not language types)
+                        // and should never produce language import statements.
+                        "string",
+                        "number",
+                        "integer",
+                        "boolean",
+                        "null",
+                        "object",
+                        "array",
+                        "map",
+                        "set"
+                    )
         );
 
         typeMapping = new HashMap<>();

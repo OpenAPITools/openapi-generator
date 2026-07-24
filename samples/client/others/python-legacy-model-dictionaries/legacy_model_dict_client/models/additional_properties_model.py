@@ -19,8 +19,8 @@ import json
 
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional, cast as _cast
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -104,7 +104,7 @@ class AdditionalPropertiesModel(BaseModel):
                             and the value is json key in definition.
     """ # noqa: E501
     declared_value: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("declaredValue", "declared_value"), serialization_alias="declaredValue")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     openapi_types: ClassVar[Dict[str, str]] = {
         "declared_value": "str"
     }
@@ -112,7 +112,7 @@ class AdditionalPropertiesModel(BaseModel):
     attribute_map: ClassVar[Dict[str, str]] = {
         "declared_value": "declaredValue"
     }
-    __properties: ClassVar[List[str]] = ["declaredValue"]
+    __properties: ClassVar[list[str]] = ["declaredValue"]
 
     @classmethod
     def __preprocess_input_names(
@@ -192,7 +192,7 @@ class AdditionalPropertiesModel(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 

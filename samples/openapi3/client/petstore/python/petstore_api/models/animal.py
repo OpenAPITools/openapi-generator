@@ -20,8 +20,8 @@ import json
 from collections.abc import Mapping as _Mapping
 from importlib import import_module
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictStr, model_validator as _model_validator
-from typing import Any, ClassVar, Dict, List, Optional, Union, cast as _cast
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional, Union, cast as _cast
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 from typing import TYPE_CHECKING
@@ -36,8 +36,8 @@ class Animal(BaseModel):
     """ # noqa: E501
     class_name: StrictStr = Field(validation_alias=AliasChoices("className", "_class_name"), serialization_alias="className", alias="_class_name")
     color: Optional[StrictStr] = 'red'
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["className", "color"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["className", "color"]
 
     @classmethod
     def __preprocess_input_names(
@@ -94,12 +94,12 @@ class Animal(BaseModel):
     __discriminator_property_name: ClassVar[str] = 'className'
 
     # discriminator mappings
-    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
+    __discriminator_value_class_map: ClassVar[dict[str, str]] = {
         'Cat': 'Cat','Dog': 'Dog'
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
+    def get_discriminator_value(cls, obj: dict[str, Any]) -> Optional[str]:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -120,7 +120,7 @@ class Animal(BaseModel):
         """Create an instance of Animal from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -131,7 +131,7 @@ class Animal(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -148,7 +148,7 @@ class Animal(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[Cat, Dog]]:
+    def from_dict(cls, obj: dict[str, Any]) -> Optional[Union[Cat, Dog]]:
         """Create an instance of Animal from a dict"""
 
         obj = _cast(

@@ -107,7 +107,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
-    user = [petstore_api.User()] # List[User] | List of user object
+    user = [petstore_api.User()] # list[User] | List of user object
 
     try:
         # Creates list of users with given input array
@@ -123,7 +123,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List[User]**](User.md)| List of user object | 
+ **user** | [**list[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -173,7 +173,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
-    user = [petstore_api.User()] # List[User] | List of user object
+    user = [petstore_api.User()] # list[User] | List of user object
 
     try:
         # Creates list of users with given input array
@@ -189,7 +189,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List[User]**](User.md)| List of user object | 
+ **user** | [**list[User]**](User.md)| List of user object | 
 
 ### Return type
 

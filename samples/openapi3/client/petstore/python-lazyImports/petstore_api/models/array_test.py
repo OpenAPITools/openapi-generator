@@ -18,10 +18,10 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -29,12 +29,12 @@ class ArrayTest(BaseModel):
     """
     ArrayTest
     """ # noqa: E501
-    array_of_string: Optional[Annotated[List[StrictStr], Field(min_length=0, max_length=3)]] = None
-    array_of_nullable_float: Optional[List[Optional[StrictFloat]]] = None
-    array_array_of_integer: Optional[List[List[StrictInt]]] = None
-    array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
+    array_of_string: Optional[Annotated[list[StrictStr], Field(min_length=0, max_length=3)]] = None
+    array_of_nullable_float: Optional[list[Optional[StrictFloat]]] = None
+    array_array_of_integer: Optional[list[list[StrictInt]]] = None
+    array_array_of_model: Optional[list[list[ReadOnlyFirst]]] = None
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -57,7 +57,7 @@ class ArrayTest(BaseModel):
         """Create an instance of ArrayTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -68,7 +68,7 @@ class ArrayTest(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -95,6 +95,14 @@ class ArrayTest(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of ArrayTest from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ArrayTest from a dict"""
         if obj is None:
             return None

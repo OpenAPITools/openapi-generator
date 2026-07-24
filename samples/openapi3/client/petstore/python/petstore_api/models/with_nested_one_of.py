@@ -18,10 +18,10 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.pig import Pig
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -32,8 +32,9 @@ class WithNestedOneOf(BaseModel):
     size: Optional[StrictInt] = None
     nested_pig: Optional[Pig] = Field(default=None, alias="nested_\npig")
     nested_oneof_enum_string: Optional[OneOfEnumString] = None
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["size", "nested_\npig", "nested_oneof_enum_string"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["size", "nested_
+pig", "nested_oneof_enum_string"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -56,7 +57,7 @@ class WithNestedOneOf(BaseModel):
         """Create an instance of WithNestedOneOf from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -67,7 +68,7 @@ class WithNestedOneOf(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -91,6 +92,14 @@ class WithNestedOneOf(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of WithNestedOneOf from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of WithNestedOneOf from a dict"""
         if obj is None:
             return None

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Union
+from typing import Any, Union
 from pydantic import BaseModel, Field, StrictStr
 
 from typing import TYPE_CHECKING
@@ -31,7 +31,7 @@ class DiscriminatorAllOfSuper(BaseModel):
     DiscriminatorAllOfSuper
     """
     element_type: StrictStr = Field(default=..., alias="element'\"\\Type")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["element'\"\\Type"]
 
     class Config:
