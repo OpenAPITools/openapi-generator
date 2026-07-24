@@ -1,0 +1,99 @@
+openapi: 3.0.3
+info:
+  title: PreAuthorize scopes
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /api/overview:
+    get:
+      operationId: getOverview
+      responses:
+        "200":
+          description: Ok
+      security:
+      - auth0:
+        - client-data:read
+      - auth0:
+        - utility-data:read
+      tags:
+      - Overview
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Overview
+  /api/combined:
+    get:
+      operationId: getCombined
+      responses:
+        "200":
+          description: Ok
+      security:
+      - auth0:
+        - client-data:read
+        - utility-data:read
+      - auth0:
+        - other-data:read
+      tags:
+      - Overview
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Overview
+  /api/authenticated:
+    get:
+      operationId: getAuthenticated
+      responses:
+        "200":
+          description: Ok
+      security:
+      - auth0: []
+      tags:
+      - Overview
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Overview
+  /api/normalized:
+    get:
+      operationId: get-normalized
+      responses:
+        "200":
+          description: Ok
+      security:
+      - auth0:
+        - client-data:read
+      tags:
+      - Overview
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Overview
+  /api/escaped:
+    get:
+      operationId: getEscaped
+      responses:
+        "200":
+          description: Ok
+      security:
+      - auth0:
+        - client-data:read'quoted
+      tags:
+      - Overview
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Overview
+components:
+  schemas: {}
+  securitySchemes:
+    auth0:
+      flows:
+        clientCredentials:
+          scopes:
+            client-data:read: Read client data
+            client-data:read'quoted: Read quoted client data
+            utility-data:read: Read utility data
+            other-data:read: Read other data
+          tokenUrl: https://example.test/oauth/token
+      type: oauth2

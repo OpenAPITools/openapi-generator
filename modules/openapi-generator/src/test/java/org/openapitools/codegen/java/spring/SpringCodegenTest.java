@@ -4054,6 +4054,91 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testGeneratePreAuthorizeFromOAuth2Scopes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/preauthorize-scopes.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_SPRING_SECURITY_PRE_AUTHORIZE, true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getOverview")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value",
+                        "\"hasAuthority('SCOPE_client-data:read') or hasAuthority('SCOPE_utility-data:read')\""));
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getCombined")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value",
+                        "\"(hasAuthority('SCOPE_client-data:read') and hasAuthority('SCOPE_utility-data:read')) or hasAuthority('SCOPE_other-data:read')\""));
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getAuthenticated")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value", "\"isAuthenticated()\""));
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getNormalized")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value",
+                        "\"hasAuthority('SCOPE_client-data:read')\""));
+        assertThat(Files.readString(files.get("ApiApi.java").toPath()))
+                .contains("import org.springframework.security.access.prepost.PreAuthorize;")
+                .contains("@PreAuthorize(\"hasAuthority('SCOPE_client-data:read''quoted')\")");
+        assertThat(Files.readString(files.get("OpenApiGeneratorApplication.java").toPath()))
+                .contains("import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;")
+                .contains("@EnableMethodSecurity")
+                .contains("@ConditionalOnMissingBean(SecurityFilterChain.class)")
+                .contains(".authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())");
+        assertThat(Files.readString(files.get("pom.xml").toPath()))
+                .contains("<artifactId>spring-boot-starter-security</artifactId>")
+                .doesNotContain("<artifactId>spring-security-config</artifactId>");
+    }
+
+    @Test
+    public void testGeneratePreAuthorizeWithCustomAuthorityPrefix() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/preauthorize-scopes.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_SPRING_SECURITY_PRE_AUTHORIZE, true);
+        codegen.additionalProperties().put(SPRING_SECURITY_AUTHORITY_PREFIX, "PERMISSION_");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getOverview")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value",
+                        "\"hasAuthority('PERMISSION_client-data:read') or hasAuthority('PERMISSION_utility-data:read')\""));
+    }
+
+    @Test
     public void doCallFluentParentSettersFromChildModel() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

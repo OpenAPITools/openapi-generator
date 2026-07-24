@@ -1,18 +1,14 @@
-package {{basePackage}};
+package org.openapitools;
 
-{{#openApiNullable}}
 import com.fasterxml.jackson.databind.Module;
 import org.openapitools.jackson.nullable.JsonNullableModule;
-{{/openApiNullable}}
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-{{#useSpringSecurityPreAuthorize}}
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-{{/useSpringSecurityPreAuthorize}}
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -22,15 +18,12 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
     nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 @ComponentScan(
-    basePackages = {"{{basePackage}}", "{{apiPackage}}" , "{{configPackage}}"},
+    basePackages = {"org.openapitools", "org.openapitools.api" , "org.openapitools.configuration"},
     nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
-{{#useSpringSecurityPreAuthorize}}
 @EnableMethodSecurity
-{{/useSpringSecurityPreAuthorize}}
 public class OpenApiGeneratorApplication {
 
-{{#useSpringSecurityPreAuthorize}}
     @Bean
     @ConditionalOnMissingBean(SecurityFilterChain.class)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -40,16 +33,13 @@ public class OpenApiGeneratorApplication {
             .build();
     }
 
-{{/useSpringSecurityPreAuthorize}}
     public static void main(String[] args) {
         SpringApplication.run(OpenApiGeneratorApplication.class, args);
     }
 
-{{#openApiNullable}}
-    @Bean(name = "{{basePackage}}.OpenApiGeneratorApplication.jsonNullableModule")
+    @Bean(name = "org.openapitools.OpenApiGeneratorApplication.jsonNullableModule")
     public Module jsonNullableModule() {
         return new JsonNullableModule();
     }
-{{/openApiNullable}}
 
 }
