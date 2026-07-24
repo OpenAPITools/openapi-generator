@@ -152,7 +152,9 @@ __all__ = [
     "WithNestedOneOf",
 ]
 
-if __import__("typing").TYPE_CHECKING:
+import typing as _typing
+
+if _typing.TYPE_CHECKING:
     # import apis into sdk package
     from petstore_api.api.another_fake_api import AnotherFakeApi as AnotherFakeApi
     from petstore_api.api.default_api import DefaultApi as DefaultApi
