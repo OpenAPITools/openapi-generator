@@ -56,6 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.client.model|
 |openApiNullable|Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.| |true|
+|optionalGettersForNullableFieldsOnly|Make getters of non-required fields return Optional&lt;T&gt; while keeping the field and setter as the raw type. Supported libraries: restclient, resttemplate, webclient (java generator) and spring (spring generator). Opt-in, disabled by default.| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |rootJavaEEPackage|Root package name for Java EE| |Helidon 2.x and earlier: javax; Helidon 3.x and later: jakarta|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|

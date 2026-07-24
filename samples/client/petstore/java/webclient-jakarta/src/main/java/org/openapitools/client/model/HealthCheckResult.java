@@ -56,7 +56,7 @@ public class HealthCheckResult {
   @JsonIgnore
 
   public String getNullableMessage() {
-        return nullableMessage.orElse(null);
+    return nullableMessage.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)

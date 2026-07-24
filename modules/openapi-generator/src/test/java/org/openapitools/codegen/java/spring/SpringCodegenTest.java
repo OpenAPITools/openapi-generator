@@ -5465,6 +5465,56 @@ public class SpringCodegenTest {
     }
 
     @Test
+    void testOptionalGettersForNullableFieldsOnly() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/builder.yaml",
+                SPRING_BOOT,
+                Map.of(
+                        SpringCodegen.OPENAPI_NULLABLE, true,
+                        AbstractJavaCodegen.OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, true,
+                        INTERFACE_ONLY, "true"
+                )
+        );
+
+        // Non-required, non-nullable fields: getter returns Optional without @Nullable, field and setter stay raw.
+        JavaFileAssert.assertThat(files.get("SimpleObject.java"))
+                .fileContains(
+                        "public java.util.Optional<String> getSimple() {",
+                        "return java.util.Optional.ofNullable(simple);",
+                        "private @Nullable String simple;",
+                        "public void setSimple(@Nullable String simple) {")
+                // @Nullable must NOT appear on the getter returning Optional (invalid with jspecify).
+                .fileDoesNotContain(
+                        "public @Nullable java.util.Optional<String> getSimple()",
+                        "private @Nullable java.util.Optional<String> simple;",
+                        "public void setSimple(java.util.Optional<String> simple)");
+
+        // Nullable fields keep JsonNullable semantics and must NOT be wrapped in Optional.
+        JavaFileAssert.assertThat(files.get("SimpleObject.java"))
+                .fileContains("public JsonNullable<String> getNullableObject() {")
+                .fileDoesNotContain("public java.util.Optional<String> getNullableObject() {");
+    }
+
+    @Test
+    void testOptionalGettersForNullableFieldsOnlyDisabledByDefault() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/builder.yaml",
+                SPRING_BOOT,
+                Map.of(
+                        SpringCodegen.OPENAPI_NULLABLE, true,
+                        INTERFACE_ONLY, "true"
+                )
+        );
+
+        // Without the opt-in flag the getter must keep returning the raw type (backward compatible).
+        JavaFileAssert.assertThat(files.get("SimpleObject.java"))
+                .fileContains("getSimple()")
+                .fileDoesNotContain(
+                        "public java.util.Optional<String> getSimple() {",
+                        "return java.util.Optional.ofNullable(simple);");
+    }
+
+    @Test
     public void optionalListShouldBeEmpty() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

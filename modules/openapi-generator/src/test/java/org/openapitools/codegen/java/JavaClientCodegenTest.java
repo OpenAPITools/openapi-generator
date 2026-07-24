@@ -4767,6 +4767,49 @@ public class JavaClientCodegenTest {
                 .contains("import io.swagger.v3.oas.annotations.tags.*;")
                 .contains("@Tag(");
     }
+    @Test
+    public void testOptionalGettersForNullableFieldsOnly() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .addAdditionalProperty(AbstractJavaCodegen.OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, true)
+                .setInputSpec("src/test/resources/3_0/java/builder.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // Generated sources must compile (validates Optional getter + raw field/setter are consistent).
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/SimpleObject.java")).content().contains(
+                "public java.util.Optional<String> getSimple() {",
+                "return java.util.Optional.ofNullable(simple);",
+                "private String simple;",
+                "public void setSimple(@jakarta.annotation.Nullable String simple) {"
+        );
+        // Nullable fields keep JsonNullable and must not be wrapped in Optional.
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/SimpleObject.java")).content()
+                .doesNotContain("public java.util.Optional<String> getNullableObject() {");
+    }
+
+    @Test
+    public void testOptionalGettersForNullableFieldsOnlyDisabledByDefault() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setInputSpec("src/test/resources/3_0/java/builder.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        // Without the opt-in flag the getter keeps returning the raw type (backward compatible).
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/SimpleObject.java")).content()
+                .doesNotContain("return java.util.Optional.ofNullable(simple);");
+    }
 
     @DataProvider(name = "rxJavaOptions")
     public static Object[][] rxJavaOptions() {

@@ -238,8 +238,8 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-{{#jackson}}{{>jackson_annotations}}{{/jackson}}{{#withXml}}{{>xmlAccessorAnnotation}}{{/withXml}}  public {{>nullableAnnotation}}{{>nullableDataTypeBeanValidation}} {{getter}}() {
-    return {{name}};
+{{#jackson}}{{>jackson_annotations}}{{/jackson}}{{#withXml}}{{>xmlAccessorAnnotation}}{{/withXml}}  public {{^optionalGettersForNullableFieldsOnly}}{{>nullableAnnotation}}{{/optionalGettersForNullableFieldsOnly}}{{#optionalGettersForNullableFieldsOnly}}{{#required}}{{>nullableAnnotation}}{{/required}}{{^required}}{{#isInherited}}{{>nullableAnnotation}}{{/isInherited}}{{#isDiscriminator}}{{>nullableAnnotation}}{{/isDiscriminator}}{{^isInherited}}{{^isDiscriminator}}{{^isNullable}}java.util.Optional<{{/isNullable}}{{/isDiscriminator}}{{/isInherited}}{{/required}}{{/optionalGettersForNullableFieldsOnly}}{{>nullableDataTypeBeanValidation}}{{#optionalGettersForNullableFieldsOnly}}{{^required}}{{^isInherited}}{{^isDiscriminator}}{{^isNullable}}>{{/isNullable}}{{/isDiscriminator}}{{/isInherited}}{{/required}}{{/optionalGettersForNullableFieldsOnly}} {{getter}}() {
+    {{#optionalGettersForNullableFieldsOnly}}{{^required}}{{^isInherited}}{{^isDiscriminator}}{{^isNullable}}return java.util.Optional.ofNullable({{name}});{{/isNullable}}{{#isNullable}}return {{name}};{{/isNullable}}{{/isDiscriminator}}{{#isDiscriminator}}return {{name}};{{/isDiscriminator}}{{/isInherited}}{{#isInherited}}return {{name}};{{/isInherited}}{{/required}}{{#required}}return {{name}};{{/required}}{{/optionalGettersForNullableFieldsOnly}}{{^optionalGettersForNullableFieldsOnly}}return {{name}};{{/optionalGettersForNullableFieldsOnly}}
   }
   {{/lombok.Getter}}
 
