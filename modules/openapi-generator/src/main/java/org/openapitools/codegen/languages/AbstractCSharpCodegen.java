@@ -21,7 +21,12 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -613,6 +618,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+        final Set<String> operationInputModels = getOperationInputModels();
 
         Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
@@ -642,6 +648,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 continue;
             }
 
+            if (operationInputModels.contains(entry.getKey()) || operationInputModels.contains(model.schemaName)) {
+                model.vendorExtensions.put(X_MODEL_IS_OPERATION_INPUT, true);
+            }
             model.vendorExtensions.put(X_MODEL_IS_MUTABLE, modelIsMutable(model, null));
 
             CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
@@ -713,6 +722,77 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             }
         }
         return processed;
+    }
+
+    private Set<String> getOperationInputModels() {
+        Set<String> operationInputModels = new HashSet<>();
+        Set<String> visitedModels = new HashSet<>();
+        if (openAPI == null || openAPI.getPaths() == null) {
+            return operationInputModels;
+        }
+
+        for (PathItem pathItem : openAPI.getPaths().values()) {
+            collectOperationInputModels(pathItem.getParameters(), operationInputModels, visitedModels);
+            for (Operation operation : pathItem.readOperations()) {
+                collectOperationInputModels(operation.getParameters(), operationInputModels, visitedModels);
+                RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+                if (requestBody != null) {
+                    collectOperationInputModels(requestBody.getContent(), operationInputModels, visitedModels);
+                }
+            }
+        }
+        return operationInputModels;
+    }
+
+    private void collectOperationInputModels(List<Parameter> parameters, Set<String> operationInputModels, Set<String> visitedModels) {
+        if (parameters == null) {
+            return;
+        }
+        for (Parameter unresolvedParameter : parameters) {
+            Parameter parameter = ModelUtils.getReferencedParameter(openAPI, unresolvedParameter);
+            if (parameter != null) {
+                collectOperationInputModels(parameter.getSchema(), operationInputModels, visitedModels);
+                collectOperationInputModels(parameter.getContent(), operationInputModels, visitedModels);
+            }
+        }
+    }
+
+    private void collectOperationInputModels(Content content, Set<String> operationInputModels, Set<String> visitedModels) {
+        if (content == null) {
+            return;
+        }
+        content.values().forEach(mediaType -> collectOperationInputModels(mediaType.getSchema(), operationInputModels, visitedModels));
+    }
+
+    private void collectOperationInputModels(Schema schema, Set<String> operationInputModels, Set<String> visitedModels) {
+        if (schema == null || Boolean.TRUE.equals(schema.getReadOnly())) {
+            return;
+        }
+        if (schema.get$ref() != null) {
+            String modelName = ModelUtils.getSimpleRef(schema.get$ref());
+            operationInputModels.add(modelName);
+            if (visitedModels.add(modelName)) {
+                collectOperationInputModels(ModelUtils.getSchema(openAPI, modelName), operationInputModels, visitedModels);
+            }
+        }
+        if (schema.getOneOf() != null) {
+            schema.getOneOf().forEach(child -> collectOperationInputModels((Schema) child, operationInputModels, visitedModels));
+        }
+        if (schema.getAllOf() != null) {
+            schema.getAllOf().forEach(child -> collectOperationInputModels((Schema) child, operationInputModels, visitedModels));
+        }
+        if (schema.getAnyOf() != null) {
+            schema.getAnyOf().forEach(child -> collectOperationInputModels((Schema) child, operationInputModels, visitedModels));
+        }
+        // TODO: Traverse OAS 3.1 schema keywords that can reference operation-input models,
+        // such as prefixItems, contains, if/then/else, dependentSchemas, and unevaluatedProperties.
+        collectOperationInputModels(ModelUtils.getSchemaItems(schema), operationInputModels, visitedModels); // in case schema has array type
+        if (schema.getAdditionalProperties() instanceof Schema) {
+            collectOperationInputModels((Schema) schema.getAdditionalProperties(), operationInputModels, visitedModels);
+        }
+        if (schema.getProperties() != null) {
+            schema.getProperties().values().forEach(property -> collectOperationInputModels((Schema) property, operationInputModels, visitedModels));
+        }
     }
 
     /**

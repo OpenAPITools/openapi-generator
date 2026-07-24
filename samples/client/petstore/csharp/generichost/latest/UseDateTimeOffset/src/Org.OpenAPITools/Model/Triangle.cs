@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="equilateralTriangle"></param>
-        public Triangle(EquilateralTriangle equilateralTriangle)
+        internal Triangle(EquilateralTriangle equilateralTriangle)
         {
             EquilateralTriangle = equilateralTriangle;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="isoscelesTriangle"></param>
-        public Triangle(IsoscelesTriangle isoscelesTriangle)
+        internal Triangle(IsoscelesTriangle isoscelesTriangle)
         {
             IsoscelesTriangle = isoscelesTriangle;
             OnCreated();
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="scaleneTriangle"></param>
-        public Triangle(ScaleneTriangle scaleneTriangle)
+        internal Triangle(ScaleneTriangle scaleneTriangle)
         {
             ScaleneTriangle = scaleneTriangle;
             OnCreated();

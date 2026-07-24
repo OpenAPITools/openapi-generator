@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="basquePig"></param>
-        public Pig(BasquePig basquePig)
+        internal Pig(BasquePig basquePig)
         {
             BasquePig = basquePig;
             OnCreated();
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="danishPig"></param>
-        public Pig(DanishPig danishPig)
+        internal Pig(DanishPig danishPig)
         {
             DanishPig = danishPig;
             OnCreated();
