@@ -488,6 +488,10 @@ public class TypeScriptAngularClientCodegenTest {
         final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
         assertThat(fileContents).containsSubsequence("'options',\n", "<any>options,\n", "QueryParamStyle.DeepObject,\n", "true,\n");
         assertThat(fileContents).containsSubsequence("'inputOptions',\n", "<any>inputOptions,\n", "QueryParamStyle.DeepObject,\n", "true,\n");
+
+        final String baseServiceContents = Files.readString(Paths.get(output + "/api.base.service.ts"));
+        assertThat(baseServiceContents).contains("this.addToHttpParamsDeepObject(hp, `${key}[${k}]`, value[k])");
+        assertThat(baseServiceContents).contains("this.addToHttpParamsDeepObject(httpParams, `${key}[${index}]`, item)");
     }
 
     @Test
