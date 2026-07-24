@@ -11,6 +11,38 @@ Another approach to find breaking changes is to look at issue and pull requests 
 * link:https://github.com/OpenAPITools/openapi-generator/labels/Breaking%20change%20%28with%20fallback%29[Breaking change (with fallback)]
 * link:https://github.com/OpenAPITools/openapi-generator/labels/Breaking%20change%20%28without%20fallback%29[Breaking change (without fallback)]
 
+=== From 7.24.x to 7.25.0 (java-spring / kotlin-spring)
+
+Version `7.24.0` (link:https://github.com/OpenAPITools/openapi-generator/pull/23993[#23993]) started emitting field-level Jackson annotations on model properties for the `spring` and `kotlin-spring` generators:
+
+* `@JsonInclude(...)` on properties (serialization), and
+* `@JsonSetter(nulls = ...)` on optional non-nullable properties (deserialization).
+
+Field-level `@JsonInclude` overrides the project-wide `ObjectMapper` inclusion policy (for example `spring.jackson.default-property-inclusion=non_empty`), which silently changed the wire contract for projects that upgraded. See link:https://github.com/OpenAPITools/openapi-generator/issues/24401[#24401].
+
+Starting with `7.25.0`, emission of these annotations is controlled by two independent, opt-in options. When an option is left **unset**, the generator defaults to the pre-`7.24.0` (`7.23.0`) behavior — *no* annotations are emitted — and logs a warning so the choice is visible even on transitive upgrades. Set the option explicitly to silence the warning.
+
+==== Serialization: `@JsonInclude`
+
+* `generateJsonIncludeAnnotations` (boolean)
+** unset (default) → no `@JsonInclude` annotations; inclusion is governed entirely by the global `ObjectMapper` (a warning is logged).
+** `false` → same weak behavior, warning silenced.
+** `true` → emit spec-honest `@JsonInclude` annotations (required-field contract protection plus the optional non-nullable policy below).
+* `optionalNonNullPropertyJsonInclude` (enum, default `NON_NULL`) → the policy emitted for optional non-nullable properties when `generateJsonIncludeAnnotations=true`. One of `NON_NULL` / `NON_EMPTY` / `NON_DEFAULT` / `NONE` (`NONE` emits nothing).
+
+A per-property override set via the `x-jackson-json-include-policy` vendor extension always wins, regardless of these flags.
+
+==== Deserialization: `@JsonSetter(nulls = ...)`
+
+* `generateJsonSetterNullsAnnotations` (boolean)
+** unset (default) → no `@JsonSetter(nulls = ...)` annotations; null-handling is governed by the global `ObjectMapper` (a warning is logged).
+** `false` → same weak behavior, warning silenced.
+** `true` → emit `@JsonSetter(nulls = ...)` on optional non-nullable properties.
+
+==== Note
+
+`@JsonInclude(NON_ABSENT)` is no longer emitted on `JsonNullable<T>` fields: the `JsonNullable` module already governs their inclusion, so the annotation was redundant.
+
 === From 3.x to 4.0.0
 
 Version `4.0.0` is a major release, which contains some breaking changes without fallback.
