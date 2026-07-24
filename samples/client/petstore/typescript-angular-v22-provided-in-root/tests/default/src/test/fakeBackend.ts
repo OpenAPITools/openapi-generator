@@ -3,21 +3,12 @@ import { Observable, type Observer } from 'rxjs'
 import {
   type HttpEvent,
   HttpEventType,
-  type HttpHandler,
   type HttpHandlerFn,
-  type HttpInterceptor,
   type HttpInterceptorFn,
   type HttpRequest
 } from '@angular/common/http'
 import { TestRequest } from '@angular/common/http/testing'
 import { type Pet } from '@swagger/typescript-angular-petstore'
-
-@Injectable()
-export class FakePetstoreBackendInterceptor implements HttpInterceptor {
-  intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return fakePetstoreBackendInterceptorFn(req, () => next.handle(req))
-  }
-}
 
 export const fakePetstoreBackendInterceptorFn: HttpInterceptorFn = (
   req: HttpRequest<unknown>,

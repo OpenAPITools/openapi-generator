@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing'
+import { TestBed } from '@angular/core/testing'
 import {
   PetService,
   StoreService,
@@ -9,8 +9,8 @@ import { fakePetstoreBackendInterceptorFn } from '../test/fakeBackend'
 import { provideHttpClient, withInterceptors } from '@angular/common/http'
 
 describe('AppComponent', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach( async () => {
+    await TestBed.configureTestingModule({
       providers: [
         PetService,
         StoreService,
@@ -30,7 +30,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent)
     fixture.detectChanges()
     const compiled = fixture.debugElement.nativeElement
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Typescript Angular v16 (provided in root)!')
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Typescript Angular v22 (provided in root)!')
   })
 
   describe('constructor()', () => {

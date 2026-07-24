@@ -79,8 +79,8 @@ describe('API (functionality)', () => {
         }))
       ).subscribe(
         {
-          complete: () => {},
-          error: (error) => {fail(`expected a result, not the error: ${error.message}`)}
+          next: (result: Pet) => expect(result.name).toBe('something else'),
+          error: (error) => fail(`expected a result, not the error: ${error.message}`)
         }
       )
     }))
