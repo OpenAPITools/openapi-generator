@@ -361,7 +361,9 @@ class {{{classname}}} {
                 {{^vendorExtensions.x-is-optional}}
         {{{name}}}: {{#isNullable}}json[r'{{{baseName}}}'] == null
             ? {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
-            : {{/isNullable}}{{{datatypeWithEnum}}}.parse('${json[r'{{{baseName}}}']}'),
+            : {{/isNullable}}{{^isNullable}}{{^required}}json[r'{{{baseName}}}'] == null
+            ? {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+            : {{/required}}{{/isNullable}}{{{datatypeWithEnum}}}.parse('${json[r'{{{baseName}}}']}'),
                 {{/vendorExtensions.x-is-optional}}
               {{/isNumber}}
               {{^isNumber}}

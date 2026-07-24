@@ -32,6 +32,11 @@ components:
         nickname:
           type: string
           nullable: true
+    OptionalNumberModel:
+      type: object
+      properties:
+        problem:
+          type: number
     ComplexNestedArrayNullableModel:
       type: object
       properties:

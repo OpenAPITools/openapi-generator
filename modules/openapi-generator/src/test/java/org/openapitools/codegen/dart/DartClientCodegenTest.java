@@ -170,6 +170,22 @@ public class DartClientCodegenTest {
                 "json[r'nickname'] != null");
     }
 
+    @Test(description = "Optional numeric fields should guard against null values before parsing")
+    public void testOptionalNumericFieldsGuardAgainstNull() throws Exception {
+        List<File> files = generateDartNativeFromSpec(
+                "src/test/resources/3_0/dart/dart-native-deserialization-bugs.yaml");
+
+        File modelFile = files.stream()
+                .filter(f -> f.getName().equals("optional_number_model.dart"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("optional_number_model.dart not found in generated files"));
+
+        TestUtils.assertFileContains(modelFile.toPath(),
+                "problem: json[r'problem'] == null");
+        TestUtils.assertFileContains(modelFile.toPath(),
+                ": num.parse('${json[r'problem']}')");
+    }
+
     @Test(description = "Nullable nested arrays of complex types should preserve null entries")
     public void testNullableNestedComplexArraysPreserveNullEntries() throws Exception {
         List<File> files = generateDartNativeFromSpec(
