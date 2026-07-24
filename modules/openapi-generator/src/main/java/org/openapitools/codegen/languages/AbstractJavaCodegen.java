@@ -1515,7 +1515,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 if (!propertySchemas.isEmpty()) {
                     return toObjectDefaultValue(cp, schema.getDefault(), propertySchemas);
                 }
-                return null;
+                // No object properties resolved: the composition wraps a non-object, e.g. an `allOf`
+                // to an enum or scalar (`allOf: [{$ref: '#/.../CurrencyCode'}]` + sibling `default`).
+                // There is nothing to build via toObjectDefaultValue, so defer to the base behavior,
+                // which emits the raw default for later enum var-name / scalar conversion. Returning
+                // null here dropped the default and regressed enum defaults (see #24384).
+                return super.toDefaultValue(schema);
             }
             return null;
         }
