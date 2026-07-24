@@ -65,6 +65,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#vendorExtensions.x-jackson-json-include-policy}}
   @JsonInclude(JsonInclude.Include.{{{vendorExtensions.x-jackson-json-include-policy}}})
   {{/vendorExtensions.x-jackson-json-include-policy}}
+  {{#vendorExtensions.x-has-json-setter-nulls-skip}}
+  @JsonSetter(nulls = Nulls.SKIP)
+  {{/vendorExtensions.x-has-json-setter-nulls-skip}}
   {{/jackson}}
   {{#deprecated}}
   @Deprecated
@@ -247,11 +250,6 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
-  {{#jackson}}
-  {{#vendorExtensions.x-has-json-setter-nulls-skip}}
-  @JsonSetter(nulls = Nulls.SKIP)
-  {{/vendorExtensions.x-has-json-setter-nulls-skip}}
-  {{/jackson}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}

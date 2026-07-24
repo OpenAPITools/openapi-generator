@@ -8374,6 +8374,29 @@ public class SpringCodegenTest {
     }
 
     /**
+     * Issue #24401 regression: when Lombok generates the setter ({@code lombok.Setter}), the manual
+     * setter method (and the {@code @JsonSetter} annotation that used to live only on it) is skipped
+     * entirely. {@code @JsonSetter(nulls = Nulls.SKIP)} must be emitted on the field itself so it is
+     * still honored by Jackson even though no explicit setter method is generated.
+     */
+    @Test
+    void jsonSetterNulls_generateFlag_appliesWithLombokSetter() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.OPENAPI_NULLABLE, "false");
+        additionalProperties.put(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true");
+        additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Getter;@lombok.Setter");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("OptionalNonNullable.java"))
+                .hasNoMethod("setOptionalNonNullable");
+        assertFileContains(files.get("OptionalNonNullable.java").toPath(), "@JsonSetter(nulls = Nulls.SKIP)");
+    }
+
+    /**
      * Issue #24401: {@code optionalNonNullPropertyJsonInclude} changes the policy emitted for
      * optional non-nullable properties (when {@code generateJsonIncludeAnnotations=true}).
      */
