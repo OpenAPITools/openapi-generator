@@ -69,6 +69,12 @@ public class ReadOnlyFirst {
   }
 
 
+  /**
+   * Protected setter for bar (readOnly property, used by subclasses' @JsonCreator).
+   */
+  protected void setBar(@javax.annotation.Nullable String bar) {
+    this.bar = bar;
+  }
 
 
   public ReadOnlyFirst baz(@javax.annotation.Nullable String baz) {
