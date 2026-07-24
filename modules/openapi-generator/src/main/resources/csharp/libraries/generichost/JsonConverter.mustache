@@ -564,9 +564,7 @@
             {{/isNullable}}
             {{/isInnerEnum}}
             {{^isInnerEnum}}
-            {{#lambda.copyText}}
-            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}
-            {{/lambda.copyText}}
+            {{#lambda.copyText}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{/lambda.copyText}}
             {{#required}}
             {{#isNullable}}
             if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} == null)
