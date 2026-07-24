@@ -315,3 +315,12 @@ samples/client/jetbrains/adyen/checkout71/http/client/Apis/http-client.private.e
 
 # AI agent caches
 .junie
+
+# openai-cpp-sdk build artifacts (Gate A / B harnesses)
+/generated-oas-client/
+/generated-oas-client-negative/
+openai-cpp-sdk/generated-oas/
+openai-cpp-sdk/generated-oas-negative/
+openai-cpp-sdk/generated-openai/
+openai-cpp-sdk/build-generated/
+openai-cpp-sdk/build-master-verification/

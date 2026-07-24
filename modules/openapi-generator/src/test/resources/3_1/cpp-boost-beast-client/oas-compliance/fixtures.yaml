@@ -1,0 +1,490 @@
+openapi: "3.1.0"
+info:
+  title: OAS Composition Fixtures
+  version: "1.0.0"
+  description: >
+    Generic OpenAPI 3.1 document exercising every composed-schema lowering
+    rule that cpp-boost-beast-client must support.  No vendor-specific type
+    names or vendor extensions required.
+
+paths:
+  # ---------------------------------------------------------------------------
+  # 1. Response with same-status multi-content (application/json + text/event-stream)
+  # ---------------------------------------------------------------------------
+  /multi-content:
+    get:
+      operationId: getMultiContent
+      summary: Response that can produce JSON or SSE
+      responses:
+        "200":
+          description: OK — client picks representation via Accept
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MultiContentJsonBody"
+            text/event-stream:
+              schema:
+                $ref: "#/components/schemas/MultiContentStreamEvent"
+
+  # ---------------------------------------------------------------------------
+  # 2. Multipart endpoint with binary|object oneOf form field
+  # ---------------------------------------------------------------------------
+  /multipart-upload:
+    post:
+      operationId: uploadMultipart
+      summary: Upload with a variant form field
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                metadata:
+                  $ref: "#/components/schemas/MultipartMetaField"
+                file:
+                  type: string
+                  format: binary
+              required:
+                - file
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MultipartUploadResponse"
+
+  # ---------------------------------------------------------------------------
+  # 3. Endpoint exercising discriminator dispatch
+  # ---------------------------------------------------------------------------
+  /animals:
+    post:
+      operationId: createAnimal
+      summary: Create an animal (discriminator-driven oneOf)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiscriminatorOneOf"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiscriminatorOneOf"
+
+  # ---------------------------------------------------------------------------
+  # 4. Endpoint exercising nullable optional
+  # ---------------------------------------------------------------------------
+  /config:
+    post:
+      operationId: updateConfig
+      summary: Upsert a config value that may be null
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  $ref: "#/components/schemas/NullableString"
+                name:
+                  type: string
+              required:
+                - name
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NullableString"
+
+  # ---------------------------------------------------------------------------
+  # 5. Endpoint consuming an allOf merged object
+  # ---------------------------------------------------------------------------
+  /profiles:
+    post:
+      operationId: createProfile
+      summary: Submit a merged-profile object
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AllOfObjectMerge"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllOfObjectMerge"
+
+  # ---------------------------------------------------------------------------
+  # 6. Endpoint consuming anyOf string+enum alias
+  # ---------------------------------------------------------------------------
+  /labels:
+    post:
+      operationId: setLabel
+      summary: Set a label value (anyOf string alias)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnyOfStringStringEnum"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfStringStringEnum"
+
+  # ---------------------------------------------------------------------------
+  # 7. Endpoint consuming oneOf string|array
+  # ---------------------------------------------------------------------------
+  /compose:
+    post:
+      operationId: composeContent
+      summary: Submit content as string or structured items
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OneOfStringArray"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OneOfStringArray"
+
+components:
+  schemas:
+
+    # =========================================================================
+    # anyOf string + string-enum → std::string collapse
+    # ANYOF-STRING-ENUM-COLLAPSE-001
+    # =========================================================================
+    AnyOfStringStringEnum:
+      description: >
+        anyOf over a plain string and a string enum.  The generator SHOULD
+        collapse this to std::string since every enum value is already a valid
+        string (SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING).
+      anyOf:
+        - type: string
+        - type: string
+          enum:
+            - alpha
+            - beta
+            - gamma
+
+    # =========================================================================
+    # oneOf string + string-enum — must NOT collapse to plain string
+    # ONEOF-STRING-ENUM-NO-COLLAPSE-001
+    # =========================================================================
+    OneOfStringStringEnum:
+      description: >
+        oneOf over a plain string and a string enum.  The generator MUST NOT
+        apply the anyOf-only string+enum collapse.  std::variant<std::string,
+        std::string> is invalid C++, and collapsing to std::string hides that
+        enum members match both branches (invalid oneOf).  Emit boost::json::value
+        instead of a false exclusive typed union.
+      oneOf:
+        - type: string
+        - type: string
+          enum:
+            - x
+            - y
+            - z
+
+    # =========================================================================
+    # oneOf string + array of objects
+    # ONEOF-STRING-ARRAY-001
+    # =========================================================================
+    OneOfStringArray:
+      description: >
+        oneOf between a plain string and an array of structured items.  Must
+        generate a std::variant<std::string, std::vector<ItemStruct>>.
+      oneOf:
+        - type: string
+        - type: array
+          items:
+            $ref: "#/components/schemas/ItemStruct"
+
+    ItemStruct:
+      type: object
+      properties:
+        id:
+          type: string
+        value:
+          type: integer
+          format: int32
+      required:
+        - id
+
+    # =========================================================================
+    # allOf object merge (compatible)
+    # ALLOF-OBJECT-MERGE-001
+    # =========================================================================
+    ProfileBase:
+      type: object
+      properties:
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - name
+
+    ProfileExtension:
+      type: object
+      properties:
+        displayName:
+          type: string
+        avatarUrl:
+          type: string
+          format: uri
+        score:
+          type: number
+
+    AllOfObjectMerge:
+      description: >
+        Compatible allOf merge of two object schemas.  Should flatten
+        properties from both into a single generated struct.
+      allOf:
+        - $ref: "#/components/schemas/ProfileBase"
+        - $ref: "#/components/schemas/ProfileExtension"
+
+    # =========================================================================
+    # nullable T / anyOf [T, null] → std::optional<T>
+    # NULLABLE-001
+    # =========================================================================
+    NullableString:
+      description: >
+        anyOf with exactly one non-null type and null.  Should lower to
+        std::optional<std::string>.
+      anyOf:
+        - type: string
+        - type: "null"
+
+    NullableEnum:
+      description: >
+        anyOf with a string enum and null.  Should lower to
+        std::optional<enum_class> or std::optional<std::string> depending on
+        enum handling.
+      anyOf:
+        - type: string
+          enum:
+            - active
+            - inactive
+            - paused
+        - type: "null"
+
+    # =========================================================================
+    # discriminator + oneOf object branches
+    # DISCRIMINATOR-ONEOF-001
+    # =========================================================================
+    Animal:
+      type: object
+      discriminator:
+        propertyName: kind
+        mapping:
+          mammal: "#/components/schemas/Mammal"
+          bird: "#/components/schemas/Bird"
+      oneOf:
+        - $ref: "#/components/schemas/Mammal"
+        - $ref: "#/components/schemas/Bird"
+      properties:
+        kind:
+          type: string
+      required:
+        - kind
+
+    Mammal:
+      type: object
+      properties:
+        kind:
+          type: string
+        furColor:
+          type: string
+        legCount:
+          type: integer
+          format: int32
+      required:
+        - kind
+
+    Bird:
+      type: object
+      properties:
+        kind:
+          type: string
+        wingSpan:
+          type: number
+        canFly:
+          type: boolean
+      required:
+        - kind
+
+    # Discriminator schema at top level referencing Animal.
+    # This is the top-level oneOf + discriminator schema used by the endpoint.
+    DiscriminatorOneOf:
+      description: >
+        oneOf with discriminator.  The generator must use discriminator
+        propertyName to select the variant on decode, not trial-and-error
+        parsing.
+      oneOf:
+        - $ref: "#/components/schemas/Mammal"
+        - $ref: "#/components/schemas/Bird"
+      discriminator:
+        propertyName: kind
+        mapping:
+          mammal: "#/components/schemas/Mammal"
+          bird: "#/components/schemas/Bird"
+
+    # =========================================================================
+    # Response multi-content: JSON body
+    # =========================================================================
+    MultiContentJsonBody:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        result:
+          type: object
+          properties:
+            ok:
+              type: boolean
+      required:
+        - id
+        - status
+
+    # =========================================================================
+    # Response multi-content: SSE stream event
+    # =========================================================================
+    MultiContentStreamEvent:
+      description: >
+        Schema for the text/event-stream media type of the multi-content
+        response.  The client must use this schema when interpreting SSE
+        payload data.
+      oneOf:
+        - $ref: "#/components/schemas/StreamProgress"
+        - $ref: "#/components/schemas/StreamComplete"
+        - $ref: "#/components/schemas/StreamError"
+
+    StreamProgress:
+      type: object
+      properties:
+        event:
+          type: string
+          enum:
+            - progress
+        progress:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+      required:
+        - event
+        - progress
+
+    StreamComplete:
+      type: object
+      properties:
+        event:
+          type: string
+          enum:
+            - complete
+        summary:
+          type: string
+      required:
+        - event
+
+    StreamError:
+      type: object
+      properties:
+        event:
+          type: string
+          enum:
+            - error
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+      required:
+        - event
+        - code
+
+    # =========================================================================
+    # Multipart: oneOf form field (binary|object)
+    # =========================================================================
+    MultipartMetaField:
+      description: >
+        oneOf between a binary blob and a structured metadata object.  Used
+        as a multipart form field schema.  The generated client must handle
+        variant parts in multipart bodies.
+      oneOf:
+        - type: string
+          format: binary
+        - $ref: "#/components/schemas/MetaRecord"
+
+    MetaRecord:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - key
+
+    # =========================================================================
+    # Multipart response
+    # =========================================================================
+    MultipartUploadResponse:
+      type: object
+      properties:
+        fileId:
+          type: string
+        metaKey:
+          type: string
+        size:
+          type: integer
+          format: int64
+      required:
+        - fileId
+        - size
+
+    # =========================================================================
+    # format: unixtime property (non-standard format, but documented mapping)
+    # =========================================================================
+    TimestampedEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: integer
+          format: unixtime
+        payload:
+          type: string
+      required:
+        - id
+        - timestamp

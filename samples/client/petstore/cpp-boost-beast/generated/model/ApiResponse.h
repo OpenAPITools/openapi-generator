@@ -89,10 +89,10 @@ std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Ap
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<ApiResponse>>& vec, const std::string& json);
 
-}
-}
-}
-}
+ApiResponse fromJsonValue_ApiResponse(boost::json::value const& value);
 
-
+}
+}
+}
+}
 #endif /* BOOST_BEAST_OPENAPI_CLIENT_ApiResponse_MODEL_H_ */

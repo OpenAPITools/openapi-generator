@@ -1,0 +1,464 @@
+openapi: 3.1.0
+info:
+  title: Cpp Boost Beast composed schema lowering
+  version: 1.0.0
+paths:
+  /variant-body:
+    post:
+      tags:
+        - ComposedSchema
+      operationId: postVariantBody
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputParam'
+      responses:
+        '200':
+          description: Variant request/response round-trip
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InputParam'
+  /alias-body:
+    post:
+      tags:
+        - ComposedSchema
+      operationId: postAliasBody
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelIdsResponses'
+      responses:
+        '200':
+          description: Alias request/response round-trip
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelIdsResponses'
+  /stream-events:
+    get:
+      tags:
+        - ComposedSchema
+      operationId: getStreamEvents
+      responses:
+        '200':
+          description: SSE streaming response
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/ResponseStreamEvent'
+  /upload-file:
+    post:
+      tags:
+        - ComposedSchema
+      operationId: uploadFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                metadata:
+                  type: string
+      responses:
+        '200':
+          description: File upload response
+          content:
+            application/json:
+              schema:
+                type: string
+  /upload-variant:
+    post:
+      tags:
+        - ComposedSchema
+      operationId: uploadVariantData
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                payload:
+                  $ref: '#/components/schemas/VariantPayload'
+      responses:
+        '200':
+          description: Variant upload response
+          content:
+            application/json:
+              schema:
+                type: string
+  /dual-stream:
+    get:
+      tags:
+        - ComposedSchema
+      operationId: getDualStream
+      summary: Dual-content endpoint — produces both JSON and event-stream
+      description: >
+        Dual-content shape: a single 200 response with both application/json
+        and text/event-stream media types. The stream query parameter toggles
+        between JSON (default) and SSE streaming.
+      parameters:
+        - name: stream
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Normal JSON or SSE streaming response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimestampContainer'
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/ResponseStreamEvent'
+  /inline-anyof-response:
+    get:
+      tags:
+        - ComposedSchema
+      operationId: getInlineAnyOfResponse
+      responses:
+        '200':
+          description: Inline anyOf response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/OverlappingObjectA'
+                  - $ref: '#/components/schemas/OverlappingObjectB'
+  /inline-oneof-events:
+    get:
+      tags:
+        - ComposedSchema
+      operationId: getInlineOneOfEvents
+      responses:
+        '200':
+          description: Inline oneOf SSE response
+          content:
+            text/event-stream:
+              schema:
+                oneOf:
+                  - type: string
+                  - type: integer
+                    format: int32
+  /dual-primitive-stream:
+    get:
+      tags:
+        - ComposedSchema
+      operationId: getDualPrimitiveStream
+      responses:
+        '200':
+          description: Primitive JSON or SSE response
+          content:
+            application/json:
+              schema:
+                type: string
+            text/event-stream:
+              schema:
+                type: string
+  /no-content:
+    delete:
+      tags:
+        - ComposedSchema
+      operationId: deleteWithoutContent
+      responses:
+        '204':
+          description: Deleted successfully
+components:
+  schemas:
+    # Scenario 1: anyOf with string + string-enum → std::string
+    # Plus transitive chain: ModelIdsShared → ModelIdsResponses → ModelIds → ModelIdsCompaction
+    # Each should collapse through $ref resolution to std::string.
+    ModelIdsShared:
+      anyOf:
+        - type: string
+        - type: string
+          enum:
+            - id
+            - ids
+    ModelIdsResponses:
+      anyOf:
+        - $ref: '#/components/schemas/ModelIdsShared'
+        - type: string
+          enum:
+            - ids
+    ModelIds:
+      anyOf:
+        - $ref: '#/components/schemas/ModelIdsShared'
+        - $ref: '#/components/schemas/ModelIdsResponses'
+    ModelIdsCompaction:
+      anyOf:
+        - $ref: '#/components/schemas/ModelIdsResponses'
+        - type: string
+
+    # Scenario 2: oneOf string + array → std::variant<std::string, std::vector<InputItem>>
+    InputParam:
+      oneOf:
+        - type: string
+        - type: array
+          items:
+            $ref: '#/components/schemas/InputItem'
+    InputItem:
+      type: object
+      properties:
+        name:
+          type: string
+
+    # Scenario 3: allOf merge — CreateResponse inherits model and adds input
+    CreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/CreateResponseBase'
+        - type: object
+          properties:
+            input:
+              type: string
+    CreateResponseBase:
+      type: object
+      properties:
+        model:
+          type: string
+
+    # Scenario 4: nullable property (OAS 3.1 form: anyOf [T, null] → std::optional<T>)
+    TemperatureContainer:
+      type: object
+      properties:
+        temperature:
+          anyOf:
+            - type: number
+            - type: "null"
+
+    # Scenario 5: OAS 3.1 oneOf [null, T] → std::optional<T>
+    OptionalScore:
+      oneOf:
+        - type: "null"
+        - type: number
+
+    # Scenario 6: nullable number temperature (anyOf number + null)
+    NullableTemperature:
+      type: object
+      properties:
+        temperature:
+          anyOf:
+            - type: number
+            - type: "null"
+
+    # Scenario 7: $ref holder — property that references a composed model
+    RefHolder:
+      type: object
+      properties:
+        ids:
+          $ref: '#/components/schemas/ModelIdsResponses'
+        param:
+          $ref: '#/components/schemas/InputParam'
+
+    # Scenario 8: oneOf with discriminator
+    PetByType:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: pet_type
+        mapping:
+          cat: Cat
+          dog: Dog
+          'cat"quoted': Cat
+    Cat:
+      type: object
+      properties:
+        pet_type:
+          type: string
+          enum: [cat]
+        meow_volume:
+          type: integer
+    Dog:
+      type: object
+      properties:
+        pet_type:
+          type: string
+          enum: [dog]
+        bark_volume:
+          type: integer
+
+    # Scenario 9: Deduplication — oneOf with duplicate string branches
+    DedupTest:
+      oneOf:
+        - type: string
+        - type: string
+          enum: [a, b]
+        - type: integer
+
+    # Scenario 10: Single non-null branch collapse
+    SingleBranchTest:
+      anyOf:
+        - type: string
+          enum: [x, y]
+
+    # Scenario 11: All-null branches → boost::json::value
+    AllNullTest:
+      anyOf:
+        - type: "null"
+        - type: "null"
+
+    # Scenario 12a: OAS 3.1 const (no vendor extension required)
+    OasConstObject:
+      type: object
+      properties:
+        type:
+          type: string
+          const: text
+        count:
+          type: integer
+          format: int32
+          const: 42
+        enabled:
+          type: boolean
+          const: true
+
+    # Scenario 12b: optional x-stainless-const vendor extension (still supported)
+    StainlessObject:
+      type: object
+      properties:
+        type:
+          type: string
+          const: text
+          x-stainless-const: true
+        count:
+          type: integer
+          format: int32
+          const: 42
+          x-stainless-const: true
+
+    # Scenario 13: Unixtime format mapping (format: unixtime → int64_t)
+    TimestampContainer:
+      type: object
+      properties:
+        created_at:
+          type: integer
+          format: unixtime
+        updated_at:
+          type: integer
+          format: unixtime
+
+    # Scenario 14: Variant payload for branch-aware multipart form param testing
+    VariantPayload:
+      oneOf:
+        - type: string
+          format: binary
+        - $ref: '#/components/schemas/DataObject'
+    DataObject:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: integer
+    NullableDataObject:
+      anyOf:
+        - $ref: '#/components/schemas/DataObject'
+        - type: "null"
+
+    # Scenario 15: Non-discriminated anyOf string|integer — tests first-match (no multi-throw)
+    # After lowering: anyOf [string, integer] → std::variant<std::string, int32_t>
+    AnyOfStringInteger:
+      anyOf:
+        - type: string
+        - type: integer
+          format: int32
+
+    # Scenario 16a: oneOf with $ref to open-string + string-enum models.
+    # Both branches transitively resolve to std::string, exposing the
+    # oneOf overlap (any enum value matches BOTH branches).  Phase 1b
+    # must NOT collapse to std::string — boost::json::value is correct.
+    OpenStringModel:
+      type: string
+    StringEnumModel:
+      type: string
+      enum:
+        - foo
+        - bar
+    OneOfWithStringOverlap:
+      oneOf:
+        - $ref: '#/components/schemas/OpenStringModel'
+        - $ref: '#/components/schemas/StringEnumModel'
+
+    # Scenario 16b: Model referencing OneOfWithStringOverlap to verify
+    # the property-level fromJsonValue uses JsonValueConverter<boost::json::value>.
+    StringOverlapHolder:
+      type: object
+      properties:
+        overlap:
+          $ref: '#/components/schemas/OneOfWithStringOverlap'
+
+    # Scenario 17: Model referencing AnyOfStringInteger as a property — validates
+    # that property-level fromJsonValue uses exactly-one matching (correct for oneOf)
+    # and does NOT throw for anyOf first-match (string|integer are non-overlapping).
+    AnyOfPropertyHolder:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/AnyOfStringInteger'
+
+    # Scenario 18: anyOf of two overlapping object schemas (no discriminator).
+    # When a JSON payload matches both branches (e.g., {"name":"foo"} matches both
+    # OverlappingObjectA and OverlappingObjectB), property-level fromJsonValue must
+    # accept first-match (anyOf) rather than rejecting multi-match (oneOf).
+    AnyOfOverlapping:
+      anyOf:
+        - $ref: '#/components/schemas/OverlappingObjectA'
+        - $ref: '#/components/schemas/OverlappingObjectB'
+    OverlappingObjectA:
+      type: object
+      properties:
+        name:
+          type: string
+    OverlappingObjectB:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: integer
+    ParentWithAnyOfOverlapping:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AnyOfOverlapping'
+
+    # Scenario 19: SSE stream event for testing incremental SSE wiring
+    # Uses discriminator on 'type' field for correct branch selection.
+    ResponseStreamEvent:
+      anyOf:
+        - $ref: '#/components/schemas/ResponseCreatedEvent'
+        - $ref: '#/components/schemas/ResponseCompletedEvent'
+      discriminator:
+        propertyName: type
+        mapping:
+          response.created: ResponseCreatedEvent
+          response.completed: ResponseCompletedEvent
+    ResponseCreatedEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          const: response.created
+        id:
+          type: string
+    ResponseCompletedEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          const: response.completed
+        id:
+          type: string

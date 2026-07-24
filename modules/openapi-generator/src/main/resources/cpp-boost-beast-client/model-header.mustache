@@ -1,5 +1,36 @@
 {{>licenseInfo}}
-{{#models}}{{#model}}/*
+{{#models}}{{#model}}{{#vendorExtensions.x-cpp-is-alias}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+#define BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+
+{{#imports}}{{{this}}}
+{{/imports}}
+#include <boost/json.hpp>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+using {{classname}} = {{{vendorExtensions.x-cpp-type}}};
+
+boost::json::value toJsonValue_{{classname}}({{classname}} const& value);
+{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */
+{{/vendorExtensions.x-cpp-is-alias}}
+{{^vendorExtensions.x-cpp-is-alias}}/*
  * {{classname}}.h
  *
  * {{description}}
@@ -45,6 +76,16 @@ struct {{classname}}ModelPropertyStorage<ValueType, false>
     {
     }
 
+    bool hasOptionalValue() const
+    {
+        return value.has_value();
+    }
+
+    void resetOptionalValue()
+    {
+        value.reset();
+    }
+
     ValueType value;
 };
 
@@ -52,6 +93,15 @@ template <typename ValueType>
 struct {{classname}}ModelPropertyStorage<ValueType, true>
 {
     explicit {{classname}}ModelPropertyStorage(ValueType = ValueType())
+    {
+    }
+
+    bool hasOptionalValue() const
+    {
+        return false;
+    }
+
+    void resetOptionalValue()
     {
     }
 };
@@ -102,8 +152,18 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
+{{#vendorExtensions.x-cpp-const}}
+{{#vendorExtensions.x-cpp-const-inline-value}}
+{{{dataType}}} {{getter}}() const { return {{{vendorExtensions.x-cpp-const-inline-value}}}; }
+{{/vendorExtensions.x-cpp-const-inline-value}}
+{{^vendorExtensions.x-cpp-const-inline-value}}
+{{{dataType}}} {{getter}}() const;
+{{/vendorExtensions.x-cpp-const-inline-value}}
+{{/vendorExtensions.x-cpp-const}}
+    {{^vendorExtensions.x-cpp-const}}
     {{{dataType}}} {{getter}}() const;
     void {{setter}}({{{dataType}}} value);
+    {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
 
 protected:
@@ -145,11 +205,17 @@ protected:
 
 protected:
     {{#vars}}
+    {{^vendorExtensions.x-cpp-const}}
     {{#parent}}
     {{^isContainer}}
     {{^isModel}}
+    {{#vendorExtensions.x-cpp-no-is-set}}
+    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
+    {{/vendorExtensions.x-cpp-no-is-set}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
     {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}} =
         {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value>({{{defaultValue}}});
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/isModel}}
     {{#isModel}}
     {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
@@ -162,7 +228,12 @@ protected:
     {{^parent}}
     {{^isContainer}}
     {{^isModel}}
-    {{{dataType}}} m_{{name}} = {{{defaultValue}}};
+    {{#vendorExtensions.x-cpp-no-is-set}}
+    {{{dataType}}} m_{{name}};
+    {{/vendorExtensions.x-cpp-no-is-set}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
+    {{{dataType}}} m_{{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/isModel}}
     {{#isModel}}
     {{{dataType}}} m_{{name}};
@@ -173,8 +244,11 @@ protected:
     {{/isContainer}}
     {{/parent}}
     {{^required}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
     bool m_{{name}}IsSet = false;
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/required}}
+    {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
 };
 
@@ -182,11 +256,12 @@ std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json);
 
+{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
+
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}
-
+#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */
+{{/vendorExtensions.x-cpp-is-alias}}
 {{/model}}
 {{/models}}
-
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */

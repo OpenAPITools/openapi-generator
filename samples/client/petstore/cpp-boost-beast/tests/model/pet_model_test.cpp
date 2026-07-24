@@ -33,13 +33,13 @@ BOOST_AUTO_TEST_CASE(requiredAndOptionalPropertyPresence) {
   BOOST_TEST(initialObject.find("status") == initialObject.end());
 
   pet.setId(0);
-  pet.setCategory(nullptr);
+  pet.setCategory(Category());
   pet.setTags(std::vector<std::shared_ptr<Tag>>{});
 
   const auto updatedValue = pet.toJsonValue();
   const auto &updatedObject = updatedValue.as_object();
   BOOST_TEST(updatedObject.at("id").as_int64() == 0);
-  BOOST_TEST(updatedObject.at("category").is_null());
+  BOOST_TEST(updatedObject.at("category").is_object());
   BOOST_TEST(updatedObject.at("tags").as_array().empty());
 }
 
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE(toJsonStringWithCategory) {
   Pet pet;
   pet.setId(1);
   pet.setName("MyName");
-  auto category = std::make_shared<Category>();
+  Category category;
   pet.setCategory(category);
 
   Approvals::verify(pet.toJsonString(true));
@@ -78,6 +78,7 @@ BOOST_AUTO_TEST_CASE(fromJsonString) {
 {
     "id": 23,
     "name": "ThePet",
+    "photoUrls": [],
     "status": "available"
 })JSON";
 
@@ -114,6 +115,7 @@ BOOST_AUTO_TEST_CASE(fromJsonAndPropertyTree) {
 {
     "id": 23,
     "name": "ThePet",
+    "photoUrls": [],
     "status": "available"
 })JSON";
 
@@ -170,8 +172,8 @@ BOOST_AUTO_TEST_CASE(toPropertyTree) {
   photoUrls.emplace_back("www.example.com/photo2");
   pet.setPhotoUrls(photoUrls);
 
-  auto category = std::make_shared<Category>();
-  category->setName("Category1");
+  Category category;
+  category.setName("Category1");
   pet.setCategory(category);
 
   const auto value = pet.toJsonValue();
@@ -187,7 +189,7 @@ BOOST_AUTO_TEST_CASE(toPropertyTree) {
   const auto& photoUrlsFromJson = object.at("photoUrls").as_array();
   BOOST_TEST(photoUrlsFromJson.size() == 2);
 
-  BOOST_TEST(pet.getCategory()->getName() == "Category1");
+  BOOST_TEST(pet.getCategory().getName() == "Category1");
   const auto& categoryFromJson = object.at("category").as_object();
   BOOST_TEST(categoryFromJson.at("name").as_string() == "Category1");
 }
@@ -207,6 +209,7 @@ BOOST_AUTO_TEST_CASE(fromJsonWithTags) {
 {
     "id": 1,
     "name": "MyName",
+    "photoUrls": [],
     "tags": [
         {
             "id": 1,
@@ -250,8 +253,7 @@ BOOST_DATA_TEST_CASE(invalidStatusValues,
     pet.setStatus(invalid_status);
   } catch (const std::runtime_error &excp) {
     exceptionCaught = true;
-    const auto expectedErrorMessage =
-        std::string("Value ") + invalid_status + " not allowed";
+    const auto expectedErrorMessage = std::string("Value not allowed");
     BOOST_TEST(excp.what() == expectedErrorMessage);
   }
   BOOST_TEST(exceptionCaught);
@@ -262,8 +264,8 @@ BOOST_AUTO_TEST_CASE(invalidStatusJsonUsesSetterValidation) {
 
   BOOST_CHECK_EXCEPTION(
       pet.fromJsonString(R"JSON({"name":"Fluffy","photoUrls":[],"status":"notallowed"})JSON"),
-      std::runtime_error, [](const std::runtime_error &exception) {
-        return std::string(exception.what()) == "Value notallowed not allowed";
+      std::invalid_argument, [](const std::invalid_argument &exception) {
+        return std::string(exception.what()) == "Decode failed for 'status' in Pet: Value not allowed";
       });
 }
 
