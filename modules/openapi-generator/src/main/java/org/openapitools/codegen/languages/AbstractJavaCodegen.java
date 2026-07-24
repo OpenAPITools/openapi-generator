@@ -1568,6 +1568,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         defaultPropertyExpression = value.asText()+"f";
                     } else if(ModelUtils.isNumberSchema(propertySchema)) {
                         defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
+                    } else if(ModelUtils.isEnumSchema(propertySchema)) {
+                        defaultPropertyExpression = String.join(
+                                ".",cp.datatypeWithEnum, toEnumName(key), toEnumVarName(value.asText(), cp.dataType)
+                        );
                     } else if(ModelUtils.isURISchema(propertySchema)) {
                         defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
                     } else if(ModelUtils.isDateSchema(propertySchema)) {
