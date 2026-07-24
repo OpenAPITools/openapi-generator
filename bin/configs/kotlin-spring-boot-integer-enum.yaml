@@ -11,4 +11,5 @@ additionalProperties:
   annotationLibrary: none
   documentationProvider: none
   enumPropertyNaming: UPPERCASE
+  enumUnknownDefaultCase: "true"
   useEnumValueInterface: "true"

@@ -15,21 +15,20 @@ import jakarta.validation.constraints.Size
 import jakarta.validation.Valid
 
 /**
-* 
-* Values: CAR,TRUCK
-*/
+ * 
+ * Values: CAR,TRUCK,unknown_default_open_api
+ */
 enum class VehicleType(@get:JsonValue val value: kotlin.String) {
-
     CAR("CAR"),
-    TRUCK("TRUCK");
+    TRUCK("TRUCK"),
+    unknown_default_open_api("unknown_default_open_api");
 
     companion object {
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.String): VehicleType {
-                return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'VehicleType'")
+            return values().firstOrNull{ it.value == value }
+                ?: unknown_default_open_api
         }
     }
 }
-

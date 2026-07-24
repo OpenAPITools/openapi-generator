@@ -16,11 +16,10 @@ import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
-* 
-* Values: black,white,brown,yellow,violet
-*/
-enum class Color(@get:JsonValue val value: kotlin.String) : com.some.pack.WithDefaultMethods , java.io.Serializable {
-
+ * 
+ * Values: black,white,brown,yellow,violet
+ */
+enum class Color(@get:JsonValue val value: kotlin.String) : com.some.pack.WithDefaultMethods, java.io.Serializable {
     black("black"),
     white("white"),
     brown("brown"),
@@ -31,9 +30,10 @@ enum class Color(@get:JsonValue val value: kotlin.String) : com.some.pack.WithDe
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.String): Color {
-                return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Color'")
+            return values().firstOrNull{ it.value == value }
+                ?: throw IllegalArgumentException(
+                    "Unexpected value '$value' for enum 'Color'"
+                )
         }
     }
 }
-

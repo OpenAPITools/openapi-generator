@@ -37,18 +37,18 @@ data class Cat(
     * Values: clueless,lazy,adventurous,aggressive
     */
     enum class HuntingSkill(@get:JsonValue val value: kotlin.String) {
-
+    
         clueless("clueless"),
         lazy("lazy"),
         adventurous("adventurous"),
         aggressive("aggressive");
-
+        
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): HuntingSkill {
-                return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'HuntingSkill'")
+                return values().firstOrNull{ it.value == value }
+                                ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'HuntingSkill'")
             }
         }
     }

@@ -94,18 +94,18 @@ data class Dog(
     * Values: Dingo,Husky,Retriever,Shepherd
     */
     enum class Breed(@get:JsonValue val value: kotlin.String) {
-
+    
         Dingo("Dingo"),
         Husky("Husky"),
         Retriever("Retriever"),
         Shepherd("Shepherd");
-
+        
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Breed {
-                return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Breed'")
+                return values().firstOrNull{ it.value == value }
+                                ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Breed'")
             }
         }
     }

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
@@ -11,6 +12,8 @@ import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -23,6 +26,8 @@ import org.openapitools.codegen.languages.features.DocumentationProviderFeatures
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.ModelMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -6951,6 +6956,99 @@ public class KotlinSpringServerCodegenTest {
         assertThat(content).contains("com.example.ExternalModel?");
     }
 
+    @Test(description = "test enumUnknownDefaultCase option")
+    public void testEnumUnknownDefaultCaseOption() {
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        // Test default value is false
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.FALSE);
+
+        // Test setting via additionalProperties
+        codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.TRUE);
+    }
+
+    @Test(description = "test enum generation with enumUnknownDefaultCase enabled")
+    public void testEnumGenerationWithUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/enum_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorFile = files.get("ColorEnum.kt");
+        assertThat(colorFile).isNotNull();
+
+        String content = Files.readString(colorFile.toPath());
+
+        assertThat(content).contains("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).contains("?: unknown_default_open_api");
+        }
+
+        @Test(description = "test enum generation with enumUnknownDefaultCase disabled")
+        public void testEnumGenerationWithoutUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/enum_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, false
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorFile = files.get("ColorEnum.kt");
+        assertThat(colorFile).isNotNull();
+
+        String content = Files.readString(colorFile.toPath());
+
+        assertThat(content).doesNotContain("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).doesNotContain("?: unknown_default_open_api");
+    }
+
+    @Test(description = "test data class generation containing inline enum with enumUnknownDefaultCase enabled")
+    public void testDataClassGenerationWithUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/dataclass_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorResponseFile = files.get("ColorResponse.kt");
+        assertThat(colorResponseFile).isNotNull();
+
+        String content = Files.readString(colorResponseFile.toPath());
+
+        assertThat(content).contains("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).contains("?: unknown_default_open_api");
+    }
+
+    @Test(description = "test data class generation containing inline enum with enumUnknownDefaultCase disabled")
+    public void testDataClassGenerationWithoutUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/dataclass_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, false
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorResponseFile = files.get("ColorResponse.kt");
+        assertThat(colorResponseFile).isNotNull();
+
+        String content = Files.readString(colorResponseFile.toPath());
+
+        assertThat(content).doesNotContain("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).doesNotContain("?: unknown_default_open_api");
+        
     @Test(description = "nameMappings: @param:JsonProperty must use the original JSON field name for deserialization")
     public void paramJsonPropertyAnnotationWithNameMappings() throws IOException {
         // When a property is renamed via nameMappings, @param:JsonProperty must carry the
