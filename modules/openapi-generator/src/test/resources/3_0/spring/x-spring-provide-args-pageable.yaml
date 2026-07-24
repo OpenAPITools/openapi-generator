@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info:
+  title: x-spring-provide-args pageable test
+  version: 1.0.0
+paths:
+  /foo:
+    get:
+      tags:
+        - foo
+      operationId: findFoo
+      x-spring-paginated: true
+      x-spring-provide-args:
+        - "String providedArg"
+      responses:
+        "204":
+          description: no content
