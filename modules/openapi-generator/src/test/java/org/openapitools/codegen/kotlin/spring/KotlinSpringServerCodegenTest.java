@@ -6540,7 +6540,8 @@ public class KotlinSpringServerCodegenTest {
     public void requiredNullable_scenario3_optionalNonNullable() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                new HashMap<>());
+                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
@@ -6570,7 +6571,9 @@ public class KotlinSpringServerCodegenTest {
     public void requiredNullable_scenario3_optionalNonNullable_withOpenApiNullable() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
@@ -6598,7 +6601,8 @@ public class KotlinSpringServerCodegenTest {
     public void requiredNullable_scenario3_optionalNonNullable_withDefault() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                new HashMap<>());
+                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
@@ -6674,6 +6678,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, Object> props = new HashMap<>();
         props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
         props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
+        props.put(KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true");
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml", props);
@@ -6707,6 +6712,21 @@ public class KotlinSpringServerCodegenTest {
     }
 
     /**
+     * Issue #24401 (safe-but-noisy): with no flags set, kotlin-spring defaults to weak/7.23.0 behavior —
+     * NO policy {@code @field:JsonInclude} or {@code @field:JsonSetter(nulls)} annotations are emitted.
+     */
+    @Test(description = "Issue #24401 – unset flags emit no policy annotations (kotlin-spring)")
+    public void jsonInclude_unset_emitsNoPolicyAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        assertFileNotContains(modelFile, "@field:JsonInclude(");
+        assertFileNotContains(modelFile, "@field:JsonSetter(");
+    }
+
+    /**
      * Issue #24401: default matrix for kotlin-spring. required fields -> ALWAYS,
      * optional non-nullable -> NON_NULL (default policy), optional nullable -> no annotation.
      */
@@ -6714,7 +6734,7 @@ public class KotlinSpringServerCodegenTest {
     public void jsonInclude_kotlinMatrix_default() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                new HashMap<>());
+                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
 
         String content = Files.readString(files.get("TestModel.kt").toPath());
         Assert.assertTrue(jsonIncludeBlockFor(content, "requiredNonNullable").contains("@field:JsonInclude(JsonInclude.Include.ALWAYS)"),
@@ -6735,7 +6755,8 @@ public class KotlinSpringServerCodegenTest {
     public void jsonInclude_optionalNonNullPolicy_none() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                Map.of(KotlinSpringServerCodegen.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NONE"));
+                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        KotlinSpringServerCodegen.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NONE"));
 
         String content = Files.readString(files.get("TestModel.kt").toPath());
         Assert.assertFalse(jsonIncludeBlockFor(content, "optionalNonNullable").contains("@field:JsonInclude"),
@@ -6798,7 +6819,9 @@ public class KotlinSpringServerCodegenTest {
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
-                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         // required non-nullable -> @field:JsonInclude(ALWAYS); no setter/nullable machinery
         Path requiredNonNullable = files.get("RequiredNonNullable.kt").toPath();
@@ -7143,6 +7166,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put("useBeanValidation", true);
         additionalProperties.put("openApiNullable", "true");
+        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true");
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_1/issue_24139.yaml",
