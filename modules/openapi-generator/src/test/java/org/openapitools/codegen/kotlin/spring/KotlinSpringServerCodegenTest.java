@@ -6540,8 +6540,8 @@ public class KotlinSpringServerCodegenTest {
     public void requiredNullable_scenario3_optionalNonNullable() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
-                        KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
@@ -6572,8 +6572,8 @@ public class KotlinSpringServerCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
-                        KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
-                        KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
@@ -6601,8 +6601,8 @@ public class KotlinSpringServerCodegenTest {
     public void requiredNullable_scenario3_optionalNonNullable_withDefault() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
-                        KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
@@ -6678,7 +6678,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, Object> props = new HashMap<>();
         props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
         props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
-        props.put(KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true");
+        props.put(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true");
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml", props);
@@ -6734,7 +6734,7 @@ public class KotlinSpringServerCodegenTest {
     public void jsonInclude_kotlinMatrix_default() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
 
         String content = Files.readString(files.get("TestModel.kt").toPath());
         Assert.assertTrue(jsonIncludeBlockFor(content, "requiredNonNullable").contains("@field:JsonInclude(JsonInclude.Include.ALWAYS)"),
@@ -6755,8 +6755,8 @@ public class KotlinSpringServerCodegenTest {
     public void jsonInclude_optionalNonNullPolicy_none() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
-                        KotlinSpringServerCodegen.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NONE"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NONE"));
 
         String content = Files.readString(files.get("TestModel.kt").toPath());
         Assert.assertFalse(jsonIncludeBlockFor(content, "optionalNonNullable").contains("@field:JsonInclude"),
@@ -6773,7 +6773,7 @@ public class KotlinSpringServerCodegenTest {
     public void jsonInclude_generateJsonIncludeAnnotations_false() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
 
         assertFileNotContains(files.get("TestModel.kt").toPath(), "@field:JsonInclude(");
     }
@@ -6786,7 +6786,7 @@ public class KotlinSpringServerCodegenTest {
     public void jsonInclude_manualOverride_winsOverGenerateFlag() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_override.yaml",
-                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
 
         String content = Files.readString(files.get("TestModel.kt").toPath());
         Assert.assertTrue(jsonIncludeBlockFor(content, "overridden").contains("@field:JsonInclude(JsonInclude.Include.NON_EMPTY)"),
@@ -6820,8 +6820,8 @@ public class KotlinSpringServerCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
-                        KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
-                        KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         // required non-nullable -> @field:JsonInclude(ALWAYS); no setter/nullable machinery
         Path requiredNonNullable = files.get("RequiredNonNullable.kt").toPath();
@@ -6851,7 +6851,7 @@ public class KotlinSpringServerCodegenTest {
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
-                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
 
         Path manualOverride = files.get("ManualOverride.kt").toPath();
         assertFileContains(manualOverride, jsonInclude);
@@ -6892,7 +6892,7 @@ public class KotlinSpringServerCodegenTest {
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
-                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
 
         Path manualNone = files.get("ManualNone.kt").toPath();
         assertFileNotContains(manualNone, jsonInclude);
@@ -6911,7 +6911,7 @@ public class KotlinSpringServerCodegenTest {
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
-                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
 
         Path manualNonePadded = files.get("ManualNonePadded.kt").toPath();
         assertFileNotContains(manualNonePadded, jsonInclude);
@@ -6927,7 +6927,7 @@ public class KotlinSpringServerCodegenTest {
     public void jsonInclude_manualOverride_invalid_failsWithActionableError() {
         Throwable thrown = Assert.expectThrows(Throwable.class, () -> generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_invalid_override.yaml",
-                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true")));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true")));
 
         java.io.StringWriter sw = new java.io.StringWriter();
         thrown.printStackTrace(new java.io.PrintWriter(sw));
@@ -7220,7 +7220,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put("useBeanValidation", true);
         additionalProperties.put("openApiNullable", "true");
-        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true");
+        additionalProperties.put(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true");
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_1/issue_24139.yaml",

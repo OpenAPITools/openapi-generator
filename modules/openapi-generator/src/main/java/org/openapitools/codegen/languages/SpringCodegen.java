@@ -124,15 +124,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
-    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE = CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE;
-    public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS = CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS;
-    public static final String GENERATE_JSON_SETTER_NULLS_ANNOTATIONS = CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS;
-    /**
-     * Universal per-property vendor extension holding the resolved Jackson {@code @JsonInclude} policy
-     * (e.g. {@code NON_NULL}, {@code ALWAYS}). When absent, no {@code @JsonInclude} annotation is emitted.
-     * A value set directly in the spec is treated as a manual override and always wins.
-     */
-    public static final String JSON_INCLUDE_POLICY_EXTENSION = VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY.getName();
 
     @Getter
     public enum RequestMappingMode {
@@ -299,9 +290,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_SEALED,
                 "Whether to generate sealed model interfaces and classes"));
 
-        CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
+        CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
                 "The Jackson @JsonInclude policy emitted for optional, non-nullable model properties when "
-                        + GENERATE_JSON_INCLUDE_ANNOTATIONS + " is true. "
+                        + CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS + " is true. "
                         + "NONE emits no annotation, deferring fully to the global ObjectMapper inclusion policy.");
         optionalNonNullPropertyJsonIncludeOpt.addEnum("NON_NULL", "Omit the property when its value is null (default, spec-safe for non-nullable fields).");
         optionalNonNullPropertyJsonIncludeOpt.addEnum("NON_EMPTY", "Omit the property when its value is null or considered empty.");
@@ -310,14 +301,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         optionalNonNullPropertyJsonIncludeOpt.setDefault(optionalNonNullPropertyJsonInclude);
         cliOptions.add(optionalNonNullPropertyJsonIncludeOpt);
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_JSON_INCLUDE_ANNOTATIONS,
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS,
                 "Whether to generate policy @JsonInclude annotations on model properties. When true, emits "
                         + "spec-honest annotations (required-field protection and the optional non-nullable policy from "
-                        + OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE + "). When false, none are generated and the global "
+                        + CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE + "). When false, none are generated and the global "
                         + "ObjectMapper owns inclusion. When left unset it defaults to false (7.23.0-equivalent output) and "
                         + "logs a warning; set it explicitly to silence the warning. A per-property override set via the "
                         + "`x-jackson-json-include-policy` vendor extension is always honored regardless of this flag.", false));
-        cliOptions.add(CliOption.newBoolean(GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
                 "Whether to generate @JsonSetter(nulls = ...) annotations on optional non-nullable model properties. "
                         + "When true, emits @JsonSetter so an explicit null in the payload does not overwrite the field. "
                         + "When false, none are generated and deserialization null-handling defers to the global ObjectMapper. "
@@ -597,14 +588,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(RETURN_SUCCESS_CODE, this::setReturnSuccessCode);
         convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI, this::setUseSwaggerUI);
         convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
-        convertPropertyToBooleanAndWriteBack(GENERATE_JSON_INCLUDE_ANNOTATIONS, this::setGenerateJsonIncludeAnnotations);
-        convertPropertyToBooleanAndWriteBack(GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, this::setGenerateJsonSetterNullsAnnotations);
-        if (additionalProperties.containsKey(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE)) {
-            this.setOptionalNonNullPropertyJsonInclude(additionalProperties.get(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE).toString());
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, this::setGenerateJsonIncludeAnnotations);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, this::setGenerateJsonSetterNullsAnnotations);
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE)) {
+            this.setOptionalNonNullPropertyJsonInclude(additionalProperties.get(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE).toString());
         }
         this.optionalNonNullPropertyJsonInclude = JsonIncludePolicyUtils.normalizeJsonIncludePolicy(
-                this.optionalNonNullPropertyJsonInclude, OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE);
-        additionalProperties.put(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, optionalNonNullPropertyJsonInclude);
+                this.optionalNonNullPropertyJsonInclude, CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE);
+        additionalProperties.put(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, optionalNonNullPropertyJsonInclude);
         if (jackson) {
             if (generateJsonIncludeAnnotations == null) {
                 LOGGER.warn("'{}' is not set. Defaulting to false: no @JsonInclude annotations are generated and property "
@@ -612,16 +603,16 @@ public class SpringCodegen extends AbstractJavaCodegen
                         + "Set '{}=false' to keep this behavior and silence this warning, or '{}=true' to emit spec-honest "
                         + "@JsonInclude annotations (see '{}'). Note: before 7.24.0 released output had no field-level "
                         + "@JsonInclude, so leaving this unset preserves that behavior.",
-                        GENERATE_JSON_INCLUDE_ANNOTATIONS, GENERATE_JSON_INCLUDE_ANNOTATIONS,
-                        GENERATE_JSON_INCLUDE_ANNOTATIONS, OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE);
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS,
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE);
             }
             if (generateJsonSetterNullsAnnotations == null) {
                 LOGGER.warn("'{}' is not set. Defaulting to false: no @JsonSetter(nulls = ...) annotations are generated and "
                         + "deserialization null-handling is governed entirely by the global ObjectMapper (7.23.0-equivalent "
                         + "output). Set '{}=false' to keep this behavior and silence this warning, or '{}=true' to emit "
                         + "@JsonSetter(nulls = ...) on optional non-nullable fields.",
-                        GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
-                        GENERATE_JSON_SETTER_NULLS_ANNOTATIONS);
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS);
             }
         }
         if (DocumentationProvider.NONE.equals(getDocumentationProvider())) {
@@ -1296,15 +1287,15 @@ public class SpringCodegen extends AbstractJavaCodegen
         //        required   & nullable     -> ALWAYS   (explicit null is valid and must be serialized)
         //        optional   & non-nullable -> optionalNonNullPropertyJsonInclude (default NON_NULL, NONE = omit)
         //        optional   & nullable     -> none (JsonNullable module already governs inclusion)
-        if (property.vendorExtensions.containsKey(JSON_INCLUDE_POLICY_EXTENSION)) {
+        if (property.vendorExtensions.containsKey(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY.getName())) {
             String manualPolicy = JsonIncludePolicyUtils.resolveManualJsonIncludePolicy(
-                    property.vendorExtensions.get(JSON_INCLUDE_POLICY_EXTENSION), JSON_INCLUDE_POLICY_EXTENSION);
+                    property.vendorExtensions.get(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY.getName()), VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY.getName());
             if (manualPolicy != null) {
-                property.vendorExtensions.put(JSON_INCLUDE_POLICY_EXTENSION, manualPolicy);
+                property.vendorExtensions.put(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY.getName(), manualPolicy);
                 model.imports.add("JsonInclude");
             } else {
                 // NONE / empty means "emit nothing"; drop the extension so the template renders no annotation.
-                property.vendorExtensions.remove(JSON_INCLUDE_POLICY_EXTENSION);
+                property.vendorExtensions.remove(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY.getName());
             }
         } else if (Boolean.TRUE.equals(generateJsonIncludeAnnotations)) {
             String policy = null;
@@ -1314,7 +1305,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 policy = optionalNonNullPropertyJsonInclude;
             }
             if (JsonIncludePolicyUtils.isJsonIncludePolicyEmitted(policy)) {
-                property.vendorExtensions.put(JSON_INCLUDE_POLICY_EXTENSION, policy);
+                property.vendorExtensions.put(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY.getName(), policy);
                 model.imports.add("JsonInclude");
             }
         }

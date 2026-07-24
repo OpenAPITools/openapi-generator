@@ -8339,7 +8339,7 @@ public class SpringCodegenTest {
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 SPRING_BOOT,
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
-                        SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
 
         JavaFileAssert.assertThat(files.get("TestModel.java"))
                 .assertProperty("requiredNonNullable").assertPropertyAnnotations()
@@ -8363,7 +8363,7 @@ public class SpringCodegenTest {
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
                 SPRING_BOOT,
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "false",
-                        SpringCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
         assertFileContains(withFlag.get("OptionalNonNullable.java").toPath(), "@JsonSetter(nulls = Nulls.SKIP)");
 
         Map<String, File> unset = generateFromContract(
@@ -8383,8 +8383,8 @@ public class SpringCodegenTest {
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 SPRING_BOOT,
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
-                        SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
-                        SpringCodegen.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NON_EMPTY"));
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NON_EMPTY"));
 
         JavaFileAssert.assertThat(files.get("TestModel.java"))
                 .assertProperty("optionalNonNullable").assertPropertyAnnotations()
@@ -8404,8 +8404,8 @@ public class SpringCodegenTest {
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 SPRING_BOOT,
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
-                        SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
-                        SpringCodegen.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NONE"));
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NONE"));
 
         JavaFileAssert.assertThat(files.get("TestModel.java"))
                 .assertProperty("optionalNonNullable").assertPropertyAnnotations()
@@ -8424,7 +8424,7 @@ public class SpringCodegenTest {
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 SPRING_BOOT,
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
-                        SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
 
         Path modelFile = files.get("TestModel.java").toPath();
         assertFileNotContains(modelFile, "@JsonInclude(");
@@ -8439,7 +8439,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_override.yaml",
                 SPRING_BOOT,
-                Map.of(SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
 
         JavaFileAssert.assertThat(files.get("TestModel.java"))
                 .assertProperty("overridden").assertPropertyAnnotations()
@@ -8464,7 +8464,7 @@ public class SpringCodegenTest {
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
                 SPRING_BOOT,
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
-                        SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
 
         // required non-nullable -> @JsonInclude(NON_NULL); no setter machinery
         JavaFileAssert.assertThat(files.get("RequiredNonNullable.java"))
@@ -8495,8 +8495,8 @@ public class SpringCodegenTest {
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
                 SPRING_BOOT,
                 Map.of(CodegenConstants.OPENAPI_NULLABLE, "false",
-                        SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
-                        SpringCodegen.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         // optional non-nullable -> @JsonInclude(NON_NULL) + @JsonSetter(Nulls.SKIP)
         JavaFileAssert.assertThat(files.get("OptionalNonNullable.java"))
@@ -8517,7 +8517,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
                 SPRING_BOOT,
-                Map.of(SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
 
         JavaFileAssert.assertThat(files.get("ManualOverride.java"))
                 .hasImports(jsonInclude)
@@ -8558,7 +8558,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
                 SPRING_BOOT,
-                Map.of(SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
 
         JavaFileAssert.assertThat(files.get("ManualNone.java"))
                 .hasNoImports(jsonInclude)
@@ -8578,7 +8578,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
                 SPRING_BOOT,
-                Map.of(SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
 
         JavaFileAssert.assertThat(files.get("ManualNonePadded.java"))
                 .hasNoImports(jsonInclude)
@@ -8595,7 +8595,7 @@ public class SpringCodegenTest {
         org.assertj.core.api.Assertions.assertThatThrownBy(() -> generateFromContract(
                 "src/test/resources/3_0/spring/issue_24401_json_include_invalid_override.yaml",
                 SPRING_BOOT,
-                Map.of(SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true")))
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true")))
                 .hasStackTraceContaining("x-jackson-json-include-policy")
                 .hasStackTraceContaining("NOT_A_REAL_POLICY");
     }
