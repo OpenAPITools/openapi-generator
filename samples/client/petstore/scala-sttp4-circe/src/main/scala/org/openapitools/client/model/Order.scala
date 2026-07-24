@@ -38,9 +38,9 @@ object OrderEnums {
 
   sealed trait Status
   object Status {
-    case object Placed extends Status
-    case object Approved extends Status
-    case object Delivered extends Status
+    case object Placed extends Status { override def toString: String = "placed" }
+    case object Approved extends Status { override def toString: String = "approved" }
+    case object Delivered extends Status { override def toString: String = "delivered" }
 
     import io.circe.{Encoder, Decoder}
 

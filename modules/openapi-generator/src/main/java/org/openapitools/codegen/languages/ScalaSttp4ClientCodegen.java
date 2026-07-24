@@ -75,8 +75,6 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
     protected boolean renderJavadoc = true;
     protected boolean removeOAuthSecurities = true;
 
-    Map<String, ModelsMap> enumRefs = new HashMap<>();
-
     public ScalaSttp4ClientCodegen() {
         super();
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -507,7 +505,6 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
     /**
      * Update/clean up model imports
      * <p>
-     * append '._" if the import is a Enum class, otherwise
      * remove model imports to avoid warnings for importing class in the same package in Scala
      *
      * @param models processed models to be further processed
@@ -515,8 +512,6 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
     @SuppressWarnings("unchecked")
     private void postProcessUpdateImports(final Map<String, ModelsMap> models) {
         final String prefix = modelPackage() + ".";
-
-        enumRefs = getEnumRefs(models);
 
         for (String openAPIName : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
@@ -534,13 +529,11 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
             Iterator<Map<String, String>> iterator = imports.iterator();
             while (iterator.hasNext()) {
                 String importPath = iterator.next().get("import");
-                Map<String, String> item = new HashMap<>();
-                if (importPath.startsWith(prefix)) {
-                    if (isEnumClass(importPath, enumRefs)) {
-                        item.put("import", importPath.concat("._"));
-                        newImports.add(item);
-                    }
-                } else {
+                // Same-package imports are dropped: sttp4 enums are sealed traits +
+                // case objects (not Enumeration), so unlike scala-sttp there is no
+                // `MyEnum._` wildcard needed to bring a type alias into scope.
+                if (!importPath.startsWith(prefix)) {
+                    Map<String, String> item = new HashMap<>();
                     item.put("import", importPath);
                     newImports.add(item);
                 }
@@ -548,37 +541,6 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
             // reset imports
             objs.setImports(newImports);
         }
-    }
-
-    private Map<String, ModelsMap> getEnumRefs(final Map<String, ModelsMap> models) {
-        Map<String, ModelsMap> enums = new HashMap<>();
-        for (String key : models.keySet()) {
-            CodegenModel model = ModelUtils.getModelByName(key, models);
-            if (model.isEnum) {
-                ModelsMap objs = models.get(key);
-                enums.put(key, objs);
-            }
-        }
-        return enums;
-    }
-
-    private boolean isEnumClass(final String importPath, final Map<String, ModelsMap> enumModels) {
-        if (enumModels == null || enumModels.isEmpty()) {
-            return false;
-        }
-        for (ModelsMap objs : enumModels.values()) {
-            List<ModelMap> models = objs.getModels();
-            if (models == null || models.isEmpty()) {
-                continue;
-            }
-            for (final Map<String, Object> model : models) {
-                String enumImportPath = (String) model.get("importPath");
-                if (enumImportPath != null && enumImportPath.equals(importPath)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     @Override
@@ -618,11 +580,10 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
             while (iterator.hasNext()) {
                 String importPath = iterator.next().get("import");
                 Map<String, String> item = new HashMap<>();
-                if (isEnumClass(importPath, enumRefs)) {
-                    item.put("import", importPath.concat("._"));
-                } else {
-                    item.put("import", importPath);
-                }
+                // sttp4 enums are sealed traits + case objects (not Enumeration):
+                // import the type itself, not `MyEnum._` wildcard members, which
+                // would not bring the type into scope.
+                item.put("import", importPath);
                 newImports.add(item);
             }
         }
