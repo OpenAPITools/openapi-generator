@@ -70,7 +70,7 @@ export namespace {{classname}} {
     export enum {{enumName}} {
         {{#allowableValues}}
         {{#enumVars}}
-        {{name}} = <any> {{{value}}}{{^-last}},{{/-last}}
+        {{name}} = {{{value}}}{{^-last}},{{/-last}}
         {{/enumVars}}
         {{/allowableValues}}
     }
@@ -83,7 +83,7 @@ export namespace {{classname}} {
 export enum {{classname}} {
     {{#allowableValues}}
     {{#enumVars}}
-    {{name}} = <any> {{{value}}}{{^-last}},{{/-last}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
     {{/enumVars}}
     {{/allowableValues}}
 }
