@@ -61,8 +61,10 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#ve
 {{>additional_properties}}
 
 {{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
+  {{^lombok.RequiredArgsConstructor}}
   public {{classname}}() {
   }
+  {{/lombok.RequiredArgsConstructor}}
 
  {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
