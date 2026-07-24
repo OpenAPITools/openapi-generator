@@ -770,7 +770,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("ComplexObject.java"))
-                .fileContains("private @Valid List<LocalDate> dates")
+                .fileContains("private List<LocalDate> dates")
                 .fileDoesNotContain("private @Valid SymbolTypeEnum symbolType")
                 .fileDoesNotContain("@Valid String")
                 .fileDoesNotContain("@Valid Double");
@@ -801,17 +801,17 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //And the generated model contains correct default value for array properties (optional)
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/Body.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Body.java"),
-                "\nprivate @Valid List<String> arrayThatIsNull;\n");
+                "\nprivate List<String> arrayThatIsNull;\n");
 
         //And the generated model contains correct default value for array properties (required, nullable)
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequiredNullable.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequiredNullable.java"),
-                "\nprivate @Valid List<String> arrayThatIsNull;\n");
+                "\nprivate List<String> arrayThatIsNull;\n");
 
         //And the generated model contains correct default value for array properties (required)
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequired.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequired.java"),
-                "\nprivate @Valid List<String> arrayThatIsNotNull = new ArrayList<>();\n");
+                "\nprivate List<String> arrayThatIsNotNull = new ArrayList<>();\n");
 
     }
 

@@ -101,7 +101,6 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -132,7 +131,6 @@ public class ArrayTest {
    * @return arrayArrayOfModel
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {

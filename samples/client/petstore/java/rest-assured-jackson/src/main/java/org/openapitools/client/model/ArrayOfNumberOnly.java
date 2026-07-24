@@ -64,7 +64,6 @@ public class ArrayOfNumberOnly {
    * @return arrayNumber
    */
   @javax.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

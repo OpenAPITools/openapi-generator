@@ -29,7 +29,7 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   @Deprecated
   private DeprecatedObject deprecatedRef;
   @Deprecated
-  private @Valid List<String> bars = new ArrayList<>();
+  private List<String> bars = new ArrayList<>();
 
   protected ObjectWithDeprecatedFields(ObjectWithDeprecatedFieldsBuilder<?, ?> b) {
     this.uuid = b.uuid;
