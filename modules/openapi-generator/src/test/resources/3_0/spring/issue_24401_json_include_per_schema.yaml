@@ -88,3 +88,12 @@ components:
           type: string
           nullable: false
           x-jackson-json-include-policy: NONE
+    # manual per-property override of NONE padded with whitespace: must be treated identically to a
+    # bare NONE (normalization must trim before comparing), i.e. emit no annotation, no validation error.
+    ManualNonePadded:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          x-jackson-json-include-policy: "  NONE  "

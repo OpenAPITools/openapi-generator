@@ -6901,6 +6901,25 @@ public class KotlinSpringServerCodegenTest {
     }
 
     /**
+     * Issue #24401: a whitespace-padded {@code NONE} override must be treated identically to a bare
+     * {@code NONE} — the sentinel comparison must trim before checking, otherwise it falls through to
+     * validation and generation fails for a value that should simply suppress the annotation.
+     */
+    @Test(description = "Issue #24401 – padded NONE override emits no annotation or import (kotlin-spring)")
+    public void jsonInclude_manualOverride_paddedNone_emitsNoAnnotationOrImport() throws IOException {
+        final String jsonInclude = "import com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        Path manualNonePadded = files.get("ManualNonePadded.kt").toPath();
+        assertFileNotContains(manualNonePadded, jsonInclude);
+        Assert.assertFalse(Files.readString(manualNonePadded).contains("@field:JsonInclude"),
+                "padded NONE override must emit no @field:JsonInclude annotation");
+    }
+
+    /**
      * Issue #24401: an invalid manual per-property override must fail fast with an actionable error
      * during generation rather than emitting uncompilable Kotlin.
      */

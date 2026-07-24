@@ -40,6 +40,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.JsonIncludePolicyUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -601,7 +602,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE)) {
             this.setOptionalNonNullPropertyJsonInclude(additionalProperties.get(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE).toString());
         }
-        this.optionalNonNullPropertyJsonInclude = normalizeJsonIncludePolicy(this.optionalNonNullPropertyJsonInclude);
+        this.optionalNonNullPropertyJsonInclude = JsonIncludePolicyUtils.normalizeJsonIncludePolicy(
+                this.optionalNonNullPropertyJsonInclude, OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE);
         additionalProperties.put(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, optionalNonNullPropertyJsonInclude);
         if (jackson) {
             if (generateJsonIncludeAnnotations == null) {
@@ -1295,7 +1297,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         //        optional   & non-nullable -> optionalNonNullPropertyJsonInclude (default NON_NULL, NONE = omit)
         //        optional   & nullable     -> none (JsonNullable module already governs inclusion)
         if (property.vendorExtensions.containsKey(JSON_INCLUDE_POLICY_EXTENSION)) {
-            String manualPolicy = resolveManualJsonIncludePolicy(property.vendorExtensions.get(JSON_INCLUDE_POLICY_EXTENSION));
+            String manualPolicy = JsonIncludePolicyUtils.resolveManualJsonIncludePolicy(
+                    property.vendorExtensions.get(JSON_INCLUDE_POLICY_EXTENSION), JSON_INCLUDE_POLICY_EXTENSION);
             if (manualPolicy != null) {
                 property.vendorExtensions.put(JSON_INCLUDE_POLICY_EXTENSION, manualPolicy);
                 model.imports.add("JsonInclude");
@@ -1310,62 +1313,13 @@ public class SpringCodegen extends AbstractJavaCodegen
             } else if (!property.isNullable) {
                 policy = optionalNonNullPropertyJsonInclude;
             }
-            if (isJsonIncludePolicyEmitted(policy)) {
+            if (JsonIncludePolicyUtils.isJsonIncludePolicyEmitted(policy)) {
                 property.vendorExtensions.put(JSON_INCLUDE_POLICY_EXTENSION, policy);
                 model.imports.add("JsonInclude");
             }
         }
     }
 
-    private static boolean isJsonIncludePolicyEmitted(Object policy) {
-        return policy != null && !policy.toString().isEmpty() && !"NONE".equalsIgnoreCase(policy.toString());
-    }
-
-    /**
-     * Valid {@code com.fasterxml.jackson.annotation.JsonInclude.Include} constant names accepted for a
-     * manual per-property {@code x-jackson-json-include-policy} override. {@code NONE} is a sentinel
-     * meaning "emit no annotation" and is handled separately (the extension is dropped).
-     */
-    private static final Set<String> VALID_JSON_INCLUDE_CONSTANTS = new HashSet<>(Arrays.asList(
-            "ALWAYS", "NON_NULL", "NON_ABSENT", "NON_EMPTY", "NON_DEFAULT", "USE_DEFAULTS", "CUSTOM"));
-
-    /**
-     * Validate and normalize a manual per-property {@code x-jackson-json-include-policy} override.
-     *
-     * @return the normalized (upper-case) policy to emit, or {@code null} when the override means
-     * "emit no annotation" ({@code NONE}/empty), in which case the caller must drop the extension.
-     * @throws IllegalArgumentException when the override is not a valid {@code JsonInclude.Include} value.
-     */
-    private static String resolveManualJsonIncludePolicy(Object rawPolicy) {
-        if (!isJsonIncludePolicyEmitted(rawPolicy)) {
-            return null;
-        }
-        String normalized = rawPolicy.toString().trim().toUpperCase(Locale.ROOT);
-        if (!VALID_JSON_INCLUDE_CONSTANTS.contains(normalized)) {
-            throw new IllegalArgumentException(JSON_INCLUDE_POLICY_EXTENSION
-                    + " must be a valid com.fasterxml.jackson.annotation.JsonInclude.Include value "
-                    + "(ALWAYS, NON_NULL, NON_ABSENT, NON_EMPTY, NON_DEFAULT, USE_DEFAULTS, CUSTOM), or NONE to emit "
-                    + "no annotation, but was: " + rawPolicy);
-        }
-        return normalized;
-    }
-
-    private static String normalizeJsonIncludePolicy(String policy) {
-        if (policy == null) {
-            return "NON_NULL";
-        }
-        String normalized = policy.trim().toUpperCase(Locale.ROOT);
-        switch (normalized) {
-            case "NON_NULL":
-            case "NON_EMPTY":
-            case "NON_DEFAULT":
-            case "NONE":
-                return normalized;
-            default:
-                throw new IllegalArgumentException(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE
-                        + " must be one of NON_NULL, NON_EMPTY, NON_DEFAULT, NONE but was: " + policy);
-        }
-    }
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {

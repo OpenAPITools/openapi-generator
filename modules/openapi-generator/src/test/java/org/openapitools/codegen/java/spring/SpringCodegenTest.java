@@ -8567,6 +8567,26 @@ public class SpringCodegenTest {
     }
 
     /**
+     * Issue #24401: a whitespace-padded {@code NONE} override must be treated identically to a bare
+     * {@code NONE} — the sentinel comparison must trim before checking, otherwise it falls through to
+     * validation and generation fails for a value that should simply suppress the annotation.
+     */
+    @Test
+    void jsonInclude_manualOverride_paddedNone_emitsNoAnnotationOrImport() throws IOException {
+        final String jsonInclude = "com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        JavaFileAssert.assertThat(files.get("ManualNonePadded.java"))
+                .hasNoImports(jsonInclude)
+                .assertProperty("value").assertPropertyAnnotations()
+                .doesNotContainWithName("JsonInclude");
+    }
+
+    /**
      * Issue #24401: an invalid manual per-property override must fail fast with an actionable error
      * during generation rather than emitting uncompilable Java.
      */
