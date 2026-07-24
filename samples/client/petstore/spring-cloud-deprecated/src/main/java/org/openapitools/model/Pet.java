@@ -36,10 +36,8 @@ public class Pet {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Category category;
 
-  @JsonInclude(JsonInclude.Include.ALWAYS)
   private JsonNullable<String> name = JsonNullable.<String>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private List<String> photoUrls = new ArrayList<>();
 

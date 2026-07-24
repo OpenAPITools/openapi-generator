@@ -24,7 +24,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Name {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer name;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -52,7 +52,6 @@ public class Entity {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atBaseType;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String atType;
 
   public Entity() {

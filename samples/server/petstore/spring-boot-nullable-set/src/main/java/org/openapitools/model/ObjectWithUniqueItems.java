@@ -33,11 +33,13 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Set<String>> nullSet = JsonNullable.<Set<String>>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Set<String> notNullSet = new LinkedHashSet<>();
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<String>> nullList = JsonNullable.<List<String>>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

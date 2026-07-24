@@ -34,10 +34,8 @@ public class Pet {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Category> category = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

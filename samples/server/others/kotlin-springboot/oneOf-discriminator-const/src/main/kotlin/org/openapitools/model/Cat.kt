@@ -2,7 +2,6 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
@@ -25,7 +24,6 @@ import jakarta.validation.Valid
  */
 data class Cat(
 
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("huntingSkill")
     @get:JsonProperty("huntingSkill", required = true) val huntingSkill: Cat.HuntingSkill,
 

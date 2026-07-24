@@ -36,10 +36,8 @@ public class PetDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable CategoryDto category;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

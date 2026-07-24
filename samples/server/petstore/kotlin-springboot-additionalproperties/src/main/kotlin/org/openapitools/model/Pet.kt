@@ -30,11 +30,9 @@ import jakarta.validation.Valid
  */
 data class Pet(
 
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("name")
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("photoUrls")
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 

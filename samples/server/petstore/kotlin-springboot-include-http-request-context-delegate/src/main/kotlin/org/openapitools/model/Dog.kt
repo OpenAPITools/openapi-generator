@@ -38,32 +38,26 @@ import io.swagger.annotations.ApiModelProperty
 data class Dog(
 
     @ApiModelProperty(required = true, value = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("bark")
     @get:JsonProperty("bark", required = true) val bark: kotlin.Boolean,
 
     @ApiModelProperty(required = true, value = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("breed")
     @get:JsonProperty("breed", required = true) val breed: Dog.Breed,
 
     @ApiModelProperty(required = true, value = "Whether the dog enjoys fetching")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("likesFetch")
     @get:JsonProperty("likesFetch", required = true) override val likesFetch: kotlin.Boolean,
 
     @ApiModelProperty(required = true, value = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("name")
     @get:JsonProperty("name", required = true) override val name: kotlin.String,
 
     @ApiModelProperty(required = true, value = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("photoUrls")
     @get:JsonProperty("photoUrls", required = true) override val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(required = true, value = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("petType")
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String,
 

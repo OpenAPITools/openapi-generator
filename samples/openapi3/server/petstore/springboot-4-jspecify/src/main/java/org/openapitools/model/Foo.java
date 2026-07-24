@@ -50,7 +50,6 @@ public class Foo {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<OffsetDateTime> listMinIntems = new ArrayList<>();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime requiredDt;
 

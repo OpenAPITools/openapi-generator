@@ -26,7 +26,6 @@ import jakarta.validation.Valid
  */
 data class ApiError(
 
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("errorCode")
     @get:JsonProperty("errorCode", required = true) val errorCode: ApiError.ErrorCode,
 

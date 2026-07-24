@@ -32,7 +32,6 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class User(
 
     @Schema(required = true, description = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("username")
     @get:JsonProperty("username", required = true) val username: kotlin.String,
 

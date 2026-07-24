@@ -40,7 +40,6 @@ public class FormatTest {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Long> int64 = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal number;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -52,13 +51,11 @@ public class FormatTest {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<@Pattern(regexp = "[a-zA-Z]") String> string = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private byte[] _byte;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<org.springframework.core.io.Resource> binary = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
@@ -69,7 +66,6 @@ public class FormatTest {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<UUID> uuid = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String password;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

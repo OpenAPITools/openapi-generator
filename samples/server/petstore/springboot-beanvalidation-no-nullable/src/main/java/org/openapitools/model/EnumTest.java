@@ -105,7 +105,6 @@ public class EnumTest {
     }
   }
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private EnumStringRequiredEnum enumStringRequired;
 
   /**

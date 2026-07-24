@@ -28,15 +28,14 @@ public class NullableModel implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String requiredNonNullable;
 
-  @JsonInclude(JsonInclude.Include.ALWAYS)
   private JsonNullable<String> requiredNullable = JsonNullable.<String>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String optionalNonNullable;
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> optionalNullable = JsonNullable.<String>undefined();
 
   public NullableModel() {

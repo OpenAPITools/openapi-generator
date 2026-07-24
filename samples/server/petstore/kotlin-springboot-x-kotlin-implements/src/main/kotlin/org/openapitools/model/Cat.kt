@@ -37,17 +37,14 @@ import io.swagger.annotations.ApiModelProperty
 data class Cat(
 
     @ApiModelProperty(required = true, value = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("name")
     @get:JsonProperty("name", required = true) override val name: kotlin.String,
 
     @ApiModelProperty(required = true, value = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("photoUrls")
     @get:JsonProperty("photoUrls", required = true) override val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(required = true, value = "")
-    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("petType")
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String,
 

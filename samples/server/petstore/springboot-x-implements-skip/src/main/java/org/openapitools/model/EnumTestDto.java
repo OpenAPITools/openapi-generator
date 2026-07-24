@@ -110,7 +110,6 @@ public class EnumTestDto {
     }
   }
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -189,6 +188,7 @@ public class EnumTestDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable EnumNumberEnum enumNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<OuterEnumDto> outerEnum = JsonNullable.<OuterEnumDto>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
