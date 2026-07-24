@@ -62,14 +62,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
   {{#jackson}}
-  {{^required}}
-  {{^isNullable}}
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  {{/isNullable}}
-  {{/required}}
-  {{#vendorExtensions.x-is-jackson-optional-nullable}}
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
-  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{#vendorExtensions.x-jackson-json-include-policy}}
+  @JsonInclude(JsonInclude.Include.{{{vendorExtensions.x-jackson-json-include-policy}}})
+  {{/vendorExtensions.x-jackson-json-include-policy}}
   {{/jackson}}
   {{#deprecated}}
   @Deprecated

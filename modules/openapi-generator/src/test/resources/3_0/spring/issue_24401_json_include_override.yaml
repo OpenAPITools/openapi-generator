@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: JsonInclude manual override test
+  version: 1.0.0
+paths:
+  /test:
+    post:
+      operationId: testPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestModel'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    TestModel:
+      type: object
+      properties:
+        # Manual per-property override via the universal vendor extension.
+        overridden:
+          type: string
+          nullable: false
+          x-jackson-json-include-policy: NON_EMPTY
+        # No override: with generateJsonIncludeAnnotations=false this must get no annotation.
+        plain:
+          type: string
+          nullable: false

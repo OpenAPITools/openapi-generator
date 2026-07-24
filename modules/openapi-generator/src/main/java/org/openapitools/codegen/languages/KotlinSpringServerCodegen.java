@@ -111,6 +111,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
     public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE = "optionalNonNullPropertyJsonInclude";
+    public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS = "generateJsonIncludeAnnotations";
+    /**
+     * Universal per-property vendor extension holding the resolved Jackson {@code @JsonInclude} policy
+     * (e.g. {@code NON_NULL}, {@code ALWAYS}). When absent, no {@code @JsonInclude} annotation is emitted.
+     * A value set directly in the spec is treated as a manual override and always wins.
+     */
+    public static final String JSON_INCLUDE_POLICY_EXTENSION = "x-jackson-json-include-policy";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -183,6 +191,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useEnumValueInterface = false;
     private String valuedEnumClassName = "ValuedEnum";
     @Setter private boolean suspendFunctions = false;
+    @Getter @Setter private String optionalNonNullPropertyJsonInclude = "NON_NULL";
+    @Getter @Setter private boolean generateJsonIncludeAnnotations = true;
     @Getter @Setter private boolean openApiNullable = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
@@ -314,6 +324,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
+
+        CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
+                "The Jackson @JsonInclude policy emitted for optional, non-nullable model properties. "
+                        + "NONE emits no annotation, deferring fully to the global ObjectMapper inclusion policy.");
+        optionalNonNullPropertyJsonIncludeOpt.addEnum("NON_NULL", "Omit the property when its value is null (default, spec-safe for non-nullable fields).");
+        optionalNonNullPropertyJsonIncludeOpt.addEnum("NON_EMPTY", "Omit the property when its value is null or considered empty.");
+        optionalNonNullPropertyJsonIncludeOpt.addEnum("NON_DEFAULT", "Omit the property when its value equals the default.");
+        optionalNonNullPropertyJsonIncludeOpt.addEnum("NONE", "Emit no @JsonInclude annotation; defer to the global ObjectMapper.");
+        optionalNonNullPropertyJsonIncludeOpt.setDefault(optionalNonNullPropertyJsonInclude);
+        cliOptions.add(optionalNonNullPropertyJsonIncludeOpt);
+
+        addSwitch(GENERATE_JSON_INCLUDE_ANNOTATIONS,
+                "Whether to generate policy @JsonInclude annotations on model properties. When false, all "
+                        + "automatic @JsonInclude annotations (required-field protection and the optional non-nullable policy) "
+                        + "are omitted so the global ObjectMapper owns inclusion. A per-property override set via the "
+                        + "`x-jackson-json-include-policy` vendor extension is still honored.", generateJsonIncludeAnnotations);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
         addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
@@ -732,6 +758,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setSuspendFunctions(convertPropertyToBoolean(SUSPEND_FUNCTIONS));
         }
         writePropertyBack(SUSPEND_FUNCTIONS, suspendFunctions);
+
+        if (additionalProperties.containsKey(GENERATE_JSON_INCLUDE_ANNOTATIONS)) {
+            this.setGenerateJsonIncludeAnnotations(convertPropertyToBoolean(GENERATE_JSON_INCLUDE_ANNOTATIONS));
+        }
+        writePropertyBack(GENERATE_JSON_INCLUDE_ANNOTATIONS, generateJsonIncludeAnnotations);
+        if (additionalProperties.containsKey(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE)) {
+            this.setOptionalNonNullPropertyJsonInclude(additionalProperties.get(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE).toString());
+        }
+        this.optionalNonNullPropertyJsonInclude = normalizeJsonIncludePolicy(this.optionalNonNullPropertyJsonInclude);
+        writePropertyBack(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, optionalNonNullPropertyJsonInclude);
 
         if (additionalProperties.containsKey(BEAN_QUALIFIERS) && library.equals(SPRING_BOOT)) {
             this.setBeanQualifiers(convertPropertyToBoolean(BEAN_QUALIFIERS));
@@ -1285,6 +1321,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // When openApiNullable=false: Nulls.SKIP → silently ignore explicit null (lenient, protects defaults).
         // Always emit @JsonInclude(NON_NULL) so null fields are omitted from serialized output regardless
         // of who is deserializing on the other end — closer to spec, avoids round-trip failures.
+        // Scenario 3: optional + non-nullable → always emit @JsonSetter to handle explicit JSON nulls.
+        // When openApiNullable=true: Nulls.FAIL → reject explicit null (strict PATCH semantics).
+        // When openApiNullable=false: Nulls.SKIP → silently ignore explicit null (lenient, protects defaults).
         if (!property.required && !property.isNullable) {
             if (openApiNullable) {
                 property.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
@@ -1293,7 +1332,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
             model.imports.add("JsonSetter");
             model.imports.add("Nulls");
-            model.imports.add("JsonInclude");
         }
 
         // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T> = JsonNullable.undefined()
@@ -1302,6 +1340,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             property.vendorExtensions.put("x-is-jackson-optional-nullable", true);
             model.imports.add("JsonNullable");
         }
+
+        resolveJsonIncludePolicy(model, property);
 
         //Add imports for Jackson
         if (!model.isEnum) {
@@ -1319,6 +1359,65 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (model.discriminator != null && additionalProperties.containsKey("jackson")) {
             model.imports.addAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties"));
+        }
+    }
+
+    /**
+     * Resolve the {@code @JsonInclude} policy into the single universal
+     * {@code x-jackson-json-include-policy} vendor extension the template emits. Precedence:
+     * <ol>
+     *   <li>A value set directly on the property (manual override in the spec) always wins.</li>
+     *   <li>Otherwise, when {@code generateJsonIncludeAnnotations=true}, apply the automatic matrix:
+     *     <ul>
+     *       <li>required (nullable or not) &rarr; {@code ALWAYS} (Kotlin type prevents null for non-nullable;
+     *           explicit null is valid for nullable and must be serialized)</li>
+     *       <li>optional &amp; non-nullable &rarr; {@code optionalNonNullPropertyJsonInclude}
+     *           (default {@code NON_NULL}, {@code NONE} = omit)</li>
+     *       <li>optional &amp; nullable &rarr; none (JsonNullable module already governs inclusion)</li>
+     *     </ul>
+     *   </li>
+     * </ol>
+     */
+    private void resolveJsonIncludePolicy(CodegenModel model, CodegenProperty property) {
+        if (property.vendorExtensions.containsKey(JSON_INCLUDE_POLICY_EXTENSION)) {
+            if (isJsonIncludePolicyEmitted(property.vendorExtensions.get(JSON_INCLUDE_POLICY_EXTENSION))) {
+                model.imports.add("JsonInclude");
+            }
+            return;
+        }
+        if (!generateJsonIncludeAnnotations) {
+            return;
+        }
+        String policy = null;
+        if (property.required) {
+            policy = "ALWAYS";
+        } else if (!property.isNullable) {
+            policy = optionalNonNullPropertyJsonInclude;
+        }
+        if (isJsonIncludePolicyEmitted(policy)) {
+            property.vendorExtensions.put(JSON_INCLUDE_POLICY_EXTENSION, policy);
+            model.imports.add("JsonInclude");
+        }
+    }
+
+    private static boolean isJsonIncludePolicyEmitted(Object policy) {
+        return policy != null && !policy.toString().isEmpty() && !"NONE".equalsIgnoreCase(policy.toString());
+    }
+
+    private static String normalizeJsonIncludePolicy(String policy) {
+        if (policy == null) {
+            return "NON_NULL";
+        }
+        String normalized = policy.trim().toUpperCase(Locale.ROOT);
+        switch (normalized) {
+            case "NON_NULL":
+            case "NON_EMPTY":
+            case "NON_DEFAULT":
+            case "NONE":
+                return normalized;
+            default:
+                throw new IllegalArgumentException(OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE
+                        + " must be one of NON_NULL, NON_EMPTY, NON_DEFAULT, NONE but was: " + policy);
         }
     }
 
@@ -1479,6 +1578,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 if (openApiNullable && !var.required && var.isNullable) {
                     var.vendorExtensions.put("x-is-jackson-optional-nullable", true);
                 }
+                resolveJsonIncludePolicy(cm, var);
+            }
+            for (CodegenProperty var : cm.requiredVars) {
+                resolveJsonIncludePolicy(cm, var);
             }
         }
 
