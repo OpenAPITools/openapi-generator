@@ -292,153 +292,149 @@ if __import__("typing").TYPE_CHECKING:
     from petstore_api.models.with_nested_one_of import WithNestedOneOf as WithNestedOneOf
     
 else:
-    from lazy_imports import LazyModule, as_package, load
+    from importlib import import_module
 
-    load(
-        LazyModule(
-            *as_package(__file__),
-            ("__version__", __version__),
-            ("__all__", __all__),
-            """# import apis into sdk package
-from petstore_api.api.another_fake_api import AnotherFakeApi as AnotherFakeApi
-from petstore_api.api.default_api import DefaultApi as DefaultApi
-from petstore_api.api.fake_api import FakeApi as FakeApi
-from petstore_api.api.fake_classname_tags123_api import FakeClassnameTags123Api as FakeClassnameTags123Api
-from petstore_api.api.import_test_datetime_api import ImportTestDatetimeApi as ImportTestDatetimeApi
-from petstore_api.api.pet_api import PetApi as PetApi
-from petstore_api.api.store_api import StoreApi as StoreApi
-from petstore_api.api.user_api import UserApi as UserApi
+    _exports = {
+        "AnotherFakeApi": ".api.another_fake_api",
+        "DefaultApi": ".api.default_api",
+        "FakeApi": ".api.fake_api",
+        "FakeClassnameTags123Api": ".api.fake_classname_tags123_api",
+        "ImportTestDatetimeApi": ".api.import_test_datetime_api",
+        "PetApi": ".api.pet_api",
+        "StoreApi": ".api.store_api",
+        "UserApi": ".api.user_api",
+        "ApiResponse": ".api_response",
+        "ApiClient": ".api_client",
+        "Configuration": ".configuration",
+        "OpenApiException": ".exceptions",
+        "ApiTypeError": ".exceptions",
+        "ApiValueError": ".exceptions",
+        "ApiKeyError": ".exceptions",
+        "ApiAttributeError": ".exceptions",
+        "ApiException": ".exceptions",
+        "HttpSigningConfiguration": ".signing",
+        "AdditionalPropertiesAnyType": ".models.additional_properties_any_type",
+        "AdditionalPropertiesClass": ".models.additional_properties_class",
+        "AdditionalPropertiesObject": ".models.additional_properties_object",
+        "AdditionalPropertiesWithDescriptionOnly": ".models.additional_properties_with_description_only",
+        "AllOfSuperModel": ".models.all_of_super_model",
+        "AllOfWithSingleRef": ".models.all_of_with_single_ref",
+        "Animal": ".models.animal",
+        "AnyOfColor": ".models.any_of_color",
+        "AnyOfPig": ".models.any_of_pig",
+        "ArrayOfArrayOfModel": ".models.array_of_array_of_model",
+        "ArrayOfArrayOfNumberOnly": ".models.array_of_array_of_number_only",
+        "ArrayOfMapModel": ".models.array_of_map_model",
+        "ArrayOfNumberOnly": ".models.array_of_number_only",
+        "ArrayTest": ".models.array_test",
+        "BaseDiscriminator": ".models.base_discriminator",
+        "BasquePig": ".models.basque_pig",
+        "Bathing": ".models.bathing",
+        "Capitalization": ".models.capitalization",
+        "Cat": ".models.cat",
+        "Category": ".models.category",
+        "CircularAllOfRef": ".models.circular_all_of_ref",
+        "CircularReferenceModel": ".models.circular_reference_model",
+        "ClassModel": ".models.class_model",
+        "Client": ".models.client",
+        "Color": ".models.color",
+        "Creature": ".models.creature",
+        "CreatureInfo": ".models.creature_info",
+        "DanishPig": ".models.danish_pig",
+        "DataOutputFormat": ".models.data_output_format",
+        "DeprecatedObject": ".models.deprecated_object",
+        "DiscriminatorAllOfSub": ".models.discriminator_all_of_sub",
+        "DiscriminatorAllOfSuper": ".models.discriminator_all_of_super",
+        "Dog": ".models.dog",
+        "DummyModel": ".models.dummy_model",
+        "EnumArrays": ".models.enum_arrays",
+        "EnumClass": ".models.enum_class",
+        "EnumNumberVendorExt": ".models.enum_number_vendor_ext",
+        "EnumRefWithDefaultValue": ".models.enum_ref_with_default_value",
+        "EnumString1": ".models.enum_string1",
+        "EnumString2": ".models.enum_string2",
+        "EnumStringVendorExt": ".models.enum_string_vendor_ext",
+        "EnumTest": ".models.enum_test",
+        "Feeding": ".models.feeding",
+        "File": ".models.file",
+        "FileSchemaTestClass": ".models.file_schema_test_class",
+        "FirstRef": ".models.first_ref",
+        "Foo": ".models.foo",
+        "FooGetDefaultResponse": ".models.foo_get_default_response",
+        "FormatTest": ".models.format_test",
+        "HasOnlyReadOnly": ".models.has_only_read_only",
+        "HealthCheckResult": ".models.health_check_result",
+        "HuntingDog": ".models.hunting_dog",
+        "Info": ".models.info",
+        "InnerDictWithProperty": ".models.inner_dict_with_property",
+        "InputAllOf": ".models.input_all_of",
+        "IntOrString": ".models.int_or_string",
+        "ListClass": ".models.list_class",
+        "MapOfArrayOfModel": ".models.map_of_array_of_model",
+        "MapTest": ".models.map_test",
+        "MixedPropertiesAndAdditionalPropertiesClass": ".models.mixed_properties_and_additional_properties_class",
+        "Model200Response": ".models.model200_response",
+        "ModelApiResponse": ".models.model_api_response",
+        "ModelField": ".models.model_field",
+        "ModelReturn": ".models.model_return",
+        "MultiArrays": ".models.multi_arrays",
+        "Name": ".models.name",
+        "NullableClass": ".models.nullable_class",
+        "NullableProperty": ".models.nullable_property",
+        "NumberOnly": ".models.number_only",
+        "ObjectToTestAdditionalProperties": ".models.object_to_test_additional_properties",
+        "ObjectWithDeprecatedFields": ".models.object_with_deprecated_fields",
+        "OneOfEnumString": ".models.one_of_enum_string",
+        "Order": ".models.order",
+        "OuterComposite": ".models.outer_composite",
+        "OuterEnum": ".models.outer_enum",
+        "OuterEnumDefaultValue": ".models.outer_enum_default_value",
+        "OuterEnumInteger": ".models.outer_enum_integer",
+        "OuterEnumIntegerDefaultValue": ".models.outer_enum_integer_default_value",
+        "OuterObjectWithEnumProperty": ".models.outer_object_with_enum_property",
+        "Parent": ".models.parent",
+        "ParentWithOptionalDict": ".models.parent_with_optional_dict",
+        "Pet": ".models.pet",
+        "Pig": ".models.pig",
+        "PonySizes": ".models.pony_sizes",
+        "PoopCleaning": ".models.poop_cleaning",
+        "PrimitiveString": ".models.primitive_string",
+        "PropertyMap": ".models.property_map",
+        "PropertyNameCollision": ".models.property_name_collision",
+        "ReadOnlyFirst": ".models.read_only_first",
+        "SecondCircularAllOfRef": ".models.second_circular_all_of_ref",
+        "SecondRef": ".models.second_ref",
+        "SelfReferenceModel": ".models.self_reference_model",
+        "SingleRefType": ".models.single_ref_type",
+        "SpecialCharacterEnum": ".models.special_character_enum",
+        "SpecialModelName": ".models.special_model_name",
+        "SpecialName": ".models.special_name",
+        "Tag": ".models.tag",
+        "Task": ".models.task",
+        "TaskActivity": ".models.task_activity",
+        "TestEnum": ".models.test_enum",
+        "TestEnumWithDefault": ".models.test_enum_with_default",
+        "TestErrorResponsesWithModel400Response": ".models.test_error_responses_with_model400_response",
+        "TestErrorResponsesWithModel404Response": ".models.test_error_responses_with_model404_response",
+        "TestInlineFreeformAdditionalPropertiesRequest": ".models.test_inline_freeform_additional_properties_request",
+        "TestModelWithEnumDefault": ".models.test_model_with_enum_default",
+        "TestObjectForMultipartRequestsRequestMarker": ".models.test_object_for_multipart_requests_request_marker",
+        "Tiger": ".models.tiger",
+        "Type": ".models.type",
+        "UnnamedDictWithAdditionalModelListProperties": ".models.unnamed_dict_with_additional_model_list_properties",
+        "UnnamedDictWithAdditionalStringListProperties": ".models.unnamed_dict_with_additional_string_list_properties",
+        "UploadFileWithAdditionalPropertiesRequestObject": ".models.upload_file_with_additional_properties_request_object",
+        "User": ".models.user",
+        "UuidWithPattern": ".models.uuid_with_pattern",
+        "WithNestedOneOf": ".models.with_nested_one_of",
+    }
 
-# import ApiClient
-from petstore_api.api_response import ApiResponse as ApiResponse
-from petstore_api.api_client import ApiClient as ApiClient
-from petstore_api.configuration import Configuration as Configuration
-from petstore_api.exceptions import OpenApiException as OpenApiException
-from petstore_api.exceptions import ApiTypeError as ApiTypeError
-from petstore_api.exceptions import ApiValueError as ApiValueError
-from petstore_api.exceptions import ApiKeyError as ApiKeyError
-from petstore_api.exceptions import ApiAttributeError as ApiAttributeError
-from petstore_api.exceptions import ApiException as ApiException
-from petstore_api.signing import HttpSigningConfiguration as HttpSigningConfiguration
+    def __getattr__(name: str) -> object:
+        if (module_name := _exports.get(name)) is None:
+            raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+        value = getattr(import_module(module_name, __name__), name)
+        globals()[name] = value
+        return value
 
-# import models into sdk package
-from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType as AdditionalPropertiesAnyType
-from petstore_api.models.additional_properties_class import AdditionalPropertiesClass as AdditionalPropertiesClass
-from petstore_api.models.additional_properties_object import AdditionalPropertiesObject as AdditionalPropertiesObject
-from petstore_api.models.additional_properties_with_description_only import AdditionalPropertiesWithDescriptionOnly as AdditionalPropertiesWithDescriptionOnly
-from petstore_api.models.all_of_super_model import AllOfSuperModel as AllOfSuperModel
-from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef as AllOfWithSingleRef
-from petstore_api.models.animal import Animal as Animal
-from petstore_api.models.any_of_color import AnyOfColor as AnyOfColor
-from petstore_api.models.any_of_pig import AnyOfPig as AnyOfPig
-from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel as ArrayOfArrayOfModel
-from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly as ArrayOfArrayOfNumberOnly
-from petstore_api.models.array_of_map_model import ArrayOfMapModel as ArrayOfMapModel
-from petstore_api.models.array_of_number_only import ArrayOfNumberOnly as ArrayOfNumberOnly
-from petstore_api.models.array_test import ArrayTest as ArrayTest
-from petstore_api.models.base_discriminator import BaseDiscriminator as BaseDiscriminator
-from petstore_api.models.basque_pig import BasquePig as BasquePig
-from petstore_api.models.bathing import Bathing as Bathing
-from petstore_api.models.capitalization import Capitalization as Capitalization
-from petstore_api.models.cat import Cat as Cat
-from petstore_api.models.category import Category as Category
-from petstore_api.models.circular_all_of_ref import CircularAllOfRef as CircularAllOfRef
-from petstore_api.models.circular_reference_model import CircularReferenceModel as CircularReferenceModel
-from petstore_api.models.class_model import ClassModel as ClassModel
-from petstore_api.models.client import Client as Client
-from petstore_api.models.color import Color as Color
-from petstore_api.models.creature import Creature as Creature
-from petstore_api.models.creature_info import CreatureInfo as CreatureInfo
-from petstore_api.models.danish_pig import DanishPig as DanishPig
-from petstore_api.models.data_output_format import DataOutputFormat as DataOutputFormat
-from petstore_api.models.deprecated_object import DeprecatedObject as DeprecatedObject
-from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub as DiscriminatorAllOfSub
-from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSuper as DiscriminatorAllOfSuper
-from petstore_api.models.dog import Dog as Dog
-from petstore_api.models.dummy_model import DummyModel as DummyModel
-from petstore_api.models.enum_arrays import EnumArrays as EnumArrays
-from petstore_api.models.enum_class import EnumClass as EnumClass
-from petstore_api.models.enum_number_vendor_ext import EnumNumberVendorExt as EnumNumberVendorExt
-from petstore_api.models.enum_ref_with_default_value import EnumRefWithDefaultValue as EnumRefWithDefaultValue
-from petstore_api.models.enum_string1 import EnumString1 as EnumString1
-from petstore_api.models.enum_string2 import EnumString2 as EnumString2
-from petstore_api.models.enum_string_vendor_ext import EnumStringVendorExt as EnumStringVendorExt
-from petstore_api.models.enum_test import EnumTest as EnumTest
-from petstore_api.models.feeding import Feeding as Feeding
-from petstore_api.models.file import File as File
-from petstore_api.models.file_schema_test_class import FileSchemaTestClass as FileSchemaTestClass
-from petstore_api.models.first_ref import FirstRef as FirstRef
-from petstore_api.models.foo import Foo as Foo
-from petstore_api.models.foo_get_default_response import FooGetDefaultResponse as FooGetDefaultResponse
-from petstore_api.models.format_test import FormatTest as FormatTest
-from petstore_api.models.has_only_read_only import HasOnlyReadOnly as HasOnlyReadOnly
-from petstore_api.models.health_check_result import HealthCheckResult as HealthCheckResult
-from petstore_api.models.hunting_dog import HuntingDog as HuntingDog
-from petstore_api.models.info import Info as Info
-from petstore_api.models.inner_dict_with_property import InnerDictWithProperty as InnerDictWithProperty
-from petstore_api.models.input_all_of import InputAllOf as InputAllOf
-from petstore_api.models.int_or_string import IntOrString as IntOrString
-from petstore_api.models.list_class import ListClass as ListClass
-from petstore_api.models.map_of_array_of_model import MapOfArrayOfModel as MapOfArrayOfModel
-from petstore_api.models.map_test import MapTest as MapTest
-from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass as MixedPropertiesAndAdditionalPropertiesClass
-from petstore_api.models.model200_response import Model200Response as Model200Response
-from petstore_api.models.model_api_response import ModelApiResponse as ModelApiResponse
-from petstore_api.models.model_field import ModelField as ModelField
-from petstore_api.models.model_return import ModelReturn as ModelReturn
-from petstore_api.models.multi_arrays import MultiArrays as MultiArrays
-from petstore_api.models.name import Name as Name
-from petstore_api.models.nullable_class import NullableClass as NullableClass
-from petstore_api.models.nullable_property import NullableProperty as NullableProperty
-from petstore_api.models.number_only import NumberOnly as NumberOnly
-from petstore_api.models.object_to_test_additional_properties import ObjectToTestAdditionalProperties as ObjectToTestAdditionalProperties
-from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields as ObjectWithDeprecatedFields
-from petstore_api.models.one_of_enum_string import OneOfEnumString as OneOfEnumString
-from petstore_api.models.order import Order as Order
-from petstore_api.models.outer_composite import OuterComposite as OuterComposite
-from petstore_api.models.outer_enum import OuterEnum as OuterEnum
-from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue as OuterEnumDefaultValue
-from petstore_api.models.outer_enum_integer import OuterEnumInteger as OuterEnumInteger
-from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue as OuterEnumIntegerDefaultValue
-from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty as OuterObjectWithEnumProperty
-from petstore_api.models.parent import Parent as Parent
-from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict as ParentWithOptionalDict
-from petstore_api.models.pet import Pet as Pet
-from petstore_api.models.pig import Pig as Pig
-from petstore_api.models.pony_sizes import PonySizes as PonySizes
-from petstore_api.models.poop_cleaning import PoopCleaning as PoopCleaning
-from petstore_api.models.primitive_string import PrimitiveString as PrimitiveString
-from petstore_api.models.property_map import PropertyMap as PropertyMap
-from petstore_api.models.property_name_collision import PropertyNameCollision as PropertyNameCollision
-from petstore_api.models.read_only_first import ReadOnlyFirst as ReadOnlyFirst
-from petstore_api.models.second_circular_all_of_ref import SecondCircularAllOfRef as SecondCircularAllOfRef
-from petstore_api.models.second_ref import SecondRef as SecondRef
-from petstore_api.models.self_reference_model import SelfReferenceModel as SelfReferenceModel
-from petstore_api.models.single_ref_type import SingleRefType as SingleRefType
-from petstore_api.models.special_character_enum import SpecialCharacterEnum as SpecialCharacterEnum
-from petstore_api.models.special_model_name import SpecialModelName as SpecialModelName
-from petstore_api.models.special_name import SpecialName as SpecialName
-from petstore_api.models.tag import Tag as Tag
-from petstore_api.models.task import Task as Task
-from petstore_api.models.task_activity import TaskActivity as TaskActivity
-from petstore_api.models.test_enum import TestEnum as TestEnum
-from petstore_api.models.test_enum_with_default import TestEnumWithDefault as TestEnumWithDefault
-from petstore_api.models.test_error_responses_with_model400_response import TestErrorResponsesWithModel400Response as TestErrorResponsesWithModel400Response
-from petstore_api.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response as TestErrorResponsesWithModel404Response
-from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest as TestInlineFreeformAdditionalPropertiesRequest
-from petstore_api.models.test_model_with_enum_default import TestModelWithEnumDefault as TestModelWithEnumDefault
-from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker as TestObjectForMultipartRequestsRequestMarker
-from petstore_api.models.tiger import Tiger as Tiger
-from petstore_api.models.type import Type as Type
-from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties as UnnamedDictWithAdditionalModelListProperties
-from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties as UnnamedDictWithAdditionalStringListProperties
-from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject as UploadFileWithAdditionalPropertiesRequestObject
-from petstore_api.models.user import User as User
-from petstore_api.models.uuid_with_pattern import UuidWithPattern as UuidWithPattern
-from petstore_api.models.with_nested_one_of import WithNestedOneOf as WithNestedOneOf
-
-""",
-            name=__name__,
-            doc=__doc__,
-        )
-    )
+    def __dir__() -> list[str]:
+        return sorted(globals().keys() | _exports.keys())
