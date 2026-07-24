@@ -1558,7 +1558,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     }
 
                     String defaultPropertyExpression = null;
-                    if(ModelUtils.isLongSchema(propertySchema)) {
+                    if(ModelUtils.isEnumSchema(ModelUtils.getReferencedSchema(this.openAPI, propertySchema))) {
+                        // Enum-typed property: render the enum constant (e.g. `OutputFormat.OrderEnum.SIMILARITY`)
+                        // rather than a raw quoted string, which would not compile (see #24298).
+                        CodegenProperty enumProperty = fromProperty(key, propertySchema);
+                        String enumType = enumProperty.isEnum
+                                // an inline enum is generated as a nested class of the containing object type
+                                ? cp.datatypeWithEnum + "." + enumProperty.datatypeWithEnum
+                                // a `$ref` to a named enum is a top-level type
+                                : enumProperty.datatypeWithEnum;
+                        defaultPropertyExpression = enumType + "." + toEnumVarName(value.asText(), enumProperty.dataType);
+                    } else if(ModelUtils.isLongSchema(propertySchema)) {
                         defaultPropertyExpression = value.asText()+"l";
                     } else if(ModelUtils.isIntegerSchema(propertySchema)) {
                         defaultPropertyExpression = value.asText();
