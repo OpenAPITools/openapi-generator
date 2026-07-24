@@ -6951,6 +6951,95 @@ public class KotlinSpringServerCodegenTest {
         assertThat(content).contains("com.example.ExternalModel?");
     }
 
+    // ========== x-jackson-default-impl / typeInfoDefaultImpls tests ==========
+
+    @Test(description = "x-jackson-default-impl on deduction schema emits defaultImpl in @JsonTypeInfo")
+    public void xJacksonDefaultImplOnDeductionSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog::class)");
+    }
+
+    @Test(description = "typeInfoDefaultImpls config option on deduction schema emits defaultImpl in @JsonTypeInfo")
+    public void typeInfoDefaultImplsConfigOptionOnDeductionSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog::class)");
+    }
+
+    @Test(description = "typeInfoDefaultImpls overrides x-jackson-default-impl on deduction schema")
+    public void typeInfoDefaultImplsOverridesSchemaAnnotationOnDeductionSchema() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        // Override x-jackson-default-impl: Dog (set in YAML) with Cat via config option
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Cat"));
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        String content = Files.readString(animalFile.toPath());
+        assertThat(content).contains("defaultImpl = Cat::class");
+        assertThat(content).doesNotContain("defaultImpl = Dog::class");
+    }
+
+    @Test(description = "x-jackson-default-impl on discriminator schema emits defaultImpl in @JsonTypeInfo")
+    public void xJacksonDefaultImplOnDiscriminatorSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", new HashMap<>());
+
+        File fruitFile = files.get("Fruit.kt");
+        assertThat(fruitFile).isNotNull();
+        assertFileContains(fruitFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, " +
+                "property = \"fruitType\", visible = true, defaultImpl = Apple::class)");
+    }
+
+    @Test(description = "no defaultImpl when neither x-jackson-default-impl nor typeInfoDefaultImpls is set")
+    public void noDefaultImplWhenNeitherSourceIsSet() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+
+        // Use the YAML without x-jackson-default-impl; don't pass typeInfoDefaultImpls
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileNotContains(animalFile.toPath(), "defaultImpl");
+    }
+
+    @Test(description = "typeInfoDefaultImpls applies model name suffix to resolved default impl")
+    public void typeInfoDefaultImplsAppliesModelNameSuffix() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+        additionalProperties.put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", additionalProperties);
+
+        File animalFile = files.get("AnimalDto.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(), "defaultImpl = DogDto::class");
+    }
+
+
     @Test(description = "nameMappings: @param:JsonProperty must use the original JSON field name for deserialization")
     public void paramJsonPropertyAnnotationWithNameMappings() throws IOException {
         // When a property is renamed via nameMappings, @param:JsonProperty must carry the

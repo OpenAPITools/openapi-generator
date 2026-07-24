@@ -71,6 +71,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.USE_ONE_OF_INTERFACES;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
 import static org.testng.Assert.*;
 
@@ -4766,6 +4767,75 @@ public class JavaClientCodegenTest {
         assertThat(content)
                 .contains("import io.swagger.v3.oas.annotations.tags.*;")
                 .contains("@Tag(");
+    }
+
+    // ========== x-jackson-default-impl / typeInfoDefaultImpls tests ==========
+
+    @Test(description = "x-jackson-default-impl on deduction schema emits defaultImpl in @JsonTypeInfo (Java client)")
+    public void xJacksonDefaultImplOnDeductionSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(USE_ONE_OF_INTERFACES, "true");
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml",
+                JavaClientCodegen.RESTTEMPLATE,
+                additionalProperties);
+
+        File animalFile = files.get("Animal.java");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog.class)");
+    }
+
+    @Test(description = "x-jackson-default-impl on discriminator schema emits defaultImpl in @JsonTypeInfo (Java client)")
+    public void xJacksonDefaultImplOnDiscriminatorSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_ONE_OF_INTERFACES, "true");
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml",
+                JavaClientCodegen.RESTTEMPLATE,
+                additionalProperties);
+
+        File fruitFile = files.get("Fruit.java");
+        assertThat(fruitFile).isNotNull();
+        assertFileContains(fruitFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"fruitType\", visible = true, defaultImpl = Apple.class)");
+    }
+
+    @Test(description = "typeInfoDefaultImpls config option emits defaultImpl in @JsonTypeInfo (Java client)")
+    public void typeInfoDefaultImplsConfigOptionEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(USE_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml",
+                JavaClientCodegen.RESTTEMPLATE,
+                additionalProperties);
+
+        File animalFile = files.get("Animal.java");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog.class)");
+    }
+
+    @Test(description = "no defaultImpl when neither x-jackson-default-impl nor typeInfoDefaultImpls is set (Java client)")
+    public void noDefaultImplWhenNeitherSourceIsSet() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(USE_ONE_OF_INTERFACES, "true");
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml",
+                JavaClientCodegen.RESTTEMPLATE,
+                additionalProperties);
+
+        File animalFile = files.get("Animal.java");
+        assertThat(animalFile).isNotNull();
+        assertFileNotContains(animalFile.toPath(), "defaultImpl");
     }
 
     @DataProvider(name = "rxJavaOptions")

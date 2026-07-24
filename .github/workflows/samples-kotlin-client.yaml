@@ -9,6 +9,7 @@ on:
       - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return/**
       - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization*/**
       - samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization*/**
+      - samples/client/others/kotlin-oneof-jackson-default-impl/**
   pull_request:
     paths:
       - 'samples/client/petstore/kotlin*/**'
@@ -17,6 +18,7 @@ on:
       - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return/**
       - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization*/**
       - samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization*/**
+      - samples/client/others/kotlin-oneof-jackson-default-impl/**
 
 jobs:
   build:
@@ -80,6 +82,7 @@ jobs:
           - samples/client/others/kotlin-integer-enum
           - samples/client/petstore/kotlin-allOf-discriminator-kotlinx-serialization
           - samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization
+          - samples/client/others/kotlin-oneof-jackson-default-impl
           - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization
           - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-nonPublicApi
           - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-explicitApi

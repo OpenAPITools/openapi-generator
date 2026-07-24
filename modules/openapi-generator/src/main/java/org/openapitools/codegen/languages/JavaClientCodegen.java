@@ -286,6 +286,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_UNARY_INTERCEPTOR, "If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption", this.useUnaryInterceptor));
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks. Only supported for " + JSPECIFY_SUPPORTED_LIBRARIES, useJspecify));
         cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        cliOptions.add(new CliOption(TYPE_INFO_DEFAULT_IMPLS, TYPE_INFO_DEFAULT_IMPLS_DESC).defaultValue("empty map"));
 
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.18.9");
         supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.1.11. JSON processing: Jackson 2.x (3.x if `useJackson3=true`, requires Java 17+)");
@@ -376,6 +377,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         super.processOpts();    // can actually change the library (possibly only in unit-tests but still...)
+
+        if (additionalProperties.containsKey(TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(TYPE_INFO_DEFAULT_IMPLS));
+        }
 
         // determine and cache client library type once
         final boolean libApache = isLibrary(APACHE);
@@ -1394,6 +1399,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_WEBCLIENT_BLOCKING);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         return extensions;
     }
 

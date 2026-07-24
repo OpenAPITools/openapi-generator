@@ -133,6 +133,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Getter @Setter protected boolean failOnUnknownProperties = false;
     @Setter protected boolean companionObject = false;
 
+    protected Map<String, String> typeInfoDefaultImpls = new HashMap<>();
+
     protected String authFolder;
 
     @Getter protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
@@ -296,6 +298,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_BYTE_ARRAY, "Map File and Binary to ByteArray (default: false)").defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option."));
+        cliOptions.add(new CliOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, CodegenConstants.TYPE_INFO_DEFAULT_IMPLS_DESC).defaultValue("empty map"));
 
         cliOptions.add(CliOption.newBoolean(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", false));
 
@@ -498,6 +501,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
             setGenerateOneOfAnyOfWrappers(convertPropertyToBooleanAndWriteBack(GENERATE_ONEOF_ANYOF_WRAPPERS));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS));
         }
 
         if (additionalProperties.containsKey(FAIL_ON_UNKNOWN_PROPERTIES)) {
@@ -993,6 +1000,44 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+
+        // Resolve x-jackson-default-impl / typeInfoDefaultImpls into x-jackson-resolved-default-impl.
+        // kotlin-client only supports discriminator-based oneOf (via @JsonTypeInfo + @JsonSubTypes);
+        // deduction-based is not supported by these templates.
+        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.jackson) {
+            Map<String, CodegenModel> allModelsMap = getAllModels(objs);
+            for (CodegenModel cm : allModelsMap.values()) {
+                if (cm.discriminator == null) {
+                    continue;
+                }
+                Object rawAnnotationExt = cm.vendorExtensions.get(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName());
+                String schemaAnnotation = rawAnnotationExt instanceof String ? (String) rawAnnotationExt : null;
+                String configValue = typeInfoDefaultImpls.get(cm.schemaName);
+                String rawValue;
+                if (configValue != null && !configValue.isBlank()) {
+                    if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
+                        LOGGER.warn("typeInfoDefaultImpls overrides x-jackson-default-impl on schema '{}': '{}' → '{}'",
+                                cm.schemaName, schemaAnnotation, configValue);
+                    }
+                    rawValue = configValue;
+                } else if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
+                    rawValue = schemaAnnotation;
+                } else {
+                    continue;
+                }
+                String resolved = toModelName(rawValue);
+                if (resolved != null && !resolved.isBlank()) {
+                    if (!allModelsMap.containsKey(resolved)) {
+                        LOGGER.warn("x-jackson-default-impl / typeInfoDefaultImpls on schema '{}' refers to '{}' which is not a known model in this spec. " +
+                                "This is valid for external or catch-all classes, but may indicate a typo.", cm.schemaName, resolved);
+                    }
+                    // typeInfoAnnotation.mustache is rendered inside {{#discriminator}},
+                    // so JMustache resolves 'vendorExtensions' against CodegenDiscriminator.
+                    cm.discriminator.getVendorExtensions().put("x-jackson-resolved-default-impl", resolved);
+                }
+            }
+        }
+
         if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.kotlinx_serialization || getLibrary().equals(MULTIPLATFORM)) {
             // The loop removes unneeded variables so commas are handled correctly in the related templates
             for (Map.Entry<String, ModelsMap> modelsMap : objs.entrySet()) {
@@ -1244,6 +1289,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         var extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         return extensions;
     }
 }

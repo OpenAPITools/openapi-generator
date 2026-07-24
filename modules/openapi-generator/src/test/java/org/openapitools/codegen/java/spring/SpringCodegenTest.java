@@ -8293,6 +8293,83 @@ public class SpringCodegenTest {
                 .fileDoesNotContain("@JsonTypeName");
     }
 
+    // ========== x-jackson-default-impl / typeInfoDefaultImpls tests ==========
+
+    @Test(description = "x-jackson-default-impl on deduction schema emits defaultImpl in @JsonTypeInfo")
+    public void xJacksonDefaultImplOnDeductionSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .fileContains("@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog.class)");
+    }
+
+    @Test(description = "typeInfoDefaultImpls config option on deduction schema emits defaultImpl in @JsonTypeInfo")
+    public void typeInfoDefaultImplsConfigOptionOnDeductionSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .fileContains("@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog.class)");
+    }
+
+    @Test(description = "typeInfoDefaultImpls overrides x-jackson-default-impl on deduction schema")
+    public void typeInfoDefaultImplsOverridesSchemaAnnotationOnDeductionSchema() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        // Override x-jackson-default-impl: Dog (set in YAML) with Cat via config option
+        additionalProperties.put(TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Cat"));
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .fileContains("defaultImpl = Cat.class")
+                .fileDoesNotContain("defaultImpl = Dog.class");
+    }
+
+    @Test(description = "x-jackson-default-impl on discriminator schema emits defaultImpl in @JsonTypeInfo")
+    public void xJacksonDefaultImplOnDiscriminatorSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", SPRING_BOOT, new HashMap<>());
+
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .fileContains("defaultImpl = Apple.class");
+    }
+
+    @Test(description = "no defaultImpl when neither x-jackson-default-impl nor typeInfoDefaultImpls is set")
+    public void noDefaultImplWhenNeitherSourceIsSet() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .fileDoesNotContain("defaultImpl");
+    }
+
+    @Test(description = "typeInfoDefaultImpls applies model name suffix to resolved default impl")
+    public void typeInfoDefaultImplsAppliesModelNameSuffix() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+        additionalProperties.put(MODEL_NAME_SUFFIX, "Dto");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("AnimalDto.java"))
+                .fileContains("defaultImpl = DogDto.class");
+    }
+
     /**
      * Scenario 4 (openApiNullable=true): optional+nullable field must carry
      * {@code @JsonInclude(JsonInclude.Include.NON_ABSENT)} so that Jackson

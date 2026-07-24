@@ -49,6 +49,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |supportAndroidApiLevel25AndBelow|[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and below. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284| |false|
+|typeInfoDefaultImpls|Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). Applies to both deduction-based and discriminator-based oneOf interfaces. Overrides x-jackson-default-impl when both are set for the same schema. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`| |empty map|
 |useCoroutines|Whether to use the Coroutines adapter with the retrofit2 library.| |false|
 |useJackson3|Use Jackson 3 dependencies (tools.jackson package). Not yet supported for kotlin-client; reserved for future use.| |false|
 |useNonAsciiHeaders|Allow to use non-ascii headers with the okhttp library| |false|
@@ -63,6 +64,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | -------------- | ----------- | -------------- | ------------- |
 |x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
 |x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
+|x-jackson-default-impl|Specifies the default implementation class name for Jackson @JsonTypeInfo(defaultImpl=...) on a oneOf interface schema (deduction-based or discriminator-based). Can be overridden per-schema by the `typeInfoDefaultImpls` generator option.|MODEL|null
 
 
 ## IMPORT MAPPING

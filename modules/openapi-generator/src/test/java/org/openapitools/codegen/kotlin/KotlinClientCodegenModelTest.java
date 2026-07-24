@@ -35,6 +35,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -1151,5 +1152,87 @@ public class KotlinClientCodegenModelTest {
             this.expectedName = expectedName;
             this.expectedClassName = expectedClassName;
         }
+    }
+
+    // ===== typeInfoDefaultImpls / x-jackson-default-impl tests for kotlin-client =====
+
+    @Test
+    public void testXJacksonDefaultImplOnDiscriminatorSchemaEmitsDefaultImpl() throws IOException {
+        // x-jackson-default-impl on a discriminator-based oneOf schema should produce
+        // defaultImpl = Apple::class in the @JsonTypeInfo annotation on the Fruit sealed class.
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/spring/jackson-default-impl.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path fruitModel = Paths.get(output.getAbsolutePath(),
+                "src/main/kotlin/org/openapitools/client/models/Fruit.kt");
+        TestUtils.assertFileContains(fruitModel, "defaultImpl = Apple::class");
+    }
+
+    @Test
+    public void testTypeInfoDefaultImplsConfigOptionEmitsDefaultImpl() throws IOException {
+        // typeInfoDefaultImpls config option should produce defaultImpl = Banana::class
+        // on the Fruit sealed class, overriding the x-jackson-default-impl: Apple in the spec.
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/spring/jackson-default-impl.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Fruit", "Banana"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path fruitModel = Paths.get(output.getAbsolutePath(),
+                "src/main/kotlin/org/openapitools/client/models/Fruit.kt");
+        TestUtils.assertFileContains(fruitModel, "defaultImpl = Banana::class");
+        TestUtils.assertFileNotContains(fruitModel, "defaultImpl = Apple::class");
+    }
+
+    @Test
+    public void testNoDefaultImplWhenNeitherSourceIsSet() throws IOException {
+        // When neither typeInfoDefaultImpls nor x-jackson-default-impl is set,
+        // the @JsonTypeInfo annotation must not include defaultImpl.
+        // Uses a spec with discriminator-based oneOf so @JsonTypeInfo is actually generated,
+        // making the negative assertion on defaultImpl meaningful.
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        // The oneOf interface code path must be exercised (at least one @JsonTypeInfo emitted)...
+        File modelsDir = Paths.get(output.getAbsolutePath(),
+                "src/main/kotlin/org/openapitools/client/models").toFile();
+        Assert.assertTrue(modelsDir.exists(), "Expected generated models directory");
+        boolean sawJsonTypeInfo = false;
+        for (File modelFile : modelsDir.listFiles()) {
+            String content = Files.readString(modelFile.toPath());
+            if (content.contains("@JsonTypeInfo")) {
+                sawJsonTypeInfo = true;
+            }
+            // ...but no model may include defaultImpl since neither source is set.
+            Assert.assertFalse(content.contains("defaultImpl"),
+                    "Expected no 'defaultImpl' in " + modelFile.getName() + " but found it");
+        }
+        Assert.assertTrue(sawJsonTypeInfo,
+                "Expected at least one generated model with @JsonTypeInfo to exercise the code path");
     }
 }

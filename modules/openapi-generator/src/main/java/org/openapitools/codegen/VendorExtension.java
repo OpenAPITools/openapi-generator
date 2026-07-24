@@ -31,7 +31,8 @@ public enum VendorExtension {
     X_SIZE_MESSAGE("x-size-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the invalidation error message for the size or length of a variable", null),
     X_MINIMUM_MESSAGE("x-minimum-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the invalidation error message for the minimum value of a variable", null),
     X_MAXIMUM_MESSAGE("x-maximum-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the invalidation error message for the maximum value of a variable", null),
-    X_ZERO_BASED_ENUM("x-zero-based-enum", ExtensionLevel.MODEL, "When used on an enum, the index will not be generated and the default numbering will be used, zero-based", "false");
+    X_ZERO_BASED_ENUM("x-zero-based-enum", ExtensionLevel.MODEL, "When used on an enum, the index will not be generated and the default numbering will be used, zero-based", "false"),
+    X_JACKSON_DEFAULT_IMPL("x-jackson-default-impl", ExtensionLevel.MODEL, "Specifies the default implementation class name for Jackson @JsonTypeInfo(defaultImpl=...) on a oneOf interface schema (deduction-based or discriminator-based). Can be overridden per-schema by the `typeInfoDefaultImpls` generator option.", null);
 
     private final String name;
     private final List<ExtensionLevel> levels;

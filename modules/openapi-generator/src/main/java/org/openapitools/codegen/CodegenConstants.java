@@ -253,6 +253,9 @@ public class CodegenConstants {
     // Codegen constants should define a description and provide proper input validation for the value of serializationLibrary
     public static final String SERIALIZATION_LIBRARY = "serializationLibrary";
 
+    public static final String TYPE_INFO_DEFAULT_IMPLS = "typeInfoDefaultImpls";
+    public static final String TYPE_INFO_DEFAULT_IMPLS_DESC = "Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). Applies to both deduction-based and discriminator-based oneOf interfaces. Overrides x-jackson-default-impl when both are set for the same schema. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`";
+
     public static final String API_NAME_PREFIX = "apiNamePrefix";
     public static final String API_NAME_PREFIX_DESC = "Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet => Pet.";
 

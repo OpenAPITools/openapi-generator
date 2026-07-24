@@ -93,6 +93,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |supportUrlQuery|Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries.| |false|
 |supportVertxFuture|Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater.| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
+|typeInfoDefaultImpls|Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). Applies to both deduction-based and discriminator-based oneOf interfaces. Overrides x-jackson-default-impl when both are set for the same schema. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`| |empty map|
 |useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, restclient, libraries| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useDeductionForOneOfInterfaces|Annotate discriminator-free oneOf interfaces with Jackson's @JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype is resolved from the JSON field set rather than a type-tag property. Has no effect when a discriminator is present (name-based resolution is used instead). Requires subtypes to have structurally distinct sets of properties.| |false|
@@ -130,6 +131,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
 |x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
 |x-webclient-blocking|Specifies if method for specific operation should be blocking or non-blocking(ex: return `Mono<T>/Flux<T>` or `return T/List<T>/Set<T>` & execute `.block()` inside generated method)|OPERATION|false
+|x-jackson-default-impl|Specifies the default implementation class name for Jackson @JsonTypeInfo(defaultImpl=...) on a oneOf interface schema (deduction-based or discriminator-based). Can be overridden per-schema by the `typeInfoDefaultImpls` generator option.|MODEL|null
 
 
 ## IMPORT MAPPING

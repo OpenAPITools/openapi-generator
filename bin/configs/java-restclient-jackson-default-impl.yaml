@@ -1,0 +1,11 @@
+generatorName: java
+outputDir: samples/client/others/java/restclient-jackson-default-impl
+library: restclient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jackson-default-impl-oneof.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: restclient-jackson-default-impl
+  hideGenerationTimestamp: "true"
+  useOneOfInterfaces: "true"
+  typeInfoDefaultImpls:
+    Fruit: Apple
