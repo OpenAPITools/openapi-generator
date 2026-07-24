@@ -77,8 +77,7 @@ class ParentWithOptionalDict(BaseModel):
         _field_dict = {}
         if self.optional_dict:
             for _key_optional_dict in self.optional_dict:
-                if self.optional_dict[_key_optional_dict]:
-                    _field_dict[_key_optional_dict] = self.optional_dict[_key_optional_dict].to_dict()
+                _field_dict[_key_optional_dict] = self.optional_dict[_key_optional_dict].to_dict() if self.optional_dict[_key_optional_dict] is not None else None
             _dict['optionalDict'] = _field_dict
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
