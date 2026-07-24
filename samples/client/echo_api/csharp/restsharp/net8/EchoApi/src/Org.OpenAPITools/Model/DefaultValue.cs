@@ -114,19 +114,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayStringNullable
         /// </summary>
         [DataMember(Name = "array_string_nullable", EmitDefaultValue = true)]
-        public List<string> ArrayStringNullable { get; set; }
+        public List<string>? ArrayStringNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayStringExtensionNullable
         /// </summary>
         [DataMember(Name = "array_string_extension_nullable", EmitDefaultValue = true)]
-        public List<string> ArrayStringExtensionNullable { get; set; }
+        public List<string>? ArrayStringExtensionNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets StringNullable
         /// </summary>
         [DataMember(Name = "string_nullable", EmitDefaultValue = true)]
-        public string StringNullable { get; set; }
+        public string? StringNullable { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

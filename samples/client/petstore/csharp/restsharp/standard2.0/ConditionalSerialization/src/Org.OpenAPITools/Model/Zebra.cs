@@ -62,8 +62,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Type
         /// </summary>
 
-        [DataMember(Name = "type", EmitDefaultValue = false)]
-        public TypeEnum? Type
+        [DataMember(Name = "type", EmitDefaultValue = true)]
+        public TypeEnum Type
         {
             get{ return _Type;}
             set
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
                 _flagType = true;
             }
         }
-        private TypeEnum? _Type;
+        private TypeEnum _Type;
         private bool _flagType;
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
-        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
         public string ClassName
         {
             get{ return _ClassName;}

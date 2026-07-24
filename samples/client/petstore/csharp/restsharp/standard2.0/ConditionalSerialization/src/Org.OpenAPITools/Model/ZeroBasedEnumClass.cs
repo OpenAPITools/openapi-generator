@@ -56,8 +56,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ZeroBasedEnum
         /// </summary>
 
-        [DataMember(Name = "ZeroBasedEnum", EmitDefaultValue = false)]
-        public ZeroBasedEnumEnum? ZeroBasedEnum
+        [DataMember(Name = "ZeroBasedEnum", EmitDefaultValue = true)]
+        public ZeroBasedEnumEnum ZeroBasedEnum
         {
             get{ return _ZeroBasedEnum;}
             set
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
                 _flagZeroBasedEnum = true;
             }
         }
-        private ZeroBasedEnumEnum? _ZeroBasedEnum;
+        private ZeroBasedEnumEnum _ZeroBasedEnum;
         private bool _flagZeroBasedEnum;
 
         /// <summary>
