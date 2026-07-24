@@ -67,7 +67,10 @@ public class CppBoostBeastClientCodegenTest {
                 "SSL_CTX_set_min_proto_version(",
                 "TLS1_2_VERSION",
                 "boost::asio::ssl::verify_peer",
-                "boost::asio::ssl::host_name_verification(m_host)");
+                "boost::asio::ssl::host_name_verification(m_host)",
+                "request.method_string(verb)",
+                "target must use HTTP origin-form",
+                "header name is reserved by the transport");
     }
 
     @Test
