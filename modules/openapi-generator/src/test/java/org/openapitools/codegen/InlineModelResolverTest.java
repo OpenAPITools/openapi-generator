@@ -1276,6 +1276,83 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void testInlineSchemaSkipAnonymousReuseSetToFalse() {
+        // meta_200_response and mega_200_response are anonymous (untitled) inline schemas.
+        // Without SKIP_ANONYMOUS_SCHEMA_REUSE, identical anonymous schemas are reused, so only
+        // meta_200_response is created; mega_200_response reuses the same model.
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        resolver.setInlineSchemaOptions(new HashMap<>());
+        resolver.flatten(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("meta_200_response");
+        assertTrue(schema.getProperties().get("name") instanceof StringSchema);
+        assertTrue(schema.getProperties().get("id") instanceof IntegerSchema);
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("mega_200_response");
+        assertNull(schema2);
+    }
+
+    @Test
+    public void testInlineSchemaSkipAnonymousReuseSetToTrue() {
+        // With SKIP_ANONYMOUS_SCHEMA_REUSE=true, anonymous inline schemas under different parents
+        // each receive their own named model even when structurally identical.
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
+        inlineSchemaOptions.put("SKIP_ANONYMOUS_SCHEMA_REUSE", "true");
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
+        resolver.flatten(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("meta_200_response");
+        assertTrue(schema.getProperties().get("name") instanceof StringSchema);
+        assertTrue(schema.getProperties().get("id") instanceof IntegerSchema);
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("mega_200_response");
+        assertTrue(schema2.getProperties().get("name") instanceof StringSchema);
+        assertTrue(schema2.getProperties().get("id") instanceof IntegerSchema);
+    }
+
+    @Test
+    public void resolveTitledInlineSchemaIsReusedAcrossParents() {
+        // A titled inline schema represents a named type that is intentionally shared. When two
+        // different parent schemas each have a property whose inline schema carries the same title
+        // and identical structure, both properties must reference the same named model — only one
+        // entry is created in components, not a numbered variant.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+
+        openapi.getComponents().addSchemas("Item", new ObjectSchema()
+                .addProperty("id", new StringSchema().format("uuid"))
+                .addProperty("user", new ObjectSchema()
+                        .title("UserSummary")
+                        .addProperty("id", new StringSchema().format("uuid"))
+                        .addProperty("name", new StringSchema())));
+
+        openapi.getComponents().addSchemas("Issue", new ObjectSchema()
+                .addProperty("id", new StringSchema().format("uuid"))
+                .addProperty("user", new ObjectSchema()
+                        .title("UserSummary")
+                        .addProperty("id", new StringSchema().format("uuid"))
+                        .addProperty("name", new StringSchema())));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+
+        // Titled inline schema must be deduplicated — no numbered variant
+        assertNotNull("UserSummary schema must exist", schemas.get("UserSummary"));
+        assertNull("Duplicate UserSummary_1 must not exist", schemas.get("UserSummary_1"));
+
+        // Both parents must reference the same shared model
+        Schema itemUser = (Schema) schemas.get("Item").getProperties().get("user");
+        assertEquals("#/components/schemas/UserSummary", itemUser.get$ref());
+
+        Schema issueUser = (Schema) schemas.get("Issue").getProperties().get("user");
+        assertEquals("#/components/schemas/UserSummary", issueUser.get$ref());
+    }
+
+    @Test
     public void resolveInlineRequestBodyAllOf() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);

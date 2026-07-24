@@ -531,6 +531,7 @@ Another useful option is `inlineSchemaOptions`, which allows you to customize ho
 - `ARRAY_ITEM_SUFFIX` sets the array item suffix
 - `MAP_ITEM_SUFFIX` set the map item suffix
 - `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas during refactoring
+- `SKIP_ANONYMOUS_SCHEMA_REUSE=true` skips reusing only anonymous (untitled) inline schemas. When two different parent schemas each define a structurally identical inline object without a `title`, they will each get their own named model (e.g. `Item_user` and `Issue_user`) instead of sharing one. Titled inline schemas are still reused. See issue #18963.
 - `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schemas by default)
 - `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref. This must be activated to allow the renaming of inline enum definitions using `inlineSchemaNameMappings`.
 
