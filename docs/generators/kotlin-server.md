@@ -34,6 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |implicitHeaders|Skip header parameters in the generated API methods.| |false|
 |interfaceOnly|Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.| |false|
+|inheritanceMode|Strategy for model inheritance generation. Values: `none`, `sealed`, `abstract`, `composition`.|<dl><dt>**none**</dt><dd>Flatten inheritance metadata (no discriminator/parent shaping).</dd><dt>**sealed**</dt><dd>Use sealed/interface-oriented shaping (supported for `ktor`, `javalin5`, and `javalin6`; rejected for `jaxrs-spec`).</dd><dt>**abstract**</dt><dd>Use abstract base class shaping.</dd><dt>**composition**</dt><dd>Flatten inheritance and generate discriminator owners as composition wrappers (`value: Any`).</dd></dl>|sealed (ktor, javalin5/javalin6), abstract (jaxrs-spec)|
 |library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dt>**ktor2**</dt><dd>ktor (2.x) framework</dd><dt>**jaxrs-spec**</dt><dd>JAX-RS spec only</dd><dt>**javalin5**</dt><dd>Javalin 5</dd><dt>**javalin6**</dt><dd>Javalin 6</dd></dl>|ktor|
 |modelMutable|Create mutable models| |false|
 |omitGradleWrapper|Whether to omit Gradle wrapper for creating a sub project.| |false|
