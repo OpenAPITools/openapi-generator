@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// test map of maps
     /// </summary>
-    public partial class Activity : IValidatableObject
+    public partial class Activity : IEquatable<Activity?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Activity" /> class.
@@ -76,6 +76,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Activity).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Activity instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Activity to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Activity? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (ActivityOutputs != null)
+                    hashCode = (hashCode * 59) + ActivityOutputs.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ObjectWithDeprecatedFields
     /// </summary>
-    public partial class ObjectWithDeprecatedFields : IValidatableObject
+    public partial class ObjectWithDeprecatedFields : IEquatable<ObjectWithDeprecatedFields?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectWithDeprecatedFields" /> class.
@@ -126,6 +126,53 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as ObjectWithDeprecatedFields).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if ObjectWithDeprecatedFields instances are equal
+        /// </summary>
+        /// <param name="input">Instance of ObjectWithDeprecatedFields to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(ObjectWithDeprecatedFields? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (Bars != null)
+                    hashCode = (hashCode * 59) + Bars.GetHashCode();
+
+                if (DeprecatedRef != null)
+                    hashCode = (hashCode * 59) + DeprecatedRef.GetHashCode();
+
+                if (Id != null)
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
+
+                if (Uuid != null)
+                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

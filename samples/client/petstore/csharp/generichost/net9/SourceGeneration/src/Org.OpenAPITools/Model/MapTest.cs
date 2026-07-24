@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// MapTest
     /// </summary>
-    public partial class MapTest : IValidatableObject
+    public partial class MapTest : IEquatable<MapTest?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
@@ -190,6 +190,53 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as MapTest).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if MapTest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of MapTest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(MapTest? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (DirectMap != null)
+                    hashCode = (hashCode * 59) + DirectMap.GetHashCode();
+
+                if (IndirectMap != null)
+                    hashCode = (hashCode * 59) + IndirectMap.GetHashCode();
+
+                if (MapMapOfString != null)
+                    hashCode = (hashCode * 59) + MapMapOfString.GetHashCode();
+
+                if (MapOfEnumString != null)
+                    hashCode = (hashCode * 59) + MapOfEnumString.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>
