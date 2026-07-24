@@ -141,6 +141,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         supportingFiles.add(new SupportingFile("ServletApp.mustache", sourceFolderByPackage(appPackage), "ServletApp.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("project/plugins.sbt", "project", "plugins.sbt"));
+        supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
         supportingFiles.add(new SupportingFile("sbt", "", "sbt"));
 
         additionalProperties.put("appName", appName);
