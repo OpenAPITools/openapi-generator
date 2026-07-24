@@ -8547,6 +8547,39 @@ public class SpringCodegenTest {
                 .containsWithNameAndAttributes("JsonInclude", Map.of("value", "JsonInclude.Include.NON_NULL"));
     }
 
+    /**
+     * Issue #24401: a manual per-property override of {@code NONE} means "emit no annotation". Neither the
+     * {@code @JsonInclude} annotation nor its import may be generated, otherwise the output fails to compile.
+     */
+    @Test
+    void jsonInclude_manualOverride_none_emitsNoAnnotationOrImport() throws IOException {
+        final String jsonInclude = "com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        JavaFileAssert.assertThat(files.get("ManualNone.java"))
+                .hasNoImports(jsonInclude)
+                .assertProperty("value").assertPropertyAnnotations()
+                .doesNotContainWithName("JsonInclude");
+    }
+
+    /**
+     * Issue #24401: an invalid manual per-property override must fail fast with an actionable error
+     * during generation rather than emitting uncompilable Java.
+     */
+    @Test
+    void jsonInclude_manualOverride_invalid_failsWithActionableError() {
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_invalid_override.yaml",
+                SPRING_BOOT,
+                Map.of(SpringCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true")))
+                .hasStackTraceContaining("x-jackson-json-include-policy")
+                .hasStackTraceContaining("NOT_A_REAL_POLICY");
+    }
+
     @Test
     void testStringQuotesInTags_Issue22629() throws IOException {
         File output = java.nio.file.Files.createTempDirectory("test").toFile().getCanonicalFile();

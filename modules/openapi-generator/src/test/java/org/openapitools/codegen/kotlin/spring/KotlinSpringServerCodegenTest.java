@@ -6883,6 +6883,41 @@ public class KotlinSpringServerCodegenTest {
     }
 
     /**
+     * Issue #24401: a manual per-property override of {@code NONE} means "emit no annotation". Neither the
+     * {@code @field:JsonInclude} annotation nor its import may be generated, otherwise the output fails to compile.
+     */
+    @Test(description = "Issue #24401 – manual NONE override emits no annotation or import (kotlin-spring)")
+    public void jsonInclude_manualOverride_none_emitsNoAnnotationOrImport() throws IOException {
+        final String jsonInclude = "import com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        Path manualNone = files.get("ManualNone.kt").toPath();
+        assertFileNotContains(manualNone, jsonInclude);
+        Assert.assertFalse(Files.readString(manualNone).contains("@field:JsonInclude"),
+                "manual NONE override must emit no @field:JsonInclude annotation");
+    }
+
+    /**
+     * Issue #24401: an invalid manual per-property override must fail fast with an actionable error
+     * during generation rather than emitting uncompilable Kotlin.
+     */
+    @Test(description = "Issue #24401 – invalid manual override fails fast (kotlin-spring)")
+    public void jsonInclude_manualOverride_invalid_failsWithActionableError() {
+        Throwable thrown = Assert.expectThrows(Throwable.class, () -> generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_invalid_override.yaml",
+                Map.of(KotlinSpringServerCodegen.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true")));
+
+        java.io.StringWriter sw = new java.io.StringWriter();
+        thrown.printStackTrace(new java.io.PrintWriter(sw));
+        String trace = sw.toString();
+        Assert.assertTrue(trace.contains("x-jackson-json-include-policy") && trace.contains("NOT_A_REAL_POLICY"),
+                "expected an actionable error naming the invalid policy, but got: " + trace);
+    }
+
+    /**
      * Without openApiNullable the optional+nullable field is a plain {@code Type?} — no
      * {@code @field:JsonInclude(NON_ABSENT)} should be emitted because {@code JsonNullable} is
      * not used and the legacy nullable-type path doesn't need the annotation.

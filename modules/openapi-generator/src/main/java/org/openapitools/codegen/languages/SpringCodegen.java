@@ -1295,8 +1295,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         //        optional   & non-nullable -> optionalNonNullPropertyJsonInclude (default NON_NULL, NONE = omit)
         //        optional   & nullable     -> none (JsonNullable module already governs inclusion)
         if (property.vendorExtensions.containsKey(JSON_INCLUDE_POLICY_EXTENSION)) {
-            if (isJsonIncludePolicyEmitted(property.vendorExtensions.get(JSON_INCLUDE_POLICY_EXTENSION))) {
+            String manualPolicy = resolveManualJsonIncludePolicy(property.vendorExtensions.get(JSON_INCLUDE_POLICY_EXTENSION));
+            if (manualPolicy != null) {
+                property.vendorExtensions.put(JSON_INCLUDE_POLICY_EXTENSION, manualPolicy);
                 model.imports.add("JsonInclude");
+            } else {
+                // NONE / empty means "emit nothing"; drop the extension so the template renders no annotation.
+                property.vendorExtensions.remove(JSON_INCLUDE_POLICY_EXTENSION);
             }
         } else if (Boolean.TRUE.equals(generateJsonIncludeAnnotations)) {
             String policy = null;
@@ -1314,6 +1319,35 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     private static boolean isJsonIncludePolicyEmitted(Object policy) {
         return policy != null && !policy.toString().isEmpty() && !"NONE".equalsIgnoreCase(policy.toString());
+    }
+
+    /**
+     * Valid {@code com.fasterxml.jackson.annotation.JsonInclude.Include} constant names accepted for a
+     * manual per-property {@code x-jackson-json-include-policy} override. {@code NONE} is a sentinel
+     * meaning "emit no annotation" and is handled separately (the extension is dropped).
+     */
+    private static final Set<String> VALID_JSON_INCLUDE_CONSTANTS = new HashSet<>(Arrays.asList(
+            "ALWAYS", "NON_NULL", "NON_ABSENT", "NON_EMPTY", "NON_DEFAULT", "USE_DEFAULTS", "CUSTOM"));
+
+    /**
+     * Validate and normalize a manual per-property {@code x-jackson-json-include-policy} override.
+     *
+     * @return the normalized (upper-case) policy to emit, or {@code null} when the override means
+     * "emit no annotation" ({@code NONE}/empty), in which case the caller must drop the extension.
+     * @throws IllegalArgumentException when the override is not a valid {@code JsonInclude.Include} value.
+     */
+    private static String resolveManualJsonIncludePolicy(Object rawPolicy) {
+        if (!isJsonIncludePolicyEmitted(rawPolicy)) {
+            return null;
+        }
+        String normalized = rawPolicy.toString().trim().toUpperCase(Locale.ROOT);
+        if (!VALID_JSON_INCLUDE_CONSTANTS.contains(normalized)) {
+            throw new IllegalArgumentException(JSON_INCLUDE_POLICY_EXTENSION
+                    + " must be a valid com.fasterxml.jackson.annotation.JsonInclude.Include value "
+                    + "(ALWAYS, NON_NULL, NON_ABSENT, NON_EMPTY, NON_DEFAULT, USE_DEFAULTS, CUSTOM), or NONE to emit "
+                    + "no annotation, but was: " + rawPolicy);
+        }
+        return normalized;
     }
 
     private static String normalizeJsonIncludePolicy(String policy) {

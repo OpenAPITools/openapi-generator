@@ -79,3 +79,12 @@ components:
           type: string
           nullable: true
           x-jackson-json-include-policy: NON_NULL
+    # manual per-property override of NONE: the sentinel means "emit no annotation", so neither the
+    # @JsonInclude annotation nor its import must be generated (otherwise the output fails to compile).
+    ManualNone:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          x-jackson-json-include-policy: NONE
