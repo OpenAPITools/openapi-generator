@@ -151,6 +151,17 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 .stability(Stability.STABLE)
                 .build();
 
+        // fields with these names would clash with the helper methods generated on every
+        // model (a field named from_dict shadows the classmethod) or with pydantic's
+        // model_* namespace (a field named model_config is clobbered by the ConfigDict
+        // assignment and silently dropped), so mangle them like any other reserved word
+        reservedWords.addAll(GENERATED_MODEL_MEMBER_NAMES);
+        for (String memberName : PYDANTIC_BASE_MODEL_MEMBER_NAMES) {
+            if (memberName.startsWith("model_")) {
+                reservedWords.add(memberName);
+            }
+        }
+
         // clear import mapping (from default generator) as python does not use it
         // at the moment
         importMapping.clear();
