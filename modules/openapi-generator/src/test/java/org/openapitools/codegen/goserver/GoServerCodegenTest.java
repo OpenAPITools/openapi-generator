@@ -272,4 +272,23 @@ public class GoServerCodegenTest {
                 "if err := AssertMetaRequired(obj.Meta); err != nil {");
     }
 
+    @Test
+    public void verifyNoAssertstringRequiredForPrimitiveTypedModels() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output)
+                .setInputSpec("src/test/resources/3_0/go-server/assert-primitive-model.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        java.nio.file.Path modelPath = Paths.get(output + "/go/model_thing.go");
+        TestUtils.assertFileExists(modelPath);
+        TestUtils.assertFileNotContains(modelPath, "AssertstringRequired");
+        TestUtils.assertFileNotContains(modelPath, "AssertstringConstraints");
+        TestUtils.assertFileContains(modelPath, "func AssertThingRequired(obj Thing) error {\n\treturn nil");
+    }
+
 }
