@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: Split response content types
+  version: "1.0.0"
+paths:
+  /foo:
+    get:
+      tags:
+        - foo
+      operationId: getFoo
+      responses:
+        "200":
+          description: Return
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FooDto"
+            text/plain:
+              schema:
+                type: string
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    FooDto:
+      type: object
+      properties:
+        name:
+          type: string

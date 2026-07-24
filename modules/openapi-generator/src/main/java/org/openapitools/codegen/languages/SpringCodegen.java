@@ -47,6 +47,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -58,6 +60,7 @@ import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF
 import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /**
  * <p>Mustache templates are located in
@@ -78,6 +81,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_FEIGN_CLIENT_CONTEXT_ID = "useFeignClientContextId";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
+    public static final String SPLIT_RESPONSE_TYPES = "splitResponseTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
     public static final String GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS = "generatedConstructorWithRequiredArgs";
@@ -151,6 +155,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean delegatePattern = false;
     protected boolean delegateMethod = false;
     @Setter protected boolean singleContentTypes = false;
+    @Setter protected boolean splitResponseTypes = false;
     @Setter protected boolean async = false;
     @Setter protected boolean reactive = false;
     @Setter protected boolean sse = false;
@@ -264,6 +269,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Whether to generate the server files using the delegate pattern", delegatePattern));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES,
                 "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
+        cliOptions.add(CliOption.newBoolean(SPLIT_RESPONSE_TYPES,
+                "Whether to generate one operation method per response content type when a response declares multiple content types.",
+                splitResponseTypes));
         cliOptions.add(CliOption.newBoolean(SKIP_DEFAULT_INTERFACE,
                 "Whether to skip generation of default implementations for java8 interfaces", skipDefaultInterface));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
@@ -520,6 +528,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(USE_FEIGN_CLIENT_CONTEXT_ID, this::setUseFeignClientContextId);
         convertPropertyToBooleanAndWriteBack(DELEGATE_PATTERN, this::setDelegatePattern);
         convertPropertyToBooleanAndWriteBack(SINGLE_CONTENT_TYPES, this::setSingleContentTypes);
+        convertPropertyToBooleanAndWriteBack(SPLIT_RESPONSE_TYPES, this::setSplitResponseTypes);
         convertPropertyToBooleanAndWriteBack(SKIP_DEFAULT_INTERFACE, this::setSkipDefaultInterface);
         convertPropertyToBooleanAndWriteBack(ASYNC, this::setAsync);
         if (additionalProperties.containsKey(REACTIVE)) {
@@ -979,8 +988,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         final OperationMap operations = objs.getOperations();
         if (operations != null) {
-            final List<CodegenOperation> ops = operations.getOperation();
-            for (final CodegenOperation operation : ops) {
+            final List<CodegenOperation> originalOps = operations.getOperation();
+            for (final CodegenOperation operation : originalOps) {
                 final List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     for (final CodegenResponse resp : responses) {
@@ -1024,7 +1033,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 });
 
-                prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
                 normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_OPERATION_EXTRA_ANNOTATION.getName());
                 normalizeOperationParameterVendorExtensions(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
@@ -1035,6 +1043,11 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 }
             }
+            prepareVersioningParameters(originalOps);
+
+            final List<CodegenOperation> ops = expandOperationsByResponseType(originalOps);
+            operations.setOperation(ops);
+
             // The tag for the controller is the first tag of the first operation
             final CodegenOperation firstOperation = ops.get(0);
             final Tag firstTag = firstOperation.tags.get(0);
@@ -1052,6 +1065,236 @@ public class SpringCodegen extends AbstractJavaCodegen
         removeImport(objs, "java.util.List");
 
         return objs;
+    }
+
+    private List<CodegenOperation> expandOperationsByResponseType(List<CodegenOperation> operations) {
+        if (!splitResponseTypes) {
+            return operations;
+        }
+
+        List<CodegenOperation> expandedOperations = new ArrayList<>();
+        for (CodegenOperation operation : operations) {
+            expandedOperations.addAll(splitOperationByResponseType(operation));
+        }
+        return expandedOperations;
+    }
+
+    private List<CodegenOperation> splitOperationByResponseType(CodegenOperation operation) {
+        CodegenResponse methodResponse = findMethodResponse(operation);
+        if (methodResponse == null || methodResponse.getContent() == null || methodResponse.getContent().size() < 2) {
+            return Collections.singletonList(operation);
+        }
+
+        List<CodegenOperation> splitOperations = new ArrayList<>();
+        Set<String> usedOperationIds = new HashSet<>();
+        for (Map.Entry<String, CodegenMediaType> contentEntry : methodResponse.getContent().entrySet()) {
+            String mediaType = contentEntry.getKey();
+            CodegenOperation splitOperation = copyOperation(operation);
+            splitOperation.operationId = toSplitOperationId(operation.operationId, mediaType, usedOperationIds);
+            splitOperation.nickname = splitOperation.operationId;
+            splitOperation.operationIdLowerCase = splitOperation.operationId.toLowerCase(Locale.ROOT);
+            splitOperation.operationIdCamelCase = camelize(splitOperation.operationId);
+            splitOperation.operationIdSnakeCase = underscore(splitOperation.operationId);
+            splitOperation.produces = copyProduces(operation.produces, mediaType);
+            splitOperation.hasProduces = splitOperation.produces != null && !splitOperation.produces.isEmpty();
+            splitOperation.vendorExtensions = new HashMap<>(operation.vendorExtensions);
+            splitOperation.vendorExtensions.put("x-accepts", new String[]{mediaType});
+            applyResponseMediaType(splitOperation, contentEntry.getValue().getSchema());
+            splitOperation.responses = copyResponsesForMediaType(operation.responses, methodResponse, mediaType, contentEntry.getValue());
+            splitOperations.add(splitOperation);
+        }
+
+        return splitOperations;
+    }
+
+    private CodegenResponse findMethodResponse(CodegenOperation operation) {
+        return operation.responses.stream()
+                .filter(response -> response.is2xx)
+                .min(Comparator.comparing(response -> response.code))
+                .orElseGet(() -> operation.responses.stream()
+                        .filter(response -> response.isDefault)
+                        .findFirst()
+                        .orElse(null));
+    }
+
+    private String toSplitOperationId(String operationId, String mediaType, Set<String> usedOperationIds) {
+        String contentType = StringUtils.substringBefore(mediaType, ";");
+        String candidate = operationId + camelize(sanitizeName(contentType));
+        String uniqueCandidate = candidate;
+        int counter = 2;
+        while (!usedOperationIds.add(uniqueCandidate)) {
+            uniqueCandidate = candidate + counter++;
+        }
+        return uniqueCandidate;
+    }
+
+    private List<Map<String, String>> copyProduces(List<Map<String, String>> produces, String mediaType) {
+        String escapedMediaType = escapeQuotationMark(mediaType);
+        if (produces != null) {
+            for (Map<String, String> produce : produces) {
+                if (escapedMediaType.equals(produce.get("mediaType"))) {
+                    return Collections.singletonList(new HashMap<>(produce));
+                }
+            }
+        }
+
+        Map<String, String> produce = new HashMap<>();
+        produce.put("mediaType", escapedMediaType);
+        if (isJsonMimeType(escapedMediaType)) {
+            produce.put("isJson", "true");
+        } else if (isXmlMimeType(escapedMediaType)) {
+            produce.put("isXml", "true");
+        }
+        return Collections.singletonList(produce);
+    }
+
+    private void applyResponseMediaType(CodegenOperation operation, CodegenProperty schema) {
+        operation.returnProperty = schema;
+        if (schema == null) {
+            operation.returnType = null;
+            operation.returnBaseType = null;
+            operation.returnContainer = null;
+            operation.isVoid = true;
+            operation.isArray = false;
+            operation.isMap = false;
+            operation.isResponseBinary = false;
+            operation.isResponseFile = false;
+            operation.returnTypeIsPrimitive = false;
+            operation.returnSimpleType = true;
+            operation.hasReference = false;
+            return;
+        }
+
+        operation.returnType = schema.getDataType();
+        operation.returnBaseType = resolveBaseType(schema);
+        operation.returnContainer = null;
+        operation.isVoid = schema.isVoid;
+        operation.isArray = schema.isArray;
+        operation.isMap = schema.isMap;
+        operation.isResponseBinary = schema.isBinary;
+        operation.isResponseFile = schema.isFile || schema.isBinary;
+        operation.returnTypeIsPrimitive = schema.isPrimitiveType;
+        operation.returnSimpleType = !schema.isArray && !schema.isMap && !schema.isModel;
+        operation.hasReference = schema.isModel || schema.getComplexType() != null;
+
+        doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
+            @Override
+            public void setReturnType(String returnType) {
+                operation.returnType = returnType;
+            }
+
+            @Override
+            public void setReturnContainer(String returnContainer) {
+                operation.returnContainer = returnContainer;
+            }
+
+            @Override
+            public void setIsVoid(boolean isVoid) {
+                operation.isVoid = isVoid;
+            }
+        });
+    }
+
+    private List<CodegenResponse> copyResponsesForMediaType(List<CodegenResponse> responses,
+                                                            CodegenResponse methodResponse,
+                                                            String mediaType,
+                                                            CodegenMediaType contentType) {
+        List<CodegenResponse> copiedResponses = new ArrayList<>(responses.size());
+        for (CodegenResponse response : responses) {
+            if (response == methodResponse) {
+                CodegenResponse copiedResponse = copyResponse(response);
+                LinkedHashMap<String, CodegenMediaType> singleContentType = new LinkedHashMap<>();
+                singleContentType.put(mediaType, contentType);
+                copiedResponse.setContent(singleContentType);
+                applyResponseContentType(copiedResponse, contentType.getSchema());
+                copiedResponses.add(copiedResponse);
+            } else {
+                copiedResponses.add(response);
+            }
+        }
+        return copiedResponses;
+    }
+
+    private void applyResponseContentType(CodegenResponse response, CodegenProperty schema) {
+        response.returnProperty = schema;
+        if (schema == null) {
+            response.dataType = null;
+            response.baseType = null;
+            response.containerType = null;
+            response.isArray = false;
+            response.isMap = false;
+            response.isBinary = false;
+            response.isFile = false;
+            response.isVoid = true;
+            response.isModel = false;
+            return;
+        }
+
+        response.dataType = schema.getDataType();
+        response.baseType = resolveBaseType(schema);
+        response.containerType = schema.getContainerType();
+        response.isArray = schema.isArray;
+        response.isMap = schema.isMap;
+        response.isBinary = schema.isBinary;
+        response.isFile = schema.isFile || schema.isBinary;
+        response.isVoid = schema.isVoid;
+        response.isModel = schema.isModel;
+    }
+
+    private String resolveBaseType(CodegenProperty schema) {
+        if (schema == null) {
+            return null;
+        }
+        if (schema.isArray) {
+            String baseType = schema.getBaseType();
+            CodegenProperty innerProperty = schema.items;
+            while (innerProperty != null) {
+                baseType = innerProperty.getComplexType() != null ? innerProperty.getComplexType() : innerProperty.getBaseType();
+                innerProperty = innerProperty.items;
+            }
+            return baseType;
+        }
+        if (schema.isMap && schema.additionalProperties != null) {
+            return schema.additionalProperties.getComplexType() != null
+                    ? schema.additionalProperties.getComplexType()
+                    : schema.additionalProperties.getBaseType();
+        }
+        if (schema.getComplexType() != null) {
+            if (schema.items != null && schema.items.getComplexType() != null) {
+                return schema.items.getComplexType();
+            }
+            return schema.getComplexType();
+        }
+        return schema.getBaseType();
+    }
+
+    private CodegenOperation copyOperation(CodegenOperation source) {
+        CodegenOperation target = new CodegenOperation();
+        copyPublicFields(CodegenOperation.class, source, target);
+        target.responseHeaders.addAll(source.responseHeaders);
+        return target;
+    }
+
+    private CodegenResponse copyResponse(CodegenResponse source) {
+        CodegenResponse target = new CodegenResponse();
+        copyPublicFields(CodegenResponse.class, source, target);
+        target.headers.addAll(source.headers);
+        target.setResponseHeaders(new ArrayList<>(source.getResponseHeaders()));
+        target.setContent(source.getContent() == null ? null : new LinkedHashMap<>(source.getContent()));
+        return target;
+    }
+
+    private void copyPublicFields(Class<?> type, Object source, Object target) {
+        try {
+            for (Field field : type.getFields()) {
+                if (Modifier.isStatic(field.getModifiers()) || Modifier.isFinal(field.getModifiers())) {
+                    continue;
+                }
+                field.set(target, field.get(source));
+            }
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException("Unable to copy " + type.getSimpleName(), e);
+        }
     }
 
     private interface DataTypeAssigner {

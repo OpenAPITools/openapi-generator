@@ -81,6 +81,85 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldKeepSingleMethodByDefaultForMultipleResponseContentTypes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/issue_8701.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_TAGS, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("FooApi.java").toPath())
+                .assertMethod("getFoo")
+                .hasReturnType("ResponseEntity<FooDto>")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                        "produces", "{ \"application/json\", \"text/plain\", \"application/octet-stream\" }"))
+                .toMethod()
+                .toFileAssert()
+                .hasNoMethod("getFooApplicationJson")
+                .hasNoMethod("getFooTextPlain")
+                .hasNoMethod("getFooApplicationOctetStream");
+    }
+
+    @Test
+    public void shouldSplitOperationsByResponseContentTypeWhenEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/issue_8701.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(SPLIT_RESPONSE_TYPES, true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        Path fooApi = files.get("FooApi.java").toPath();
+        JavaFileAssert.assertThat(fooApi)
+                .hasNoMethod("getFoo")
+                .assertMethod("getFooApplicationJson")
+                .hasReturnType("ResponseEntity<FooDto>")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of("produces", "{ \"application/json\" }"))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getFooTextPlain")
+                .hasReturnType("ResponseEntity<String>")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of("produces", "{ \"text/plain\" }"));
+
+        assertFileContains(fooApi,
+                "ResponseEntity<org.springframework.core.io.Resource> getFooApplicationOctetStream",
+                "produces = { \"application/octet-stream\" }");
+    }
+
+    @Test
     public void doAnnotateDatesOnModelParameters() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
