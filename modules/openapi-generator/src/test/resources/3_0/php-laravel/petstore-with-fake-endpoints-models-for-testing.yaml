@@ -995,6 +995,49 @@ paths:
               required:
                 - param
                 - param2
+  /fake/parameter-name-mapping:
+    get:
+      tags:
+        - fake
+      summary: test query parameter name sanitization
+      description: 'Query params whose spec names require PHP identifier sanitization (snake_case) must be read/validated under the wire name.'
+      operationId: getParameterNameMapping
+      parameters:
+        - name: filter_client_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: filter_user_ids
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        '200':
+          description: successful operation
+    post:
+      tags:
+        - fake
+      summary: test form parameter name sanitization
+      description: 'Form param whose spec name requires PHP identifier sanitization (snake_case) must be read/validated under the wire name.'
+      operationId: postParameterNameMapping
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  description: form field whose name requires sanitization
+                  type: integer
+              required:
+                - client_id
   /fake/additionalProperties-reference:
     post:
       tags:
