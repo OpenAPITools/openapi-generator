@@ -66,7 +66,7 @@ public class AnyTypeTest {
   public static final String SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS = "ref_array_prefix_items";
   @SerializedName(SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS)
   @javax.annotation.Nullable
-  private List<Object> refArrayPrefixItems = new ArrayList<>();
+  private List<Object> refArrayPrefixItems;
 
   public AnyTypeTest() {
   }
