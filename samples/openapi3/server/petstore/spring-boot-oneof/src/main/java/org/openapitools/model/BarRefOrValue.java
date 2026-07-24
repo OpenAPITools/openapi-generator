@@ -12,7 +12,6 @@ import org.openapitools.model.Bar;
 import org.openapitools.model.BarRef;
 import org.openapitools.model.FooRefOrValue;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;

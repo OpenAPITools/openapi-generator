@@ -17,7 +17,6 @@ import org.openapitools.model.CategoryDto;
 import org.openapitools.model.TagDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.configuration.ValuedEnum;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;

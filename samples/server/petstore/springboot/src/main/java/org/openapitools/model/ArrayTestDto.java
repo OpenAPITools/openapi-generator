@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirstDto;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;

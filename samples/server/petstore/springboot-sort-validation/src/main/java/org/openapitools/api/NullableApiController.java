@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import org.openapitools.model.NullableModel;
+import org.openapitools.model.OptionalNullableOnlyModel;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,6 +99,19 @@ public class NullableApiController implements NullableApi {
                     "optionalNullable: expected 'opt-nullable', got "
                             + nullableModel.getOptionalNullable().get());
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * POST a model whose only property is optional+nullable.
+     *
+     * This endpoint exists purely to exercise code generation for a model whose sole
+     * property is both optional and nullable. Its presence ensures the generated
+     * {@link OptionalNullableOnlyModel} compiles (in particular that the
+     * {@code com.fasterxml.jackson.annotation.JsonInclude} import is emitted).
+     */
+    @Override
+    public ResponseEntity<Void> postOptionalNullableOnly(@Valid OptionalNullableOnlyModel optionalNullableOnlyModel) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

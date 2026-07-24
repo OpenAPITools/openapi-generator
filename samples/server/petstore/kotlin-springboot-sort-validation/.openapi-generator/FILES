@@ -14,6 +14,7 @@ src/main/kotlin/org/openapitools/configuration/EnumConverterConfiguration.kt
 src/main/kotlin/org/openapitools/configuration/ValidPageable.kt
 src/main/kotlin/org/openapitools/configuration/ValidSort.kt
 src/main/kotlin/org/openapitools/model/NullableModel.kt
+src/main/kotlin/org/openapitools/model/OptionalNullableOnlyModel.kt
 src/main/kotlin/org/openapitools/model/Pet.kt
 src/main/kotlin/org/openapitools/model/PetSort.kt
 src/main/kotlin/org/openapitools/model/PetSortEnum.kt

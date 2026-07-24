@@ -686,6 +686,22 @@ paths:
         '400':
           description: Bad request
 
+  /nullable/optional-nullable-only:
+    post:
+      tags:
+        - nullable
+      summary: POST a model whose only property is optional+nullable — must compile (JsonInclude import)
+      operationId: postOptionalNullableOnly
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptionalNullableOnlyModel'
+      responses:
+        '200':
+          description: OK
+
 components:
   schemas:
     NullableModel:
@@ -709,6 +725,17 @@ components:
         # Scenario 4: required=false, nullable=true => JsonNullable<String> (absent/null/value)
         optionalNullable:
           type: string
+          nullable: true
+    # Regression guard: a model whose ONLY property is optional+nullable (Scenario 4).
+    # With openApiNullable=true it renders @field:JsonInclude(NON_ABSENT) and must import
+    # JsonInclude even though no other property pulls that import in. Without the import the
+    # generated sample fails to compile.
+    OptionalNullableOnlyModel:
+      type: object
+      properties:
+        optionalNullable:
+          type: string
+          format: uuid
           nullable: true
     PetSort:
       type: string

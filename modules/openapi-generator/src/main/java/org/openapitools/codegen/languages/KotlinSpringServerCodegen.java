@@ -1301,6 +1301,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (openApiNullable && !property.required && property.isNullable) {
             property.vendorExtensions.put("x-is-jackson-optional-nullable", true);
             model.imports.add("JsonNullable");
+            // The template always emits @field:JsonInclude(NON_ABSENT) for these fields,
+            // so the JsonInclude import must be present even when the model has no other
+            // property that would otherwise pull it in (e.g. a model with only
+            // optional+nullable fields).
+            model.imports.add("JsonInclude");
         }
 
         //Add imports for Jackson

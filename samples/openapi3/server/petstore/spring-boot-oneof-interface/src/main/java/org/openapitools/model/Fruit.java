@@ -12,7 +12,6 @@ import org.openapitools.model.Apple;
 import org.openapitools.model.Banana;
 import org.openapitools.model.FruitType;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;

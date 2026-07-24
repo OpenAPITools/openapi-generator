@@ -13,7 +13,6 @@ import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.openapitools.model.ParentWithNullable;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;

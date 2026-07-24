@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.Entity;
 import org.openapitools.model.FooRefOrValue;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;

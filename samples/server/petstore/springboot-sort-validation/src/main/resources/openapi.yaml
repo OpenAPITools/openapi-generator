@@ -954,6 +954,27 @@ paths:
       - application/json
       x-tags:
       - tag: nullable
+  /nullable/optional-nullable-only:
+    post:
+      operationId: postOptionalNullableOnly
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OptionalNullableOnlyModel"
+        required: true
+      responses:
+        "200":
+          description: OK
+      summary: POST a model whose only property is optional+nullable — must compile
+        (JsonInclude import)
+      tags:
+      - nullable
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: nullable
 components:
   parameters:
     PetSortParam:
@@ -1002,6 +1023,15 @@ components:
       required:
       - requiredNonNullable
       - requiredNullable
+      type: object
+    OptionalNullableOnlyModel:
+      example:
+        optionalNullable: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        optionalNullable:
+          format: uuid
+          nullable: true
+          type: string
       type: object
     PetSort:
       enum:
