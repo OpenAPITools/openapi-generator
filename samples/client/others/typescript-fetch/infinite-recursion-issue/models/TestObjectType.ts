@@ -20,7 +20,7 @@
 export const TestObjectType = {
     TEST1: 'TEST1',
     TEST2: 'TEST2',
-    unknown_default_open_api: '11184809'
+    unknown_default_open_api: '11184809',
 } as const;
 export type TestObjectType = typeof TestObjectType[keyof typeof TestObjectType];
 

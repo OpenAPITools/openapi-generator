@@ -20,7 +20,7 @@
 export const WarningCode = {
     ReduceVolumeRangeToAvoidLargeSteps: 'Reduce_Volume_Range_To_Avoid_Large_Steps',
     RaiseAmplifierVolume: 'Raise_Amplifier_Volume',
-    NoVolumeRangeSpecified: 'No_Volume_Range_Specified'
+    NoVolumeRangeSpecified: 'No_Volume_Range_Specified',
 } as const;
 export type WarningCode = typeof WarningCode[keyof typeof WarningCode];
 
