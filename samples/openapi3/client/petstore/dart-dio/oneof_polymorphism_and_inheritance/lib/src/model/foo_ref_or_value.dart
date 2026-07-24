@@ -70,6 +70,8 @@ extension FooRefOrValueBuilderDiscriminatorExt on FooRefOrValueBuilder {
     }
 }
 
+
+
 class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
   @override
   final Iterable<Type> types = const [FooRefOrValue, _$FooRefOrValue];

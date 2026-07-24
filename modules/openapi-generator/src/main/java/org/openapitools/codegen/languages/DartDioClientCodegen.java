@@ -78,6 +78,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public static final String SKIP_COPY_WITH_DEFAULT_VALUE = "false";
 
     private static final String CLIENT_NAME = "clientName";
+    private static final String X_DISCRIMINATOR_MAPPED_MODELS_NONSELF = "x-discriminator-mapped-models-nonself";
+    private static final String X_HAS_DISCRIMINATOR_SELF_MAPPING = "x-has-discriminator-self-mapping";
+    private static final String X_DISCRIMINATOR_SELF_MAPPING_NAME = "x-discriminator-self-mapping-name";
 
     @Getter @Setter
     private String dateLibrary;
@@ -583,28 +586,218 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
     }
 
-    /// override the default behavior of createDiscriminator
-    /// to remove extra mappings added as a side effect of setLegacyDiscriminatorBehavior(false)
-    /// this ensures 1-1 schema mapping instead of 1-many
+    /**
+     * Computes the maximum allOf inheritance distance from {@code schemaName} to
+     * {@code ancestorSchemaName}.
+     *
+     * <p>Returns {@code 0} when both schema names are equal, and {@code -1} when no
+     * inheritance path exists. The {@code visited} set prevents infinite recursion on
+     * cyclic graphs.
+     */
+    private int getSchemaInheritanceDepth(String schemaName, String ancestorSchemaName, Set<String> visited) {
+        if (schemaName == null || ancestorSchemaName == null) {
+            return -1;
+        }
+        if (schemaName.equals(ancestorSchemaName)) {
+            return 0;
+        }
+
+        Schema currentSchema = ModelUtils.getSchema(openAPI, schemaName);
+        if (currentSchema == null || currentSchema.getAllOf() == null || currentSchema.getAllOf().isEmpty()) {
+            return -1;
+        }
+
+        int maxDepth = -1;
+        for (Object parentObj : currentSchema.getAllOf()) {
+            if (!(parentObj instanceof Schema)) {
+                continue;
+            }
+            Schema parentSchema = (Schema) parentObj;
+            String parentRef = parentSchema.get$ref();
+            if (parentRef == null) {
+                continue;
+            }
+
+            String parentSchemaName = ModelUtils.getSimpleRef(parentRef);
+            if (ancestorSchemaName.equals(parentSchemaName)) {
+                maxDepth = Math.max(maxDepth, 1);
+                continue;
+            }
+
+            if (parentSchemaName != null && visited.add(parentSchemaName)) {
+                int parentDepth = getSchemaInheritanceDepth(parentSchemaName, ancestorSchemaName, visited);
+                if (parentDepth >= 0) {
+                    maxDepth = Math.max(maxDepth, parentDepth + 1);
+                }
+                visited.remove(parentSchemaName);
+            }
+        }
+
+        return maxDepth;
+    }
+
+    /**
+     * Builds discriminator metadata and removes implicit/over-broad mappings so Dart
+     * generation keeps a strict one-schema-per-discriminator-entry behavior.
+     *
+     * <p>For schema-local discriminators, only explicitly declared mappings are kept.
+     * For inherited discriminators, mappings are restricted to true allOf descendants
+     * of the current schema.
+     */
     @Override
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
         CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema);
-        Discriminator originalDiscriminator = schema.getDiscriminator();
+        if (sub == null) {
+            return null;
+        }
+
+        if (sub.getMapping() != null) {
+            // Defensive copy: avoid mutating shared mapping objects from the parsed spec.
+            sub.setMapping(new LinkedHashMap<>(sub.getMapping()));
+        }
+
+        Discriminator originalDiscriminator = getSchemaLocalDiscriminator(schema);
         if (originalDiscriminator != null) {
             Map<String, String> originalMapping = originalDiscriminator.getMapping();
             if (originalMapping != null && !originalMapping.isEmpty()) {
-                //we already have a discriminator mapping, remove everything else
-                for (MappedModel currentMappings : new HashSet<>(sub.getMappedModels())) {
-                    if (originalMapping.containsKey(currentMappings.getMappingName())) {
-                        //all good
-                    } else {
-                        sub.getMapping().remove(currentMappings.getMappingName());
-                        sub.getMappedModels().remove(currentMappings);
-                    }
+                // keep only explicitly declared mappings on the schema-local discriminator
+                filterMappedModels(sub, mappedModel -> originalMapping.containsKey(mappedModel.getMappingName()));
+            }
+            orderMappedModelsBySchemaSpecificity(sub, schemaName);
+            prepareDiscriminatorTemplateData(sub, schemaName, toModelName(schemaName));
+            return sub;
+        }
+
+        // For inherited discriminators, keep only real allOf descendants of this schema
+        // (e.g. Reptile keeps Crocodile/Turtle, but not Bird from Animal's mapping).
+        Set<String> descendantSchemaNames = getAllOfDescendants(schemaName).stream()
+                .map(MappedModel::getSchemaName)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        if (ModelUtils.isComposedSchema(schema) && schema.getAllOf() != null) {
+            filterMappedModels(sub, mappedModel -> descendantSchemaNames.contains(mappedModel.getSchemaName())
+                    || schemaName.equals(mappedModel.getSchemaName()));
+        }
+
+        orderMappedModelsBySchemaSpecificity(sub, schemaName);
+        prepareDiscriminatorTemplateData(sub, schemaName, toModelName(schemaName));
+        return sub;
+    }
+
+    /**
+     * Prepares discriminator vendor extensions consumed by Dart templates.
+     *
+     * <p>The method separates non-self mapped models and records whether the
+     * discriminator includes a self-mapping plus its mapping key.
+     */
+    private void prepareDiscriminatorTemplateData(CodegenDiscriminator discriminator, String schemaName, String modelName) {
+        if (discriminator == null || discriminator.getMappedModels() == null) {
+            return;
+        }
+
+        String selfMappingName = null;
+        List<MappedModel> nonSelfMappedModels = new ArrayList<>();
+        for (MappedModel mappedModel : discriminator.getMappedModels()) {
+            boolean isSelfMapping = Objects.equals(schemaName, mappedModel.getSchemaName())
+                    || Objects.equals(modelName, mappedModel.getModelName());
+            if (isSelfMapping) {
+                selfMappingName = mappedModel.getMappingName();
+            } else {
+                nonSelfMappedModels.add(mappedModel);
+            }
+        }
+
+        discriminator.getVendorExtensions().put(X_DISCRIMINATOR_MAPPED_MODELS_NONSELF, nonSelfMappedModels);
+        discriminator.getVendorExtensions().put(X_HAS_DISCRIMINATOR_SELF_MAPPING, selfMappingName != null);
+        if (selfMappingName != null) {
+            discriminator.getVendorExtensions().put(X_DISCRIMINATOR_SELF_MAPPING_NAME, selfMappingName);
+        } else {
+            discriminator.getVendorExtensions().remove(X_DISCRIMINATOR_SELF_MAPPING_NAME);
+        }
+    }
+
+    /**
+     * Orders discriminator mapped models by schema specificity relative to the owner
+     * schema (deepest descendants first).
+     *
+     * <p>When two mappings have the same depth, the original insertion order is
+     * preserved for deterministic output.
+     */
+    private void orderMappedModelsBySchemaSpecificity(CodegenDiscriminator discriminator, String ownerSchemaName) {
+        if (discriminator.getMappedModels() == null || discriminator.getMappedModels().size() < 2) {
+            return;
+        }
+
+        List<MappedModel> ordered = new ArrayList<>(discriminator.getMappedModels());
+        Map<String, Integer> inheritanceDepthBySchema = new HashMap<>();
+        Map<MappedModel, Integer> originalOrder = new HashMap<>();
+        for (int i = 0; i < ordered.size(); i++) {
+            MappedModel mappedModel = ordered.get(i);
+            originalOrder.put(mappedModel, i);
+            inheritanceDepthBySchema.computeIfAbsent(
+                    mappedModel.getSchemaName(),
+                    schemaName -> getSchemaInheritanceDepth(schemaName, ownerSchemaName, new HashSet<>())
+            );
+        }
+
+        ordered.sort((left, right) -> {
+            int leftDepth = inheritanceDepthBySchema.getOrDefault(left.getSchemaName(), -1);
+            int rightDepth = inheritanceDepthBySchema.getOrDefault(right.getSchemaName(), -1);
+            if (leftDepth != rightDepth) {
+                return Integer.compare(rightDepth, leftDepth);
+            }
+
+            return Integer.compare(originalOrder.get(left), originalOrder.get(right));
+        });
+
+        discriminator.setMappedModels(new LinkedHashSet<>(ordered));
+    }
+
+    /**
+     * Removes discriminator mapped models that do not satisfy the provided predicate.
+     *
+     * <p>Both the mapped model set and the optional mapping-name lookup map are kept
+     * in sync.
+     */
+    private void filterMappedModels(CodegenDiscriminator discriminator, java.util.function.Predicate<MappedModel> keepPredicate) {
+        for (MappedModel mappedModel : new HashSet<>(discriminator.getMappedModels())) {
+            if (!keepPredicate.test(mappedModel)) {
+                if (discriminator.getMapping() != null) {
+                    discriminator.getMapping().remove(mappedModel.getMappingName());
+                }
+                discriminator.getMappedModels().remove(mappedModel);
+            }
+        }
+    }
+
+    /**
+     * Returns the discriminator defined on the schema itself, including an inline
+     * allOf segment, but excluding discriminators inherited from parent schemas.
+     */
+    private Discriminator getSchemaLocalDiscriminator(Schema schema) {
+        if (schema == null) {
+            return null;
+        }
+
+        if (schema.getDiscriminator() != null) {
+            return schema.getDiscriminator();
+        }
+
+        if (ModelUtils.isComposedSchema(schema) && schema.getAllOf() != null) {
+            // Prefer inline allOf discriminator (child-local) over inherited parent discriminators.
+            for (Object allOfSchemaObj : schema.getAllOf()) {
+                if (!(allOfSchemaObj instanceof Schema)) {
+                    continue;
+                }
+                Schema allOfSchema = (Schema) allOfSchemaObj;
+                if (allOfSchema.getDiscriminator() != null) {
+                    return allOfSchema.getDiscriminator();
                 }
             }
         }
-        return sub;
+
+        return null;
     }
 
     @Override
@@ -613,6 +806,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
             adaptToDartInheritance(objs);
             syncRootTypesWithInnerVars(objs);
+            for (ModelsMap entry : objs.values()) {
+                for (ModelMap mo : entry.getModels()) {
+                    CodegenModel cm = mo.getModel();
+                    if (cm != null && cm.discriminator != null) {
+                        String ownerSchemaName = ObjectUtils.firstNonNull(cm.getSchemaName(), cm.getName(), cm.getClassname());
+                        orderMappedModelsBySchemaSpecificity(cm.discriminator, ownerSchemaName);
+                        prepareDiscriminatorTemplateData(cm.discriminator, cm.getSchemaName(), cm.classname);
+                    }
+                }
+            }
         }
 
         // loop through models to update the imports

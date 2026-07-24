@@ -75,11 +75,11 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     {{#hasDiscriminatorWithNonEmptyMapping}}
     {{#discriminator}}
     {{! handle discriminator }}
-    {{#mappedModels}}
+    {{#vendorExtensions.x-discriminator-mapped-models-nonself}}
     if (object is {{modelName}}) {
       return serializers.serialize(object, specifiedType: FullType({{modelName}}))!;
     }
-    {{/mappedModels}}
+    {{/vendorExtensions.x-discriminator-mapped-models-nonself}}
     {{/discriminator}}
     {{/hasDiscriminatorWithNonEmptyMapping}}
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
@@ -271,10 +271,10 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     final discIndex = serializedList.indexOf({{classname}}.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
-      {{#mappedModels}}
+      {{#vendorExtensions.x-discriminator-mapped-models-nonself}}
       case r'{{mappingName}}':
         return serializers.deserialize(serialized, specifiedType: FullType({{modelName}})) as {{modelName}};
-      {{/mappedModels}}
+      {{/vendorExtensions.x-discriminator-mapped-models-nonself}}
       default:
         return serializers.deserialize(serialized, specifiedType: FullType(${{classname}})) as ${{classname}};
     }
