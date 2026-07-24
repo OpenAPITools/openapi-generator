@@ -89,22 +89,22 @@ QString PFXOrder::asJson() const {
 
 QJsonObject PFXOrder::asJsonObject() const {
     QJsonObject obj;
-    if (m_id_isSet) {
+    if (true && m_id_isSet) {
         obj.insert(QString("id"), ::test_namespace::toJsonValue(m_id));
     }
-    if (m_pet_id_isSet) {
+    if (true && m_pet_id_isSet) {
         obj.insert(QString("petId"), ::test_namespace::toJsonValue(m_pet_id));
     }
-    if (m_quantity_isSet) {
+    if (true && m_quantity_isSet) {
         obj.insert(QString("quantity"), ::test_namespace::toJsonValue(m_quantity));
     }
-    if (m_ship_date_isSet) {
+    if (true && m_ship_date_isSet) {
         obj.insert(QString("shipDate"), ::test_namespace::toJsonValue(m_ship_date));
     }
-    if (m_status_isSet) {
+    if (true && m_status_isSet) {
         obj.insert(QString("status"), ::test_namespace::toJsonValue(m_status));
     }
-    if (m_complete_isSet) {
+    if (true && m_complete_isSet) {
         obj.insert(QString("complete"), ::test_namespace::toJsonValue(m_complete));
     }
     return obj;
