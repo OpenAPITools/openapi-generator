@@ -1,6 +1,8 @@
 # flake8: noqa
 
-if __import__("typing").TYPE_CHECKING:
+import typing as _typing
+
+if _typing.TYPE_CHECKING:
     # import apis into api package
     from petstore_api.api.another_fake_api import AnotherFakeApi
     from petstore_api.api.default_api import DefaultApi
