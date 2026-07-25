@@ -589,7 +589,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         // translate @ for properties (like @type) to at_.
-        // Otherwise an additional "type" property will leed to duplcates
+        // Otherwise an additional "type" property will lead to duplicates
         name = name.replaceAll("^@", "at_");
 
         name = sanitizeName(name, "[^\\w$]");
