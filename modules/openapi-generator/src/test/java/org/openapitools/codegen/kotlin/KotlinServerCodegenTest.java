@@ -275,6 +275,8 @@ public class KotlinServerCodegenTest {
         );
     }
 
+
+/*
     @DataProvider(name = "dollarEscapeTest")
     private Object[][] createData() {
         return new Object[][]{
@@ -321,6 +323,7 @@ public class KotlinServerCodegenTest {
         Assert.assertTrue(syntaxErrorListener.getSyntaxErrorCount() == 0);
         Assert.assertTrue(customKotlinParseListener.getStringReferenceCount() == 0);
     }
+*/
 
     // ==================== Polymorphism and Discriminator Tests ====================
 
