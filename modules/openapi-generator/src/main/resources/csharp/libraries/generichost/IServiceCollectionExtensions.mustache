@@ -15,27 +15,15 @@ namespace {{packageName}}.Extensions
     /// </summary>
     {{>visibility}} static class IServiceCollectionExtensions
     {
-        {{^hasAuthMethods}}
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="services"></param>
-        public static void Add{{apiName}}(this IServiceCollection services)
-        {
-            HostConfiguration config = new{{^net70OrLater}} HostConfiguration{{/net70OrLater}}(services);
-            Add{{apiName}}(services, config);
-        }
-
-        {{/hasAuthMethods}}
         /// <summary>
         /// Add the api to your host builder.
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
-        public static void Add{{apiName}}(this IServiceCollection services, Action<HostConfiguration> options)
+        public static void Add{{apiName}}(this IServiceCollection services, Action<HostConfiguration>{{#nrt}}?{{/nrt}} options = null)
         {
             HostConfiguration config = new{{^net70OrLater}} HostConfiguration{{/net70OrLater}}(services);
-            options(config);
+            options?.Invoke(config);
             Add{{apiName}}(services, config);
         }
 
