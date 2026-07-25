@@ -206,7 +206,12 @@ namespace Org.OpenAPITools.Model
                         case "ZeroBasedEnum":
                             string? zeroBasedEnumRawValue = utf8JsonReader.GetString();
                             if (zeroBasedEnumRawValue != null)
-                                zeroBasedEnum = new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum?>(ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue));
+                            {
+                                ZeroBasedEnumClass.ZeroBasedEnumEnum? zeroBasedEnumValue = ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue);
+                                if (zeroBasedEnumValue == null)
+                                    throw new JsonException();
+                                zeroBasedEnum = new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum?>(zeroBasedEnumValue);
+                            }
                             break;
                         default:
                             break;

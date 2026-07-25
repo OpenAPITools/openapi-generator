@@ -304,7 +304,12 @@ namespace Org.OpenAPITools.Model
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();
                             if (statusRawValue != null)
-                                status = new Option<Pet.StatusEnum?>(Pet.StatusEnumFromStringOrDefault(statusRawValue));
+                            {
+                                Pet.StatusEnum? statusValue = Pet.StatusEnumFromStringOrDefault(statusRawValue);
+                                if (statusValue == null)
+                                    throw new JsonException();
+                                status = new Option<Pet.StatusEnum?>(statusValue);
+                            }
                             break;
                         case "tags":
                             tags = new Option<List<Tag>>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions));

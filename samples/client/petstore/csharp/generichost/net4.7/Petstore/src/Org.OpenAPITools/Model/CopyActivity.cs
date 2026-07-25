@@ -179,7 +179,12 @@ namespace Org.OpenAPITools.Model
                         case "$schema":
                             string schemaRawValue = utf8JsonReader.GetString();
                             if (schemaRawValue != null)
-                                schema = new Option<CopyActivity.SchemaEnum?>(CopyActivity.SchemaEnumFromStringOrDefault(schemaRawValue));
+                            {
+                                CopyActivity.SchemaEnum? schemaValue = CopyActivity.SchemaEnumFromStringOrDefault(schemaRawValue);
+                                if (schemaValue == null)
+                                    throw new JsonException();
+                                schema = new Option<CopyActivity.SchemaEnum?>(schemaValue);
+                            }
                             break;
                         default:
                             break;
