@@ -23,17 +23,17 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^20.3.0",
+    "@angular/common": "^22.0.8",
     "@angular/compiler": "^20.3.0",
     "@angular/core": "^20.3.0",
-    "@angular/forms": "^20.3.0",
-    "@angular/platform-browser": "^20.3.0",
-    "@angular/router": "^20.3.0",
+    "@angular/forms": "^22.0.8",
+    "@angular/platform-browser": "^22.0.8",
+    "@angular/router": "^22.0.8",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/build": "^20.3.1",
+    "@angular/build": "^22.0.8",
     "@angular/cli": "^21.1.0",
     "@angular/compiler-cli": "^20.3.0",
     "@types/jasmine": "~5.1.8",
