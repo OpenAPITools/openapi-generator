@@ -2424,4 +2424,54 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         assertFileContains(api, "import javax.validation.constraints.*;");
         assertFileContains(api, "@QueryParam(\"email\")", "@Email", "String email");
     }
+
+    /**
+     * An array of binary form properties must keep its array dimension. Previously the array was
+     * collapsed onto the scalar file type, generating the same signature as a single-file upload.
+     */
+    @Test
+    public void testMultipartFileArrayIsGeneratedAsList() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(outputPath);
+
+        DefaultGenerator generator = new DefaultGenerator(false);
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartArrayApi.java"),
+                "@FormParam(value = \"files\") List<InputStream> filesInputStream");
+        // a single binary property is still bound to a scalar InputStream
+        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartSingleApi.java"),
+                "@FormParam(value = \"file\") InputStream _fileInputStream");
+    }
+
+    /** The array dimension is preserved for every library, including quarkus. */
+    @Test
+    public void testMultipartFileArrayIsGeneratedAsListForQuarkus() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(QUARKUS_LIBRARY)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(outputPath);
+
+        DefaultGenerator generator = new DefaultGenerator(false);
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartArrayApi.java"),
+                "@FormParam(value = \"files\") List<InputStream> filesInputStream");
+        // a single binary property is still bound to a scalar InputStream
+        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartSingleApi.java"),
+                "@FormParam(value = \"file\") InputStream _fileInputStream");
+    }
 }

@@ -1,2 +1,2 @@
 {{#isFormParam}}
-{{#isDeprecated}}@Deprecated {{/isDeprecated}}{{^isFile}}@FormParam(value = "{{baseName}}")  {{{dataType}}} {{paramName}}{{/isFile}}{{#isFile}}@FormParam(value = "{{baseName}}") InputStream {{paramName}}InputStream{{/isFile}}{{/isFormParam}}
+{{#isDeprecated}}@Deprecated {{/isDeprecated}}{{^isFile}}@FormParam(value = "{{baseName}}")  {{{dataType}}} {{paramName}}{{/isFile}}{{#isFile}}{{^isArray}}@FormParam(value = "{{baseName}}") InputStream {{paramName}}InputStream{{/isArray}}{{#isArray}}@FormParam(value = "{{baseName}}") List<InputStream> {{paramName}}InputStream{{/isArray}}{{/isFile}}{{/isFormParam}}
