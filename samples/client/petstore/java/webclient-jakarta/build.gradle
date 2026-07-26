@@ -117,7 +117,7 @@ ext {
     beanvalidation_version = "3.0.2"
     reactor_version = "3.5.12"
     reactor_netty_version = "1.2.8"
-    jackson_version = "2.21.1"
+    jackson_version = "2.21.5"
     jackson_annotations_version = "2.21"
     jackson_databind_nullable_version = "0.2.10"
     junit_version = "5.10.2"
