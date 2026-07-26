@@ -27,10 +27,12 @@ public class {{classname}}Handler {
         this.api = api;
     }
 
+{{^interfaceOnly}}
     @Deprecated
     public {{classname}}Handler() {
         this(new {{classname}}Impl());
     }
+{{/interfaceOnly}}
 
     public void mount(RouterBuilder builder) {
 {{#operations}}
