@@ -4799,6 +4799,34 @@ public class JavaClientCodegenTest {
                 .containsEntry(SUPPORT_URL_QUERY, false);
     }
 
+    /**
+     * An array of binary form properties must keep its array dimension. Previously the array was
+     * collapsed onto the scalar File type, generating the same signature as a single-file upload.
+     */
+    @Test
+    public void testMicroprofileFormMultipartArray() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java")).content()
+                .contains(
+                        // multiple files sharing one part name
+                        "@FormParam(\"files\") List<File> filesDetail",
+                        // a single binary property is still bound to a scalar File
+                        "@FormParam(\"file\") File _fileDetail",
+                        // a file next to a non-file array: only the file type is affected
+                        "@FormParam(\"file\") File _fileDetail, @FormParam(\"marker\")  MultipartMixedRequestMarker marker,"
+                                + " @FormParam(\"statusArray\")  List<MultipartMixedStatus> statusArray");
+    }
+
     private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setLibrary(JavaClientCodegen.RETROFIT_2);
