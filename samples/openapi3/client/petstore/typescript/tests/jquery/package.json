@@ -13,7 +13,7 @@
     "ts-node": "^10.9.2",
     "ts-petstore-client": "file:../../builds/jquery",
     "webpack": "^5.109.0",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^7.2.1"
   },
   "scripts": {
     "test": "node ./dist/test-runner.js",
