@@ -52,7 +52,17 @@ public class {{classname}}Handler {
 
 {{#allParams}}{{>headerParams}}{{>pathParams}}{{>queryParams}}{{>formParams}}{{>bodyParams}}{{/allParams}}
 {{#allParams}}
+{{#isPassword}}
+        logger.debug("Parameter {{paramName}} is (redacted)");
+{{/isPassword}}
+{{^isPassword}}
+{{#isBodyParam}}
+        logger.debug("Parameter {{paramName}} is (body omitted)");
+{{/isBodyParam}}
+{{^isBodyParam}}
         logger.debug("Parameter {{paramName}} is {}", {{paramName}});
+{{/isBodyParam}}
+{{/isPassword}}
 {{/allParams}}
 
         api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
