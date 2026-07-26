@@ -354,9 +354,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jersey-version>3.1.11</jersey-version>
-        <jackson-version>2.21.1</jackson-version>
+        <jackson-version>2.21.5</jackson-version>
         <jackson-annotations-version>2.21</jackson-annotations-version>
-        <jackson-databind-version>2.21.1</jackson-databind-version>
+        <jackson-databind-version>2.21.5</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         <jakarta-annotation-version>3.0.0</jakarta-annotation-version>
         <beanvalidation-version>3.1.1</beanvalidation-version>
