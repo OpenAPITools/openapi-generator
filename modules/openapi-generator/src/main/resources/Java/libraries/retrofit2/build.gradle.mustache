@@ -101,11 +101,12 @@ ext {
     retrofit_version = "2.11.0"
     {{#jackson}}
     jackson_version = "2.21.5"
+    jackson_annotations_version = "2.21"
     jackson_databind_version = "2.21.5"
     javax_ws_rs_api_version = "2.1.1"
-        {{#openApiNullable}}
+    {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.10"
-        {{/openApiNullable}}
+    {{/openApiNullable}}
     {{/jackson}}
     {{#usePlayWS}}
     play_version = "2.6.7"
@@ -153,7 +154,7 @@ dependencies {
     implementation "jakarta.validation:jakarta.validation-api:3.0.2"
     implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     implementation "javax.ws.rs:javax.ws.rs-api:$javax_ws_rs_api_version"
     {{#openApiNullable}}
