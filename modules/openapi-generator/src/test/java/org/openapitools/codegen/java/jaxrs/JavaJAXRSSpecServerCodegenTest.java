@@ -2522,4 +2522,68 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         assertFileContains(api, "import javax.validation.constraints.*;");
         assertFileContains(api, "@QueryParam(\"email\")", "@Email", "String email");
     }
+
+    /**
+     * On Quarkus REST a file form parameter is bound to the RESTEasy Reactive multipart type.
+     * {@code InputStream} is not a supported multipart type there.
+     */
+    @Test
+    public void testQuarkusJakartaBindsFileFormParamToFileUpload() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(QUARKUS_LIBRARY)
+                .setAdditionalProperties(Map.of(USE_JAKARTA_EE, "true"))
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(outputPath);
+
+        DefaultGenerator generator = new DefaultGenerator(false);
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        Path api = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartSingleApi.java");
+        assertFileContains(api, "import org.jboss.resteasy.reactive.RestForm;");
+        assertFileContains(api, "import org.jboss.resteasy.reactive.multipart.FileUpload;");
+        assertFileContains(api, "@RestForm(value = \"file\") FileUpload _file");
+        // an array of binary properties keeps its array dimension: several files may share one
+        // part name, which FileUpload supports and a scalar binding cannot express
+        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartArrayApi.java"),
+                "@RestForm(value = \"files\") List<FileUpload> files");
+        // the project targets Quarkus REST rather than RESTEasy Classic
+        assertFileContains(Paths.get(outputPath + "/pom.xml"), "<artifactId>quarkus-rest</artifactId>");
+    }
+
+    /**
+     * The javax path is pinned to Quarkus 1.13.7, which predates Quarkus REST, so it keeps
+     * RESTEasy Classic and its {@code InputStream} binding.
+     */
+    @Test
+    public void testQuarkusJavaxKeepsResteasyClassicFileBinding() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(QUARKUS_LIBRARY)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(outputPath);
+
+        DefaultGenerator generator = new DefaultGenerator(false);
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        Path api = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartSingleApi.java");
+        assertFileContains(api, "@FormParam(value = \"file\") InputStream _fileInputStream");
+        assertFileNotContains(api, "import org.jboss.resteasy.reactive.multipart.FileUpload;");
+        // An array stays scalar here on purpose. @FormParam is a string-based annotation: injecting
+        // List<T> requires T to be constructible from a String, so List<InputStream> is rejected at
+        // deployment with RESTEASY003875. RESTEasy Classic has no portable multi-file binding.
+        assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartArrayApi.java"),
+                "List<InputStream>");
+        assertFileContains(Paths.get(outputPath + "/pom.xml"), "<artifactId>quarkus-resteasy</artifactId>");
+    }
 }
