@@ -49,7 +49,7 @@ public class PetApiHandler {
         RequestParameter body = requestParameters.body();
         Pet pet = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<Pet>(){}) : null;
 
-        logger.debug("Parameter pet is {}", pet);
+        logger.debug("Parameter pet is (body omitted)");
 
         api.addPet(pet)
             .onSuccess(apiResponse -> {
@@ -162,7 +162,7 @@ public class PetApiHandler {
         RequestParameter body = requestParameters.body();
         Pet pet = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<Pet>(){}) : null;
 
-        logger.debug("Parameter pet is {}", pet);
+        logger.debug("Parameter pet is (body omitted)");
 
         api.updatePet(pet)
             .onSuccess(apiResponse -> {
@@ -208,6 +208,10 @@ public class PetApiHandler {
         RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
 
         Long petId = requestParameters.pathParameter("petId") != null ? requestParameters.pathParameter("petId").getLong() : null;
+        if (routingContext.fileUploads().isEmpty()) {
+            routingContext.fail(400);
+            return;
+        }
         FileUpload _file = routingContext.fileUploads().iterator().next();
 
         logger.debug("Parameter petId is {}", petId);

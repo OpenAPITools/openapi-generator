@@ -22,7 +22,6 @@
         <slf4j.version>1.7.30</slf4j.version>
         <jackson.version>2.18.9</jackson.version>
 
-        <main.verticle>org.openapitools.vertxweb.server.HttpServerVerticle</main.verticle>
     </properties>
 
     <!-- Vert.x BOM -->
@@ -87,51 +86,8 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven-shade-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <manifestEntries>
-                                        <Main-Class>io.vertx.core.Launcher</Main-Class>
-                                        <Main-Verticle>${main.verticle}</Main-Verticle>
-                                    </manifestEntries>
-                                </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource>
-                                </transformer>
-                            </transformers>
-                            <artifactSet>
-                            </artifactSet>
-                            <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar
-                            </outputFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${exec-maven-plugin.version}</version>
-                <configuration>
-                    <mainClass>io.vertx.core.Launcher</mainClass>
-                    <arguments>
-                        <argument>run</argument>
-                        <argument>${main.verticle}</argument>
-                    </arguments>
-                </configuration>
             </plugin>
         </plugins>
     </build>
