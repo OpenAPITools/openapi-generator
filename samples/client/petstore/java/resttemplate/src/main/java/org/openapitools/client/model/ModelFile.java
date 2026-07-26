@@ -43,7 +43,7 @@ public class ModelFile {
   /**
    * Constructor with all args parameters
    */
-  public ModelFile(@JsonProperty(JSON_PROPERTY_SOURCE_U_R_I) String sourceURI) {
+  public ModelFile(@JsonProperty(JSON_PROPERTY_SOURCE_U_R_I) @javax.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
 

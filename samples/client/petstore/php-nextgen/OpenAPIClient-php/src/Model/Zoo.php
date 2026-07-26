@@ -36,7 +36,7 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * Zoo Class Doc Comment
  *
- * @description A model that uses oneOf schemas as property types.
+ * @description A model that uses oneOf and anyOf schemas as property types.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -62,7 +62,9 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'favorite_mammal' => '\OpenAPI\Client\Model\Mammal',
         'optional_mammal' => '\OpenAPI\Client\Model\Mammal',
         'snack' => '\OpenAPI\Client\Model\Fruit',
-        'mammals' => '\OpenAPI\Client\Model\Mammal[]'
+        'mammals' => '\OpenAPI\Client\Model\Mammal[]',
+        'favorite_reptile' => '\OpenAPI\Client\Model\Reptile',
+        'drink' => '\OpenAPI\Client\Model\Smoothie'
     ];
 
     /**
@@ -74,7 +76,9 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'favorite_mammal' => null,
         'optional_mammal' => null,
         'snack' => null,
-        'mammals' => null
+        'mammals' => null,
+        'favorite_reptile' => null,
+        'drink' => null
     ];
 
     /**
@@ -86,7 +90,9 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'favorite_mammal' => false,
         'optional_mammal' => false,
         'snack' => false,
-        'mammals' => false
+        'mammals' => false,
+        'favorite_reptile' => false,
+        'drink' => false
     ];
 
     /**
@@ -168,7 +174,9 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'favorite_mammal' => 'favoriteMammal',
         'optional_mammal' => 'optionalMammal',
         'snack' => 'snack',
-        'mammals' => 'mammals'
+        'mammals' => 'mammals',
+        'favorite_reptile' => 'favoriteReptile',
+        'drink' => 'drink'
     ];
 
     /**
@@ -180,7 +188,9 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'favorite_mammal' => 'setFavoriteMammal',
         'optional_mammal' => 'setOptionalMammal',
         'snack' => 'setSnack',
-        'mammals' => 'setMammals'
+        'mammals' => 'setMammals',
+        'favorite_reptile' => 'setFavoriteReptile',
+        'drink' => 'setDrink'
     ];
 
     /**
@@ -192,7 +202,9 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'favorite_mammal' => 'getFavoriteMammal',
         'optional_mammal' => 'getOptionalMammal',
         'snack' => 'getSnack',
-        'mammals' => 'getMammals'
+        'mammals' => 'getMammals',
+        'favorite_reptile' => 'getFavoriteReptile',
+        'drink' => 'getDrink'
     ];
 
     /**
@@ -246,6 +258,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('optional_mammal', $data ?? [], null);
         $this->setIfExists('snack', $data ?? [], null);
         $this->setIfExists('mammals', $data ?? [], null);
+        $this->setIfExists('favorite_reptile', $data ?? [], null);
+        $this->setIfExists('drink', $data ?? [], null);
     }
 
     /**
@@ -275,6 +289,9 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
 
         if ($this->container['favorite_mammal'] === null) {
             $invalidProperties[] = "'favorite_mammal' can't be null";
+        }
+        if ($this->container['favorite_reptile'] === null) {
+            $invalidProperties[] = "'favorite_reptile' can't be null";
         }
         return $invalidProperties;
     }
@@ -392,6 +409,60 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
             throw new InvalidArgumentException('non-nullable mammals cannot be null');
         }
         $this->container['mammals'] = $mammals;
+
+        return $this;
+    }
+
+    /**
+     * Gets favorite_reptile
+     *
+     * @return \OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake
+     */
+    public function getFavoriteReptile(): \OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake
+    {
+        return $this->container['favorite_reptile'];
+    }
+
+    /**
+     * Sets favorite_reptile
+     *
+     * @param \OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake $favorite_reptile favorite_reptile
+     *
+     * @return $this
+     */
+    public function setFavoriteReptile(\OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake $favorite_reptile): static
+    {
+        if (is_null($favorite_reptile)) {
+            throw new InvalidArgumentException('non-nullable favorite_reptile cannot be null');
+        }
+        $this->container['favorite_reptile'] = $favorite_reptile;
+
+        return $this;
+    }
+
+    /**
+     * Gets drink
+     *
+     * @return \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null
+     */
+    public function getDrink(): \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null
+    {
+        return $this->container['drink'];
+    }
+
+    /**
+     * Sets drink
+     *
+     * @param \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null $drink drink
+     *
+     * @return $this
+     */
+    public function setDrink(\OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null $drink): static
+    {
+        if (is_null($drink)) {
+            throw new InvalidArgumentException('non-nullable drink cannot be null');
+        }
+        $this->container['drink'] = $drink;
 
         return $this;
     }

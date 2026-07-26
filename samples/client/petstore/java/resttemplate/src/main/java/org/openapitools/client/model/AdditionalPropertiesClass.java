@@ -49,7 +49,7 @@ public class AdditionalPropertiesClass {
   /**
    * Constructor with all args parameters
    */
-  public AdditionalPropertiesClass(@JsonProperty(JSON_PROPERTY_MAP_PROPERTY) Map<String, String> mapProperty, @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY) Map<String, Map<String, String>> mapOfMapProperty) {
+  public AdditionalPropertiesClass(@JsonProperty(JSON_PROPERTY_MAP_PROPERTY) @javax.annotation.Nullable Map<String, String> mapProperty, @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY) @javax.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapProperty = mapProperty;
     this.mapOfMapProperty = mapOfMapProperty;
   }

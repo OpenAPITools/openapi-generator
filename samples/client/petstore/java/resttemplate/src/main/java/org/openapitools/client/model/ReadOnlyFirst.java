@@ -57,7 +57,7 @@ public class ReadOnlyFirst {
   /**
    * Constructor with all args parameters
    */
-  public ReadOnlyFirst(@JsonProperty(JSON_PROPERTY_BAR) String bar, @JsonProperty(JSON_PROPERTY_BAZ) String baz) {
+  public ReadOnlyFirst(@JsonProperty(JSON_PROPERTY_BAR) @javax.annotation.Nullable String bar, @JsonProperty(JSON_PROPERTY_BAZ) @javax.annotation.Nullable String baz) {
     this.bar = bar;
     this.baz = baz;
   }

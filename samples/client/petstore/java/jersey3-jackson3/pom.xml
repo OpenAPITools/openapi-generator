@@ -350,7 +350,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jersey-version>3.1.11</jersey-version>
-        <jackson3-version>3.1.0</jackson3-version>
+        <jackson3-version>3.1.5</jackson3-version>
         <jackson-annotations-version>2.21</jackson-annotations-version>
         <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         <jakarta-annotation-version>3.0.0</jakarta-annotation-version>

@@ -53,7 +53,7 @@ public class Dog extends Animal {
   /**
    * Constructor with all args parameters
    */
-  public Dog(@JsonProperty(JSON_PROPERTY_BREED) String breed, @JsonProperty(JSON_PROPERTY_CLASS_NAME) String className, @JsonProperty(JSON_PROPERTY_COLOR) String color) {
+  public Dog(@JsonProperty(JSON_PROPERTY_BREED) @javax.annotation.Nullable String breed, @JsonProperty(JSON_PROPERTY_CLASS_NAME) @javax.annotation.Nonnull String className, @JsonProperty(JSON_PROPERTY_COLOR) @javax.annotation.Nullable String color) {
     super(className, color);
     this.breed = breed;
   }

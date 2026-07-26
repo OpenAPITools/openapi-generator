@@ -12,7 +12,9 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-if __import__("typing").TYPE_CHECKING:
+import typing as _typing
+
+if _typing.TYPE_CHECKING:
     # import models into model package
     from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType
     from petstore_api.models.additional_properties_class import AdditionalPropertiesClass

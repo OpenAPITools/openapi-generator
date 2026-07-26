@@ -37,6 +37,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.CodegenConstants.ENUM_VALUE;
+import static org.openapitools.codegen.CodegenConstants.ENUM_VARS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -251,19 +253,19 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
      * without quotes so they serialize correctly: %(0) instead of %("0")
      */
     private void stripQuotesFromIntegerEnumValues(Map<String, Object> allowableValues) {
-        if (allowableValues == null || !allowableValues.containsKey("enumVars")) {
+        if (allowableValues == null || !allowableValues.containsKey(ENUM_VARS)) {
             return;
         }
 
         @SuppressWarnings("unchecked")
-        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get(ENUM_VARS);
         for (Map<String, Object> enumVar : enumVars) {
-            Object value = enumVar.get("value");
+            Object value = enumVar.get(ENUM_VALUE);
             if (value instanceof String) {
                 String strValue = (String) value;
                 // Remove surrounding quotes if present
                 if (strValue.startsWith("\"") && strValue.endsWith("\"")) {
-                    enumVar.put("value", strValue.substring(1, strValue.length() - 1));
+                    enumVar.put(ENUM_VALUE, strValue.substring(1, strValue.length() - 1));
                 }
             }
         }
@@ -276,7 +278,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
-            if (cm.isEnum && cm.allowableValues != null && cm.allowableValues.containsKey("enumVars")) {
+            if (cm.isEnum && cm.allowableValues != null && cm.allowableValues.containsKey(ENUM_VARS)) {
                 cm.vendorExtensions.put("x-is-top-level-enum", true);
 
                 // For integer enums, strip quotes from enum values

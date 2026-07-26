@@ -42,7 +42,7 @@ public class Client {
   /**
    * Constructor with all args parameters
    */
-  public Client(@JsonProperty(JSON_PROPERTY_CLIENT) String client) {
+  public Client(@JsonProperty(JSON_PROPERTY_CLIENT) @javax.annotation.Nullable String client) {
     this.client = client;
   }
 

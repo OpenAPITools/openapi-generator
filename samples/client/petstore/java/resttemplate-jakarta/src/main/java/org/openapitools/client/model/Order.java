@@ -105,7 +105,7 @@ public class Order {
   /**
    * Constructor with all args parameters
    */
-  public Order(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_PET_ID) Long petId, @JsonProperty(JSON_PROPERTY_QUANTITY) Integer quantity, @JsonProperty(JSON_PROPERTY_SHIP_DATE) OffsetDateTime shipDate, @JsonProperty(JSON_PROPERTY_STATUS) StatusEnum status, @JsonProperty(JSON_PROPERTY_COMPLETE) Boolean complete) {
+  public Order(@JsonProperty(JSON_PROPERTY_ID) @jakarta.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_PET_ID) @jakarta.annotation.Nullable Long petId, @JsonProperty(JSON_PROPERTY_QUANTITY) @jakarta.annotation.Nullable Integer quantity, @JsonProperty(JSON_PROPERTY_SHIP_DATE) @jakarta.annotation.Nullable OffsetDateTime shipDate, @JsonProperty(JSON_PROPERTY_STATUS) @jakarta.annotation.Nullable StatusEnum status, @JsonProperty(JSON_PROPERTY_COMPLETE) @jakarta.annotation.Nullable Boolean complete) {
     this.id = id;
     this.petId = petId;
     this.quantity = quantity;

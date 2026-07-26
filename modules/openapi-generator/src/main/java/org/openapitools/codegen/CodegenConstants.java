@@ -467,6 +467,19 @@ public class CodegenConstants {
     public static final String DEFAULT_TO_EMPTY_CONTAINER = "defaultToEmptyContainer";
     public static final String DEFAULT_TO_EMPTY_CONTAINER_DESC = "Initialize containers (array/set/map) to empty containers instead of null by default. Usage: https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#default-values";
 
+    // The raw enum values from the OpenAPI specification
+    public static final String ENUM_VALUES = "values";
+    // The map that stores all enum values and their metadata (name, value, enumDescription...)
+    public static final String ENUM_VARS = "enumVars";
+    // The name of the enum, for example NAME("value") in Java
+    public static final String ENUM_NAME = "name";
+    // The on-the-line value, i.e., the one present in the "values"
+    public static final String ENUM_VALUE = "value";
+    // If the enum is typed as a string
+    public static final String ENUM_IS_STRING = "isString";
+    // The description that should be attached to an entry in "enumVars"
+    public static final String ENUM_DESCRIPTION = "enumDescription";
+
     // Vendor extensions
     public static final String X_INTERNAL = "x-internal";
     public static final String X_PARENT = "x-parent";
@@ -515,6 +528,7 @@ public class CodegenConstants {
     public static final String X_NULLABLE = "x-nullable";
     public static final String X_ENUM_VARNAMES = "x-enum-varnames";
     public static final String X_ENUM_DESCRIPTIONS = "x-enum-descriptions";
+    public static final String X_ENUM_DEPRECATED = "x-enum-deprecated";
     public static final String X_PY_TYPING = "x-py-typing";
     public static final String X_PY_EXAMPLE = "x-py-example";
     public static final String X_PY_EXAMPLE_IMPORT = "x-py-example-import";

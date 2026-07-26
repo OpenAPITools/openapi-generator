@@ -46,7 +46,7 @@ public class ArrayOfArrayOfNumberOnly {
   /**
    * Constructor with all args parameters
    */
-  public ArrayOfArrayOfNumberOnly(@JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER) List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly(@JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER) @javax.annotation.Nullable List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 

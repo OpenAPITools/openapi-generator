@@ -120,7 +120,7 @@ public class EnumArrays {
   /**
    * Constructor with all args parameters
    */
-  public EnumArrays(@JsonProperty(JSON_PROPERTY_JUST_SYMBOL) JustSymbolEnum justSymbol, @JsonProperty(JSON_PROPERTY_ARRAY_ENUM) List<ArrayEnumEnum> arrayEnum) {
+  public EnumArrays(@JsonProperty(JSON_PROPERTY_JUST_SYMBOL) @javax.annotation.Nullable JustSymbolEnum justSymbol, @JsonProperty(JSON_PROPERTY_ARRAY_ENUM) @javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.justSymbol = justSymbol;
     this.arrayEnum = arrayEnum;
   }

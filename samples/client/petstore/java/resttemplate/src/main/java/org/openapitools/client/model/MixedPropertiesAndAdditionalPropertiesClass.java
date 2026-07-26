@@ -57,7 +57,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   /**
    * Constructor with all args parameters
    */
-  public MixedPropertiesAndAdditionalPropertiesClass(@JsonProperty(JSON_PROPERTY_UUID) UUID uuid, @JsonProperty(JSON_PROPERTY_DATE_TIME) OffsetDateTime dateTime, @JsonProperty(JSON_PROPERTY_MAP) Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass(@JsonProperty(JSON_PROPERTY_UUID) @javax.annotation.Nullable UUID uuid, @JsonProperty(JSON_PROPERTY_DATE_TIME) @javax.annotation.Nullable OffsetDateTime dateTime, @JsonProperty(JSON_PROPERTY_MAP) @javax.annotation.Nullable Map<String, Animal> map) {
     this.uuid = uuid;
     this.dateTime = dateTime;
     this.map = map;

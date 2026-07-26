@@ -25,6 +25,7 @@ import java.io.Writer;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
 
 /**
@@ -482,8 +483,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                 if (models.containsKey(op.returnType)) {
                     CodegenModel m = models.get(op.returnType);
                     List<Object> allowableValues = null;
-                    if (m.allowableValues != null && m.allowableValues.containsKey("values")) {
-                        allowableValues = (List<Object>) m.allowableValues.get("values");
+                    if (m.allowableValues != null && m.allowableValues.containsKey(ENUM_VALUES)) {
+                        allowableValues = (List<Object>) m.allowableValues.get(ENUM_VALUES);
                     }
                     example = getExampleValue(m.defaultValue, null, m.classname, true,
                             allowableValues, null, null, m.requiredVars, false, false);
@@ -565,7 +566,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     protected String getParameterExampleValue(CodegenParameter p, boolean groovy) {
-        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get("values");
+        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get(ENUM_VALUES);
 
         return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
                 p.items == null ? null : p.items.dataType,
@@ -574,7 +575,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     protected String getPropertyExampleValue(CodegenProperty p, boolean groovy) {
-        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get("values");
+        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get(ENUM_VALUES);
 
         return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
                 p.items == null ? null : p.items.dataType,

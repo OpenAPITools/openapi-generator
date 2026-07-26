@@ -33,6 +33,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /**
@@ -508,7 +509,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            List<Object> enumValues = (List<Object>) allowableValues.get(ENUM_VALUES);
             String typeName = this.toTableName(model.getName())
                     + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);
@@ -632,7 +633,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            List<Object> enumValues = (List<Object>) allowableValues.get(ENUM_VALUES);
             String typeName = this.toTableName(model.getName())
                     + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);
@@ -738,7 +739,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            List<Object> enumValues = (List<Object>) allowableValues.get(ENUM_VALUES);
             String typeName = this.toTableName(model.getName())
                     + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);

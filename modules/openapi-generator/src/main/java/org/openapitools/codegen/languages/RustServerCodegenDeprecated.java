@@ -48,6 +48,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
 import static org.openapitools.codegen.CodegenConstants.X_ONE_OF_NAME;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -1563,8 +1564,8 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
             else {
             param.vendorExtensions.put("x-format-string", "{:?}");
             // Check if this is a model-type enum (allowableValues with values list)
-            if (param.allowableValues != null && param.allowableValues.containsKey("values")) {
-                List<?> values = (List<?>) param.allowableValues.get("values");
+            if (param.allowableValues != null && param.allowableValues.containsKey(ENUM_VALUES)) {
+                List<?> values = (List<?>) param.allowableValues.get(ENUM_VALUES);
                 if (!values.isEmpty()) {
                     // Use the first enum value as the example.
                     String firstEnumValue = values.get(0).toString();

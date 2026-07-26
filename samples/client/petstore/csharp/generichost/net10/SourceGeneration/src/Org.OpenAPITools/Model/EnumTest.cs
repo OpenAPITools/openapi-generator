@@ -753,7 +753,12 @@ namespace Org.OpenAPITools.Model
                         case "enum_string_required":
                             string? enumStringRequiredRawValue = utf8JsonReader.GetString();
                             if (enumStringRequiredRawValue != null)
-                                enumStringRequired = new Option<EnumTest.EnumStringRequiredEnum?>(EnumTest.EnumStringRequiredEnumFromStringOrDefault(enumStringRequiredRawValue));
+                            {
+                                EnumTest.EnumStringRequiredEnum? enumStringRequiredValue = EnumTest.EnumStringRequiredEnumFromStringOrDefault(enumStringRequiredRawValue);
+                                if (enumStringRequiredValue == null)
+                                    throw new JsonException();
+                                enumStringRequired = new Option<EnumTest.EnumStringRequiredEnum?>(enumStringRequiredValue);
+                            }
                             break;
                         case "enum_integer":
                             if (utf8JsonReader.TokenType == JsonTokenType.Null)
@@ -794,7 +799,12 @@ namespace Org.OpenAPITools.Model
                         case "enum_string":
                             string? enumStringRawValue = utf8JsonReader.GetString();
                             if (enumStringRawValue != null)
-                                enumString = new Option<EnumTest.EnumStringEnum?>(EnumTest.EnumStringEnumFromStringOrDefault(enumStringRawValue));
+                            {
+                                EnumTest.EnumStringEnum? enumStringValue = EnumTest.EnumStringEnumFromStringOrDefault(enumStringRawValue);
+                                if (enumStringValue == null)
+                                    throw new JsonException();
+                                enumString = new Option<EnumTest.EnumStringEnum?>(enumStringValue);
+                            }
                             break;
                         case "outerEnum":
                             outerEnum = new Option<OuterEnum?>(JsonSerializer.Deserialize<OuterEnum?>(ref utf8JsonReader, jsonSerializerOptions));

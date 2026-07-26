@@ -49,7 +49,7 @@ public class User {
   /**
    * Constructor with all args parameters
    */
-  public User(@JsonProperty(JSON_PROPERTY_USERNAME) String username, @JsonProperty(JSON_PROPERTY_EMAIL) String email) {
+  public User(@JsonProperty(JSON_PROPERTY_USERNAME) @javax.annotation.Nullable String username, @JsonProperty(JSON_PROPERTY_EMAIL) @javax.annotation.Nonnull String email) {
     this.username = username;
     this.email = email;
   }

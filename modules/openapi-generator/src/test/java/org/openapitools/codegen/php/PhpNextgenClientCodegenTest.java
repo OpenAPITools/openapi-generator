@@ -451,6 +451,103 @@ public class PhpNextgenClientCodegenTest {
     }
 
     @Test
+    public void testAnyOfPolymorphism() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // anyOf models get their own dedicated interface, separate from oneOf.
+        Assert.assertTrue(files.containsKey("AnyOfInterface.php"), "Expected AnyOfInterface.php to be generated.");
+
+        // An anyOf without a discriminator becomes a dispatcher exposing its member types.
+        List<String> smoothie = Files.readAllLines(files.get("Smoothie.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(smoothie, a -> a.equals("class Smoothie implements AnyOfInterface"),
+                "Smoothie must implement AnyOfInterface");
+        Assert.assertListContains(smoothie, a -> a.equals("public const DISCRIMINATOR = null;"),
+                "Smoothie has no discriminator");
+        Assert.assertListContains(smoothie, a -> a.equals("'\\OpenAPI\\Client\\Model\\Apple',"),
+                "Smoothie lists Apple as a member type");
+        Assert.assertListContains(smoothie, a -> a.equals("'\\OpenAPI\\Client\\Model\\Banana'"),
+                "Smoothie lists Banana as a member type");
+
+        // An anyOf with a discriminator exposes its property name and value mapping.
+        List<String> reptile = Files.readAllLines(files.get("Reptile.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(reptile, a -> a.equals("class Reptile implements AnyOfInterface"),
+                "Reptile must implement AnyOfInterface");
+        Assert.assertListContains(reptile, a -> a.equals("public const DISCRIMINATOR = 'reptileType';"),
+                "Reptile exposes its discriminator property by its wire (base) name");
+        Assert.assertListContains(reptile, a -> a.equals("'lizard' => '\\OpenAPI\\Client\\Model\\Lizard',"),
+                "Reptile maps the lizard discriminator value");
+        Assert.assertListContains(reptile, a -> a.equals("'snake' => '\\OpenAPI\\Client\\Model\\Snake'"),
+                "Reptile maps the snake discriminator value");
+
+        // The anyOf model doc documents its concrete member types, not the umbrella's flattened
+        // properties.
+        List<String> reptileDoc = Files.readAllLines(files.get("Reptile.md").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(reptileDoc,
+                a -> a.contains("[**\\OpenAPI\\Client\\Model\\Lizard**](Lizard.md)"),
+                "Reptile doc links to its Lizard member");
+        Assert.assertListContains(reptileDoc,
+                a -> a.contains("[**\\OpenAPI\\Client\\Model\\Snake**](Snake.md)"),
+                "Reptile doc links to its Snake member");
+    }
+
+    @Test
+    public void testAnyOfAsPropertyType() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Zoo references the anyOf schemas Reptile (with discriminator) and Smoothie (without) as
+        // property types, so the accessors must be hinted with the PHP union of the member types.
+        List<String> zoo = Files.readAllLines(files.get("Zoo.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+
+        // A required anyOf property is hinted as the bare union (no `|null`).
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function getFavoriteReptile(): \\OpenAPI\\Client\\Model\\Lizard|\\OpenAPI\\Client\\Model\\Snake"),
+                "required Reptile property getter is hinted as the member union");
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function setFavoriteReptile(\\OpenAPI\\Client\\Model\\Lizard|\\OpenAPI\\Client\\Model\\Snake $favorite_reptile): static"),
+                "required Reptile property setter is hinted as the member union");
+
+        // PHP forbids `?` on unions, so an optional anyOf property gains an explicit `|null` member.
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function getDrink(): \\OpenAPI\\Client\\Model\\Apple|\\OpenAPI\\Client\\Model\\Banana|null"),
+                "optional Smoothie property getter appends |null to the union");
+        Assert.assertListNotContains(zoo,
+                a -> a.contains("?\\OpenAPI\\Client\\Model\\Lizard") || a.contains("?\\OpenAPI\\Client\\Model\\Apple"),
+                "a union type must never use the nullable shorthand `?`");
+    }
+
+    @Test
     public void testOneOfAsPropertyType() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

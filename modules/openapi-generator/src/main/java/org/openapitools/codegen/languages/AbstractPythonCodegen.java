@@ -1136,18 +1136,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
-                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
-                    if ((Boolean) enumVars.get("isString")) {
+                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get(ENUM_VARS)) {
+                    if ((Boolean) enumVars.get(ENUM_IS_STRING)) {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "str");
                         // Do not overwrite the variable name if already set through x-enum-varnames
                         if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
-                            enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
+                            enumVars.put(ENUM_NAME, toEnumVariableName((String) enumVars.get(ENUM_VALUE), "str"));
                         }
                     } else {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "int");
                         // Do not overwrite the variable name if already set through x-enum-varnames
                         if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
-                            enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                            enumVars.put(ENUM_NAME, toEnumVariableName((String) enumVars.get(ENUM_VALUE), "int"));
                         }
                     }
                 }

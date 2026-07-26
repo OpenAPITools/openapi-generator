@@ -871,7 +871,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
         }
         #[allow(clippy::uninlined_format_args)]
         params.push(("enum_field",
-            format!("{:?}", param_enum_field)
+            format!("{}", param_enum_field)
         ));
 
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");

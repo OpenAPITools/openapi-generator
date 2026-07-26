@@ -1949,8 +1949,9 @@ public class ModelUtils {
      * returns false (because the nullable attribute is defined in the referenced schema).
      * <p>
      * The 'nullable' attribute was introduced in OAS 3.0.
-     * The 'nullable' attribute is deprecated in OAS 3.1. In a OAS 3.1 document, the preferred way
-     * to specify nullable properties is to use the 'null' type.
+     * The 'nullable' attribute was removed in OAS 3.1 and is not a valid keyword there; it is ignored,
+     * so this method returns false for it in a 3.1 document. In an OAS 3.1 document, the way to specify
+     * nullable properties is to use the 'null' type (e.g. type: ['string', 'null']).
      *
      * @param schema the OAS schema.
      * @return true if the schema is nullable.

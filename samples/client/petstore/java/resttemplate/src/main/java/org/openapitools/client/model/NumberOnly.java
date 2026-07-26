@@ -43,7 +43,7 @@ public class NumberOnly {
   /**
    * Constructor with all args parameters
    */
-  public NumberOnly(@JsonProperty(JSON_PROPERTY_JUST_NUMBER) BigDecimal justNumber) {
+  public NumberOnly(@JsonProperty(JSON_PROPERTY_JUST_NUMBER) @javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 

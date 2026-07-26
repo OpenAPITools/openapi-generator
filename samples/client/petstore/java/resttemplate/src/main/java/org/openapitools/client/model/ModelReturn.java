@@ -43,7 +43,7 @@ public class ModelReturn {
   /**
    * Constructor with all args parameters
    */
-  public ModelReturn(@JsonProperty(JSON_PROPERTY_RETURN) Integer _return) {
+  public ModelReturn(@JsonProperty(JSON_PROPERTY_RETURN) @javax.annotation.Nullable Integer _return) {
     this._return = _return;
   }
 

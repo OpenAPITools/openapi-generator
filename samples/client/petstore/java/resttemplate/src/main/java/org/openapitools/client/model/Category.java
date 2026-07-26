@@ -47,7 +47,7 @@ public class Category {
   /**
    * Constructor with all args parameters
    */
-  public Category(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_NAME) String name) {
+  public Category(@JsonProperty(JSON_PROPERTY_ID) @javax.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_NAME) @javax.annotation.Nonnull String name) {
     this.id = id;
     this.name = name;
   }

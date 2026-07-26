@@ -43,7 +43,7 @@ public class ModelList {
   /**
    * Constructor with all args parameters
    */
-  public ModelList(@JsonProperty(JSON_PROPERTY_123LIST) String _123list) {
+  public ModelList(@JsonProperty(JSON_PROPERTY_123LIST) @javax.annotation.Nullable String _123list) {
     this._123list = _123list;
   }
 
