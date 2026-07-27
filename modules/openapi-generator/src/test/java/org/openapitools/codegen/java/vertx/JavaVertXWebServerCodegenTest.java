@@ -66,7 +66,8 @@ public class JavaVertXWebServerCodegenTest {
         File petApiHandler = files.get(apiHandlerPath);
 
         TestUtils.assertFileContains(petApiHandler.toPath(), "if (routingContext.fileUploads().isEmpty()) {");
-        TestUtils.assertFileContains(petApiHandler.toPath(), "routingContext.fail(400);");
+        TestUtils.assertFileContains(petApiHandler.toPath(), "} else {");
+        TestUtils.assertFileContains(petApiHandler.toPath(), "_file = routingContext.fileUploads().iterator().next();");
     }
 
     private Map<String, File> generatePetstoreServer() throws IOException {
