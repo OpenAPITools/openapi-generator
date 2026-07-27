@@ -626,6 +626,19 @@ public class CrystalClientCodegen extends DefaultCodegen {
             if (notJsonSerializable) {
                 cm.vendorExtensions.put("x-cr-not-json-serializable", Boolean.TRUE);
             }
+
+            // A required property that is also nullable (OpenAPI 3.1 `anyOf: [T, {type: null}]`,
+            // or `type: [T, "null"]`) is emitted as `T?`, and JSON::Serializable accepts a
+            // document that omits a nilable field. Only a required *non-nullable* property makes
+            // deserialisation of `{}` fail, so the generated spec asserts that only when one exists.
+            boolean hasRequiredNonNullable = false;
+            for (CodegenProperty p : cm.getRequiredVars()) {
+                if (!p.isNullable) {
+                    hasRequiredNonNullable = true;
+                    break;
+                }
+            }
+            cm.vendorExtensions.put("x-cr-has-required-non-nullable", hasRequiredNonNullable);
         }
         // process enum in models (sets isEnum flags on properties)
         ModelsMap processed = postProcessModelsEnum(objs);

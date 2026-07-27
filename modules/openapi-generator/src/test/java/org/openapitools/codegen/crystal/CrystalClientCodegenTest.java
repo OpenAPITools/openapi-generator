@@ -752,4 +752,65 @@ public class CrystalClientCodegenTest {
         }
         assertTrue(configSeen && connSeen, "configuration.cr and connection.cr must be generated");
     }
+
+    /**
+     * OpenAPI 3.1 / JSON Schema 2020-12 spells "T or null" as a composition holding an explicit
+     * `{"type": "null"}` member. The null branch must survive as a nullable Crystal type, and it
+     * must stay independent of `required`: a property that is both required and nullable is
+     * mandatory-but-nullable (`T?`), not optional and not `T`.
+     */
+    @Test
+    public void testNullableCompositionIsNullableInCrystal() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+        // parseSpec (not parseFlattenSpec): DefaultGenerator runs the inline model resolver itself,
+        // so this matches exactly what the CLI feeds the generator.
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/crystal/nullable-composition.yaml");
+        CodegenConfig codegen = new CrystalClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        List<File> files = new DefaultGenerator().opts(
+            new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        File model = files.stream()
+            .filter(f -> f.getName().equals("message.cr") &&
+                f.getPath().replace(File.separatorChar, '/').contains("/models/"))
+            .findFirst().orElseThrow(() -> new AssertionError("models/message.cr missing"));
+        String src = FileUtils.readFileToString(model, StandardCharsets.UTF_8);
+
+        // required + non-nullable stays mandatory and non-nullable
+        assertTrue(src.contains("property id : String\n"),
+            "required non-nullable property must stay `String`, got:\n" + src);
+
+        // required + nullable (anyOf composition) -> mandatory but nullable
+        assertTrue(src.contains("property stop_sequence : String?"),
+            "required nullable anyOf property must be `String?`, got:\n" + src);
+        // required + nullable (type-as-array form) -> mandatory but nullable
+        assertTrue(src.contains("property tag : String?"),
+            "required nullable type-as-array property must be `String?`, got:\n" + src);
+        // required + nullable over a $ref -> mandatory but nullable
+        assertTrue(src.contains("property usage : Usage?"),
+            "required nullable $ref property must be `Usage?`, got:\n" + src);
+
+        // nullable required properties stay in the mandatory (positional) part of the constructor
+        assertTrue(src.contains("def initialize(@id : String, @stop_sequence : String?, " +
+                "@tag : String?, @usage : Usage?,"),
+            "nullable required properties must remain positional constructor arguments, got:\n" + src);
+
+        // optional + nullable is still optional and nullable (no double `??`)
+        assertTrue(src.contains("property note : String?"), "optional nullable property must be `String?`");
+        assertTrue(src.contains("property count : Int32?"), "optional nullable oneOf property must be `Int32?`");
+        Assert.assertFalse(src.contains("??"), "must never emit a doubled nullable marker `??`");
+
+        // a genuine multi-member union keeps its wrapper class
+        assertTrue(src.contains("property payload : Payload?"), "union-typed property must reference the wrapper");
+        File union = files.stream()
+            .filter(f -> f.getName().equals("payload.cr") &&
+                f.getPath().replace(File.separatorChar, '/').contains("/models/"))
+            .findFirst().orElseThrow(() -> new AssertionError("models/payload.cr missing"));
+        String unionSrc = FileUtils.readFileToString(union, StandardCharsets.UTF_8);
+        assertTrue(unionSrc.contains("def self.openapi_one_of"),
+            "a multi-member oneOf must keep generating the union wrapper class, got:\n" + unionSrc);
+        assertTrue(unionSrc.contains("TextBlock") && unionSrc.contains("ImageBlock"),
+            "the union wrapper must list both members");
+    }
 }

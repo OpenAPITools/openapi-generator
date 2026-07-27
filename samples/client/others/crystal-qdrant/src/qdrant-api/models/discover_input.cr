@@ -18,12 +18,12 @@ module Qdrant::Api
     property target : VectorInput
 
     @[JSON::Field(key: "context", emit_null: false)]
-    property context : DiscoverInputContext
+    property context : DiscoverInputContext?
 
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@target : VectorInput, @context : DiscoverInputContext)
+    def initialize(@target : VectorInput, @context : DiscoverInputContext?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?

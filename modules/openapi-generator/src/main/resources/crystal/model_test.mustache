@@ -31,7 +31,7 @@ Spectator.describe {{moduleName}}::{{classname}} do
   end
 {{/vendorExtensions.x-cr-discriminator-map}}
 {{^vendorExtensions.x-cr-discriminator-map}}
-{{^hasRequired}}
+{{^vendorExtensions.x-cr-has-required-non-nullable}}
   describe "JSON round-trip" do
     it "parses an empty JSON object and re-serialises to valid JSON" do
       instance = {{moduleName}}::{{classname}}.from_json("{}")
@@ -46,18 +46,19 @@ Spectator.describe {{moduleName}}::{{classname}} do
       expect(instance.to_h).to be_a(Hash(String, JSON::Any))
     end
   end
-{{/hasRequired}}
-{{#hasRequired}}
+{{/vendorExtensions.x-cr-has-required-non-nullable}}
+{{#vendorExtensions.x-cr-has-required-non-nullable}}
   describe "required-field enforcement" do
     # A required, non-nilable property without a default makes JSON::Serializable
     # reject a document that omits it. (Assumes at least one required field has no
     # default; models where every required field has a default are not present in
-    # the generated samples.)
+    # the generated samples.) A required *nullable* property is emitted as `T?`, which
+    # JSON::Serializable happily defaults to nil, so it cannot carry this assertion.
     it "raises when required properties are missing" do
       expect { {{moduleName}}::{{classname}}.from_json("{}") }.to raise_error(JSON::SerializableError)
     end
   end
-{{/hasRequired}}
+{{/vendorExtensions.x-cr-has-required-non-nullable}}
 {{/vendorExtensions.x-cr-discriminator-map}}
 {{/vendorExtensions.x-cr-not-json-serializable}}
 {{/anyOf}}
