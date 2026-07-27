@@ -813,4 +813,57 @@ public class CrystalClientCodegenTest {
         assertTrue(unionSrc.contains("TextBlock") && unionSrc.contains("ImageBlock"),
             "the union wrapper must list both members");
     }
+
+    /**
+     * OpenAPI 3.1 declares webhooks in a top-level `webhooks` object. They are routed through
+     * postProcessWebhooksWithModels, not postProcessOperationsWithModels, so the Crystal-specific
+     * vendor extensions the api template relies on (class name, parameter types, spec helper path)
+     * have to be computed on that path too — otherwise the generated api class has no name, its
+     * parameters have no type, and its spec requires the empty string.
+     */
+    @Test
+    public void testWebhooksGenerateValidApiClasses() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/crystal/webhooks.yaml");
+        CodegenConfig codegen = new CrystalClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        List<File> files = new DefaultGenerator().opts(
+            new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        File webhookApi = files.stream()
+            .filter(f -> f.getName().equals("thing_created.cr") &&
+                f.getPath().replace(File.separatorChar, '/').contains("/api/"))
+            .findFirst().orElseThrow(() -> new AssertionError("api/thing_created.cr missing"));
+        String src = FileUtils.readFileToString(webhookApi, StandardCharsets.UTF_8);
+
+        // the class must actually be named
+        Assert.assertFalse(src.contains("class \n") || src.contains("class  "),
+            "webhook api class must have a name, got:\n" + src);
+        assertTrue(src.contains("module Api") && src.contains("class ThingCreated"),
+            "expected `module Api` + `class ThingCreated`, got:\n" + src);
+
+        // the body parameter must be typed, and qualified so it resolves to the model
+        Assert.assertFalse(src.contains(" : )"), "webhook parameter must have a type, got:\n" + src);
+        assertTrue(src.contains("thing_created_event : OpenAPIClient::ThingCreatedEvent"),
+            "webhook body parameter must be typed and module-qualified, got:\n" + src);
+
+        // the shard entrypoint must load the webhook api file, else its class is undefined
+        File entrypoint = files.stream()
+            .filter(f -> f.getName().equals("openapi_client.cr"))
+            .findFirst().orElseThrow(() -> new AssertionError("shard entrypoint missing"));
+        assertTrue(FileUtils.readFileToString(entrypoint, StandardCharsets.UTF_8)
+                .contains("require \"./openapi_client/api/thing_created\""),
+            "the shard entrypoint must require the webhook api file");
+
+        // the generated spec must require a real path, not ""
+        File webhookSpec = files.stream()
+            .filter(f -> f.getName().equals("thing_created_spec.cr"))
+            .findFirst().orElseThrow(() -> new AssertionError("thing_created_spec.cr missing"));
+        String specSrc = FileUtils.readFileToString(webhookSpec, StandardCharsets.UTF_8);
+        Assert.assertFalse(specSrc.contains("require \"\""),
+            "webhook spec must not require the empty string, got:\n" + specSrc);
+        assertTrue(specSrc.contains("require \"../spec_helper\""),
+            "webhook spec must require the spec helper, got:\n" + specSrc);
+    }
 }

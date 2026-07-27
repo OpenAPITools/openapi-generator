@@ -801,8 +801,33 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
+        processApiGroup(objs, objs.getOperations(), allModels);
+        return objs;
+    }
 
-        OperationMap operations0 = objs.getOperations();
+    /**
+     * OpenAPI 3.1 declares webhooks in a top-level {@code webhooks} object, which the generator
+     * routes here instead of through {@link #postProcessOperationsWithModels}. They are rendered by
+     * the same api template, so they need the same Crystal-specific vendor extensions: without them
+     * the generated class has no name and its parameters no type.
+     */
+    @Override
+    public org.openapitools.codegen.model.WebhooksMap postProcessWebhooksWithModels(
+            org.openapitools.codegen.model.WebhooksMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessWebhooksWithModels(objs, allModels);
+        processApiGroup(objs, objs.getWebhooks(), allModels);
+        return objs;
+    }
+
+    /**
+     * Shared post-processing for one generated api class, whether its operations come from
+     * {@code paths} or from {@code webhooks}.
+     *
+     * @param objs       the template bundle for the api file (also carries specHelperPath)
+     * @param operations the operations to process, or null when the group is empty
+     * @param allModels  every generated model, used to qualify model types and build examples
+     */
+    private void processApiGroup(Map<String, Object> objs, OperationMap operations0, List<ModelMap> allModels) {
         String classname = (operations0 != null) ? operations0.getClassname() : "";
 
         // The api classname is "<apiNamespace>::<rest>" (toApiName prefixes the configured
@@ -837,11 +862,11 @@ public class CrystalClientCodegen extends DefaultCodegen {
         specHelperPath.append("spec_helper");
         objs.put("specHelperPath", specHelperPath.toString());
 
-        if (isSkipOperationExample()) {
-            return objs;
+        if (isSkipOperationExample() || operations0 == null) {
+            return;
         }
 
-        OperationMap operations = objs.getOperations();
+        OperationMap operations = operations0;
         HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
         HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
@@ -923,8 +948,6 @@ public class CrystalClientCodegen extends DefaultCodegen {
             }
             processedModelMaps.clear();
         }
-
-        return objs;
     }
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
