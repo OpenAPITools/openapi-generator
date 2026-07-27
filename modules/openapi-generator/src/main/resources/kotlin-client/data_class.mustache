@@ -152,6 +152,11 @@ import {{packageName}}.infrastructure.ITransformForStorage
     {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{{nameInPascalCase}}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{#jackson}}@get:JsonValue {{/jackson}}val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}{{dataType}}{{/mostInnerItems}}{{/isContainer}}) {
     {{#allowableValues}}
     {{#enumVars}}
+        {{#enumDescription}}
+        /**
+        * {{.}}
+        */
+        {{/enumDescription}}
         {{^multiplatform}}
         {{#moshi}}
         @Json(name = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}

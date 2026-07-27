@@ -76,8 +76,17 @@ data class ApiOrder (
      * Values: PLACED,APPROVED,DELIVERED
      */
     enum class Status(val value: kotlin.String) {
+        /**
+        * An order is placed but not yet approved.
+        */
         @SerializedName(value = "placed") PLACED("placed"),
+        /**
+        * An order is approved and delivery is in progress.
+        */
         @SerializedName(value = "approved") APPROVED("approved"),
+        /**
+        * An order is delivered and finalized.
+        */
         @SerializedName(value = "delivered") DELIVERED("delivered");
     }
 
