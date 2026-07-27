@@ -65,7 +65,6 @@ open class PetApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
-        localVariableHeaders["Content-Type"] = "application/xml"
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
         val params = mutableMapOf<String, Any>(
@@ -261,7 +260,6 @@ open class PetApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
-        localVariableHeaders["Content-Type"] = "application/xml"
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
         val params = mutableMapOf<String, Any>(
