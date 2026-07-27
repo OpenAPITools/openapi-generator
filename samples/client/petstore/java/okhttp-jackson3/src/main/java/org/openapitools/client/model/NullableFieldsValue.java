@@ -48,12 +48,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("NullableFieldsValue")
 public class NullableFieldsValue {
   public static final String JSON_PROPERTY_BEFORE = "before";
-  @JsonProperty(JSON_PROPERTY_BEFORE)
+  @JsonProperty(value = JSON_PROPERTY_BEFORE)
   @javax.annotation.Nullable
   private String before;
 
   public static final String JSON_PROPERTY_AFTER = "after";
-  @JsonProperty(JSON_PROPERTY_AFTER)
+  @JsonProperty(value = JSON_PROPERTY_AFTER)
   @javax.annotation.Nullable
   private String after;
 
@@ -112,7 +112,7 @@ public class NullableFieldsValue {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

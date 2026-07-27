@@ -52,7 +52,7 @@ public class ServerConfiguration {
 
             if (variables != null && variables.containsKey(name)) {
                 value = variables.get(name);
-                if (serverVariable.enumValues.size() > 0 && !serverVariable.enumValues.contains(value)) {
+                if (serverVariable.enumValues != null && serverVariable.enumValues.size() > 0 && !serverVariable.enumValues.contains(value)) {
                     throw new IllegalArgumentException("The variable " + name + " in the server URL has invalid value " + value + ".");
                 }
             }

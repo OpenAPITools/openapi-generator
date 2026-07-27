@@ -208,11 +208,6 @@ public class MammalAnyof extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public MammalAnyof(Pig o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public MammalAnyof(Whale o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
@@ -223,10 +218,15 @@ public class MammalAnyof extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public MammalAnyof(Pig o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Pig", Pig.class);
         schemas.put("Whale", Whale.class);
         schemas.put("Zebra", Zebra.class);
+        schemas.put("Pig", Pig.class);
     }
 
     @Override
@@ -244,17 +244,17 @@ public class MammalAnyof extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class<?>>())) {
-            super.setActualInstance(instance);
-            return;
-        }
-
         if (JSON.isInstanceOf(Whale.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
         if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -268,20 +268,10 @@ public class MammalAnyof extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Pig, Whale, Zebra)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Pig`
-     * @throws ClassCastException if the instance is not `Pig`
-     */
-    public Pig getPig() throws ClassCastException {
-        return (Pig)super.getActualInstance();
     }
 
     /**
@@ -291,6 +281,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
      * @return The actual instance of `Whale`
      * @throws ClassCastException if the instance is not `Whale`
      */
+    @SuppressWarnings("unchecked")
     public Whale getWhale() throws ClassCastException {
         return (Whale)super.getActualInstance();
     }
@@ -302,8 +293,21 @@ public class MammalAnyof extends AbstractOpenApiSchema {
      * @return The actual instance of `Zebra`
      * @throws ClassCastException if the instance is not `Zebra`
      */
+    @SuppressWarnings("unchecked")
     public Zebra getZebra() throws ClassCastException {
         return (Zebra)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Pig`
+     * @throws ClassCastException if the instance is not `Pig`
+     */
+    @SuppressWarnings("unchecked")
+    public Pig getPig() throws ClassCastException {
+        return (Pig)super.getActualInstance();
     }
 
 

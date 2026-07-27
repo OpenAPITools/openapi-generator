@@ -50,17 +50,17 @@ import org.openapitools.client.JSON;
 @JsonTypeName("OuterComposite")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
-  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_MY_NUMBER)
   @javax.annotation.Nullable
   private BigDecimal myNumber;
 
   public static final String JSON_PROPERTY_MY_STRING = "my_string";
-  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MY_STRING)
   @javax.annotation.Nullable
   private String myString;
 
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
-  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN)
   @javax.annotation.Nullable
   private Boolean myBoolean;
 
@@ -143,7 +143,7 @@ public class OuterComposite {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

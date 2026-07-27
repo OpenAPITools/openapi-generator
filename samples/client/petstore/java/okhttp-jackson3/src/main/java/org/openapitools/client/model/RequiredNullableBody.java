@@ -69,67 +69,67 @@ import org.openapitools.client.JSON;
 @JsonTypeName("RequiredNullableBody")
 public class RequiredNullableBody {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
-  @JsonProperty(JSON_PROPERTY_INTEGER_PROP)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER_PROP)
   @javax.annotation.Nullable
   private Integer integerProp;
 
   public static final String JSON_PROPERTY_NUMBER_PROP = "number_prop";
-  @JsonProperty(JSON_PROPERTY_NUMBER_PROP)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER_PROP)
   @javax.annotation.Nullable
   private BigDecimal numberProp;
 
   public static final String JSON_PROPERTY_BOOLEAN_PROP = "boolean_prop";
-  @JsonProperty(JSON_PROPERTY_BOOLEAN_PROP)
+  @JsonProperty(value = JSON_PROPERTY_BOOLEAN_PROP)
   @javax.annotation.Nullable
   private Boolean booleanProp;
 
   public static final String JSON_PROPERTY_STRING_PROP = "string_prop";
-  @JsonProperty(JSON_PROPERTY_STRING_PROP)
+  @JsonProperty(value = JSON_PROPERTY_STRING_PROP)
   @javax.annotation.Nullable
   private String stringProp;
 
   public static final String JSON_PROPERTY_DATE_PROP = "date_prop";
-  @JsonProperty(JSON_PROPERTY_DATE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_DATE_PROP)
   @javax.annotation.Nullable
   private LocalDate dateProp;
 
   public static final String JSON_PROPERTY_DATETIME_PROP = "datetime_prop";
-  @JsonProperty(JSON_PROPERTY_DATETIME_PROP)
+  @JsonProperty(value = JSON_PROPERTY_DATETIME_PROP)
   @javax.annotation.Nullable
   private OffsetDateTime datetimeProp;
 
   public static final String JSON_PROPERTY_ARRAY_NULLABLE_PROP = "array_nullable_prop";
-  @JsonProperty(JSON_PROPERTY_ARRAY_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_NULLABLE_PROP)
   @javax.annotation.Nullable
   private List<Object> arrayNullableProp;
 
   public static final String JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
-  @JsonProperty(JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP)
   @javax.annotation.Nullable
   private List<Object> arrayAndItemsNullableProp;
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
   @javax.annotation.Nonnull
   private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
-  @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_NULLABLE_PROP)
   @javax.annotation.Nullable
   private Map<String, Object> objectNullableProp;
 
   public static final String JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
-  @JsonProperty(JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP)
   @javax.annotation.Nullable
   private Map<String, Object> objectAndItemsNullableProp;
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
-  @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
   @javax.annotation.Nonnull
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public static final String JSON_PROPERTY_CUSTOM_REF_ENUM = "custom_ref_enum";
-  @JsonProperty(JSON_PROPERTY_CUSTOM_REF_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_CUSTOM_REF_ENUM)
   @javax.annotation.Nullable
   private NullableEnum customRefEnum;
 
@@ -168,7 +168,7 @@ public class RequiredNullableBody {
   }
 
   public static final String JSON_PROPERTY_CUSTOM_ENUM = "custom_enum";
-  @JsonProperty(JSON_PROPERTY_CUSTOM_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_CUSTOM_ENUM)
   @javax.annotation.Nullable
   private CustomEnumEnum customEnum;
 
@@ -563,7 +563,7 @@ public class RequiredNullableBody {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

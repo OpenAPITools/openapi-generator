@@ -98,32 +98,6 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
-            // deserialize Order
-            try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Order.class.equals(Integer.class) || Order.class.equals(Long.class) || Order.class.equals(Float.class) || Order.class.equals(Double.class) || Order.class.equals(Boolean.class) || Order.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Order.class.equals(Integer.class) || Order.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Order.class.equals(Float.class) || Order.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Order.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Order.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
-                if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Order.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema 'Order'");
-                }
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'Order'", e);
-            }
-
             // deserialize Pet
             try {
                 boolean attemptParsing = true;
@@ -138,7 +112,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Pet.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Pet>() {});
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -148,6 +122,32 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'Pet'", e);
+            }
+
+            // deserialize Order
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (Order.class.equals(Integer.class) || Order.class.equals(Long.class) || Order.class.equals(Float.class) || Order.class.equals(Double.class) || Order.class.equals(Boolean.class) || Order.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((Order.class.equals(Integer.class) || Order.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((Order.class.equals(Float.class) || Order.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (Order.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (Order.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Order>() {});
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'Order'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'Order'", e);
             }
 
             if (match == 1) {
@@ -174,19 +174,19 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
         super("oneOf", Boolean.FALSE);
     }
 
-    public AllOfModelArrayAnyOfAllOfAttributesC(Order o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public AllOfModelArrayAnyOfAllOfAttributesC(Pet o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public AllOfModelArrayAnyOfAllOfAttributesC(Order o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Order", Order.class);
         schemas.put("Pet", Pet.class);
+        schemas.put("Order", Order.class);
         JSON.registerDescendants(AllOfModelArrayAnyOfAllOfAttributesC.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -205,12 +205,12 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Order.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Pet.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Pet.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Order.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -224,20 +224,10 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
      *
      * @return The actual instance (Order, Pet)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Order`. If the actual instance is not `Order`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Order`
-     * @throws ClassCastException if the instance is not `Order`
-     */
-    public Order getOrder() throws ClassCastException {
-        return (Order)super.getActualInstance();
     }
 
     /**
@@ -247,8 +237,21 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
      * @return The actual instance of `Pet`
      * @throws ClassCastException if the instance is not `Pet`
      */
+    @SuppressWarnings("unchecked")
     public Pet getPet() throws ClassCastException {
         return (Pet)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Order`. If the actual instance is not `Order`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Order`
+     * @throws ClassCastException if the instance is not `Order`
+     */
+    @SuppressWarnings("unchecked")
+    public Order getOrder() throws ClassCastException {
+        return (Order)super.getActualInstance();
     }
 
 

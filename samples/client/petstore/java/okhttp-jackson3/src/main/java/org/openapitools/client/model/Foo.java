@@ -47,7 +47,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("Foo")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR)
   @javax.annotation.Nullable
   private String bar = "bar";
 
@@ -82,7 +82,7 @@ public class Foo {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

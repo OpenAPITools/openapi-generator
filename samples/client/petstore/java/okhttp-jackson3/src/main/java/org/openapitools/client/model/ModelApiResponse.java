@@ -50,17 +50,17 @@ import org.openapitools.client.JSON;
 @JsonTypeName("ApiResponse")
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
-  @JsonProperty(JSON_PROPERTY_CODE)
+  @JsonProperty(value = JSON_PROPERTY_CODE)
   @javax.annotation.Nullable
   private Integer code;
 
   public static final String JSON_PROPERTY_TYPE = "type";
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TYPE)
   @javax.annotation.Nullable
   private String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
-  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @JsonProperty(value = JSON_PROPERTY_MESSAGE)
   @javax.annotation.Nullable
   private String message;
 
@@ -143,7 +143,7 @@ public class ModelApiResponse {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

@@ -87,6 +87,58 @@ public class Scalar extends AbstractOpenApiSchema {
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
+            // deserialize UUID
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (UUID.class.equals(Integer.class) || UUID.class.equals(Long.class) || UUID.class.equals(Float.class) || UUID.class.equals(Double.class) || UUID.class.equals(Boolean.class) || UUID.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((UUID.class.equals(Integer.class) || UUID.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((UUID.class.equals(Float.class) || UUID.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (UUID.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (UUID.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<UUID>() {});
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'UUID'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'UUID'", e);
+            }
+
+            // deserialize String
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (String.class.equals(Integer.class) || String.class.equals(Long.class) || String.class.equals(Float.class) || String.class.equals(Double.class) || String.class.equals(Boolean.class) || String.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((String.class.equals(Integer.class) || String.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((String.class.equals(Float.class) || String.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (String.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (String.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<String>() {});
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'String'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'String'", e);
+            }
+
             // deserialize BigDecimal
             try {
                 boolean attemptParsing = true;
@@ -101,7 +153,7 @@ public class Scalar extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(BigDecimal.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<BigDecimal>() {});
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -127,7 +179,7 @@ public class Scalar extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Boolean.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Boolean>() {});
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -137,58 +189,6 @@ public class Scalar extends AbstractOpenApiSchema {
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'Boolean'", e);
-            }
-
-            // deserialize String
-            try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (String.class.equals(Integer.class) || String.class.equals(Long.class) || String.class.equals(Float.class) || String.class.equals(Double.class) || String.class.equals(Boolean.class) || String.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((String.class.equals(Integer.class) || String.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((String.class.equals(Float.class) || String.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (String.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (String.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
-                if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(String.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema 'String'");
-                }
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'String'", e);
-            }
-
-            // deserialize UUID
-            try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (UUID.class.equals(Integer.class) || UUID.class.equals(Long.class) || UUID.class.equals(Float.class) || UUID.class.equals(Double.class) || UUID.class.equals(Boolean.class) || UUID.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((UUID.class.equals(Integer.class) || UUID.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((UUID.class.equals(Float.class) || UUID.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (UUID.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (UUID.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
-                if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(UUID.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema 'UUID'");
-                }
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'UUID'", e);
             }
 
             if (match == 1) {
@@ -215,6 +215,16 @@ public class Scalar extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
+    public Scalar(UUID o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
+    public Scalar(String o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     public Scalar(BigDecimal o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
@@ -225,21 +235,11 @@ public class Scalar extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
-    public Scalar(String o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Scalar(UUID o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     static {
+        schemas.put("UUID", UUID.class);
+        schemas.put("String", String.class);
         schemas.put("BigDecimal", BigDecimal.class);
         schemas.put("Boolean", Boolean.class);
-        schemas.put("String", String.class);
-        schemas.put("UUID", UUID.class);
         JSON.registerDescendants(Scalar.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -258,12 +258,7 @@ public class Scalar extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(BigDecimal.class, instance, new HashSet<Class<?>>())) {
-            super.setActualInstance(instance);
-            return;
-        }
-
-        if (JSON.isInstanceOf(Boolean.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(UUID.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -273,7 +268,12 @@ public class Scalar extends AbstractOpenApiSchema {
             return;
         }
 
-        if (JSON.isInstanceOf(UUID.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(BigDecimal.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        if (JSON.isInstanceOf(Boolean.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -287,9 +287,34 @@ public class Scalar extends AbstractOpenApiSchema {
      *
      * @return The actual instance (BigDecimal, Boolean, String, UUID)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `UUID`. If the actual instance is not `UUID`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `UUID`
+     * @throws ClassCastException if the instance is not `UUID`
+     */
+    @SuppressWarnings("unchecked")
+    public UUID getUUID() throws ClassCastException {
+        return (UUID)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `String`. If the actual instance is not `String`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `String`
+     * @throws ClassCastException if the instance is not `String`
+     */
+    @SuppressWarnings("unchecked")
+    public String getString() throws ClassCastException {
+        return (String)super.getActualInstance();
     }
 
     /**
@@ -299,6 +324,7 @@ public class Scalar extends AbstractOpenApiSchema {
      * @return The actual instance of `BigDecimal`
      * @throws ClassCastException if the instance is not `BigDecimal`
      */
+    @SuppressWarnings("unchecked")
     public BigDecimal getBigDecimal() throws ClassCastException {
         return (BigDecimal)super.getActualInstance();
     }
@@ -310,30 +336,9 @@ public class Scalar extends AbstractOpenApiSchema {
      * @return The actual instance of `Boolean`
      * @throws ClassCastException if the instance is not `Boolean`
      */
+    @SuppressWarnings("unchecked")
     public Boolean getBoolean() throws ClassCastException {
         return (Boolean)super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `String`. If the actual instance is not `String`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `String`
-     * @throws ClassCastException if the instance is not `String`
-     */
-    public String getString() throws ClassCastException {
-        return (String)super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `UUID`. If the actual instance is not `UUID`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `UUID`
-     * @throws ClassCastException if the instance is not `UUID`
-     */
-    public UUID getUUID() throws ClassCastException {
-        return (UUID)super.getActualInstance();
     }
 
 

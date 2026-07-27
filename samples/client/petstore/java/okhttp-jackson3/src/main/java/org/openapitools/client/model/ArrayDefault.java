@@ -51,12 +51,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("ArrayDefault")
 public class ArrayDefault {
   public static final String JSON_PROPERTY_WITH_DEFAULT_EMPTY_BRACKET = "WithDefaultEmptyBracket";
-  @JsonProperty(JSON_PROPERTY_WITH_DEFAULT_EMPTY_BRACKET)
+  @JsonProperty(value = JSON_PROPERTY_WITH_DEFAULT_EMPTY_BRACKET)
   @javax.annotation.Nullable
   private List<String> withDefaultEmptyBracket = new ArrayList<>();
 
   public static final String JSON_PROPERTY_WITHOUT_DEFAULT = "WithoutDefault";
-  @JsonProperty(JSON_PROPERTY_WITHOUT_DEFAULT)
+  @JsonProperty(value = JSON_PROPERTY_WITHOUT_DEFAULT)
   @javax.annotation.Nullable
   private List<String> withoutDefault = new ArrayList<>();
 
@@ -131,7 +131,7 @@ public class ArrayDefault {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

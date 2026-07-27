@@ -47,7 +47,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("QuadrilateralInterface")
 public class QuadrilateralInterface {
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
-  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_QUADRILATERAL_TYPE)
   @javax.annotation.Nonnull
   private String quadrilateralType;
 
@@ -82,7 +82,7 @@ public class QuadrilateralInterface {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

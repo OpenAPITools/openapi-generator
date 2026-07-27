@@ -219,19 +219,19 @@ public class Shape extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Shape(Quadrilateral o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public Shape(Triangle o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public Shape(Quadrilateral o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Quadrilateral", Quadrilateral.class);
         schemas.put("Triangle", Triangle.class);
+        schemas.put("Quadrilateral", Quadrilateral.class);
     }
 
     @Override
@@ -249,12 +249,12 @@ public class Shape extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Triangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Triangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -268,20 +268,10 @@ public class Shape extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Quadrilateral, Triangle)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Quadrilateral`
-     * @throws ClassCastException if the instance is not `Quadrilateral`
-     */
-    public Quadrilateral getQuadrilateral() throws ClassCastException {
-        return (Quadrilateral)super.getActualInstance();
     }
 
     /**
@@ -291,8 +281,21 @@ public class Shape extends AbstractOpenApiSchema {
      * @return The actual instance of `Triangle`
      * @throws ClassCastException if the instance is not `Triangle`
      */
+    @SuppressWarnings("unchecked")
     public Triangle getTriangle() throws ClassCastException {
         return (Triangle)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Quadrilateral`
+     * @throws ClassCastException if the instance is not `Quadrilateral`
+     */
+    @SuppressWarnings("unchecked")
+    public Quadrilateral getQuadrilateral() throws ClassCastException {
+        return (Quadrilateral)super.getActualInstance();
     }
 
 

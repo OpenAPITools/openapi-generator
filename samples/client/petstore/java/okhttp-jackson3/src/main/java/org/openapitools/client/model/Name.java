@@ -50,24 +50,22 @@ import org.openapitools.client.JSON;
 @JsonTypeName("Name")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME)
   @javax.annotation.Nonnull
   private Integer name;
 
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
-  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, access = JsonProperty.Access.READ_ONLY)
   @javax.annotation.Nullable
   private Integer snakeCase;
 
   public static final String JSON_PROPERTY_PROPERTY = "property";
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY)
   @javax.annotation.Nullable
   private String property;
 
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
-  @JsonProperty(JSON_PROPERTY_123NUMBER)
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_123NUMBER, access = JsonProperty.Access.READ_ONLY)
   @javax.annotation.Nullable
   private Integer _123number;
 
@@ -163,7 +161,7 @@ public class Name {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

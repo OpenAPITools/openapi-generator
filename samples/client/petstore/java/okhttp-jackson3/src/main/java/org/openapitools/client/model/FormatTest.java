@@ -69,87 +69,87 @@ import org.openapitools.client.JSON;
 @JsonTypeName("format_test")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
-  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER)
   @javax.annotation.Nullable
   private Integer integer;
 
   public static final String JSON_PROPERTY_INT32 = "int32";
-  @JsonProperty(JSON_PROPERTY_INT32)
+  @JsonProperty(value = JSON_PROPERTY_INT32)
   @javax.annotation.Nullable
   private Integer int32;
 
   public static final String JSON_PROPERTY_INT64 = "int64";
-  @JsonProperty(JSON_PROPERTY_INT64)
+  @JsonProperty(value = JSON_PROPERTY_INT64)
   @javax.annotation.Nullable
   private Long int64;
 
   public static final String JSON_PROPERTY_NUMBER = "number";
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER)
   @javax.annotation.Nonnull
   private BigDecimal number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT)
   @javax.annotation.Nullable
   private Float _float;
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE)
   @javax.annotation.Nullable
   private Double _double;
 
   public static final String JSON_PROPERTY_DECIMAL = "decimal";
-  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  @JsonProperty(value = JSON_PROPERTY_DECIMAL)
   @javax.annotation.Nullable
   private BigDecimal decimal;
 
   public static final String JSON_PROPERTY_STRING = "string";
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING)
   @javax.annotation.Nullable
   private String string;
 
   public static final String JSON_PROPERTY_BYTE = "byte";
-  @JsonProperty(JSON_PROPERTY_BYTE)
+  @JsonProperty(value = JSON_PROPERTY_BYTE)
   @javax.annotation.Nonnull
   private byte[] _byte;
 
   public static final String JSON_PROPERTY_BINARY = "binary";
-  @JsonProperty(JSON_PROPERTY_BINARY)
+  @JsonProperty(value = JSON_PROPERTY_BINARY)
   @javax.annotation.Nullable
   private File binary;
 
   public static final String JSON_PROPERTY_DATE = "date";
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE)
   @javax.annotation.Nonnull
   private LocalDate date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME)
   @javax.annotation.Nullable
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID)
   @javax.annotation.Nullable
   private UUID uuid;
 
   public static final String JSON_PROPERTY_UUID_WITH_DEFAULT = "uuid_with_default";
-  @JsonProperty(JSON_PROPERTY_UUID_WITH_DEFAULT)
+  @JsonProperty(value = JSON_PROPERTY_UUID_WITH_DEFAULT)
   @javax.annotation.Nullable
   private UUID uuidWithDefault = UUID.fromString("11111111-206d-4f12-9f12-3d1e525a8e84");
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD)
   @javax.annotation.Nonnull
   private String password;
 
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS = "pattern_with_digits";
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
+  @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @javax.annotation.Nullable
   private String patternWithDigits;
 
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
   @javax.annotation.Nullable
   private String patternWithDigitsAndDelimiter;
 
@@ -578,7 +578,7 @@ public class FormatTest {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

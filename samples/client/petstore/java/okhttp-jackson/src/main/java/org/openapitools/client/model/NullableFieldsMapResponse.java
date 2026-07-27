@@ -92,26 +92,26 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
         public NullableFieldsMapResponse deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
             JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
-            // deserialize NullableFieldsMapError
-            try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(NullableFieldsMapError.class);
-                NullableFieldsMapResponse ret = new NullableFieldsMapResponse();
-                ret.setActualInstance(deserialized);
-                return ret;
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'NullableFieldsMapError'", e);
-            }
-
             // deserialize NullableFieldsMapSuccess
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(NullableFieldsMapSuccess.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<NullableFieldsMapSuccess>() {});
                 NullableFieldsMapResponse ret = new NullableFieldsMapResponse();
                 ret.setActualInstance(deserialized);
                 return ret;
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'NullableFieldsMapSuccess'", e);
+            }
+
+            // deserialize NullableFieldsMapError
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<NullableFieldsMapError>() {});
+                NullableFieldsMapResponse ret = new NullableFieldsMapResponse();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'NullableFieldsMapError'", e);
             }
 
             throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for NullableFieldsMapResponse: no match found"));
@@ -133,19 +133,19 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public NullableFieldsMapResponse(NullableFieldsMapError o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public NullableFieldsMapResponse(NullableFieldsMapSuccess o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public NullableFieldsMapResponse(NullableFieldsMapError o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("NullableFieldsMapError", NullableFieldsMapError.class);
         schemas.put("NullableFieldsMapSuccess", NullableFieldsMapSuccess.class);
+        schemas.put("NullableFieldsMapError", NullableFieldsMapError.class);
         JSON.registerDescendants(NullableFieldsMapResponse.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -164,12 +164,12 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(NullableFieldsMapError.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(NullableFieldsMapSuccess.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(NullableFieldsMapSuccess.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(NullableFieldsMapError.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -183,20 +183,10 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
      *
      * @return The actual instance (NullableFieldsMapError, NullableFieldsMapSuccess)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `NullableFieldsMapError`. If the actual instance is not `NullableFieldsMapError`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `NullableFieldsMapError`
-     * @throws ClassCastException if the instance is not `NullableFieldsMapError`
-     */
-    public NullableFieldsMapError getNullableFieldsMapError() throws ClassCastException {
-        return (NullableFieldsMapError)super.getActualInstance();
     }
 
     /**
@@ -206,8 +196,21 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
      * @return The actual instance of `NullableFieldsMapSuccess`
      * @throws ClassCastException if the instance is not `NullableFieldsMapSuccess`
      */
+    @SuppressWarnings("unchecked")
     public NullableFieldsMapSuccess getNullableFieldsMapSuccess() throws ClassCastException {
         return (NullableFieldsMapSuccess)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `NullableFieldsMapError`. If the actual instance is not `NullableFieldsMapError`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `NullableFieldsMapError`
+     * @throws ClassCastException if the instance is not `NullableFieldsMapError`
+     */
+    @SuppressWarnings("unchecked")
+    public NullableFieldsMapError getNullableFieldsMapError() throws ClassCastException {
+        return (NullableFieldsMapError)super.getActualInstance();
     }
 
 

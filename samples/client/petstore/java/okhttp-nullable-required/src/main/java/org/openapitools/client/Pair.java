@@ -19,8 +19,8 @@ public class Pair {
   private final String value;
 
   public Pair(String name, String value) {
-    this.name = isValidString(name) ? name : "";
-    this.value = isValidString(value) ? value : "";
+    this.name = isNotNull(name) ? name : "";
+    this.value = isNotNull(value) ? value : "";
   }
 
   public String getName() {
@@ -31,7 +31,7 @@ public class Pair {
     return this.value;
   }
 
-  private static boolean isValidString(String arg) {
+  private static boolean isNotNull(String arg) {
     return arg != null;
   }
 }

@@ -92,7 +92,7 @@ public class GmFruit extends AbstractOpenApiSchema {
             Object deserialized = null;
             // deserialize Apple
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Apple>() {});
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -103,7 +103,7 @@ public class GmFruit extends AbstractOpenApiSchema {
 
             // deserialize Banana
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Banana>() {});
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -132,7 +132,7 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     public GmFruit(Apple o) {
-        super("anyOf", Boolean.FALSE);
+        super("anyOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
@@ -181,6 +181,7 @@ public class GmFruit extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Apple, Banana)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -193,6 +194,7 @@ public class GmFruit extends AbstractOpenApiSchema {
      * @return The actual instance of `Apple`
      * @throws ClassCastException if the instance is not `Apple`
      */
+    @SuppressWarnings("unchecked")
     public Apple getApple() throws ClassCastException {
         return (Apple)super.getActualInstance();
     }
@@ -204,6 +206,7 @@ public class GmFruit extends AbstractOpenApiSchema {
      * @return The actual instance of `Banana`
      * @throws ClassCastException if the instance is not `Banana`
      */
+    @SuppressWarnings("unchecked")
     public Banana getBanana() throws ClassCastException {
         return (Banana)super.getActualInstance();
     }

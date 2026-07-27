@@ -104,11 +104,10 @@ public class FruitReq extends AbstractOpenApiSchema {
                         attemptParsing |= ((AppleReq.class.equals(Float.class) || AppleReq.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (AppleReq.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (AppleReq.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(AppleReq.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<AppleReq>() {});
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -131,11 +130,10 @@ public class FruitReq extends AbstractOpenApiSchema {
                         attemptParsing |= ((BananaReq.class.equals(Float.class) || BananaReq.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (BananaReq.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (BananaReq.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(BananaReq.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<BananaReq>() {});
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -172,12 +170,12 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     public FruitReq(AppleReq o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     public FruitReq(BananaReq o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
@@ -226,6 +224,7 @@ public class FruitReq extends AbstractOpenApiSchema {
      *
      * @return The actual instance (AppleReq, BananaReq)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -238,6 +237,7 @@ public class FruitReq extends AbstractOpenApiSchema {
      * @return The actual instance of `AppleReq`
      * @throws ClassCastException if the instance is not `AppleReq`
      */
+    @SuppressWarnings("unchecked")
     public AppleReq getAppleReq() throws ClassCastException {
         return (AppleReq)super.getActualInstance();
     }
@@ -249,6 +249,7 @@ public class FruitReq extends AbstractOpenApiSchema {
      * @return The actual instance of `BananaReq`
      * @throws ClassCastException if the instance is not `BananaReq`
      */
+    @SuppressWarnings("unchecked")
     public BananaReq getBananaReq() throws ClassCastException {
         return (BananaReq)super.getActualInstance();
     }

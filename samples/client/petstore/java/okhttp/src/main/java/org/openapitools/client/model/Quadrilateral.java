@@ -219,19 +219,19 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Quadrilateral(ComplexQuadrilateral o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public Quadrilateral(SimpleQuadrilateral o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public Quadrilateral(ComplexQuadrilateral o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
         schemas.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
+        schemas.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
     }
 
     @Override
@@ -249,12 +249,12 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(SimpleQuadrilateral.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(SimpleQuadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -268,20 +268,10 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      *
      * @return The actual instance (ComplexQuadrilateral, SimpleQuadrilateral)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `ComplexQuadrilateral`. If the actual instance is not `ComplexQuadrilateral`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `ComplexQuadrilateral`
-     * @throws ClassCastException if the instance is not `ComplexQuadrilateral`
-     */
-    public ComplexQuadrilateral getComplexQuadrilateral() throws ClassCastException {
-        return (ComplexQuadrilateral)super.getActualInstance();
     }
 
     /**
@@ -291,8 +281,21 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      * @return The actual instance of `SimpleQuadrilateral`
      * @throws ClassCastException if the instance is not `SimpleQuadrilateral`
      */
+    @SuppressWarnings("unchecked")
     public SimpleQuadrilateral getSimpleQuadrilateral() throws ClassCastException {
         return (SimpleQuadrilateral)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `ComplexQuadrilateral`. If the actual instance is not `ComplexQuadrilateral`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `ComplexQuadrilateral`
+     * @throws ClassCastException if the instance is not `ComplexQuadrilateral`
+     */
+    @SuppressWarnings("unchecked")
+    public ComplexQuadrilateral getComplexQuadrilateral() throws ClassCastException {
+        return (ComplexQuadrilateral)super.getActualInstance();
     }
 
 

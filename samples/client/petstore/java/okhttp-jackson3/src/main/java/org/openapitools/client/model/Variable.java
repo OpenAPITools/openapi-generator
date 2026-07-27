@@ -49,12 +49,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("Variable")
 public class Variable {
   public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME)
   @javax.annotation.Nonnull
   private String name;
 
   public static final String JSON_PROPERTY_VALUE = "value";
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE)
   @javax.annotation.Nonnull
   private Value value;
 
@@ -113,7 +113,7 @@ public class Variable {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

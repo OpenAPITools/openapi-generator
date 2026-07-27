@@ -49,17 +49,7 @@ public class StringUtil {
    * @return the resulting string
    */
   public static String join(String[] array, String separator) {
-    int len = array.length;
-    if (len == 0) {
-      return "";
-    }
-
-    StringBuilder out = new StringBuilder();
-    out.append(array[0]);
-    for (int i = 1; i < len; i++) {
-      out.append(separator).append(array[i]);
-    }
-    return out.toString();
+    return String.join(separator, array);
   }
 
   /**
@@ -70,14 +60,6 @@ public class StringUtil {
    * @return the resulting string
    */
   public static String join(Collection<String> list, String separator) {
-    Iterator<String> iterator = list.iterator();
-    StringBuilder out = new StringBuilder();
-    if (iterator.hasNext()) {
-      out.append(iterator.next());
-    }
-    while (iterator.hasNext()) {
-      out.append(separator).append(iterator.next());
-    }
-    return out.toString();
+    return String.join(separator, list);
   }
 }

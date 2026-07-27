@@ -17,6 +17,6 @@ script:
   # test using maven
   #- mvn test
   # test using gradle
-  - gradle test
+  - ./gradlew test
   # test using sbt
   # - sbt test

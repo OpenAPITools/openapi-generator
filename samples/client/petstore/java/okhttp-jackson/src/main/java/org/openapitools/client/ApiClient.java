@@ -1428,8 +1428,17 @@ public class ApiClient {
 
         List<Pair> updatedQueryParams = new ArrayList<>(queryParams);
 
+        byte[] localVarPayload = requestBodyToBytes(reqBody);
+
         // update parameters with authentication settings
-        updateParamsForAuth(authNames, updatedQueryParams, headerParams, cookieParams, requestBodyToString(reqBody), method, URI.create(url));
+        for (String authName : authNames) {
+            Authentication auth = authentications.get(authName);
+            if (auth == null) {
+                throw new RuntimeException("Authentication undefined: " + authName);
+            }
+            URI currentUri = URI.create(buildUrl(baseUrl, path, updatedQueryParams, collectionQueryParams));
+            auth.applyToParams(updatedQueryParams, headerParams, cookieParams, localVarPayload, method, currentUri);
+        }
 
         final Request.Builder reqBuilder = new Request.Builder().url(buildUrl(baseUrl, path, updatedQueryParams, collectionQueryParams));
         processHeaderParams(headerParams, reqBuilder);
@@ -1564,7 +1573,7 @@ public class ApiClient {
      * @throws org.openapitools.client.ApiException If fails to update the parameters
      */
     public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
-                                    Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
+                                    Map<String, String> cookieParams, byte[] payload, String method, URI uri) throws ApiException {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {
@@ -1778,24 +1787,24 @@ public class ApiClient {
     }
 
     /**
-     * Convert the HTTP request body to a string.
+     * Convert the HTTP request body to a byte array.
      *
      * @param requestBody The HTTP request object
-     * @return The string representation of the HTTP request body
-     * @throws org.openapitools.client.ApiException If fail to serialize the request body object into a string
+     * @return The byte array representation of the HTTP request body
+     * @throws org.openapitools.client.ApiException If fail to serialize the request body object into a byte array
      */
-    protected String requestBodyToString(RequestBody requestBody) throws ApiException {
+    protected byte[] requestBodyToBytes(RequestBody requestBody) throws ApiException {
         if (requestBody != null) {
             try {
                 final Buffer buffer = new Buffer();
                 requestBody.writeTo(buffer);
-                return buffer.readUtf8();
+                return buffer.readByteArray();
             } catch (final IOException e) {
                 throw new ApiException(e);
             }
         }
 
         // empty http request body
-        return "";
+        return new byte[0];
     }
 }

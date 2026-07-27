@@ -104,7 +104,7 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<Integer> adapterInteger = gson.getDelegateAdapter(this, TypeToken.get(Integer.class));
             final Type typeInstanceListString = new TypeToken<List<String>>(){}.getType();
-            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListString));
 
             return (TypeAdapter<T>) new TypeAdapter<ArrayAnyOf>() {
                 @Override
@@ -194,7 +194,7 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
 
     static {
         schemas.put("Integer", Integer.class);
-        schemas.put("List<String>", List<String>.class);
+        schemas.put("List<String>", List.class);
     }
 
     @Override
@@ -217,7 +217,7 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
             return;
         }
 
-        if (JSON.isInstanceOf(List<String>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -231,6 +231,7 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Integer, List<String>)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -243,6 +244,7 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
      * @return The actual instance of `Integer`
      * @throws ClassCastException if the instance is not `Integer`
      */
+    @SuppressWarnings("unchecked")
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }
@@ -254,7 +256,8 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
      * @return The actual instance of `List<String>`
      * @throws ClassCastException if the instance is not `List<String>`
      */
-    public List<String> getList<String>() throws ClassCastException {
+    @SuppressWarnings("unchecked")
+    public List<String> getListString() throws ClassCastException {
         return (List<String>)super.getActualInstance();
     }
 

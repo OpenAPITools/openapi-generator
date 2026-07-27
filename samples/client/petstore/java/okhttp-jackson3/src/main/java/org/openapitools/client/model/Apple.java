@@ -49,12 +49,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("apple")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR)
   @javax.annotation.Nullable
   private String cultivar;
 
   public static final String JSON_PROPERTY_ORIGIN = "origin";
-  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonProperty(value = JSON_PROPERTY_ORIGIN)
   @javax.annotation.Nullable
   private String origin;
 
@@ -113,7 +113,7 @@ public class Apple {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
 public class ArrayOfArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @javax.annotation.Nullable
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
@@ -94,7 +94,7 @@ public class ArrayOfArrayOfNumberOnly {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

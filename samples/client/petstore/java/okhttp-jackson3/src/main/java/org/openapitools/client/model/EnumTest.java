@@ -102,7 +102,7 @@ public class EnumTest {
   }
 
   public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING)
   @javax.annotation.Nullable
   private EnumStringEnum enumString;
 
@@ -145,7 +145,7 @@ public class EnumTest {
   }
 
   public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING_REQUIRED)
   @javax.annotation.Nonnull
   private EnumStringRequiredEnum enumStringRequired;
 
@@ -186,7 +186,7 @@ public class EnumTest {
   }
 
   public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER)
   @javax.annotation.Nullable
   private EnumIntegerEnum enumInteger;
 
@@ -227,7 +227,7 @@ public class EnumTest {
   }
 
   public static final String JSON_PROPERTY_ENUM_INTEGER_ONLY = "enum_integer_only";
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER_ONLY)
   @javax.annotation.Nullable
   private EnumIntegerOnlyEnum enumIntegerOnly;
 
@@ -268,28 +268,28 @@ public class EnumTest {
   }
 
   public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
-  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_NUMBER)
   @javax.annotation.Nullable
   private EnumNumberEnum enumNumber;
 
   public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM)
   @javax.annotation.Nullable
   private OuterEnum outerEnum;
 
   public static final String JSON_PROPERTY_OUTER_ENUM_INTEGER = "outerEnumInteger";
   @Deprecated
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER)
   @javax.annotation.Nullable
   private OuterEnumInteger outerEnumInteger;
 
   public static final String JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE = "outerEnumDefaultValue";
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
   @javax.annotation.Nullable
   private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
 
   public static final String JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE = "outerEnumIntegerDefaultValue";
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
   @javax.annotation.Nullable
   private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
@@ -520,7 +520,7 @@ public class EnumTest {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

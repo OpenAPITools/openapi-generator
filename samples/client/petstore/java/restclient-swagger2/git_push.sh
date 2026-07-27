@@ -7,10 +7,16 @@ git_user_id=$1
 git_repo_id=$2
 release_note=$3
 git_host=$4
+git_branch=$5
 
 if [ "$git_host" = "" ]; then
     git_host="github.com"
     echo "[INFO] No command line input provided. Set \$git_host to $git_host"
+fi
+
+if [ "$git_branch" = "" ]; then
+    git_branch="master"
+    echo "[INFO] No command line input provided. Set \$git_branch to $git_branch"
 fi
 
 if [ "$git_user_id" = "" ]; then
@@ -50,8 +56,8 @@ if [ "$git_remote" = "" ]; then # git remote not defined
 
 fi
 
-git pull origin master
+git pull origin "$git_branch"
 
 # Pushes (Forces) the changes in the local repository up to the remote repository
 echo "Git pushing to https://${git_host}/${git_user_id}/${git_repo_id}.git"
-git push origin master 2>&1 | grep -v 'To https'
+git push origin "$git_branch"

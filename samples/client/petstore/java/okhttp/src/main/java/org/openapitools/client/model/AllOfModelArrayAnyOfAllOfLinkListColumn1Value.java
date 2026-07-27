@@ -181,19 +181,19 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         super("anyOf", Boolean.FALSE);
     }
 
-    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(Tag o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(User o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(Tag o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Tag", Tag.class);
         schemas.put("User", User.class);
+        schemas.put("Tag", Tag.class);
     }
 
     @Override
@@ -211,12 +211,12 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Tag.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(User.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(User.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Tag.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -230,20 +230,10 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
      *
      * @return The actual instance (Tag, User)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Tag`. If the actual instance is not `Tag`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Tag`
-     * @throws ClassCastException if the instance is not `Tag`
-     */
-    public Tag getTag() throws ClassCastException {
-        return (Tag)super.getActualInstance();
     }
 
     /**
@@ -253,8 +243,21 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
      * @return The actual instance of `User`
      * @throws ClassCastException if the instance is not `User`
      */
+    @SuppressWarnings("unchecked")
     public User getUser() throws ClassCastException {
         return (User)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Tag`. If the actual instance is not `Tag`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Tag`
+     * @throws ClassCastException if the instance is not `Tag`
+     */
+    @SuppressWarnings("unchecked")
+    public Tag getTag() throws ClassCastException {
+        return (Tag)super.getActualInstance();
     }
 
 

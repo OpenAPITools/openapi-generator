@@ -48,12 +48,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("Tag")
 public class Tag {
   public static final String JSON_PROPERTY_ID = "id";
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID)
   @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME)
   @javax.annotation.Nullable
   private String name;
 
@@ -112,7 +112,7 @@ public class Tag {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

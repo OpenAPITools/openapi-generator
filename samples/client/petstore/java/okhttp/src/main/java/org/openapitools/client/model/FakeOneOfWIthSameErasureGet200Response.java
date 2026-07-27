@@ -91,9 +91,9 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final Type typeInstanceListString = new TypeToken<List<String>>(){}.getType();
-            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListString));
             final Type typeInstanceListInteger = new TypeToken<List<Integer>>(){}.getType();
-            final TypeAdapter<List<Integer>> adapterListInteger = (TypeAdapter<List<Integer>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final TypeAdapter<List<Integer>> adapterListInteger = (TypeAdapter<List<Integer>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListInteger));
 
             return (TypeAdapter<T>) new TypeAdapter<FakeOneOfWIthSameErasureGet200Response>() {
                 @Override
@@ -158,19 +158,15 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
         super("oneOf", Boolean.FALSE);
     }
 
-    public FakeOneOfWIthSameErasureGet200Response(List<Integer> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public FakeOneOfWIthSameErasureGet200Response(List<String> o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+
     static {
-        schemas.put("List<Integer>", List<Integer>.class);
-        schemas.put("List<String>", List<String>.class);
+        schemas.put("List<String>", List.class);
+        schemas.put("List<Integer>", List.class);
     }
 
     @Override
@@ -188,12 +184,7 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(List<Integer>.class, instance, new HashSet<Class<?>>())) {
-            super.setActualInstance(instance);
-            return;
-        }
-
-        if (JSON.isInstanceOf(List<String>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -207,20 +198,10 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
      *
      * @return The actual instance (List<Integer>, List<String>)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `List<Integer>`
-     * @throws ClassCastException if the instance is not `List<Integer>`
-     */
-    public List<Integer> getList<Integer>() throws ClassCastException {
-        return (List<Integer>)super.getActualInstance();
     }
 
     /**
@@ -230,8 +211,21 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
      * @return The actual instance of `List<String>`
      * @throws ClassCastException if the instance is not `List<String>`
      */
-    public List<String> getList<String>() throws ClassCastException {
+    @SuppressWarnings("unchecked")
+    public List<String> getListString() throws ClassCastException {
         return (List<String>)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<Integer>`
+     * @throws ClassCastException if the instance is not `List<Integer>`
+     */
+    @SuppressWarnings("unchecked")
+    public List<Integer> getListInteger() throws ClassCastException {
+        return (List<Integer>)super.getActualInstance();
     }
 
 

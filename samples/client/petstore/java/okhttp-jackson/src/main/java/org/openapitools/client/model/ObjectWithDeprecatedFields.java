@@ -56,25 +56,25 @@ import org.openapitools.client.JSON;
 @JsonTypeName("ObjectWithDeprecatedFields")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID)
   @javax.annotation.Nullable
   private String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
   @Deprecated
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID)
   @javax.annotation.Nullable
   private BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
   @Deprecated
-  @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
+  @JsonProperty(value = JSON_PROPERTY_DEPRECATED_REF)
   @javax.annotation.Nullable
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
   @Deprecated
-  @JsonProperty(JSON_PROPERTY_BARS)
+  @JsonProperty(value = JSON_PROPERTY_BARS)
   @javax.annotation.Nullable
   private List<String> bars = new ArrayList<>();
 
@@ -201,7 +201,7 @@ public class ObjectWithDeprecatedFields {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

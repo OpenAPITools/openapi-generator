@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("TriangleInterface")
 public class TriangleInterface {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE)
   @javax.annotation.Nonnull
   private String triangleType;
 
@@ -83,7 +83,7 @@ public class TriangleInterface {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

@@ -28,7 +28,6 @@ public class ProgressResponseBody extends ResponseBody {
 
     private final ResponseBody responseBody;
     private final ApiCallback callback;
-    private BufferedSource bufferedSource;
 
     public ProgressResponseBody(ResponseBody responseBody, ApiCallback callback) {
         this.responseBody = responseBody;
@@ -47,10 +46,7 @@ public class ProgressResponseBody extends ResponseBody {
 
     @Override
     public BufferedSource source() {
-        if (bufferedSource == null) {
-            bufferedSource = Okio.buffer(source(responseBody.source()));
-        }
-        return bufferedSource;
+        return Okio.buffer(source(responseBody.source()));
     }
 
     private Source source(Source source) {

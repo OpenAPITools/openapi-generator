@@ -67,7 +67,7 @@ public class AWS4Auth implements Authentication {
 
   @Override
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams,
-      Map<String, String> cookieParams, String payload, String method, URI uri)
+      Map<String, String> cookieParams, byte[] payload, String method, URI uri)
       throws ApiException {
 
     SdkHttpFullRequest.Builder requestBuilder =
@@ -76,8 +76,7 @@ public class AWS4Auth implements Authentication {
     ContentStreamProvider provider = new ContentStreamProvider() {
       @Override
       public InputStream newStream() {
-        InputStream is = new ByteArrayInputStream(payload.getBytes(StandardCharsets.UTF_8));
-        return is;
+        return new ByteArrayInputStream(payload);
       }
     };
 

@@ -85,9 +85,31 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         public ScalarAnyOf deserialize(JsonParser jp, DeserializationContext ctxt) throws JacksonException {
             JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
+            // deserialize UUID
+            try {
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<UUID>() {}));
+                ScalarAnyOf ret = new ScalarAnyOf();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'UUID'", e);
+            }
+
+            // deserialize String
+            try {
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<String>() {}));
+                ScalarAnyOf ret = new ScalarAnyOf();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'String'", e);
+            }
+
             // deserialize BigDecimal
             try {
-                deserialized = ctxt.readTreeAsValue(tree, BigDecimal.class);
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<BigDecimal>() {}));
                 ScalarAnyOf ret = new ScalarAnyOf();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -98,35 +120,13 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
 
             // deserialize Boolean
             try {
-                deserialized = ctxt.readTreeAsValue(tree, Boolean.class);
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<Boolean>() {}));
                 ScalarAnyOf ret = new ScalarAnyOf();
                 ret.setActualInstance(deserialized);
                 return ret;
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'Boolean'", e);
-            }
-
-            // deserialize String
-            try {
-                deserialized = ctxt.readTreeAsValue(tree, String.class);
-                ScalarAnyOf ret = new ScalarAnyOf();
-                ret.setActualInstance(deserialized);
-                return ret;
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'String'", e);
-            }
-
-            // deserialize UUID
-            try {
-                deserialized = ctxt.readTreeAsValue(tree, UUID.class);
-                ScalarAnyOf ret = new ScalarAnyOf();
-                ret.setActualInstance(deserialized);
-                return ret;
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'UUID'", e);
             }
 
             throw DatabindException.from(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for ScalarAnyOf: no match found"));
@@ -148,6 +148,16 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
+    public ScalarAnyOf(UUID o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
+    public ScalarAnyOf(String o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     public ScalarAnyOf(BigDecimal o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
@@ -158,21 +168,11 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
-    public ScalarAnyOf(String o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public ScalarAnyOf(UUID o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     static {
+        schemas.put("UUID", UUID.class);
+        schemas.put("String", String.class);
         schemas.put("BigDecimal", BigDecimal.class);
         schemas.put("Boolean", Boolean.class);
-        schemas.put("String", String.class);
-        schemas.put("UUID", UUID.class);
         JSON.registerDescendants(ScalarAnyOf.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -191,12 +191,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(BigDecimal.class, instance, new HashSet<Class<?>>())) {
-            super.setActualInstance(instance);
-            return;
-        }
-
-        if (JSON.isInstanceOf(Boolean.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(UUID.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -206,7 +201,12 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
             return;
         }
 
-        if (JSON.isInstanceOf(UUID.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(BigDecimal.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        if (JSON.isInstanceOf(Boolean.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -220,9 +220,34 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
      *
      * @return The actual instance (BigDecimal, Boolean, String, UUID)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `UUID`. If the actual instance is not `UUID`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `UUID`
+     * @throws ClassCastException if the instance is not `UUID`
+     */
+    @SuppressWarnings("unchecked")
+    public UUID getUUID() throws ClassCastException {
+        return (UUID)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `String`. If the actual instance is not `String`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `String`
+     * @throws ClassCastException if the instance is not `String`
+     */
+    @SuppressWarnings("unchecked")
+    public String getString() throws ClassCastException {
+        return (String)super.getActualInstance();
     }
 
     /**
@@ -232,6 +257,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
      * @return The actual instance of `BigDecimal`
      * @throws ClassCastException if the instance is not `BigDecimal`
      */
+    @SuppressWarnings("unchecked")
     public BigDecimal getBigDecimal() throws ClassCastException {
         return (BigDecimal)super.getActualInstance();
     }
@@ -243,30 +269,9 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
      * @return The actual instance of `Boolean`
      * @throws ClassCastException if the instance is not `Boolean`
      */
+    @SuppressWarnings("unchecked")
     public Boolean getBoolean() throws ClassCastException {
         return (Boolean)super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `String`. If the actual instance is not `String`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `String`
-     * @throws ClassCastException if the instance is not `String`
-     */
-    public String getString() throws ClassCastException {
-        return (String)super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `UUID`. If the actual instance is not `UUID`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `UUID`
-     * @throws ClassCastException if the instance is not `UUID`
-     */
-    public UUID getUUID() throws ClassCastException {
-        return (UUID)super.getActualInstance();
     }
 
 

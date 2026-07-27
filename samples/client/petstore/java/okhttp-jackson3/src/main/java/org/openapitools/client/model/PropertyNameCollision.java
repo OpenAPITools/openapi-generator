@@ -49,17 +49,17 @@ import org.openapitools.client.JSON;
 @JsonTypeName("PropertyNameCollision")
 public class PropertyNameCollision {
   public static final String JSON_PROPERTY_UNDERSCORE_TYPE = "_type";
-  @JsonProperty(JSON_PROPERTY_UNDERSCORE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_UNDERSCORE_TYPE)
   @javax.annotation.Nullable
   private String underscoreType;
 
   public static final String JSON_PROPERTY_TYPE = "type";
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TYPE)
   @javax.annotation.Nullable
   private String type;
 
   public static final String JSON_PROPERTY_TYPE_WITH_UNDERSCORE = "type_";
-  @JsonProperty(JSON_PROPERTY_TYPE_WITH_UNDERSCORE)
+  @JsonProperty(value = JSON_PROPERTY_TYPE_WITH_UNDERSCORE)
   @javax.annotation.Nullable
   private String typeWithUnderscore;
 
@@ -142,7 +142,7 @@ public class PropertyNameCollision {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

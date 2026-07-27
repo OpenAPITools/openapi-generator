@@ -58,7 +58,7 @@ public class Example {
 | **pathString** | **String**|  | |
 | **pathInteger** | **Integer**|  | |
 | **enumNonrefStringPath** | **String**|  | [enum: success, failure, unclassified] |
-| **enumRefStringPath** | [**StringEnumRef**](.md)|  | [enum: success, failure, unclassified] |
+| **enumRefStringPath** | [**StringEnumRef**](StringEnumRef.md)|  | [enum: success, failure, unclassified] |
 
 ### Return type
 

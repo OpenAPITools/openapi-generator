@@ -33,5 +33,5 @@ public interface Authentication {
      * @param uri URI
      * @throws ApiException if failed to update the parameters
      */
-    void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException;
+    void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, byte[] payload, String method, URI uri) throws ApiException;
 }

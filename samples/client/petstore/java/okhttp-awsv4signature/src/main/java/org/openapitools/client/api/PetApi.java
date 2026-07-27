@@ -132,7 +132,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "AWS4Auth", "petstore_auth" };
+        String[] localVarAuthNames = new String[] { "petstore_auth", "AWS4Auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -269,7 +269,7 @@ public class PetApi {
         }
 
 
-        String[] localVarAuthNames = new String[] { "AWS4Auth", "petstore_auth" };
+        String[] localVarAuthNames = new String[] { "petstore_auth", "AWS4Auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -400,7 +400,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "AWS4Auth", "petstore_auth" };
+        String[] localVarAuthNames = new String[] { "petstore_auth", "AWS4Auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -539,7 +539,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "AWS4Auth", "petstore_auth" };
+        String[] localVarAuthNames = new String[] { "petstore_auth", "AWS4Auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -681,7 +681,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "AWS4Auth", "api_key" };
+        String[] localVarAuthNames = new String[] { "api_key", "AWS4Auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -823,7 +823,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "AWS4Auth", "petstore_auth" };
+        String[] localVarAuthNames = new String[] { "petstore_auth", "AWS4Auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -977,7 +977,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "AWS4Auth", "petstore_auth" };
+        String[] localVarAuthNames = new String[] { "petstore_auth", "AWS4Auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -1117,7 +1117,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "AWS4Auth", "petstore_auth" };
+        String[] localVarAuthNames = new String[] { "petstore_auth", "AWS4Auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 

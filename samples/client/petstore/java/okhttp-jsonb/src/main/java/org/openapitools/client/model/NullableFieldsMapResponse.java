@@ -51,19 +51,19 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public NullableFieldsMapResponse(NullableFieldsMapError o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public NullableFieldsMapResponse(NullableFieldsMapSuccess o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public NullableFieldsMapResponse(NullableFieldsMapError o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("NullableFieldsMapError", NullableFieldsMapError.class);
         schemas.put("NullableFieldsMapSuccess", NullableFieldsMapSuccess.class);
+        schemas.put("NullableFieldsMapError", NullableFieldsMapError.class);
     }
 
     @Override
@@ -81,12 +81,12 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(NullableFieldsMapError.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(NullableFieldsMapSuccess.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(NullableFieldsMapSuccess.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(NullableFieldsMapError.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -100,20 +100,10 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
      *
      * @return The actual instance (NullableFieldsMapError, NullableFieldsMapSuccess)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `NullableFieldsMapError`. If the actual instance is not `NullableFieldsMapError`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `NullableFieldsMapError`
-     * @throws ClassCastException if the instance is not `NullableFieldsMapError`
-     */
-    public NullableFieldsMapError getNullableFieldsMapError() throws ClassCastException {
-        return (NullableFieldsMapError)super.getActualInstance();
     }
 
     /**
@@ -123,8 +113,21 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
      * @return The actual instance of `NullableFieldsMapSuccess`
      * @throws ClassCastException if the instance is not `NullableFieldsMapSuccess`
      */
+    @SuppressWarnings("unchecked")
     public NullableFieldsMapSuccess getNullableFieldsMapSuccess() throws ClassCastException {
         return (NullableFieldsMapSuccess)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `NullableFieldsMapError`. If the actual instance is not `NullableFieldsMapError`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `NullableFieldsMapError`
+     * @throws ClassCastException if the instance is not `NullableFieldsMapError`
+     */
+    @SuppressWarnings("unchecked")
+    public NullableFieldsMapError getNullableFieldsMapError() throws ClassCastException {
+        return (NullableFieldsMapError)super.getActualInstance();
     }
 
 

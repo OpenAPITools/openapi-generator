@@ -60,42 +60,42 @@ import org.openapitools.client.JSON;
 @JsonTypeName("AdditionalPropertiesClass")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY)
   @javax.annotation.Nullable
   private Map<String, String> mapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
   @javax.annotation.Nullable
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
-  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
+  @JsonProperty(value = JSON_PROPERTY_ANYTYPE1)
   @javax.annotation.Nullable
   private Object anytype1 = null;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1 = "map_with_undeclared_properties_anytype_1";
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
   @javax.annotation.Nullable
   private Object mapWithUndeclaredPropertiesAnytype1;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2 = "map_with_undeclared_properties_anytype_2";
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
   @javax.annotation.Nullable
   private Object mapWithUndeclaredPropertiesAnytype2;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3 = "map_with_undeclared_properties_anytype_3";
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
   @javax.annotation.Nullable
   private Map<String, Object> mapWithUndeclaredPropertiesAnytype3 = new HashMap<>();
 
   public static final String JSON_PROPERTY_EMPTY_MAP = "empty_map";
-  @JsonProperty(JSON_PROPERTY_EMPTY_MAP)
+  @JsonProperty(value = JSON_PROPERTY_EMPTY_MAP)
   @javax.annotation.Nullable
   private Object emptyMap;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING = "map_with_undeclared_properties_string";
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
   @javax.annotation.Nullable
   private Map<String, String> mapWithUndeclaredPropertiesString = new HashMap<>();
 
@@ -330,7 +330,7 @@ public class AdditionalPropertiesClass {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

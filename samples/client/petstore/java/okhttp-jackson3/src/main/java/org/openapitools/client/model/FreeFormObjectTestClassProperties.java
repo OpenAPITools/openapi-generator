@@ -88,32 +88,6 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
             boolean typeCoercion = false;
             int match = 0;
             JsonToken token = tree.asToken();
-            // deserialize Map<String, Object>
-            try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Map<String, Object>.class.equals(Integer.class) || Map<String, Object>.class.equals(Long.class) || Map<String, Object>.class.equals(Float.class) || Map<String, Object>.class.equals(Double.class) || Map<String, Object>.class.equals(Boolean.class) || Map<String, Object>.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Map<String, Object>.class.equals(Integer.class) || Map<String, Object>.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Map<String, Object>.class.equals(Float.class) || Map<String, Object>.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Map<String, Object>.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Map<String, Object>.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
-                if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, Map<String, Object>.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema 'Map<String, Object>'");
-                }
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'Map<String, Object>'", e);
-            }
-
             // deserialize String
             try {
                 boolean attemptParsing = true;
@@ -128,7 +102,7 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, String.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<String>() {}));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -138,6 +112,32 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'String'", e);
+            }
+
+            // deserialize Map<String, Object>
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (Map.class.equals(Integer.class) || Map.class.equals(Long.class) || Map.class.equals(Float.class) || Map.class.equals(Double.class) || Map.class.equals(Boolean.class) || Map.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((Map.class.equals(Integer.class) || Map.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((Map.class.equals(Float.class) || Map.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (Map.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (Map.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<Map<String, Object>>() {}));
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'Map<String, Object>'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'Map<String, Object>'", e);
             }
 
             if (match == 1) {
@@ -164,19 +164,19 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public FreeFormObjectTestClassProperties(Map<String, Object> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public FreeFormObjectTestClassProperties(String o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public FreeFormObjectTestClassProperties(Map<String, Object> o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Map<String, Object>", Map<String, Object>.class);
         schemas.put("String", String.class);
+        schemas.put("Map<String, Object>", Map.class);
         JSON.registerDescendants(FreeFormObjectTestClassProperties.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -195,12 +195,12 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Map<String, Object>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Map.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -214,20 +214,10 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Map<String, Object>, String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Map<String, Object>`. If the actual instance is not `Map<String, Object>`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Map<String, Object>`
-     * @throws ClassCastException if the instance is not `Map<String, Object>`
-     */
-    public Map<String, Object> getMap<String, Object>() throws ClassCastException {
-        return (Map<String, Object>)super.getActualInstance();
     }
 
     /**
@@ -237,8 +227,21 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Map<String, Object>`. If the actual instance is not `Map<String, Object>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Map<String, Object>`
+     * @throws ClassCastException if the instance is not `Map<String, Object>`
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getMapStringObject() throws ClassCastException {
+        return (Map<String, Object>)super.getActualInstance();
     }
 
 

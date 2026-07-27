@@ -187,19 +187,19 @@ public class RefRefToPathLevelParameterOneofRefToOneofParameter extends Abstract
         super("oneOf", Boolean.FALSE);
     }
 
-    public RefRefToPathLevelParameterOneofRefToOneofParameter(Integer o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public RefRefToPathLevelParameterOneofRefToOneofParameter(String o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public RefRefToPathLevelParameterOneofRefToOneofParameter(Integer o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Integer", Integer.class);
         schemas.put("String", String.class);
+        schemas.put("Integer", Integer.class);
     }
 
     @Override
@@ -217,12 +217,12 @@ public class RefRefToPathLevelParameterOneofRefToOneofParameter extends Abstract
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Integer.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Integer.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -236,20 +236,10 @@ public class RefRefToPathLevelParameterOneofRefToOneofParameter extends Abstract
      *
      * @return The actual instance (Integer, String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Integer`. If the actual instance is not `Integer`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Integer`
-     * @throws ClassCastException if the instance is not `Integer`
-     */
-    public Integer getInteger() throws ClassCastException {
-        return (Integer)super.getActualInstance();
     }
 
     /**
@@ -259,8 +249,21 @@ public class RefRefToPathLevelParameterOneofRefToOneofParameter extends Abstract
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Integer`. If the actual instance is not `Integer`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Integer`
+     * @throws ClassCastException if the instance is not `Integer`
+     */
+    @SuppressWarnings("unchecked")
+    public Integer getInteger() throws ClassCastException {
+        return (Integer)super.getActualInstance();
     }
 
 

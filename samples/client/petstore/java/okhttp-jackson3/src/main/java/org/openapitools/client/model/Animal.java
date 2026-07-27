@@ -61,12 +61,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("Animal")
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME)
   @javax.annotation.Nonnull
   protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR)
   @javax.annotation.Nullable
   private String color = "red";
 
@@ -126,7 +126,7 @@ public class Animal {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

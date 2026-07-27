@@ -104,7 +104,7 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<String> adapterString = gson.getDelegateAdapter(this, TypeToken.get(String.class));
             final Type typeInstanceMapStringObject = new TypeToken<Map<String, Object>>(){}.getType();
-            final TypeAdapter<Map<String, Object>> adapterMapStringObject = (TypeAdapter<Map<String, Object>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final TypeAdapter<Map<String, Object>> adapterMapStringObject = (TypeAdapter<Map<String, Object>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceMapStringObject));
 
             return (TypeAdapter<T>) new TypeAdapter<FreeFormObjectTestClassProperties>() {
                 @Override
@@ -191,19 +191,19 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public FreeFormObjectTestClassProperties(Map<String, Object> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public FreeFormObjectTestClassProperties(String o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public FreeFormObjectTestClassProperties(Map<String, Object> o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Map<String, Object>", Map<String, Object>.class);
         schemas.put("String", String.class);
+        schemas.put("Map<String, Object>", Map.class);
     }
 
     @Override
@@ -221,12 +221,12 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Map<String, Object>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Map.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -240,20 +240,10 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Map<String, Object>, String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Map<String, Object>`. If the actual instance is not `Map<String, Object>`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Map<String, Object>`
-     * @throws ClassCastException if the instance is not `Map<String, Object>`
-     */
-    public Map<String, Object> getMap<String, Object>() throws ClassCastException {
-        return (Map<String, Object>)super.getActualInstance();
     }
 
     /**
@@ -263,8 +253,21 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Map<String, Object>`. If the actual instance is not `Map<String, Object>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Map<String, Object>`
+     * @throws ClassCastException if the instance is not `Map<String, Object>`
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getMapStringObject() throws ClassCastException {
+        return (Map<String, Object>)super.getActualInstance();
     }
 
 

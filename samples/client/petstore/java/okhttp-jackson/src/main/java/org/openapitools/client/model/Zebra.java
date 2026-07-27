@@ -87,12 +87,12 @@ public class Zebra {
   }
 
   public static final String JSON_PROPERTY_TYPE = "type";
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TYPE)
   @javax.annotation.Nullable
   private TypeEnum type;
 
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME)
   @javax.annotation.Nonnull
   private String className;
 
@@ -151,7 +151,7 @@ public class Zebra {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

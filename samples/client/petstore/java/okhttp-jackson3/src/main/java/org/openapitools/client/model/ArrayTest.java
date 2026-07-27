@@ -53,17 +53,17 @@ import org.openapitools.client.JSON;
 @JsonTypeName("ArrayTest")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
-  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_OF_STRING)
   @javax.annotation.Nullable
   private List<String> arrayOfString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @javax.annotation.Nullable
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @javax.annotation.Nullable
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
@@ -170,7 +170,7 @@ public class ArrayTest {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

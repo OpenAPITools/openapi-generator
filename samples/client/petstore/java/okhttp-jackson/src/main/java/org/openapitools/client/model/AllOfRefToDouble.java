@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("AllOfRefToDouble")
 public class AllOfRefToDouble {
   public static final String JSON_PROPERTY_HEIGHT = "height";
-  @JsonProperty(JSON_PROPERTY_HEIGHT)
+  @JsonProperty(value = JSON_PROPERTY_HEIGHT)
   @javax.annotation.Nullable
   private Double height = 32.1d;
 
@@ -83,7 +83,7 @@ public class AllOfRefToDouble {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

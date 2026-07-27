@@ -53,32 +53,32 @@ import org.openapitools.client.JSON;
 @JsonTypeName("Capitalization")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL)
   @javax.annotation.Nullable
   private String smallCamel;
 
   public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL)
   @javax.annotation.Nullable
   private String capitalCamel;
 
   public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE)
   @javax.annotation.Nullable
   private String smallSnake;
 
   public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE)
   @javax.annotation.Nullable
   private String capitalSnake;
 
   public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
   @javax.annotation.Nullable
   private String scAETHFlowPoints;
 
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E)
   @javax.annotation.Nullable
   private String ATT_NAME;
 
@@ -233,7 +233,7 @@ public class Capitalization {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

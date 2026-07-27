@@ -105,7 +105,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final Type typeInstanceListOneOf1 = new TypeToken<List<@Valid OneOf1>>(){}.getType();
-            final TypeAdapter<List<@Valid OneOf1>> adapterListOneOf1 = (TypeAdapter<List<@Valid OneOf1>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final TypeAdapter<List<@Valid OneOf1>> adapterListOneOf1 = (TypeAdapter<List<@Valid OneOf1>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListOneOf1));
             final TypeAdapter<OneOf1> adapterOneOf1 = gson.getDelegateAdapter(this, TypeToken.get(OneOf1.class));
 
             return (TypeAdapter<T>) new TypeAdapter<MyExampleGet200Response>() {
@@ -202,7 +202,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("List<@Valid OneOf1>", List<@Valid OneOf1>.class);
+        schemas.put("List<@Valid OneOf1>", List.class);
         schemas.put("OneOf1", OneOf1.class);
     }
 
@@ -221,7 +221,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(List<@Valid OneOf1>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -240,6 +240,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
      *
      * @return The actual instance (List<@Valid OneOf1>, OneOf1)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -252,7 +253,8 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
      * @return The actual instance of `List<@Valid OneOf1>`
      * @throws ClassCastException if the instance is not `List<@Valid OneOf1>`
      */
-    public List<@Valid OneOf1> getList<@Valid OneOf1>() throws ClassCastException {
+    @SuppressWarnings("unchecked")
+    public List<@Valid OneOf1> getListOneOf1() throws ClassCastException {
         return (List<@Valid OneOf1>)super.getActualInstance();
     }
 
@@ -263,6 +265,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
      * @return The actual instance of `OneOf1`
      * @throws ClassCastException if the instance is not `OneOf1`
      */
+    @SuppressWarnings("unchecked")
     public OneOf1 getOneOf1() throws ClassCastException {
         return (OneOf1)super.getActualInstance();
     }

@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("NumberOnly")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER)
   @javax.annotation.Nullable
   private BigDecimal justNumber;
 
@@ -84,7 +84,7 @@ public class NumberOnly {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

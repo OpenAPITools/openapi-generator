@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("NestedArrayWithDefaultValues")
 public class NestedArrayWithDefaultValues {
   public static final String JSON_PROPERTY_NESTED_ARRAY = "nestedArray";
-  @JsonProperty(JSON_PROPERTY_NESTED_ARRAY)
+  @JsonProperty(value = JSON_PROPERTY_NESTED_ARRAY)
   @javax.annotation.Nullable
   private List<List<String>> nestedArray;
 
@@ -94,7 +94,7 @@ public class NestedArrayWithDefaultValues {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

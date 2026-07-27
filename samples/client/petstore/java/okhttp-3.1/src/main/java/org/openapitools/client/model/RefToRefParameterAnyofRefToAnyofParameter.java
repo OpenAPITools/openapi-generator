@@ -102,7 +102,7 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<String> adapterString = gson.getDelegateAdapter(this, TypeToken.get(String.class));
             final Type typeInstanceListString = new TypeToken<List<String>>(){}.getType();
-            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListString));
 
             return (TypeAdapter<T>) new TypeAdapter<RefToRefParameterAnyofRefToAnyofParameter>() {
                 @Override
@@ -189,19 +189,19 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
         super("oneOf", Boolean.FALSE);
     }
 
-    public RefToRefParameterAnyofRefToAnyofParameter(List<String> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public RefToRefParameterAnyofRefToAnyofParameter(String o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public RefToRefParameterAnyofRefToAnyofParameter(List<String> o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("List<String>", List<String>.class);
         schemas.put("String", String.class);
+        schemas.put("List<String>", List.class);
     }
 
     @Override
@@ -219,12 +219,12 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(List<String>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -238,20 +238,10 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
      *
      * @return The actual instance (List<String>, String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `List<String>`
-     * @throws ClassCastException if the instance is not `List<String>`
-     */
-    public List<String> getList<String>() throws ClassCastException {
-        return (List<String>)super.getActualInstance();
     }
 
     /**
@@ -261,8 +251,21 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<String>`
+     * @throws ClassCastException if the instance is not `List<String>`
+     */
+    @SuppressWarnings("unchecked")
+    public List<String> getListString() throws ClassCastException {
+        return (List<String>)super.getActualInstance();
     }
 
 

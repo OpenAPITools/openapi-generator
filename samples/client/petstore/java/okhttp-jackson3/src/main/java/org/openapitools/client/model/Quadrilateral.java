@@ -112,32 +112,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             boolean typeCoercion = false;
             int match = 0;
             JsonToken token = tree.asToken();
-            // deserialize ComplexQuadrilateral
-            try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (ComplexQuadrilateral.class.equals(Integer.class) || ComplexQuadrilateral.class.equals(Long.class) || ComplexQuadrilateral.class.equals(Float.class) || ComplexQuadrilateral.class.equals(Double.class) || ComplexQuadrilateral.class.equals(Boolean.class) || ComplexQuadrilateral.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((ComplexQuadrilateral.class.equals(Integer.class) || ComplexQuadrilateral.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((ComplexQuadrilateral.class.equals(Float.class) || ComplexQuadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (ComplexQuadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (ComplexQuadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
-                if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, ComplexQuadrilateral.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
-                }
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'ComplexQuadrilateral'", e);
-            }
-
             // deserialize SimpleQuadrilateral
             try {
                 boolean attemptParsing = true;
@@ -152,7 +126,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, SimpleQuadrilateral.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<SimpleQuadrilateral>() {}));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -162,6 +136,32 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'SimpleQuadrilateral'", e);
+            }
+
+            // deserialize ComplexQuadrilateral
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (ComplexQuadrilateral.class.equals(Integer.class) || ComplexQuadrilateral.class.equals(Long.class) || ComplexQuadrilateral.class.equals(Float.class) || ComplexQuadrilateral.class.equals(Double.class) || ComplexQuadrilateral.class.equals(Boolean.class) || ComplexQuadrilateral.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((ComplexQuadrilateral.class.equals(Integer.class) || ComplexQuadrilateral.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((ComplexQuadrilateral.class.equals(Float.class) || ComplexQuadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (ComplexQuadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (ComplexQuadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<ComplexQuadrilateral>() {}));
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'ComplexQuadrilateral'", e);
             }
 
             if (match == 1) {
@@ -188,19 +188,19 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Quadrilateral(ComplexQuadrilateral o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public Quadrilateral(SimpleQuadrilateral o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public Quadrilateral(ComplexQuadrilateral o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
         schemas.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
+        schemas.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
         JSON.registerDescendants(Quadrilateral.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
@@ -225,12 +225,12 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(SimpleQuadrilateral.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(SimpleQuadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -244,20 +244,10 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      *
      * @return The actual instance (ComplexQuadrilateral, SimpleQuadrilateral)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `ComplexQuadrilateral`. If the actual instance is not `ComplexQuadrilateral`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `ComplexQuadrilateral`
-     * @throws ClassCastException if the instance is not `ComplexQuadrilateral`
-     */
-    public ComplexQuadrilateral getComplexQuadrilateral() throws ClassCastException {
-        return (ComplexQuadrilateral)super.getActualInstance();
     }
 
     /**
@@ -267,8 +257,21 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      * @return The actual instance of `SimpleQuadrilateral`
      * @throws ClassCastException if the instance is not `SimpleQuadrilateral`
      */
+    @SuppressWarnings("unchecked")
     public SimpleQuadrilateral getSimpleQuadrilateral() throws ClassCastException {
         return (SimpleQuadrilateral)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `ComplexQuadrilateral`. If the actual instance is not `ComplexQuadrilateral`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `ComplexQuadrilateral`
+     * @throws ClassCastException if the instance is not `ComplexQuadrilateral`
+     */
+    @SuppressWarnings("unchecked")
+    public ComplexQuadrilateral getComplexQuadrilateral() throws ClassCastException {
+        return (ComplexQuadrilateral)super.getActualInstance();
     }
 
 

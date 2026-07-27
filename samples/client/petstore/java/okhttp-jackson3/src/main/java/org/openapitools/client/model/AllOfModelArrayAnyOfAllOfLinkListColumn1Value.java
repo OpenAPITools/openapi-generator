@@ -94,26 +94,26 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         public AllOfModelArrayAnyOfAllOfLinkListColumn1Value deserialize(JsonParser jp, DeserializationContext ctxt) throws JacksonException {
             JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
-            // deserialize Tag
-            try {
-                deserialized = ctxt.readTreeAsValue(tree, Tag.class);
-                AllOfModelArrayAnyOfAllOfLinkListColumn1Value ret = new AllOfModelArrayAnyOfAllOfLinkListColumn1Value();
-                ret.setActualInstance(deserialized);
-                return ret;
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'Tag'", e);
-            }
-
             // deserialize User
             try {
-                deserialized = ctxt.readTreeAsValue(tree, User.class);
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<User>() {}));
                 AllOfModelArrayAnyOfAllOfLinkListColumn1Value ret = new AllOfModelArrayAnyOfAllOfLinkListColumn1Value();
                 ret.setActualInstance(deserialized);
                 return ret;
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'User'", e);
+            }
+
+            // deserialize Tag
+            try {
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<Tag>() {}));
+                AllOfModelArrayAnyOfAllOfLinkListColumn1Value ret = new AllOfModelArrayAnyOfAllOfLinkListColumn1Value();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'Tag'", e);
             }
 
             throw DatabindException.from(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for AllOfModelArrayAnyOfAllOfLinkListColumn1Value: no match found"));
@@ -135,19 +135,19 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         super("anyOf", Boolean.FALSE);
     }
 
-    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(Tag o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(User o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(Tag o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Tag", Tag.class);
         schemas.put("User", User.class);
+        schemas.put("Tag", Tag.class);
         JSON.registerDescendants(AllOfModelArrayAnyOfAllOfLinkListColumn1Value.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -166,12 +166,12 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Tag.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(User.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(User.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Tag.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -185,20 +185,10 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
      *
      * @return The actual instance (Tag, User)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Tag`. If the actual instance is not `Tag`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Tag`
-     * @throws ClassCastException if the instance is not `Tag`
-     */
-    public Tag getTag() throws ClassCastException {
-        return (Tag)super.getActualInstance();
     }
 
     /**
@@ -208,8 +198,21 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
      * @return The actual instance of `User`
      * @throws ClassCastException if the instance is not `User`
      */
+    @SuppressWarnings("unchecked")
     public User getUser() throws ClassCastException {
         return (User)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Tag`. If the actual instance is not `Tag`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Tag`
+     * @throws ClassCastException if the instance is not `Tag`
+     */
+    @SuppressWarnings("unchecked")
+    public Tag getTag() throws ClassCastException {
+        return (Tag)super.getActualInstance();
     }
 
 

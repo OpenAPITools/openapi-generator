@@ -178,19 +178,19 @@ public class SelfReferenceAnyOf extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public SelfReferenceAnyOf(Boolean o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public SelfReferenceAnyOf(String o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public SelfReferenceAnyOf(Boolean o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Boolean", Boolean.class);
         schemas.put("String", String.class);
+        schemas.put("Boolean", Boolean.class);
     }
 
     @Override
@@ -208,12 +208,12 @@ public class SelfReferenceAnyOf extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Boolean.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Boolean.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -227,20 +227,10 @@ public class SelfReferenceAnyOf extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Boolean, String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Boolean`. If the actual instance is not `Boolean`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Boolean`
-     * @throws ClassCastException if the instance is not `Boolean`
-     */
-    public Boolean getBoolean() throws ClassCastException {
-        return (Boolean)super.getActualInstance();
     }
 
     /**
@@ -250,8 +240,21 @@ public class SelfReferenceAnyOf extends AbstractOpenApiSchema {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Boolean`. If the actual instance is not `Boolean`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Boolean`
+     * @throws ClassCastException if the instance is not `Boolean`
+     */
+    @SuppressWarnings("unchecked")
+    public Boolean getBoolean() throws ClassCastException {
+        return (Boolean)super.getActualInstance();
     }
 
 

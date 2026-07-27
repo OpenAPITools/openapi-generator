@@ -50,12 +50,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("FreeFormObjectTestClass")
 public class FreeFormObjectTestClass {
   public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME)
   @javax.annotation.Nullable
   private String name;
 
   public static final String JSON_PROPERTY_PROPERTIES = "properties";
-  @JsonProperty(JSON_PROPERTY_PROPERTIES)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTIES)
   @javax.annotation.Nullable
   private FreeFormObjectTestClassProperties properties;
 
@@ -114,7 +114,7 @@ public class FreeFormObjectTestClass {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

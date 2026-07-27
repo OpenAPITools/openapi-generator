@@ -132,7 +132,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<EquilateralTriangle>() {});
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -158,7 +158,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<IsoscelesTriangle>() {});
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -184,7 +184,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<ScaleneTriangle>() {});
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -288,6 +288,7 @@ public class Triangle extends AbstractOpenApiSchema {
      *
      * @return The actual instance (EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -300,6 +301,7 @@ public class Triangle extends AbstractOpenApiSchema {
      * @return The actual instance of `EquilateralTriangle`
      * @throws ClassCastException if the instance is not `EquilateralTriangle`
      */
+    @SuppressWarnings("unchecked")
     public EquilateralTriangle getEquilateralTriangle() throws ClassCastException {
         return (EquilateralTriangle)super.getActualInstance();
     }
@@ -311,6 +313,7 @@ public class Triangle extends AbstractOpenApiSchema {
      * @return The actual instance of `IsoscelesTriangle`
      * @throws ClassCastException if the instance is not `IsoscelesTriangle`
      */
+    @SuppressWarnings("unchecked")
     public IsoscelesTriangle getIsoscelesTriangle() throws ClassCastException {
         return (IsoscelesTriangle)super.getActualInstance();
     }
@@ -322,6 +325,7 @@ public class Triangle extends AbstractOpenApiSchema {
      * @return The actual instance of `ScaleneTriangle`
      * @throws ClassCastException if the instance is not `ScaleneTriangle`
      */
+    @SuppressWarnings("unchecked")
     public ScaleneTriangle getScaleneTriangle() throws ClassCastException {
         return (ScaleneTriangle)super.getActualInstance();
     }

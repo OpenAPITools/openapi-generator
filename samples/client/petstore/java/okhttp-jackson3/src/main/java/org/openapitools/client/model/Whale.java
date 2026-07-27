@@ -50,17 +50,17 @@ import org.openapitools.client.JSON;
 @JsonTypeName("whale")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
-  @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
+  @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN)
   @javax.annotation.Nullable
   private Boolean hasBaleen;
 
   public static final String JSON_PROPERTY_HAS_TEETH = "hasTeeth";
-  @JsonProperty(JSON_PROPERTY_HAS_TEETH)
+  @JsonProperty(value = JSON_PROPERTY_HAS_TEETH)
   @javax.annotation.Nullable
   private Boolean hasTeeth;
 
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME)
   @javax.annotation.Nonnull
   private String className;
 
@@ -143,7 +143,7 @@ public class Whale {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

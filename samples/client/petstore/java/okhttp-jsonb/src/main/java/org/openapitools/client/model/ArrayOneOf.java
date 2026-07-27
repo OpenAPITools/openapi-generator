@@ -59,7 +59,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
 
     static {
         schemas.put("Integer", Integer.class);
-        schemas.put("List<String>", List<String>.class);
+        schemas.put("List<String>", List.class);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
             return;
         }
 
-        if (JSON.isInstanceOf(List<String>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -96,6 +96,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Integer, List<String>)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -108,6 +109,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
      * @return The actual instance of `Integer`
      * @throws ClassCastException if the instance is not `Integer`
      */
+    @SuppressWarnings("unchecked")
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }
@@ -119,7 +121,8 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
      * @return The actual instance of `List<String>`
      * @throws ClassCastException if the instance is not `List<String>`
      */
-    public List<String> getList<String>() throws ClassCastException {
+    @SuppressWarnings("unchecked")
+    public List<String> getListString() throws ClassCastException {
         return (List<String>)super.getActualInstance();
     }
 

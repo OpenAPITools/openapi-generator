@@ -157,7 +157,9 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+
     static {
+        schemas.put("String", String.class);
         schemas.put("String", String.class);
     }
 
@@ -190,6 +192,7 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
      *
      * @return The actual instance (String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -202,6 +205,7 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }

@@ -49,12 +49,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("appleReq")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR)
   @javax.annotation.Nonnull
   private String cultivar;
 
   public static final String JSON_PROPERTY_MEALY = "mealy";
-  @JsonProperty(JSON_PROPERTY_MEALY)
+  @JsonProperty(value = JSON_PROPERTY_MEALY)
   @javax.annotation.Nullable
   private Boolean mealy;
 
@@ -108,50 +108,6 @@ public class AppleReq {
     this.mealy = mealy;
   }
 
-  /**
-   * A container for additional, undeclared properties.
-   * This is a holder for any undeclared properties as specified with
-   * the 'additionalProperties' keyword in the OAS document.
-   */
-  private Map<String, Object> additionalProperties;
-
-  /**
-   * Set the additional (undeclared) property with the specified name and value.
-   * If the property does not already exist, create it otherwise replace it.
-   *
-   * @param key name of the property
-   * @param value value of the property
-   * @return the AppleReq instance itself
-   */
-  public AppleReq putAdditionalProperty(String key, Object value) {
-    if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
-    }
-    this.additionalProperties.put(key, value);
-    return this;
-  }
-
-  /**
-   * Return the additional (undeclared) property.
-   *
-   * @return a map of objects
-   */
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
-  }
-
-  /**
-   * Return the additional (undeclared) property with the specified name.
-   *
-   * @param key name of the property
-   * @return an object
-   */
-  public Object getAdditionalProperty(String key) {
-    if (this.additionalProperties == null) {
-        return null;
-    }
-    return this.additionalProperties.get(key);
-  }
 
 
   @Override
@@ -170,7 +126,6 @@ public class AppleReq {
     sb.append("class AppleReq {\n");
     sb.append("    cultivar: ").append(toIndentedString(cultivar)).append("\n");
     sb.append("    mealy: ").append(toIndentedString(mealy)).append("\n");
-    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }

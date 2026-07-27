@@ -88,32 +88,6 @@ public class Value extends AbstractOpenApiSchema {
             boolean typeCoercion = false;
             int match = 0;
             JsonToken token = tree.asToken();
-            // deserialize List<Scalar>
-            try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (List<Scalar>.class.equals(Integer.class) || List<Scalar>.class.equals(Long.class) || List<Scalar>.class.equals(Float.class) || List<Scalar>.class.equals(Double.class) || List<Scalar>.class.equals(Boolean.class) || List<Scalar>.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((List<Scalar>.class.equals(Integer.class) || List<Scalar>.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((List<Scalar>.class.equals(Float.class) || List<Scalar>.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (List<Scalar>.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (List<Scalar>.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
-                if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, List<Scalar>.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema 'List<Scalar>'");
-                }
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'List<Scalar>'", e);
-            }
-
             // deserialize Scalar
             try {
                 boolean attemptParsing = true;
@@ -128,7 +102,7 @@ public class Value extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, Scalar.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<Scalar>() {}));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -138,6 +112,32 @@ public class Value extends AbstractOpenApiSchema {
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'Scalar'", e);
+            }
+
+            // deserialize List<Scalar>
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (List.class.equals(Integer.class) || List.class.equals(Long.class) || List.class.equals(Float.class) || List.class.equals(Double.class) || List.class.equals(Boolean.class) || List.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((List.class.equals(Integer.class) || List.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((List.class.equals(Float.class) || List.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (List.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (List.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<List<Scalar>>() {}));
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'List<Scalar>'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'List<Scalar>'", e);
             }
 
             if (match == 1) {
@@ -164,19 +164,19 @@ public class Value extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Value(List<Scalar> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public Value(Scalar o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public Value(List<Scalar> o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("List<Scalar>", List<Scalar>.class);
         schemas.put("Scalar", Scalar.class);
+        schemas.put("List<Scalar>", List.class);
         JSON.registerDescendants(Value.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -195,12 +195,12 @@ public class Value extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(List<Scalar>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Scalar.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Scalar.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -214,20 +214,10 @@ public class Value extends AbstractOpenApiSchema {
      *
      * @return The actual instance (List<Scalar>, Scalar)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `List<Scalar>`. If the actual instance is not `List<Scalar>`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `List<Scalar>`
-     * @throws ClassCastException if the instance is not `List<Scalar>`
-     */
-    public List<Scalar> getList<Scalar>() throws ClassCastException {
-        return (List<Scalar>)super.getActualInstance();
     }
 
     /**
@@ -237,8 +227,21 @@ public class Value extends AbstractOpenApiSchema {
      * @return The actual instance of `Scalar`
      * @throws ClassCastException if the instance is not `Scalar`
      */
+    @SuppressWarnings("unchecked")
     public Scalar getScalar() throws ClassCastException {
         return (Scalar)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `List<Scalar>`. If the actual instance is not `List<Scalar>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<Scalar>`
+     * @throws ClassCastException if the instance is not `List<Scalar>`
+     */
+    @SuppressWarnings("unchecked")
+    public List<Scalar> getListScalar() throws ClassCastException {
+        return (List<Scalar>)super.getActualInstance();
     }
 
 

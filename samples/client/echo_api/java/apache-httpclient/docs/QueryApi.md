@@ -64,7 +64,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **enumNonrefStringQuery** | **String**|  | [optional] [enum: success, failure, unclassified] |
-| **enumRefStringQuery** | [**StringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
+| **enumRefStringQuery** | [**StringEnumRef**](StringEnumRef.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
 
@@ -270,7 +270,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **queryObject** | [**Pet**](.md)|  | [optional] |
+| **queryObject** | [**Pet**](Pet.md)|  | [optional] |
 
 ### Return type
 
@@ -336,7 +336,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **queryObject** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional] |
+| **queryObject** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)|  | [optional] |
 
 ### Return type
 
@@ -534,7 +534,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **queryObject** | [**TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter**](.md)|  | [optional] |
+| **queryObject** | [**TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter**](TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)|  | [optional] |
 
 ### Return type
 
@@ -600,7 +600,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **queryObject** | [**Pet**](.md)|  | [optional] |
+| **queryObject** | [**Pet**](Pet.md)|  | [optional] |
 
 ### Return type
 
@@ -666,7 +666,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **queryObject** | [**DataQuery**](.md)|  | [optional] |
+| **queryObject** | [**DataQuery**](DataQuery.md)|  | [optional] |
 
 ### Return type
 
@@ -733,7 +733,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **jsonSerializedObjectRefStringQuery** | [**Pet**](.md)|  | [optional] |
+| **jsonSerializedObjectRefStringQuery** | [**Pet**](Pet.md)|  | [optional] |
 | **jsonSerializedObjectArrayRefStringQuery** | [**List&lt;Pet&gt;**](Pet.md)|  | [optional] |
 
 ### Return type

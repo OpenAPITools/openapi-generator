@@ -84,26 +84,26 @@ public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
         public FakeAnyOfWIthSameErasureGet200Response deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
             JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
-            // deserialize List<Integer>
-            try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(List<Integer>.class);
-                FakeAnyOfWIthSameErasureGet200Response ret = new FakeAnyOfWIthSameErasureGet200Response();
-                ret.setActualInstance(deserialized);
-                return ret;
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'List<Integer>'", e);
-            }
-
             // deserialize List<String>
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(List<String>.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<List<String>>() {});
                 FakeAnyOfWIthSameErasureGet200Response ret = new FakeAnyOfWIthSameErasureGet200Response();
                 ret.setActualInstance(deserialized);
                 return ret;
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'List<String>'", e);
+            }
+
+            // deserialize List<Integer>
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<List<Integer>>() {});
+                FakeAnyOfWIthSameErasureGet200Response ret = new FakeAnyOfWIthSameErasureGet200Response();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'List<Integer>'", e);
             }
 
             throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for FakeAnyOfWIthSameErasureGet200Response: no match found"));
@@ -125,19 +125,15 @@ public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
         super("anyOf", Boolean.FALSE);
     }
 
-    public FakeAnyOfWIthSameErasureGet200Response(List<Integer> o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public FakeAnyOfWIthSameErasureGet200Response(List<String> o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+
     static {
-        schemas.put("List<Integer>", List<Integer>.class);
-        schemas.put("List<String>", List<String>.class);
+        schemas.put("List<String>", List.class);
+        schemas.put("List<Integer>", List.class);
         JSON.registerDescendants(FakeAnyOfWIthSameErasureGet200Response.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -156,12 +152,7 @@ public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(List<Integer>.class, instance, new HashSet<Class<?>>())) {
-            super.setActualInstance(instance);
-            return;
-        }
-
-        if (JSON.isInstanceOf(List<String>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -175,20 +166,10 @@ public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
      *
      * @return The actual instance (List<Integer>, List<String>)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `List<Integer>`
-     * @throws ClassCastException if the instance is not `List<Integer>`
-     */
-    public List<Integer> getList<Integer>() throws ClassCastException {
-        return (List<Integer>)super.getActualInstance();
     }
 
     /**
@@ -198,8 +179,21 @@ public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
      * @return The actual instance of `List<String>`
      * @throws ClassCastException if the instance is not `List<String>`
      */
-    public List<String> getList<String>() throws ClassCastException {
+    @SuppressWarnings("unchecked")
+    public List<String> getListString() throws ClassCastException {
         return (List<String>)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<Integer>`
+     * @throws ClassCastException if the instance is not `List<Integer>`
+     */
+    @SuppressWarnings("unchecked")
+    public List<Integer> getListInteger() throws ClassCastException {
+        return (List<Integer>)super.getActualInstance();
     }
 
 

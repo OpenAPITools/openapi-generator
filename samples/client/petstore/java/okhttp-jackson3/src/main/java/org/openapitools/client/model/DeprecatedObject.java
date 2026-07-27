@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("DeprecatedObject")
 public class DeprecatedObject {
   public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME)
   @javax.annotation.Nullable
   private String name;
 
@@ -84,7 +84,7 @@ public class DeprecatedObject {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

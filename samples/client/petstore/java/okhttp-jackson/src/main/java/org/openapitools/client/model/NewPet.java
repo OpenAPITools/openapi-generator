@@ -62,43 +62,42 @@ import org.openapitools.client.JSON;
 @JsonTypeName("NewPet")
 public class NewPet {
   public static final String JSON_PROPERTY_ID = "id";
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID)
   @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY_INLINE_ALLOF = "category_inline_allof";
-  @JsonProperty(JSON_PROPERTY_CATEGORY_INLINE_ALLOF)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY_INLINE_ALLOF)
   @javax.annotation.Nullable
   private NewPetCategoryInlineAllof categoryInlineAllof;
 
   public static final String JSON_PROPERTY_CATEGORY_ALL_OF_REF = "category_allOf_ref";
-  @JsonProperty(JSON_PROPERTY_CATEGORY_ALL_OF_REF)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY_ALL_OF_REF)
   @javax.annotation.Nullable
   private Category categoryAllOfRef;
 
   public static final String JSON_PROPERTY_CATEGORY_ALL_OF_REF_DESCRIPTION = "category_allOf_ref_description";
-  @JsonProperty(JSON_PROPERTY_CATEGORY_ALL_OF_REF_DESCRIPTION)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY_ALL_OF_REF_DESCRIPTION)
   @javax.annotation.Nullable
   private Category categoryAllOfRefDescription;
 
   public static final String JSON_PROPERTY_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY = "category_allOf_ref_description_readonly";
-  @JsonProperty(JSON_PROPERTY_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY)
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY, access = JsonProperty.Access.READ_ONLY)
   @javax.annotation.Nullable
   private Category categoryAllOfRefDescriptionReadonly;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME)
   @javax.annotation.Nonnull
   private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS)
   @javax.annotation.Nonnull
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonProperty(value = JSON_PROPERTY_TAGS)
   @javax.annotation.Nullable
   private List<Tag> tags = new ArrayList<>();
 
@@ -141,7 +140,7 @@ public class NewPet {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS)
   @javax.annotation.Nullable
   private StatusEnum status;
 
@@ -381,7 +380,7 @@ public class NewPet {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

@@ -58,27 +58,27 @@ import org.openapitools.client.JSON;
 @JsonTypeName("PetRef")
 public class PetRef {
   public static final String JSON_PROPERTY_ID = "id";
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID)
   @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY)
   @javax.annotation.Nullable
   private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME)
   @javax.annotation.Nonnull
   private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS)
   @javax.annotation.Nonnull
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonProperty(value = JSON_PROPERTY_TAGS)
   @javax.annotation.Nullable
   private List<Tag> tags = new ArrayList<>();
 
@@ -121,7 +121,7 @@ public class PetRef {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS)
   @javax.annotation.Nullable
   private StatusEnum status;
 
@@ -292,7 +292,7 @@ public class PetRef {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

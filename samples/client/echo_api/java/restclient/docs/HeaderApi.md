@@ -60,7 +60,7 @@ public class Example {
 | **booleanHeader** | **Boolean**|  | [optional] |
 | **stringHeader** | **String**|  | [optional] |
 | **enumNonrefStringHeader** | **String**|  | [optional] [enum: success, failure, unclassified] |
-| **enumRefStringHeader** | [**StringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
+| **enumRefStringHeader** | [**StringEnumRef**](StringEnumRef.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
 

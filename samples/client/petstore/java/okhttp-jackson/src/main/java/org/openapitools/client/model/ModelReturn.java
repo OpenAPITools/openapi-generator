@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("Return")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN)
   @javax.annotation.Nullable
   private Integer _return;
 
@@ -83,7 +83,7 @@ public class ModelReturn {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

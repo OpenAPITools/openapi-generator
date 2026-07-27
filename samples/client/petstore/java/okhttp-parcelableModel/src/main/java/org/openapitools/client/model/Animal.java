@@ -36,6 +36,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java.io.IOException;
 import java.util.Arrays;
@@ -105,50 +106,6 @@ public class Animal implements Parcelable {
     this.color = color;
   }
 
-  /**
-   * A container for additional, undeclared properties.
-   * This is a holder for any undeclared properties as specified with
-   * the 'additionalProperties' keyword in the OAS document.
-   */
-  private Map<String, Object> additionalProperties;
-
-  /**
-   * Set the additional (undeclared) property with the specified name and value.
-   * If the property does not already exist, create it otherwise replace it.
-   *
-   * @param key name of the property
-   * @param value value of the property
-   * @return the Animal instance itself
-   */
-  public Animal putAdditionalProperty(String key, Object value) {
-    if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
-    }
-    this.additionalProperties.put(key, value);
-    return this;
-  }
-
-  /**
-   * Return the additional (undeclared) property.
-   *
-   * @return a map of objects
-   */
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
-  }
-
-  /**
-   * Return the additional (undeclared) property with the specified name.
-   *
-   * @param key name of the property
-   * @return an object
-   */
-  public Object getAdditionalProperty(String key) {
-    if (this.additionalProperties == null) {
-        return null;
-    }
-    return this.additionalProperties.get(key);
-  }
 
 
   @Override
@@ -161,13 +118,12 @@ public class Animal implements Parcelable {
     }
     Animal animal = (Animal) o;
     return Objects.equals(this.className, animal.className) &&
-        Objects.equals(this.color, animal.color)&&
-        Objects.equals(this.additionalProperties, animal.additionalProperties);
+        Objects.equals(this.color, animal.color);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className, color, additionalProperties);
+    return Objects.hash(className, color);
   }
 
   @Override
@@ -176,7 +132,6 @@ public class Animal implements Parcelable {
     sb.append("class Animal {\n");
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
-    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -253,6 +208,34 @@ public class Animal implements Parcelable {
       }
   }
 
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!Animal.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'Animal' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<Animal> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(Animal.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<Animal>() {
+           @Override
+           public void write(JsonWriter out, Animal value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public Animal read(JsonReader in) throws IOException {
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
+           }
+
+       }.nullSafe();
+    }
+  }
 
   /**
    * Create an instance of Animal given an JSON string

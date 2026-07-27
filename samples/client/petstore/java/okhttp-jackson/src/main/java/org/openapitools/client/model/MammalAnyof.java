@@ -100,20 +100,9 @@ public class MammalAnyof extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            // deserialize Pig
-            try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
-                MammalAnyof ret = new MammalAnyof();
-                ret.setActualInstance(deserialized);
-                return ret;
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'Pig'", e);
-            }
-
             // deserialize Whale
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Whale>() {});
                 MammalAnyof ret = new MammalAnyof();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -124,13 +113,24 @@ public class MammalAnyof extends AbstractOpenApiSchema {
 
             // deserialize Zebra
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Zebra>() {});
                 MammalAnyof ret = new MammalAnyof();
                 ret.setActualInstance(deserialized);
                 return ret;
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'Zebra'", e);
+            }
+
+            // deserialize Pig
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Pig>() {});
+                MammalAnyof ret = new MammalAnyof();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'Pig'", e);
             }
 
             throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for MammalAnyof: no match found"));
@@ -152,11 +152,6 @@ public class MammalAnyof extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public MammalAnyof(Pig o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public MammalAnyof(Whale o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
@@ -167,10 +162,15 @@ public class MammalAnyof extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public MammalAnyof(Pig o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Pig", Pig.class);
         schemas.put("Whale", Whale.class);
         schemas.put("Zebra", Zebra.class);
+        schemas.put("Pig", Pig.class);
         JSON.registerDescendants(MammalAnyof.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
@@ -196,17 +196,17 @@ public class MammalAnyof extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class<?>>())) {
-            super.setActualInstance(instance);
-            return;
-        }
-
         if (JSON.isInstanceOf(Whale.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
         if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -220,20 +220,10 @@ public class MammalAnyof extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Pig, Whale, Zebra)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Pig`
-     * @throws ClassCastException if the instance is not `Pig`
-     */
-    public Pig getPig() throws ClassCastException {
-        return (Pig)super.getActualInstance();
     }
 
     /**
@@ -243,6 +233,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
      * @return The actual instance of `Whale`
      * @throws ClassCastException if the instance is not `Whale`
      */
+    @SuppressWarnings("unchecked")
     public Whale getWhale() throws ClassCastException {
         return (Whale)super.getActualInstance();
     }
@@ -254,8 +245,21 @@ public class MammalAnyof extends AbstractOpenApiSchema {
      * @return The actual instance of `Zebra`
      * @throws ClassCastException if the instance is not `Zebra`
      */
+    @SuppressWarnings("unchecked")
     public Zebra getZebra() throws ClassCastException {
         return (Zebra)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Pig`
+     * @throws ClassCastException if the instance is not `Pig`
+     */
+    @SuppressWarnings("unchecked")
+    public Pig getPig() throws ClassCastException {
+        return (Pig)super.getActualInstance();
     }
 
 

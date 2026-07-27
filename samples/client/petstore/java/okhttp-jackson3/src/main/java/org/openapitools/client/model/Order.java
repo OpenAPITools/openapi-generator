@@ -53,22 +53,22 @@ import org.openapitools.client.JSON;
 @JsonTypeName("Order")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID)
   @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @JsonProperty(value = JSON_PROPERTY_PET_ID)
   @javax.annotation.Nullable
   private Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @JsonProperty(value = JSON_PROPERTY_QUANTITY)
   @javax.annotation.Nullable
   private Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @JsonProperty(value = JSON_PROPERTY_SHIP_DATE)
   @javax.annotation.Nullable
   private OffsetDateTime shipDate;
 
@@ -111,12 +111,12 @@ public class Order {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS)
   @javax.annotation.Nullable
   private StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @JsonProperty(value = JSON_PROPERTY_COMPLETE)
   @javax.annotation.Nullable
   private Boolean complete = false;
 
@@ -271,7 +271,7 @@ public class Order {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

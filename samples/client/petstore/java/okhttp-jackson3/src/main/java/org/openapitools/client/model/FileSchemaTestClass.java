@@ -52,12 +52,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("FileSchemaTestClass")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
-  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonProperty(value = JSON_PROPERTY_FILE)
   @javax.annotation.Nullable
   private ModelFile _file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonProperty(value = JSON_PROPERTY_FILES)
   @javax.annotation.Nullable
   private List<ModelFile> files = new ArrayList<>();
 
@@ -124,7 +124,7 @@ public class FileSchemaTestClass {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

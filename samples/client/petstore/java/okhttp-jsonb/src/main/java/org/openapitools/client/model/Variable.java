@@ -20,6 +20,7 @@ import org.openapitools.client.model.Value;
 
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbCreator;
+import jakarta.json.bind.annotation.JsonbValue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class Variable {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

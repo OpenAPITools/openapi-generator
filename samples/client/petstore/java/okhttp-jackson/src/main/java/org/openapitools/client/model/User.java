@@ -63,62 +63,62 @@ import org.openapitools.client.JSON;
 @JsonTypeName("User")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID)
   @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_USERNAME = "username";
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonProperty(value = JSON_PROPERTY_USERNAME)
   @javax.annotation.Nullable
   private String username;
 
   public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
-  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
+  @JsonProperty(value = JSON_PROPERTY_FIRST_NAME)
   @javax.annotation.Nullable
   private String firstName;
 
   public static final String JSON_PROPERTY_LAST_NAME = "lastName";
-  @JsonProperty(JSON_PROPERTY_LAST_NAME)
+  @JsonProperty(value = JSON_PROPERTY_LAST_NAME)
   @javax.annotation.Nullable
   private String lastName;
 
   public static final String JSON_PROPERTY_EMAIL = "email";
-  @JsonProperty(JSON_PROPERTY_EMAIL)
+  @JsonProperty(value = JSON_PROPERTY_EMAIL)
   @javax.annotation.Nullable
   private String email;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD)
   @javax.annotation.Nullable
   private String password;
 
   public static final String JSON_PROPERTY_PHONE = "phone";
-  @JsonProperty(JSON_PROPERTY_PHONE)
+  @JsonProperty(value = JSON_PROPERTY_PHONE)
   @javax.annotation.Nullable
   private String phone;
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
-  @JsonProperty(JSON_PROPERTY_USER_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_USER_STATUS)
   @javax.annotation.Nullable
   private Integer userStatus;
 
   public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS = "objectWithNoDeclaredProps";
-  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS)
   @javax.annotation.Nullable
   private Object objectWithNoDeclaredProps;
 
   public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE = "objectWithNoDeclaredPropsNullable";
-  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
   @javax.annotation.Nullable
   private Object objectWithNoDeclaredPropsNullable;
 
   public static final String JSON_PROPERTY_ANY_TYPE_PROP = "anyTypeProp";
-  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ANY_TYPE_PROP)
   @javax.annotation.Nullable
   private Object anyTypeProp = null;
 
   public static final String JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
-  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE)
   @javax.annotation.Nullable
   private Object anyTypePropNullable = null;
 
@@ -417,7 +417,7 @@ public class User {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

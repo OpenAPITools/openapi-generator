@@ -235,6 +235,11 @@
             <version>${okhttp-version}</version>
         </dependency>
         <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
+        <dependency>
             <groupId>jakarta.json.bind</groupId>
             <artifactId>jakarta.json.bind-api</artifactId>
             <version>${jsonb-api-version}</version>
@@ -293,6 +298,7 @@
         <jsonb-api-version>3.0.1</jsonb-api-version>
         <yasson-version>3.0.4</yasson-version>
         <commons-lang3-version>3.18.0</commons-lang3-version>
+        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <junit-version>5.10.3</junit-version>
         <junit-platform-runner.version>1.10.0</junit-platform-runner.version>

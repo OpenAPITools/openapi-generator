@@ -54,17 +54,17 @@ import org.openapitools.client.JSON;
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID)
   @javax.annotation.Nullable
   private UUID uuid;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME)
   @javax.annotation.Nullable
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
-  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonProperty(value = JSON_PROPERTY_MAP)
   @javax.annotation.Nullable
   private Map<String, Animal> map = new HashMap<>();
 
@@ -155,7 +155,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

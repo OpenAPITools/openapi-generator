@@ -100,7 +100,7 @@ public class Value extends AbstractOpenApiSchema {
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<Scalar> adapterScalar = gson.getDelegateAdapter(this, TypeToken.get(Scalar.class));
             final Type typeInstanceListScalar = new TypeToken<List<Scalar>>(){}.getType();
-            final TypeAdapter<List<Scalar>> adapterListScalar = (TypeAdapter<List<Scalar>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final TypeAdapter<List<Scalar>> adapterListScalar = (TypeAdapter<List<Scalar>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListScalar));
 
             return (TypeAdapter<T>) new TypeAdapter<Value>() {
                 @Override
@@ -185,19 +185,19 @@ public class Value extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Value(List<Scalar> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public Value(Scalar o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public Value(List<Scalar> o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("List<Scalar>", List<Scalar>.class);
         schemas.put("Scalar", Scalar.class);
+        schemas.put("List<Scalar>", List.class);
     }
 
     @Override
@@ -215,12 +215,12 @@ public class Value extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(List<Scalar>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Scalar.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Scalar.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -234,20 +234,10 @@ public class Value extends AbstractOpenApiSchema {
      *
      * @return The actual instance (List<Scalar>, Scalar)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `List<Scalar>`. If the actual instance is not `List<Scalar>`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `List<Scalar>`
-     * @throws ClassCastException if the instance is not `List<Scalar>`
-     */
-    public List<Scalar> getList<Scalar>() throws ClassCastException {
-        return (List<Scalar>)super.getActualInstance();
     }
 
     /**
@@ -257,8 +247,21 @@ public class Value extends AbstractOpenApiSchema {
      * @return The actual instance of `Scalar`
      * @throws ClassCastException if the instance is not `Scalar`
      */
+    @SuppressWarnings("unchecked")
     public Scalar getScalar() throws ClassCastException {
         return (Scalar)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `List<Scalar>`. If the actual instance is not `List<Scalar>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<Scalar>`
+     * @throws ClassCastException if the instance is not `List<Scalar>`
+     */
+    @SuppressWarnings("unchecked")
+    public List<Scalar> getListScalar() throws ClassCastException {
+        return (List<Scalar>)super.getActualInstance();
     }
 
 

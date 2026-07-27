@@ -37,6 +37,8 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
 import java.io.IOException;
 
 import java.util.HashMap;
@@ -164,50 +166,6 @@ public class Query {
     this.outcomes = outcomes;
   }
 
-  /**
-   * A container for additional, undeclared properties.
-   * This is a holder for any undeclared properties as specified with
-   * the 'additionalProperties' keyword in the OAS document.
-   */
-  private Map<String, Object> additionalProperties;
-
-  /**
-   * Set the additional (undeclared) property with the specified name and value.
-   * If the property does not already exist, create it otherwise replace it.
-   *
-   * @param key name of the property
-   * @param value value of the property
-   * @return the Query instance itself
-   */
-  public Query putAdditionalProperty(String key, Object value) {
-    if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
-    }
-    this.additionalProperties.put(key, value);
-    return this;
-  }
-
-  /**
-   * Return the additional (undeclared) property.
-   *
-   * @return a map of objects
-   */
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
-  }
-
-  /**
-   * Return the additional (undeclared) property with the specified name.
-   *
-   * @param key name of the property
-   * @return an object
-   */
-  public Object getAdditionalProperty(String key) {
-    if (this.additionalProperties == null) {
-        return null;
-    }
-    return this.additionalProperties.get(key);
-  }
 
 
   @Override
@@ -220,13 +178,12 @@ public class Query {
     }
     Query query = (Query) o;
     return Objects.equals(this.id, query.id) &&
-        Objects.equals(this.outcomes, query.outcomes)&&
-        Objects.equals(this.additionalProperties, query.additionalProperties);
+        Objects.equals(this.outcomes, query.outcomes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, outcomes, additionalProperties);
+    return Objects.hash(id, outcomes);
   }
 
   @Override
@@ -235,7 +192,6 @@ public class Query {
     sb.append("class Query {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    outcomes: ").append(toIndentedString(outcomes)).append("\n");
-    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -51,12 +51,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("ModelWithOneOfAnyOfProperties")
 public class ModelWithOneOfAnyOfProperties {
   public static final String JSON_PROPERTY_ONEOF_PROP = "oneof_prop";
-  @JsonProperty(JSON_PROPERTY_ONEOF_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ONEOF_PROP)
   @javax.annotation.Nullable
   private ArrayOneOf oneofProp;
 
   public static final String JSON_PROPERTY_ANYOF_PROP = "anyof_prop";
-  @JsonProperty(JSON_PROPERTY_ANYOF_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ANYOF_PROP)
   @javax.annotation.Nullable
   private ArrayAnyOf anyofProp;
 
@@ -115,7 +115,7 @@ public class ModelWithOneOfAnyOfProperties {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

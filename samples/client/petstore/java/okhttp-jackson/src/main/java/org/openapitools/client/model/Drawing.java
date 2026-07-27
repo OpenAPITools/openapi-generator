@@ -62,22 +62,22 @@ import org.openapitools.client.JSON;
 @JsonTypeName("Drawing")
 public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
-  @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
+  @JsonProperty(value = JSON_PROPERTY_MAIN_SHAPE)
   @javax.annotation.Nullable
   private Shape mainShape;
 
   public static final String JSON_PROPERTY_SHAPE_OR_NULL = "shapeOrNull";
-  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_OR_NULL)
   @javax.annotation.Nullable
   private ShapeOrNull shapeOrNull;
 
   public static final String JSON_PROPERTY_NULLABLE_SHAPE = "nullableShape";
-  @JsonProperty(JSON_PROPERTY_NULLABLE_SHAPE)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_SHAPE)
   @javax.annotation.Nullable
   private NullableShape nullableShape;
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  @JsonProperty(JSON_PROPERTY_SHAPES)
+  @JsonProperty(value = JSON_PROPERTY_SHAPES)
   @javax.annotation.Nullable
   private List<Shape> shapes = new ArrayList<>();
 
@@ -192,7 +192,7 @@ public class Drawing {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

@@ -49,14 +49,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("hasOnlyReadOnly")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
-  @JsonProperty(JSON_PROPERTY_BAR)
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_BAR, access = JsonProperty.Access.READ_ONLY)
   @javax.annotation.Nullable
   private String bar;
 
   public static final String JSON_PROPERTY_FOO = "foo";
-  @JsonProperty(JSON_PROPERTY_FOO)
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_FOO, access = JsonProperty.Access.READ_ONLY)
   @javax.annotation.Nullable
   private String foo;
 
@@ -104,7 +102,7 @@ public class HasOnlyReadOnly {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

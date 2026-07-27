@@ -126,7 +126,7 @@ public class Pig extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, BasquePig.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<BasquePig>() {}));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -152,7 +152,7 @@ public class Pig extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, DanishPig.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<DanishPig>() {}));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -244,6 +244,7 @@ public class Pig extends AbstractOpenApiSchema {
      *
      * @return The actual instance (BasquePig, DanishPig)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -256,6 +257,7 @@ public class Pig extends AbstractOpenApiSchema {
      * @return The actual instance of `BasquePig`
      * @throws ClassCastException if the instance is not `BasquePig`
      */
+    @SuppressWarnings("unchecked")
     public BasquePig getBasquePig() throws ClassCastException {
         return (BasquePig)super.getActualInstance();
     }
@@ -267,6 +269,7 @@ public class Pig extends AbstractOpenApiSchema {
      * @return The actual instance of `DanishPig`
      * @throws ClassCastException if the instance is not `DanishPig`
      */
+    @SuppressWarnings("unchecked")
     public DanishPig getDanishPig() throws ClassCastException {
         return (DanishPig)super.getActualInstance();
     }

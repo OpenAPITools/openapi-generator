@@ -195,19 +195,19 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
         super("oneOf", Boolean.FALSE);
     }
 
-    public AllOfModelArrayAnyOfAllOfAttributesC(Order o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public AllOfModelArrayAnyOfAllOfAttributesC(Pet o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public AllOfModelArrayAnyOfAllOfAttributesC(Order o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Order", Order.class);
         schemas.put("Pet", Pet.class);
+        schemas.put("Order", Order.class);
     }
 
     @Override
@@ -225,12 +225,12 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Order.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Pet.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Pet.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Order.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -244,20 +244,10 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
      *
      * @return The actual instance (Order, Pet)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Order`. If the actual instance is not `Order`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Order`
-     * @throws ClassCastException if the instance is not `Order`
-     */
-    public Order getOrder() throws ClassCastException {
-        return (Order)super.getActualInstance();
     }
 
     /**
@@ -267,8 +257,21 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
      * @return The actual instance of `Pet`
      * @throws ClassCastException if the instance is not `Pet`
      */
+    @SuppressWarnings("unchecked")
     public Pet getPet() throws ClassCastException {
         return (Pet)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Order`. If the actual instance is not `Order`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Order`
+     * @throws ClassCastException if the instance is not `Order`
+     */
+    @SuppressWarnings("unchecked")
+    public Order getOrder() throws ClassCastException {
+        return (Order)super.getActualInstance();
     }
 
 

@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("_foo_get_default_response")
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING)
   @javax.annotation.Nullable
   private Foo string;
 
@@ -84,7 +84,7 @@ public class FooGetDefaultResponse {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

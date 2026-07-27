@@ -104,10 +104,11 @@ public class Fruit extends AbstractOpenApiSchema {
                         attemptParsing |= ((Apple.class.equals(Float.class) || Apple.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Apple.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Apple.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Apple>() {});
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -133,7 +134,7 @@ public class Fruit extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Banana>() {});
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -170,7 +171,7 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     public Fruit(Apple o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
@@ -219,6 +220,7 @@ public class Fruit extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Apple, Banana)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -231,6 +233,7 @@ public class Fruit extends AbstractOpenApiSchema {
      * @return The actual instance of `Apple`
      * @throws ClassCastException if the instance is not `Apple`
      */
+    @SuppressWarnings("unchecked")
     public Apple getApple() throws ClassCastException {
         return (Apple)super.getActualInstance();
     }
@@ -242,6 +245,7 @@ public class Fruit extends AbstractOpenApiSchema {
      * @return The actual instance of `Banana`
      * @throws ClassCastException if the instance is not `Banana`
      */
+    @SuppressWarnings("unchecked")
     public Banana getBanana() throws ClassCastException {
         return (Banana)super.getActualInstance();
     }

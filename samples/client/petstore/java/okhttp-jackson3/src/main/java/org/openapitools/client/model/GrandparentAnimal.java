@@ -59,7 +59,7 @@ import org.openapitools.client.JSON;
 @JsonTypeName("GrandparentAnimal")
 public class GrandparentAnimal {
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
-  @JsonProperty(JSON_PROPERTY_PET_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_PET_TYPE)
   @javax.annotation.Nonnull
   protected String petType;
 
@@ -95,7 +95,7 @@ public class GrandparentAnimal {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

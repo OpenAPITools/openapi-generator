@@ -88,47 +88,21 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
             boolean typeCoercion = false;
             int match = 0;
             JsonToken token = tree.asToken();
-            // deserialize List<Integer>
-            try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (List<Integer>.class.equals(Integer.class) || List<Integer>.class.equals(Long.class) || List<Integer>.class.equals(Float.class) || List<Integer>.class.equals(Double.class) || List<Integer>.class.equals(Boolean.class) || List<Integer>.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((List<Integer>.class.equals(Integer.class) || List<Integer>.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((List<Integer>.class.equals(Float.class) || List<Integer>.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (List<Integer>.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (List<Integer>.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
-                if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, List<Integer>.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema 'List<Integer>'");
-                }
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'List<Integer>'", e);
-            }
-
             // deserialize List<String>
             try {
                 boolean attemptParsing = true;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (List<String>.class.equals(Integer.class) || List<String>.class.equals(Long.class) || List<String>.class.equals(Float.class) || List<String>.class.equals(Double.class) || List<String>.class.equals(Boolean.class) || List<String>.class.equals(String.class)) {
+                if (List.class.equals(Integer.class) || List.class.equals(Long.class) || List.class.equals(Float.class) || List.class.equals(Double.class) || List.class.equals(Boolean.class) || List.class.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((List<String>.class.equals(Integer.class) || List<String>.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((List<String>.class.equals(Float.class) || List<String>.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (List<String>.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (List<String>.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((List.class.equals(Integer.class) || List.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((List.class.equals(Float.class) || List.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (List.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (List.class.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, List<String>.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<List<String>>() {}));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -138,6 +112,32 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'List<String>'", e);
+            }
+
+            // deserialize List<Integer>
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (List.class.equals(Integer.class) || List.class.equals(Long.class) || List.class.equals(Float.class) || List.class.equals(Double.class) || List.class.equals(Boolean.class) || List.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((List.class.equals(Integer.class) || List.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((List.class.equals(Float.class) || List.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (List.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (List.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<List<Integer>>() {}));
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'List<Integer>'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'List<Integer>'", e);
             }
 
             if (match == 1) {
@@ -164,19 +164,15 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
         super("oneOf", Boolean.FALSE);
     }
 
-    public FakeOneOfWIthSameErasureGet200Response(List<Integer> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public FakeOneOfWIthSameErasureGet200Response(List<String> o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+
     static {
-        schemas.put("List<Integer>", List<Integer>.class);
-        schemas.put("List<String>", List<String>.class);
+        schemas.put("List<String>", List.class);
+        schemas.put("List<Integer>", List.class);
         JSON.registerDescendants(FakeOneOfWIthSameErasureGet200Response.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -195,12 +191,7 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(List<Integer>.class, instance, new HashSet<Class<?>>())) {
-            super.setActualInstance(instance);
-            return;
-        }
-
-        if (JSON.isInstanceOf(List<String>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -214,20 +205,10 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
      *
      * @return The actual instance (List<Integer>, List<String>)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `List<Integer>`
-     * @throws ClassCastException if the instance is not `List<Integer>`
-     */
-    public List<Integer> getList<Integer>() throws ClassCastException {
-        return (List<Integer>)super.getActualInstance();
     }
 
     /**
@@ -237,8 +218,21 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
      * @return The actual instance of `List<String>`
      * @throws ClassCastException if the instance is not `List<String>`
      */
-    public List<String> getList<String>() throws ClassCastException {
+    @SuppressWarnings("unchecked")
+    public List<String> getListString() throws ClassCastException {
         return (List<String>)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<Integer>`
+     * @throws ClassCastException if the instance is not `List<Integer>`
+     */
+    @SuppressWarnings("unchecked")
+    public List<Integer> getListInteger() throws ClassCastException {
+        return (List<Integer>)super.getActualInstance();
     }
 
 

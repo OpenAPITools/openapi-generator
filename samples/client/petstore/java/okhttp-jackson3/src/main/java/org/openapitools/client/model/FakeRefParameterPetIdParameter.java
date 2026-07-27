@@ -87,32 +87,6 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
             boolean typeCoercion = false;
             int match = 0;
             JsonToken token = tree.asToken();
-            // deserialize Integer
-            try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Integer.class.equals(Integer.class) || Integer.class.equals(Long.class) || Integer.class.equals(Float.class) || Integer.class.equals(Double.class) || Integer.class.equals(Boolean.class) || Integer.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Integer.class.equals(Integer.class) || Integer.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Integer.class.equals(Float.class) || Integer.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Integer.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Integer.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
-                if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, Integer.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema 'Integer'");
-                }
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'Integer'", e);
-            }
-
             // deserialize String
             try {
                 boolean attemptParsing = true;
@@ -127,7 +101,7 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, String.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<String>() {}));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -137,6 +111,32 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'String'", e);
+            }
+
+            // deserialize Integer
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (Integer.class.equals(Integer.class) || Integer.class.equals(Long.class) || Integer.class.equals(Float.class) || Integer.class.equals(Double.class) || Integer.class.equals(Boolean.class) || Integer.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((Integer.class.equals(Integer.class) || Integer.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((Integer.class.equals(Float.class) || Integer.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (Integer.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (Integer.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<Integer>() {}));
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'Integer'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'Integer'", e);
             }
 
             if (match == 1) {
@@ -163,19 +163,19 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public FakeRefParameterPetIdParameter(Integer o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public FakeRefParameterPetIdParameter(String o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
+    public FakeRefParameterPetIdParameter(Integer o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     static {
-        schemas.put("Integer", Integer.class);
         schemas.put("String", String.class);
+        schemas.put("Integer", Integer.class);
         JSON.registerDescendants(FakeRefParameterPetIdParameter.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -194,12 +194,12 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Integer.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(String.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Integer.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -213,20 +213,10 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Integer, String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Integer`. If the actual instance is not `Integer`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Integer`
-     * @throws ClassCastException if the instance is not `Integer`
-     */
-    public Integer getInteger() throws ClassCastException {
-        return (Integer)super.getActualInstance();
     }
 
     /**
@@ -236,8 +226,21 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Integer`. If the actual instance is not `Integer`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Integer`
+     * @throws ClassCastException if the instance is not `Integer`
+     */
+    @SuppressWarnings("unchecked")
+    public Integer getInteger() throws ClassCastException {
+        return (Integer)super.getActualInstance();
     }
 
 

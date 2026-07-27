@@ -101,7 +101,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, Integer.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<Integer>() {}));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -117,17 +117,17 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
             try {
                 boolean attemptParsing = true;
                 // ensure that we respect type coercion as set on the client ObjectMapper
-                if (List<String>.class.equals(Integer.class) || List<String>.class.equals(Long.class) || List<String>.class.equals(Float.class) || List<String>.class.equals(Double.class) || List<String>.class.equals(Boolean.class) || List<String>.class.equals(String.class)) {
+                if (List.class.equals(Integer.class) || List.class.equals(Long.class) || List.class.equals(Float.class) || List.class.equals(Double.class) || List.class.equals(Boolean.class) || List.class.equals(String.class)) {
                     attemptParsing = typeCoercion;
                     if (!attemptParsing) {
-                        attemptParsing |= ((List<String>.class.equals(Integer.class) || List<String>.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((List<String>.class.equals(Float.class) || List<String>.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (List<String>.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (List<String>.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= ((List.class.equals(Integer.class) || List.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((List.class.equals(Float.class) || List.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (List.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (List.class.equals(String.class) && token == JsonToken.VALUE_STRING);
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = ctxt.readTreeAsValue(tree, List<String>.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<List<String>>() {}));
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -175,7 +175,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
 
     static {
         schemas.put("Integer", Integer.class);
-        schemas.put("List<String>", List<String>.class);
+        schemas.put("List<String>", List.class);
         JSON.registerDescendants(ArrayOneOf.class, Collections.unmodifiableMap(schemas));
     }
 
@@ -199,7 +199,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
             return;
         }
 
-        if (JSON.isInstanceOf(List<String>.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -213,6 +213,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Integer, List<String>)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -225,6 +226,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
      * @return The actual instance of `Integer`
      * @throws ClassCastException if the instance is not `Integer`
      */
+    @SuppressWarnings("unchecked")
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }
@@ -236,7 +238,8 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
      * @return The actual instance of `List<String>`
      * @throws ClassCastException if the instance is not `List<String>`
      */
-    public List<String> getList<String>() throws ClassCastException {
+    @SuppressWarnings("unchecked")
+    public List<String> getListString() throws ClassCastException {
         return (List<String>)super.getActualInstance();
     }
 

@@ -53,22 +53,22 @@ import org.openapitools.client.JSON;
 @JsonTypeName("AllOfModelArrayAnyOf")
 public class AllOfModelArrayAnyOf {
   public static final String JSON_PROPERTY_ID = "id";
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID)
   @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME)
   @javax.annotation.Nonnull
   private String name = "default-name";
 
   public static final String JSON_PROPERTY_LINK_LIST_COLUMN1 = "linkListColumn1";
-  @JsonProperty(JSON_PROPERTY_LINK_LIST_COLUMN1)
+  @JsonProperty(value = JSON_PROPERTY_LINK_LIST_COLUMN1)
   @javax.annotation.Nullable
   private AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1;
 
   public static final String JSON_PROPERTY_ATTRIBUTES = "attributes";
-  @JsonProperty(JSON_PROPERTY_ATTRIBUTES)
+  @JsonProperty(value = JSON_PROPERTY_ATTRIBUTES)
   @javax.annotation.Nullable
   private AllOfModelArrayAnyOfAllOfAttributes attributes;
 
@@ -175,7 +175,7 @@ public class AllOfModelArrayAnyOf {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

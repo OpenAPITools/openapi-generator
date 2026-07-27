@@ -49,12 +49,12 @@ import org.openapitools.client.JSON;
 @JsonTypeName("_special_model.name_")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @javax.annotation.Nullable
   private Long $specialPropertyName;
 
   public static final String JSON_PROPERTY_SPECIAL_MODEL_NAME = "_special_model.name_";
-  @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
+  @JsonProperty(value = JSON_PROPERTY_SPECIAL_MODEL_NAME)
   @javax.annotation.Nullable
   private String specialModelName;
 
@@ -113,7 +113,7 @@ public class SpecialModelName {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

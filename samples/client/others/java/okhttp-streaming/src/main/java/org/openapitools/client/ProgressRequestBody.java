@@ -17,6 +17,7 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import okio.Buffer;
 import okio.BufferedSink;
@@ -32,7 +33,7 @@ public class ProgressRequestBody extends RequestBody {
 
     public ProgressRequestBody(RequestBody requestBody, ApiCallback callback) {
         this.requestBody = requestBody;
-        this.callback = callback;
+        this.callback = Objects.requireNonNull(callback);
     }
 
     @Override
@@ -47,27 +48,38 @@ public class ProgressRequestBody extends RequestBody {
 
     @Override
     public void writeTo(BufferedSink sink) throws IOException {
-        BufferedSink bufferedSink = Okio.buffer(sink(sink));
+        CountingSink countingSink = new CountingSink(sink);
+        BufferedSink bufferedSink = Okio.buffer(countingSink);
         requestBody.writeTo(bufferedSink);
         bufferedSink.flush();
+
+        long bytesWritten = countingSink.bytesWritten;
+        long contentLength = contentLength();
+        callback.onUploadProgress(bytesWritten, contentLength, true);
     }
 
-    private Sink sink(Sink sink) {
-        return new ForwardingSink(sink) {
+    private Sink countingSink(Sink sink) {
+        return new CountingSink(sink);
+    }
 
-            long bytesWritten = 0L;
-            long contentLength = 0L;
+    private final class CountingSink extends ForwardingSink {
 
-            @Override
-            public void write(Buffer source, long byteCount) throws IOException {
-                super.write(source, byteCount);
-                if (contentLength == 0) {
-                    contentLength = contentLength();
-                }
+        private long bytesWritten = 0L;
+        private long contentLength = 0L;
 
-                bytesWritten += byteCount;
-                callback.onUploadProgress(bytesWritten, contentLength, bytesWritten == contentLength);
+        public CountingSink(Sink delegate) {
+            super(delegate);
+        }
+
+        @Override
+        public void write(Buffer source, long byteCount) throws IOException {
+            super.write(source, byteCount);
+            if (contentLength == 0) {
+                contentLength = contentLength();
             }
-        };
+
+            bytesWritten += byteCount;
+            callback.onUploadProgress(bytesWritten, contentLength, bytesWritten == contentLength);
+        }
     }
 }
