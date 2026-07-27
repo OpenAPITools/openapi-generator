@@ -1,0 +1,63 @@
+lazy val root = (project in file(".")).
+  settings(
+    organization := "{{groupId}}",
+    name := "{{artifactId}}",
+    version := "{{artifactVersion}}",
+    scalaVersion := "2.13.6",
+    scalacOptions ++= Seq("-feature"),
+    compile / javacOptions ++= Seq("-Xlint:deprecation"),
+    Compile / packageDoc / publishArtifact := false,
+    resolvers += Resolver.mavenLocal,
+    libraryDependencies ++= Seq(
+      {{#swagger1AnnotationLibrary}}
+      "io.swagger" % "swagger-annotations" % "1.6.6",
+      {{/swagger1AnnotationLibrary}}
+      {{#swagger2AnnotationLibrary}}
+      "io.swagger.core.v3" % "swagger-annotations" % "2.2.15",
+      {{/swagger2AnnotationLibrary}}
+      {{^useJspecify}}
+      "com.google.code.findbugs" % "jsr305" % "3.0.2",
+      {{/useJspecify}}
+      {{#useJspecify}}
+      "org.jspecify" % "jspecify" % "1.0.0",
+      {{/useJspecify}}
+      "com.squareup.okhttp3" % "okhttp" % "5.4.0",
+      "com.squareup.okhttp3" % "logging-interceptor" % "5.4.0",
+      {{#isGson}}
+      "com.google.code.gson" % "gson" % "2.10.1",
+      "io.gsonfire" % "gson-fire" % "1.9.0",
+      {{/isGson}}
+      {{#isJackson}}
+      "com.fasterxml.jackson.core" % "jackson-core" % "{{#useJackson3}}3.2.1{{/useJackson3}}{{^useJackson3}}2.21.5{{/useJackson3}}",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.21",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "{{#useJackson3}}3.2.1{{/useJackson3}}{{^useJackson3}}2.21.5{{/useJackson3}}",
+      {{^useJackson3}}
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.21.5",
+      {{/useJackson3}}
+      {{#openApiNullable}}
+      "org.openapitools" % "jackson-databind-nullable" % "0.2.10",
+      {{/openApiNullable}}
+      {{/isJackson}}
+      {{#isJsonb}}
+      "jakarta.json.bind" % "jakarta.json.bind-api" % "3.0.1",
+      "org.eclipse" % "yasson" % "3.0.4",
+      "jakarta.json" % "jakarta.json-api" % "2.1.3",
+      "org.eclipse.parsson" % "parsson" % "1.1.7",
+      {{/isJsonb}}
+      {{#hasOAuthMethods}}
+      "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.2",
+      {{/hasOAuthMethods}}
+      {{#useReflectionEqualsHashCode}}
+      "org.apache.commons" % "commons-lang3" % "3.18.0",
+      {{/useReflectionEqualsHashCode}}
+      {{#joda}}
+      "joda-time" % "joda-time" % "2.12.0",
+      {{/joda}}
+      "jakarta.annotation" % "jakarta.annotation-api" % "{{#useJakartaEe}}2.1.1{{/useJakartaEe}}{{^useJakartaEe}}1.3.5{{/useJakartaEe}}",
+      {{#withAWSV4Signature}}
+      "software.amazon.awssdk" % "auth" % "2.20.157",
+      {{/withAWSV4Signature}}
+      "org.junit.jupiter" % "junit-jupiter-api" % "5.10.3" % "test",
+      "com.novocode" % "junit-interface" % "0.10" % "test"
+    )
+  )

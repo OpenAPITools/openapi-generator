@@ -4907,7 +4907,7 @@ public class JavaClientCodegenTest {
         // Dog is a composed schema (allOf). Since we enabled supportsAdditionalPropertiesWithComposedSchema,
         // it should have the additionalProperties field.
         assertThat(output.resolve("src/main/java/org/openapitools/client/model/Dog.java")).content()
-                .contains("private Map<String, Object> additionalProperties;");
+                .contains("private transient Map<String, Object> additionalProperties;");
     }
 
     @Test
@@ -4972,6 +4972,7 @@ public class JavaClientCodegenTest {
         assertThat(output.resolve("build.gradle")).content()
                 .contains("okhttp_version = \"5.4.0\"")
                 .contains("implementation 'jakarta.json.bind:jakarta.json.bind-api:3.0.1'");
+    }
     /**
      * An array of binary form properties must keep its array dimension. Previously the array was
      * collapsed onto the scalar File type, generating the same signature as a single-file upload.

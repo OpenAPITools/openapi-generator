@@ -1296,7 +1296,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         for (ModelMap mo : models) {
             CodegenModel cm = mo.getModel();
 
-            if (supportsAdditionalPropertiesWithComposedSchema) {
+            if (supportsAdditionalPropertiesWithComposedSchema && isComposed(cm)) {
                 cm.isAdditionalPropertiesTrue = true;
             }
 
@@ -1320,6 +1320,19 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         return objs;
+    }
+
+    private boolean isComposed(CodegenModel cm) {
+        if (cm.oneOf != null && !cm.oneOf.isEmpty()) return true;
+        if (cm.anyOf != null && !cm.anyOf.isEmpty()) return true;
+        if (cm.allOf != null && !cm.allOf.isEmpty()) return true;
+        if (cm.getComposedSchemas() != null) {
+            CodegenComposedSchemas cs = cm.getComposedSchemas();
+            if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) return true;
+            if (cs.getAnyOf() != null && !cs.getAnyOf().isEmpty()) return true;
+            return cs.getAllOf() != null && !cs.getAllOf().isEmpty();
+        }
+        return false;
     }
 
     @Override

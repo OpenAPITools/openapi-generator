@@ -110,16 +110,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/isGson}}
   {{#isJackson}}
-  @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
+  @JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}{{#isReadOnly}}, access = JsonProperty.Access.READ_ONLY{{/isReadOnly}}{{#isWriteOnly}}, access = JsonProperty.Access.WRITE_ONLY{{/isWriteOnly}})
   {{#includeIfNull}}
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   {{/includeIfNull}}
-  {{#isReadOnly}}
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-  {{/isReadOnly}}
-  {{#isWriteOnly}}
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  {{/isWriteOnly}}
   {{/isJackson}}
   {{#isJsonb}}
   @JsonbProperty(SERIALIZED_NAME_{{nameInSnakeCase}})
@@ -566,7 +560,6 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{/hasChildren}}
   }
 
-{{^hasChildren}}
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
     @SuppressWarnings("unchecked")
     @Override
@@ -645,7 +638,6 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
        }.nullSafe();
     }
   }
-{{/hasChildren}}
 {{/isGson}}
 
 {{#isGson}}

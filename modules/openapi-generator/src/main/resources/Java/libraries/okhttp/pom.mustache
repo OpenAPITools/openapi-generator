@@ -305,6 +305,7 @@
             <version>${jackson-version}</version>
         </dependency>
         {{/useJackson3}}
+        {{/isJackson}}
         {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -312,7 +313,6 @@
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
         {{/openApiNullable}}
-        {{/isJackson}}
         {{#isJsonb}}
         <dependency>
             <groupId>jakarta.json.bind</groupId>
@@ -436,11 +436,9 @@
         {{#useReflectionEqualsHashCode}}
         <commons-lang3-version>3.18.0</commons-lang3-version>
         {{/useReflectionEqualsHashCode}}
-        {{#isJackson}}
         {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         {{/openApiNullable}}
-        {{/isJackson}}
         {{#joda}}
         <jodatime-version>2.12.0</jodatime-version>
         {{/joda}}
