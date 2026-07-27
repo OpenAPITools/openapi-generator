@@ -1487,4 +1487,65 @@ public class InlineModelResolverTest {
         assertEquals("$ref must be rewritten from Widget_1 to Widget",
                 "#/components/schemas/Widget", responseSchema.get$ref());
     }
+
+    @Test
+    public void deduplicateComponentsRewritesDiscriminatorMappings() {
+        // Regression test: deduplicateComponents() removes a structural duplicate and rewrites
+        // every $ref to it. A discriminator mapping is a reference too, but it lives in
+        // `discriminator.mapping` rather than in a `$ref` field. When it is not rewritten, the
+        // mapping keeps naming a schema that no longer exists, so no model is generated for it
+        // and the generated polymorphic dispatch references an undefined type.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        // ApiError and BetaApiError share a title and a structure, so BetaApiError is removed and
+        // ApiError (alphabetically first) is kept as canonical.
+        Schema apiError = new ObjectSchema()
+                .title("ApiError")
+                .addProperty("message", new StringSchema());
+        Schema betaApiError = new ObjectSchema()
+                .title("ApiError")
+                .addProperty("message", new StringSchema());
+        Schema notFound = new ObjectSchema()
+                .title("NotFound")
+                .addProperty("detail", new StringSchema());
+
+        openapi.getComponents().addSchemas("ApiError", apiError);
+        openapi.getComponents().addSchemas("BetaApiError", betaApiError);
+        openapi.getComponents().addSchemas("NotFound", notFound);
+
+        // A discriminated union whose mapping points at the schema that is about to be removed.
+        Schema errorResponse = new ObjectSchema()
+                .title("ErrorResponse")
+                .discriminator(new Discriminator()
+                        .propertyName("type")
+                        .mapping("api_error", "#/components/schemas/BetaApiError")
+                        // the spec also allows a bare schema name as a mapping value
+                        .mapping("legacy_api_error", "BetaApiError")
+                        .mapping("not_found", "#/components/schemas/NotFound"));
+        errorResponse.setOneOf(List.of(
+                new Schema<>().$ref("#/components/schemas/BetaApiError"),
+                new Schema<>().$ref("#/components/schemas/NotFound")));
+        openapi.getComponents().addSchemas("ErrorResponse", errorResponse);
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        assertNotNull("Canonical ApiError must survive deduplication", schemas.get("ApiError"));
+        assertNull("Duplicate BetaApiError must be removed", schemas.get("BetaApiError"));
+
+        Schema union = schemas.get("ErrorResponse");
+        // Control: the oneOf $ref is rewritten (this already worked).
+        assertEquals("oneOf $ref must be rewritten to the canonical schema",
+                "#/components/schemas/ApiError", ((Schema) union.getOneOf().get(0)).get$ref());
+        // The defect: the discriminator mapping must follow the same rewrite.
+        assertEquals("discriminator mapping must be rewritten to the canonical schema",
+                "#/components/schemas/ApiError", union.getDiscriminator().getMapping().get("api_error"));
+        // a bare-name mapping value is rewritten too, and stays a bare name
+        assertEquals("bare-name discriminator mapping must be rewritten, keeping the bare form",
+                "ApiError", union.getDiscriminator().getMapping().get("legacy_api_error"));
+        assertEquals("an untouched mapping entry must be left alone",
+                "#/components/schemas/NotFound", union.getDiscriminator().getMapping().get("not_found"));
+    }
 }

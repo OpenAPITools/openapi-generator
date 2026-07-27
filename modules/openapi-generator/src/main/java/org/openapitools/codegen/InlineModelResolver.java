@@ -1286,6 +1286,7 @@ public class InlineModelResolver {
                 schema.set$ref(replacement);
             }
         }
+        rewriteDiscriminatorMapping(schema, refReplacements);
         if (schema.getProperties() != null) {
             for (Object prop : schema.getProperties().values()) {
                 rewriteSchemaRefs((Schema) prop, refReplacements);
@@ -1314,6 +1315,41 @@ public class InlineModelResolver {
         }
         if (schema.getAdditionalProperties() instanceof Schema) {
             rewriteSchemaRefs((Schema) schema.getAdditionalProperties(), refReplacements);
+        }
+    }
+
+    /**
+     * Rewrites the values of a schema's {@code discriminator.mapping} according to the same
+     * replacement map used for {@code $ref}s. A mapping value is a reference to a schema, but it
+     * is not stored in a {@code $ref} field, so it is missed by plain {@code $ref} rewriting; a
+     * mapping left pointing at a deduplicated-away schema names a model that is never generated.
+     * <p>
+     * Per the OpenAPI specification a mapping value is either a full schema reference
+     * ("#/components/schemas/Foo") or a bare schema name ("Foo"). Both forms are rewritten, and
+     * each keeps the form it was written in.
+     */
+    private void rewriteDiscriminatorMapping(Schema schema, Map<String, String> refReplacements) {
+        if (schema.getDiscriminator() == null || schema.getDiscriminator().getMapping() == null) {
+            return;
+        }
+        Map<String, String> mapping = schema.getDiscriminator().getMapping();
+        for (Map.Entry<String, String> entry : mapping.entrySet()) {
+            String value = entry.getValue();
+            if (value == null) {
+                continue;
+            }
+            if (value.indexOf('/') >= 0) {
+                String replacement = refReplacements.get(value);
+                if (replacement != null) {
+                    entry.setValue(replacement);
+                }
+            } else {
+                // bare schema name: match against the full ref, then write the bare name back
+                String replacement = refReplacements.get("#/components/schemas/" + value);
+                if (replacement != null) {
+                    entry.setValue(replacement.substring(replacement.lastIndexOf('/') + 1));
+                }
+            }
         }
     }
 
