@@ -48,6 +48,8 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -488,8 +490,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                 property.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, true);
             } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
-                if (property.allowableValues.containsKey(ENUM_VALUES)) {
-                    final List<?> allowableValues = (List<?>) property.allowableValues.get(ENUM_VALUES);
+                if (hasEnumValues(property.allowableValues)) {
+                    final List<?> allowableValues = getEnumValues(property.allowableValues);
                     boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
                     property.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, isZeroBased);
                 }
@@ -587,8 +589,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                     cm.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, true);
                 } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
-                    if (cm.allowableValues.containsKey(ENUM_VALUES)) {
-                        final List<?> allowableValues = (List<?>) cm.allowableValues.get(ENUM_VALUES);
+                    if (hasEnumValues(cm.allowableValues)) {
+                        final List<?> allowableValues = getEnumValues(cm.allowableValues);
                         boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
                         cm.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, isZeroBased);
                     }
@@ -1912,7 +1914,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         boolean hasAllowableValues = p.allowableValues != null && !p.allowableValues.isEmpty();
         if (hasAllowableValues) {
             //support examples for inline enums
-            final List<?> values = (List<?>) p.allowableValues.get(ENUM_VALUES);
+            final List<?> values = getEnumValues(p.allowableValues);
             example = String.valueOf(values.get(0));
         } else if (p.defaultValue == null) {
             example = p.example;

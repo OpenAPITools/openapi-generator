@@ -94,6 +94,7 @@ import java.util.stream.Stream;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.DiscriminatorUtils.*;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -856,8 +857,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // for enum model
             if (cm.isEnum && cm.allowableValues != null) {
-                Map<String, Object> allowableValues = cm.allowableValues;
-                List<Object> values = (List<Object>) allowableValues.get(ENUM_VALUES);
+                List<Object> values = getEnumValues(cm.allowableValues);
                 List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
                 postProcessEnumVars(enumVars);
                 // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
@@ -6750,7 +6750,7 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        List<Object> values = (List<Object>) allowableValues.get(ENUM_VALUES);
+        List<Object> values = getEnumValues(allowableValues);
         if (values == null) {
             return;
         }

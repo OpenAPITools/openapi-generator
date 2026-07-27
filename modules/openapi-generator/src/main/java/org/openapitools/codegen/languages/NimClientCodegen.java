@@ -40,6 +40,8 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.CodegenConstants.ENUM_VALUE;
 import static org.openapitools.codegen.CodegenConstants.ENUM_VARS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -253,12 +255,11 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
      * without quotes so they serialize correctly: %(0) instead of %("0")
      */
     private void stripQuotesFromIntegerEnumValues(Map<String, Object> allowableValues) {
-        if (allowableValues == null || !allowableValues.containsKey(ENUM_VARS)) {
+        if (!hasEnumVars(allowableValues)) {
             return;
         }
 
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get(ENUM_VARS);
+        List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
         for (Map<String, Object> enumVar : enumVars) {
             Object value = enumVar.get(ENUM_VALUE);
             if (value instanceof String) {
@@ -278,7 +279,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
-            if (cm.isEnum && cm.allowableValues != null && cm.allowableValues.containsKey(ENUM_VARS)) {
+            if (cm.isEnum && hasEnumVars(cm.allowableValues)) {
                 cm.vendorExtensions.put("x-is-top-level-enum", true);
 
                 // For integer enums, strip quotes from enum values
