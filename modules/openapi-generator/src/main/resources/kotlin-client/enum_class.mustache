@@ -60,6 +60,11 @@ import kotlinx.serialization.encoding.Encoder
 {{/multiplatform}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{classname}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{#jackson}}@get:JsonValue {{/jackson}}val value: {{{dataType}}}) {
 {{#allowableValues}}{{#enumVars}}
+    {{#enumDescription}}
+    /**
+     * {{.}}
+     */
+    {{/enumDescription}}
     {{^multiplatform}}
     {{#moshi}}
     @Json(name = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
