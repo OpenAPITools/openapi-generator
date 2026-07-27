@@ -208,11 +208,11 @@ public class PetApiHandler {
         RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
 
         Long petId = requestParameters.pathParameter("petId") != null ? requestParameters.pathParameter("petId").getLong() : null;
+        FileUpload _file = null;
         if (routingContext.fileUploads().isEmpty()) {
-            routingContext.fail(400);
-            return;
+        } else {
+            _file = routingContext.fileUploads().iterator().next();
         }
-        FileUpload _file = routingContext.fileUploads().iterator().next();
 
         logger.debug("Parameter petId is {}", petId);
         logger.debug("Parameter _file is {}", _file);
