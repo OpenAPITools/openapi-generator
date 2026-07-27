@@ -74,7 +74,6 @@ class EnumArrays {
 
 }
 
-
 enum EnumArraysJustSymbolEnum {
 @JsonValue(r'>=')
 greaterThanEqual(r'>='),
@@ -90,7 +89,6 @@ final String value;
 @override
 String toString() => value;
 }
-
 
 
 enum EnumArraysArrayEnumEnum {
