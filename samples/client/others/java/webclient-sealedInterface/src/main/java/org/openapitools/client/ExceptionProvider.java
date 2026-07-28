@@ -31,7 +31,7 @@ import java.text.ParseException;
  * });
  * }</pre>
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public interface ExceptionProvider {
 
     /** Returns an exception indicating that no Bearer authentication is configured. */
