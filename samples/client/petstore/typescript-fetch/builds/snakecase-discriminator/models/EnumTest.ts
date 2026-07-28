@@ -105,7 +105,7 @@ export interface EnumTest {
 export const EnumTestEnumStringEnum = {
     Upper: 'UPPER',
     Lower: 'lower',
-    Empty: ''
+    Empty: '',
 } as const;
 export type EnumTestEnumStringEnum = typeof EnumTestEnumStringEnum[keyof typeof EnumTestEnumStringEnum];
 
@@ -115,7 +115,7 @@ export type EnumTestEnumStringEnum = typeof EnumTestEnumStringEnum[keyof typeof 
 export const EnumTestEnumStringRequiredEnum = {
     Upper: 'UPPER',
     Lower: 'lower',
-    Empty: ''
+    Empty: '',
 } as const;
 export type EnumTestEnumStringRequiredEnum = typeof EnumTestEnumStringRequiredEnum[keyof typeof EnumTestEnumStringRequiredEnum];
 
@@ -124,7 +124,7 @@ export type EnumTestEnumStringRequiredEnum = typeof EnumTestEnumStringRequiredEn
  */
 export const EnumTestEnumIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_1: -1
+    NUMBER_MINUS_1: -1,
 } as const;
 export type EnumTestEnumIntegerEnum = typeof EnumTestEnumIntegerEnum[keyof typeof EnumTestEnumIntegerEnum];
 
@@ -133,7 +133,7 @@ export type EnumTestEnumIntegerEnum = typeof EnumTestEnumIntegerEnum[keyof typeo
  */
 export const EnumTestEnumNumberEnum = {
     NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
+    NUMBER_MINUS_1_DOT_2: -1.2,
 } as const;
 export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
 

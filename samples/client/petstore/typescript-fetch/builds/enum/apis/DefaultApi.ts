@@ -247,7 +247,7 @@ export class DefaultApi extends runtime.BaseAPI {
 export const FakeEnumRequestGetInlineStringEnumEnum = {
     One: 'one',
     Two: 'two',
-    Three: 'three'
+    Three: 'three',
 } as const;
 export type FakeEnumRequestGetInlineStringEnumEnum = typeof FakeEnumRequestGetInlineStringEnumEnum[keyof typeof FakeEnumRequestGetInlineStringEnumEnum];
 /**
@@ -256,7 +256,7 @@ export type FakeEnumRequestGetInlineStringEnumEnum = typeof FakeEnumRequestGetIn
 export const FakeEnumRequestGetInlineNullableStringEnumEnum = {
     One: 'one',
     Two: 'two',
-    Three: 'three'
+    Three: 'three',
 } as const;
 export type FakeEnumRequestGetInlineNullableStringEnumEnum = typeof FakeEnumRequestGetInlineNullableStringEnumEnum[keyof typeof FakeEnumRequestGetInlineNullableStringEnumEnum];
 /**
@@ -265,7 +265,7 @@ export type FakeEnumRequestGetInlineNullableStringEnumEnum = typeof FakeEnumRequ
 export const FakeEnumRequestGetInlineNumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
-    NUMBER_3: 3
+    NUMBER_3: 3,
 } as const;
 export type FakeEnumRequestGetInlineNumberEnumEnum = typeof FakeEnumRequestGetInlineNumberEnumEnum[keyof typeof FakeEnumRequestGetInlineNumberEnumEnum];
 /**
@@ -274,6 +274,6 @@ export type FakeEnumRequestGetInlineNumberEnumEnum = typeof FakeEnumRequestGetIn
 export const FakeEnumRequestGetInlineNullableNumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
-    NUMBER_3: 3
+    NUMBER_3: 3,
 } as const;
 export type FakeEnumRequestGetInlineNullableNumberEnumEnum = typeof FakeEnumRequestGetInlineNullableNumberEnumEnum[keyof typeof FakeEnumRequestGetInlineNullableNumberEnumEnum];

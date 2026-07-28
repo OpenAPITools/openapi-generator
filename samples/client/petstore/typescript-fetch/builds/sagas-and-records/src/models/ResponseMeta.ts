@@ -92,7 +92,7 @@ export const ResponseMetaCodeEnum = {
     UserAlreadyHasMultipleGalaxieApiProductsException: 'User_Already_Has_Multiple_Galaxie_Api_Products_Exception',
     RecurlyApiException: 'Recurly_Api_Exception',
     RecurlyTransactionErrorException: 'Recurly_Transaction_Error_Exception',
-    GalaxieApiException: 'Galaxie_Api_Exception'
+    GalaxieApiException: 'Galaxie_Api_Exception',
 } as const;
 export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof ResponseMetaCodeEnum];
 
