@@ -727,6 +727,39 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(modelPath, "    financingOption?: Omit<FinancingOption, 'id'|'createdAt'|'updatedAt'|'foo'|'bar'>;");
     }
 
+    @Test(description = "Verify required date and date-time properties are null-guarded on serialization and deserialization")
+    public void testRequiredDatesAreNullGuarded() throws Exception {
+        File output = generate(
+                Collections.emptyMap(),
+                "src/test/resources/3_0/typescript-fetch/required-date.yaml"
+        );
+
+        Path modelPath = Paths.get(output + "/models/Event.ts");
+        TestUtils.assertFileExists(modelPath);
+
+        TestUtils.assertFileContains(modelPath,
+                "'requiredDate': (json['requiredDate'] == null ? json['requiredDate'] : new Date(json['requiredDate'])),");
+        TestUtils.assertFileContains(modelPath,
+                "'requiredDateTime': (json['requiredDateTime'] == null ? json['requiredDateTime'] : new Date(json['requiredDateTime'])),");
+        TestUtils.assertFileContains(modelPath,
+                "'requiredNullableDate': (json['requiredNullableDate'] == null ? null : new Date(json['requiredNullableDate'])),");
+        TestUtils.assertFileContains(modelPath,
+                "'requiredNullableDateTime': (json['requiredNullableDateTime'] == null ? null : new Date(json['requiredNullableDateTime'])),");
+        TestUtils.assertFileContains(modelPath,
+                "'optionalDate': json['optionalDate'] == null ? undefined : (new Date(json['optionalDate'])),");
+        TestUtils.assertFileContains(modelPath,
+                "'optionalDateTime': json['optionalDateTime'] == null ? undefined : (new Date(json['optionalDateTime'])),");
+
+        TestUtils.assertFileContains(modelPath,
+                "'requiredDate': value['requiredDate'] == null ? value['requiredDate'] : value['requiredDate'].toISOString().substring(0,10),");
+        TestUtils.assertFileContains(modelPath,
+                "'requiredDateTime': value['requiredDateTime'] == null ? value['requiredDateTime'] : value['requiredDateTime'].toISOString(),");
+        TestUtils.assertFileContains(modelPath,
+                "'requiredNullableDate': value['requiredNullableDate'] == null ? value['requiredNullableDate'] : value['requiredNullableDate'].toISOString().substring(0,10),");
+        TestUtils.assertFileContains(modelPath,
+                "'optionalDateTime': value['optionalDateTime'] == null ? value['optionalDateTime'] : value['optionalDateTime'].toISOString(),");
+    }
+
     private static File generate(
         Map<String, Object> properties
     ) throws IOException {
