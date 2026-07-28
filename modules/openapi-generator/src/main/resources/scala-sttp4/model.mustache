@@ -258,7 +258,7 @@ sealed trait {{classname}}
 object {{classname}} {
 {{#allowableValues}}
   {{#values}}
-  case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{classname}}
+  case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{classname}} { override def toString: String = "{{.}}" }
   {{/values}}
 {{/allowableValues}}
 
@@ -338,7 +338,7 @@ object {{classname}}Enums {
   sealed trait {{datatypeWithEnum}}
   object {{datatypeWithEnum}} {
 {{#_enum}}
-    case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{datatypeWithEnum}}
+    case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{datatypeWithEnum}} { override def toString: String = "{{.}}" }
 {{/_enum}}
 
 {{#circe}}

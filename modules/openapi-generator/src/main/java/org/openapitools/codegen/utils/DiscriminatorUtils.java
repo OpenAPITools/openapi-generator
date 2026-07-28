@@ -7,9 +7,11 @@ import org.jspecify.annotations.Nullable;
 import org.openapitools.codegen.CodegenProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 
 import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.X_DISCRIMINATOR_VALUE;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class DiscriminatorUtils {
@@ -24,7 +26,8 @@ public class DiscriminatorUtils {
             "'{}' defines discriminator '{}', but the referenced schema '{}' is missing {}";
     private static final String DEFINES_DISCRIMINATOR_BUT_ALTERNATIVE_HAS_OTHER_DEFINITION =
             "'{}' defines discriminator '{}', but the schema '{}' has a different {} definition than the prior schema's. Make sure the {} type and required values are the same";
-
+    private static final String DEFINES_DISCRIMINATOR_BUT_REFERENCE_IS_INCORRECT =
+            "'{}' defines discriminator '{}', but the referenced schema '{}' is incorrect. {}";
     /**
      * Recursively look in Schema sc for the discriminator discPropName
      * and return a CodegenProperty with the dataType and required params set
@@ -178,6 +181,39 @@ public class DiscriminatorUtils {
             }
         }
         return null;
+    }
+
+    /**
+     * Get the value of the vendor extension {@code x-discriminator-value} from the schema, if present.
+     * @param schema the schema to check for the vendor extension
+     * @return the value of the vendor extension, or an empty optional if not present
+     */
+    public static Optional<String> discriminatorVendorExtensionValue(Schema schema) {
+        return Optional.ofNullable(schema)
+                .map(Schema::getExtensions)
+                .map(vendorExtensions -> vendorExtensions.get(X_DISCRIMINATOR_VALUE))
+                .map(discriminatorValue -> (String) discriminatorValue);
+    }
+
+    public static String getDiscriminatorSchemaError(CodegenProperty codegenProperty, String discPropName,
+                                                     String modelName, String composedSchemaName) {
+        String msgSuffix = "";
+        if (codegenProperty == null) {
+            msgSuffix += discPropName + " is missing from the schema, define it as required and type string";
+        } else {
+            if (!codegenProperty.isString) {
+                msgSuffix += "invalid type for " + discPropName + ", set it to string";
+            }
+            if (!codegenProperty.required) {
+                String spacer = "";
+                if (!msgSuffix.isEmpty()) {
+                    spacer = ". ";
+                }
+                msgSuffix += spacer + "invalid optional definition of " + discPropName + ", include it in required";
+            }
+        }
+        return MessageFormatter.arrayFormat(DEFINES_DISCRIMINATOR_BUT_REFERENCE_IS_INCORRECT,
+                new Object[]{composedSchemaName, discPropName, modelName, msgSuffix}).getMessage();
     }
 
     /**

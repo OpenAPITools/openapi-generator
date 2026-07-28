@@ -128,6 +128,18 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.processOpts();
         Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
     }
+    
+    @Test
+    public void toVarNameWithAtSign() {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("@id"), "atId");
+
+        codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "original");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("@id"), "at_id");
+    }
 
     @Test
     public void toEnumVarName() {

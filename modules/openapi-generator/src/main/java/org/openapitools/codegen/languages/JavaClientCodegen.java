@@ -755,6 +755,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // one by one for each library.
             supportsAdditionalPropertiesWithComposedSchema = true;
         } else if (libWebClient) {
+            supportingFiles.add(new SupportingFile("ExceptionProvider.mustache", invokerFolder, "ExceptionProvider.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
 
             // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
@@ -764,6 +765,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // one by one for each library.
             supportsAdditionalPropertiesWithComposedSchema = true;
         } else if (libRestClient) {
+            supportingFiles.add(new SupportingFile("ExceptionProvider.mustache", invokerFolder, "ExceptionProvider.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             applyJakartaPackage();
 

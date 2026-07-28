@@ -81,10 +81,9 @@ class ArrayTest(BaseModel):
         _items = []
         if self.array_array_of_model:
             for _item_array_array_of_model in self.array_array_of_model:
-                if _item_array_array_of_model:
-                    _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item_array_array_of_model if _inner_item is not None]
-                    )
+                _items.append(
+                     [_inner_item.to_dict() if _inner_item is not None else None for _inner_item in _item_array_array_of_model] if _item_array_array_of_model is not None else None
+                )
             _dict['array_array_of_model'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
@@ -107,7 +106,7 @@ class ArrayTest(BaseModel):
             "array_of_nullable_float": obj.get("array_of_nullable_float"),
             "array_array_of_integer": obj.get("array_array_of_integer"),
             "array_array_of_model": [
-                    [ReadOnlyFirst.from_dict(_inner_item) for _inner_item in _item]
+                    [ReadOnlyFirst.from_dict(_inner_item) for _inner_item in _item] if _item is not None else None
                     for _item in obj["array_array_of_model"]
                 ] if obj.get("array_array_of_model") is not None else None
         })
