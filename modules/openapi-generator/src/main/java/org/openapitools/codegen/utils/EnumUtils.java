@@ -2,17 +2,79 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.CodegenConstants;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.X_ENUM_DEPRECATED;
-import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
+import static org.openapitools.codegen.CodegenConstants.*;
 
 public class EnumUtils {
 
     public static final String ONE_OF = "oneOf";
     public static final String ANY_OF = "anyOf";
+
+    /**
+     *
+     * @param allowableValues The allowableValues map
+     * @return whether the allowableValues map contains {@value CodegenConstants#ENUM_VARS}
+     */
+    public static boolean hasEnumVars(Map<String, Object> allowableValues) {
+        return allowableValues != null && allowableValues.containsKey(ENUM_VARS);
+    }
+
+    /**
+     *
+     * @param allowableValues The allowableValues map
+     * @return whether the allowableValues map contains {@value CodegenConstants#ENUM_VALUES}
+     */
+    public static boolean hasEnumValues(Map<String, Object> allowableValues) {
+        return allowableValues != null && allowableValues.containsKey(ENUM_VALUES);
+    }
+
+    /**
+     * Get the {@value CodegenConstants#ENUM_VARS} from the allowableValues map.
+     * @param allowableValues The allowableValues map
+     * @return the list of enumVars
+     */
+    public static List<Map<String, Object>> getEnumVars(Map<String, Object> allowableValues) {
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get(ENUM_VARS);
+        return enumVars;
+    }
+
+    /**
+     * Get the {@value CodegenConstants#ENUM_VALUES} from the allowableValues map.
+     * @param allowableValues The allowableValues map
+     * @return the list of enumValues
+     */
+    public static List<Object> getEnumValues(Map<String, Object> allowableValues) {
+        @SuppressWarnings("unchecked")
+        List<Object> enumValues = (List<Object>) allowableValues.get(ENUM_VALUES);
+        return enumValues;
+    }
+
+    /**
+     * Get the {@value CodegenConstants#ENUM_VARS} from the allowableValues map.
+     * @param allowableValues The allowableValues map
+     * @return the list of enumVars
+     */
+    public static List<Map<String, String>> getEnumVarsAsString(Map<String, Object> allowableValues) {
+        @SuppressWarnings("unchecked")
+        List<Map<String, String>> enumVars = (List<Map<String, String>>) allowableValues.get(ENUM_VARS);
+        return enumVars;
+    }
+
+    /**
+     * Get the {@value CodegenConstants#ENUM_VALUES} from the allowableValues map.
+     * @param allowableValues The allowableValues map
+     * @return the list of enumValues
+     */
+    public static List<String> getEnumValuesAsString(Map<String, Object> allowableValues) {
+        @SuppressWarnings("unchecked")
+        List<String> enumValues = (List<String>) allowableValues.get(ENUM_VALUES);
+        return enumValues;
+    }
 
     /**
      * Simplifies a composed schema (oneOf/anyOf) where all sub-schemas are enums

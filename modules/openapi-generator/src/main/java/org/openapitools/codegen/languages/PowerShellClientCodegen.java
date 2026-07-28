@@ -39,6 +39,7 @@ import java.util.*;
 
 import static java.util.UUID.randomUUID;
 import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -1369,7 +1370,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         example.append("\"");
 
-        List<Object> enumValues = (List<Object>) allowableValues.get(ENUM_VALUES);
+        List<Object> enumValues = getEnumValues(allowableValues);
         example.append(enumValues.get(0));
 
         example.append("\"");
