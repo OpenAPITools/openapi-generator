@@ -56,6 +56,50 @@ public class Sttp4CodegenTest {
     }
 
     @Test
+    public void verifyEnumParameterImportAndWireValues() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/scala/sttp4-enum-param.yaml", null, new ParseOptions()).getOpenAPI();
+
+        ScalaSttp4ClientCodegen codegen = new ScalaSttp4ClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put("jsonLibrary", "circe");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        // Enums are sealed traits + case objects: the API must import the type itself,
+        // not Enumeration-style wildcard members (which would not bring the type into scope).
+        Path apiPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/api/DefaultApi.scala");
+        assertFileContains(apiPath, "import org.openapitools.client.model.PetStatus\n");
+        assertFileNotContains(apiPath, "import org.openapitools.client.model.PetStatus._");
+
+        // Models live in the same package as the enum: no import is needed at all
+        // (sealed trait, not an Enumeration with a type alias inside the companion).
+        Path modelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Pet.scala");
+        assertFileNotContains(modelPath, "import org.openapitools.client.model.PetStatus");
+
+        // Case objects carry their wire value as toString so path/query interpolation
+        // (uri"...${param}...") serializes the wire value, not the Scala identifier.
+        Path enumPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/PetStatus.scala");
+        assertFileContains(enumPath, "case object Available extends PetStatus { override def toString: String = \"available\" }");
+        assertFileContains(enumPath, "case object SoldOut extends PetStatus { override def toString: String = \"sold-out\" }");
+    }
+
+    @Test
     public void verifyOneOfSupportWithCirce() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
