@@ -1032,7 +1032,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (!isQuietMode()) {
             System.out.println("############################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                                      #");
-            System.out.println("# We appreciate your support! Please consider donation to help us maintain this project.   #");
+            System.out.println("# We appreciate your support! Please consider donating to help us maintain this project.   #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                                      #");
             System.out.println("############################################################################################");
         }
