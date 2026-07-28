@@ -1206,6 +1206,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public ExtendedCodegenParameter(CodegenParameter cp) {
             super();
 
+            this.isDeprecated = cp.isDeprecated;
             this.isFormParam = cp.isFormParam;
             this.isQueryParam = cp.isQueryParam;
             this.isPathParam = cp.isPathParam;
