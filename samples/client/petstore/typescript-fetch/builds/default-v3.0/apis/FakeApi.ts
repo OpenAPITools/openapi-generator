@@ -70,118 +70,286 @@ import {
 } from '../models/User';
 
 export interface FakeHttpSignatureTestRequest {
+    /**
+     * 
+     */
     pet: Pet;
+    /**
+     * query parameter
+     */
     query1?: string;
+    /**
+     * header parameter
+     */
     header1?: string;
 }
 
 export interface FakeOuterBooleanSerializeRequest {
+    /**
+     * 
+     */
     body?: boolean;
 }
 
 export interface FakeOuterCompositeSerializeRequest {
+    /**
+     * 
+     */
     outerComposite?: OuterComposite;
 }
 
 export interface FakeOuterNumberSerializeRequest {
+    /**
+     * 
+     */
     body?: number;
 }
 
 export interface FakeOuterStringSerializeRequest {
+    /**
+     * 
+     */
     body?: string;
 }
 
 export interface FakePropertyEnumIntegerSerializeRequest {
+    /**
+     * 
+     */
     outerObjectWithEnumProperty: OuterObjectWithEnumProperty;
 }
 
 export interface TestAdditionalPropertiesReferenceRequest {
+    /**
+     * 
+     */
     requestBody: { [key: string]: any; };
 }
 
 export interface TestBodyWithBinaryRequest {
+    /**
+     * 
+     */
     body: Blob | null;
 }
 
 export interface TestBodyWithFileSchemaRequest {
+    /**
+     * 
+     */
     fileSchemaTestClass: FileSchemaTestClass;
 }
 
 export interface TestBodyWithQueryParamsRequest {
+    /**
+     * 
+     */
     query: string;
+    /**
+     * 
+     */
     user: User;
 }
 
 export interface TestClientModelRequest {
+    /**
+     * 
+     */
     client: Client;
 }
 
 export interface TestEndpointParametersRequest {
+    /**
+     * None
+     */
     number: number;
+    /**
+     * None
+     */
     _double: number;
+    /**
+     * None
+     */
     patternWithoutDelimiter: string;
+    /**
+     * None
+     */
     _byte: string;
+    /**
+     * None
+     */
     integer?: number;
+    /**
+     * None
+     */
     int32?: number;
+    /**
+     * None
+     */
     int64?: number;
+    /**
+     * None
+     */
     _float?: number;
+    /**
+     * None
+     */
     string?: string;
+    /**
+     * None
+     */
     binary?: Blob;
+    /**
+     * None
+     */
     date?: Date;
+    /**
+     * None
+     */
     dateTime?: Date;
+    /**
+     * None
+     */
     password?: string;
+    /**
+     * None
+     */
     callback?: string;
 }
 
 export interface TestEnumParametersRequest {
+    /**
+     * Header parameter enum test (string array)
+     */
     enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>;
+    /**
+     * Header parameter enum test (string)
+     */
     enumHeaderString?: TestEnumParametersEnumHeaderStringEnum;
+    /**
+     * Query parameter enum test (string array)
+     */
     enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>;
+    /**
+     * Query parameter enum test (string)
+     */
     enumQueryString?: TestEnumParametersEnumQueryStringEnum;
+    /**
+     * Query parameter enum test (double)
+     */
     enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum;
+    /**
+     * Query parameter enum test (double)
+     */
     enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum;
+    /**
+     * 
+     */
     enumQueryModelArray?: Array<EnumClass>;
+    /**
+     * Form parameter enum test (string array)
+     */
     enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>;
+    /**
+     * Form parameter enum test (string)
+     */
     enumFormString?: TestEnumParametersEnumFormStringEnum;
 }
 
 export interface TestGroupParametersRequest {
+    /**
+     * Required String in group parameters
+     */
     requiredStringGroup: number;
+    /**
+     * Required Boolean in group parameters
+     */
     requiredBooleanGroup: boolean;
+    /**
+     * Required Integer in group parameters
+     */
     requiredInt64Group: number;
+    /**
+     * String in group parameters
+     */
     stringGroup?: number;
+    /**
+     * Boolean in group parameters
+     */
     booleanGroup?: boolean;
+    /**
+     * Integer in group parameters
+     */
     int64Group?: number;
 }
 
 export interface TestInlineAdditionalPropertiesRequest {
+    /**
+     * 
+     */
     requestBody: { [key: string]: string; };
 }
 
 export interface TestInlineFreeformAdditionalPropertiesOperationRequest {
+    /**
+     * 
+     */
     testInlineFreeformAdditionalPropertiesRequest: TestInlineFreeformAdditionalPropertiesRequest;
 }
 
 export interface TestJsonFormDataRequest {
+    /**
+     * field1
+     */
     param: string;
+    /**
+     * field2
+     */
     param2: string;
 }
 
 export interface TestNullableRequest {
+    /**
+     * 
+     */
     childWithNullable: ChildWithNullable;
 }
 
 export interface TestQueryParameterCollectionFormatRequest {
+    /**
+     * 
+     */
     pipe: Array<string>;
+    /**
+     * 
+     */
     ioutil: Array<string>;
+    /**
+     * 
+     */
     http: Array<string>;
+    /**
+     * 
+     */
     url: Array<string>;
+    /**
+     * 
+     */
     context: Array<string>;
+    /**
+     * 
+     */
     allowEmpty: string;
+    /**
+     * 
+     */
     language?: { [key: string]: string; };
 }
 
 export interface TestStringMapReferenceRequest {
+    /**
+     * 
+     */
     requestBody: { [key: string]: string; };
 }
 

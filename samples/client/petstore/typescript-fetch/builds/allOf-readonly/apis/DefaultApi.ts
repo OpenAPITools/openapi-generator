@@ -20,6 +20,9 @@ import {
 } from '../models/Club';
 
 export interface ListRequest {
+    /**
+     * The id of the person to retrieve
+     */
     personId: string;
 }
 

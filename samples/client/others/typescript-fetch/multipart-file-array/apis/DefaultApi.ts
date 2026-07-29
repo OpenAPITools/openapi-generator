@@ -15,7 +15,13 @@
 import * as runtime from '../runtime';
 
 export interface UploadFilesRequest {
+    /**
+     * 
+     */
     files: Array<Blob>;
+    /**
+     * 
+     */
     metadata?: string;
 }
 
