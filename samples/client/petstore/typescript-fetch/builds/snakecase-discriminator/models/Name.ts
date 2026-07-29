@@ -21,26 +21,18 @@ import { mapValues } from '../runtime';
 export interface Name {
     /**
      * 
-     * @type {number}
-     * @memberof Name
      */
     name: number;
     /**
      * 
-     * @type {number}
-     * @memberof Name
      */
     readonly snakeCase?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Name
      */
     property?: string;
     /**
      * 
-     * @type {number}
-     * @memberof Name
      */
     readonly _123number?: number;
 }

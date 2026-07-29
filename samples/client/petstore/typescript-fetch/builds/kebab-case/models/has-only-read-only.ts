@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface HasOnlyReadOnly {
     /**
      * 
-     * @type {string}
-     * @memberof HasOnlyReadOnly
      */
     readonly bar?: string;
     /**
      * 
-     * @type {string}
-     * @memberof HasOnlyReadOnly
      */
     readonly foo?: string;
 }
