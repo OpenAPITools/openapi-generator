@@ -1,7 +1,10 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.Animal
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -23,14 +26,19 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Dog(
 
     @Schema(required = true, description = "")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("className")
     @get:JsonProperty("className", required = true) override val className: kotlin.String,
 
     @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("breed")
     @get:JsonProperty("breed") val breed: kotlin.String? = null,
 
     @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("color")
     @get:JsonProperty("color") override val color: kotlin.String? = "red"
 ) : Animal {

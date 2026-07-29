@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -63,6 +64,7 @@ public class EnumTest {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<EnumStringEnum> enumString = Optional.empty();
 
   /**
@@ -102,6 +104,7 @@ public class EnumTest {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -139,6 +142,7 @@ public class EnumTest {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<EnumIntegerEnum> enumInteger = Optional.empty();
 
   /**
@@ -176,8 +180,10 @@ public class EnumTest {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<EnumNumberEnum> enumNumber = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<OuterEnum> outerEnum = Optional.empty();
 
   public EnumTest() {

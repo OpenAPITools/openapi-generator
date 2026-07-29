@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -57,12 +58,14 @@ public class NullableClassDto {
 
   private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Object> arrayItemsNullable = new ArrayList<>();
 
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
   private JsonNullable<Map<String, Object>> objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClassDto integerProp(Integer integerProp) {

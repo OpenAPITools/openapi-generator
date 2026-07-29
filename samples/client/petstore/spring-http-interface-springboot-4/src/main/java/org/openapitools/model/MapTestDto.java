@@ -2,10 +2,13 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.lang.Nullable;
@@ -26,6 +29,8 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class MapTestDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -63,10 +68,16 @@ public class MapTestDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, Boolean> directMap = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTestDto mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

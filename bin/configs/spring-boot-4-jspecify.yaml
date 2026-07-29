@@ -5,6 +5,8 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/java/jspecify.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 validateSpec: false
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   groupId: org.openapitools.openapi3
   documentationProvider: springdoc
   interfaceOnly: true
