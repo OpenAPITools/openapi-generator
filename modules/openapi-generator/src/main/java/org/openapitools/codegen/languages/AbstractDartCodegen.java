@@ -30,6 +30,8 @@ import java.util.stream.Stream;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.BUNGIE_X_ENUM_VALUES;
+import static org.openapitools.codegen.utils.EnumUtils.getBungieEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
@@ -852,21 +854,19 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
-        if (vendorExtensions != null && useEnumExtension && vendorExtensions.containsKey("x-enum-values")) {
+        if (vendorExtensions != null && useEnumExtension && vendorExtensions.containsKey(BUNGIE_X_ENUM_VALUES)) {
             // Use the x-enum-values extension for this enum
             // Existing enumVars added by the default handling need to be removed first
             enumVars.clear();
 
-            Object extension = vendorExtensions.get("x-enum-values");
-            List<Map<String, Object>> values = (List<Map<String, Object>>) extension;
-            for (Map<String, Object> value : values) {
-                Map<String, Object> enumVar = new HashMap<>();
-                enumVar.put(ENUM_NAME, toEnumVarName((String) value.get("identifier"), dataType));
-                enumVar.put(ENUM_VALUE, toEnumValue(value.get("numericValue").toString(), dataType));
-                enumVar.put(ENUM_IS_STRING, isDataTypeString(dataType));
-                if (value.containsKey("description")) {
-                    enumVar.put("description", value.get("description").toString());
-                }
+            List<Map<String, String>> bungieEnumValues = getBungieEnumValues((List<Map<String, Object>>) vendorExtensions.get(BUNGIE_X_ENUM_VALUES));
+
+            boolean isString = isDataTypeString(dataType);
+            for (Map<String, String> value : bungieEnumValues) {
+                Map<String, Object> enumVar = new HashMap<>(value);
+                enumVar.put(ENUM_NAME, toEnumVarName(value.get(ENUM_NAME), dataType));
+                enumVar.put(ENUM_VALUE, toEnumValue(value.get(ENUM_VALUE), dataType));
+                enumVar.put(ENUM_IS_STRING, isString);
                 enumVars.add(enumVar);
             }
         } else {
