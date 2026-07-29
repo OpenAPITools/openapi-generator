@@ -15,12 +15,12 @@ module Qdrant::Api
 
     # Required properties
     @[JSON::Field(key: "context", emit_null: false)]
-    property context : ContextInput
+    property context : ContextInput?
 
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@context : ContextInput)
+    def initialize(@context : ContextInput?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
