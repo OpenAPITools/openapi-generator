@@ -94,7 +94,7 @@ import java.util.stream.Stream;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.DiscriminatorUtils.*;
-import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.*;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -6808,29 +6808,57 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (enumUnknownDefaultCase) {
-            // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
-            // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
-            Map<String, Object> enumVar = new HashMap<>();
-            String enumName = enumUnknownDefaultCaseName;
-
-            String enumValue = isDataTypeString(dataType)
-                    ? enumUnknownDefaultCaseName
-                    : // This is a dummy value that attempts to avoid collisions with previously specified cases.
-                    // Int.max / 192
-                    // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
-                    // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
-                    // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
-                    // https://github.com/OpenAPITools/openapi-generator/pull/11013
-                    String.valueOf(11184809);
-
-            enumVar.put(ENUM_NAME, toEnumVarName(enumName, dataType));
-            enumVar.put(ENUM_VALUE, toEnumValue(enumValue, dataType));
-            enumVar.put(ENUM_IS_STRING, isDataTypeString(dataType));
-            // TODO: add isNumeric
-            enumVars.add(enumVar);
+            injectEnumUnknownDefaultCase(enumVars, dataType);
         }
 
         return enumVars;
+    }
+
+    /**
+     * If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
+     * This adds a default case to the enum, {@link DefaultCodegen#enumUnknownDefaultCaseName}, that can be used as a fallback for unknown values.
+     *
+     * @param enumVars the enumVars
+     * @param dataType the data type of the enum parameter
+     */
+    private void injectEnumUnknownDefaultCase(List<Map<String, Object>> enumVars, String dataType) {
+        Map<String, Object> enumVar = new HashMap<>();
+        String enumName = enumUnknownDefaultCaseName;
+
+        String enumValue = isDataTypeString(dataType)
+                ? enumUnknownDefaultCaseName
+                : // This is a dummy value that attempts to avoid collisions with previously specified cases.
+                // Int.max / 192
+                // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
+                // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
+                // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
+                // https://github.com/OpenAPITools/openapi-generator/pull/11013
+                String.valueOf(11184809);
+
+        enumVar.put(ENUM_NAME, toEnumVarName(enumName, dataType));
+        enumVar.put(ENUM_VALUE, toEnumValue(enumValue, dataType));
+        enumVar.put(ENUM_IS_STRING, isDataTypeString(dataType));
+        // TODO: add isNumeric
+        enumVars.add(enumVar);
+    }
+
+    /**
+     * Removes any injected default enum value that was created with {@link DefaultCodegen#injectEnumUnknownDefaultCase}
+     * from an operation's non-body enum parameters. This can for example be of interest when generating client code
+     * where a fallback is superfluous for a value that is only sent and never received.
+     *
+     * @param operation operation to be processed
+     */
+    protected void removeEnumUnknownDefaultCase(CodegenOperation operation) {
+        for (CodegenParameter param : operation.allParams) {
+            if (!param.isBodyParam && param.isEnum && hasEnumVars(param.allowableValues)) {
+                List<Map<String, Object>> enumVars = getEnumVars(param.allowableValues);
+                if (enumVars != null) {
+                    String unknownName = toEnumVarName(enumUnknownDefaultCaseName, param.dataType);
+                    enumVars.removeIf(ev -> unknownName.equals(ev.get(ENUM_NAME)));
+                }
+            }
+        }
     }
 
     protected void postProcessEnumVars(List<Map<String, Object>> enumVars) {
