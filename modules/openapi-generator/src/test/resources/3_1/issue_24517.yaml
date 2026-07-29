@@ -1,0 +1,27 @@
+openapi: 3.1.0
+info:
+  title: Repro
+  version: 1.0.0
+components:
+  schemas:
+    Child:
+      type: object
+      properties:
+        name:
+          type: string
+    ParentNullableMap:
+      type: object
+      properties:
+        # a nullable map whose value schema is a $ref
+        map:
+          type: ["null", object]
+          additionalProperties:
+            $ref: "#/components/schemas/Child"
+    ParentNullableArray:
+      type: object
+      properties:
+        # control: a nullable array of the same $ref, which is already normalized correctly
+        list:
+          type: ["null", array]
+          items:
+            $ref: "#/components/schemas/Child"

@@ -258,4 +258,37 @@ public class TypeScriptAxiosClientCodegenTest {
                         "    Xyz: '(xyz)',\n" +
                         "} as const;");
     }
+
+    @Test(description = "A nullable map (OAS 3.1 type array) with a $ref value imports the referenced model")
+    public void testNullableMapWithRefValueImportsReferencedModel() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_nullable_map_ref_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/issue_24517.yaml")
+                .setModelPackage("models")
+                .setApiPackage("api")
+                .addAdditionalProperty(TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // `map` is `type: ["null", object]` with `additionalProperties: {$ref: Child}`: the value model
+        // has to be imported and the property has to stay nullable. Before the fix the generator
+        // emitted an import of a `Null` model that it never writes and left `Child` unimported,
+        // so the output did not compile.
+        Path nullableMap = Paths.get(output + "/models/parent-nullable-map.ts");
+        TestUtils.assertFileContains(nullableMap,
+                "import type { Child } from './child';",
+                "'map'?: { [key: string]: Child; } | null;");
+        TestUtils.assertFileNotContains(nullableMap, "from './null'");
+
+        // control: the equivalent nullable array of the same $ref was already generated correctly
+        Path nullableArray = Paths.get(output + "/models/parent-nullable-array.ts");
+        TestUtils.assertFileContains(nullableArray,
+                "import type { Child } from './child';",
+                "'list'?: Array<Child> | null;");
+    }
 }

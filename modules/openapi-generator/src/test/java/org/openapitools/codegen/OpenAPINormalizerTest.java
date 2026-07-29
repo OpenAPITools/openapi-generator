@@ -1983,6 +1983,43 @@ public class OpenAPINormalizerTest {
         assertEquals(errorsValue.getType(), "array");
         assertTrue(errorsValue.getNullable());
         assertNotNull(errorsValue.getItems());
+
+        // the maps themselves are declared `type: [object, "null"]`, so they must end up as
+        // nullable object schemas rather than keeping the OAS 3.1 type array.
+        for (String mapProperty : List.of("stringMap", "errorsByKey")) {
+            Schema map = (Schema) schema.getProperties().get(mapProperty);
+            assertEquals(map.getType(), "object", mapProperty + " should be normalized to type object");
+            assertTrue(map.getNullable(), mapProperty + " should be nullable");
+        }
+    }
+
+    /**
+     * A map declared with an OAS 3.1 type array (`type: ["null", object]`) whose value schema is a
+     * `$ref` must be normalized to a nullable object schema, keeping the `$ref` value schema intact.
+     * Without it the `null` entry stays in the type array and generators resolve the property to a
+     * fictional `Null` model, dropping both the nullability and the import of the referenced model.
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/24517">#24517</a>.
+     */
+    @Test
+    public void testIssue24517NullableMapWithRefValueUsingTypeArray() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24517.yaml");
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        new OpenAPINormalizer(openAPI, inputRules).normalize();
+
+        Schema map = (Schema) openAPI.getComponents().getSchemas().get("ParentNullableMap")
+                .getProperties().get("map");
+        assertEquals(map.getType(), "object");
+        assertFalse(map.getTypes().contains("null"), "the `null` entry must be removed from the type array");
+        assertTrue(map.getNullable());
+        assertEquals(ModelUtils.getAdditionalProperties(map).get$ref(), "#/components/schemas/Child",
+                "the $ref value schema of the map must be preserved");
+
+        // control: the equivalent nullable array was already normalized correctly
+        Schema list = (Schema) openAPI.getComponents().getSchemas().get("ParentNullableArray")
+                .getProperties().get("list");
+        assertEquals(list.getType(), "array");
+        assertTrue(list.getNullable());
+        assertEquals(list.getItems().get$ref(), "#/components/schemas/Child");
     }
 
 }

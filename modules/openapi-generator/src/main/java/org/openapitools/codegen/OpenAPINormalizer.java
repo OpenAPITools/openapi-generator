@@ -986,18 +986,13 @@ public class OpenAPINormalizer {
         } else if (ModelUtils.hasProperties(schema)) {
             // OAS 3.1: if the type array includes "null", extract it and set nullable:true
             // on the parent schema before normalizing its child properties.
-            // We intentionally do NOT call the full processNormalize31Spec here because
-            // that method can replace a JsonSchema with properties (but no explicit type)
-            // with an empty schema, discarding all properties.
-            if (getRule(NORMALIZE_31SPEC) && schema.getTypes() != null && schema.getTypes().contains("null")) {
-                schema.setNullable(true);
-                schema.getTypes().remove("null");
-                if (schema.getTypes().size() == 1) {
-                    schema.setType(String.valueOf(schema.getTypes().iterator().next()));
-                }
-            }
+            normalizeNullTypeArray31(schema);
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
+            // OAS 3.1: same as the schema-with-properties branch above, a map schema can
+            // declare its own nullability with a type array (e.g.
+            // `type: [object, "null"]` alongside `additionalProperties`).
+            normalizeNullTypeArray31(schema);
             normalizeMapSchema(schema);
             Schema additionalProperties = (Schema) schema.getAdditionalProperties();
             if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, additionalProperties)) {
@@ -1106,6 +1101,30 @@ public class OpenAPINormalizer {
 
     protected Schema normalizeMapSchema(Schema schema) {
         return processSetMapToNullable(schema);
+    }
+
+    /**
+     * OAS 3.1 allows a schema to express nullability with a type array, e.g.
+     * `type: [object, "null"]`. Move the `null` entry onto `nullable: true` and, once a single
+     * type is left, set it as the OAS 3.0 style `type` so that the rest of the codegen sees a
+     * plain (nullable) object or map instead of a multi-type schema.
+     * <p>
+     * This is deliberately narrower than {@link #processNormalize31Spec(Schema, Set)}: that method
+     * replaces a JsonSchema carrying no explicit type with an empty schema, which would discard the
+     * `properties` / `additionalProperties` of the schemas handled here.
+     *
+     * @param schema Schema
+     */
+    protected void normalizeNullTypeArray31(Schema schema) {
+        if (!getRule(NORMALIZE_31SPEC) || schema.getTypes() == null || !schema.getTypes().contains("null")) {
+            return;
+        }
+
+        schema.setNullable(true);
+        schema.getTypes().remove("null");
+        if (schema.getTypes().size() == 1) {
+            schema.setType(String.valueOf(schema.getTypes().iterator().next()));
+        }
     }
 
     protected Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
