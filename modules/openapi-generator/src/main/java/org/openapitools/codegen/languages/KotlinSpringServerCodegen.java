@@ -34,8 +34,10 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
+import org.openapitools.codegen.utils.JsonIncludePolicy;
 import org.openapitools.codegen.utils.JsonIncludePolicyUtils;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.TriStateBoolean;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -184,10 +186,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useEnumValueInterface = false;
     private String valuedEnumClassName = "ValuedEnum";
     @Setter private boolean suspendFunctions = false;
-    @Getter @Setter private String optionalNonNullPropertyJsonInclude = "NON_NULL";
-    // Tri-state: null = unset (weak default + warning), Boolean.FALSE = weak (muted), Boolean.TRUE = strict emission.
-    @Getter @Setter private Boolean generateJsonIncludeAnnotations = null;
-    @Getter @Setter private Boolean generateJsonSetterNullsAnnotations = null;
+    @Getter @Setter private JsonIncludePolicy optionalNonNullPropertyJsonInclude = JsonIncludePolicy.NON_NULL;
+    @Getter @Setter private TriStateBoolean generateJsonIncludeAnnotations = TriStateBoolean.UNSET;
+    @Getter @Setter private TriStateBoolean generateJsonSetterNullsAnnotations = TriStateBoolean.UNSET;
     @Getter @Setter private boolean openApiNullable = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
@@ -321,23 +322,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
 
         CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
-                "The Jackson @JsonInclude policy emitted for optional, non-nullable model properties when "
-                        + CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS + " is true. "
-                        + "NONE emits no annotation, deferring fully to the global ObjectMapper inclusion policy.");
-        optionalNonNullPropertyJsonIncludeOpt.addEnum("NON_NULL", "Omit the property when its value is null (default, spec-safe for non-nullable fields).");
-        optionalNonNullPropertyJsonIncludeOpt.addEnum("NON_EMPTY", "Omit the property when its value is null or considered empty.");
-        optionalNonNullPropertyJsonIncludeOpt.addEnum("NON_DEFAULT", "Omit the property when its value equals the default.");
-        optionalNonNullPropertyJsonIncludeOpt.addEnum("NONE", "Emit no @JsonInclude annotation; defer to the global ObjectMapper.");
-        optionalNonNullPropertyJsonIncludeOpt.setDefault(optionalNonNullPropertyJsonInclude);
+                JsonIncludePolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE_DESC);
+        for (JsonIncludePolicy policy : JsonIncludePolicy.OPTIONAL_NON_NULL_POLICIES) {
+            optionalNonNullPropertyJsonIncludeOpt.addEnum(policy.name(), policy.getDescription());
+        }
+        optionalNonNullPropertyJsonIncludeOpt.setDefault(optionalNonNullPropertyJsonInclude.name());
         cliOptions.add(optionalNonNullPropertyJsonIncludeOpt);
 
         addSwitch(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS,
-                "Whether to generate policy @JsonInclude annotations on model properties. When true, emits "
-                        + "spec-honest annotations (required-field protection and the optional non-nullable policy from "
-                        + CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE + "). When false, none are generated and the global "
-                        + "ObjectMapper owns inclusion. When left unset it defaults to false (7.23.0-equivalent output) and "
-                        + "logs a warning; set it explicitly to silence the warning. A per-property override set via the "
-                        + "`x-jackson-json-include-policy` vendor extension is always honored regardless of this flag.", false);
+                JsonIncludePolicyUtils.GENERATE_JSON_INCLUDE_ANNOTATIONS_DESC, false);
         addSwitch(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
                 "Whether to generate @JsonSetter(nulls = ...) annotations on optional non-nullable model properties. "
                         + "When true, emits @JsonSetter (Nulls.FAIL when openApiNullable is true, otherwise Nulls.SKIP) so "
@@ -764,20 +757,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         writePropertyBack(SUSPEND_FUNCTIONS, suspendFunctions);
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS)) {
-            this.setGenerateJsonIncludeAnnotations(convertPropertyToBoolean(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS));
+            this.generateJsonIncludeAnnotations = TriStateBoolean.fromNullableBoolean(convertPropertyToBoolean(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS));
         }
-        writePropertyBack(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, Boolean.TRUE.equals(generateJsonIncludeAnnotations));
+        writePropertyBack(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, generateJsonIncludeAnnotations.isTrue());
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS)) {
-            this.setGenerateJsonSetterNullsAnnotations(convertPropertyToBoolean(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS));
+            this.generateJsonSetterNullsAnnotations = TriStateBoolean.fromNullableBoolean(convertPropertyToBoolean(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS));
         }
-        writePropertyBack(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, Boolean.TRUE.equals(generateJsonSetterNullsAnnotations));
+        writePropertyBack(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, generateJsonSetterNullsAnnotations.isTrue());
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE)) {
-            this.setOptionalNonNullPropertyJsonInclude(additionalProperties.get(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE).toString());
+            this.optionalNonNullPropertyJsonInclude = JsonIncludePolicy.valueOf(JsonIncludePolicyUtils.normalizeJsonIncludePolicy(
+                    additionalProperties.get(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE).toString(),
+                    CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE));
         }
-        this.optionalNonNullPropertyJsonInclude = JsonIncludePolicyUtils.normalizeJsonIncludePolicy(
-                this.optionalNonNullPropertyJsonInclude, CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE);
-        writePropertyBack(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, optionalNonNullPropertyJsonInclude);
-        if (generateJsonIncludeAnnotations == null) {
+        writePropertyBack(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, optionalNonNullPropertyJsonInclude.name());
+        if (generateJsonIncludeAnnotations.isUnset()) {
             LOGGER.warn("'{}' is not set. Defaulting to false: no @JsonInclude annotations are generated and property "
                     + "inclusion is governed entirely by the global ObjectMapper (7.23.0-equivalent output). "
                     + "Set '{}=false' to keep this behavior and silence this warning, or '{}=true' to emit spec-honest "
@@ -786,7 +779,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS,
                     CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE);
         }
-        if (generateJsonSetterNullsAnnotations == null) {
+        if (generateJsonSetterNullsAnnotations.isUnset()) {
             LOGGER.warn("'{}' is not set. Defaulting to false: no @JsonSetter(nulls = ...) annotations are generated and "
                     + "deserialization null-handling is governed entirely by the global ObjectMapper (7.23.0-equivalent "
                     + "output). Set '{}=false' to keep this behavior and silence this warning, or '{}=true' to emit "
@@ -1346,7 +1339,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // generateJsonSetterNullsAnnotations is explicitly enabled.
         // When openApiNullable=true: Nulls.FAIL → reject explicit null (strict PATCH semantics).
         // When openApiNullable=false: Nulls.SKIP → silently ignore explicit null (lenient, protects defaults).
-        if (Boolean.TRUE.equals(generateJsonSetterNullsAnnotations) && !property.required && !property.isNullable) {
+        if (generateJsonSetterNullsAnnotations.isTrue() && !property.required && !property.isNullable) {
             if (openApiNullable) {
                 property.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
             } else {
@@ -1413,17 +1406,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
             return;
         }
-        if (!Boolean.TRUE.equals(generateJsonIncludeAnnotations)) {
+        if (!generateJsonIncludeAnnotations.isTrue()) {
             return;
         }
-        String policy = null;
+        JsonIncludePolicy policy = null;
         if (property.required) {
-            policy = "ALWAYS";
+            policy = JsonIncludePolicy.ALWAYS;
         } else if (!property.isNullable) {
             policy = optionalNonNullPropertyJsonInclude;
         }
-        if (JsonIncludePolicyUtils.isJsonIncludePolicyEmitted(policy)) {
-            property.vendorExtensions.put(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY.getName(), policy);
+        if (policy != null && policy.isEmitted()) {
+            property.vendorExtensions.put(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY.getName(), policy.name());
             model.imports.add("JsonInclude");
         }
     }
@@ -1574,7 +1567,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             for (CodegenProperty var : cm.optionalVars) {
                 // Scenario 3: optional + non-nullable → emit @JsonSetter when generateJsonSetterNullsAnnotations is enabled.
                 // openApiNullable=true: Nulls.FAIL (strict). openApiNullable=false: Nulls.SKIP (lenient).
-                if (Boolean.TRUE.equals(generateJsonSetterNullsAnnotations) && !var.required && !var.isNullable) {
+                if (generateJsonSetterNullsAnnotations.isTrue() && !var.required && !var.isNullable) {
                     if (openApiNullable) {
                         var.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
                     } else {
