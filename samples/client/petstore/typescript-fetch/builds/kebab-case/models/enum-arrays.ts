@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface EnumArrays {
     /**
      * 
-     * @type {EnumArraysJustSymbolEnum}
-     * @memberof EnumArrays
      */
     justSymbol?: EnumArraysJustSymbolEnum;
     /**
      * 
-     * @type {Array<EnumArraysArrayEnumEnum>}
-     * @memberof EnumArrays
      */
     arrayEnum?: Array<EnumArraysArrayEnumEnum>;
 }

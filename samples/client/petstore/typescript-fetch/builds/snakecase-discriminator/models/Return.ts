@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface Return {
     /**
      * 
-     * @type {number}
-     * @memberof Return
      */
     _return?: number;
 }

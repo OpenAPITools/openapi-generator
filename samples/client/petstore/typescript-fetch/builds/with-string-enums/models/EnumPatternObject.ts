@@ -36,26 +36,18 @@ import {
 export interface EnumPatternObject {
     /**
      * 
-     * @type {StringEnum}
-     * @memberof EnumPatternObject
      */
     stringEnum?: StringEnum;
     /**
      * 
-     * @type {StringEnum}
-     * @memberof EnumPatternObject
      */
     nullableStringEnum?: StringEnum | null;
     /**
      * 
-     * @type {NumberEnum}
-     * @memberof EnumPatternObject
      */
     numberEnum?: NumberEnum;
     /**
      * 
-     * @type {NumberEnum}
-     * @memberof EnumPatternObject
      */
     nullableNumberEnum?: NumberEnum | null;
 }

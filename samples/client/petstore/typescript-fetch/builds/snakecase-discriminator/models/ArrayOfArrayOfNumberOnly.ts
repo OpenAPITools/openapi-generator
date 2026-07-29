@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface ArrayOfArrayOfNumberOnly {
     /**
      * 
-     * @type {Array<Array<number>>}
-     * @memberof ArrayOfArrayOfNumberOnly
      */
     arrayArrayNumber?: Array<Array<number>>;
 }

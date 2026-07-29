@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface DeprecatedObject {
     /**
      * 
-     * @type {string}
-     * @memberof DeprecatedObject
      */
     name?: string;
 }
