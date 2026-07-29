@@ -11,7 +11,6 @@ jobs:
   upload-release-asset:
     runs-on: ubuntu-latest
     name: Upload CLI JAR to GitHub Release
-    needs: build
     if: startsWith(github.ref, 'refs/tags/')
     permissions:
       contents: write
