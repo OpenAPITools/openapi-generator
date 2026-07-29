@@ -26,6 +26,196 @@ namespace {
 using OperationCompletion =
     std::function<void(const boost::beast::error_code &)>;
 
+bool isAsciiAlphaNumeric(const unsigned char character) {
+    return (character >= '0' && character <= '9') ||
+        (character >= 'A' && character <= 'Z') ||
+        (character >= 'a' && character <= 'z');
+}
+
+bool isRfcTokenCharacter(const unsigned char character) {
+    if (isAsciiAlphaNumeric(character)) {
+        return true;
+    }
+
+    switch (character) {
+    case '!':
+    case '#':
+    case '$':
+    case '%':
+    case '&':
+    case '\'':
+    case '*':
+    case '+':
+    case '-':
+    case '.':
+    case '^':
+    case '_':
+    case '`':
+    case '|':
+    case '~':
+        return true;
+    default:
+        return false;
+    }
+}
+
+bool isRfcToken(const std::string &token) {
+    if (token.empty()) {
+        return false;
+    }
+
+    for (const unsigned char character : token) {
+        if (!isRfcTokenCharacter(character)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool containsControlCharacter(const std::string &value) {
+    for (const unsigned char character : value) {
+        if (character < 0x20 || character == 0x7f) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool isHexDigit(const unsigned char character) {
+    return (character >= '0' && character <= '9') ||
+        (character >= 'A' && character <= 'F') ||
+        (character >= 'a' && character <= 'f');
+}
+
+bool isOriginFormTargetCharacter(const unsigned char character) {
+    if (isAsciiAlphaNumeric(character)) {
+        return true;
+    }
+
+    switch (character) {
+    case '!':
+    case '$':
+    case '&':
+    case '\'':
+    case '(':
+    case ')':
+    case '*':
+    case '+':
+    case ',':
+    case '-':
+    case '.':
+    case '/':
+    case ':':
+    case ';':
+    case '=':
+    case '?':
+    case '@':
+    case '_':
+    case '~':
+        return true;
+    default:
+        return false;
+    }
+}
+
+void validateHost(const std::string &host) {
+    if (host.empty()) {
+        throw std::invalid_argument("host must not be empty");
+    }
+    if (containsControlCharacter(host) ||
+        host.find_first_of(" /\\?#") != std::string::npos) {
+        throw std::invalid_argument("host contains an invalid character");
+    }
+}
+
+void validatePort(const std::string &port) {
+    if (port.empty()) {
+        throw std::invalid_argument("port must not be empty");
+    }
+    if (containsControlCharacter(port) ||
+        port.find_first_of(" /\\:?#") != std::string::npos) {
+        throw std::invalid_argument("port contains an invalid character");
+    }
+}
+
+void validateRequestTarget(const std::string &target) {
+    if (target.empty() || target.front() != '/') {
+        throw std::invalid_argument("target must use HTTP origin-form");
+    }
+
+    for (std::size_t index = 0; index < target.size(); ++index) {
+        const unsigned char character =
+            static_cast<unsigned char>(target[index]);
+        if (character == '%') {
+            if (index + 2 >= target.size() ||
+                !isHexDigit(static_cast<unsigned char>(target[index + 1])) ||
+                !isHexDigit(static_cast<unsigned char>(target[index + 2]))) {
+                throw std::invalid_argument("target contains an invalid percent escape");
+            }
+            index += 2;
+        } else if (!isOriginFormTargetCharacter(character)) {
+            throw std::invalid_argument("target contains an invalid character");
+        }
+    }
+}
+
+bool asciiCaseInsensitiveEqual(const std::string &headerName,
+                               const char *reservedHeaderName) {
+    const std::size_t reservedHeaderNameLength =
+        std::char_traits<char>::length(reservedHeaderName);
+    if (headerName.size() != reservedHeaderNameLength) {
+        return false;
+    }
+
+    for (std::size_t index = 0; index < headerName.size(); ++index) {
+        const unsigned char headerCharacter =
+            static_cast<unsigned char>(headerName[index]);
+        const unsigned char reservedCharacter =
+            static_cast<unsigned char>(reservedHeaderName[index]);
+        const unsigned char lowerHeaderCharacter =
+            headerCharacter >= 'A' && headerCharacter <= 'Z'
+            ? static_cast<unsigned char>(headerCharacter + ('a' - 'A'))
+            : headerCharacter;
+        const unsigned char lowerReservedCharacter =
+            reservedCharacter >= 'A' && reservedCharacter <= 'Z'
+            ? static_cast<unsigned char>(reservedCharacter + ('a' - 'A'))
+            : reservedCharacter;
+        if (lowerHeaderCharacter != lowerReservedCharacter) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void validateCallerHeader(const std::string &headerName,
+                          const std::string &headerValue) {
+    if (!isRfcToken(headerName)) {
+        throw std::invalid_argument("header name must be a non-empty RFC token");
+    }
+
+    const char *const reservedHeaderNames[] = {
+        "Host",
+        "Content-Length",
+        "Transfer-Encoding",
+        "Connection",
+        "Proxy-Connection",
+        "Keep-Alive",
+        "Upgrade",
+        "TE",
+        "Trailer",
+        "Expect",
+        "Proxy-Authorization"};
+    for (const char *reservedHeaderName : reservedHeaderNames) {
+        if (asciiCaseInsensitiveEqual(headerName, reservedHeaderName)) {
+            throw std::invalid_argument("header name is reserved by the transport");
+        }
+    }
+
+    if (containsControlCharacter(headerValue)) {
+        throw std::invalid_argument("header value must not contain control characters");
+    }
+}
+
 void throwOperationError(const boost::beast::error_code &operationError,
                          const char *operationName) {
     if (operationError) {
@@ -162,12 +352,8 @@ HttpClientImpl::HttpClientImpl(
     m_operationTimeout(operationTimeout),
     m_responseBodyLimit(responseBodyLimit)
 {
-    if (m_host.empty()) {
-        throw std::invalid_argument("host must not be empty");
-    }
-    if (m_port.empty()) {
-        throw std::invalid_argument("port must not be empty");
-    }
+    validateHost(m_host);
+    validatePort(m_port);
     if (m_httpVersion != 10 && m_httpVersion != 11) {
         throw std::invalid_argument("httpVersion must be 10 or 11");
     }
@@ -389,8 +575,16 @@ HttpClientImpl::prepareRequest(const std::string &verb,
                                const std::string &target,
                                const std::string &body,
                                const std::map<std::string, std::string> &headers) {
-    HttpRequest request{
-        boost::beast::http::string_to_verb(verb), target, m_httpVersion};
+    if (!isRfcToken(verb)) {
+        throw std::invalid_argument("verb must be a non-empty RFC token");
+    }
+    validateRequestTarget(target);
+
+    HttpRequest request;
+    request.version(m_httpVersion);
+    request.method_string(verb);
+    request.target(target);
+    request.body() = body;
 
     boost::beast::error_code hostAddressError;
     const boost::asio::ip::address hostAddress =
@@ -399,11 +593,11 @@ HttpClientImpl::prepareRequest(const std::string &verb,
         ? "[" + m_host + "]:" + m_port
         : m_host + ":" + m_port;
     request.set(boost::beast::http::field::host, hostHeader);
-    request.body() = body;
     request.set(
         boost::beast::http::field::user_agent,
         BOOST_BEAST_VERSION_STRING);
     for (const auto &header : headers) {
+        validateCallerHeader(header.first, header.second);
         request.set(header.first, header.second);
     }
 
