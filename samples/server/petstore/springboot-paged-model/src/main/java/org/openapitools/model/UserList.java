@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
@@ -29,10 +28,8 @@ public class UserList implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid User> content = new ArrayList<>();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String description;
 
   public UserList content(List<@Valid User> content) {

@@ -1,10 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonSetter
-import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.jackson.nullable.JsonNullable
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -31,12 +28,9 @@ data class NullableModel(
     @param:JsonProperty("requiredNullable")
     @get:JsonProperty("requiredNullable", required = true) val requiredNullable: kotlin.String?,
 
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
-    @field:JsonSetter(nulls = Nulls.FAIL)
     @param:JsonProperty("optionalNonNullable")
     @get:JsonProperty("optionalNonNullable") val optionalNonNullable: kotlin.String? = null,
 
-    @field:JsonInclude(JsonInclude.Include.NON_ABSENT)
     @param:JsonProperty("optionalNullable")
     @get:JsonProperty("optionalNullable") val optionalNullable: JsonNullable<kotlin.String> = JsonNullable.undefined()
 ) : java.io.Serializable {

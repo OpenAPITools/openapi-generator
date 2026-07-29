@@ -2,11 +2,8 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -27,13 +24,10 @@ public class Name {
 
   private Integer name;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer snakeCase;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String property;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer _123number;
 
   public Name() {
@@ -84,7 +78,6 @@ public class Name {
     return snakeCase;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("snake_case")
   public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
@@ -106,7 +99,6 @@ public class Name {
     return property;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("property")
   public void setProperty(@Nullable String property) {
     this.property = property;
@@ -128,7 +120,6 @@ public class Name {
     return _123number;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("123Number")
   public void set123number(@Nullable Integer _123number) {
     this._123number = _123number;

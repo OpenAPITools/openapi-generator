@@ -2,12 +2,9 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -26,28 +23,20 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class UserDto {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String username;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String firstName;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String lastName;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String email;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String password;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String phone;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer userStatus;
 
   public UserDto id(@Nullable Long id) {
@@ -65,7 +54,6 @@ public class UserDto {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
@@ -86,7 +74,6 @@ public class UserDto {
     return username;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("username")
   public void setUsername(@Nullable String username) {
     this.username = username;
@@ -107,7 +94,6 @@ public class UserDto {
     return firstName;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("firstName")
   public void setFirstName(@Nullable String firstName) {
     this.firstName = firstName;
@@ -128,7 +114,6 @@ public class UserDto {
     return lastName;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("lastName")
   public void setLastName(@Nullable String lastName) {
     this.lastName = lastName;
@@ -149,7 +134,6 @@ public class UserDto {
     return email;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("email")
   public void setEmail(@Nullable String email) {
     this.email = email;
@@ -170,7 +154,6 @@ public class UserDto {
     return password;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("password")
   public void setPassword(@Nullable String password) {
     this.password = password;
@@ -191,7 +174,6 @@ public class UserDto {
     return phone;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("phone")
   public void setPhone(@Nullable String phone) {
     this.phone = phone;
@@ -212,7 +194,6 @@ public class UserDto {
     return userStatus;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("userStatus")
   public void setUserStatus(@Nullable Integer userStatus) {
     this.userStatus = userStatus;

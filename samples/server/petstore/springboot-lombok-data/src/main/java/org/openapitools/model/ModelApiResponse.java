@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -34,21 +33,18 @@ public class ModelApiResponse {
   @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer code;
 
   
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String type;
 
   
   @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String message;
 
 }

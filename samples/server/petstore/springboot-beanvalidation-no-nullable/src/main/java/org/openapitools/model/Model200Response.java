@@ -2,12 +2,9 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -27,10 +24,8 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Model200Response {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer name;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String propertyClass;
 
   public Model200Response name(@Nullable Integer name) {
@@ -49,7 +44,6 @@ public class Model200Response {
     return name;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name")
   public void setName(@Nullable Integer name) {
     this.name = name;
@@ -71,7 +65,6 @@ public class Model200Response {
     return propertyClass;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("class")
   public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;

@@ -2,12 +2,9 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -25,13 +22,10 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ModelApiResponse {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer code;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String type;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String message;
 
   public ModelApiResponse code(Integer code) {
@@ -49,7 +43,6 @@ public class ModelApiResponse {
     return code;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("code")
   public void setCode(Integer code) {
     this.code = code;
@@ -70,7 +63,6 @@ public class ModelApiResponse {
     return type;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("type")
   public void setType(String type) {
     this.type = type;
@@ -91,7 +83,6 @@ public class ModelApiResponse {
     return message;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("message")
   public void setMessage(String message) {
     this.message = message;

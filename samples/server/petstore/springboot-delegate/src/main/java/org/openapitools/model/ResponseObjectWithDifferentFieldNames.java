@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
@@ -23,16 +22,12 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String normalPropertyName;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String UPPER_CASE_PROPERTY_SNAKE;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String lowerCasePropertyDashes;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String propertyNameWithSpaces;
 
   public ResponseObjectWithDifferentFieldNames() {

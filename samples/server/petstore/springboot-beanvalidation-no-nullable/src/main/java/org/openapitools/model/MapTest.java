@@ -2,12 +2,9 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.annotation.Nulls;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.lang.Nullable;
@@ -27,7 +24,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class MapTest {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -65,13 +61,10 @@ public class MapTest {
     }
   }
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Boolean> directMap = new HashMap<>();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -98,7 +91,6 @@ public class MapTest {
     return mapMapOfString;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("map_map_of_string")
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -128,7 +120,6 @@ public class MapTest {
     return mapOfEnumString;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("map_of_enum_string")
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
@@ -158,7 +149,6 @@ public class MapTest {
     return directMap;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("direct_map")
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
@@ -188,7 +178,6 @@ public class MapTest {
     return indirectMap;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("indirect_map")
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
