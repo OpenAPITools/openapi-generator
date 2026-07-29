@@ -17,6 +17,15 @@ components:
           type: ["null", object]
           additionalProperties:
             $ref: "#/components/schemas/Child"
+    ParentNullablePrimitiveMap:
+      type: object
+      properties:
+        # the same nullable map shape with a primitive value schema. This one always compiled,
+        # it just dropped its nullability silently, so it needs its own regression guard.
+        counts:
+          type: ["null", object]
+          additionalProperties:
+            type: integer
     ParentNullableArray:
       type: object
       properties:

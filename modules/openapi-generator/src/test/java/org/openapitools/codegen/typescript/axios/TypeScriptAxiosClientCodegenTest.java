@@ -291,4 +291,30 @@ public class TypeScriptAxiosClientCodegenTest {
                 "import type { Child } from './child';",
                 "'list'?: Array<Child> | null;");
     }
+
+    @Test(description = "A nullable map (OAS 3.1 type array) with a primitive value keeps its nullability")
+    public void testNullableMapWithPrimitiveValueKeepsNullability() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_nullable_map_primitive_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/issue_24517.yaml")
+                .setModelPackage("models")
+                .setApiPackage("api")
+                .addAdditionalProperty(TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // Same `type: ["null", object]` map shape, but with a primitive value schema. This form never
+        // failed to compile - the dangling `Null` import is suppressed by the generated `@ts-ignore`
+        // and the type declaration was already a map - so the only visible symptom was the missing
+        // `| null`. It needs its own guard: a future regression could keep imports working while
+        // dropping nullability again, and that would leave the assertions above green.
+        Path primitiveMap = Paths.get(output + "/models/parent-nullable-primitive-map.ts");
+        TestUtils.assertFileContains(primitiveMap, "'counts'?: { [key: string]: number; } | null;");
+        TestUtils.assertFileNotContains(primitiveMap, "from './null'");
+    }
 }
