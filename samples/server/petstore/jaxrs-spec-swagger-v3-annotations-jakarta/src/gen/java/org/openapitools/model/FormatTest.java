@@ -148,7 +148,7 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "number")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")public BigDecimal getNumber() {
     return number;
@@ -247,7 +247,7 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "byte")
   @NotNull public byte[] getByte() {
     return _byte;
@@ -285,7 +285,7 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "date")
   @NotNull public LocalDate getDate() {
     return date;
@@ -342,7 +342,7 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "password")
   @NotNull  @Size(min=10,max=64)public String getPassword() {
     return password;

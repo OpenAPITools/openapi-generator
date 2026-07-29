@@ -68,7 +68,7 @@ public class Category   {
    * @return name
    **/
   @JsonProperty(value = "name")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public String getName() {
     return name;

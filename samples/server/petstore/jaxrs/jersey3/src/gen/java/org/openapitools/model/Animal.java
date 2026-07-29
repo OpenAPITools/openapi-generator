@@ -56,7 +56,7 @@ public class Animal   {
    * @return className
    **/
   @JsonProperty(value = "className")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public String getClassName() {
     return className;

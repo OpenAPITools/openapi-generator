@@ -56,7 +56,7 @@ public class Animal  implements Serializable {
   }
 
   
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "className")
   @NotNull public String getClassName() {
     return className;
