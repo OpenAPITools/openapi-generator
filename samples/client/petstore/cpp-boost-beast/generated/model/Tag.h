@@ -81,10 +81,10 @@ std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Ta
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<Tag>>& vec, const std::string& json);
 
-}
-}
-}
-}
+Tag fromJsonValue_Tag(boost::json::value const& value);
 
-
+}
+}
+}
+}
 #endif /* BOOST_BEAST_OPENAPI_CLIENT_Tag_MODEL_H_ */

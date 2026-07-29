@@ -32,8 +32,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |int32_t|#include &lt;cstdint&gt;|
 |int64_t|#include &lt;cstdint&gt;|
 |std::map|#include &lt;map&gt;|
+|std::monostate|#include &lt;variant&gt;|
 |std::nullptr_t|#include &lt;cstddef&gt;|
+|std::optional|#include &lt;optional&gt;|
+|std::shared_ptr|#include &lt;memory&gt;|
 |std::string|#include &lt;string&gt;|
+|std::variant|#include &lt;variant&gt;|
 |std::vector|#include &lt;vector&gt;|
 
 
@@ -239,11 +243,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
 |Composite|✓|OAS2,OAS3
-|Polymorphism|✗|OAS2,OAS3
-|Union|✗|OAS3
-|allOf|✗|OAS2,OAS3
-|anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|Polymorphism|✓|OAS2,OAS3
+|Union|✓|OAS3
+|allOf|✓|OAS2,OAS3
+|anyOf|✓|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature

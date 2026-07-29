@@ -10,17 +10,46 @@
  * Do not edit the class manually.
  */
 
-
+// ============================================================================
+// Validation scope (client-side vs full JSON Schema validation)
+// ============================================================================
+// The generated client performs structural and composition validation to
+// ensure wire-format correctness, but is NOT a full JSON Schema validator:
+//
+//   ✓ oneOf exactly-one match enforcement (count + reject 0 or >1)
+//   ✓ anyOf at-least-one match enforcement (reject 0)
+//   ✓ discriminator value enforcement (unknown → throw)
+//   ✓ required property presence in object JSON
+//   ✓ enum / const membership on object property setters
+//   ✓ basic type-kind checks (string, bool, int, double, null)
+//   ✓ nested error-path diagnostics (e.g. ".field[0].nested")
+//
+//   ✗ String format validation (email, date-time, uri, etc.)
+//   ✗ Numeric range validation (minimum, maximum, multipleOf)
+//   ✗ String pattern validation (regex)
+//   ✗ Array length constraints (minItems, maxItems, uniqueItems)
+//   ✗ Object property constraints (minProperties, maxProperties)
+//   ✗ if/then/else conditional validation
+//   ✗ Unevaluated/additional property semantics
+//
+// For full JSON Schema validation, use a dedicated validator library
+// (e.g. valijson, nlohmann/json-schema-validator) on the deserialized
+// value before application use. The client's checks guarantee correct
+// parse/serialization of valid instances matching the generated types.
+// ============================================================================
 
 #include "ApiResponse.h"
 
 #include <cstddef>
+#include <cstdint>
+#include <limits>
 #include <map>
 #include <memory>
 #include <stdexcept>
 #include <sstream>
 #include <string>
 #include <iterator>
+#include <type_traits>
 #include <utility>
 #include <vector>
 #include <boost/json.hpp>
@@ -32,17 +61,259 @@ namespace model {
 
 namespace {
 
+// Trait to detect types with toJsonValue() const member.
+template <typename T, typename = void>
+struct HasModelToJsonValue : std::false_type {};
+
+template <typename T>
+struct HasModelToJsonValue<T, std::void_t<decltype(std::declval<const T&>().toJsonValue())>> : std::true_type {};
+
+// Trait: detects whether a type has fromJsonValue member
+template <typename T, typename = void>
+struct HasModelFromJsonValue : std::false_type {};
+
+template <typename T>
+struct HasModelFromJsonValue<T,
+    std::void_t<decltype(std::declval<T&>().fromJsonValue(std::declval<const boost::json::value&>()))>>
+    : std::true_type {};
+
+// Trait: detects specialization of a template
+template <typename T, template <typename...> class Template>
+struct IsSpecialization : std::false_type {};
+
+template <template <typename...> class Template, typename... Args>
+struct IsSpecialization<Template<Args...>, Template> : std::true_type {};
+
+// Forward declarations for variant dispatch helpers (defined below).
+template<typename Variant, std::size_t I>
+bool tryVariantIndex(const boost::json::value& value, Variant& result, std::string* errorPath = nullptr);
+
+template<typename Variant, std::size_t... Is>
+bool tryVariantBranches(const boost::json::value& value, Variant& result, std::index_sequence<Is...>, std::string* errorPath = nullptr);
+
+template<typename Variant, std::size_t... Is>
+std::size_t countVariantBranches(const boost::json::value& value, std::index_sequence<Is...>, std::string* errorPath = nullptr);
+
+// Try to parse a variant branch from JSON. Returns true on success.
+// errorPath accumulates a JSON-path string (e.g. ".field[0].nested")
+// for richer error messages in nested oneOf/anyOf parsing.
+template<typename T>
+bool tryParseBranch(boost::json::value const& value, T& result, std::string* errorPath = nullptr) {
+    try {
+        if constexpr (std::is_same_v<T, std::string>) {
+            if (!value.is_string()) return false;
+            result = boost::json::value_to<std::string>(value);
+            return true;
+        } else if constexpr (std::is_same_v<T, bool>) {
+            if (!value.is_bool()) return false;
+            result = boost::json::value_to<bool>(value);
+            return true;
+        } else if constexpr (std::is_same_v<T, std::int32_t>) {
+            if (!value.is_int64()) return false;
+            auto raw = value.as_int64();
+            if (raw < (std::numeric_limits<std::int32_t>::min)() || raw > (std::numeric_limits<std::int32_t>::max)()) return false;
+            result = static_cast<std::int32_t>(raw);
+            return true;
+        } else if constexpr (std::is_same_v<T, std::uint8_t>) {
+            if (!value.is_int64()) return false;
+            auto raw = value.as_int64();
+            if (raw < 0 || raw > 255) return false;
+            result = static_cast<std::uint8_t>(raw);
+            return true;
+        } else if constexpr (std::is_same_v<T, std::int64_t>) {
+            if (!value.is_int64()) return false;
+            result = value.as_int64();
+            return true;
+        } else if constexpr (std::is_same_v<T, double>) {
+            if (value.is_double()) { result = value.as_double(); return true; }
+            if (value.is_int64()) { result = static_cast<double>(value.as_int64()); return true; }
+            return false;
+        } else if constexpr (std::is_same_v<T, boost::json::value>) {
+            result = value;
+            return true;
+        } else if constexpr (std::is_same_v<T, std::nullptr_t>) {
+            if (!value.is_null()) return false;
+            result = nullptr;
+            return true;
+        } else if constexpr (IsSpecialization<T, std::vector>{}) {
+            if (!value.is_array()) return false;
+            using Elem = typename T::value_type;
+            T vec;
+            std::size_t elemIndex = 0;
+            for (auto& elemVal : value.as_array()) {
+                Elem converted;
+                std::string itemPath;
+                if (errorPath) {
+                    itemPath = *errorPath + "[" + std::to_string(elemIndex) + "]";
+                }
+                if (!tryParseBranch(elemVal, converted, errorPath ? &itemPath : nullptr)) {
+                    if (errorPath) {
+                        *errorPath = std::move(itemPath);
+                    }
+                    return false;
+                }
+                vec.push_back(std::move(converted));
+                ++elemIndex;
+            }
+            result = std::move(vec);
+            return true;
+        } else if constexpr (IsSpecialization<T, std::optional>{}) {
+            if (value.is_null()) { result = std::nullopt; return true; }
+            using Inner = typename T::value_type;
+            Inner converted;
+            if (!tryParseBranch(value, converted, errorPath)) return false;
+            result = std::move(converted);
+            return true;
+        } else if constexpr (IsSpecialization<T, std::variant>{}) {
+            // Nested variant — dispatch through tryVariantBranches, which
+            // calls tryParseBranch for each alternative and picks the first
+            // that matches. The fallback for each alternative checks for a
+            // member fromJsonValue() method, so model-class branches (which
+            // have one) or variant branches (which recurse) parse correctly.
+            constexpr std::size_t variantSize = std::variant_size_v<T>;
+            if (!tryVariantBranches(value, result, std::make_index_sequence<variantSize>{}, errorPath)) {
+                return false;
+            }
+            return true;
+        } else if constexpr (IsSpecialization<T, std::map>{}) {
+            // std::map<std::string, MappedType> — iterate object entries.
+            if (!value.is_object()) return false;
+            using MappedType = typename T::mapped_type;
+            T m;
+            for (auto& entry : value.as_object()) {
+                MappedType converted;
+                std::string itemPath;
+                if (errorPath) {
+                    itemPath = *errorPath + "[\"" + std::string(entry.key()) + "\"]";
+                }
+                if (!tryParseBranch(entry.value(), converted, errorPath ? &itemPath : nullptr)) {
+                    if (errorPath) {
+                        *errorPath = std::move(itemPath);
+                    }
+                    return false;
+                }
+                m.emplace(std::string(entry.key()), std::move(converted));
+            }
+            result = std::move(m);
+            return true;
+        } else {
+            // Model type — try fromJsonValue member.
+            // Do NOT swallow model validation errors (required field, type
+            // mismatch, discriminator): propagate them via errorPath so the
+            // caller can include them in the final diagnostic.
+            if constexpr (HasModelFromJsonValue<T>{}) {
+                T candidate;
+                try {
+                    candidate.fromJsonValue(value);
+                } catch (std::exception const& ex) {
+                    if (errorPath) {
+                        errorPath->append(": ").append(ex.what());
+                    }
+                    return false;
+                }
+                result = std::move(candidate);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    } catch (...) {
+        return false;
+    }
+}
+
+template<typename Variant, std::size_t I>
+bool tryVariantIndex(const boost::json::value& value, Variant& result, std::string* errorPath) {
+    using BranchType = std::variant_alternative_t<I, Variant>;
+    BranchType candidate;
+    if (tryParseBranch(value, candidate, errorPath)) {
+        result = std::move(candidate);
+        return true;
+    }
+    return false;
+}
+
+template<typename Variant, std::size_t... Is>
+bool tryVariantBranches(const boost::json::value& value, Variant& result, std::index_sequence<Is...>, std::string* errorPath) {
+    const std::string initialErrorPath = errorPath == nullptr ? std::string() : *errorPath;
+    std::string bestErrorPath = initialErrorPath;
+    auto tryBranch = [&](auto branchIndex) {
+        std::string branchErrorPath = initialErrorPath;
+        if (tryVariantIndex<Variant, decltype(branchIndex)::value>(
+                value, result, errorPath == nullptr ? nullptr : &branchErrorPath)) {
+            return true;
+        }
+        if (branchErrorPath.size() > bestErrorPath.size()) {
+            bestErrorPath = std::move(branchErrorPath);
+        }
+        return false;
+    };
+    const bool matched = (tryBranch(std::integral_constant<std::size_t, Is>{}) || ...);
+    if (!matched && errorPath != nullptr) {
+        *errorPath = std::move(bestErrorPath);
+    }
+    return matched;
+}
+
+// Count how many variant branches match the JSON value (no short-circuit).
+// For oneOf, this is needed to reject >1 matches.
+template<typename Variant, std::size_t... Is>
+std::size_t countVariantBranches(const boost::json::value& value, std::index_sequence<Is...>, std::string* errorPath) {
+    std::size_t count = 0;
+    Variant temp;
+    const std::string initialErrorPath = errorPath == nullptr ? std::string() : *errorPath;
+    std::string bestErrorPath = initialErrorPath;
+    auto countBranch = [&](auto branchIndex) {
+        std::string branchErrorPath = initialErrorPath;
+        if (tryVariantIndex<Variant, decltype(branchIndex)::value>(
+                value, temp, errorPath == nullptr ? nullptr : &branchErrorPath)) {
+            ++count;
+        } else if (branchErrorPath.size() > bestErrorPath.size()) {
+            bestErrorPath = std::move(branchErrorPath);
+        }
+    };
+    (countBranch(std::integral_constant<std::size_t, Is>{}), ...);
+    if (count == 0 && errorPath != nullptr) {
+        *errorPath = std::move(bestErrorPath);
+    }
+    return count;
+}
+
+// Helper: dispatch toJsonValue based on whether T has a toJsonValue() member.
+template <typename T>
+boost::json::value jsonValueConverterToJsonValue(const T& val, std::true_type) {
+    return val.toJsonValue();
+}
+
+template <typename T>
+boost::json::value jsonValueConverterToJsonValue(const T& val, std::false_type) {
+    return boost::json::value_from(val);
+}
+
+// Helper: dispatch fromJsonValue based on whether T has a fromJsonValue member.
+template <typename T>
+T jsonValueConverterFromJsonValue(const boost::json::value& jv, std::true_type) {
+    T result;
+    result.fromJsonValue(jv);
+    return result;
+}
+
+template <typename T>
+T jsonValueConverterFromJsonValue(const boost::json::value& jv, std::false_type) {
+    return boost::json::value_to<T>(jv);
+}
+
 template <typename Target>
 struct JsonValueConverter
 {
     static boost::json::value toJsonValue(const Target& sourceValue)
     {
-        return boost::json::value_from(sourceValue);
+        return jsonValueConverterToJsonValue(sourceValue, HasModelToJsonValue<Target>{});
     }
 
     static Target fromJsonValue(const boost::json::value& jsonValue)
     {
-        return boost::json::value_to<Target>(jsonValue);
+        return jsonValueConverterFromJsonValue<Target>(jsonValue, HasModelFromJsonValue<Target>{});
     }
 };
 
@@ -63,12 +334,37 @@ struct JsonValueConverter<std::nullptr_t>
     }
 };
 
+// Specialization for std::optional — delegates to the inner type if set,
+// otherwise produces null.
+template <typename T>
+struct JsonValueConverter<std::optional<T>>
+{
+    static boost::json::value toJsonValue(const std::optional<T>& opt)
+    {
+        if (opt.has_value()) {
+            return JsonValueConverter<T>::toJsonValue(opt.value());
+        }
+        return nullptr;
+    }
+
+    static std::optional<T> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        if (jsonValue.is_null()) {
+            return std::nullopt;
+        }
+        return JsonValueConverter<T>::fromJsonValue(jsonValue);
+    }
+};
+
 template <typename ModelType>
 struct JsonValueConverter<std::shared_ptr<ModelType>>
 {
     static boost::json::value toJsonValue(const std::shared_ptr<ModelType>& model)
     {
-        return model == nullptr ? boost::json::value(nullptr) : model->toJsonValue();
+        if (model == nullptr) {
+            return boost::json::value(nullptr);
+        }
+        return toJsonValueImpl(*model, HasModelToJsonValue<ModelType>{});
     }
 
     static std::shared_ptr<ModelType> fromJsonValue(const boost::json::value& jsonValue)
@@ -76,7 +372,22 @@ struct JsonValueConverter<std::shared_ptr<ModelType>>
         if (jsonValue.is_null()) {
             return nullptr;
         }
-        return std::make_shared<ModelType>(jsonValue);
+        return fromJsonValueImpl(jsonValue, HasModelToJsonValue<ModelType>{});
+    }
+
+private:
+    static boost::json::value toJsonValueImpl(const ModelType& val, std::true_type) {
+        return val.toJsonValue();
+    }
+    static boost::json::value toJsonValueImpl(const ModelType& val, std::false_type) {
+        return boost::json::value_from(val);
+    }
+
+    static std::shared_ptr<ModelType> fromJsonValueImpl(const boost::json::value& jv, std::true_type) {
+        return std::make_shared<ModelType>(jv);
+    }
+    static std::shared_ptr<ModelType> fromJsonValueImpl(const boost::json::value& jv, std::false_type) {
+        return std::make_shared<ModelType>(boost::json::value_to<ModelType>(jv));
     }
 };
 
@@ -101,6 +412,64 @@ struct JsonValueConverter<std::vector<Element>>
             convertedValues.emplace_back(JsonValueConverter<Element>::fromJsonValue(jsonElement));
         }
         return convertedValues;
+    }
+};
+
+// anyOf-compatible first-match decode for property-level / untagged variants.
+// Named oneOf aliases use free functions with exactly-one enforcement.
+// Inline oneOf properties call fromJsonValueExactlyOne via the object template.
+template <typename Variant>
+Variant fromJsonValueFirstMatch(const boost::json::value& jsonValue)
+{
+    constexpr std::size_t variantSize = std::variant_size_v<Variant>;
+    Variant result;
+    std::string errorPath;
+    if (!tryVariantBranches(jsonValue, result, std::make_index_sequence<variantSize>{}, &errorPath)) {
+        throw std::invalid_argument("No matching variant branch for JSON value at '" + errorPath + "'");
+    }
+    return result;
+}
+
+template <typename Variant>
+Variant fromJsonValueExactlyOne(const boost::json::value& jsonValue)
+{
+    constexpr std::size_t variantSize = std::variant_size_v<Variant>;
+    std::size_t matchCount = countVariantBranches<Variant>(
+        jsonValue, std::make_index_sequence<variantSize>{});
+    if (matchCount == 0) {
+        Variant dummy;
+        std::string capturePath;
+        tryVariantBranches(jsonValue, dummy, std::make_index_sequence<variantSize>{}, &capturePath);
+        throw std::invalid_argument("No matching variant branch for JSON value at '" + capturePath + "'");
+    }
+    if (matchCount > 1) {
+        throw std::invalid_argument("More than one matching variant branch for JSON value");
+    }
+    Variant result;
+    std::string retrievePath;
+    if (!tryVariantBranches(jsonValue, result, std::make_index_sequence<variantSize>{}, &retrievePath)) {
+        throw std::invalid_argument("No matching variant branch for JSON value at '" + retrievePath + "'");
+    }
+    return result;
+}
+
+template <typename... Ts>
+struct JsonValueConverter<std::variant<Ts...>>
+{
+    static boost::json::value toJsonValue(const std::variant<Ts...>& v)
+    {
+        return std::visit([](auto const& alt) -> boost::json::value {
+            using AltType = std::decay_t<decltype(alt)>;
+            return JsonValueConverter<AltType>::toJsonValue(alt);
+        }, v);
+    }
+
+    static std::variant<Ts...> fromJsonValue(const boost::json::value& jsonValue)
+    {
+        // Default property-level path: anyOf first-match (≥1). oneOf exactly-one
+        // is applied by named free functions or fromJsonValueExactlyOne when the
+        // property is tagged x-cpp-is-oneof / x-cpp-composed-keyword=oneOf.
+        return fromJsonValueFirstMatch<std::variant<Ts...>>(jsonValue);
     }
 };
 
@@ -177,6 +546,8 @@ void writePrettyJson(std::ostream& output, boost::json::value const& value, std:
 }
 }
 
+
+
 ApiResponse::ApiResponse(boost::json::value const& value)
 {
     fromJsonValue(value);
@@ -213,18 +584,40 @@ void ApiResponse::fromJsonValue(boost::json::value const& value)
     fromJsonObject_internal(value.as_object());
 }
 
+ApiResponse fromJsonValue_ApiResponse(boost::json::value const& value)
+{
+    ApiResponse result;
+    result.fromJsonValue(value);
+    return result;
+}
+
 boost::json::object ApiResponse::toJsonObject_internal() const
 {
     boost::json::object object;
         if (m_CodeIsSet) {
             object["code"] = JsonValueConverter<int32_t>::toJsonValue(getCode());
         }
+        // Current nullability scope (Phase 2): unset optional → key omitted from JSON object.
+        // Full tri-state (unset=omit, present-null→JSON null, present-value→JSON value)
+        // is deferred to a future phase. When m_Code.has_value(), the inner value is
+        // serialized; when disengaged, the key is simply not written. This matches the
+        // most common OpenAPI use case (optional properties omitted when absent).
         if (m_TypeIsSet) {
             object["type"] = JsonValueConverter<std::string>::toJsonValue(getType());
         }
+        // Current nullability scope (Phase 2): unset optional → key omitted from JSON object.
+        // Full tri-state (unset=omit, present-null→JSON null, present-value→JSON value)
+        // is deferred to a future phase. When m_Type.has_value(), the inner value is
+        // serialized; when disengaged, the key is simply not written. This matches the
+        // most common OpenAPI use case (optional properties omitted when absent).
         if (m_MessageIsSet) {
             object["message"] = JsonValueConverter<std::string>::toJsonValue(getMessage());
         }
+        // Current nullability scope (Phase 2): unset optional → key omitted from JSON object.
+        // Full tri-state (unset=omit, present-null→JSON null, present-value→JSON value)
+        // is deferred to a future phase. When m_Message.has_value(), the inner value is
+        // serialized; when disengaged, the key is simply not written. This matches the
+        // most common OpenAPI use case (optional properties omitted when absent).
     return object;
 }
 
@@ -236,19 +629,34 @@ void ApiResponse::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto CodeIt = object.find("code");
         if (CodeIt != object.end()) {
-            setCode(JsonValueConverter<int32_t>::fromJsonValue(CodeIt->value()));
+            try {
+                setCode(JsonValueConverter<int32_t>::fromJsonValue(CodeIt->value()));
+            } catch (std::exception const& ex) {
+                throw std::invalid_argument(
+                    "Decode failed for 'code' in ApiResponse: " + std::string(ex.what()));
+            }
         }
     }
     {
         const auto TypeIt = object.find("type");
         if (TypeIt != object.end()) {
-            setType(JsonValueConverter<std::string>::fromJsonValue(TypeIt->value()));
+            try {
+                setType(JsonValueConverter<std::string>::fromJsonValue(TypeIt->value()));
+            } catch (std::exception const& ex) {
+                throw std::invalid_argument(
+                    "Decode failed for 'type' in ApiResponse: " + std::string(ex.what()));
+            }
         }
     }
     {
         const auto MessageIt = object.find("message");
         if (MessageIt != object.end()) {
-            setMessage(JsonValueConverter<std::string>::fromJsonValue(MessageIt->value()));
+            try {
+                setMessage(JsonValueConverter<std::string>::fromJsonValue(MessageIt->value()));
+            } catch (std::exception const& ex) {
+                throw std::invalid_argument(
+                    "Decode failed for 'message' in ApiResponse: " + std::string(ex.what()));
+            }
         }
     }
 }
@@ -301,4 +709,3 @@ void createModelVectorFromJsonString(std::vector<std::shared_ptr<ApiResponse>>& 
 }
 }
 }
-

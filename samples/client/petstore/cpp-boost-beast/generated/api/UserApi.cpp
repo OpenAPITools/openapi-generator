@@ -15,13 +15,17 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <cstdint>
+#include <limits>
+#include <functional>
 #include <map>
 #include <array>
 #include <algorithm>
 #include <utility>
 #include <vector>
+#include <optional>
+#include <variant>
 
-#include <boost/lexical_cast.hpp>
 #include <boost/beast/http/status.hpp>
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
@@ -80,13 +84,16 @@ inline bool isJsonContentType(const std::string& contentType) {
 }
 
 struct FormParameter {
-    FormParameter(std::string parameterName, std::string parameterValue, bool file)
-        : name(std::move(parameterName)), value(std::move(parameterValue)), isFile(file) {
+    FormParameter(std::string parameterName, std::string parameterValue, bool file,
+                  std::string contentType = "")
+        : name(std::move(parameterName)), value(std::move(parameterValue)),
+          isFile(file), contentType(std::move(contentType)) {
     }
 
     std::string name;
     std::string value;
     bool isFile;
+    std::string contentType;
 };
 
 inline std::string toFormParameterValue(const std::string& value) {
@@ -107,12 +114,32 @@ inline std::string toRawBodyValue(bool value) {
 
 template<typename T>
 std::string toRawBodyValue(const T& value) {
-    return boost::lexical_cast<std::string>(value);
+    std::ostringstream stream;
+    stream << value;
+    return stream.str();
+}
+
+template<typename T>
+std::string toRawBodyValue(const std::optional<T>& value) {
+    if (value.has_value()) {
+        return toRawBodyValue(value.value());
+    }
+    return "";
 }
 
 template<typename T>
 std::string toFormParameterValue(const T& value) {
-    return boost::lexical_cast<std::string>(value);
+    std::ostringstream stream;
+    stream << value;
+    return stream.str();
+}
+
+template<typename T>
+std::string toFormParameterValue(const std::optional<T>& value) {
+    if (value.has_value()) {
+        return toFormParameterValue(value.value());
+    }
+    return "";
 }
 
 template<typename T>
@@ -124,6 +151,11 @@ std::string toFormParameterValue(const std::vector<T>& values) {
         separator = ",";
     }
     return serializedValues.str();
+}
+
+// Binary data: treat the byte values as raw string content for file upload.
+inline std::string toFormParameterValue(const std::vector<std::uint8_t>& binaryValue) {
+    return std::string(reinterpret_cast<const char*>(binaryValue.data()), binaryValue.size());
 }
 
 inline std::string percentEncodeFormValue(const std::string& value) {
@@ -308,7 +340,7 @@ inline std::string serializeHeaderParameterValue(bool headerParameterValue) {
 template<typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, std::string>::type
 serializeHeaderParameterValue(const T& headerParameterValue) {
-    return boost::lexical_cast<std::string>(headerParameterValue);
+    return std::to_string(headerParameterValue);
 }
 
 template<typename T>
@@ -383,7 +415,9 @@ inline std::string serializeMultipartFormData(
                                << escapeMultipartParameter(formParameter.name) << '"';
         }
         serializedFormData << "\r\n";
-        if (formParameter.isFile) {
+        if (!formParameter.contentType.empty()) {
+            serializedFormData << "Content-Type: " << formParameter.contentType << "\r\n";
+        } else if (formParameter.isFile) {
             serializedFormData << "Content-Type: application/octet-stream\r\n";
         }
         serializedFormData << "\r\n" << formParameter.value << "\r\n";
@@ -407,8 +441,31 @@ std::string base64encodeImpl(const std::string& str) {
 #endif
 }
 
+// Trait to detect types with toJsonValue() const member (e.g. model classes)
+template <typename T, typename = void>
+struct HasRequestToJsonValue : std::false_type {};
+
+template <typename T>
+struct HasRequestToJsonValue<T, std::void_t<
+    decltype(std::declval<const T&>().toJsonValue())>> : std::true_type {};
+
+// Dispatch for types with toJsonValue() — model classes
 template<typename T>
-boost::json::value toRequestJsonValue(const T& requestValue);
+boost::json::value toRequestJsonValueImpl(const T& requestValue, std::true_type) {
+    return requestValue.toJsonValue();
+}
+
+// Dispatch for types without toJsonValue() — primitives, standard containers
+template<typename T>
+boost::json::value toRequestJsonValueImpl(const T& requestValue, std::false_type) {
+    return boost::json::value_from(requestValue);
+}
+
+// Base template: detect toJsonValue() at compile time and dispatch accordingly
+template<typename T>
+boost::json::value toRequestJsonValue(const T& requestValue) {
+    return toRequestJsonValueImpl(requestValue, HasRequestToJsonValue<T>{});
+}
 
 template<typename T>
 boost::json::value toRequestJsonValue(const std::shared_ptr<T>& requestValue);
@@ -419,14 +476,30 @@ boost::json::value toRequestJsonValue(const std::vector<T>& requestValues);
 template<typename T>
 boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestValues);
 
+template<typename... Ts>
+boost::json::value toRequestJsonValue(const std::variant<Ts...>& requestValue);
+
 template<typename T>
-boost::json::value toRequestJsonValue(const T& requestValue) {
-    return boost::json::value_from(requestValue);
-}
+boost::json::value toRequestJsonValue(const std::optional<T>& requestValue);
 
 template<typename T>
 boost::json::value toRequestJsonValue(const std::shared_ptr<T>& requestValue) {
     return requestValue == nullptr ? boost::json::value(nullptr) : requestValue->toJsonValue();
+}
+
+template<typename... Ts>
+boost::json::value toRequestJsonValue(const std::variant<Ts...>& requestValue) {
+    return std::visit([](auto const& v) -> boost::json::value {
+        return toRequestJsonValue(v);
+    }, requestValue);
+}
+
+template<typename T>
+boost::json::value toRequestJsonValue(const std::optional<T>& requestValue) {
+    if (requestValue.has_value()) {
+        return toRequestJsonValue(requestValue.value());
+    }
+    return boost::json::value(nullptr);
 }
 
 template<typename T>
@@ -448,10 +521,56 @@ boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestVal
     return requestObject;
 }
 
+/// addVariantFormParameter definition (forward-declared above).
+/// Must be defined after toRequestJsonValue so lambdas can find it via ADL.
+template<typename VariantType>
+void addVariantFormParameter(
+    std::vector<FormParameter>& formParameters,
+    const std::string& name,
+    const VariantType& value) {
+    std::visit([&](auto const& branch) {
+        using BranchType = std::decay_t<decltype(branch)>;
+        // Only explicit byte containers are treated as file/binary branches.
+        // std::string branches are serialized as JSON to correctly handle
+        // string|object variant unions (e.g., oneOf [string, DataObject]).
+        if constexpr (std::is_same_v<BranchType, std::vector<std::uint8_t>>) {
+            // Binary branch — send as file part with octet-stream
+            formParameters.emplace_back(name, toFormParameterValue(branch), true,
+                                        "application/octet-stream");
+        } else {
+            // Object or string branch — serialize as JSON part
+            std::string jsonValue = boost::json::serialize(toRequestJsonValue(branch));
+            formParameters.emplace_back(name, jsonValue, false, "application/json");
+        }
+    }, value);
+}
+
+// Trait to detect types with fromJsonValue(boost::json::value const&) member
+template <typename T, typename = void>
+struct HasFromJsonValue : std::false_type {};
+
+template <typename T>
+struct HasFromJsonValue<T, std::void_t<
+    decltype(std::declval<T&>().fromJsonValue(std::declval<boost::json::value const&>()))>> : std::true_type {};
+
+// Dispatch for types with fromJsonValue() — model classes
+template<typename T>
+static T convertJsonValueImpl(const boost::json::value& responseValue, std::true_type) {
+    T result;
+    result.fromJsonValue(responseValue);
+    return result;
+}
+
+// Dispatch for types without fromJsonValue() — primitives, standard types
+template<typename T>
+static T convertJsonValueImpl(const boost::json::value& responseValue, std::false_type) {
+    return boost::json::value_to<T>(responseValue);
+}
+
 template<typename T>
 struct ResponseJsonValueConverter {
     static T convert(const boost::json::value& responseValue) {
-        return boost::json::value_to<T>(responseValue);
+        return convertJsonValueImpl<T>(responseValue, HasFromJsonValue<T>{});
     }
 };
 
@@ -496,6 +615,184 @@ struct ResponseJsonValueConverter<std::map<std::string, T>> {
     }
 };
 
+// Trait: detects whether a type is a specialization of a template (e.g. std::vector<T>)
+template <typename T, template <typename...> class Template>
+struct IsSpecialization : std::false_type {};
+
+template <template <typename...> class Template, typename... Args>
+struct IsSpecialization<Template<Args...>, Template> : std::true_type {};
+
+template<typename Variant, std::size_t I>
+bool tryVariantAlternative(const boost::json::value& value, Variant& result);
+
+template<typename Variant, std::size_t... Is>
+bool tryFirstVariantAlternative(
+    const boost::json::value& value,
+    Variant& result,
+    std::index_sequence<Is...>);
+
+// Variant branch trial helpers — tries to parse a JSON value into a specific type.
+// These are defined OUTSIDE the anonymous namespace so they can be referenced by
+// ResponseJsonValueConverter specializations and SSE event conversion.
+template<typename T>
+bool tryParseBranch(const boost::json::value& value, T& result) {
+    try {
+        if constexpr (std::is_same_v<T, std::string>) {
+            if (!value.is_string()) return false;
+            result = boost::json::value_to<std::string>(value);
+            return true;
+        } else if constexpr (std::is_same_v<T, bool>) {
+            if (!value.is_bool()) return false;
+            result = boost::json::value_to<bool>(value);
+            return true;
+        } else if constexpr (std::is_same_v<T, std::uint8_t>) {
+            if (!value.is_int64()) return false;
+            auto raw = value.as_int64();
+            if (raw < 0 || raw > 255) return false;
+            result = static_cast<std::uint8_t>(raw);
+            return true;
+        } else if constexpr (std::is_same_v<T, std::int32_t>) {
+            if (!value.is_int64()) return false;
+            auto raw = value.as_int64();
+            if (raw < (std::numeric_limits<std::int32_t>::min)() || raw > (std::numeric_limits<std::int32_t>::max)()) return false;
+            result = static_cast<std::int32_t>(raw);
+            return true;
+        } else if constexpr (std::is_same_v<T, std::int64_t>) {
+            if (!value.is_int64()) return false;
+            result = value.as_int64();
+            return true;
+        } else if constexpr (std::is_same_v<T, double>) {
+            if (value.is_double()) { result = value.as_double(); return true; }
+            if (value.is_int64()) { result = static_cast<double>(value.as_int64()); return true; }
+            return false;
+        } else if constexpr (std::is_same_v<T, boost::json::value>) {
+            result = value;
+            return true;
+        } else if constexpr (std::is_same_v<T, std::nullptr_t>) {
+            if (!value.is_null()) return false;
+            result = nullptr;
+            return true;
+        } else if constexpr (IsSpecialization<T, std::vector>{}) {
+            if (!value.is_array()) return false;
+            using Elem = typename T::value_type;
+            T vec;
+            for (auto& elemVal : value.as_array()) {
+                Elem converted;
+                if (!tryParseBranch(elemVal, converted)) return false;
+                vec.push_back(std::move(converted));
+            }
+            result = std::move(vec);
+            return true;
+        } else if constexpr (IsSpecialization<T, std::optional>{}) {
+            if (value.is_null()) { result = std::nullopt; return true; }
+            using Inner = typename T::value_type;
+            Inner converted;
+            if (!tryParseBranch(value, converted)) return false;
+            result = std::move(converted);
+            return true;
+        } else if constexpr (IsSpecialization<T, std::variant>{}) {
+            constexpr std::size_t variantSize = std::variant_size_v<T>;
+            return tryFirstVariantAlternative(
+                value, result, std::make_index_sequence<variantSize>{});
+        } else if constexpr (IsSpecialization<T, std::map>{}) {
+            if (!value.is_object()) return false;
+            using MappedType = typename T::mapped_type;
+            T m;
+            for (auto& entry : value.as_object()) {
+                MappedType converted;
+                if (!tryParseBranch(entry.value(), converted)) return false;
+                m.emplace(std::string(entry.key()), std::move(converted));
+            }
+            result = std::move(m);
+            return true;
+        } else {
+            // Model type with fromJsonValue member
+            if constexpr (HasFromJsonValue<T>{}) {
+                T candidate;
+                candidate.fromJsonValue(value);
+                result = std::move(candidate);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    } catch (...) {
+        return false;
+    }
+}
+
+template<typename Variant, std::size_t I>
+bool tryVariantAlternative(const boost::json::value& value, Variant& result) {
+    using BranchType = std::variant_alternative_t<I, Variant>;
+    BranchType candidate;
+    if (tryParseBranch(value, candidate)) {
+        result = std::move(candidate);
+        return true;
+    }
+    return false;
+}
+
+template<typename Variant, std::size_t... Is>
+bool tryFirstVariantAlternative(
+    const boost::json::value& value,
+    Variant& result,
+    std::index_sequence<Is...>) {
+    return (tryVariantAlternative<Variant, Is>(value, result) || ...);
+}
+
+template<typename Variant, std::size_t... Is>
+bool tryAllVariantAlternatives(const boost::json::value& value, Variant& result, std::index_sequence<Is...>) {
+    // Evaluate ALL alternatives without short-circuiting (comma-fold instead of ||-fold)
+    // so ambiguous matches (multiple alternatives matching the same JSON value) are
+    // properly detected and rejected. This enforces oneOf semantics: exactly one
+    // alternative must match. Zero or >1 matches both fail.
+    std::size_t matchCount = 0;
+    ((matchCount += (tryVariantAlternative<Variant, Is>(value, result) ? 1 : 0)), ...);
+    return matchCount == 1;
+}
+
+template<typename... Ts>
+struct ResponseJsonValueConverter<std::variant<Ts...>> {
+    static std::variant<Ts...> convert(const boost::json::value& responseValue) {
+        std::variant<Ts...> result;
+        if (!tryFirstVariantAlternative(responseValue, result, std::index_sequence_for<Ts...>{})) {
+            throw std::invalid_argument(
+                "JSON value does not match any variant alternative");
+        }
+        return result;
+    }
+};
+
+template<typename T>
+struct OneOfResponseJsonValueConverter {
+    static T convert(const boost::json::value& responseValue) {
+        return ResponseJsonValueConverter<T>::convert(responseValue);
+    }
+};
+
+template<typename... Ts>
+struct OneOfResponseJsonValueConverter<std::variant<Ts...>> {
+    static std::variant<Ts...> convert(const boost::json::value& responseValue) {
+        std::variant<Ts...> result;
+        if (!tryAllVariantAlternatives(responseValue, result, std::index_sequence_for<Ts...>{})) {
+            throw std::invalid_argument(
+                "JSON value does not match exactly one variant alternative "
+                "(oneOf semantics: zero or multiple alternatives matched)");
+        }
+        return result;
+    }
+};
+
+template<typename T>
+struct ResponseJsonValueConverter<std::optional<T>> {
+    static std::optional<T> convert(const boost::json::value& responseValue) {
+        if (responseValue.is_null()) {
+            return std::nullopt;
+        }
+        return ResponseJsonValueConverter<T>::convert(responseValue);
+    }
+};
+
 template<typename T>
 struct ResponseBodyDeserializer {
     static void deserialize(
@@ -524,6 +821,37 @@ struct ResponseBodyDeserializer<std::string> {
         convertedResponse = responseBody;
     }
 };
+
+template<typename T>
+struct OneOfResponseBodyDeserializer : ResponseBodyDeserializer<T> {};
+
+template<typename... Ts>
+struct OneOfResponseBodyDeserializer<std::variant<Ts...>> {
+    static void deserialize(
+        std::variant<Ts...>& convertedResponse,
+        const std::string& responseBody,
+        const std::string& responseContentType,
+        bool tolerateEmptyBody) {
+        if (!isJsonContentType(responseContentType)) {
+            throw std::invalid_argument(
+                "Content type '" + responseContentType + "' does not support structured response bodies");
+        }
+        if (tolerateEmptyBody && responseBody.empty()) {
+            return;
+        }
+        convertedResponse = OneOfResponseJsonValueConverter<std::variant<Ts...>>::convert(
+            boost::json::parse(responseBody));
+    }
+};
+
+/// Parse one SSE event data payload (JSON) into a typed event and append it.
+template<typename EventVariant, typename Converter>
+void appendParsedEvent(std::vector<EventVariant>& events,
+                       const std::string& eventData,
+                       Converter&& converter) {
+    events.push_back(converter(boost::json::parse(eventData)));
+}
+
 }
 
 UserApiException::UserApiException(boost::beast::http::status statusCode, std::string what)
@@ -577,6 +905,7 @@ UserApi::createUser(
 
     return;
 }
+
 void
 UserApi::createUsersWithArrayInput(
     const std::vector<std::shared_ptr<User>>& user) {
@@ -612,6 +941,7 @@ UserApi::createUsersWithArrayInput(
 
     return;
 }
+
 void
 UserApi::createUsersWithListInput(
     const std::vector<std::shared_ptr<User>>& user) {
@@ -647,6 +977,7 @@ UserApi::createUsersWithListInput(
 
     return;
 }
+
 void
 UserApi::deleteUser(
     const std::string& username) {
@@ -681,6 +1012,7 @@ UserApi::deleteUser(
     }
     throw UserApiException(statusCode, "Unexpected HTTP status code");
 }
+
 std::shared_ptr<User>
 UserApi::getUserByName(
     const std::string& username) {
@@ -728,6 +1060,7 @@ UserApi::getUserByName(
     }
     throw UserApiException(statusCode, "Unexpected HTTP status code");
 }
+
 void
 UserApi::updateUser(
     const std::string& username, const std::shared_ptr<User>& user) {
@@ -771,6 +1104,7 @@ UserApi::updateUser(
     }
     throw UserApiException(statusCode, "Unexpected HTTP status code");
 }
+
 std::string
 UserApi::loginUser(
     const std::string& username, const std::string& password) {
@@ -827,6 +1161,7 @@ UserApi::loginUser(
     }
     throw UserApiException(statusCode, "Unexpected HTTP status code");
 }
+
 void
 UserApi::logoutUser(
     ) {
@@ -853,6 +1188,7 @@ UserApi::logoutUser(
 
     return;
 }
+
 
 
 std::string UserApi::base64encode(const std::string& str) {

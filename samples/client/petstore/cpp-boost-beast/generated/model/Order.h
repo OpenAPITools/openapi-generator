@@ -113,10 +113,10 @@ std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Or
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<Order>>& vec, const std::string& json);
 
-}
-}
-}
-}
+Order fromJsonValue_Order(boost::json::value const& value);
 
-
+}
+}
+}
+}
 #endif /* BOOST_BEAST_OPENAPI_CLIENT_Order_MODEL_H_ */

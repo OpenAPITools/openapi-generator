@@ -81,10 +81,10 @@ std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Ca
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<Category>>& vec, const std::string& json);
 
-}
-}
-}
-}
+Category fromJsonValue_Category(boost::json::value const& value);
 
-
+}
+}
+}
+}
 #endif /* BOOST_BEAST_OPENAPI_CLIENT_Category_MODEL_H_ */

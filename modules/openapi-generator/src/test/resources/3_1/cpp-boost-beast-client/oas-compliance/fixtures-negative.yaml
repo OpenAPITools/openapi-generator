@@ -1,0 +1,30 @@
+openapi: "3.1.0"
+info:
+  title: OAS Composition Fixtures — Negative Tests
+  version: "1.0.0"
+  description: >
+    Standalone spec for negative-test schemas where the correct generator
+    behaviour is to FAIL codegen (e.g. allOf type conflicts).  Keeping these
+    separate from the positive fixtures ensures a hard-codegen-error does
+    not prevent inventory of the positive cases.
+
+paths: {}
+
+components:
+  schemas:
+
+    # =========================================================================
+    # allOf scalar conflict (documented codegen failure)
+    # ALLOF-SCALAR-CONFLICT-001
+    # =========================================================================
+    AllOfScalarConflict:
+      description: >
+        allOf over a string schema and an integer schema.  This is a true
+        conflict — a single value cannot be both a string and an integer.
+        The generator MUST fail codegen with an error rather than silently
+        picking one type.  This is a NEGATIVE test: PASS means "error
+        emitted", FAIL means "silently produced bad code".
+      allOf:
+        - type: string
+        - type: integer
+          format: int32

@@ -52,6 +52,12 @@ public:
             const std::string &body,
             const std::map<std::string, std::string> &headers) override;
 
+    boost::beast::http::status
+    executeStream(const std::string &verb, const std::string &target,
+                  const std::string &body,
+                  const std::map<std::string, std::string> &headers,
+                  std::function<void(const std::string &)> onEvent) override;
+
 protected:
     using HttpRequest =
         boost::beast::http::request<boost::beast::http::string_body>;
@@ -85,6 +91,16 @@ protected:
     virtual void configureTlsContext(boost::asio::ssl::context &tlsContext);
 
 private:
+    boost::beast::http::status
+    executeHttpStream(
+        HttpRequest &request,
+        std::function<void(const std::string &)> onEvent);
+
+    boost::beast::http::status
+    executeHttpsStream(
+        HttpRequest &request,
+        std::function<void(const std::string &)> onEvent);
+
     const std::string m_host;
     const std::string m_port;
     const int m_httpVersion;

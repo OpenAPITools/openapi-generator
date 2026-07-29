@@ -1,0 +1,41 @@
+# Expected C++ types for Gate A composed schemas.
+# Every entry here MUST be a component schema whose ROOT-level defining keyword
+# is oneOf, anyOf, or allOf (after skipping description/title/deprecated/example).
+#
+# This manifest is enforced by gate-a.sh: any root-composed schema whose
+# emitted C++ type differs from the expectation causes a FAIL in the inventory.
+# Conversely, any key in this file that does not correspond to a root-composed
+# schema in fixtures.yaml is a stale entry and should be removed.
+#
+# Format:
+#   schema_name: cpp_type
+#
+# Use std::variant<...> for oneOf over heterogeneous types,
+# std::string / double / bool for anyOf primitive aliases,
+# and fully qualified class names for object schemas.
+
+# --- anyOf string + string-enum → std::string collapse ---
+AnyOfStringStringEnum: std::string
+
+# --- oneOf string + string-enum — do NOT blind-collapse; exclusivity unrepresentable as typed union ---
+OneOfStringStringEnum: boost::json::value
+
+# --- oneOf string | array<ItemStruct> ---
+OneOfStringArray: std::variant<std::string, std::vector<ItemStruct>>
+
+# --- allOf object merge (compatible) ---
+AllOfObjectMerge: org::openapitools::client::model::AllOfObjectMerge
+
+# --- anyOf [T, null] / nullable T → std::optional<T> ---
+NullableString: std::optional<std::string>
+NullableEnum: std::optional<std::string>
+
+# --- discriminator + oneOf object branches ---
+DiscriminatorOneOf: std::variant<Mammal, Bird>
+Animal: std::variant<Mammal, Bird>
+
+# --- multi-content stream event (oneOf 3 types) ---
+MultiContentStreamEvent: std::variant<StreamProgress, StreamComplete, StreamError>
+
+# --- multipart oneOf binary|object ---
+MultipartMetaField: std::variant<std::vector<std::uint8_t>, MetaRecord>
