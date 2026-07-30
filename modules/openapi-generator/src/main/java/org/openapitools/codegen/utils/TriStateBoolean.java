@@ -42,3 +42,4 @@ public enum TriStateBoolean {
         return value ? TRUE : FALSE;
     }
 }
+
