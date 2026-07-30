@@ -204,7 +204,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;

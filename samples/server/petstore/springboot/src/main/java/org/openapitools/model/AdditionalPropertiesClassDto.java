@@ -111,7 +111,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapNumber
    * @return mapNumber
    */
-  @Valid 
+  
   @Schema(name = "map_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
@@ -198,7 +198,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapArrayInteger
    * @return mapArrayInteger
    */
-  @Valid 
+  
   @Schema(name = "map_array_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -227,7 +227,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    */
-  @Valid 
+  
   @Schema(name = "map_array_anytype", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -256,7 +256,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapMapString
    * @return mapMapString
    */
-  @Valid 
+  
   @Schema(name = "map_map_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
@@ -285,7 +285,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapMapAnytype
    * @return mapMapAnytype
    */
-  @Valid 
+  
   @Schema(name = "map_map_anytype", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {

@@ -23,14 +23,14 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @JsonTypeName("AdditionalPropertiesClass")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class AdditionalPropertiesClass  implements Serializable {
-  private @Valid Map<String, String> mapString = new HashMap<>();
-  private @Valid Map<String, BigDecimal> mapNumber = new HashMap<>();
-  private @Valid Map<String, Integer> mapInteger = new HashMap<>();
-  private @Valid Map<String, Boolean> mapBoolean = new HashMap<>();
-  private @Valid Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
-  private @Valid Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
-  private @Valid Map<String, Map<String, String>> mapMapString = new HashMap<>();
-  private @Valid Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private Map<String, String> mapString = new HashMap<>();
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private Map<String, Integer> mapInteger = new HashMap<>();
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
   private Object anytype1;
   private Object anytype2;
   private Object anytype3;
@@ -97,7 +97,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_number")
-  @Valid public Map<String, BigDecimal> getMapNumber() {
+  public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
 

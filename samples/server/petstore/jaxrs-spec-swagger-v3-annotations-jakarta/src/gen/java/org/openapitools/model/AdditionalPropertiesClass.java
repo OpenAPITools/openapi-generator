@@ -20,8 +20,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @JsonTypeName("AdditionalPropertiesClass")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class AdditionalPropertiesClass  implements Serializable {
-  private @Valid Map<String, String> mapProperty = new HashMap<>();
-  private @Valid Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
+  private Map<String, String> mapProperty = new HashMap<>();
+  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   protected AdditionalPropertiesClass(AdditionalPropertiesClassBuilder<?, ?> b) {
     this.mapProperty = b.mapProperty;

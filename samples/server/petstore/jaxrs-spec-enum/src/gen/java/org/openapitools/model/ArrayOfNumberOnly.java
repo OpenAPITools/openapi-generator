@@ -23,7 +23,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @JsonTypeName("ArrayOfNumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ArrayOfNumberOnly  implements Serializable {
-  private @Valid List<BigDecimal> arrayNumber = new ArrayList<>();
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   protected ArrayOfNumberOnly(ArrayOfNumberOnlyBuilder<?, ?> b) {
     this.arrayNumber = b.arrayNumber;
@@ -42,7 +42,7 @@ public class ArrayOfNumberOnly  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayNumber")
-  @Valid public List<@Valid BigDecimal> getArrayNumber() {
+  public List<@Valid BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
 

@@ -107,7 +107,7 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
    */
-  @Valid 
+  
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -191,7 +191,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
    */
-  @Valid 
+  
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -219,7 +219,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    */
-  @Valid 
+  
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -247,7 +247,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
    */
-  @Valid 
+  
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -275,7 +275,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
    */
-  @Valid 
+  
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;

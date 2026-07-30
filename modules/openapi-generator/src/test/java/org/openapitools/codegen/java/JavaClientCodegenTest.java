@@ -2525,6 +2525,32 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testBeanValidationOnContainerTypeArgument_issue23614() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .addAdditionalProperty(JavaClientCodegen.USE_BEANVALIDATION, true)
+                .setInputSpec("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        // Array elements keep @Valid on the type argument; the container itself is no longer
+        // annotated with @Valid, which Hibernate Validator 9.1+ deprecates (HV000271).
+        Path pet = output.resolve("src/main/java/org/openapitools/client/model/Pet.java");
+        assertFileContains(pet, "List<@Valid Tag> getTags()");
+        TestUtils.assertFileNotContains(pet, "@Valid List<");
+
+        // Map values carry @Valid on the value type argument rather than on the map itself,
+        // preserving cascade validation without the deprecated container-level annotation.
+        Path mixed = output.resolve("src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java");
+        assertFileContains(mixed, "Map<String, @Valid Animal> getMap()");
+        TestUtils.assertFileNotContains(mixed, "@Valid Map<String, Animal>");
+    }
+
+    @Test
     public void testRestTemplateWithPerformBeanValidationEnabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

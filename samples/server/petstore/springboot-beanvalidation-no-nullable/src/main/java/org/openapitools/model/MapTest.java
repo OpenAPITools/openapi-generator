@@ -91,7 +91,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  @Valid 
+  
   @Schema(name = "map_map_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
