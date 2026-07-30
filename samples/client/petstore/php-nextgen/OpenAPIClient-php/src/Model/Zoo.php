@@ -64,7 +64,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'snack' => '\OpenAPI\Client\Model\Fruit',
         'mammals' => '\OpenAPI\Client\Model\Mammal[]',
         'favorite_reptile' => '\OpenAPI\Client\Model\Reptile',
-        'drink' => '\OpenAPI\Client\Model\Smoothie'
+        'drink' => '\OpenAPI\Client\Model\Smoothie',
+        'featured_creature' => '\OpenAPI\Client\Model\Creature'
     ];
 
     /**
@@ -78,7 +79,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'snack' => null,
         'mammals' => null,
         'favorite_reptile' => null,
-        'drink' => null
+        'drink' => null,
+        'featured_creature' => null
     ];
 
     /**
@@ -92,7 +94,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'snack' => false,
         'mammals' => false,
         'favorite_reptile' => false,
-        'drink' => false
+        'drink' => false,
+        'featured_creature' => false
     ];
 
     /**
@@ -176,7 +179,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'snack' => 'snack',
         'mammals' => 'mammals',
         'favorite_reptile' => 'favoriteReptile',
-        'drink' => 'drink'
+        'drink' => 'drink',
+        'featured_creature' => 'featuredCreature'
     ];
 
     /**
@@ -190,7 +194,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'snack' => 'setSnack',
         'mammals' => 'setMammals',
         'favorite_reptile' => 'setFavoriteReptile',
-        'drink' => 'setDrink'
+        'drink' => 'setDrink',
+        'featured_creature' => 'setFeaturedCreature'
     ];
 
     /**
@@ -204,7 +209,8 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         'snack' => 'getSnack',
         'mammals' => 'getMammals',
         'favorite_reptile' => 'getFavoriteReptile',
-        'drink' => 'getDrink'
+        'drink' => 'getDrink',
+        'featured_creature' => 'getFeaturedCreature'
     ];
 
     /**
@@ -260,6 +266,7 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('mammals', $data ?? [], null);
         $this->setIfExists('favorite_reptile', $data ?? [], null);
         $this->setIfExists('drink', $data ?? [], null);
+        $this->setIfExists('featured_creature', $data ?? [], null);
     }
 
     /**
@@ -463,6 +470,33 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
             throw new InvalidArgumentException('non-nullable drink cannot be null');
         }
         $this->container['drink'] = $drink;
+
+        return $this;
+    }
+
+    /**
+     * Gets featured_creature
+     *
+     * @return \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|\OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake|null
+     */
+    public function getFeaturedCreature(): \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|\OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake|null
+    {
+        return $this->container['featured_creature'];
+    }
+
+    /**
+     * Sets featured_creature
+     *
+     * @param \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|\OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake|null $featured_creature featured_creature
+     *
+     * @return $this
+     */
+    public function setFeaturedCreature(\OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|\OpenAPI\Client\Model\Lizard|\OpenAPI\Client\Model\Snake|null $featured_creature): static
+    {
+        if (is_null($featured_creature)) {
+            throw new InvalidArgumentException('non-nullable featured_creature cannot be null');
+        }
+        $this->container['featured_creature'] = $featured_creature;
 
         return $this;
     }
