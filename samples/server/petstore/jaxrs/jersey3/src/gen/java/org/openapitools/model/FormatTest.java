@@ -189,7 +189,7 @@ public class FormatTest   {
    * @return number
    **/
   @JsonProperty(value = "number")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
   public BigDecimal getNumber() {
     return number;
@@ -293,7 +293,7 @@ public class FormatTest   {
    * @return _byte
    **/
   @JsonProperty(value = "byte")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public byte[] getByte() {
     return _byte;
@@ -333,7 +333,7 @@ public class FormatTest   {
    * @return date
    **/
   @JsonProperty(value = "date")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public Date getDate() {
     return date;
@@ -393,7 +393,7 @@ public class FormatTest   {
    * @return password
    **/
   @JsonProperty(value = "password")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull  @Size(min=10,max=64)
   public String getPassword() {
     return password;

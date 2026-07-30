@@ -1108,6 +1108,38 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
+    public void generateSpecModelsWithSwaggerV3RequiredMode() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(USE_SWAGGER_V3_ANNOTATIONS, true);
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        final List<File> files = generator.opts(input).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Pet.java"),
+                "requiredMode = Schema.RequiredMode.REQUIRED");
+        assertFileNotContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Pet.java"), "@Schema(example = \"doggie\", required = true");
+    }
+
+    @Test
     public void generateSpecInterfaceWithMutinyAndJBossResponse() throws Exception {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

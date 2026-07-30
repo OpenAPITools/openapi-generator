@@ -248,7 +248,7 @@ public class EnumTest   {
    * @return enumStringRequired
    **/
   @JsonProperty(value = "enum_string_required")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;

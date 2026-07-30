@@ -59,7 +59,7 @@ public class Name   {
    * @return name
    **/
   @JsonProperty(value = "name")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public Integer getName() {
     return name;

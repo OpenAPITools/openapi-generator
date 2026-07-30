@@ -154,7 +154,7 @@ public class Pet   {
    * @return name
    **/
   @JsonProperty(value = "name")
-  @Schema(example = "doggie", required = true, description = "")
+  @Schema(example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public String getName() {
     return name;
@@ -182,7 +182,7 @@ public class Pet   {
    * @return photoUrls
    **/
   @JsonProperty(value = "photoUrls")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public Set<String> getPhotoUrls() {
     return photoUrls;
