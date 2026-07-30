@@ -30,6 +30,8 @@ export interface Tag {
 }
 export const TagPropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,

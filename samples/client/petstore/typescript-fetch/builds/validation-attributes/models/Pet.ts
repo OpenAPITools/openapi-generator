@@ -74,6 +74,8 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 export const PetPropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,
@@ -88,6 +90,8 @@ export const PetPropertyValidationAttributesMap: {
     }
 } = {
     photoUrls: {
+        dataType: "Set&lt;string&gt;",
+        required: true,
         maxItems: 8,
         minItems: 1,
         uniqueItems: true,

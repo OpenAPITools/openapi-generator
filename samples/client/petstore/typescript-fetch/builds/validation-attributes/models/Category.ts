@@ -30,6 +30,8 @@ export interface Category {
 }
 export const CategoryPropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,
@@ -44,6 +46,7 @@ export const CategoryPropertyValidationAttributesMap: {
     }
 } = {
     name: {
+        dataType: "string",
         pattern: '/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/',
     },
 }
