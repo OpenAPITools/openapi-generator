@@ -26,5 +26,5 @@ data class Dog(
     
     @field:com.fasterxml.jackson.annotation.JsonProperty("petType")
     val petType: kotlin.Any? = null
-)
+) : Pet
 

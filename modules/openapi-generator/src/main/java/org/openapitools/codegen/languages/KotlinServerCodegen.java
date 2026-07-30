@@ -620,6 +620,12 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                             owner.getRequiredVars().add(parentDiscriminatorProp);
                             owner.getAllVars().add(parentDiscriminatorProp);
 
+                            // Children are retyped to kotlin.String and marked inherited below, so they can
+                            // override an abstract declaration on the oneOf interface. Only then may the
+                            // interface declare the discriminator - see oneof_interface.mustache.
+                            owner.getVendorExtensions().put("x-one-of-interface-declares-discriminator", true);
+                            owner.getDiscriminator().getVendorExtensions().put("x-one-of-interface-declares-discriminator", true);
+
                             // Parent now has properties (just the discriminator)
                             hasParentProperties = true;
 

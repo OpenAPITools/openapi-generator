@@ -26,7 +26,7 @@ data class Cat(
     
     @field:com.fasterxml.jackson.annotation.JsonProperty("petType")
     val petType: kotlin.Any? = null
-)
+) : Pet
 {
     /**
     * The measured skill for hunting

@@ -493,6 +493,14 @@ public class KotlinServerCodegenTest {
         // With useOneOfInterfaces, Pet is a sealed interface.
         // When fixJacksonJsonTypeInfoInheritance is false, visible should be false.
         assertFileContains(petModel, "sealed interface Pet", "visible = false");
+
+        // The interface must NOT declare the discriminator here: the children are only retyped to
+        // kotlin.String and marked inherited (i.e. rendered with `override`) when the Jackson fix is
+        // enabled. Declaring it anyway makes the subtypes fail to compile with
+        // "'petType' hides member of supertype 'Pet' and needs an 'override' modifier".
+        assertFileNotContains(petModel, "val petType");
+        assertFileNotContains(Paths.get(outputPath + "/models/Cat.kt"), "override val petType");
+        assertFileNotContains(Paths.get(outputPath + "/models/Dog.kt"), "override val petType");
     }
 
     // ==================== useTags for JAXRS-SPEC ====================
@@ -827,10 +835,33 @@ public class KotlinServerCodegenTest {
         );
         assertFileNotContains(Paths.get(outputPath + "/Pet.kt"), "typealias", "kotlin.Any");
 
-        // Subtypes must extend the sealed interface
-        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat");
+        // Subtypes must extend the sealed interface and override its discriminator
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat", ") : Pet", "override val petType");
         assertFileNotContains(Paths.get(outputPath + "/Cat.kt"), "typealias", "kotlin.Any");
-        assertFileContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog", ") : Pet", "override val petType");
         assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "typealias", "kotlin.Any");
+    }
+
+    @Test(description = "oneOf without discriminator generates a sealed interface that subtypes implement")
+    public void testOneOfWithoutDiscriminatorSubtypesImplementInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/models";
+
+        // Without a discriminator the interface has no members, so it would be uninhabited unless the
+        // oneOf members declare it as a supertype via x-implements.
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"), "sealed interface Pet");
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat", ") : Pet");
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog", ") : Pet");
     }
 }
