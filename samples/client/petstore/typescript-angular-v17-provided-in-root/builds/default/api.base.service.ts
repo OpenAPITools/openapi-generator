@@ -49,7 +49,7 @@ export class BaseService {
             }
 
             return Object.keys(value as Record<string, any>).reduce(
-                (hp, k) => hp.append(`${key}[${k}]`, value[k]),
+                (hp, k) => this.addToHttpParamsDeepObject(hp, `${key}[${k}]`, value[k]),
                 httpParams,
             );
         } else if (paramStyle === QueryParamStyle.Json) {
@@ -77,8 +77,8 @@ export class BaseService {
                 // Otherwise, if it's an object, add each field.
                 if (paramStyle === QueryParamStyle.Form) {
                     if (explode) {
-                        Object.keys(value).forEach(k => {
-                            httpParams = this.addToHttpParams(httpParams, k, value[k], paramStyle, explode);
+                        Object.entries(value).forEach(([k, v]) => {
+                            httpParams = this.addToHttpParams(httpParams, `${key}.${k}`, v, paramStyle, explode);
                         });
                         return httpParams;
                     } else {
@@ -91,6 +91,27 @@ export class BaseService {
                     return concatHttpParamsObject(httpParams, key, value, '|');
                 }
             }
+        }
+    }
+
+    private addToHttpParamsDeepObject(httpParams: OpenApiHttpParams, key: string, value: any | null | undefined): OpenApiHttpParams {
+        if (value == null) {
+            return httpParams;
+        } else if (value instanceof Date) {
+            return httpParams.append(key, value.toISOString());
+        } else if (Object(value) !== value) {
+            return httpParams.append(key, value.toString());
+        } else if (Array.isArray(value) || value instanceof Set) {
+            const array = Array.isArray(value) ? value : Array.from(value);
+            array.forEach((item, index) => {
+                httpParams = this.addToHttpParamsDeepObject(httpParams, `${key}[${index}]`, item);
+            });
+            return httpParams;
+        } else {
+            return Object.entries(value).reduce(
+                (hp, [k, v]) => this.addToHttpParamsDeepObject(hp, `${key}[${k}]`, v),
+                httpParams,
+            );
         }
     }
 }
