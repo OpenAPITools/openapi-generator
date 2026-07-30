@@ -21,3 +21,6 @@ require "./{{shardName}}/validation"
 # APIs
 {{#apiInfo}}{{#apis}}require "./{{shardName}}/api/{{classFilename}}"
 {{/apis}}{{/apiInfo}}
+{{#webhooks}}{{#-first}}# Webhooks (OpenAPI 3.1): api classes generated from the top-level `webhooks` object.
+{{/-first}}require "./{{shardName}}/api/{{classFilename}}"
+{{/webhooks}}

@@ -50,50 +50,34 @@ import {
 export interface EnumTest {
     /**
      * 
-     * @type {EnumTestEnumStringEnum}
-     * @memberof EnumTest
      */
     enumString?: EnumTestEnumStringEnum;
     /**
      * 
-     * @type {EnumTestEnumStringRequiredEnum}
-     * @memberof EnumTest
      */
     enumStringRequired: EnumTestEnumStringRequiredEnum;
     /**
      * 
-     * @type {EnumTestEnumIntegerEnum}
-     * @memberof EnumTest
      */
     enumInteger?: EnumTestEnumIntegerEnum;
     /**
      * 
-     * @type {EnumTestEnumNumberEnum}
-     * @memberof EnumTest
      */
     enumNumber?: EnumTestEnumNumberEnum;
     /**
      * 
-     * @type {OuterEnum}
-     * @memberof EnumTest
      */
     outerEnum?: OuterEnum | null;
     /**
      * 
-     * @type {OuterEnumInteger}
-     * @memberof EnumTest
      */
     outerEnumInteger?: OuterEnumInteger;
     /**
      * 
-     * @type {OuterEnumDefaultValue}
-     * @memberof EnumTest
      */
     outerEnumDefaultValue?: OuterEnumDefaultValue;
     /**
      * 
-     * @type {OuterEnumIntegerDefaultValue}
-     * @memberof EnumTest
      */
     outerEnumIntegerDefaultValue?: OuterEnumIntegerDefaultValue;
 }

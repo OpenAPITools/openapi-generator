@@ -36,38 +36,26 @@ import {
 export interface Pet {
     /**
      * 
-     * @type {number}
-     * @memberof Pet
      */
     id?: number;
     /**
      * 
-     * @type {Category}
-     * @memberof Pet
      */
     category?: Category;
     /**
      * 
-     * @type {string}
-     * @memberof Pet
      */
     name: string;
     /**
      * 
-     * @type {Set<string>}
-     * @memberof Pet
      */
     photoUrls: Set<string>;
     /**
      * 
-     * @type {Array<Tag>}
-     * @memberof Pet
      */
     tags?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {PetStatusEnum}
-     * @memberof Pet
      */
     status?: PetStatusEnum;
 }

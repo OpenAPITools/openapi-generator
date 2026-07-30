@@ -40,6 +40,7 @@ import java.util.*;
 import static org.openapitools.codegen.CodegenConstants.ENUM_VARS;
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_BYTE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVarsAsString;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -397,7 +398,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
      *
      * @param models processed models to be further processed for enum references
      */
-    @SuppressWarnings("unchecked")
     private void postProcessEnumRefs(final Map<String, ModelsMap> models) {
         Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (String key : models.keySet()) {
@@ -450,7 +450,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
                     // Since we iterate enumVars for modelInnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
                     // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
-                    List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get(ENUM_VARS);
+                    List<Map<String, String>> enumVars = getEnumVarsAsString(model.allowableValues);
                     List<Map<String, Object>> newEnumVars = new ArrayList<>();
                     for (Map<String, String> enumVar : enumVars) {
                         Map<String, Object> mixedVars = new HashMap<>(enumVar);

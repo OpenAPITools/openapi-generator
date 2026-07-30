@@ -1876,7 +1876,12 @@ namespace Org.OpenAPITools.Model
                         case "required_notnullable_enum_string":
                             string? requiredNotnullableEnumStringRawValue = utf8JsonReader.GetString();
                             if (requiredNotnullableEnumStringRawValue != null)
-                                requiredNotnullableEnumString = new Option<RequiredClass.RequiredNotnullableEnumStringEnum?>(RequiredClass.RequiredNotnullableEnumStringEnumFromStringOrDefault(requiredNotnullableEnumStringRawValue));
+                            {
+                                RequiredClass.RequiredNotnullableEnumStringEnum? requiredNotnullableEnumStringValue = RequiredClass.RequiredNotnullableEnumStringEnumFromStringOrDefault(requiredNotnullableEnumStringRawValue);
+                                if (requiredNotnullableEnumStringValue == null)
+                                    throw new JsonException();
+                                requiredNotnullableEnumString = new Option<RequiredClass.RequiredNotnullableEnumStringEnum?>(requiredNotnullableEnumStringValue);
+                            }
                             break;
                         case "required_notnullable_outerEnumDefaultValue":
                             requiredNotnullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(JsonSerializer.Deserialize<OuterEnumDefaultValue?>(ref utf8JsonReader, jsonSerializerOptions));
@@ -1938,7 +1943,12 @@ namespace Org.OpenAPITools.Model
                         case "notrequired_notnullable_enum_string":
                             string? notrequiredNotnullableEnumStringRawValue = utf8JsonReader.GetString();
                             if (notrequiredNotnullableEnumStringRawValue != null)
-                                notrequiredNotnullableEnumString = new Option<RequiredClass.NotrequiredNotnullableEnumStringEnum?>(RequiredClass.NotrequiredNotnullableEnumStringEnumFromStringOrDefault(notrequiredNotnullableEnumStringRawValue));
+                            {
+                                RequiredClass.NotrequiredNotnullableEnumStringEnum? notrequiredNotnullableEnumStringValue = RequiredClass.NotrequiredNotnullableEnumStringEnumFromStringOrDefault(notrequiredNotnullableEnumStringRawValue);
+                                if (notrequiredNotnullableEnumStringValue == null)
+                                    throw new JsonException();
+                                notrequiredNotnullableEnumString = new Option<RequiredClass.NotrequiredNotnullableEnumStringEnum?>(notrequiredNotnullableEnumStringValue);
+                            }
                             break;
                         case "notrequired_notnullable_outerEnumDefaultValue":
                             notrequiredNotnullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(JsonSerializer.Deserialize<OuterEnumDefaultValue?>(ref utf8JsonReader, jsonSerializerOptions));
@@ -1984,7 +1994,15 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "notrequired_nullable_enum_string":
                             string? notrequiredNullableEnumStringRawValue = utf8JsonReader.GetString();
-                            notrequiredNullableEnumString = new Option<RequiredClass.NotrequiredNullableEnumStringEnum?>(notrequiredNullableEnumStringRawValue == null ? null : RequiredClass.NotrequiredNullableEnumStringEnumFromStringOrDefault(notrequiredNullableEnumStringRawValue));
+                            if (notrequiredNullableEnumStringRawValue == null)
+                                notrequiredNullableEnumString = new Option<RequiredClass.NotrequiredNullableEnumStringEnum?>(null);
+                            else
+                            {
+                                RequiredClass.NotrequiredNullableEnumStringEnum? notrequiredNullableEnumStringValue = RequiredClass.NotrequiredNullableEnumStringEnumFromStringOrDefault(notrequiredNullableEnumStringRawValue);
+                                if (notrequiredNullableEnumStringValue == null)
+                                    throw new JsonException();
+                                notrequiredNullableEnumString = new Option<RequiredClass.NotrequiredNullableEnumStringEnum?>(notrequiredNullableEnumStringValue);
+                            }
                             break;
                         case "notrequired_nullable_outerEnumDefaultValue":
                             notrequiredNullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(JsonSerializer.Deserialize<OuterEnumDefaultValue?>(ref utf8JsonReader, jsonSerializerOptions));
@@ -2033,7 +2051,15 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "required_nullable_enum_string":
                             string? requiredNullableEnumStringRawValue = utf8JsonReader.GetString();
-                            requiredNullableEnumString = new Option<RequiredClass.RequiredNullableEnumStringEnum?>(requiredNullableEnumStringRawValue == null ? null : RequiredClass.RequiredNullableEnumStringEnumFromStringOrDefault(requiredNullableEnumStringRawValue));
+                            if (requiredNullableEnumStringRawValue == null)
+                                requiredNullableEnumString = new Option<RequiredClass.RequiredNullableEnumStringEnum?>(null);
+                            else
+                            {
+                                RequiredClass.RequiredNullableEnumStringEnum? requiredNullableEnumStringValue = RequiredClass.RequiredNullableEnumStringEnumFromStringOrDefault(requiredNullableEnumStringRawValue);
+                                if (requiredNullableEnumStringValue == null)
+                                    throw new JsonException();
+                                requiredNullableEnumString = new Option<RequiredClass.RequiredNullableEnumStringEnum?>(requiredNullableEnumStringValue);
+                            }
                             break;
                         case "required_nullable_integer_prop":
                             requiredNullableIntegerProp = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());

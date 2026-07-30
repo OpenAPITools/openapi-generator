@@ -1267,9 +1267,11 @@ public class PythonClientCodegenTest {
                 "src/test/resources/3_0/python/model-attribute-alias.yaml");
         final Path model = Paths.get(outputPath + "openapi_client/models/alias_model.py");
 
+        // unmapped collisions are not rejected; they fall back to reserved-word
+        // mangling and keep their wire name through the alias
         assertFileContains(model,
-                "    model_dump: Optional[StrictStr]",
-                "    to_dict: Optional[StrictStr]");
+                "    var_model_dump: Optional[StrictStr] = Field(default=None, alias=\"model_dump\")",
+                "    var_to_dict: Optional[StrictStr] = Field(default=None, alias=\"to_dict\")");
     }
 
     @Test
@@ -1356,6 +1358,22 @@ public class PythonClientCodegenTest {
 
         codegen.parameterNameMapping().put("some-value", "parameter_value");
         Assert.assertEquals(codegen.toParamName("some-value"), "parameter_value");
+    }
+
+    @Test
+    public void testGeneratedHelperAndPydanticNamesAreReserved() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+
+        // names of the helper methods generated on every model
+        Assert.assertEquals(codegen.toVarName("to_dict"), "var_to_dict");
+        Assert.assertEquals(codegen.toVarName("from_dict"), "var_from_dict");
+        Assert.assertEquals(codegen.toVarName("to_json"), "var_to_json");
+        // pydantic BaseModel namespace
+        Assert.assertEquals(codegen.toVarName("model_config"), "var_model_config");
+        Assert.assertEquals(codegen.toVarName("model_fields"), "var_model_fields");
+        Assert.assertEquals(codegen.toVarName("model_dump"), "var_model_dump");
+        // similar-looking names must not be mangled
+        Assert.assertEquals(codegen.toVarName("model_configuration"), "model_configuration");
     }
 
     @Test(dataProvider = "numberMappings")

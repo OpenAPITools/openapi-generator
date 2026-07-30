@@ -25,8 +25,9 @@ import java.io.Writer;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
 
 /**
  * @deprecated WARNING! This generator is outdated. Please use the official generator for Micronaut:
@@ -483,8 +484,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                 if (models.containsKey(op.returnType)) {
                     CodegenModel m = models.get(op.returnType);
                     List<Object> allowableValues = null;
-                    if (m.allowableValues != null && m.allowableValues.containsKey(ENUM_VALUES)) {
-                        allowableValues = (List<Object>) m.allowableValues.get(ENUM_VALUES);
+                    if (hasEnumValues(m.allowableValues)) {
+                        allowableValues = getEnumValues(m.allowableValues);
                     }
                     example = getExampleValue(m.defaultValue, null, m.classname, true,
                             allowableValues, null, null, m.requiredVars, false, false);
@@ -566,7 +567,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     protected String getParameterExampleValue(CodegenParameter p, boolean groovy) {
-        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get(ENUM_VALUES);
+        List<Object> allowableValues = p.allowableValues == null ? null : getEnumValues(p.allowableValues);
 
         return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
                 p.items == null ? null : p.items.dataType,
@@ -575,7 +576,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     protected String getPropertyExampleValue(CodegenProperty p, boolean groovy) {
-        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get(ENUM_VALUES);
+        List<Object> allowableValues = p.allowableValues == null ? null : getEnumValues(p.allowableValues);
 
         return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
                 p.items == null ? null : p.items.dataType,
@@ -724,7 +725,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         if (!isQuietMode()) {
             System.out.println("################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
             System.out.println("#                                                                              #");
             System.out.println("# WARNING! This generator is outdated. Please use the official generator for   #");

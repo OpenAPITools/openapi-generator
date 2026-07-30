@@ -140,16 +140,12 @@ class Order {
 
 /// Order Status
 enum OrderStatusEnum {
-    /// Order Status
 @JsonValue(r'placed')
 placed(r'placed'),
-    /// Order Status
 @JsonValue(r'approved')
 approved(r'approved'),
-    /// Order Status
 @JsonValue(r'delivered')
 delivered(r'delivered'),
-    /// Order Status
 @JsonValue(r'unknown_default_open_api')
 unknownDefaultOpenApi(r'unknown_default_open_api');
 

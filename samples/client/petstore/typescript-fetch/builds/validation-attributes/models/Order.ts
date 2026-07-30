@@ -22,38 +22,26 @@ export interface Order {
     [key: string]: string | any;
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     id?: number;
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     petId?: number;
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     quantity?: number;
     /**
      * 
-     * @type {Date}
-     * @memberof Order
      */
     shipDate?: Date;
     /**
      * Order Status
-     * @type {OrderStatusEnum}
-     * @memberof Order
      */
     status?: OrderStatusEnum;
     /**
      * 
-     * @type {boolean}
-     * @memberof Order
      */
     complete?: boolean;
 }

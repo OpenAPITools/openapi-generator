@@ -32,6 +32,6 @@ object User {
   import io.circe.syntax._
   import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[User] = deriveEncoder
+  implicit val encoder: Encoder[User] = deriveEncoder[User].mapJson(_.dropNullValues)
   implicit val decoder: Decoder[User] = deriveDecoder
 }

@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface List {
     /**
      * 
-     * @type {string}
-     * @memberof List
      */
     _123list?: string;
 }

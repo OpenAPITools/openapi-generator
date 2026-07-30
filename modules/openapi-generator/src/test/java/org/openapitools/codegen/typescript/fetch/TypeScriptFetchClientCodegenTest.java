@@ -94,6 +94,35 @@ public class TypeScriptFetchClientCodegenTest {
     }
 
     @Test
+    public void testDeprecatedParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        // bundle parameters into a request interface so per-parameter JSDoc is emitted
+        properties.put("useSingleRequestParameter", true);
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/typescript/deprecated-parameter.yaml")
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // the deprecated `name` query parameter must carry an @deprecated JSDoc tag in the
+        // generated request-parameter interface
+        Path file = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(file, "* @deprecated");
+
+        // only the single deprecated parameter is tagged (the operation is not deprecated)
+        String content = Files.readString(file);
+        Assert.assertEquals(TestUtils.countOccurrences(content, "@deprecated"), 1);
+    }
+
+    @Test
     public void testWithoutSnapshotVersion() {
         OpenAPI api = TestUtils.createOpenAPI();
         TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
@@ -127,6 +156,18 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "original");
         codegen.processOpts();
         Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
+    }
+    
+    @Test
+    public void toVarNameWithAtSign() {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("@id"), "atId");
+
+        codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "original");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("@id"), "at_id");
     }
 
     @Test

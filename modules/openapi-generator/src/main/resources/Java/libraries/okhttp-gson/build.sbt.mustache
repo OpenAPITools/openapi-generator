@@ -3,7 +3,7 @@ lazy val root = (project in file(".")).
     organization := "{{groupId}}",
     name := "{{artifactId}}",
     version := "{{artifactVersion}}",
-    scalaVersion := "2.11.12",
+    scalaVersion := "2.13.6",
     scalacOptions ++= Seq("-feature"),
     compile / javacOptions ++= Seq("-Xlint:deprecation"),
     Compile / packageDoc / publishArtifact := false,
@@ -16,7 +16,7 @@ lazy val root = (project in file(".")).
       "org.apache.commons" % "commons-lang3" % "3.18.0",
       "jakarta.ws.rs" % "jakarta.ws.rs-api" % "2.1.6",
       {{#openApiNullable}}
-      "org.openapitools" % "jackson-databind-nullable" % "0.2.10",
+      "org.openapitools" % "jackson-databind-nullable" % "0.2.11",
       {{/openApiNullable}}
       {{#withAWSV4Signature}}
       "software.amazon.awssdk" % "auth" % "2.20.157",
