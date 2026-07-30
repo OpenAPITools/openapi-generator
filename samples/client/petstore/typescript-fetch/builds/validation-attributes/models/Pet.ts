@@ -90,7 +90,7 @@ export const PetPropertyValidationAttributesMap: {
     }
 } = {
     photoUrls: {
-        dataType: "Set&lt;string&gt;",
+        dataType: "Set<string>",
         required: true,
         maxItems: 8,
         minItems: 1,
