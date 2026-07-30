@@ -46,7 +46,8 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     response_model_by_alias=True,
 )
 async def create_user(
-    user: Annotated[User, Field(description="Created user object")] = Body(..., description="Created user object"),
+    user: Annotated[User, Field(description="Created user object")] = Body(..., description="Created user object")
+,
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
@@ -67,7 +68,8 @@ async def create_user(
     response_model_by_alias=True,
 )
 async def create_users_with_array_input(
-    user: Annotated[List[User], Field(description="List of user object")] = Body(..., description="List of user object"),
+    user: Annotated[List[User], Field(description="List of user object")] = Body(..., description="List of user object")
+,
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
@@ -88,7 +90,8 @@ async def create_users_with_array_input(
     response_model_by_alias=True,
 )
 async def create_users_with_list_input(
-    user: Annotated[List[User], Field(description="List of user object")] = Body(..., description="List of user object"),
+    user: Annotated[List[User], Field(description="List of user object")] = Body(..., description="List of user object")
+,
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
@@ -110,8 +113,10 @@ async def create_users_with_list_input(
     response_model_by_alias=True,
 )
 async def login_user(
-    username: Annotated[str, Field(strict=True, description="The user name for login")] = Query(..., description="The user name for login", alias="username", regex=r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$"),
-    password: Annotated[StrictStr, Field(description="The password for login in clear text")] = Query(..., description="The password for login in clear text", alias="password"),
+    username: Annotated[str, Field(strict=True, description="The user name for login")] = Query(..., description="The user name for login", alias="username", regex=r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$")
+,
+    password: Annotated[StrictStr, Field(description="The password for login in clear text")] = Query(..., description="The password for login in clear text", alias="password")
+,
 ) -> str:
     """"""
     if not BaseUserApi.subclasses:
@@ -151,7 +156,8 @@ async def logout_user(
     response_model_by_alias=True,
 )
 async def get_user_by_name(
-    username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")] = Path(..., description="The name that needs to be fetched. Use user1 for testing."),
+    username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")] = Path(..., description="The name that needs to be fetched. Use user1 for testing.")
+,
 ) -> User:
     """"""
     if not BaseUserApi.subclasses:
@@ -170,8 +176,10 @@ async def get_user_by_name(
     response_model_by_alias=True,
 )
 async def update_user(
-    username: Annotated[StrictStr, Field(description="name that need to be deleted")] = Path(..., description="name that need to be deleted"),
-    user: Annotated[User, Field(description="Updated user object")] = Body(..., description="Updated user object"),
+    username: Annotated[StrictStr, Field(description="name that need to be deleted")] = Path(..., description="name that need to be deleted")
+,
+    user: Annotated[User, Field(description="Updated user object")] = Body(..., description="Updated user object")
+,
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
@@ -193,7 +201,8 @@ async def update_user(
     response_model_by_alias=True,
 )
 async def delete_user(
-    username: Annotated[StrictStr, Field(description="The name that needs to be deleted")] = Path(..., description="The name that needs to be deleted"),
+    username: Annotated[StrictStr, Field(description="The name that needs to be deleted")] = Path(..., description="The name that needs to be deleted")
+,
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
