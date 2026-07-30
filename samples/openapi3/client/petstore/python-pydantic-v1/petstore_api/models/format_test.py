@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import date, datetime
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, condecimal, confloat, conint, constr, validator
 
 class FormatTest(BaseModel):
@@ -42,7 +42,7 @@ class FormatTest(BaseModel):
     password: constr(strict=True, max_length=64, min_length=10) = Field(...)
     pattern_with_digits: Optional[constr(strict=True)] = Field(default=None, description="A string that is a 10 digit number. Can have leading zeros.")
     pattern_with_digits_and_delimiter: Optional[constr(strict=True)] = Field(default=None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
 
     @validator('string')

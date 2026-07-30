@@ -18,11 +18,11 @@ import json
 import pprint
 import re  # noqa: F401
 
-from typing import Any, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
-from typing import Union, Any, List, TYPE_CHECKING
+from typing import Union, Any, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
 ONEOFENUMSTRING_ONE_OF_SCHEMAS = ["EnumString1", "EnumString2"]
@@ -39,7 +39,7 @@ class OneOfEnumString(BaseModel):
         actual_instance: Union[EnumString1, EnumString2]
     else:
         actual_instance: Any
-    one_of_schemas: List[str] = Field(ONEOFENUMSTRING_ONE_OF_SCHEMAS, const=True)
+    one_of_schemas: list[str] = Field(ONEOFENUMSTRING_ONE_OF_SCHEMAS, const=True)
 
     class Config:
         validate_assignment = True

@@ -87,7 +87,7 @@ class ModelTests(unittest.TestCase):
             new_color.oneof_schema_2_validator = array_of_integers
             self.fail(f"Should have failed: {new_color.oneof_schema_2_validator}")
         except ValueError as e:
-            self.assertTrue("List should have at least 4 items after validation, not 3" in str(e))
+            self.assertTrue("list should have at least 4 items after validation, not 3" in str(e))
 
     def test_oneOf_array_of_integers(self):
         # test new Color 
@@ -477,7 +477,7 @@ class ModelTests(unittest.TestCase):
             petstore_api.Color(oneof_schema_2_validator=rgb)
             self.fail("invalid validation")
         except ValidationError as e:
-            self.assertIn("List should have at least 4 items after validation, not 3", str(e))
+            self.assertIn("list should have at least 4 items after validation, not 3", str(e))
 
         try:
             petstore_api.Color(oneof_schema_3_validator="too long string")

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import Field, StrictStr
 from petstore_api.models.base_discriminator import BaseDiscriminator
 
@@ -27,7 +27,7 @@ class PrimitiveString(BaseDiscriminator):
     PrimitiveString
     """
     value: Optional[StrictStr] = Field(default=None, alias="_value")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["_typeName", "_value"]
 
     class Config:

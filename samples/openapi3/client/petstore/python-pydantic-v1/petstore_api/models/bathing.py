@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict
+from typing import Any
 from pydantic import BaseModel, Field, StrictStr, validator
 
 class Bathing(BaseModel):
@@ -28,7 +28,7 @@ class Bathing(BaseModel):
     task_name: StrictStr = Field(...)
     function_name: StrictStr = Field(...)
     content: StrictStr = Field(...)
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["task_name", "function_name", "content"]
 
     @validator('task_name')

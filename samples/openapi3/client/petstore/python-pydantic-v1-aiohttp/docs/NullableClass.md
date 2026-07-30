@@ -11,12 +11,12 @@ Name | Type | Description | Notes
 **string_prop** | **str** |  | [optional] 
 **date_prop** | **date** |  | [optional] 
 **datetime_prop** | **datetime** |  | [optional] 
-**array_nullable_prop** | **List[object]** |  | [optional] 
-**array_and_items_nullable_prop** | **List[object]** |  | [optional] 
-**array_items_nullable** | **List[object]** |  | [optional] 
-**object_nullable_prop** | **Dict[str, object]** |  | [optional] 
-**object_and_items_nullable_prop** | **Dict[str, object]** |  | [optional] 
-**object_items_nullable** | **Dict[str, object]** |  | [optional] 
+**array_nullable_prop** | **list[object]** |  | [optional] 
+**array_and_items_nullable_prop** | **list[object]** |  | [optional] 
+**array_items_nullable** | **list[object]** |  | [optional] 
+**object_nullable_prop** | **dict[str, object]** |  | [optional] 
+**object_and_items_nullable_prop** | **dict[str, object]** |  | [optional] 
+**object_items_nullable** | **dict[str, object]** |  | [optional] 
 
 ## Example
 

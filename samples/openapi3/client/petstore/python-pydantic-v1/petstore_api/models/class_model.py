@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictStr
 
 class ClassModel(BaseModel):
@@ -26,7 +26,7 @@ class ClassModel(BaseModel):
     Model for testing model with \"_class\" property  # noqa: E501
     """
     var_class: Optional[StrictStr] = Field(default=None, alias="_class")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["_class"]
 
     class Config:

@@ -212,7 +212,7 @@ class UserApi:
         >>> result = thread.get()
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -242,7 +242,7 @@ class UserApi:
         >>> result = thread.get()
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -353,7 +353,7 @@ class UserApi:
         >>> result = thread.get()
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -383,7 +383,7 @@ class UserApi:
         >>> result = thread.get()
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will

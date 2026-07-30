@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel
 from petstore_api.models.tag import Tag
 
@@ -26,8 +26,8 @@ class PropertyMap(BaseModel):
     """
     PropertyMap
     """
-    some_data: Optional[Dict[str, Tag]] = None
-    additional_properties: Dict[str, Any] = {}
+    some_data: Optional[dict[str, Tag]] = None
+    additional_properties: dict[str, Any] = {}
     __properties = ["some_data"]
 
     class Config:

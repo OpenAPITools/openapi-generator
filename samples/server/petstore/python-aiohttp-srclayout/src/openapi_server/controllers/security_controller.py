@@ -1,5 +1,3 @@
-from typing import List
-
 
 def info_from_petstore_auth(token: str) -> dict:
     """
@@ -12,7 +10,7 @@ def info_from_petstore_auth(token: str) -> dict:
     return {'scopes': ['read:pets', 'write:pets'], 'uid': 'user_id'}
 
 
-def validate_scope_petstore_auth(required_scopes: List[str], token_scopes: List[str]) -> bool:
+def validate_scope_petstore_auth(required_scopes: list[str], token_scopes: list[str]) -> bool:
     """ Validate required scopes are included in token scope """
     return set(required_scopes).issubset(set(token_scopes))
 

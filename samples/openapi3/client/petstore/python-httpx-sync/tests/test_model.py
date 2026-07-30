@@ -206,7 +206,7 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
             #error_message = (
-            #    "1 validation error for List\n"
+            #    "1 validation error for list\n"
             #    "123-list\n"
             #    "  str type expected (type=type_error.str)\n")
             self.assertTrue("str type expected" in str(e))
@@ -294,7 +294,7 @@ class ModelTests(unittest.TestCase):
             petstore_api.Color(oneof_schema_2_validator=rgb)
             self.fail("invalid validation")
         except ValidationError as e:
-            self.assertIn("List should have at least 4 items after validation, not 3", str(e))
+            self.assertIn("list should have at least 4 items after validation, not 3", str(e))
 
         try:
             petstore_api.Color(oneof_schema_3_validator="too long string")

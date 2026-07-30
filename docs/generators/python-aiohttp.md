@@ -53,8 +53,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>Dict</li>
-<li>List</li>
 <li>UUID</li>
 <li>bool</li>
 <li>bytes</li>

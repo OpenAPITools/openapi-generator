@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** |  | [optional] 
-**circular_all_of_ref** | [**List[CircularAllOfRef]**](CircularAllOfRef.md) |  | [optional] 
+**circular_all_of_ref** | [**list[CircularAllOfRef]**](CircularAllOfRef.md) |  | [optional] 
 
 ## Example
 

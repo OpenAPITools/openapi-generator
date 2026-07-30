@@ -172,7 +172,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
-    files = None # List[bytes] | 
+    files = None # list[bytes] | 
 
     try:
         # Test array of binary in multipart mime
@@ -190,7 +190,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **files** | **List[bytes]**|  | 
+ **files** | **list[bytes]**|  | 
 
 ### Return type
 

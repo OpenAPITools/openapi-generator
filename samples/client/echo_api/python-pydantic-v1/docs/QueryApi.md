@@ -386,7 +386,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
-    query_object = [56] # List[int] |  (optional)
+    query_object = [56] # list[int] |  (optional)
 
     try:
         # Test query parameter(s)
@@ -403,7 +403,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query_object** | [**List[int]**](int.md)|  | [optional] 
+ **query_object** | [**list[int]**](int.md)|  | [optional] 
 
 ### Return type
 
@@ -452,7 +452,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
-    query_object = ['query_object_example'] # List[str] |  (optional)
+    query_object = ['query_object_example'] # list[str] |  (optional)
 
     try:
         # Test query parameter(s)
@@ -469,7 +469,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query_object** | [**List[str]**](str.md)|  | [optional] 
+ **query_object** | [**list[str]**](str.md)|  | [optional] 
 
 ### Return type
 
@@ -720,7 +720,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
     json_serialized_object_ref_string_query = openapi_client.Pet() # Pet |  (optional)
-    json_serialized_object_array_ref_string_query = [openapi_client.Pet()] # List[Pet] |  (optional)
+    json_serialized_object_array_ref_string_query = [openapi_client.Pet()] # list[Pet] |  (optional)
 
     try:
         # Test query parameter(s)
@@ -738,7 +738,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **json_serialized_object_ref_string_query** | [**Pet**](.md)|  | [optional] 
- **json_serialized_object_array_ref_string_query** | [**List[Pet]**](Pet.md)|  | [optional] 
+ **json_serialized_object_array_ref_string_query** | [**list[Pet]**](Pet.md)|  | [optional] 
 
 ### Return type
 

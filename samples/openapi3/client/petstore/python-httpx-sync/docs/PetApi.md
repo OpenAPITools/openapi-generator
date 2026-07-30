@@ -232,7 +232,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_status**
-> List[Pet] find_pets_by_status(status)
+> list[Pet] find_pets_by_status(status)
 
 **Synchronous variant:** `find_pets_by_status_sync(...)` — same parameters and return type, but blocks until completion instead of requiring `await`.
 
@@ -330,7 +330,7 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
-    status = ['status_example'] # List[str] | Status values that need to be considered for filter
+    status = ['status_example'] # list[str] | Status values that need to be considered for filter
 
     try:
         # Finds Pets by status
@@ -348,11 +348,11 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List[str]**](str.md)| Status values that need to be considered for filter | 
+ **status** | [**list[str]**](str.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
-[**List[Pet]**](Pet.md)
+[**list[Pet]**](Pet.md)
 
 ### Authorization
 
@@ -373,7 +373,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_tags**
-> List[Pet] find_pets_by_tags(tags)
+> list[Pet] find_pets_by_tags(tags)
 
 **Synchronous variant:** `find_pets_by_tags_sync(...)` — same parameters and return type, but blocks until completion instead of requiring `await`.
 
@@ -471,7 +471,7 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
-    tags = ['tags_example'] # List[str] | Tags to filter by
+    tags = ['tags_example'] # list[str] | Tags to filter by
 
     try:
         # Finds Pets by tags
@@ -489,11 +489,11 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List[str]**](str.md)| Tags to filter by | 
+ **tags** | [**list[str]**](str.md)| Tags to filter by | 
 
 ### Return type
 
-[**List[Pet]**](Pet.md)
+[**list[Pet]**](Pet.md)
 
 ### Authorization
 

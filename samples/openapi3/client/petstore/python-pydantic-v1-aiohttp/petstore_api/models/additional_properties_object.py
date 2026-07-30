@@ -26,7 +26,7 @@ class AdditionalPropertiesObject(BaseModel):
     AdditionalPropertiesObject
     """
     name: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["name"]
 
     class Config:

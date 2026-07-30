@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 from pydantic import BaseModel, Field, StrictStr
 
 from typing import TYPE_CHECKING
@@ -32,7 +32,7 @@ class BaseDiscriminator(BaseModel):
     BaseDiscriminator
     """
     type_name: Optional[StrictStr] = Field(default=None, alias="_typeName")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["_typeName"]
 
     class Config:

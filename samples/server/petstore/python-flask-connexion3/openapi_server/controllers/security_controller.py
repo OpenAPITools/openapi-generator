@@ -1,5 +1,3 @@
-from typing import List
-
 
 def info_from_petstore_auth(token):
     """
@@ -21,9 +19,9 @@ def validate_scope_petstore_auth(required_scopes, token_scopes):
     Validate required scopes are included in token scope
 
     :param required_scopes Required scope to access called API
-    :type required_scopes: List[str]
+    :type required_scopes: list[str]
     :param token_scopes Scope present in token
-    :type token_scopes: List[str]
+    :type token_scopes: list[str]
     :return: True if access to called API is allowed
     :rtype: bool
     """

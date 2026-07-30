@@ -19,8 +19,8 @@ import json
 
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional, cast as _cast
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -104,14 +104,14 @@ class LegacyBase(BaseModel):
                             and the value is json key in definition.
     """ # noqa: E501
     inherited_value: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("inheritedValue", "inherited_value"), serialization_alias="inheritedValue")
-    openapi_types: ClassVar[Dict[str, str]] = {
+    openapi_types: ClassVar[dict[str, str]] = {
         "inherited_value": "str"
     }
 
-    attribute_map: ClassVar[Dict[str, str]] = {
+    attribute_map: ClassVar[dict[str, str]] = {
         "inherited_value": "inheritedValue"
     }
-    __properties: ClassVar[List[str]] = ["inheritedValue"]
+    __properties: ClassVar[list[str]] = ["inheritedValue"]
 
     @classmethod
     def __preprocess_input_names(
@@ -171,13 +171,13 @@ class LegacyBase(BaseModel):
         """Create an instance of LegacyBase from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self, serialize: bool = False) -> Dict[str, Any]:
+    def to_dict(self, serialize: bool = False) -> dict[str, Any]:
         """Return all declared model fields using public or wire names."""
         return {
             ("inheritedValue" if serialize else "inherited_value"): _to_legacy_value(getattr(self, "inherited_value", None), serialize),
         }
 
-    def __openapi_generator_modern_projection(self) -> Dict[str, Any]:
+    def __openapi_generator_modern_projection(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -187,7 +187,7 @@ class LegacyBase(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -210,7 +210,7 @@ class LegacyBase(BaseModel):
     del __openapi_generator_modern_projection
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of LegacyBase from a dict"""
         if obj is None:
             return None
@@ -219,7 +219,7 @@ class LegacyBase(BaseModel):
             return cls.model_validate(obj)
 
         obj = _cast(
-            Dict[str, Any],
+            dict[str, Any],
             cls.__preprocess_input_names(
                 obj,
                 remove_hidden_storage_names=True,

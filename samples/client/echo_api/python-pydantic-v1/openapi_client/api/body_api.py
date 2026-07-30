@@ -22,7 +22,7 @@ from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 from pydantic import Field, StrictBytes, StrictStr, conlist
 
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 from openapi_client.models.pet import Pet
 from openapi_client.models.string_enum_ref import StringEnumRef
@@ -344,7 +344,7 @@ class BodyApi:
         >>> result = thread.get()
 
         :param files: (required)
-        :type files: List[bytearray]
+        :type files: list[bytearray]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -374,7 +374,7 @@ class BodyApi:
         >>> result = thread.get()
 
         :param files: (required)
-        :type files: List[bytearray]
+        :type files: list[bytearray]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -775,7 +775,7 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_echo_body_free_form_object_response_string(self, body : Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None, **kwargs) -> str:  # noqa: E501
+    def test_echo_body_free_form_object_response_string(self, body : Annotated[Optional[dict[str, Any]], Field(description="Free form object")] = None, **kwargs) -> str:  # noqa: E501
         """Test free form object  # noqa: E501
 
         Test free form object  # noqa: E501
@@ -805,7 +805,7 @@ class BodyApi:
         return self.test_echo_body_free_form_object_response_string_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_echo_body_free_form_object_response_string_with_http_info(self, body : Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_echo_body_free_form_object_response_string_with_http_info(self, body : Annotated[Optional[dict[str, Any]], Field(description="Free form object")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test free form object  # noqa: E501
 
         Test free form object  # noqa: E501

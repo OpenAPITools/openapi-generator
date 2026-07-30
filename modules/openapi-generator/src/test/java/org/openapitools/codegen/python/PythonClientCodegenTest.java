@@ -308,10 +308,10 @@ public class PythonClientCodegenTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.dataType, "List[str]");
+        Assert.assertEquals(property2.dataType, "list[str]");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
-        Assert.assertEquals(property2.baseType, "List");
+        Assert.assertEquals(property2.baseType, "list");
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -337,9 +337,9 @@ public class PythonClientCodegenTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.dataType, "Dict[str, str]");
+        Assert.assertEquals(property1.dataType, "dict[str, str]");
         Assert.assertEquals(property1.name, "translations");
-        Assert.assertEquals(property1.baseType, "Dict");
+        Assert.assertEquals(property1.baseType, "dict");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -389,9 +389,9 @@ public class PythonClientCodegenTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "List[Children]");
+        Assert.assertEquals(property1.dataType, "list[Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "List");
+        Assert.assertEquals(property1.baseType, "list");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -417,9 +417,9 @@ public class PythonClientCodegenTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "Dict[str, Children]");
+        Assert.assertEquals(property1.dataType, "dict[str, Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "Dict");
+        Assert.assertEquals(property1.baseType, "dict");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -551,7 +551,7 @@ public class PythonClientCodegenTest {
         op = codegen.fromOperation(path, "post", p, null);
         Assert.assertEquals(op.allParams.get(0).baseName, "User");
         Assert.assertEquals(op.allParams.get(0).containerType, "array");
-        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "List");
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "list");
 
         path = "/pet";
         p = openAPI.getPaths().get(path).getPost();
@@ -572,7 +572,7 @@ public class PythonClientCodegenTest {
         Operation p = openAPI.getPaths().get(path).getGet();
         CodegenOperation op = codegen.fromOperation(path, "get", p, null);
         Assert.assertEquals(op.allParams.get(0).containerType, "map");
-        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "Dict");
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "dict");
         Assert.assertEquals(op.allParams.get(0).baseName, "dict_string_integer");
     }
 
@@ -977,7 +977,7 @@ public class PythonClientCodegenTest {
 
         assertFileContains(defaultModel,
                 "return json.dumps(to_jsonable_python(self.to_dict()))",
-                "def to_dict(self) -> Dict[str, Any]:");
+                "def to_dict(self) -> dict[str, Any]:");
         assertFileContains(defaultWrapper,
                 "def to_dict(self) -> Optional[Union[");
         assertFileContains(defaultApiClient,
@@ -1016,15 +1016,15 @@ public class PythonClientCodegenTest {
                 "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
                 "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
                 "def _to_openapi_value(value: Any) -> Any:",
-                "def to_dict(self, serialize: bool = False) -> Dict[str, Any]:",
+                "def to_dict(self, serialize: bool = False) -> dict[str, Any]:",
                 "_to_legacy_value(getattr(self, \"renamed\", None), serialize)",
-                "def __openapi_generator_modern_projection(self) -> Dict[str, Any]:",
+                "def __openapi_generator_modern_projection(self) -> dict[str, Any]:",
                 "del __openapi_generator_modern_projection",
                 "to_openapi_dict = _get_openapi_to_dict(self)",
                 "return json.dumps(to_jsonable_python(to_openapi_dict(self)))",
                 "return json.dumps(to_jsonable_python(self.to_dict()))",
-                "openapi_types: ClassVar[Dict[str, str]] = {",
-                "attribute_map: ClassVar[Dict[str, str]] = {",
+                "openapi_types: ClassVar[dict[str, str]] = {",
+                "attribute_map: ClassVar[dict[str, str]] = {",
                 "\"_continue\": \"str\"",
                 "\"_continue\": \"continue\"",
                 "extra=\"forbid\"",
@@ -1068,7 +1068,7 @@ public class PythonClientCodegenTest {
                 "ThreadPool(self.pool_threads)",
                 "def _call_with_legacy_options(",
                 "request: RequestSerialized",
-                "response_types_map: Dict[str, Optional[str]]",
+                "response_types_map: dict[str, Optional[str]]",
                 "return self._get_pool().apply_async(call)",
                 "response_data.getheaders()");
         assertFileContains(api,

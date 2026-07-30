@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **uuid** | **str** |  | [optional] 
 **id** | **float** |  | [optional] 
 **deprecated_ref** | [**DeprecatedObject**](DeprecatedObject.md) |  | [optional] 
-**bars** | **List[str]** |  | [optional] 
+**bars** | **list[str]** |  | [optional] 
 
 ## Example
 

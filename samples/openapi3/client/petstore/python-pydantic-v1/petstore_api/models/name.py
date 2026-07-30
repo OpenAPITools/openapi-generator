@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class Name(BaseModel):
@@ -29,7 +29,7 @@ class Name(BaseModel):
     snake_case: Optional[StrictInt] = None
     var_property: Optional[StrictStr] = Field(default=None, alias="property")
     var_123_number: Optional[StrictInt] = Field(default=None, alias="123Number")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["name", "snake_case", "property", "123Number"]
 
     class Config:

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
@@ -29,7 +29,7 @@ class OuterObjectWithEnumProperty(BaseModel):
     """
     str_value: Optional[OuterEnum] = None
     value: OuterEnumInteger = Field(...)
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["str_value", "value"]
 
     class Config:

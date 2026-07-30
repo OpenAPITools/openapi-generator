@@ -4,9 +4,9 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**map_property** | **Dict[str, str]** |  | [optional] 
-**map_of_map_property** | **Dict[str, Dict[str, str]]** |  | [optional] 
-**map_of_map_non_primitive_property** | **Dict[str, Dict[str, Pet]]** |  | [optional] 
+**map_property** | **dict[str, str]** |  | [optional] 
+**map_of_map_property** | **dict[str, dict[str, str]]** |  | [optional] 
+**map_of_map_non_primitive_property** | **dict[str, dict[str, Pet]]** |  | [optional] 
 
 ## Example
 

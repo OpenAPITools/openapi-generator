@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
 from petstore_api.models.enum_number_vendor_ext import EnumNumberVendorExt
 from petstore_api.models.enum_string_vendor_ext import EnumStringVendorExt
@@ -44,7 +44,7 @@ class EnumTest(BaseModel):
     outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=None, alias="outerEnumIntegerDefaultValue")
     enum_number_vendor_ext: Optional[EnumNumberVendorExt] = Field(default=None, alias="enumNumberVendorExt")
     enum_string_vendor_ext: Optional[EnumStringVendorExt] = Field(default=None, alias="enumStringVendorExt")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "enum_string_single_member", "enum_integer_single_member", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue", "enumNumberVendorExt", "enumStringVendorExt"]
 
     @validator('enum_string')

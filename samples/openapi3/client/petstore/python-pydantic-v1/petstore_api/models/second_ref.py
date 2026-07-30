@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, StrictStr
 
 class SecondRef(BaseModel):
@@ -27,7 +27,7 @@ class SecondRef(BaseModel):
     """
     category: Optional[StrictStr] = None
     circular_ref: Optional[CircularReferenceModel] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["category", "circular_ref"]
 
     class Config:
