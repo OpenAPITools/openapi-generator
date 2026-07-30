@@ -147,7 +147,7 @@ public class Pet  implements Serializable {
   }
 
   
-  @Schema(example = "doggie", required = true, description = "")
+  @Schema(example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "name")
   @NotNull public String getName() {
     return name;
@@ -166,7 +166,7 @@ public class Pet  implements Serializable {
   }
 
   
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "photoUrls")
   @NotNull public Set<String> getPhotoUrls() {
     return photoUrls;

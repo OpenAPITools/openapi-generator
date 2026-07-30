@@ -45,6 +45,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 
@@ -1136,7 +1137,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
-                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get(ENUM_VARS)) {
+                for (Map<String, Object> enumVars : getEnumVars(model.getAllowableValues())) {
                     if ((Boolean) enumVars.get(ENUM_IS_STRING)) {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "str");
                         // Do not overwrite the variable name if already set through x-enum-varnames

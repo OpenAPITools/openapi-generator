@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface Model200Response {
     /**
      * 
-     * @type {number}
-     * @memberof Model200Response
      */
     name?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Model200Response
      */
     _class?: string;
 }

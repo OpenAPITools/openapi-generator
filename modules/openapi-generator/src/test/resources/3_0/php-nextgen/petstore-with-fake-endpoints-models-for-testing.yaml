@@ -2412,6 +2412,10 @@ components:
         drink:
           # optional, discriminator-less anyOf -> nullable PHP union
           $ref: '#/components/schemas/Smoothie'
+        featuredCreature:
+          # optional anyOf whose members are THEMSELVES composed (Mammal, Reptile) -> the union
+          # must flatten transitively to their leaves, not the intermediate composed types
+          $ref: '#/components/schemas/Creature'
 
     Lizard:
       type: object
@@ -2447,4 +2451,12 @@ components:
       anyOf:
         - $ref: '#/components/schemas/Apple'
         - $ref: '#/components/schemas/Banana'
+
+    Creature:
+      # anyOf whose members are themselves composed: Mammal (oneOf Whale/Zebra) and Reptile
+      # (anyOf Lizard/Snake). A property referencing Creature must flatten transitively to the
+      # leaves (Whale|Zebra|Lizard|Snake), since the deserializer unwraps to the leaf instance.
+      anyOf:
+        - $ref: '#/components/schemas/Mammal'
+        - $ref: '#/components/schemas/Reptile'
 

@@ -16,11 +16,9 @@ It is never instantiated directly — use one of the concrete types.
 
 ## anyOf
 
-{{#composedSchemas}}
-{{#anyOf}}
+{{#vendorExtensions.x-php-composed-leaves}}
 - {{#complexType}}[**{{{dataType}}}**]({{complexType}}.md){{/complexType}}{{^complexType}}**{{{dataType}}}**{{/complexType}}
-{{/anyOf}}
-{{/composedSchemas}}
+{{/vendorExtensions.x-php-composed-leaves}}
 {{#discriminator}}
 
 The concrete type is selected by the `{{propertyName}}` discriminator property.
@@ -34,11 +32,9 @@ It is never instantiated directly — use one of the concrete types.
 
 ## oneOf
 
-{{#composedSchemas}}
-{{#oneOf}}
+{{#vendorExtensions.x-php-composed-leaves}}
 - {{#complexType}}[**{{{dataType}}}**]({{complexType}}.md){{/complexType}}{{^complexType}}**{{{dataType}}}**{{/complexType}}
-{{/oneOf}}
-{{/composedSchemas}}
+{{/vendorExtensions.x-php-composed-leaves}}
 {{#discriminator}}
 
 The concrete type is selected by the `{{propertyName}}` discriminator property.

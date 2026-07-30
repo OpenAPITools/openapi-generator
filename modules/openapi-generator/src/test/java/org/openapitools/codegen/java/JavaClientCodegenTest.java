@@ -1851,6 +1851,25 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testObjectDefaultWithEnumProperty_issue24298() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setInputSpec("src/test/resources/bugs/issue_24298.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // The `format` field's default is an OutputFormat whose `order` property is an inline enum. It must
+        // be rendered as the enum constant, not a raw quoted string, otherwise the code does not compile (#24298).
+        JavaFileAssert.assertThat(files.get("Formatter.java"))
+                .assertProperty("format")
+                .asString()
+                .contains("new OutputFormat().order(OutputFormat.OrderEnum.SIMILARITY).limit(10)");
+    }
+
+    @Test
     public void testWebClientJsonCreatorWithNullable_issue12790() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -4797,6 +4816,34 @@ public class JavaClientCodegenTest {
 
         assertThat(codegen.additionalProperties())
                 .containsEntry(SUPPORT_URL_QUERY, false);
+    }
+
+    /**
+     * An array of binary form properties must keep its array dimension. Previously the array was
+     * collapsed onto the scalar File type, generating the same signature as a single-file upload.
+     */
+    @Test
+    public void testMicroprofileFormMultipartArray() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java")).content()
+                .contains(
+                        // multiple files sharing one part name
+                        "@FormParam(\"files\") List<File> filesDetail",
+                        // a single binary property is still bound to a scalar File
+                        "@FormParam(\"file\") File _fileDetail",
+                        // a file next to a non-file array: only the file type is affected
+                        "@FormParam(\"file\") File _fileDetail, @FormParam(\"marker\")  MultipartMixedRequestMarker marker,"
+                                + " @FormParam(\"statusArray\")  List<MultipartMixedStatus> statusArray");
     }
 
     private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {

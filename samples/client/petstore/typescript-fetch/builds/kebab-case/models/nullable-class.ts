@@ -22,74 +22,50 @@ export interface NullableClass {
     [key: string]: object | any;
     /**
      * 
-     * @type {number}
-     * @memberof NullableClass
      */
     integerProp?: number | null;
     /**
      * 
-     * @type {number}
-     * @memberof NullableClass
      */
     numberProp?: number | null;
     /**
      * 
-     * @type {boolean}
-     * @memberof NullableClass
      */
     booleanProp?: boolean | null;
     /**
      * 
-     * @type {string}
-     * @memberof NullableClass
      */
     stringProp?: string | null;
     /**
      * 
-     * @type {Date}
-     * @memberof NullableClass
      */
     dateProp?: Date | null;
     /**
      * 
-     * @type {Date}
-     * @memberof NullableClass
      */
     datetimeProp?: Date | null;
     /**
      * 
-     * @type {Array<object>}
-     * @memberof NullableClass
      */
     arrayNullableProp?: Array<object> | null;
     /**
      * 
-     * @type {Array<object | null>}
-     * @memberof NullableClass
      */
     arrayAndItemsNullableProp?: Array<object | null> | null;
     /**
      * 
-     * @type {Array<object | null>}
-     * @memberof NullableClass
      */
     arrayItemsNullable?: Array<object | null>;
     /**
      * 
-     * @type {{ [key: string]: object; }}
-     * @memberof NullableClass
      */
     objectNullableProp?: { [key: string]: object; } | null;
     /**
      * 
-     * @type {{ [key: string]: object | null; }}
-     * @memberof NullableClass
      */
     objectAndItemsNullableProp?: { [key: string]: object | null; } | null;
     /**
      * 
-     * @type {{ [key: string]: object | null; }}
-     * @memberof NullableClass
      */
     objectItemsNullable?: { [key: string]: object | null; };
 }

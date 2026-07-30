@@ -22,8 +22,6 @@ export interface TestInlineFreeformAdditionalPropertiesRequest {
     [key: string]: any | any;
     /**
      * 
-     * @type {string}
-     * @memberof TestInlineFreeformAdditionalPropertiesRequest
      */
     someProperty?: string;
 }

@@ -29,26 +29,18 @@ import {
 export interface ModelError {
     /**
      * Usually contains the simple name of the exception
-     * @type {string}
-     * @memberof ModelError
      */
     type: string;
     /**
      * 
-     * @type {ItemId}
-     * @memberof ModelError
      */
     itemInfo?: ItemId;
     /**
      * Simple explanation of the error
-     * @type {string}
-     * @memberof ModelError
      */
     details?: string;
     /**
      * Message of the exception that will help developer to debug this problem if needed
-     * @type {string}
-     * @memberof ModelError
      */
     exception?: string;
 }

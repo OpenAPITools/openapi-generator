@@ -43,7 +43,7 @@ public class OuterObjectWithEnumProperty  implements Serializable {
   }
 
   
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "value")
   @NotNull public OuterEnumInteger getValue() {
     return value;

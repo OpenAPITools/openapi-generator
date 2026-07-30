@@ -144,6 +144,7 @@ Class | Method | HTTP request | Description
 - [ChildWithNullable](docs/Model/ChildWithNullable.md)
 - [ClassModel](docs/Model/ClassModel.md)
 - [Client](docs/Model/Client.md)
+- [Creature](docs/Model/Creature.md)
 - [DeprecatedObject](docs/Model/DeprecatedObject.md)
 - [DiscriminatorBase](docs/Model/DiscriminatorBase.md)
 - [DiscriminatorChild](docs/Model/DiscriminatorChild.md)

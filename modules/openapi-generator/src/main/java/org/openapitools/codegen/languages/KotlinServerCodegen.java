@@ -55,8 +55,9 @@ import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
 
 /**
  * <p>Mustache templates are located in
@@ -480,9 +481,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                                         if (prop.getBaseName().equals(discriminatorPropBaseName) && prop.isEnum) {
                                             // If it's an enum with exactly one value, use that as the mapping name
                                             Map<String, Object> allowableValues = prop.getAllowableValues();
-                                            if (allowableValues != null && allowableValues.containsKey(ENUM_VALUES)) {
-                                                @SuppressWarnings("unchecked")
-                                                List<Object> values = (List<Object>) allowableValues.get(ENUM_VALUES);
+                                            if (hasEnumValues(allowableValues)) {
+                                                List<Object> values = getEnumValues(allowableValues);
                                                 if (values != null && values.size() == 1) {
                                                     mappedModel.setMappingName(String.valueOf(values.get(0)));
                                                 }
@@ -727,7 +727,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         if (!isQuietMode()) {
             System.out.println("################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
             System.out.println("#                                                                              #");
             System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");

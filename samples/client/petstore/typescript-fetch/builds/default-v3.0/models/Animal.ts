@@ -23,14 +23,10 @@ import { type Dog, DogFromJSONTyped, DogToJSON, DogToJSONTyped } from './Dog';
 export interface Animal {
     /**
      * 
-     * @type {string}
-     * @memberof Animal
      */
     className: string;
     /**
      * 
-     * @type {string}
-     * @memberof Animal
      */
     color?: string;
 }

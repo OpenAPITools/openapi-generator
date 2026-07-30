@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface Part {
     /**
      * Unique identifier from the database
-     * @type {number}
-     * @memberof Part
      */
     id: number;
     /**
      * Name of the part
-     * @type {string}
-     * @memberof Part
      */
     name: string;
 }

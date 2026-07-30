@@ -30,16 +30,16 @@ object Pet {
   import io.circe.syntax._
   import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[Pet] = deriveEncoder
+  implicit val encoder: Encoder[Pet] = deriveEncoder[Pet].mapJson(_.dropNullValues)
   implicit val decoder: Decoder[Pet] = deriveDecoder
 }
 object PetEnums {
 
   sealed trait Status
   object Status {
-    case object Available extends Status
-    case object Pending extends Status
-    case object Sold extends Status
+    case object Available extends Status { override def toString: String = "available" }
+    case object Pending extends Status { override def toString: String = "pending" }
+    case object Sold extends Status { override def toString: String = "sold" }
 
     import io.circe.{Encoder, Decoder}
 

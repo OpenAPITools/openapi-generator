@@ -29,8 +29,6 @@ import {
 export interface OuterObjectWithEnumProperty {
     /**
      * 
-     * @type {OuterEnumInteger}
-     * @memberof OuterObjectWithEnumProperty
      */
     value: OuterEnumInteger;
 }

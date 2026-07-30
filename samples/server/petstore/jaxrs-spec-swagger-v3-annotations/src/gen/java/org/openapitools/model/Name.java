@@ -50,7 +50,7 @@ public class Name  implements Serializable {
   }
 
   
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "name")
   @NotNull public Integer getName() {
     return name;

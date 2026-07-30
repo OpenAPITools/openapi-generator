@@ -88,7 +88,7 @@ public class DefaultApi {
      * @param id The id parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void fileIdGet( String id) throws RestClientResponseException {
+    public void fileIdGet(String id) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         fileIdGetRequestCreation(id).body(localVarReturnType);
     }
@@ -100,7 +100,7 @@ public class DefaultApi {
      * @param id The id parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> fileIdGetWithHttpInfo( String id) throws RestClientResponseException {
+    public ResponseEntity<Void> fileIdGetWithHttpInfo(String id) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fileIdGetRequestCreation(id).toEntity(localVarReturnType);
     }
@@ -166,7 +166,7 @@ public class DefaultApi {
      * @return Foo
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Foo fooDtParamGet( java.time.Instant dtParam,  java.time.Instant dtQuery,  java.time.Instant dtCookie) throws RestClientResponseException {
+    public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
         ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie).body(localVarReturnType);
     }
@@ -181,7 +181,7 @@ public class DefaultApi {
      * @return ResponseEntity&lt;Foo&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Foo> fooDtParamGetWithHttpInfo( java.time.Instant dtParam,  java.time.Instant dtQuery,  java.time.Instant dtCookie) throws RestClientResponseException {
+    public ResponseEntity<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
         ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie).toEntity(localVarReturnType);
     }

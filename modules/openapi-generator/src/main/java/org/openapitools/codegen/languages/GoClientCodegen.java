@@ -42,6 +42,8 @@ import java.util.*;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -800,8 +802,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + depthList.size());
             }
         } else if (codegenModel.isEnum) {
-            Map<String, Object> allowableValues = codegenModel.allowableValues;
-            List<Object> values = (List<Object>) allowableValues.get(ENUM_VALUES);
+            List<Object> values = getEnumValues(codegenModel.allowableValues);
             String example = String.valueOf(values.get(0));
             if (codegenModel.isString) {
                 example = "\"" + example + "\"";

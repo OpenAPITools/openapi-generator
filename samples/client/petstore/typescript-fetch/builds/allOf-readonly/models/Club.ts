@@ -29,8 +29,6 @@ import {
 export interface Club {
     /**
      * 
-     * @type {Owner}
-     * @memberof Club
      */
     readonly owner?: Owner;
 }

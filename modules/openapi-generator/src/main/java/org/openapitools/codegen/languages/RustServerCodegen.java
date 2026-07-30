@@ -49,6 +49,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.EnumUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -1651,9 +1652,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 additionalProperties.put("apiUsesIntegerEnums", true);
 
                 // Add numeric discriminant values for enum variants
-                @SuppressWarnings("unchecked")
-                List<Map<String, Object>> enumVars =
-                    (List<Map<String, Object>>) model.allowableValues.get(ENUM_VARS);
+                List<Map<String, Object>> enumVars = getEnumVars(model.allowableValues);
 
                 if (enumVars != null) {
                     for (Map<String, Object> enumVar : enumVars) {
@@ -1768,8 +1767,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         } else {
             param.vendorExtensions.put("x-format-string", param.getIsEnumOrRef() ? "{}" : "{:?}");
             // Check if this is a model-type enum (allowableValues with values list)
-            if (param.allowableValues != null && param.allowableValues.containsKey(ENUM_VALUES)) {
-                List<?> values = (List<?>) param.allowableValues.get(ENUM_VALUES);
+            if (hasEnumValues(param.allowableValues)) {
+                List<?> values = getEnumValues(param.allowableValues);
                 if (!values.isEmpty()) {
                     // Use the first enum value as the example.
                     String firstEnumValue = values.get(0).toString();
