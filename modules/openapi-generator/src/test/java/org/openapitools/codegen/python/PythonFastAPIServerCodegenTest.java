@@ -71,7 +71,7 @@ public class PythonFastAPIServerCodegenTest {
         final Path p = Paths.get(outputPath + "src/openapi_server/apis/user_api.py");
 
         assertFileExists(p);
-        assertFileContains(p, "user: Annotated[List[User], Field(description=\"List of user object\")] = Body(None, description=\"List of user object\", examples=[[{\"username\": \"foo\"}, {\"username\": \"bar\"}]])");
+        assertFileContains(p, "user: Annotated[List[User], Field(description=\"List of user object\")] = Body(..., description=\"List of user object\", examples=[[{\"username\": \"foo\"}, {\"username\": \"bar\"}]])");
         assertFileNotContains(p, "examples=[[[],");
     }
 
@@ -122,7 +122,7 @@ public class PythonFastAPIServerCodegenTest {
         assertFileContains(api, "image: Optional[UploadFile] = File(None, description=\"Optional image upload\", alias=\"image\")");
 
         // Sibling non-binary form fields still use Form()
-        assertFileContains(api, "collection_name: Annotated[StrictStr, Field(description=\"Name of the collection\")] = Form(None, description=\"Name of the collection\", alias=\"collection_name\")");
+        assertFileContains(api, "collection_name: Annotated[StrictStr, Field(description=\"Name of the collection\")] = Form(..., description=\"Name of the collection\", alias=\"collection_name\")");
 
         // The legacy client-side bytes union must not appear for the server signature
         assertFileNotContains(api, "Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]");
