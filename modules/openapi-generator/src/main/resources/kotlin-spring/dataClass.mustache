@@ -51,7 +51,7 @@
     enum class {{{nameInPascalCase}}}(@get:JsonValue {{#useEnumValueInterface}}{{^isContainer}}override {{/isContainer}}{{/useEnumValueInterface}}val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}} {{/vendorExtensions.x-kotlin-implements}}{
     {{#allowableValues}}{{#enumVars}}
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
-        
+
         companion object {
             @JvmStatic
             @JsonCreator
@@ -67,7 +67,7 @@
             {{/allowableValues}}
             {{/enumUnknownDefaultCase}}
             {{^enumUnknownDefaultCase}}
-                                ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{nameInPascalCase}}'")
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{nameInPascalCase}}'")
             {{/enumUnknownDefaultCase}}
             }
         }
