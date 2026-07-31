@@ -66,9 +66,9 @@ data class Pet(
     */
     enum class Status(@get:JsonValue override val value: kotlin.String) : ValuedEnum<kotlin.String> {
     
-       available("available"),
-       pending("pending"),
-       sold("sold");
+        available("available"),
+        pending("pending"),
+        sold("sold");
     
         companion object {
             @JvmStatic

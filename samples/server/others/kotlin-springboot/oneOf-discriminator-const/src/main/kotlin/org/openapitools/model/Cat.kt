@@ -38,10 +38,10 @@ data class Cat(
     */
     enum class HuntingSkill(@get:JsonValue val value: kotlin.String) {
     
-       clueless("clueless"),
-       lazy("lazy"),
-       adventurous("adventurous"),
-       aggressive("aggressive");
+        clueless("clueless"),
+        lazy("lazy"),
+        adventurous("adventurous"),
+        aggressive("aggressive");
     
         companion object {
             @JvmStatic

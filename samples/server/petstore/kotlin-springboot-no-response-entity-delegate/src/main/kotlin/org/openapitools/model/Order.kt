@@ -65,9 +65,9 @@ data class Order(
     */
     enum class Status(@get:JsonValue val value: kotlin.String) {
     
-       placed("placed"),
-       approved("approved"),
-       delivered("delivered");
+        placed("placed"),
+        approved("approved"),
+        delivered("delivered");
     
         companion object {
             @JvmStatic

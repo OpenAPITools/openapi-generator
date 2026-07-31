@@ -21,9 +21,9 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 enum class MultipartMixedStatus(@get:JsonValue val value: kotlin.String) {
 
-   ALLOWED("ALLOWED"),
-   IN_PROGRESS("IN_PROGRESS"),
-   REJECTED("REJECTED");
+    ALLOWED("ALLOWED"),
+    IN_PROGRESS("IN_PROGRESS"),
+    REJECTED("REJECTED");
 
     companion object {
         @JvmStatic
