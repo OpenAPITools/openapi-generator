@@ -45,7 +45,7 @@ data class ApiError(
         OK(0),
         ERROR(100),
         UNKNOWN_DEFAULT_OPEN_API(11184809);
-        
+
         companion object {
             @JvmStatic
             @JsonCreator

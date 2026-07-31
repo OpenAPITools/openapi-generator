@@ -125,13 +125,13 @@ data class AnyOfUserOrPet(
         available("available"),
         pending("pending"),
         sold("sold");
-        
+
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Status {
                 return values().firstOrNull{ it.value == value }
-                                ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Status'")
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Status'")
             }
         }
     }

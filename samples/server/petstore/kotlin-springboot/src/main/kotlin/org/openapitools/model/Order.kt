@@ -69,13 +69,13 @@ data class Order(
         placed("placed"),
         approved("approved"),
         delivered("delivered");
-        
+
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Status {
                 return values().firstOrNull{ it.value == value }
-                                ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Status'")
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Status'")
             }
         }
     }
