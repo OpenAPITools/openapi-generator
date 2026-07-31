@@ -19,19 +19,22 @@ import jakarta.validation.Valid
  * Values: idCommaAsc,idCommaDesc,createdAtCommaAsc,createdAtCommaDesc
  */
 enum class PetSort(@get:JsonValue val value: kotlin.String) : java.io.Serializable {
+
     idCommaAsc("id,asc"),
+
     idCommaDesc("id,desc"),
+
     createdAtCommaAsc("createdAt,asc"),
+
     createdAtCommaDesc("createdAt,desc");
+
 
     companion object {
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.String): PetSort {
             return values().firstOrNull{ it.value == value }
-                ?: throw IllegalArgumentException(
-                    "Unexpected value '$value' for enum 'PetSort'"
-                )
+                ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'PetSort'")
         }
     }
 }

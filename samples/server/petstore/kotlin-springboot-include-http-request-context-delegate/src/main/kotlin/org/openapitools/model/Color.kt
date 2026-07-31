@@ -20,20 +20,24 @@ import io.swagger.annotations.ApiModelProperty
  * Values: black,white,brown,yellow,violet
  */
 enum class Color(@get:JsonValue val value: kotlin.String) : com.some.pack.WithDefaultMethods, java.io.Serializable {
+
     black("black"),
+
     white("white"),
+
     brown("brown"),
+
     yellow("yellow"),
+
     violet("violet");
+
 
     companion object {
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.String): Color {
             return values().firstOrNull{ it.value == value }
-                ?: throw IllegalArgumentException(
-                    "Unexpected value '$value' for enum 'Color'"
-                )
+                ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Color'")
         }
     }
 }

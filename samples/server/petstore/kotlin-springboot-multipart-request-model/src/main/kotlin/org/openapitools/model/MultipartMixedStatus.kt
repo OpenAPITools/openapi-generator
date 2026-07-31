@@ -20,18 +20,20 @@ import io.swagger.v3.oas.annotations.media.Schema
  * Values: ALLOWED,IN_PROGRESS,REJECTED
  */
 enum class MultipartMixedStatus(@get:JsonValue val value: kotlin.String) {
+
     ALLOWED("ALLOWED"),
+
     IN_PROGRESS("IN_PROGRESS"),
+
     REJECTED("REJECTED");
+
 
     companion object {
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.String): MultipartMixedStatus {
             return values().firstOrNull{ it.value == value }
-                ?: throw IllegalArgumentException(
-                    "Unexpected value '$value' for enum 'MultipartMixedStatus'"
-                )
+                ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'MultipartMixedStatus'")
         }
     }
 }
