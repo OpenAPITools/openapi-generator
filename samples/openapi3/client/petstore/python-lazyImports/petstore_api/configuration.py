@@ -464,6 +464,10 @@ conf = petstore_api.Configuration(
                 if callable(copy_method):
                     setattr(result, k, copy_method())
                     continue
+            if k == 'proxy_ssl_context':
+                # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
+                setattr(result, k, v)
+                continue
             setattr(result, k, copy.deepcopy(v, memo))
 
         # Loggers and their handlers are process-global.
