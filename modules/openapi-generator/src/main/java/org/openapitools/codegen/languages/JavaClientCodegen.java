@@ -904,6 +904,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // string
         String var = value.replaceAll("\\W+", "_").replaceAll("_+", "_").toUpperCase(Locale.getDefault());
+        if (var.length() == 0) {
+            return "EMPTY";
+        }
         if (var.matches("\\d.*")) {
             return "_" + var;
         } else {

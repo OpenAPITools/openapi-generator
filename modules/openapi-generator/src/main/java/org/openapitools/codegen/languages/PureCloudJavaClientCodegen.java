@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.templating.mustache.PrefixNumberWithValue;
 import org.openapitools.codegen.templating.mustache.StringReplaceLambda;
+import org.openapitools.codegen.templating.mustache.ReplaceEmptyStringWithValueLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -381,6 +382,7 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
 
         return super.addMustacheLambdas()
                 .put("replace", new StringReplaceLambda(replaceMap))
+                .put("replaceEmptyStringWithEmptyLabel", new ReplaceEmptyStringWithValueLambda("EMPTY"))
                 .put("prefixNumberWithUnderscore", new PrefixNumberWithValue("_", false))
                 .put("prefixNumberWithWord", new PrefixNumberWithValue("NUMBER_", true));
     }
