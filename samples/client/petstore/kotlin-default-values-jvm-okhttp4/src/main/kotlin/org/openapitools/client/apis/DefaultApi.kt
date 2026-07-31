@@ -222,7 +222,8 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 put("qn3", listOf(qn3.toString()))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
-                hi0?.apply { localVariableHeaders["hi0"] = this.toString() }
+        
+        hi0?.apply { localVariableHeaders["hi0"] = this.toString() }
         hi1.apply { localVariableHeaders["hi1"] = this.toString() }
         hi2?.apply { localVariableHeaders["hi2"] = this.toString() }
         hi3.apply { localVariableHeaders["hi3"] = this.toString() }

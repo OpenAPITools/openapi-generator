@@ -190,7 +190,8 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-                apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
+        
+        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
 
         return RequestConfig(
             method = RequestMethod.DELETE,
@@ -592,6 +593,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
