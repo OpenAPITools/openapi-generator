@@ -20,17 +20,11 @@ import io.swagger.annotations.ApiModelProperty
  * Values: black,white,brown,yellow,violet
  */
 enum class Color(@get:JsonValue val value: kotlin.String) : com.some.pack.WithDefaultMethods, java.io.Serializable {
-
-    black("black"),
-
-    white("white"),
-
-    brown("brown"),
-
-    yellow("yellow"),
-
-    violet("violet");
-
+   black("black"),
+   white("white"),
+   brown("brown"),
+   yellow("yellow"),
+   violet("violet");
 
     companion object {
         @JvmStatic

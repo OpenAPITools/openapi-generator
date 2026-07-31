@@ -20,13 +20,9 @@ import jakarta.validation.Valid
  * Values: _10,_20,UNKNOWN_DEFAULT_OPEN_API
  */
 enum class ReasonCode(@get:JsonValue override val value: kotlin.Int) : ValuedEnum<kotlin.Int> {
-
-    _10(10),
-
-    _20(20),
-
-    UNKNOWN_DEFAULT_OPEN_API(11184809);
-
+   _10(10),
+   _20(20),
+   UNKNOWN_DEFAULT_OPEN_API(11184809);
 
     companion object {
         @JvmStatic
