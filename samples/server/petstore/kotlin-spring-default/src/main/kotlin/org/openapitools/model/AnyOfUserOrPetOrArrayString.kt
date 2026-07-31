@@ -121,7 +121,7 @@ data class AnyOfUserOrPetOrArrayString(
     * Values: available,pending,sold
     */
     enum class Status(@get:JsonValue val value: kotlin.String) {
-    
+
         available("available"),
         pending("pending"),
         sold("sold");
