@@ -49,6 +49,9 @@ coexist in the same process — there is no global state.
 ```ruby
 client = Qdrant::Client.new(base_url: "http://localhost:6333") do |config|
   config.timeout = 10
+  # Handed to Faraday verbatim. Needed when the server presents a certificate issued by a
+  # private CA, which the default trust store does not know:
+  #   config.ssl = { ca_file: "/path/to/root.crt" }
   config.api_key = "YOUR_API_KEY"
   config.access_token = "YOUR_ACCESS_TOKEN"
 end
