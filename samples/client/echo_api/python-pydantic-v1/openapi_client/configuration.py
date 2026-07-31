@@ -210,13 +210,12 @@ conf = openapi_client.Configuration(
         result = cls.__new__(cls)
         memo[id(self)] = result
         for k, v in self.__dict__.items():
-            if k in ('logger', 'logger_file_handler'):
-                continue
             if k == 'proxy_ssl_context':
                 # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
                 setattr(result, k, v)
                 continue
-            setattr(result, k, copy.deepcopy(v, memo))
+            if k not in ('logger', 'logger_file_handler'):
+                setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
         result.logger = copy.copy(self.logger)
         # use setter to re-create the file handler (excluded from __dict__ copy)

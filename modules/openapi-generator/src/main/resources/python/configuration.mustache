@@ -610,8 +610,6 @@ conf = {{{packageName}}}.Configuration(
         result.logger_stream_handler = self.logger_stream_handler
 {{/useIndependentImplicitClients}}
 {{^useIndependentImplicitClients}}
-            if k in ('logger', 'logger_file_handler'):
-                continue
 {{^async}}
 {{^tornado}}
             if k == 'proxy_ssl_context':
@@ -620,7 +618,8 @@ conf = {{{packageName}}}.Configuration(
                 continue
 {{/tornado}}
 {{/async}}
-            setattr(result, k, copy.deepcopy(v, memo))
+            if k not in ('logger', 'logger_file_handler'):
+                setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
         result.logger = copy.copy(self.logger)
         # use setter to re-create the file handler (excluded from __dict__ copy)
