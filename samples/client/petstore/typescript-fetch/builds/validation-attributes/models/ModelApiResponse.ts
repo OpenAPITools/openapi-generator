@@ -34,6 +34,8 @@ export interface ModelApiResponse {
 }
 export const ModelApiResponsePropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,

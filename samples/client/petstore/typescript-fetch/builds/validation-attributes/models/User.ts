@@ -58,6 +58,8 @@ export interface User {
 }
 export const UserPropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,
@@ -72,13 +74,16 @@ export const UserPropertyValidationAttributesMap: {
     }
 } = {
     password: {
+        dataType: "string",
         maxLength: 256,
         minLength: 8,
     },
     nickname: {
+        dataType: "string",
         pattern: '/^[a-z&]+$/',
     },
     userStatus: {
+        dataType: "number",
         maximum: 100,
         exclusiveMaximum: true,
         minimum: 0,
