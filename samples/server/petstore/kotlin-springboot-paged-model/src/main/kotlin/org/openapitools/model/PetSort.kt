@@ -19,6 +19,7 @@ import jakarta.validation.Valid
  * Values: idCommaAsc,idCommaDesc,nameCommaAsc,nameCommaDesc
  */
 enum class PetSort(@get:JsonValue val value: kotlin.String) : java.io.Serializable {
+
    idCommaAsc("id,asc"),
    idCommaDesc("id,desc"),
    nameCommaAsc("name,asc"),

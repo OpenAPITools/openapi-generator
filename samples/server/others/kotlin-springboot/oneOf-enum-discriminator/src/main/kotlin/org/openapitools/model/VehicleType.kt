@@ -19,6 +19,7 @@ import jakarta.validation.Valid
  * Values: CAR,TRUCK,unknown_default_open_api
  */
 enum class VehicleType(@get:JsonValue val value: kotlin.String) {
+
    CAR("CAR"),
    TRUCK("TRUCK"),
    unknown_default_open_api("unknown_default_open_api");
