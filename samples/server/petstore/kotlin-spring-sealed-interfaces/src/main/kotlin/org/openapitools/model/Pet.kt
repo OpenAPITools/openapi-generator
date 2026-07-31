@@ -69,10 +69,10 @@ data class Pet(
     */
     enum class Status(@get:JsonValue val value: kotlin.String) {
     
-        available("available"),
-        pending("pending"),
-        sold("sold");
-
+       available("available"),
+       pending("pending"),
+       sold("sold");
+    
         companion object {
             @JvmStatic
             @JsonCreator

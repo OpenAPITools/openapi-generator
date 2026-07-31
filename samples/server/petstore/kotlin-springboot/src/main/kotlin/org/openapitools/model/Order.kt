@@ -66,10 +66,10 @@ data class Order(
     */
     enum class Status(@get:JsonValue override val value: kotlin.String) : ValuedEnum<kotlin.String> {
     
-        placed("placed"),
-        approved("approved"),
-        delivered("delivered");
-
+       placed("placed"),
+       approved("approved"),
+       delivered("delivered");
+    
         companion object {
             @JvmStatic
             @JsonCreator

@@ -95,11 +95,11 @@ data class Dog(
     */
     enum class Breed(@get:JsonValue val value: kotlin.String) {
     
-        Dingo("Dingo"),
-        Husky("Husky"),
-        Retriever("Retriever"),
-        Shepherd("Shepherd");
-
+       Dingo("Dingo"),
+       Husky("Husky"),
+       Retriever("Retriever"),
+       Shepherd("Shepherd");
+    
         companion object {
             @JvmStatic
             @JsonCreator

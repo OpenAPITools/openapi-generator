@@ -42,10 +42,10 @@ data class ApiError(
     */
     enum class ErrorCode(@get:JsonValue override val value: kotlin.Int) : ValuedEnum<kotlin.Int> {
     
-        OK(0),
-        ERROR(100),
-        UNKNOWN_DEFAULT_OPEN_API(11184809);
-
+       OK(0),
+       ERROR(100),
+       UNKNOWN_DEFAULT_OPEN_API(11184809);
+    
         companion object {
             @JvmStatic
             @JsonCreator
