@@ -240,6 +240,11 @@ conf = petstore_api.Configuration(
         self.proxy_headers = None
         """Proxy headers
         """
+        self.proxy_ssl_context = None
+        """SSL context used only for the TLS handshake with the proxy itself
+        (e.g. an HTTPS CONNECT tunnel), independent of the destination TLS
+        settings above.
+        """
         self.safe_chars_for_path_param = ''
         """Safe chars for path_param
         """

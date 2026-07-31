@@ -13,6 +13,7 @@ import logging
 from logging import FileHandler
 {{^async}}
 import multiprocessing
+import ssl
 {{/async}}
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
@@ -227,6 +228,9 @@ class Configuration:
     :param no_proxy: Comma-separated hosts that bypass the proxy.
 {{/async}}
     :param proxy_headers: Proxy headers.
+{{^async}}
+    :param proxy_ssl_context: SSL context used only for the TLS handshake with the proxy itself, independent of the destination TLS settings.
+{{/async}}
     :param safe_chars_for_path_param: Safe characters for path parameter encoding.
     :param client_side_validation: Enable client-side validation. Default True.
     :param socket_options: Options to pass down to the underlying urllib3 socket.
@@ -361,6 +365,9 @@ conf = {{{packageName}}}.Configuration(
         no_proxy: Optional[str]=None,
 {{/async}}
         proxy_headers: Optional[Any]=None,
+{{^async}}
+        proxy_ssl_context: Optional[ssl.SSLContext]=None,
+{{/async}}
         safe_chars_for_path_param: str='',
         client_side_validation: bool=True,
         socket_options: Optional[Any]=None,
@@ -505,6 +512,13 @@ conf = {{{packageName}}}.Configuration(
         self.proxy_headers = proxy_headers
         """Proxy headers
         """
+{{^async}}
+        self.proxy_ssl_context = proxy_ssl_context
+        """SSL context used only for the TLS handshake with the proxy itself
+        (e.g. an HTTPS CONNECT tunnel), independent of the destination TLS
+        settings above.
+        """
+{{/async}}
         self.safe_chars_for_path_param = safe_chars_for_path_param
         """Safe chars for path_param
         """
