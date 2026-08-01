@@ -1,0 +1,60 @@
+openapi: 3.0.3
+info:
+  title: Test API for inherited readonly properties @JsonCreator fix
+  version: 1.0.0
+  description: |
+    This spec demonstrates the readOnly fix works when there's proper inheritance.
+    
+    IMPORTANT NOTE about discriminator:
+    - The discriminator IS required by OpenAPI Generator to establish the parent-child relationship
+    - Without a discriminator (or x-parent extension), allOf refs are not recognized as inheritance
+    - The readOnly fix itself works on any inherited readOnly properties, but inheritance
+      must first be established via discriminator or x-parent
+    
+    The readOnly fix ensures that when a child class inherits readOnly properties from a parent,
+    the child's @JsonCreator constructor uses protected setters (not direct field access)
+    for the inherited properties, since they are private in the parent.
+paths: {}
+components:
+  schemas:
+    # Parent with readOnly properties - discriminator REQUIRED for inheritance recognition
+    # The discriminator is NOT specifically for the readOnly fix, but for inheritance itself
+    BaseModel:
+      type: object
+      discriminator:
+        propertyName: modelType
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: Read-only identifier inherited from parent
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Read-only creation timestamp inherited from parent
+        modelType:
+          type: string
+          description: Discriminator property for inheritance
+        name:
+          type: string
+          description: Regular read-write property
+      required:
+        - id
+        - modelType
+        - name
+    
+    # Child extends parent - @JsonCreator should use protected setters for inherited readOnly properties
+    ExtendedModel:
+      allOf:
+        - $ref: '#/components/schemas/BaseModel'
+        - type: object
+          properties:
+            description:
+              type: string
+            status:
+              type: string
+              enum: [active, inactive]
+          required:
+            - status

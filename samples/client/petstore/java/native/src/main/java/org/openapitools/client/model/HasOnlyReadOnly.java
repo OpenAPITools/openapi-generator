@@ -73,6 +73,12 @@ public class HasOnlyReadOnly {
   }
 
 
+  /**
+   * Protected setter for bar (readOnly property, used by subclasses' @JsonCreator).
+   */
+  protected void setBar(@javax.annotation.Nullable String bar) {
+    this.bar = bar;
+  }
 
 
   /**
@@ -87,6 +93,12 @@ public class HasOnlyReadOnly {
   }
 
 
+  /**
+   * Protected setter for foo (readOnly property, used by subclasses' @JsonCreator).
+   */
+  protected void setFoo(@javax.annotation.Nullable String foo) {
+    this.foo = foo;
+  }
 
 
   /**
