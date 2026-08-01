@@ -47,6 +47,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -1621,7 +1622,7 @@ public class ModelUtils {
             Schema ref = allSchemas.get(simpleRef);
             if (ref == null) {
                 if (!isRefToSchemaWithProperties(schema.get$ref())) {
-                    once(LOGGER).warn("{} is not defined", schema.get$ref());
+                    once(LOGGER).warn(MessageFormatter.format("{} is not defined", schema.get$ref()).getMessage());
                 }
                 return schema;
             } else if (isEnumSchema(ref)) {
