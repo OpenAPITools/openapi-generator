@@ -8051,7 +8051,11 @@ public class DefaultCodegen implements CodegenConfig {
         // restore original schema with description, extensions etc
         if (original != null) {
             // evaluate common attributes such as description if defined in the top level
-            if (ModelUtils.isNullable(original)) {
+            if (original.getNullable() != null) {
+                codegenParameter.isNullable = original.getNullable();
+            } else if (original.getExtensions() != null && original.getExtensions().containsKey(X_NULLABLE)) {
+                codegenParameter.isNullable = Boolean.parseBoolean(String.valueOf(original.getExtensions().get(X_NULLABLE)));
+            } else if (ModelUtils.isNullable(original)) {
                 codegenParameter.isNullable = true;
             }
 
