@@ -924,11 +924,48 @@ public class InlineModelResolver {
         String uniqueName = name;
         int count = 0;
         while (true) {
-            if (!openAPI.getComponents().getSchemas().containsKey(uniqueName) && !uniqueNames.contains(uniqueName)) {
+            if (!isNameTaken(uniqueName)) {
                 return uniqueName;
             }
             uniqueName = name + "_" + ++count;
         }
+    }
+
+    /**
+     * Whether the candidate schema name collides with an existing one.
+     *
+     * <p>The comparison ignores separators and case, because generators mangle schema names before
+     * emitting types: the inline body schema {@code importMembers_request} and a spec-defined
+     * {@code ImportMembersRequest} both become the model {@code ImportMembersRequest}. Comparing the
+     * raw keys only, the two look distinct, the inline schema is registered under its own key, and
+     * later one model silently overwrites the other - the properties of the overwritten model
+     * disappear from the generated code. Treating them as a collision yields
+     * {@code importMembers_request_1} instead, so both models survive.
+     *
+     * @param candidate the candidate name
+     * @return true if the name is already taken
+     */
+    private boolean isNameTaken(final String candidate) {
+        if (openAPI.getComponents().getSchemas().containsKey(candidate) || uniqueNames.contains(candidate)) {
+            return true;
+        }
+
+        String normalized = normalizeNameForCollision(candidate);
+        for (String existing : openAPI.getComponents().getSchemas().keySet()) {
+            if (normalized.equals(normalizeNameForCollision(existing))) {
+                return true;
+            }
+        }
+        for (String existing : uniqueNames) {
+            if (normalized.equals(normalizeNameForCollision(existing))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String normalizeNameForCollision(final String name) {
+        return name.replace("_", "").toLowerCase(Locale.ROOT);
     }
 
     private void flattenProperties(OpenAPI openAPI, Map<String, Schema> properties, String path) {
