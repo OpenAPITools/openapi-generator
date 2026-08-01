@@ -483,6 +483,55 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void testCloneKeepsTypelessAdditionalPropertiesTypeless() {
+        // additionalProperties: {description: can be any type} -- a schema with no type at all.
+        // The JSON round-trip inside AnnotationsUtils.clone used to bring it back as an
+        // ObjectSchema with type=object, turning "any type" into a free-form object.
+        Schema anyType = new Schema().description("can be any type");
+        Schema schema = new ObjectSchema().additionalProperties(anyType);
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Schema copiedAdditionalProperties = (Schema) deepCopy.getAdditionalProperties();
+        Assert.assertNotSame(copiedAdditionalProperties, anyType);
+        Assert.assertNull(copiedAdditionalProperties.getType());
+        Assert.assertTrue(ModelUtils.isAnyType(copiedAdditionalProperties));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(copiedAdditionalProperties, null));
+    }
+
+    @Test
+    public void testCloneKeepsTypelessNestedSchemasTypeless() {
+        Schema typelessProperty = new Schema().description("can be any type");
+        Schema typelessItem = new Schema().description("can be any type");
+        Schema schema = new ObjectSchema()
+                .addProperty("loose", typelessProperty)
+                .addProperty("list", new ArraySchema().items(typelessItem));
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Schema copiedProperty = (Schema) deepCopy.getProperties().get("loose");
+        Assert.assertNull(copiedProperty.getType());
+        Assert.assertTrue(ModelUtils.isAnyType(copiedProperty));
+
+        Schema copiedItems = ((Schema) deepCopy.getProperties().get("list")).getItems();
+        Assert.assertNull(copiedItems.getType());
+        Assert.assertTrue(ModelUtils.isAnyType(copiedItems));
+    }
+
+    @Test
+    public void testCloneKeepsDeclaredObjectTypeIntact() {
+        // a schema that really does declare `type: object` must stay a free-form object
+        Schema declaredObject = new ObjectSchema().description("a real object");
+        Schema schema = new ObjectSchema().additionalProperties(declaredObject);
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Schema copiedAdditionalProperties = (Schema) deepCopy.getAdditionalProperties();
+        Assert.assertEquals(copiedAdditionalProperties.getType(), "object");
+        Assert.assertFalse(ModelUtils.isAnyType(copiedAdditionalProperties));
+    }
+
+    @Test
     public void testCloneDateTimeSchemaWithExample() {
         Schema schema = new DateTimeSchema()
                 .example("2020-02-02T20:20:20.000222Z");
