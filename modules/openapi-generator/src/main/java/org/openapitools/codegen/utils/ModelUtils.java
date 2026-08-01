@@ -2694,8 +2694,18 @@ public class ModelUtils {
         // dereference the schema
         schema = ModelUtils.getReferencedSchema(openAPI, schema);
 
-        if (schema.getTypes() == null && hasValidation(schema)) {
+        if (schema.getTypes() == null && schema.getType() == null && hasValidation(schema)
+                && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
             // just validation without type
+            //
+            // A schema that carries properties is a model, even when it omits `type: object` --
+            // which is very common in 3.0 specs, e.g. `minProperties: 2` next to `properties: {...}`.
+            // Checking `getTypes() == null && hasValidation(schema)` alone classified those as
+            // unsupported, and as an allOf member their properties were then dropped from the
+            // composed model without any warning.
+            //
+            // getTypes() is only populated for 3.1, so getType() has to be checked as well for the
+            // 3.0 case to be recognised.
             return true;
         } else if (schema.getIf() != null && schema.getThen() != null) {
             // if, then in 3.1 spec
