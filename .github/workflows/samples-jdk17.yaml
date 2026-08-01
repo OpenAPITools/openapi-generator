@@ -24,6 +24,11 @@ on:
       - samples/server/petstore/java-helidon-server/v3/se/**
       - samples/server/petstore/jaxrs-spec-sealed/**
       - samples/server/petstore/jaxrs-spec-records/**
+      - samples/server/petstore/jaxrs-spec-records-helidon/**
+      - samples/server/petstore/jaxrs-spec-records-kumuluzee/**
+      - samples/server/petstore/jaxrs-spec-records-openliberty/**
+      - samples/server/petstore/jaxrs-spec-records-quarkus/**
+      - samples/server/petstore/jaxrs-spec-records-thorntail/**
   pull_request:
     paths:
       # clients
@@ -48,6 +53,11 @@ on:
       - samples/server/petstore/java-helidon-server/v3/se/**
       - samples/server/petstore/jaxrs-spec-sealed/**
       - samples/server/petstore/jaxrs-spec-records/**
+      - samples/server/petstore/jaxrs-spec-records-helidon/**
+      - samples/server/petstore/jaxrs-spec-records-kumuluzee/**
+      - samples/server/petstore/jaxrs-spec-records-openliberty/**
+      - samples/server/petstore/jaxrs-spec-records-quarkus/**
+      - samples/server/petstore/jaxrs-spec-records-thorntail/**
 jobs:
   build:
     name: Build with JDK17
@@ -78,6 +88,11 @@ jobs:
           - samples/server/petstore/java-helidon-server/v3/se
           - samples/server/petstore/jaxrs-spec-sealed
           - samples/server/petstore/jaxrs-spec-records
+          - samples/server/petstore/jaxrs-spec-records-helidon
+          - samples/server/petstore/jaxrs-spec-records-kumuluzee
+          - samples/server/petstore/jaxrs-spec-records-openliberty
+          - samples/server/petstore/jaxrs-spec-records-quarkus
+          - samples/server/petstore/jaxrs-spec-records-thorntail
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v5

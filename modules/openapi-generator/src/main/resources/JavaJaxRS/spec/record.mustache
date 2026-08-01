@@ -13,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 {{/jackson}}
-{{#openApiNullable}}
-import org.openapitools.jackson.nullable.JsonNullable;
-{{/openApiNullable}}
+{{! JsonNullable is already contributed through the imports block above for the models that use
+    it, so importing it here as well produced a duplicate import, and an unused one on records
+    with no nullable component - which broke libraries whose pom omits jackson-databind-nullable. }}
 
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{.}}

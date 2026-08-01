@@ -1863,6 +1863,36 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "return new Item(itemType, name, count, status, tags, nickname, payload, secret);");
     }
 
+    @Test
+    public void testRecordsDoNotDuplicateTheJsonNullableImport() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+        properties.put("useRecords", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/records_parity.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        // Item has a JsonNullable component, so it needs the import -- but exactly once. The
+        // record template used to add its own copy on top of the one already contributed through
+        // {{#imports}}, so every record with a nullable component carried a duplicate import.
+        String importLine = "import org.openapitools.jackson.nullable.JsonNullable;";
+        long itemImports = Files.readAllLines(Paths.get(modelDir + "Item.java")).stream()
+                .filter(l -> l.trim().equals(importLine)).count();
+        assertTrue(itemImports == 1L, "Item should import JsonNullable exactly once, was " + itemImports);
+        assertFileContains(Paths.get(modelDir + "Item.java"), "JsonNullable<String> nickname");
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class,
           expectedExceptionsMessageRegExp = ".*useRecords.*withXml.*")
     public void useRecordsRejectsWithXml() {
