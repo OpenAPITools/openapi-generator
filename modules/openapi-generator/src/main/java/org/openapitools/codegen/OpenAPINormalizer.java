@@ -2189,6 +2189,9 @@ public class OpenAPINormalizer {
             //    any_type: {}
             Schema sc = new Schema<>();
 
+            // copy description, title, etc
+            ModelUtils.copyMetadata(schema, sc);
+
             // additional properties set?
             if (schema.getAdditionalProperties() != null) {
                 sc.setAdditionalProperties(schema.getAdditionalProperties());

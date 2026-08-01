@@ -2621,7 +2621,8 @@ public class ModelUtils {
         }
 
         // schema with properties or additional properties
-        if (schema.getProperties() != null || schema.getAdditionalProperties() != null) {
+        if (schema.getProperties() != null ||
+                (schema.getAdditionalProperties() != null && !Boolean.FALSE.equals(schema.getBooleanSchemaValue()))) {
             return false;
         }
 
