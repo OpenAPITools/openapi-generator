@@ -2620,8 +2620,8 @@ public class ModelUtils {
             return false;
         }
 
-        // schema with properties
-        if (schema.getProperties() != null) {
+        // schema with properties or additional properties
+        if (schema.getProperties() != null || schema.getAdditionalProperties() != null) {
             return false;
         }
 
