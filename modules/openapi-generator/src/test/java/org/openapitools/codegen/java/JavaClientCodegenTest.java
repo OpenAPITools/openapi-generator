@@ -1770,6 +1770,33 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testMicroprofileIgnoresJacksonOptionalNullableExtension_issue24560() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(Map.of(
+                        JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0",
+                        CodegenConstants.SERIALIZATION_LIBRARY, "jackson",
+                        AbstractJavaCodegen.OPENAPI_NULLABLE, "true"))
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/bugs/issue_24560.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // The microprofile library does not support JsonNullable, so the field stays a plain
+        // String. equals/hashCode must therefore not call equalsNullable/hashCodeNullable: those
+        // helpers are only defined when the model carries x-jackson-optional-nullable-helpers,
+        // which core sets from the schema's own nullability rather than from this extension.
+        // Emitting the calls without the definitions produced code that did not compile.
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Thing.java")).content()
+                .contains("Objects.equals(this.nullableProperty, thing.nullableProperty)")
+                .doesNotContain("equalsNullable")
+                .doesNotContain("hashCodeNullable");
+    }
+
+    @Test
     public void testMicroprofileGenerateCorrectJsonbCreator_issue12622() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

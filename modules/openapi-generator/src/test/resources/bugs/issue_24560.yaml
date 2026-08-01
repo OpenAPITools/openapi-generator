@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: x-is-jackson-optional-nullable on the microprofile client
+  version: 1.0.0
+paths:
+  /thing:
+    get:
+      operationId: getThing
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Thing"
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        # Hand-written vendor extension. This is the only way to request a
+        # JsonNullable property in the jaxrs-spec generator, and vendor
+        # extensions are spec-level, so a shared spec reaching the microprofile
+        # client carries it too. The microprofile library does not support
+        # JsonNullable, so it must degrade gracefully rather than emit calls to
+        # helper methods it never defines.
+        nullableProperty:
+          type: string
+          x-is-jackson-optional-nullable: true
+        plainProperty:
+          type: string
