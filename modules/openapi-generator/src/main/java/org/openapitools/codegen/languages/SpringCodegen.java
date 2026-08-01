@@ -977,6 +977,16 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        // A model named `Tag` collides with io.swagger.v3.oas.annotations.tags.Tag. When this file
+        // imports the model, importing the annotation too is a duplicate single-type-import, which
+        // javac rejects outright. Reference the annotation by its fully qualified name instead and
+        // skip its import -- only for the files that actually hit the clash.
+        final String tagModelImport = modelPackage() + ".Tag";
+        if (objs.getImports() != null
+                && objs.getImports().stream().anyMatch(imp -> tagModelImport.equals(imp.get("import")))) {
+            objs.put("qualifySwaggerTagAnnotation", true);
+        }
+
         final OperationMap operations = objs.getOperations();
         if (operations != null) {
             final List<CodegenOperation> ops = operations.getOperation();
