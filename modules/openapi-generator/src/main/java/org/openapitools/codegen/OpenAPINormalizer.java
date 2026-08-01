@@ -1105,7 +1105,8 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeMapSchema(Schema schema) {
-        return processSetMapToNullable(schema);
+        Schema result = processNormalize31Spec(schema, new HashSet<>());
+        return processSetMapToNullable(result);
     }
 
     protected Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
