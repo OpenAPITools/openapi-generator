@@ -41,11 +41,18 @@ import org.openapitools.client.ApiClient;
  */
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_DT,
+  Foo.JSON_PROPERTY_NULLABLE_DT,
   Foo.JSON_PROPERTY_BINARY,
+  Foo.JSON_PROPERTY_NULLABLE_BINARY,
   Foo.JSON_PROPERTY_LIST_OF_DT,
   Foo.JSON_PROPERTY_LIST_MIN_INTEMS,
+  Foo.JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS,
   Foo.JSON_PROPERTY_REQUIRED_DT,
-  Foo.JSON_PROPERTY_NUMBER
+  Foo.JSON_PROPERTY_NUMBER,
+  Foo.JSON_PROPERTY_NULLABLE_NUMBER,
+  Foo.JSON_PROPERTY_COLOR,
+  Foo.JSON_PROPERTY_REQUIRED_COLOR,
+  Foo.JSON_PROPERTY_NULLABLE_COLOR
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Foo {
@@ -53,17 +60,29 @@ public class Foo {
   
   private java.time.@Nullable Instant dt;
 
+  public static final String JSON_PROPERTY_NULLABLE_DT = "nullableDt";
+  
+  private java.time.@Nullable Instant nullableDt;
+
   public static final String JSON_PROPERTY_BINARY = "binary";
   
   private @Nullable File binary;
 
+  public static final String JSON_PROPERTY_NULLABLE_BINARY = "nullableBinary";
+  
+  private @Nullable File nullableBinary;
+
   public static final String JSON_PROPERTY_LIST_OF_DT = "listOfDt";
   
-  private List<java.time.@Nullable Instant> listOfDt = new ArrayList<>();
+  private @Nullable List<java.time.Instant> listOfDt = new ArrayList<>();
 
   public static final String JSON_PROPERTY_LIST_MIN_INTEMS = "listMinIntems";
   
-  private List<java.time.@Nullable Instant> listMinIntems = new ArrayList<>();
+  private @Nullable List<java.time.Instant> listMinIntems = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS = "nullableListMinIntems";
+  
+  private @Nullable List<java.time.Instant> nullableListMinIntems;
 
   public static final String JSON_PROPERTY_REQUIRED_DT = "requiredDt";
   
@@ -72,6 +91,22 @@ public class Foo {
   public static final String JSON_PROPERTY_NUMBER = "number";
   
   private java.math.@Nullable BigDecimal number;
+
+  public static final String JSON_PROPERTY_NULLABLE_NUMBER = "nullableNumber";
+  
+  private java.math.@Nullable BigDecimal nullableNumber;
+
+  public static final String JSON_PROPERTY_COLOR = "color";
+  
+  private @Nullable String color = "red";
+
+  public static final String JSON_PROPERTY_REQUIRED_COLOR = "requiredColor";
+  
+  private String requiredColor = "red";
+
+  public static final String JSON_PROPERTY_NULLABLE_COLOR = "nullableColor";
+  
+  private @Nullable String nullableColor = "red";
 
   public Foo() { 
   }
@@ -100,6 +135,30 @@ public class Foo {
   }
 
 
+  public Foo nullableDt(java.time.@Nullable Instant nullableDt) {
+    this.nullableDt = nullableDt;
+    return this;
+  }
+
+  /**
+   * Get nullableDt
+   * @return nullableDt
+   */
+  
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_DT, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public java.time.@Nullable Instant getNullableDt() {
+    return nullableDt;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_DT, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNullableDt(java.time.@Nullable Instant nullableDt) {
+    this.nullableDt = nullableDt;
+  }
+
+
   public Foo binary(@Nullable File binary) {
     this.binary = binary;
     return this;
@@ -124,7 +183,31 @@ public class Foo {
   }
 
 
-  public Foo listOfDt(List<java.time.@Nullable Instant> listOfDt) {
+  public Foo nullableBinary(@Nullable File nullableBinary) {
+    this.nullableBinary = nullableBinary;
+    return this;
+  }
+
+  /**
+   * Get nullableBinary
+   * @return nullableBinary
+   */
+  
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_BINARY, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public @Nullable File getNullableBinary() {
+    return nullableBinary;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_BINARY, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNullableBinary(@Nullable File nullableBinary) {
+    this.nullableBinary = nullableBinary;
+  }
+
+
+  public Foo listOfDt(@Nullable List<java.time.Instant> listOfDt) {
     this.listOfDt = listOfDt;
     return this;
   }
@@ -144,19 +227,19 @@ public class Foo {
   
   @JsonProperty(value = JSON_PROPERTY_LIST_OF_DT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public List<java.time.@Nullable Instant> getListOfDt() {
+  public @Nullable List<java.time.Instant> getListOfDt() {
     return listOfDt;
   }
 
 
   @JsonProperty(value = JSON_PROPERTY_LIST_OF_DT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setListOfDt(List<java.time.@Nullable Instant> listOfDt) {
+  public void setListOfDt(@Nullable List<java.time.Instant> listOfDt) {
     this.listOfDt = listOfDt;
   }
 
 
-  public Foo listMinIntems(List<java.time.@Nullable Instant> listMinIntems) {
+  public Foo listMinIntems(@Nullable List<java.time.Instant> listMinIntems) {
     this.listMinIntems = listMinIntems;
     return this;
   }
@@ -176,15 +259,47 @@ public class Foo {
   
   @JsonProperty(value = JSON_PROPERTY_LIST_MIN_INTEMS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public List<java.time.@Nullable Instant> getListMinIntems() {
+  public @Nullable List<java.time.Instant> getListMinIntems() {
     return listMinIntems;
   }
 
 
   @JsonProperty(value = JSON_PROPERTY_LIST_MIN_INTEMS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setListMinIntems(List<java.time.@Nullable Instant> listMinIntems) {
+  public void setListMinIntems(@Nullable List<java.time.Instant> listMinIntems) {
     this.listMinIntems = listMinIntems;
+  }
+
+
+  public Foo nullableListMinIntems(@Nullable List<java.time.Instant> nullableListMinIntems) {
+    this.nullableListMinIntems = nullableListMinIntems;
+    return this;
+  }
+
+  public Foo addNullableListMinIntemsItem(java.time.Instant nullableListMinIntemsItem) {
+    if (this.nullableListMinIntems == null) {
+      this.nullableListMinIntems = new ArrayList<>();
+    }
+    this.nullableListMinIntems.add(nullableListMinIntemsItem);
+    return this;
+  }
+
+  /**
+   * Get nullableListMinIntems
+   * @return nullableListMinIntems
+   */
+  
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public @Nullable List<java.time.Instant> getNullableListMinIntems() {
+    return nullableListMinIntems;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNullableListMinIntems(@Nullable List<java.time.Instant> nullableListMinIntems) {
+    this.nullableListMinIntems = nullableListMinIntems;
   }
 
 
@@ -236,6 +351,102 @@ public class Foo {
   }
 
 
+  public Foo nullableNumber(java.math.@Nullable BigDecimal nullableNumber) {
+    this.nullableNumber = nullableNumber;
+    return this;
+  }
+
+  /**
+   * Get nullableNumber
+   * @return nullableNumber
+   */
+  
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_NUMBER, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public java.math.@Nullable BigDecimal getNullableNumber() {
+    return nullableNumber;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_NUMBER, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNullableNumber(java.math.@Nullable BigDecimal nullableNumber) {
+    this.nullableNumber = nullableNumber;
+  }
+
+
+  public Foo color(@Nullable String color) {
+    this.color = color;
+    return this;
+  }
+
+  /**
+   * Get color
+   * @return color
+   */
+  
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public @Nullable String getColor() {
+    return color;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setColor(@Nullable String color) {
+    this.color = color;
+  }
+
+
+  public Foo requiredColor(String requiredColor) {
+    this.requiredColor = requiredColor;
+    return this;
+  }
+
+  /**
+   * Get requiredColor
+   * @return requiredColor
+   */
+  
+  @JsonProperty(value = JSON_PROPERTY_REQUIRED_COLOR, required = true)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public String getRequiredColor() {
+    return requiredColor;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_REQUIRED_COLOR, required = true)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setRequiredColor(String requiredColor) {
+    this.requiredColor = requiredColor;
+  }
+
+
+  public Foo nullableColor(@Nullable String nullableColor) {
+    this.nullableColor = nullableColor;
+    return this;
+  }
+
+  /**
+   * Get nullableColor
+   * @return nullableColor
+   */
+  
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_COLOR, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public @Nullable String getNullableColor() {
+    return nullableColor;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_COLOR, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNullableColor(@Nullable String nullableColor) {
+    this.nullableColor = nullableColor;
+  }
+
+
   /**
    * Return true if this Foo object is equal to o.
    */
@@ -254,11 +465,18 @@ public class Foo {
     StringBuilder sb = new StringBuilder();
     sb.append("class Foo {\n");
     sb.append("    dt: ").append(toIndentedString(dt)).append("\n");
+    sb.append("    nullableDt: ").append(toIndentedString(nullableDt)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
+    sb.append("    nullableBinary: ").append(toIndentedString(nullableBinary)).append("\n");
     sb.append("    listOfDt: ").append(toIndentedString(listOfDt)).append("\n");
     sb.append("    listMinIntems: ").append(toIndentedString(listMinIntems)).append("\n");
+    sb.append("    nullableListMinIntems: ").append(toIndentedString(nullableListMinIntems)).append("\n");
     sb.append("    requiredDt: ").append(toIndentedString(requiredDt)).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
+    sb.append("    nullableNumber: ").append(toIndentedString(nullableNumber)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("    requiredColor: ").append(toIndentedString(requiredColor)).append("\n");
+    sb.append("    nullableColor: ").append(toIndentedString(nullableColor)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -308,9 +526,19 @@ public class Foo {
       joiner.add(String.format(java.util.Locale.ROOT, "%sdt%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDt()))));
     }
 
+    // add `nullableDt` to the URL query string
+    if (getNullableDt() != null) {
+      joiner.add(String.format(java.util.Locale.ROOT, "%snullableDt%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNullableDt()))));
+    }
+
     // add `binary` to the URL query string
     if (getBinary() != null) {
       joiner.add(String.format(java.util.Locale.ROOT, "%sbinary%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBinary()))));
+    }
+
+    // add `nullableBinary` to the URL query string
+    if (getNullableBinary() != null) {
+      joiner.add(String.format(java.util.Locale.ROOT, "%snullableBinary%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNullableBinary()))));
     }
 
     // add `listOfDt` to the URL query string
@@ -335,6 +563,17 @@ public class Foo {
       }
     }
 
+    // add `nullableListMinIntems` to the URL query string
+    if (getNullableListMinIntems() != null) {
+      for (int i = 0; i < getNullableListMinIntems().size(); i++) {
+        if (getNullableListMinIntems().get(i) != null) {
+          joiner.add(String.format(java.util.Locale.ROOT, "%snullableListMinIntems%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+              ApiClient.urlEncode(ApiClient.valueToString(getNullableListMinIntems().get(i)))));
+        }
+      }
+    }
+
     // add `requiredDt` to the URL query string
     if (getRequiredDt() != null) {
       joiner.add(String.format(java.util.Locale.ROOT, "%srequiredDt%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getRequiredDt()))));
@@ -343,6 +582,26 @@ public class Foo {
     // add `number` to the URL query string
     if (getNumber() != null) {
       joiner.add(String.format(java.util.Locale.ROOT, "%snumber%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNumber()))));
+    }
+
+    // add `nullableNumber` to the URL query string
+    if (getNullableNumber() != null) {
+      joiner.add(String.format(java.util.Locale.ROOT, "%snullableNumber%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNullableNumber()))));
+    }
+
+    // add `color` to the URL query string
+    if (getColor() != null) {
+      joiner.add(String.format(java.util.Locale.ROOT, "%scolor%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getColor()))));
+    }
+
+    // add `requiredColor` to the URL query string
+    if (getRequiredColor() != null) {
+      joiner.add(String.format(java.util.Locale.ROOT, "%srequiredColor%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getRequiredColor()))));
+    }
+
+    // add `nullableColor` to the URL query string
+    if (getNullableColor() != null) {
+      joiner.add(String.format(java.util.Locale.ROOT, "%snullableColor%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNullableColor()))));
     }
 
     return joiner.toString();
@@ -364,8 +623,16 @@ public class Foo {
       this.instance.dt = dt;
       return this;
     }
+    public Foo.Builder nullableDt(java.time.Instant nullableDt) {
+      this.instance.nullableDt = nullableDt;
+      return this;
+    }
     public Foo.Builder binary(File binary) {
       this.instance.binary = binary;
+      return this;
+    }
+    public Foo.Builder nullableBinary(File nullableBinary) {
+      this.instance.nullableBinary = nullableBinary;
       return this;
     }
     public Foo.Builder listOfDt(List<java.time.Instant> listOfDt) {
@@ -376,12 +643,32 @@ public class Foo {
       this.instance.listMinIntems = listMinIntems;
       return this;
     }
+    public Foo.Builder nullableListMinIntems(List<java.time.Instant> nullableListMinIntems) {
+      this.instance.nullableListMinIntems = nullableListMinIntems;
+      return this;
+    }
     public Foo.Builder requiredDt(java.time.Instant requiredDt) {
       this.instance.requiredDt = requiredDt;
       return this;
     }
     public Foo.Builder number(java.math.BigDecimal number) {
       this.instance.number = number;
+      return this;
+    }
+    public Foo.Builder nullableNumber(java.math.BigDecimal nullableNumber) {
+      this.instance.nullableNumber = nullableNumber;
+      return this;
+    }
+    public Foo.Builder color(String color) {
+      this.instance.color = color;
+      return this;
+    }
+    public Foo.Builder requiredColor(String requiredColor) {
+      this.instance.requiredColor = requiredColor;
+      return this;
+    }
+    public Foo.Builder nullableColor(String nullableColor) {
+      this.instance.nullableColor = nullableColor;
       return this;
     }
 
@@ -419,11 +706,18 @@ public class Foo {
   public Foo.Builder toBuilder() {
     return new Foo.Builder()
       .dt(getDt())
+      .nullableDt(getNullableDt())
       .binary(getBinary())
+      .nullableBinary(getNullableBinary())
       .listOfDt(getListOfDt())
       .listMinIntems(getListMinIntems())
+      .nullableListMinIntems(getNullableListMinIntems())
       .requiredDt(getRequiredDt())
-      .number(getNumber());
+      .number(getNumber())
+      .nullableNumber(getNullableNumber())
+      .color(getColor())
+      .requiredColor(getRequiredColor())
+      .nullableColor(getNullableColor());
   }
 
 }
