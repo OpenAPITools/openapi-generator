@@ -284,6 +284,45 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
+    public void testBuilderFieldMatchesJsonNullableFieldType_issue24561() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS, true);
+        properties.put(org.openapitools.codegen.languages.AbstractJavaCodegen.OPENAPI_NULLABLE, true);
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_24561.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // The pojo field is JsonNullable<String>, so the builder field must be too: the
+        // generated copy constructor does `this.nullableProperty = b.nullableProperty`, which
+        // did not compile while the builder declared a plain String. The builder's setter still
+        // takes the raw type and wraps it, matching the pojo's own fluent setter.
+        validateJavaSourceFiles(files);
+
+        Path path = Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/Thing.java");
+        String thing = Files.readString(path);
+        String builder = thing.substring(thing.indexOf("public static abstract class ThingBuilder"));
+
+        // The builder field must be JsonNullable<String>, matching the pojo field it is copied
+        // into. It previously declared a plain String, so `this.x = b.x` did not compile.
+        assertTrue(builder.contains("private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();"),
+                "builder field for a JsonNullable property must be JsonNullable, but was:\n" + builder);
+        // The setter still takes the raw type and wraps it, like the pojo's fluent setter.
+        assertTrue(builder.contains("this.nullableProperty = JsonNullable.<String>of(nullableProperty);"),
+                "builder setter must wrap with JsonNullable.of(), but was:\n" + builder);
+        // A property without the extension is untouched.
+        assertTrue(builder.contains("private String plainProperty;"),
+                "plain property must keep its raw type in the builder, but was:\n" + builder);
+    }
+
+    @Test
     public void testGeneratePingNoSpecFile() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "");

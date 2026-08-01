@@ -367,7 +367,12 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
 
   public static abstract class {{classname}}Builder<C extends {{classname}}, B extends {{classname}}Builder<C, B>> {{#parent}}extends {{{.}}}Builder<C, B>{{/parent}} {
     {{#vars}}
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    private JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}> {{name}} = JsonNullable.<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}>{{#isContainer}}undefined(){{/isContainer}}{{^isContainer}}{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}}{{/isContainer}};
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
     private {{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{/vars}}
   {{^parent}}
     protected abstract B self();
@@ -380,7 +385,12 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
     @Deprecated
     {{/deprecated}}
     public B {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+      this.{{name}} = JsonNullable.<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}>of({{name}});
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
       this.{{name}} = {{name}};
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
       return self();
     }
     {{/vars}}

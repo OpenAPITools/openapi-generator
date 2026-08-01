@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: generateBuilders with a JsonNullable property
+  version: 1.0.0
+paths:
+  /thing:
+    get:
+      operationId: getThing
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Thing"
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        # The pojo field for this property is JsonNullable<String>. The builder
+        # field has to match, or the generated `this.x = b.x` does not compile.
+        nullableProperty:
+          type: string
+          x-is-jackson-optional-nullable: true
+        plainProperty:
+          type: string
