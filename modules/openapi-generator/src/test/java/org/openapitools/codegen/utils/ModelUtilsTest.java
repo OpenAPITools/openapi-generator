@@ -519,6 +519,25 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void testCloneKeepsEveryOccurrenceOfAReusedTypelessSchemaTypeless() {
+        // The parser reuses a single Schema instance across several places in a spec, while the
+        // JSON round-trip inside the clone gives each place its own object. Every one of them has
+        // to be fixed up, not just the first one that is reached.
+        Schema sharedAnyType = new Schema().description("can be any type");
+        Schema schema = new ObjectSchema()
+                .addProperty("first", new ObjectSchema().additionalProperties(sharedAnyType))
+                .addProperty("second", new ObjectSchema().additionalProperties(sharedAnyType));
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        for (String name : new String[]{"first", "second"}) {
+            Schema copied = (Schema) ((Schema) deepCopy.getProperties().get(name)).getAdditionalProperties();
+            Assert.assertNull(copied.getType(), name + " kept type: " + copied.getType());
+            Assert.assertTrue(ModelUtils.isAnyType(copied), name + " is no longer an any-type schema");
+        }
+    }
+
+    @Test
     public void testCloneKeepsDeclaredObjectTypeIntact() {
         // a schema that really does declare `type: object` must stay a free-form object
         Schema declaredObject = new ObjectSchema().description("a real object");
