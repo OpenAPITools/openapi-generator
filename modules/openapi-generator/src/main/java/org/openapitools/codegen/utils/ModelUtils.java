@@ -2621,8 +2621,9 @@ public class ModelUtils {
             return false;
         }
 
-        // schema with properties
-        if (schema.getProperties() != null) {
+        // schema with properties or additional properties
+        if (schema.getProperties() != null ||
+                (schema.getAdditionalProperties() != null && !Boolean.FALSE.equals(schema.getBooleanSchemaValue()))) {
             return false;
         }
 
@@ -2727,7 +2728,7 @@ public class ModelUtils {
             to.setExample(from.getExample());
         }
         if (from.getExamples() != null) {
-            to.setExample(from.getExamples());
+            to.setExamples(from.getExamples());
         }
         if (from.getReadOnly() != null) {
             to.setReadOnly(from.getReadOnly());
