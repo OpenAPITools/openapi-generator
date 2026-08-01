@@ -51,8 +51,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>{{#useSealed}}17{{/useSealed}}{{^useSealed}}{{#useRecords}}17{{/useRecords}}{{^useRecords}}1.8{{/useRecords}}{{/useSealed}}</maven.compiler.source>
+        <maven.compiler.target>{{#useSealed}}17{{/useSealed}}{{^useSealed}}{{#useRecords}}17{{/useRecords}}{{^useRecords}}1.8{{/useRecords}}{{/useSealed}}</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
         <!-- OpenLiberty runtime -->

@@ -20,7 +20,7 @@
         <helidon.version>{{helidonVersion}}</helidon.version>
         <mainClass>io.helidon.microprofile.cdi.Main</mainClass>
 
-        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.source>{{#useSealed}}17{{/useSealed}}{{^useSealed}}{{#useRecords}}17{{/useRecords}}{{^useRecords}}11{{/useRecords}}{{/useSealed}}</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
         <maven.site.skip>true</maven.site.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

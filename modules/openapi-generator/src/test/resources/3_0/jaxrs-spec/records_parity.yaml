@@ -1,0 +1,151 @@
+openapi: 3.0.1
+info:
+  title: records parity
+  description: >
+    Exercises useRecords across the pojo feature matrix: defaults (scalar, enum and container),
+    nullable properties (JsonNullable), byte[] and password properties. Item carries that matrix and
+    implements a generated oneOf interface, so it is the model rendered as a record. Everything else
+    is a negative case: Standalone is an ordinary pojo outside any oneOf hierarchy, Animal/Cat take
+    part in inheritance and FreeForm declares additionalProperties.
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      operationId: getItem
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemRequest'
+  /standalone:
+    get:
+      operationId: getStandalone
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Standalone'
+  /animals:
+    get:
+      operationId: getAnimal
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+  /cats:
+    get:
+      operationId: getCat
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+  /freeform:
+    get:
+      operationId: getFreeForm
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreeForm'
+components:
+  schemas:
+    ItemRequest:
+      oneOf:
+        - $ref: '#/components/schemas/Item'
+        - $ref: '#/components/schemas/OtherItem'
+      discriminator:
+        propertyName: itemType
+        mapping:
+          ITEM: '#/components/schemas/Item'
+          OTHER: '#/components/schemas/OtherItem'
+      properties:
+        itemType:
+          type: string
+    OtherItem:
+      type: object
+      required:
+        - itemType
+      properties:
+        itemType:
+          type: string
+        label:
+          type: string
+    Standalone:
+      type: object
+      description: An ordinary pojo outside any oneOf hierarchy - must stay a class.
+      properties:
+        id:
+          type: string
+        count:
+          type: integer
+          default: 5
+    Item:
+      type: object
+      required:
+        - name
+        - itemType
+      properties:
+        itemType:
+          type: string
+        name:
+          type: string
+        count:
+          type: integer
+          default: 10
+        status:
+          type: string
+          enum:
+            - available
+            - sold
+          default: available
+        tags:
+          type: array
+          items:
+            type: string
+        nickname:
+          type: string
+          nullable: true
+          x-is-jackson-optional-nullable: true
+        payload:
+          type: string
+          format: byte
+        secret:
+          type: string
+          format: password
+    Animal:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/Cat'
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            meows:
+              type: boolean
+    FreeForm:
+      type: object
+      properties:
+        id:
+          type: string
+      additionalProperties:
+        type: string

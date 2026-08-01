@@ -20,8 +20,8 @@
     <description>The microservice was generated automatically with the OpenAPI Generator project</description>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>{{#useSealed}}17{{/useSealed}}{{^useSealed}}{{#useRecords}}17{{/useRecords}}{{^useRecords}}1.8{{/useRecords}}{{/useSealed}}</maven.compiler.source>
+        <maven.compiler.target>{{#useSealed}}17{{/useSealed}}{{^useSealed}}{{#useRecords}}17{{/useRecords}}{{^useRecords}}1.8{{/useRecords}}{{/useSealed}}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <kumuluzee.version>3.9.0</kumuluzee.version>

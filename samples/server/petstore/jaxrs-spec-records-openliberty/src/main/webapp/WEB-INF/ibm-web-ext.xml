@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-ext
+    xmlns="http://websphere.ibm.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://websphere.ibm.com/xml/ns/javaee http://websphere.ibm.com/xml/ns/javaee/ibm-web-ext_1_0.xsd"
+    version="1.0">
+
+    <reload-interval value="3"/>
+    <context-root uri="book-purchase" />
+    <enable-directory-browsing value="false"/>
+    <enable-file-serving value="true"/>
+    <enable-reloading value="true"/>
+    <enable-serving-servlets-by-class-name value="false" />
+
+</web-ext>

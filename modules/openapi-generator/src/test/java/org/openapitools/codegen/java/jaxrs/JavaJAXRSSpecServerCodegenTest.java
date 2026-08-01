@@ -1630,6 +1630,277 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         assertFileContains(Paths.get(outputDir + "/pom.xml"), "<java.version>1.8</java.version>");
     }
 
+    /**
+     * With {@code useRecords=true} the concrete subtypes of a generated oneOf interface render as Java
+     * records rather than mutable classes. Because a record component {@code petType} exposes the
+     * canonical accessor {@code petType()} (not {@code getPetType()}), the interface declares the
+     * discriminator accessor in record style so the records satisfy it without bridge methods. The
+     * record components carry the {@code @JsonProperty} annotations. Combined here with
+     * {@code useSealed=true} so the interface is also sealed and permits the record subtypes.
+     */
+    @Test
+    public void testOneOfRecordImplementationGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+        properties.put("useRecords", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        // assertFileContains is used rather than JavaFileAssert because the latter parses the source
+        // with a JavaParser language level that predates sealed/record types.
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        // The interface is sealed, permits the record subtypes, and declares the discriminator accessor
+        // in record style (petType(), not getPetType()) so the records implement it via their canonical
+        // accessors.
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"),
+                "public sealed interface PetRequest",
+                "permits CatRequest, DogRequest",
+                "PetType petType();");
+        assertFileNotContains(Paths.get(modelDir + "PetRequest.java"), "getPetType");
+
+        // The concrete subtypes are records implementing (not extending) the interface, with @JsonProperty
+        // on the components and no JavaBean getters or final-class declaration.
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"),
+                "public record CatRequest(",
+                "@JsonProperty(required = true, value = \"petType\")",
+                "PetType petType",
+                "implements PetRequest");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"),
+                "class CatRequest", "extends PetRequest", "public PetType getPetType()");
+
+        assertFileContains(Paths.get(modelDir + "DogRequest.java"),
+                "public record DogRequest(",
+                "implements PetRequest");
+        assertFileNotContains(Paths.get(modelDir + "DogRequest.java"),
+                "class DogRequest", "extends PetRequest");
+    }
+
+    /**
+     * Records require {@code useSealed=true}: with {@code useRecords} alone the oneOf interface
+     * implementations stay classes, and the interface must keep the {@code get}-prefixed accessor those
+     * classes implement - declaring {@code petType()} against JavaBean classes would not compile.
+     */
+    @Test
+    public void testUseRecordsWithoutUseSealedKeepsClasses() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useRecords", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "CatRequest.java"), "class CatRequest");
+        assertFileNotContains(Paths.get(modelDir + "CatRequest.java"), "public record CatRequest(");
+        // The interface accessor must match the classes that implement it.
+        assertFileContains(Paths.get(modelDir + "PetRequest.java"), "getPetType();");
+    }
+
+    /**
+     * Only the implementations of a generated oneOf interface become records. Models outside that
+     * hierarchy - here the shared allOf base, which is an ordinary standalone pojo - stay classes.
+     */
+    @Test
+    public void testRecordsAreScopedToOneOfInterfaceImplementations() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+        properties.put("useRecords", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        // PetBase does not implement the oneOf interface and is left as a class.
+        assertFileContains(Paths.get(modelDir + "PetBase.java"), "class PetBase");
+        assertFileNotContains(Paths.get(modelDir + "PetBase.java"), "record PetBase");
+        // The enum is never a record candidate.
+        assertFileContains(Paths.get(modelDir + "PetType.java"), "public enum PetType");
+    }
+
+    /**
+     * The records emitted for oneOf interface implementations keep pojo semantics: defaults (scalar,
+     * enum and container) are applied in a compact canonical constructor, spec-marked JsonNullable
+     * properties render as JsonNullable components defaulting to undefined, byte[] properties get
+     * content-based equals/hashCode, and password properties are masked in toString. Models outside the
+     * oneOf hierarchy stay untouched classes.
+     */
+    @Test
+    public void testRecordsForOneOfInterfaceImplementationsOnly() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+        properties.put("useRecords", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/records_parity.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String outputDir = output.getAbsolutePath().replace("\\", "/");
+        String modelDir = outputDir + "/src/gen/java/org/openapitools/model/";
+
+        // The oneOf interface implementation becomes a record; components carry the property annotations.
+        assertFileContains(Paths.get(modelDir + "Item.java"),
+                "public record Item(",
+                "@JsonProperty(required = true, value = \"name\") @NotNull String name",
+                "@ApiModelProperty(required = true, value = \"\")",
+                "@JsonProperty(\"nickname\") JsonNullable<String> nickname");
+        assertFileNotContains(Paths.get(modelDir + "Item.java"),
+                "public class Item", "public void setName", "ItemBuilder");
+
+        // Defaults are applied in the compact canonical constructor.
+        assertFileContains(Paths.get(modelDir + "Item.java"),
+                "public Item {",
+                "count = 10;",
+                "status = StatusEnum.AVAILABLE;",
+                "tags = new ArrayList<>();",
+                "nickname = JsonNullable.<String>undefined();");
+
+        // byte[] properties keep content-based equality; password properties are masked in toString.
+        assertFileContains(Paths.get(modelDir + "Item.java"),
+                "Arrays.equals(this.payload, item.payload)",
+                "Arrays.hashCode(payload)",
+                "sb.append(\"    secret: \").append(\"*\")");
+
+        // An ordinary pojo outside the oneOf hierarchy is left untouched by useRecords: still a class,
+        // still mutable, still carrying its field-initialised defaults. (It is final because useSealed
+        // finalises standalone pojos - that is useSealed's behaviour, not useRecords'.)
+        assertFileContains(Paths.get(modelDir + "Standalone.java"),
+                "public final class Standalone",
+                "public void setCount",
+                "private Integer count = 5;");
+        assertFileNotContains(Paths.get(modelDir + "Standalone.java"), "record Standalone");
+
+        // Models taking part in inheritance stay classes (a record can neither extend nor be extended).
+        assertFileContains(Paths.get(modelDir + "Animal.java"), "public sealed class Animal", "permits Cat");
+        assertFileNotContains(Paths.get(modelDir + "Animal.java"), "record Animal");
+        assertFileContains(Paths.get(modelDir + "Cat.java"), "public final class Cat", "extends Animal");
+        assertFileNotContains(Paths.get(modelDir + "Cat.java"), "record Cat");
+
+        // Models with additionalProperties need the map-backed pojo and stay classes.
+        assertFileContains(Paths.get(modelDir + "FreeForm.java"), "public final class FreeForm");
+        assertFileNotContains(Paths.get(modelDir + "FreeForm.java"), "record FreeForm");
+
+        assertFileContains(Paths.get(outputDir + "/pom.xml"), "<java.version>17</java.version>");
+    }
+
+    /**
+     * {@code useRecords=true} + {@code generateBuilders=true}: since records drop setters, a flat
+     * builder inside the record offers fluent construction. Builder fields carry the pojo field
+     * defaults so an unset property builds to the same value a pojo would have, and JsonNullable
+     * properties are wrapped on the fluent setter.
+     */
+    @Test
+    public void testRecordsBuilderGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+        properties.put("useRecords", "true");
+        properties.put("generateBuilders", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/records_parity.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        assertFileContains(Paths.get(modelDir + "Item.java"),
+                "public static ItemBuilder builder()",
+                "public static class ItemBuilder {",
+                "private Integer count = 10;",
+                "private List<String> tags = new ArrayList<>();",
+                "private JsonNullable<String> nickname = JsonNullable.<String>undefined();",
+                "public ItemBuilder name(String name)",
+                "this.nickname = JsonNullable.<String>of(nickname);",
+                "return new Item(itemType, name, count, status, tags, nickname, payload, secret);");
+    }
+
+    @Test
+    public void testRecordsDoNotDuplicateTheJsonNullableImport() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useOneOfInterfaces", "true");
+        properties.put("useSealed", "true");
+        properties.put("useRecords", "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/records_parity.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        String modelDir = output.getAbsolutePath().replace("\\", "/") + "/src/gen/java/org/openapitools/model/";
+
+        // Item has a JsonNullable component, so it needs the import -- but exactly once. The
+        // record template used to add its own copy on top of the one already contributed through
+        // {{#imports}}, so every record with a nullable component carried a duplicate import.
+        String importLine = "import org.openapitools.jackson.nullable.JsonNullable;";
+        long itemImports = Files.readAllLines(Paths.get(modelDir + "Item.java")).stream()
+                .filter(l -> l.trim().equals(importLine)).count();
+        assertTrue(itemImports == 1L, "Item should import JsonNullable exactly once, was " + itemImports);
+        assertFileContains(Paths.get(modelDir + "Item.java"), "JsonNullable<String> nickname");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*useRecords.*withXml.*")
+    public void useRecordsRejectsWithXml() {
+        codegen.additionalProperties().put(USE_RECORDS, true);
+        codegen.additionalProperties().put("withXml", true);
+        codegen.processOpts();
+    }
+
     @Test
     public void testGenerateJsonNullableListFieldsHelperMethodReferences_issue23251() throws Exception {
         Map<String, Object> properties = new HashMap<>();
