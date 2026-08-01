@@ -3159,8 +3159,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (!ModelUtils.isArraySchema(schema)) {
             m.dataType = getSchemaType(schema);
         }
-        // nullable or any type (which is nullable by default in 3.1 spec)
-        if (ModelUtils.isNullable(schema) || ModelUtils.isAnyType(schema)) {
+        if (!ModelUtils.isAnyType(schema) && Boolean.TRUE.equals(schema.getNullable())) {
             m.isNullable = Boolean.TRUE;
         }
 
