@@ -2727,7 +2727,7 @@ public class ModelUtils {
             to.setExample(from.getExample());
         }
         if (from.getExamples() != null) {
-            to.setExample(from.getExamples());
+            to.setExamples(from.getExamples());
         }
         if (from.getReadOnly() != null) {
             to.setReadOnly(from.getReadOnly());
