@@ -2182,13 +2182,19 @@ public class OpenAPINormalizer {
         normalizeExclusiveMinMax31(schema);
 
         if (schema instanceof JsonSchema &&
-                schema.get$schema() == null &&
-                schema.getTypes() == null && schema.getType() == null) {
+                schema.get$schema() == null && schema.getTypes() == null && schema.getType() == null) {
             // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
             // components:
             //  schemas:
             //    any_type: {}
-            return new Schema();
+            Schema sc = new Schema<>();
+
+            // additional properties set?
+            if (schema.getAdditionalProperties() != null) {
+                sc.setAdditionalProperties(schema.getAdditionalProperties());
+            }
+
+            return sc;
         }
 
         // return schema if nothing in 3.1 spec types to normalize

@@ -2974,12 +2974,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateModelForAnyType(CodegenModel m, Schema schema) {
-        // The 'null' value is allowed when the OAS schema is 'any type'.
-        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        if (Boolean.FALSE.equals(schema.getNullable())) {
-            LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", m.name);
-        }
-        // m.isNullable = true;
         if (ModelUtils.isMapSchema(schema)) {
             // an object or anyType composed schema that has additionalProperties set
             addAdditionPropertiesToCodeGenModel(m, schema);
@@ -3165,7 +3159,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (!ModelUtils.isArraySchema(schema)) {
             m.dataType = getSchemaType(schema);
         }
-        if (!ModelUtils.isAnyType(schema) && Boolean.TRUE.equals(schema.getNullable())) {
+        if (ModelUtils.isNullable(schema)) {
             m.isNullable = Boolean.TRUE;
         }
 
@@ -3714,12 +3708,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
-        // The 'null' value is allowed when the OAS schema is 'any type'.
-        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        if (Boolean.FALSE.equals(p.getNullable())) {
-            LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
-        }
-
         property.isNullable = property.isNullable ||
                 !(ModelUtils.isComposedSchema(p)) ||
                 p.getAllOf() == null ||
