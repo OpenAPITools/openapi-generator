@@ -170,7 +170,7 @@ open class UserAPI {
      */
     open class func deleteUserWithRequestBuilder(username: String) -> RequestBuilder<Void> {
         var localVariablePath = "/user/{username}"
-        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
+        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username.encodeToJSON()))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
@@ -216,7 +216,7 @@ open class UserAPI {
      */
     open class func getUserByNameWithRequestBuilder(username: String) -> RequestBuilder<User> {
         var localVariablePath = "/user/{username}"
-        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
+        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username.encodeToJSON()))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
@@ -356,7 +356,7 @@ open class UserAPI {
      */
     open class func updateUserWithRequestBuilder(username: String, body: User) -> RequestBuilder<Void> {
         var localVariablePath = "/user/{username}"
-        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
+        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username.encodeToJSON()))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
