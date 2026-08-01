@@ -2582,7 +2582,67 @@ public class ModelUtils {
             Schema result = AnnotationsUtils.clone(schema, openapi31);
             schema.setType(schemaType);
             result.setType(schemaType);
+            restoreTypelessSubSchemas(schema, result,
+                    Collections.newSetFromMap(new IdentityHashMap<>()));
             return result;
+        }
+    }
+
+    /**
+     * Restores the "typeless" nature of sub-schemas after {@link #cloneSchema(Schema, boolean)}.
+     *
+     * <p>{@code AnnotationsUtils.clone} round-trips the schema through JSON. A sub-schema that
+     * declares no {@code type} (e.g. {@code additionalProperties: {description: can be any type}})
+     * is deserialized back as an {@link ObjectSchema} with {@code type: object}, which turns an
+     * "any type" schema into a free-form object. Downstream that flips
+     * {@link #isAnyType(Schema)} to false and {@link #isFreeFormObject(Schema, OpenAPI)} to true,
+     * so the resolved data type silently changes (for typescript: {@code any} becomes
+     * {@code object}).
+     *
+     * <p>The top-level type is already preserved by the caller; this walks the sub-schemas and
+     * clears the type wherever the original did not declare one.
+     *
+     * @param original the schema that was cloned
+     * @param clone    the clone to fix up, structurally identical to {@code original}
+     * @param visited  identity set of already visited original schemas, guards against cycles
+     */
+    private static void restoreTypelessSubSchemas(Schema original, Schema clone, Set<Schema> visited) {
+        if (original == null || clone == null || !visited.add(original)) {
+            return;
+        }
+
+        if (original.getType() == null && clone.getType() != null) {
+            clone.setType(null);
+            if (original.getTypes() == null) {
+                clone.setTypes(null);
+            }
+        }
+
+        if (original.getAdditionalProperties() instanceof Schema
+                && clone.getAdditionalProperties() instanceof Schema) {
+            restoreTypelessSubSchemas((Schema) original.getAdditionalProperties(),
+                    (Schema) clone.getAdditionalProperties(), visited);
+        }
+        restoreTypelessSubSchemas(original.getItems(), clone.getItems(), visited);
+        restoreTypelessSubSchemas(original.getNot(), clone.getNot(), visited);
+
+        if (original.getProperties() != null && clone.getProperties() != null) {
+            Map<String, Schema> cloneProperties = clone.getProperties();
+            ((Map<String, Schema>) original.getProperties()).forEach((name, originalProperty) ->
+                    restoreTypelessSubSchemas(originalProperty, cloneProperties.get(name), visited));
+        }
+
+        restoreTypelessSubSchemas(original.getAllOf(), clone.getAllOf(), visited);
+        restoreTypelessSubSchemas(original.getAnyOf(), clone.getAnyOf(), visited);
+        restoreTypelessSubSchemas(original.getOneOf(), clone.getOneOf(), visited);
+    }
+
+    private static void restoreTypelessSubSchemas(List<Schema> original, List<Schema> clone, Set<Schema> visited) {
+        if (original == null || clone == null || original.size() != clone.size()) {
+            return;
+        }
+        for (int i = 0; i < original.size(); i++) {
+            restoreTypelessSubSchemas(original.get(i), clone.get(i), visited);
         }
     }
 

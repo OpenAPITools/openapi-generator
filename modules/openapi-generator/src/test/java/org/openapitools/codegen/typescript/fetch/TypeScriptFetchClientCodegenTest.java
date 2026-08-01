@@ -94,6 +94,37 @@ public class TypeScriptFetchClientCodegenTest {
     }
 
     @Test
+    public void testAllOfInheritedFreeFormMapStaysAny() throws IOException {
+        // A property whose additionalProperties schema declares no type is "any type". Inheriting
+        // it through allOf must not change that: the allOf composition path clones the inherited
+        // property schemas, and the clone used to come back as a free-form object (`object`).
+        final String specPath = "src/test/resources/3_0/typescript-fetch/allof-inherited-free-form-map.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path base = Paths.get(output + "/models/Base.ts");
+        TestUtils.assertFileContains(base, "requiredLoose: { [key: string]: any; };");
+        TestUtils.assertFileContains(base, "optionalLoose?: { [key: string]: any; };");
+        TestUtils.assertFileContains(base, "realObject?: { [key: string]: object; };");
+
+        // Child inherits all three through allOf -- the types must be identical to Base's
+        Path child = Paths.get(output + "/models/Child.ts");
+        TestUtils.assertFileContains(child, "requiredLoose: { [key: string]: any; };");
+        TestUtils.assertFileContains(child, "optionalLoose?: { [key: string]: any; };");
+        TestUtils.assertFileContains(child, "realObject?: { [key: string]: object; };");
+    }
+
+    @Test
     public void testMergesContentTypeVariantsIntoOneMethod() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
