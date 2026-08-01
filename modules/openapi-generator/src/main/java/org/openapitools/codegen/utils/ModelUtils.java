@@ -2604,10 +2604,14 @@ public class ModelUtils {
      *
      * @param original the schema that was cloned
      * @param clone    the clone to fix up, structurally identical to {@code original}
-     * @param visited  identity set of already visited original schemas, guards against cycles
+     * @param visited  identity set of already visited clone nodes
      */
     private static void restoreTypelessSubSchemas(Schema original, Schema clone, Set<Schema> visited) {
-        if (original == null || clone == null || !visited.add(original)) {
+        // Keyed on the clone, not the original: the parser reuses a single Schema instance across
+        // several places in a spec, while the JSON round-trip gives each of those places its own
+        // clone. Keying on the original would fix up only the first occurrence and silently skip
+        // the rest.
+        if (original == null || clone == null || !visited.add(clone)) {
             return;
         }
 
