@@ -25,6 +25,7 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.callbacks.Callback;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -1256,6 +1257,39 @@ public class InlineModelResolver {
             rewriteSchemaRefs(schema, refReplacements);
         }
 
+        // Rewrite all $refs in the other component containers that can hold a schema. Only
+        // components/schemas used to be visited, so a reusable response, parameter, request body,
+        // header, callback or path item kept naming the schema that was just removed.
+        Components components = openAPI.getComponents();
+        if (components.getResponses() != null) {
+            for (ApiResponse response : components.getResponses().values()) {
+                rewriteApiResponseRefs(response, refReplacements);
+            }
+        }
+        if (components.getParameters() != null) {
+            for (Parameter parameter : components.getParameters().values()) {
+                rewriteParameterRefs(parameter, refReplacements);
+            }
+        }
+        if (components.getRequestBodies() != null) {
+            for (RequestBody requestBody : components.getRequestBodies().values()) {
+                rewriteContentRefs(requestBody.getContent(), refReplacements);
+            }
+        }
+        rewriteHeaderRefs(components.getHeaders(), refReplacements);
+        if (components.getCallbacks() != null) {
+            for (Callback callback : components.getCallbacks().values()) {
+                for (PathItem callbackPathItem : callback.values()) {
+                    rewritePathItemRefs(callbackPathItem, refReplacements);
+                }
+            }
+        }
+        if (components.getPathItems() != null) {
+            for (PathItem componentPathItem : components.getPathItems().values()) {
+                rewritePathItemRefs(componentPathItem, refReplacements);
+            }
+        }
+
         // Rewrite all $refs in paths
         if (openAPI.getPaths() != null) {
             for (PathItem pathItem : openAPI.getPaths().values()) {
@@ -1286,6 +1320,7 @@ public class InlineModelResolver {
                 schema.set$ref(replacement);
             }
         }
+        rewriteDiscriminatorMapping(schema, refReplacements);
         if (schema.getProperties() != null) {
             for (Object prop : schema.getProperties().values()) {
                 rewriteSchemaRefs((Schema) prop, refReplacements);
@@ -1315,6 +1350,111 @@ public class InlineModelResolver {
         if (schema.getAdditionalProperties() instanceof Schema) {
             rewriteSchemaRefs((Schema) schema.getAdditionalProperties(), refReplacements);
         }
+        // Remaining JSON Schema 2020-12 sub-schema containers. A $ref held in any of these is a
+        // reference like any other and must follow the same rewrite.
+        if (schema.getPatternProperties() != null) {
+            for (Object s : schema.getPatternProperties().values()) {
+                rewriteSchemaRefs((Schema) s, refReplacements);
+            }
+        }
+        if (schema.getDependentSchemas() != null) {
+            for (Object s : schema.getDependentSchemas().values()) {
+                rewriteSchemaRefs((Schema) s, refReplacements);
+            }
+        }
+        if (schema.getPrefixItems() != null) {
+            for (Object s : schema.getPrefixItems()) {
+                rewriteSchemaRefs((Schema) s, refReplacements);
+            }
+        }
+        rewriteSchemaRefs(schema.getIf(), refReplacements);
+        rewriteSchemaRefs(schema.getThen(), refReplacements);
+        rewriteSchemaRefs(schema.getElse(), refReplacements);
+        rewriteSchemaRefs(schema.getContains(), refReplacements);
+        rewriteSchemaRefs(schema.getPropertyNames(), refReplacements);
+        rewriteSchemaRefs(schema.getUnevaluatedItems(), refReplacements);
+        rewriteSchemaRefs(schema.getUnevaluatedProperties(), refReplacements);
+        rewriteSchemaRefs(schema.getAdditionalItems(), refReplacements);
+        rewriteSchemaRefs(schema.getContentSchema(), refReplacements);
+    }
+
+    /** Rewrites $refs in every media type of a Content, including the headers of its encodings. */
+    private void rewriteContentRefs(Content content, Map<String, String> refReplacements) {
+        if (content == null) {
+            return;
+        }
+        for (MediaType mediaType : content.values()) {
+            rewriteSchemaRefs(mediaType.getSchema(), refReplacements);
+            if (mediaType.getEncoding() != null) {
+                for (Encoding encoding : mediaType.getEncoding().values()) {
+                    rewriteHeaderRefs(encoding.getHeaders(), refReplacements);
+                }
+            }
+        }
+    }
+
+    /** Rewrites $refs carried by a map of Headers (schema and content forms). */
+    private void rewriteHeaderRefs(Map<String, Header> headers, Map<String, String> refReplacements) {
+        if (headers == null) {
+            return;
+        }
+        for (Header header : headers.values()) {
+            rewriteSchemaRefs(header.getSchema(), refReplacements);
+            rewriteContentRefs(header.getContent(), refReplacements);
+        }
+    }
+
+    /** Rewrites $refs carried by a Parameter (schema and content forms). */
+    private void rewriteParameterRefs(Parameter parameter, Map<String, String> refReplacements) {
+        if (parameter == null) {
+            return;
+        }
+        rewriteSchemaRefs(parameter.getSchema(), refReplacements);
+        rewriteContentRefs(parameter.getContent(), refReplacements);
+    }
+
+    /** Rewrites $refs carried by an ApiResponse (its content and its headers). */
+    private void rewriteApiResponseRefs(ApiResponse response, Map<String, String> refReplacements) {
+        if (response == null) {
+            return;
+        }
+        rewriteContentRefs(response.getContent(), refReplacements);
+        rewriteHeaderRefs(response.getHeaders(), refReplacements);
+    }
+
+    /**
+     * Rewrites the values of a schema's {@code discriminator.mapping} according to the same
+     * replacement map used for {@code $ref}s. A mapping value is a reference to a schema, but it
+     * is not stored in a {@code $ref} field, so it is missed by plain {@code $ref} rewriting; a
+     * mapping left pointing at a deduplicated-away schema names a model that is never generated.
+     * <p>
+     * Per the OpenAPI specification a mapping value is either a full schema reference
+     * ("#/components/schemas/Foo") or a bare schema name ("Foo"). Both forms are rewritten, and
+     * each keeps the form it was written in.
+     */
+    private void rewriteDiscriminatorMapping(Schema schema, Map<String, String> refReplacements) {
+        if (schema.getDiscriminator() == null || schema.getDiscriminator().getMapping() == null) {
+            return;
+        }
+        Map<String, String> mapping = schema.getDiscriminator().getMapping();
+        for (Map.Entry<String, String> entry : mapping.entrySet()) {
+            String value = entry.getValue();
+            if (value == null) {
+                continue;
+            }
+            if (value.indexOf('/') >= 0) {
+                String replacement = refReplacements.get(value);
+                if (replacement != null) {
+                    entry.setValue(replacement);
+                }
+            } else {
+                // bare schema name: match against the full ref, then write the bare name back
+                String replacement = refReplacements.get("#/components/schemas/" + value);
+                if (replacement != null) {
+                    entry.setValue(replacement.substring(replacement.lastIndexOf('/') + 1));
+                }
+            }
+        }
     }
 
     /**
@@ -1328,30 +1468,24 @@ public class InlineModelResolver {
         // Path-level parameters
         if (pathItem.getParameters() != null) {
             for (Parameter p : pathItem.getParameters()) {
-                rewriteSchemaRefs(p.getSchema(), refReplacements);
+                rewriteParameterRefs(p, refReplacements);
             }
         }
         // Operations
         for (Operation operation : pathItem.readOperations()) {
             if (operation.getParameters() != null) {
                 for (Parameter p : operation.getParameters()) {
-                    rewriteSchemaRefs(p.getSchema(), refReplacements);
+                    rewriteParameterRefs(p, refReplacements);
                 }
             }
             RequestBody requestBody = operation.getRequestBody();
-            if (requestBody != null && requestBody.getContent() != null) {
-                for (MediaType mediaType : requestBody.getContent().values()) {
-                    rewriteSchemaRefs(mediaType.getSchema(), refReplacements);
-                }
+            if (requestBody != null) {
+                rewriteContentRefs(requestBody.getContent(), refReplacements);
             }
             ApiResponses responses = operation.getResponses();
             if (responses != null) {
                 for (ApiResponse response : responses.values()) {
-                    if (response.getContent() != null) {
-                        for (MediaType mediaType : response.getContent().values()) {
-                            rewriteSchemaRefs(mediaType.getSchema(), refReplacements);
-                        }
-                    }
+                    rewriteApiResponseRefs(response, refReplacements);
                 }
             }
             if (operation.getCallbacks() != null) {

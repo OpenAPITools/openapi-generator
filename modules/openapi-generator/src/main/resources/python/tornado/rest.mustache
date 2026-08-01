@@ -59,8 +59,18 @@ class RESTClientObject:
             self.proxy_port = 80
             self.proxy_host = configuration.proxy
 
+{{#useIndependentImplicitClients}}
+        self.pool_manager = httpclient.AsyncHTTPClient(force_instance=True)
+{{/useIndependentImplicitClients}}
+{{^useIndependentImplicitClients}}
         self.pool_manager = httpclient.AsyncHTTPClient()
+{{/useIndependentImplicitClients}}
 
+{{#useIndependentImplicitClients}}
+    def close(self) -> None:
+        self.pool_manager.close()
+
+{{/useIndependentImplicitClients}}
     @tornado.gen.coroutine
     def request(
         self,

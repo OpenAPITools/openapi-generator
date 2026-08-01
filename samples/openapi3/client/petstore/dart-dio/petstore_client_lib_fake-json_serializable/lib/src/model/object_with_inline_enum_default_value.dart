@@ -60,13 +60,10 @@ class ObjectWithInlineEnumDefaultValue {
 
 /// Object one attribute enum with default value
 enum ObjectWithInlineEnumDefaultValueAttributeEnum {
-    /// Object one attribute enum with default value
 @JsonValue(r'value_one')
 valueOne(r'value_one'),
-    /// Object one attribute enum with default value
 @JsonValue(r'value_two')
 valueTwo(r'value_two'),
-    /// Object one attribute enum with default value
 @JsonValue(r'unknown_default_open_api')
 unknownDefaultOpenApi(r'unknown_default_open_api');
 

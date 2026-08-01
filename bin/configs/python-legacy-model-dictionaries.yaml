@@ -1,0 +1,14 @@
+generatorName: python
+outputDir: samples/client/others/python-legacy-model-dictionaries
+inputSpec: modules/openapi-generator/src/test/resources/3_0/python/legacy-model-dictionaries.yaml
+templateDir: modules/openapi-generator/src/main/resources/python
+globalProperties:
+  apiTests: "false"
+  modelTests: "false"
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: legacy_model_dict_client
+  compatibleWithPythonLegacy: "true"
+nameMappings:
+  continue: _continue
+  ordinary: renamed

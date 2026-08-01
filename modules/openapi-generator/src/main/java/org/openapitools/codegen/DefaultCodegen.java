@@ -93,6 +93,8 @@ import java.util.stream.Stream;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.DiscriminatorUtils.*;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -855,13 +857,12 @@ public class DefaultCodegen implements CodegenConfig {
 
             // for enum model
             if (cm.isEnum && cm.allowableValues != null) {
-                Map<String, Object> allowableValues = cm.allowableValues;
-                List<Object> values = (List<Object>) allowableValues.get("values");
+                List<Object> values = getEnumValues(cm.allowableValues);
                 List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
                 postProcessEnumVars(enumVars);
                 // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
                 updateEnumVarsWithExtensions(enumVars, cm.getVendorExtensions(), cm.dataType);
-                cm.allowableValues.put("enumVars", enumVars);
+                cm.allowableValues.put(ENUM_VARS, enumVars);
             }
 
             // update codegen property enum with proper naming convention
@@ -991,6 +992,11 @@ public class DefaultCodegen implements CodegenConfig {
     public boolean specVersionGreaterThanOrEqualTo310(OpenAPI openAPI) {
         String originalSpecVersion;
         String xOriginalSwaggerVersion = "x-original-swagger-version";
+
+        if (openAPI == null) {
+            return false;
+        }
+
         if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
             originalSpecVersion = (String) openAPI.getExtensions().get(xOriginalSwaggerVersion);
         } else {
@@ -1026,7 +1032,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (!isQuietMode()) {
             System.out.println("############################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                                      #");
-            System.out.println("# We appreciate your support! Please consider donation to help us maintain this project.   #");
+            System.out.println("# We appreciate your support! Please consider donating to help us maintain this project.   #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                                      #");
             System.out.println("############################################################################################");
         }
@@ -1720,7 +1726,11 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String toEnumName(CodegenProperty property) {
-        return StringUtils.capitalize(property.name) + "Enum";
+        return toEnumName(property.name);
+    }
+
+    public String toEnumName(String propertyName) {
+        return StringUtils.capitalize(propertyName) + "Enum";
     }
 
     /**
@@ -3150,7 +3160,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.isEnum = true;
             // comment out below as allowableValues is not set in post processing model enum
             m.allowableValues = new HashMap<>();
-            m.allowableValues.put("values", schema.getEnum());
+            m.allowableValues.put(ENUM_VALUES, schema.getEnum());
         }
         if (!ModelUtils.isArraySchema(schema)) {
             m.dataType = getSchemaType(schema);
@@ -3283,7 +3293,7 @@ public class DefaultCodegen implements CodegenConfig {
                 return e.getKey();
             }
         }
-        Object values = var.allowableValues.get("values");
+        Object values = var.allowableValues.get(ENUM_VALUES);
         if (!(values instanceof List<?>)) {
             return var.defaultValue;
         }
@@ -3349,7 +3359,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param sc             The Schema that may contain the discriminator
      * @param visitedSchemas An array list of visited schemas
      */
-    private Discriminator recursiveGetDiscriminator(Schema sc, ArrayList<Schema> visitedSchemas) {
+    private DiscriminatorData recursiveGetDiscriminator(Schema sc, ArrayList<Schema> visitedSchemas) {
         return DiscriminatorUtils.recursiveGetDiscriminator(openAPI, this.getLegacyDiscriminatorBehavior(), sc, visitedSchemas);
     }
 
@@ -3394,36 +3404,16 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty df = DiscriminatorUtils.discriminatorFound(openAPI, composedSchemaName, sc, discPropName, new TreeSet<String>());
                 String modelName = ModelUtils.getSimpleRef(ref);
                 if (df == null || !df.isString || !df.required) {
-                    String msgSuffix = "";
-                    if (df == null) {
-                        msgSuffix += discPropName + " is missing from the schema, define it as required and type string";
-                    } else {
-                        if (!df.isString) {
-                            msgSuffix += "invalid type for " + discPropName + ", set it to string";
-                        }
-                        if (!df.required) {
-                            String spacer = "";
-                            if (msgSuffix.length() != 0) {
-                                spacer = ". ";
-                            }
-                            msgSuffix += spacer + "invalid optional definition of " + discPropName + ", include it in required";
-                        }
-                    }
-                    once(LOGGER).warn("'{}' defines discriminator '{}', but the referenced schema '{}' is incorrect. {}",
-                            composedSchemaName, discPropName, modelName, msgSuffix);
+                    once(LOGGER).warn(getDiscriminatorSchemaError(df, discPropName, modelName, composedSchemaName));
                 }
-                MappedModel mm = new MappedModel(modelName, toModelName(modelName), modelName, false);
+                MappedModel mm = new MappedModel(modelName, modelName, modelName, false);
                 descendentSchemas.add(mm);
                 Schema cs = ModelUtils.getSchema(openAPI, modelName);
                 if (cs == null) { // cannot lookup the model based on the name
                     once(LOGGER).error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
                 } else {
-                    Map<String, Object> vendorExtensions = cs.getExtensions();
-                    if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey(X_DISCRIMINATOR_VALUE)) {
-                        String xDiscriminatorValue = (String) vendorExtensions.get(X_DISCRIMINATOR_VALUE);
-                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName), modelName, true);
-                        descendentSchemas.add(mm);
-                    }
+                    discriminatorVendorExtensionValue(cs)
+                            .ifPresent(discriminatorValue -> descendentSchemas.add(new MappedModel(discriminatorValue, modelName, modelName, true)));
                 }
             }
         }
@@ -3473,20 +3463,16 @@ public class DefaultCodegen implements CodegenConfig {
             }
             currentSchemaName = queue.remove(0);
             Schema cs = schemas.get(currentSchemaName);
-            Map<String, Object> vendorExtensions = cs.getExtensions();
-            String mappingName =
-                    Optional.ofNullable(vendorExtensions)
-                            .map(ve -> ve.get(X_DISCRIMINATOR_VALUE))
-                            .map(discriminatorValue -> (String) discriminatorValue)
+            String mappingName = discriminatorVendorExtensionValue(cs)
                             .orElse(currentSchemaName);
-            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), currentSchemaName, !mappingName.equals(currentSchemaName));
+            MappedModel mm = new MappedModel(mappingName, currentSchemaName, currentSchemaName, !mappingName.equals(currentSchemaName));
             descendentSchemas.add(mm);
         }
         return descendentSchemas;
     }
 
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
-        Discriminator sourceDiscriminator = recursiveGetDiscriminator(schema, new ArrayList<Schema>());
+        DiscriminatorData sourceDiscriminator = recursiveGetDiscriminator(schema, new ArrayList<Schema>());
         if (sourceDiscriminator == null) {
             return null;
         }
@@ -3503,7 +3489,25 @@ public class DefaultCodegen implements CodegenConfig {
         // FIXME: there are other ways to define the type of the discriminator property (inline
         //  for example). Handling those scenarios is too complicated for me, I'm leaving it for
         //  the future..
-        discriminator.setPropertyType(getDiscriminatorPropertyType(schema, discriminatorPropertyName));
+        String discriminatorType;
+        Schema discSchema = sourceDiscriminator.getDiscriminatorSchema();
+        if (discSchema != null) {
+            if (ModelUtils.hasRef(discSchema)) {
+                discriminatorType = toModelName(ModelUtils.getSimpleRef(discSchema.get$ref()));
+            } else {
+                // Inline schema (inline enum, uri, ...): resolve via the same pipeline the
+                // concrete model classes use so the oneOf interface getter type matches.
+                // Keep String for typeless const to avoid resolving to Object.
+                if (ModelUtils.getType(discSchema) == null || discSchema.getEnum() == null) {
+                    discriminatorType = getTypeDeclaration(discSchema);
+                } else {
+                    discriminatorType = toEnumName(discriminatorPropertyName);
+                }
+            }
+        } else {
+            discriminatorType = getDiscriminatorPropertyType(schema, discriminatorPropertyName);
+        }
+        discriminator.setPropertyType(discriminatorType);
 
         // check to see if the discriminator property is an enum string
         boolean isEnum = Optional
@@ -3532,7 +3536,8 @@ public class DefaultCodegen implements CodegenConfig {
         boolean legacyUseCase = (this.getLegacyDiscriminatorBehavior() && uniqueDescendants.isEmpty());
         if (!this.getLegacyDiscriminatorBehavior() || legacyUseCase) {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
-            List<MappedModel> otherDescendants = getAllOfDescendants(schemaName);
+            List<MappedModel> otherDescendants =
+                    adjustModelNames(getAllOfDescendants(schemaName));
             for (MappedModel otherDescendant : otherDescendants) {
                 // add only if the mapping names are not the same and the model names are not the same
                 boolean matched = false;
@@ -3551,7 +3556,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
-            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, schema);
+            List<MappedModel> otherDescendants =
+                    adjustModelNames(getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, schema));
             for (MappedModel otherDescendant : otherDescendants) {
                 // add only if the model names are not the same
                 if (uniqueDescendants.stream().map(MappedModel::getModelName).noneMatch(it -> it.equals(otherDescendant.getModelName()))) {
@@ -3918,7 +3924,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (p.getWriteOnly() != null) {
             property.isWriteOnly = p.getWriteOnly();
         }
-        if (p.getNullable() != null) {
+        if (ModelUtils.isNullable(p)) {
+            property.isNullable = true;
+        } else if (p.getNullable() != null) {
             property.isNullable = p.getNullable();
         }
 
@@ -3948,7 +3956,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isInnerEnum = true;
 
             Map<String, Object> allowableValues = new HashMap<>();
-            allowableValues.put("values", _enum);
+            allowableValues.put(ENUM_VALUES, _enum);
             if (!allowableValues.isEmpty()) {
                 property.allowableValues = allowableValues;
             }
@@ -3963,14 +3971,16 @@ public class DefaultCodegen implements CodegenConfig {
             property.isEnumRef = true;
 
             Map<String, Object> allowableValues = new HashMap<>();
-            allowableValues.put("values", _enum);
+            allowableValues.put(ENUM_VALUES, _enum);
             if (allowableValues.size() > 0) {
                 property.allowableValues = allowableValues;
             }
         }
 
         // set isNullable using nullable or x-nullable in the schema
-        if (referencedSchema.getNullable() != null) {
+        if (ModelUtils.isNullable(referencedSchema)) {
+            property.isNullable = true;
+        } else if (referencedSchema.getNullable() != null) {
             property.isNullable = referencedSchema.getNullable();
         } else if (referencedSchema.getExtensions() != null &&
                 referencedSchema.getExtensions().containsKey(X_NULLABLE)) {
@@ -4073,7 +4083,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (original != null) {
             p = original;
             // evaluate common attributes if defined in the top level
-            if (p.getNullable() != null) {
+            if (ModelUtils.isNullable(p)) {
+                property.isNullable = true;
+            } else if (p.getNullable() != null) {
                 property.isNullable = p.getNullable();
             } else if (p.getExtensions() != null && p.getExtensions().containsKey(X_NULLABLE)) {
                 property.isNullable = (Boolean) p.getExtensions().get(X_NULLABLE);
@@ -6706,7 +6718,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Update codegen property's enum by adding "enumVars" (with name and value)
+     * Update codegen property's enum by adding {@value CodegenConstants#ENUM_VARS} (with name and value)
      *
      * @param var list of CodegenProperty
      */
@@ -6722,7 +6734,7 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        List<Object> values = (List<Object>) allowableValues.get("values");
+        List<Object> values = getEnumValues(allowableValues);
         if (values == null) {
             return;
         }
@@ -6742,7 +6754,7 @@ public class DefaultCodegen implements CodegenConfig {
             extensions = referencedSchema.get().getExtensions();
         }
         updateEnumVarsWithExtensions(enumVars, extensions, dataType);
-        allowableValues.put("enumVars", enumVars);
+        allowableValues.put(ENUM_VARS, enumVars);
 
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
         if (var.defaultValue != null) {
@@ -6750,8 +6762,8 @@ public class DefaultCodegen implements CodegenConfig {
 
             String enumName = null;
             for (Map<String, Object> enumVar : enumVars) {
-                if (enumDefaultValue.equals(enumVar.get("value"))) {
-                    enumName = (String) enumVar.get("name");
+                if (enumDefaultValue.equals(enumVar.get(ENUM_VALUE))) {
+                    enumName = (String) enumVar.get(ENUM_NAME);
                     break;
                 }
             }
@@ -6794,9 +6806,9 @@ public class DefaultCodegen implements CodegenConfig {
 
             final String finalEnumName = toEnumVarName(enumName, dataType);
 
-            enumVar.put("name", finalEnumName);
-            enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
-            enumVar.put("isString", isDataTypeString(dataType));
+            enumVar.put(ENUM_NAME, finalEnumName);
+            enumVar.put(ENUM_VALUE, toEnumValue(String.valueOf(value), dataType));
+            enumVar.put(ENUM_IS_STRING, isDataTypeString(dataType));
             // TODO: add isNumeric
             enumVars.add(enumVar);
         }
@@ -6817,9 +6829,9 @@ public class DefaultCodegen implements CodegenConfig {
                     // https://github.com/OpenAPITools/openapi-generator/pull/11013
                     String.valueOf(11184809);
 
-            enumVar.put("name", toEnumVarName(enumName, dataType));
-            enumVar.put("value", toEnumValue(enumValue, dataType));
-            enumVar.put("isString", isDataTypeString(dataType));
+            enumVar.put(ENUM_NAME, toEnumVarName(enumName, dataType));
+            enumVar.put(ENUM_VALUE, toEnumValue(enumValue, dataType));
+            enumVar.put(ENUM_IS_STRING, isDataTypeString(dataType));
             // TODO: add isNumeric
             enumVars.add(enumVar);
         }
@@ -6830,19 +6842,19 @@ public class DefaultCodegen implements CodegenConfig {
     protected void postProcessEnumVars(List<Map<String, Object>> enumVars) {
         Collections.reverse(enumVars);
         enumVars.forEach(v -> {
-            String name = (String) v.get("name");
-            long count = enumVars.stream().filter(v1 -> v1.get("name").equals(name)).count();
+            String name = (String) v.get(ENUM_NAME);
+            long count = enumVars.stream().filter(v1 -> v1.get(ENUM_NAME).equals(name)).count();
             if (count > 1) {
                 String uniqueEnumName = getUniqueEnumName(name, enumVars);
-                LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.get("name"), uniqueEnumName);
-                v.put("name", uniqueEnumName);
+                LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.get(ENUM_NAME), uniqueEnumName);
+                v.put(ENUM_NAME, uniqueEnumName);
             }
         });
         Collections.reverse(enumVars);
     }
 
     private String getUniqueEnumName(String name, List<Map<String, Object>> enumVars) {
-        long count = enumVars.stream().filter(v -> v.get("name").equals(name)).count();
+        long count = enumVars.stream().filter(v -> v.get(ENUM_NAME).equals(name)).count();
         return count > 1
                 ? getUniqueEnumName(name + count, enumVars)
                 : name;
@@ -6857,8 +6869,8 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_VARNAMES, "name", dataType);
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_DESCRIPTIONS, "enumDescription", dataType);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_VARNAMES, ENUM_NAME, dataType);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_DESCRIPTIONS, ENUM_DESCRIPTION, dataType);
         }
     }
 
@@ -6901,7 +6913,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (extensionValue instanceof Map) {
                 Map<String, String> valueMap = (Map<String, String>) extensionValue;
                 for (Map<String, Object> enumVar : enumVars) {
-                    String enumValue = (String) enumVar.get("value");
+                    String enumValue = (String) enumVar.get(ENUM_VALUE);
                     for (Map.Entry<String, String> entry : valueMap.entrySet()) {
                         if (toEnumValue(entry.getKey(), dataType).equals(enumValue)) {
                             enumVar.put(key, enumDataTypeMapping.apply(entry.getValue(), dataType));
@@ -8791,5 +8803,17 @@ public class DefaultCodegen implements CodegenConfig {
                 operation.allParams.add(p);
             }
         }
+    }
+
+    /**
+     * Adjust the model name of the list of {@link MappedModel} to ensure that the names are consistent with the
+     * language specific model name expressed in the {@link CodegenConfig#toModelName(String)} method.
+     * @param mappedModels The {@link MappedModel}
+     * @return The {@link MappedModel} with the modelName adjusted to the language specific model name.
+     */
+    private List<MappedModel> adjustModelNames(List<MappedModel> mappedModels) {
+        return mappedModels.stream()
+                .peek(mappedModel -> mappedModel.setModelName(toModelName(mappedModel.getSchemaName())))
+                .collect(Collectors.toList());
     }
 }

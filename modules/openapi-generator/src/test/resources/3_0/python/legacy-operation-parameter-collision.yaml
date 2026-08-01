@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  title: Legacy operation parameter collision
+  version: 1.0.0
+paths:
+  /legacy-models:
+    get:
+      operationId: listLegacyModels
+      parameters:
+        - name: async_req
+          in: query
+          schema:
+            type: string
+        - name: _preload_content
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Legacy model list
+components:
+  schemas:
+    CollisionModel:
+      type: object
+      properties:
+        async_req:
+          type: string

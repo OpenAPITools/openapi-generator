@@ -446,12 +446,22 @@ conf = petstore_api.Configuration(
         result = cls.__new__(cls)
         memo[id(self)] = result
         for k, v in self.__dict__.items():
-            if k not in ('logger', 'logger_file_handler'):
-                setattr(result, k, copy.deepcopy(v, memo))
-        # shallow copy of loggers
+            if k in ('logger', 'logger_file_handler', 'logger_stream_handler'):
+                continue
+            if k == 'proxy_headers':
+                # MultiDictProxy rejects generic copying, but copy() returns an
+                # independent mutable multidict and preserves duplicate headers:
+                # https://multidict.aio-libs.org/en/stable/multidict/
+                copy_method = getattr(v, 'copy', None)
+                if callable(copy_method):
+                    setattr(result, k, copy_method())
+                    continue
+            setattr(result, k, copy.deepcopy(v, memo))
+
+        # Loggers and their handlers are process-global.
         result.logger = copy.copy(self.logger)
-        # use setter to re-create the file handler (excluded from __dict__ copy)
-        result.logger_file = self.logger_file
+        result.logger_file_handler = self.logger_file_handler
+        result.logger_stream_handler = self.logger_stream_handler
 
         return result
 
@@ -464,32 +474,26 @@ conf = petstore_api.Configuration(
 
     @classmethod
     def set_default(cls, default: Optional[Self]) -> None:
-        """Set default instance of configuration.
+        """Store a copy as the default configuration.
 
-        It stores default configuration, which can be
-        returned by get_default_copy method.
+        Later changes to ``default`` do not affect the stored configuration.
+        ``get_default`` returns the stored object, while ``get_default_copy``
+        returns a copy of it.
 
         :param default: object of Configuration
         """
-        cls._default = default
+        cls._default = copy.deepcopy(default)
 
     @classmethod
     def get_default_copy(cls) -> Self:
-        """Deprecated. Please use `get_default` instead.
-
-        Deprecated. Please use `get_default` instead.
-
-        :return: The configuration object.
-        """
-        return cls.get_default()
+        """Return a copy of the configured default, or a new configuration."""
+        if cls._default is not None:
+            return copy.deepcopy(cls._default)
+        return cls()
 
     @classmethod
     def get_default(cls) -> Self:
-        """Return the default configuration.
-
-        This method returns newly created, based on default constructor,
-        object of Configuration class or returns a copy of default
-        configuration.
+        """Return the shared default configuration, creating it if needed.
 
         :return: The configuration object.
         """
@@ -593,7 +597,8 @@ conf = petstore_api.Configuration(
             self.refresh_api_key_hook(self)
         key = self.api_key.get(identifier, self.api_key.get(alias) if alias is not None else None)
         if key:
-            prefix = self.api_key_prefix.get(identifier)
+            prefix = self.api_key_prefix.get(
+                identifier, self.api_key_prefix.get(alias) if alias is not None else None)
             if prefix:
                 return "%s %s" % (prefix, key)
             else:

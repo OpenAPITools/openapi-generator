@@ -127,6 +127,38 @@ public class ValidateMojo extends AbstractMojo {
    */
   @Parameter(name = "mergedFileInfoVersion", property = "openapi.generator.maven.plugin.mergedFileInfoVersion", defaultValue = "1.0.0")
   private String mergedFileInfoVersion;
+
+  /**
+   * Explicit ordered list of spec files to merge. When set, these files are merged in the given
+   * order instead of scanning inputSpecRootDirectory. Takes precedence over inputSpecRootDirectory.
+   * Use with mergedFileOutputDir (required), mergeMode, and mergeConflictStrategy.
+   */
+  @Parameter(name = "inputSpecFiles", property = "openapi.generator.maven.plugin.inputSpecFiles")
+  private List<String> inputSpecFiles;
+
+  /**
+   * Directory where the merged spec file is written when inputSpecFiles is used.
+   * Required when inputSpecFiles is set.
+   */
+  @Parameter(name = "mergedFileOutputDir", property = "openapi.generator.maven.plugin.mergedFileOutputDir")
+  private File mergedFileOutputDir;
+
+  /**
+   * Strategy when two specs define the same component name or path+method with different
+   * definitions. Accepted values: WARN (default, keep the first definition and log a warning)
+   * or FAIL (abort the build with an error). Only applies when mergeMode is DEEP.
+   */
+  @Parameter(name = "mergeConflictStrategy", property = "openapi.generator.maven.plugin.mergeConflictStrategy", defaultValue = "WARN")
+  private String mergeConflictStrategy;
+
+  /**
+   * How multiple spec files are merged. Accepted values: REF (default, original $ref-based
+   * shallow merge, backward-compatible) or DEEP (full inline merge with component
+   * deduplication and conflict detection).
+   */
+  @Parameter(name = "mergeMode", property = "openapi.generator.maven.plugin.mergeMode", defaultValue = "REF")
+  private String mergeMode;
+
   /**
    * The path to the collapsed single-file representation of the OpenAPI spec.
    */
@@ -183,10 +215,11 @@ public class ValidateMojo extends AbstractMojo {
       inputSpec = inputSpec[0].split("\\s*,\\s*");
     }
 
-    mergeInDirectory().ifPresent(mergedSpec -> {
+    Optional<String> mergedSpecOpt = mergeInDirectory();
+    if (mergedSpecOpt.isPresent()) {
       inputSpec = new String[1];
-      inputSpec[0] = mergedSpec;
-    });
+      inputSpec[0] = mergedSpecOpt.get();
+    }
 
     try {
       for (String oneInputSpec : inputSpec) {
@@ -230,9 +263,9 @@ public class ValidateMojo extends AbstractMojo {
   private void validateInputSpecInput() throws MojoExecutionException {
     boolean isInputSpecEmpty = (inputSpec == null || inputSpec.length == 0 || isBlank(inputSpec[0]));
 
-    if (isInputSpecEmpty && isBlank(inputSpecRootDirectory)) {
-      LOGGER.error("inputSpec or inputSpecRootDirectory must be specified");
-      throw new MojoExecutionException("inputSpec or inputSpecRootDirectory must be specified");
+    if (isInputSpecEmpty && isBlank(inputSpecRootDirectory) && (inputSpecFiles == null || inputSpecFiles.isEmpty())) {
+      LOGGER.error("inputSpec, inputSpecRootDirectory, or inputSpecFiles must be specified");
+      throw new MojoExecutionException("inputSpec, inputSpecRootDirectory, or inputSpecFiles must be specified");
     }
   }
 
@@ -244,14 +277,67 @@ public class ValidateMojo extends AbstractMojo {
     return false;
   }
 
-  private Optional<String> mergeInDirectory() {
+  private Optional<String> mergeInDirectory() throws MojoExecutionException {
+    // Explicit file list takes precedence
+    if (inputSpecFiles != null && !inputSpecFiles.isEmpty()) {
+      if (mergedFileOutputDir == null) {
+        throw new MojoExecutionException("mergedFileOutputDir must be set when inputSpecFiles is used");
+      }
+      MergedSpecBuilder.MergeMode resolvedMergeMode;
+      try {
+        resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(Locale.ROOT));
+      } catch (IllegalArgumentException e) {
+        throw new MojoExecutionException("Invalid mergeMode value '" + mergeMode
+            + "'. Valid values are: REF, DEEP");
+      }
+
+      MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecFiles, mergedFileOutputDir.getAbsolutePath(),
+          mergedFileName, mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
+          .withMergeMode(resolvedMergeMode);
+
+      if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+        try {
+          builder.withConflictStrategy(
+              MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(Locale.ROOT)));
+        } catch (IllegalArgumentException e) {
+          throw new MojoExecutionException("Invalid mergeConflictStrategy value '" + mergeConflictStrategy
+              + "'. Valid values are: WARN, FAIL");
+        }
+      }
+
+      String mergedSpec = builder.buildMergedSpec();
+      LOGGER.info("Merged input spec from explicit file list: {}", mergedSpec);
+      return Optional.of(mergedSpec);
+    }
+
+    // Directory scan mode
     Optional<String> mergedSpec = Optional.empty();
     if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
       inputSpecRootDirectory = replaceBackslashesToSlashes(inputSpecRootDirectory);
 
-      mergedSpec = Optional.of(new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
+      MergedSpecBuilder.MergeMode resolvedMergeMode;
+      try {
+        resolvedMergeMode = MergedSpecBuilder.MergeMode.valueOf(mergeMode.toUpperCase(Locale.ROOT));
+      } catch (IllegalArgumentException e) {
+        throw new MojoExecutionException("Invalid mergeMode value '" + mergeMode
+            + "'. Valid values are: REF, DEEP");
+      }
+
+      MergedSpecBuilder builder = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
           mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
-          .buildMergedSpec());
+          .withMergeMode(resolvedMergeMode);
+
+      if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+        try {
+          builder.withConflictStrategy(
+              MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.toUpperCase(Locale.ROOT)));
+        } catch (IllegalArgumentException e) {
+          throw new MojoExecutionException("Invalid mergeConflictStrategy value '" + mergeConflictStrategy
+              + "'. Valid values are: WARN, FAIL");
+        }
+      }
+
+      mergedSpec = Optional.of(builder.buildMergedSpec());
       LOGGER.info("Merge input spec would be used - {}", mergedSpec.get());
     }
     return mergedSpec;

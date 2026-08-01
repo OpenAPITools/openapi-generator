@@ -389,7 +389,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
                 if (isLanguageGenericType(operation.returnType)) {
                     // Extract generic type and add to imports if it's not a primitive
                     String genericType = extractGenericType(operation.returnType);
-                    if (needToImport(operation.returnType) && genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
+                    if (needToImport(genericType) && genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
                         allImports.add(genericType);
                     }
                 } else if (needToImport(operation.returnType)) {

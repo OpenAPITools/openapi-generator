@@ -23,7 +23,7 @@ import javax.validation.Valid;
   @JsonSubTypes.Type(value = DogRequest.class, name = "DOG"),
 })
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public interface PetRequest extends Serializable {
     PetType getPetType();
 }

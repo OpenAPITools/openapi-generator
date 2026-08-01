@@ -26,7 +26,8 @@ use mime::Mime;
 use std::io::Cursor;
 use multipart::client::lazy::Multipart;
 use hyper::header::HeaderMap;
-use mime_multipart::{Node, Part, write_multipart};
+use log::warn;
+use mime_multipart::{read_multipart_body, Node, Part, write_multipart};
 
 use crate::models;
 use crate::header;
@@ -644,7 +645,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
             multipart.add_stream("string_field",  string_field_cursor,  None as Option<&str>, Some(string_field_mime));
 
-
             let optional_string_field_str = match serde_json::to_string(&param_optional_string_field) {
                 Ok(str) => str,
                 Err(e) => return Err(ApiError(format!("Unable to serialize optional_string_field to string: {e}"))),
@@ -656,7 +656,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
             multipart.add_stream("optional_string_field",  optional_string_field_cursor,  None as Option<&str>, Some(optional_string_field_mime));
 
-
             let object_field_str = match serde_json::to_string(&param_object_field) {
                 Ok(str) => str,
                 Err(e) => return Err(ApiError(format!("Unable to serialize object_field to string: {e}"))),
@@ -667,8 +666,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
             let object_field_cursor = Cursor::new(object_field_vec);
 
             multipart.add_stream("object_field",  object_field_cursor,  None as Option<&str>, Some(object_field_mime));
-
-
 
             let binary_field_vec = param_binary_field.to_vec();
 
@@ -707,7 +704,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {multipart_header} - {e}")))
         });
-
 
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {

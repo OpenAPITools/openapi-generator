@@ -184,11 +184,11 @@
     {{/openApiNullable}}
   </dependencies>
   <properties>
-    <java.version>1.8</java.version>
+    <java.version>{{#useSealed}}17{{/useSealed}}{{^useSealed}}1.8{{/useSealed}}</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jackson-version>2.19.2</jackson-version>
+    <jackson-version>2.21.5</jackson-version>
     <junit-version>5.14.4</junit-version>
     <joda-version>2.10.13</joda-version>
 {{#useJakartaEe}}
@@ -212,7 +212,7 @@
     <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
 {{/useJakartaEe}}
 {{#openApiNullable}}
-    <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
+    <jackson-databind-nullable-version>0.2.11</jackson-databind-nullable-version>
 {{/openApiNullable}}
 {{#useSwaggerV3Annotations}}
     <io.swagger.v3.annotations.version>2.2.21</io.swagger.v3.annotations.version>

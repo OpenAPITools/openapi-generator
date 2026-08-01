@@ -67,7 +67,9 @@ class FakeBigDecimalMap200Response {
       }());
 
       return FakeBigDecimalMap200Response(
-        someId: num.parse('${json[r'someId']}'),
+        someId: json[r'someId'] == null
+            ? null
+            : num.parse('${json[r'someId']}'),
         someMap: mapCastOfType<String, num>(json, r'someMap') ?? const {},
       );
     }

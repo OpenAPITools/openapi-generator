@@ -127,6 +127,108 @@ public class GoServerCodegenTest {
                 "nickname diverged from operationId (FooGet_1 present in api_default_service.go)");
     }
 
+    @Test
+    public void verifyRequiredZeroValueAllowed() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output)
+                .setInputSpec("src/test/resources/3_0/go-server/required-zero-value.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/go/model_test_object.go"));
+        TestUtils.assertFileContains(Paths.get(output + "/go/model_test_object.go"),
+                "func (o *TestObject) UnmarshalJSON(data []byte) (err error) {");
+        TestUtils.assertFileContains(Paths.get(output + "/go/model_test_object.go"),
+                "var decoded TestObject");
+        TestUtils.assertFileContains(Paths.get(output + "/go/model_test_object.go"),
+                "requiredProperties := []string{");
+        TestUtils.assertFileContains(Paths.get(output + "/go/model_test_object.go"),
+                "allowedJsonKeys := map[string]struct{}{");
+        TestUtils.assertFileContains(Paths.get(output + "/go/model_test_object.go"),
+                "return fmt.Errorf(\"json: unknown field %q\", key)");
+        TestUtils.assertFileContains(Paths.get(output + "/go/model_test_object.go"),
+                "json.Unmarshal(value, &decoded.N)");
+        TestUtils.assertFileContains(Paths.get(output + "/go/model_test_object.go"),
+                "json.Unmarshal(value, &decoded.Name)");
+        TestUtils.assertFileContains(Paths.get(output + "/go/model_test_object.go"),
+                "return &RequiredError{Field: requiredProperty}");
+        TestUtils.assertFileContains(Paths.get(output + "/go/model_test_object.go"),
+                "if string(value) == \"null\" && !requiredNullableProperties[requiredProperty] {");
+        TestUtils.assertFileNotContains(Paths.get(output + "/go/model_test_object.go"),
+                "IsZeroValue");
+
+        TestUtils.assertFileExists(Paths.get(output + "/go/api_default.go"));
+        TestUtils.assertFileContains(Paths.get(output + "/go/api_default.go"),
+                "var requiredErr *RequiredError");
+    }
+
+    @Test
+    public void verifyOneOfInlineRequiredZeroValueAllowed() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output)
+                .setInputSpec("src/test/resources/3_0/go-server/oneof-inline-required.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        java.nio.file.Path modelPath = Paths.get(output + "/go/model_item_request.go");
+        TestUtils.assertFileExists(modelPath);
+        TestUtils.assertFileContains(modelPath,
+                "func (o *ItemRequest) UnmarshalJSON(data []byte) (err error) {");
+        TestUtils.assertFileContains(modelPath,
+                "\"quantity\",");
+        TestUtils.assertFileNotContains(modelPath,
+                "\"quantity\": obj.Quantity,");
+    }
+
+    @Test
+    public void verifyOrderEmbedsAllOfParent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output)
+                .setInputSpec("src/test/resources/3_0/go-server/petstore_with_test_endpoint.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        java.nio.file.Path modelPath = Paths.get(output + "/go/model_order.go");
+        TestUtils.assertFileExists(modelPath);
+        TestUtils.assertFileContains(modelPath, "SpecialInfo");
+        TestUtils.assertFileContains(modelPath, "\"requireTest\",");
+        TestUtils.assertFileContains(modelPath, "json.Unmarshal(value, &decoded.PetId)");
+        TestUtils.assertFileContains(modelPath, "json.Unmarshal(value, &decoded.RequireTest)");
+    }
+
+    @Test
+    public void verifyOrderUnmarshalJSONHandlesInheritedAllOfRequiredFields() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output)
+                .setInputSpec("src/test/resources/3_0/go-server/petstore_with_test_endpoint.yaml")
+                .addAdditionalProperty("router", "chi");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        java.nio.file.Path modelPath = Paths.get(output + "/go/model_order.go");
+        TestUtils.assertFileExists(modelPath);
+        TestUtils.assertFileContains(modelPath, "\"comment\",");
+        TestUtils.assertFileContains(modelPath, "\"requireTest\",");
+        TestUtils.assertFileContains(modelPath, "json.Unmarshal(value, &decoded.Comment)");
+        TestUtils.assertFileContains(modelPath, "json.Unmarshal(value, &decoded.RequireTest)");
+    }
+
     private static CodegenConfigurator createDefaultCodegenConfigurator(File output) {
         return new CodegenConfigurator()
                 .setGeneratorName("go-server")
@@ -149,13 +251,16 @@ public class GoServerCodegenTest {
         files.forEach(File::deleteOnExit);
 
         // AssertThingRequired must not reference the readOnly "id" field, so a
-        // request body that legitimately omits it is accepted. The non-readOnly
-        // required "name" field must still be enforced.
+        // request body that legitimately omits it is accepted.
+        // Primitive non-readOnly required fields are validated in UnmarshalJSON, not here.
         java.nio.file.Path modelPath = Paths.get(output + "/go/model_thing.go");
         TestUtils.assertFileExists(modelPath);
         TestUtils.assertFileContains(modelPath,
                 "func AssertThingRequired(obj Thing) error {");
         TestUtils.assertFileContains(modelPath,
+                "Primitive required fields are validated for JSON request bodies in UnmarshalJSON");
+        // name is a primitive string, validated by UnmarshalJSON — excluded from AssertRequired
+        TestUtils.assertFileNotContains(modelPath,
                 "\"name\": obj.Name,");
         // readOnly "id" must be skipped
         TestUtils.assertFileNotContains(modelPath,

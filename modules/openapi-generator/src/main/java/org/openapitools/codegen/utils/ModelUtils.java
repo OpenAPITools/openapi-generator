@@ -23,6 +23,7 @@ import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
@@ -1297,6 +1298,39 @@ public class ModelUtils {
     }
 
     /**
+     * Return the list of all schemas in the entire OpenAPI document, including inline schemas
+     * defined in path operations (request bodies, responses, parameters, headers, callbacks)
+     * and schemas under components/schemas. Results are deduplicated by identity.
+     * This is a superset of {@link #getAllSchemas(OpenAPI)}.
+     *
+     * @param openAPI specification
+     * @return schemas a deduplicated list of all schemas in the document
+     */
+    public static List<Schema> getAllSchemasInDocument(OpenAPI openAPI) {
+        List<Schema> allSchemas = new ArrayList<Schema>();
+        Set<Schema> seen = Collections.newSetFromMap(new IdentityHashMap<>());
+
+        // Visit schemas reachable from paths (inline + $ref targets)
+        visitOpenAPI(openAPI, (s, mimeType) -> {
+            if (seen.add(s)) {
+                allSchemas.add(s);
+            }
+        });
+
+        // Also visit components/schemas entries not reachable from any path
+        List<String> refSchemas = new ArrayList<String>();
+        getSchemas(openAPI).forEach((key, schema) -> {
+            visitSchema(openAPI, schema, null, refSchemas, (s, mimeType) -> {
+                if (seen.add(s)) {
+                    allSchemas.add(s);
+                }
+            });
+        });
+
+        return allSchemas;
+    }
+
+    /**
      * If a RequestBody contains a reference to another RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
      *
      * @param openAPI     specification being checked
@@ -1948,8 +1982,9 @@ public class ModelUtils {
      * returns false (because the nullable attribute is defined in the referenced schema).
      * <p>
      * The 'nullable' attribute was introduced in OAS 3.0.
-     * The 'nullable' attribute is deprecated in OAS 3.1. In a OAS 3.1 document, the preferred way
-     * to specify nullable properties is to use the 'null' type.
+     * The 'nullable' attribute was removed in OAS 3.1 and is not a valid keyword there; it is ignored,
+     * so this method returns false for it in a 3.1 document. In an OAS 3.1 document, the way to specify
+     * nullable properties is to use the 'null' type (e.g. type: ['string', 'null']).
      *
      * @param schema the OAS schema.
      * @return true if the schema is nullable.
@@ -1965,6 +2000,9 @@ public class ModelUtils {
 
         if (schema.getExtensions() != null && schema.getExtensions().get(X_NULLABLE) != null) {
             return Boolean.parseBoolean(schema.getExtensions().get(X_NULLABLE).toString());
+        }
+        if (schema.getTypes() != null && schema.getTypes().contains("null")) {
+            return true;
         }
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
         if (isComposedSchema(schema)) {
@@ -2393,6 +2431,16 @@ public class ModelUtils {
     }
 
     /**
+     * Returns true if the schema contains a $ref
+     *
+     * @param schema the schema
+     * @return true if $ref is set
+     */
+    public static boolean hasRef(Schema schema) {
+        return schema != null && schema.get$ref() != null;
+    }
+
+    /**
      * Returns schema type.
      * For 3.1 spec, return the first one.
      *
@@ -2471,6 +2519,13 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Creates a deep copy of a schema.
+     *
+     * @param schema    schema to clone
+     * @param openapi31 true when cloning an OpenAPI 3.1 schema
+     * @return a deep copy of the schema
+     */
     public static Schema cloneSchema(Schema schema, boolean openapi31) {
         if (openapi31) {
             return AnnotationsUtils.clone(schema, openapi31);
@@ -2503,6 +2558,12 @@ public class ModelUtils {
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);
+            // The parser may reuse a $ref schema instance in multiple locations. Clone the
+            // remaining $ref before applying parent metadata so those locations stay isolated.
+            if (subSchema.get$ref() != null) {
+                subSchema = cloneSchema(subSchema,
+                        openAPI != null && SpecVersion.V31.equals(openAPI.getSpecVersion()));
+            }
             // Preserve parent-level docs when nullable anyOf/oneOf collapses to a single child schema.
             if (subSchema.getDescription() == null && schema.getDescription() != null) {
                 subSchema.setDescription(schema.getDescription());

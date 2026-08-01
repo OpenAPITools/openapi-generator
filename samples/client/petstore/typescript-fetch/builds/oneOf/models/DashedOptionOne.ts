@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface DashedOptionOne {
     /**
      * 
-     * @type {DashedOptionOneDiscriminatorFieldEnum}
-     * @memberof DashedOptionOne
      */
     discriminatorField: DashedOptionOneDiscriminatorFieldEnum;
     /**
      * 
-     * @type {string}
-     * @memberof DashedOptionOne
      */
     someProperty: string;
 }

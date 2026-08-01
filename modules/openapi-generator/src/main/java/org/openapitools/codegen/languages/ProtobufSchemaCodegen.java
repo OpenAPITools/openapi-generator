@@ -47,6 +47,8 @@ import java.util.stream.Collectors;
 
 import com.google.common.base.CaseFormat;
 
+import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.EnumUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 /**
@@ -565,18 +567,18 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * @param prefix          added prefix
      */
     public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix) {
-        if (allowableValues.containsKey("enumVars")) {
-            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+        if (hasEnumVars(allowableValues)) {
+            List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
             prefix = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, prefix);
             for (Map<String, Object> value : enumVars) {
-                String name = (String) value.get("name");
-                value.put("name", useSimplifiedEnumNames ? name : prefix + "_" + name);
-                value.put("value", useSimplifiedEnumNames ? name : "\"" + prefix + "_" + name + "\"");
+                String name = (String) value.get(ENUM_NAME);
+                value.put(ENUM_NAME, useSimplifiedEnumNames ? name : prefix + "_" + name);
+                value.put(ENUM_VALUE, useSimplifiedEnumNames ? name : "\"" + prefix + "_" + name + "\"");
             }
         }
 
-        if (allowableValues.containsKey("values")) {
-            List<Object> values = (List<Object>) allowableValues.get("values");
+        if (hasEnumValues(allowableValues)) {
+            List<Object> values = getEnumValues(allowableValues);
             for (Object value : values) {
                 value = useSimplifiedEnumNames ? value : prefix + "_" + value;
             }
@@ -593,27 +595,27 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         final String UNSPECIFIED = "UNSPECIFIED";
 
         if (startEnumsWithUnspecified) {
-            if (allowableValues.containsKey("enumVars")) {
-                List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+            if (hasEnumVars(allowableValues)) {
+                List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
                 boolean unspecifiedPresent = enumVars.stream()
                         .anyMatch(e -> {
-                            return UNSPECIFIED.equals(e.get("name"));
+                            return UNSPECIFIED.equals(e.get(ENUM_NAME));
                         });
                 if (!unspecifiedPresent) {
                     HashMap<String, Object> unspecifiedEnum = new HashMap<String, Object>();
-                    unspecifiedEnum.put("name", UNSPECIFIED);
-                    unspecifiedEnum.put("isString", "false");
-                    unspecifiedEnum.put("value", "\"" + UNSPECIFIED + "\"");
+                    unspecifiedEnum.put(ENUM_NAME, UNSPECIFIED);
+                    unspecifiedEnum.put(ENUM_IS_STRING, "false");
+                    unspecifiedEnum.put(ENUM_VALUE, "\"" + UNSPECIFIED + "\"");
                     enumVars.add(0, unspecifiedEnum);
                 }
             }
 
-            if (allowableValues.containsKey("values")) {
-                List<String> values = (List<String>) allowableValues.get("values");
+            if (hasEnumValues(allowableValues)) {
+                List<String> values = getEnumValuesAsString(allowableValues);
                 if (!values.contains(UNSPECIFIED)) {
                     List<String> modifiableValues = new ArrayList<>(values);
                     modifiableValues.add(0, UNSPECIFIED);
-                    allowableValues.put("values", modifiableValues);
+                    allowableValues.put(ENUM_VALUES, modifiableValues);
                 }
             }
         }
@@ -701,8 +703,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 Map<String, Object> allowableValues = cm.getAllowableValues();
                 addUnspecifiedToAllowableValues(allowableValues);
                 addEnumValuesPrefix(allowableValues, cm.getClassname());
-                if (allowableValues.containsKey("enumVars")) {
-                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+                if (hasEnumVars(allowableValues)) {
+                    List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
                     addEnumIndexes(enumVars);
                 }
             }
@@ -757,8 +759,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     addUnspecifiedToAllowableValues(enumProperty.allowableValues);
                     addEnumValuesPrefix(enumProperty.allowableValues, enumProperty.getEnumName());
 
-                    if (enumProperty.allowableValues.containsKey("enumVars")) {
-                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.allowableValues.get("enumVars");
+                    if (hasEnumVars(enumProperty.allowableValues)) {
+                        List<Map<String, Object>> enumVars = getEnumVars(enumProperty.allowableValues);
                         addEnumIndexes(enumVars);
                     }
                     

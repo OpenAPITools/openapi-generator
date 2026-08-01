@@ -18,7 +18,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Schema(description="Model for testing model with \"_class\" property")
 @JsonTypeName("ClassModel")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ClassModel  implements Serializable {
   private String propertyClass;
 

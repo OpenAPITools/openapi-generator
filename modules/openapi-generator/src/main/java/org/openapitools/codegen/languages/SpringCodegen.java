@@ -1028,6 +1028,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                 handleImplicitHeaders(operation);
                 normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_OPERATION_EXTRA_ANNOTATION.getName());
                 normalizeOperationParameterVendorExtensions(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
+
+                if (isLibrary(SPRING_HTTP_INTERFACE) || isLibrary(SPRING_BOOT)) {
+                    if (operation.isArray && "string".equalsIgnoreCase(operation.returnBaseType)) {
+                        operation.vendorExtensions.put(VendorExtension.X_REACTIVE_RETURN_EXCEPT_LIST_OF_STRING.getName(), true);
+                    }
+                }
             }
             // The tag for the controller is the first tag of the first operation
             final CodegenOperation firstOperation = ops.get(0);

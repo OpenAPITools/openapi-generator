@@ -74,7 +74,7 @@ internal object CodeSerializer : KSerializer<Code> {
 
     override fun deserialize(decoder: Decoder): Code {
         val value = decoder.decodeSerializableValue(kotlin.Int.serializer())
-        return Code.values().firstOrNull { it.value == value }
+        return Code.entries.firstOrNull { it.value == value }
             ?: throw IllegalArgumentException("Unknown enum value: $value")
     }
 

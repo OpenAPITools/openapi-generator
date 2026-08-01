@@ -17,6 +17,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       MergePatchJsonGetResponse,
                       MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
+                      MultipleResponseContentTypesResponse,
                       OneOfGetResponse,
                       OverrideServerGetResponse,
                       ParamgetGetResponse,
@@ -252,6 +253,14 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
+        Some("MultipleResponseContentTypes") => {
+            let result = rt.block_on(client.multiple_response_content_types(
+                  ???
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        */
         Some("OneOfGet") => {
             let result = rt.block_on(client.one_of_get(
             ));

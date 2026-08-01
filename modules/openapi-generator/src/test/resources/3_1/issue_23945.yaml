@@ -1,0 +1,22 @@
+openapi: 3.1.1
+info:
+  title: Repro
+  version: 1.0.0
+components:
+  schemas:
+    NullableMaps:
+      type: object
+      properties:
+        stringMap:
+          type: [object, "null"]
+          additionalProperties:
+            type: "null"
+        errorsByKey:
+          type: [object, "null"]
+          additionalProperties:
+            type: [array, "null"]
+            items:
+              type: object
+              properties:
+                code:
+                  type: string

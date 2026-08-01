@@ -35,31 +35,31 @@ data class Pet(
     @param:JsonProperty("name")
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
-    @ApiModelProperty(example = "null", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @param:JsonProperty("photoUrls")
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @field:Valid
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("category")
     @get:JsonProperty("category") val category: Category? = null,
 
     @field:Valid
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("tags")
     @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
-    @ApiModelProperty(example = "null", value = "pet status in the store")
+    @ApiModelProperty(value = "pet status in the store")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("status")

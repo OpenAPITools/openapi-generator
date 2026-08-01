@@ -15,21 +15,21 @@ import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
  * This class holds data to add to `oneOf` members. Let's consider this example:
  * <p>
  * Foo:
- * properties:
- * x:
- * oneOf:
- * - $ref: "#/components/schemas/One
- * - $ref: "#/components/schemas/Two
- * y:
- * type: string
+ *   properties:
+ *     x:
+ *       oneOf:
+ *         - $ref: "#/components/schemas/One"
+ *         - $ref: "#/components/schemas/Two"
+ *     y:
+ *       type: string
  * One:
- * properties:
- * z:
- * type: string
+ *   properties:
+ *     z:
+ *       type: string
  * Two:
- * properties:
- * a:
- * type: string
+ *   properties:
+ *     a:
+ *       type: string
  * <p>
  * In codegens that use this mechanism, `Foo` will become an interface and `One` will
  * become its implementing class. This class carries all data necessary to properly modify
@@ -99,7 +99,7 @@ public class OneOfImplementorAdditionalData {
      * @param cc                  CodegenConfig running this operation
      * @param implcm              the implementing model
      * @param implImports         imports of the implementing model
-     * @param addInterfaceImports whether or not to add the interface model as import (will vary by language)
+     * @param addInterfaceImports whether to add the interface model as import (will vary by language)
      */
     @SuppressWarnings("unchecked")
     public void addToImplementor(CodegenConfig cc, CodegenModel implcm, List<Map<String, String>> implImports, boolean addInterfaceImports) {

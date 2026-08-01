@@ -232,6 +232,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OuterEnumTest? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             OuterEnumTest? result = rawValue == null
@@ -252,7 +255,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumTest? outerEnumTest, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(outerEnumTest.HasValue ? OuterEnumTestValueConverter.ToJsonValue(outerEnumTest.Value).ToString() : "null");
+            if (outerEnumTest.HasValue)
+                writer.WriteStringValue(OuterEnumTestValueConverter.ToJsonValue(outerEnumTest.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

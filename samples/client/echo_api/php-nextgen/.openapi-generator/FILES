@@ -34,6 +34,7 @@ src/ApiException.php
 src/Configuration.php
 src/FormDataProcessor.php
 src/HeaderSelector.php
+src/Model/AnyOfInterface.php
 src/Model/Bird.php
 src/Model/Category.php
 src/Model/DataQuery.php

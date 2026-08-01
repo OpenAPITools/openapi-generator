@@ -94,6 +94,35 @@ public class TypeScriptFetchClientCodegenTest {
     }
 
     @Test
+    public void testDeprecatedParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        // bundle parameters into a request interface so per-parameter JSDoc is emitted
+        properties.put("useSingleRequestParameter", true);
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/typescript/deprecated-parameter.yaml")
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // the deprecated `name` query parameter must carry an @deprecated JSDoc tag in the
+        // generated request-parameter interface
+        Path file = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(file, "* @deprecated");
+
+        // only the single deprecated parameter is tagged (the operation is not deprecated)
+        String content = Files.readString(file);
+        Assert.assertEquals(TestUtils.countOccurrences(content, "@deprecated"), 1);
+    }
+
+    @Test
     public void testWithoutSnapshotVersion() {
         OpenAPI api = TestUtils.createOpenAPI();
         TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
@@ -127,6 +156,18 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "original");
         codegen.processOpts();
         Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
+    }
+    
+    @Test
+    public void toVarNameWithAtSign() {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("@id"), "atId");
+
+        codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "original");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("@id"), "at_id");
     }
 
     @Test
@@ -665,6 +706,54 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(modelPath, "json['nullable_property'] === undefined ? undefined : json['nullable_property'] === null ? null :");
         // Required non-nullable field: still uses undefined path
         TestUtils.assertFileNotContains(modelPath, "json['required_property'] === undefined ? undefined : json['required_property'] === null ? null :");
+    }
+
+    @Test(description = "Required nullable bodies should reject undefined but accept null (fix #23493)")
+    public void testRequiredNullableBodyRejectsOnlyUndefined() throws Exception {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/issue_23493.yaml"
+        );
+
+        Path apiPath = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(apiPath,
+                "if (requestParameters['body'] === undefined)",
+                "Required parameter \"body\" was undefined when calling nullableBody().",
+                "body: boolean | null;",
+                "body: requestParameters['body'] as any");
+        TestUtils.assertFileContains(apiPath,
+                "if (requestParameters['body'] == null)",
+                "Required parameter \"body\" was null or undefined when calling nonNullableBody().");
+        TestUtils.assertFileContains(apiPath,
+                "if (requestParameters['requiredNullableQuery'] == null)",
+                "Required parameter \"requiredNullableQuery\" was null or undefined when calling nullableBody().");
+    }
+
+    @Test(description = "Verify Omit uses the camelCase property name instead of the baseName for readOnly fields")
+    public void testIssue23380_OmitUsesCorrectPropertyName() throws Exception {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/issue_23380.yaml"
+        );
+
+        Path modelPath = Paths.get(output + "/models/Mission.ts");
+        TestUtils.assertFileExists(modelPath);
+        // Ensure Omit uses camelCase names like 'singleCar' and 'taskName' instead of snake_case 'single_car' and 'TaskName'
+        TestUtils.assertFileContains(modelPath, "export function MissionToJSONTyped(value?: Omit<Mission, 'id'|'taskName'|'singleCar'> | null, ignoreDiscriminator: boolean = false): any {");
+    }
+
+    @Test(description = "Verify Omit uses the camelCase property name instead of the baseName for readOnly fields in API requests")
+    public void testIssue19572_OmitUsesCorrectPropertyNameInApi() throws Exception {
+        File output = generate(
+                Collections.emptyMap(),
+                "src/test/resources/3_0/typescript-fetch/issue_19572.yaml"
+        );
+
+        Path modelPath = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileExists(modelPath);
+        // Ensure Omit uses camelCase names like 'createdAt' and 'updatedAt' instead of snake_case 'created_at' and 'updated_at'
+        TestUtils.assertFileContains(modelPath, "export interface FinancingOptionCreateRequest {");
+        TestUtils.assertFileContains(modelPath, "    financingOption?: Omit<FinancingOption, 'id'|'createdAt'|'updatedAt'|'foo'|'bar'>;");
     }
 
     private static File generate(

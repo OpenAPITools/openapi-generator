@@ -21,26 +21,18 @@ import { mapValues } from '../runtime';
 export interface Name {
     /**
      * 
-     * @type {number}
-     * @memberof Name
      */
     name: number;
     /**
      * 
-     * @type {number}
-     * @memberof Name
      */
     readonly snakeCase?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Name
      */
     property?: string;
     /**
      * 
-     * @type {number}
-     * @memberof Name
      */
     readonly _123number?: number;
 }
@@ -74,7 +66,7 @@ export function NameToJSON(json: any): Name {
     return NameToJSONTyped(json, false);
 }
 
-export function NameToJSONTyped(value?: Omit<Name, 'snake_case'|'123Number'> | null, ignoreDiscriminator: boolean = false): any {
+export function NameToJSONTyped(value?: Omit<Name, 'snakeCase'|'_123number'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

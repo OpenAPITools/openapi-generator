@@ -38,6 +38,8 @@ import java.io.File;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
+import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -1368,7 +1370,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         example.append("\"");
 
-        List<Object> enumValues = (List<Object>) allowableValues.get("values");
+        List<Object> enumValues = getEnumValues(allowableValues);
         example.append(enumValues.get(0));
 
         example.append("\"");
@@ -1515,7 +1517,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         if (!isQuietMode()) {
             System.out.println("################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
             System.out.println("#                                                                              #");
             System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");

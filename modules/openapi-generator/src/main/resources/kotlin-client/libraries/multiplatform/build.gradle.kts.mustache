@@ -1,17 +1,17 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    kotlin("multiplatform"){{^omitGradlePluginVersions}} version "2.2.20" // kotlin_version{{/omitGradlePluginVersions}}
-    kotlin("plugin.serialization"){{^omitGradlePluginVersions}} version "2.2.20" // kotlin_version{{/omitGradlePluginVersions}}
+    kotlin("multiplatform"){{^omitGradlePluginVersions}} version "2.4.0" // kotlin_version{{/omitGradlePluginVersions}}
+    kotlin("plugin.serialization"){{^omitGradlePluginVersions}} version "2.4.0" // kotlin_version{{/omitGradlePluginVersions}}
 }
 
 group = "{{groupId}}"
 version = "{{artifactVersion}}"
 
-val kotlin_version = "2.2.20"
-val coroutines_version = "1.10.2"
-val serialization_version = "1.9.0"
-val ktor_version = "3.2.3"
+val kotlin_version = "2.4.0"
+val coroutines_version = "1.11.0"
+val serialization_version = "1.11.0"
+val ktor_version = "3.5.1"
 
 repositories {
     mavenCentral()
@@ -43,7 +43,7 @@ kotlin {
                 api("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
 
                 {{#kotlinx-datetime}}
-                api("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
                 {{/kotlinx-datetime}}
             }
         }
@@ -79,14 +79,6 @@ kotlin {
                 api("io.ktor:ktor-client-js:$ktor_version")
             }
         }
-
-        {{#kotlinx-datetime}}
-        all {
-            languageSettings {
-                optIn("kotlin.time.ExperimentalTime")
-            }
-        }
-        {{/kotlinx-datetime}}
     }
 }
 

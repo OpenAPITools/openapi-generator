@@ -30,7 +30,7 @@ import jakarta.annotation.Generated;
  * ObjectWithUniqueItems
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
   @JsonInclude(JsonInclude.Include.NON_ABSENT)

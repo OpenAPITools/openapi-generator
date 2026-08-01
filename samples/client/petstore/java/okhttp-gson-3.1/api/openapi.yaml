@@ -824,9 +824,7 @@ paths:
             application/json:
               schema:
                 items:
-                  allOf:
-                  - $ref: "#/components/schemas/myObject"
-                  nullable: true
+                  $ref: "#/components/schemas/myObject"
                 nullable: true
                 type: array
                 default: null

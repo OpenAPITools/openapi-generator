@@ -5,6 +5,7 @@ api/openapi.yaml
 appveyor.yml
 docs/MultipartApi.md
 docs/MultipartArrayRequest.md
+docs/MultipartExtraAnnotationRequest.md
 docs/MultipartMixedRequest.md
 docs/MultipartMixedRequestMarker.md
 docs/MultipartMixedStatus.md
@@ -30,6 +31,7 @@ src/Org.OpenAPITools/Client/RequestOptions.cs
 src/Org.OpenAPITools/Client/RetryConfiguration.cs
 src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs
 src/Org.OpenAPITools/Model/MultipartArrayRequest.cs
+src/Org.OpenAPITools/Model/MultipartExtraAnnotationRequest.cs
 src/Org.OpenAPITools/Model/MultipartMixedRequest.cs
 src/Org.OpenAPITools/Model/MultipartMixedRequestMarker.cs
 src/Org.OpenAPITools/Model/MultipartMixedStatus.cs

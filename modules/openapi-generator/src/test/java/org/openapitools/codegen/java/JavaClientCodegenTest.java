@@ -620,6 +620,64 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testUseBeanValidationGeneratesEmailAnnotation() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(JavaClientCodegen.USE_BEANVALIDATION, true)
+                .addAdditionalProperty(JavaClientCodegen.USE_JAKARTA_EE, true)
+                .setInputSpec("src/test/resources/3_1/issue-17485.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        // format: email is validated with @Email (required, so @NotNull too); the constraint
+        // package comes from the wildcard "import jakarta.validation.constraints.*"
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/User.java")).content()
+                .contains("@Email", "@NotNull", "import jakarta.validation.constraints.*");
+    }
+
+    @Test
+    public void testUseBeanValidationGeneratesEmailAnnotationWithJavax() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(JavaClientCodegen.USE_BEANVALIDATION, true)
+                .addAdditionalProperty(JavaClientCodegen.USE_JAKARTA_EE, false)
+                .setInputSpec("src/test/resources/3_1/issue-17485.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/User.java")).content()
+                .contains("@Email", "import javax.validation.constraints.*");
+    }
+
+    @Test
+    public void testWithoutBeanValidationDoesNotGenerateEmailAnnotation() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(JavaClientCodegen.USE_BEANVALIDATION, false)
+                .setInputSpec("src/test/resources/3_1/issue-17485.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/User.java")).content()
+                .doesNotContain("@Email");
+    }
+
+    @Test
     public void testJdkHttpClientWithAndWithoutDiscriminator() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -1793,6 +1851,25 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testObjectDefaultWithEnumProperty_issue24298() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setInputSpec("src/test/resources/bugs/issue_24298.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // The `format` field's default is an OutputFormat whose `order` property is an inline enum. It must
+        // be rendered as the enum constant, not a raw quoted string, otherwise the code does not compile (#24298).
+        JavaFileAssert.assertThat(files.get("Formatter.java"))
+                .assertProperty("format")
+                .asString()
+                .contains("new OutputFormat().order(OutputFormat.OrderEnum.SIMILARITY).limit(10)");
+    }
+
+    @Test
     public void testWebClientJsonCreatorWithNullable_issue12790() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -2036,6 +2113,37 @@ public class JavaClientCodegenTest {
                 .content().doesNotContain("@JsonTypeName");
         assertThat(output.resolve("src/main/java/org/openapitools/client/model/ChildWithMappingBDTO.java"))
                 .content().doesNotContain("@JsonTypeName");
+    }
+
+    @Test
+    public void testOneOfInterfaceInheritedEnumDiscriminator() {
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        // resttemplate (unlike the default okhttp-gson) renders oneOf as interfaces, so it uses the
+        // base Java/oneof_interface template that emits the discriminator getter type.
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary("resttemplate");
+        codegen.setOutputDir(output.toString());
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        final ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        // Issue #22541: the inline-enum discriminator inherited from a base schema via allOf must
+        // resolve to the enum type in the oneOf interface getter, not String.
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/PetResponseEnumDisc.java"))
+                .content().contains("public PetTypeEnum getPetType();");
     }
 
     @Test
@@ -2786,9 +2894,10 @@ public class JavaClientCodegenTest {
                 .hasParameter("type").toConstructor()
                 .toFileAssert()
                 .assertConstructor("LocalDate", "String", "String")
-                .hasParameter("dateOfBirth").toConstructor()
-                .hasParameter("name").toConstructor()
-                .hasParameter("type").toConstructor();
+                // all-args constructor parameters must carry the same nullability annotations as the fields/setters (#24109)
+                .hasParameter("dateOfBirth").assertParameterAnnotations().containsWithName("javax.annotation.Nullable").toParameter().toConstructor()
+                .hasParameter("name").assertParameterAnnotations().containsWithName("javax.annotation.Nullable").toParameter().toConstructor()
+                .hasParameter("type").assertParameterAnnotations().containsWithName("javax.annotation.Nonnull").toParameter().toConstructor();
         JavaFileAssert.assertThat(files.get("Cat.java"))
                 .assertConstructor("Integer", "String", "LocalDate", "String", "String");
 
@@ -4192,6 +4301,60 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileNotContains(testModel.toPath(), "com.fasterxml.jackson");
     }
 
+    @Test
+    public void oneOfInterfaceMicroprofileJackson() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(MICROPROFILE)
+                .setAdditionalProperties(Map.of(
+                        USE_ONE_OF_INTERFACES, "true",
+                        CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON
+                ))
+                .setInputSpec("src/test/resources/3_0/java/oneof_interface_petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path model = output.resolve("src/main/java/org/openapitools/client/model");
+        // oneOf schema rendered as an interface (not a pojo); the discriminator getter resolves to the enum
+        assertFileContains(model.resolve("PetRequest.java"), "public interface PetRequest {");
+        assertFileContains(model.resolve("PetRequest.java"), "public PetType getPetType();");
+        // children implement the interface
+        assertFileContains(model.resolve("CatRequest.java"), "implements PetRequest");
+        assertFileContains(model.resolve("DogRequest.java"), "implements PetRequest");
+        // not sealed (useSealedOneOfInterfaces not set)
+        assertFileNotContains(model.resolve("PetRequest.java"), "sealed interface");
+        assertFileNotContains(model.resolve("CatRequest.java"), "public final class");
+    }
+
+    @Test
+    public void sealedOneOfInterfaceMicroprofileJackson() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(MICROPROFILE)
+                .setAdditionalProperties(Map.of(
+                        USE_ONE_OF_INTERFACES, "true",
+                        USE_SEALED_ONE_OF_INTERFACES, "true",
+                        CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"
+                ))
+                .setInputSpec("src/test/resources/3_0/java/oneof_interface_petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path model = output.resolve("src/main/java/org/openapitools/client/model");
+        assertFileContains(model.resolve("PetRequest.java"), "public sealed interface PetRequest permits CatRequest, DogRequest {");
+        assertFileContains(model.resolve("CatRequest.java"), "public final class CatRequest");
+        assertFileContains(model.resolve("CatRequest.java"), "implements PetRequest");
+        assertFileContains(model.resolve("DogRequest.java"), "public final class DogRequest");
+        // sealed requires Java 17 in the generated pom
+        assertFileContains(output.resolve("pom.xml"), "<java.version>17</java.version>");
+        assertFileNotContains(output.resolve("pom.xml"), "<java.version>11</java.version>");
+    }
+
     @DataProvider(name = "sealedInterfaceScenarios")
     public static Object[][] sealedInterfaceScenarios() {
         return new Object[][]{
@@ -4653,6 +4816,34 @@ public class JavaClientCodegenTest {
 
         assertThat(codegen.additionalProperties())
                 .containsEntry(SUPPORT_URL_QUERY, false);
+    }
+
+    /**
+     * An array of binary form properties must keep its array dimension. Previously the array was
+     * collapsed onto the scalar File type, generating the same signature as a single-file upload.
+     */
+    @Test
+    public void testMicroprofileFormMultipartArray() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java")).content()
+                .contains(
+                        // multiple files sharing one part name
+                        "@FormParam(\"files\") List<File> filesDetail",
+                        // a single binary property is still bound to a scalar File
+                        "@FormParam(\"file\") File _fileDetail",
+                        // a file next to a non-file array: only the file type is affected
+                        "@FormParam(\"file\") File _fileDetail, @FormParam(\"marker\")  MultipartMixedRequestMarker marker,"
+                                + " @FormParam(\"statusArray\")  List<MultipartMixedStatus> statusArray");
     }
 
     private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {

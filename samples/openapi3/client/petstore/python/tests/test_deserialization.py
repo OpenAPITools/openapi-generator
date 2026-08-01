@@ -291,7 +291,7 @@ class DeserializationTests(unittest.TestCase):
 
         deserialized = self.deserialize(response, "Animal", 'application/json')
         self.assertTrue(isinstance(deserialized, petstore_api.Cat))
-        self.assertEqual(deserialized.class_name, "Cat")
+        self.assertEqual(deserialized._class_name, "Cat")
         self.assertEqual(deserialized.declawed, True)
         self.assertEqual(deserialized.to_json(), '{"className": "Cat", "color": "red", "declawed": true}')
 
@@ -305,7 +305,7 @@ class DeserializationTests(unittest.TestCase):
             self.assertTrue(False)
             return
 
-        self.assertEqual(deserialized.class_name, "Cat")
+        self.assertEqual(deserialized._class_name, "Cat")
         self.assertEqual(deserialized.declawed, True)
         self.assertEqual(deserialized.to_json(), '{"className": "Cat", "color": "red", "declawed": true}')
 

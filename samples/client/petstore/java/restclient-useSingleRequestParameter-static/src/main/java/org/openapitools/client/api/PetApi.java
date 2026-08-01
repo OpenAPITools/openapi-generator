@@ -27,7 +27,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -371,9 +371,7 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return Set&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     * @deprecated
      */
-    @Deprecated
     private ResponseSpec findPetsByTagsRequestCreation(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'tags' is set
@@ -411,7 +409,9 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return Set&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
+    @Deprecated
     public Set<Pet> findPetsByTags(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         ParameterizedTypeReference<Set<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
         return findPetsByTagsRequestCreation(tags).body(localVarReturnType);
@@ -425,7 +425,9 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return ResponseEntity&lt;Set&lt;Pet&gt;&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
+    @Deprecated
     public ResponseEntity<Set<Pet>> findPetsByTagsWithHttpInfo(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         ParameterizedTypeReference<Set<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
         return findPetsByTagsRequestCreation(tags).toEntity(localVarReturnType);
@@ -439,7 +441,9 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
+    @Deprecated
     public ResponseSpec findPetsByTagsWithResponseSpec(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         return findPetsByTagsRequestCreation(tags);
     }

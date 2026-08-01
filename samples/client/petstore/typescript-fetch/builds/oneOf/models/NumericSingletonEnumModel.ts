@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface NumericSingletonEnumModel {
     /**
      * 
-     * @type {NumericSingletonEnumModelKindEnum}
-     * @memberof NumericSingletonEnumModel
      */
     kind: NumericSingletonEnumModelKindEnum;
 }
