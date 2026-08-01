@@ -33,15 +33,14 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class InlineModelResolver {
-    private static final Pattern NON_ALPHANUMERIC = Pattern.compile("[^a-zA-Z0-9]");
-
     private OpenAPI openAPI;
     private Map<String, Schema> addedModels = new HashMap<>();
     private Map<String, String> generatedSignature = new HashMap<>();
@@ -937,13 +936,16 @@ public class InlineModelResolver {
     /**
      * Whether the candidate schema name collides with an existing one.
      *
-     * <p>The comparison ignores separators and case, because generators mangle schema names before
-     * emitting types: the inline body schema {@code importMembers_request} and a spec-defined
-     * {@code ImportMembersRequest} both become the model {@code ImportMembersRequest}. Comparing the
-     * raw keys only, the two look distinct, the inline schema is registered under its own key, and
-     * later one model silently overwrites the other - the properties of the overwritten model
-     * disappear from the generated code. Treating them as a collision yields
+     * <p>Names are compared as the default model mangler would emit them, i.e.
+     * {@code camelize(sanitizeName(name))}: the inline body schema {@code importMembers_request} and
+     * a spec-defined {@code ImportMembersRequest} both become the model {@code ImportMembersRequest}.
+     * Comparing the raw keys only, the two look distinct, the inline schema is registered under its
+     * own key, and later one model silently overwrites the other - the properties of the overwritten
+     * model disappear from the generated code. Treating them as a collision yields
      * {@code importMembers_request_1} instead, so both models survive.
+     *
+     * <p>Mirroring the mangler rather than lowercasing keeps names that really do stay distinct
+     * apart: {@code Importmembersrequest} mangles to itself, not to {@code ImportMembersRequest}.
      *
      * @param candidate the candidate name
      * @return true if the name is already taken
@@ -968,10 +970,7 @@ public class InlineModelResolver {
     }
 
     private String normalizeNameForCollision(final String name) {
-        // Every non-alphanumeric character is a separator here, not just '_': sanitizeName turns
-        // '-', '.', ' ' and friends into '_' before the name is camelized, so `Import-Members-Request`
-        // and `importMembers_request` end up as the same model too.
-        return NON_ALPHANUMERIC.matcher(name).replaceAll("").toLowerCase(Locale.ROOT);
+        return camelize(sanitizeName(name));
     }
 
     private void flattenProperties(OpenAPI openAPI, Map<String, Schema> properties, String path) {

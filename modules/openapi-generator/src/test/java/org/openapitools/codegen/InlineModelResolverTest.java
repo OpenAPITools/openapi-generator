@@ -1732,4 +1732,30 @@ public class InlineModelResolverTest {
         assertNotNull(inlined);
         assertNotNull(inlined.getProperties().get("inlineOnly"));
     }
+
+    @Test
+    public void inlineSchemaKeepsItsNameWhenTheManglerKeepsNamesDistinct() {
+        // `Importmembersrequest` mangles to itself, not to `ImportMembersRequest`, so it is NOT a
+        // collision -- the inline schema must keep its own name rather than being pushed to _1.
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setComponents(new Components());
+        openAPI.setPaths(new Paths());
+
+        openAPI.getComponents().addSchemas("Importmembersrequest", new ObjectSchema()
+                .addProperty("declaredField", new StringSchema()));
+
+        Schema inlineBody = new ObjectSchema().addProperty("inlineOnly", new StringSchema());
+        openAPI.getPaths().addPathItem("/members/import", new PathItem().post(new Operation()
+                .operationId("importMembers")
+                .requestBody(new RequestBody().content(new Content()
+                        .addMediaType("application/json", new MediaType().schema(inlineBody))))));
+
+        new InlineModelResolver().flatten(openAPI);
+
+        assertNotNull(openAPI.getComponents().getSchemas().get("Importmembersrequest"));
+        Schema inlined = openAPI.getComponents().getSchemas().get("importMembers_request");
+        assertNotNull("no real collision, the inline schema should keep its own name", inlined);
+        assertNotNull(inlined.getProperties().get("inlineOnly"));
+        assertNull(openAPI.getComponents().getSchemas().get("importMembers_request_1"));
+    }
 }
