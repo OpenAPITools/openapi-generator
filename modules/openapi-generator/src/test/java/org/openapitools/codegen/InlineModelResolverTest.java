@@ -1701,4 +1701,35 @@ public class InlineModelResolverTest {
         assertNotNull(inlined);
         assertNotNull(inlined.getProperties().get("inlineOnly"));
     }
+
+    @Test
+    public void inlineSchemaDoesNotOverwriteSpecDefinedSchemaNamedWithOtherSeparators() {
+        // sanitizeName turns '-', '.', ' ' and friends into '_' before the name is camelized, so
+        // `Import-Members-Request` mangles onto the same model as the inline `importMembers_request`.
+        // Normalizing on '_' alone would miss this.
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setComponents(new Components());
+        openAPI.setPaths(new Paths());
+
+        openAPI.getComponents().addSchemas("Import-Members-Request", new ObjectSchema()
+                .addProperty("declaredField", new StringSchema()));
+
+        Schema inlineBody = new ObjectSchema().addProperty("inlineOnly", new StringSchema());
+        openAPI.getPaths().addPathItem("/members/import", new PathItem().post(new Operation()
+                .operationId("importMembers")
+                .requestBody(new RequestBody().content(new Content()
+                        .addMediaType("application/json", new MediaType().schema(inlineBody))))));
+
+        new InlineModelResolver().flatten(openAPI);
+
+        Schema declared = openAPI.getComponents().getSchemas().get("Import-Members-Request");
+        assertNotNull(declared);
+        assertNotNull(declared.getProperties().get("declaredField"));
+        assertNull(declared.getProperties().get("inlineOnly"));
+
+        assertNull(openAPI.getComponents().getSchemas().get("importMembers_request"));
+        Schema inlined = openAPI.getComponents().getSchemas().get("importMembers_request_1");
+        assertNotNull(inlined);
+        assertNotNull(inlined.getProperties().get("inlineOnly"));
+    }
 }

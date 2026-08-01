@@ -37,8 +37,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class InlineModelResolver {
+    private static final Pattern NON_ALPHANUMERIC = Pattern.compile("[^a-zA-Z0-9]");
+
     private OpenAPI openAPI;
     private Map<String, Schema> addedModels = new HashMap<>();
     private Map<String, String> generatedSignature = new HashMap<>();
@@ -965,7 +968,10 @@ public class InlineModelResolver {
     }
 
     private String normalizeNameForCollision(final String name) {
-        return name.replace("_", "").toLowerCase(Locale.ROOT);
+        // Every non-alphanumeric character is a separator here, not just '_': sanitizeName turns
+        // '-', '.', ' ' and friends into '_' before the name is camelized, so `Import-Members-Request`
+        // and `importMembers_request` end up as the same model too.
+        return NON_ALPHANUMERIC.matcher(name).replaceAll("").toLowerCase(Locale.ROOT);
     }
 
     private void flattenProperties(OpenAPI openAPI, Map<String, Schema> properties, String path) {
