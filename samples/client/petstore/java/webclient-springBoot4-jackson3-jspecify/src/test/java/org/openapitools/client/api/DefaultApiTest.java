@@ -42,12 +42,27 @@ public class DefaultApiTest {
      * 
      */
     @Test
+    public void fileIdGetTest()  {
+        // uncomment below to test the function
+        //String id = null;
+        //api.fileIdGet(id).block();
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * 
+     */
+    @Test
     public void fooDtParamGetTest()  {
         // uncomment below to test the function
-        //OffsetDateTime dtParam = null;
-        //OffsetDateTime dtQuery = null;
-        //OffsetDateTime dtCookie = null;
-        //Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie).block();
+        //java.time.Instant dtParam = null;
+        //java.time.Instant dtQuery = null;
+        //java.time.Instant dtCookie = null;
+        //String color = null;
+        //Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie, color).block();
 
         // TODO: test validations
     }

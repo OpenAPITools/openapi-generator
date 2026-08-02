@@ -46,12 +46,30 @@ class DefaultApiTest {
      *          if the Api call fails
      */
     @Test
+    void fileIdGetTest() {
+        String id = null;
+
+        api.fileIdGet(id);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * 
+     *
+     * @throws RestClientException
+     *          if the Api call fails
+     */
+    @Test
     void fooDtParamGetTest() {
         java.time.Instant dtParam = null;
         java.time.Instant dtQuery = null;
         java.time.Instant dtCookie = null;
+        String color = null;
 
-        Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie);
+        Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie, color);
 
         // TODO: test validations
     }
