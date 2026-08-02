@@ -5002,8 +5002,12 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isTypeObjectSchema(responseSchema)) {
             if (ModelUtils.isFreeFormObject(responseSchema, openAPI)) {
                 r.isFreeFormObject = true;
-            } else {
+            } else if (ModelUtils.isObjectSchema(responseSchema)){
                 r.isModel = true;
+            } else if (ModelUtils.isArraySchema(responseSchema)){
+                r.isArray = true;
+            } else if (ModelUtils.isMapSchema(responseSchema)) {
+                r.isMap = true;
             }
             r.simpleType = false;
             r.containerType = cp.containerType;
