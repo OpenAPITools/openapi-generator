@@ -7069,7 +7069,8 @@ public class SpringCodegenTest {
                 .fileContains(
                         "private java.time.@Nullable Instant dt;",
                         "private org.springframework.core.io.@Nullable Resource binary",
-                        "setBinary(org.springframework.core.io.@Nullable Resource binary)"
+                        "setBinary(org.springframework.core.io.@Nullable Resource binary)",
+                        "private String toIndentedString(@Nullable Object o)"
                 );
         JavaFileAssert.assertThat(files.get(fooApiFilename))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
