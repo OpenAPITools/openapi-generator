@@ -348,7 +348,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString({{>nullableAnnotation}}{{#lambda.jSpecifyDatatype}}Object{{/lambda.jSpecifyDatatype}} o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   {{/lombok.ToString}}
