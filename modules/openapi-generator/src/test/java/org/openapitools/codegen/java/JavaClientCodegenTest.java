@@ -4701,7 +4701,7 @@ public class JavaClientCodegenTest {
             JavaFileAssert.assertThat(files.get("DefaultApi.java"))
                     .fileContains(
                             "import org.jspecify.annotations.Nullable;",
-                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie)"
+                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)"
                     );
         }
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
@@ -4765,7 +4765,7 @@ public class JavaClientCodegenTest {
             JavaFileAssert.assertThat(files.get("DefaultApi.java"))
                     .fileContains(
                             "import org.jspecify.annotations.Nullable;",
-                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie)"
+                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)"
                     );
         }
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
