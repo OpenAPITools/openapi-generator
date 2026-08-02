@@ -33,6 +33,14 @@ paths:
           format: date-time
           type: string
         style: form
+      - explode: true
+        in: query
+        name: color
+        required: false
+        schema:
+          default: red
+          type: string
+        style: form
       responses:
         default:
           content:
