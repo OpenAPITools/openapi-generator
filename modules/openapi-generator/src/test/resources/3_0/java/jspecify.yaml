@@ -24,6 +24,11 @@ paths:
           schema:
             type: string
             format: date-time
+        - in: query
+          name: color
+          schema:
+            type: string
+            default: red
       responses:
         default:
           description: response
@@ -107,13 +112,16 @@ components:
           type: number
           nullable: true
         color:
-          default: red
           type: string
+          default: red
         requiredColor:
           default: red
           type: string
         nullableColor:
-          default: red
           type: string
+          default: red
           nullable: true
+
+
+
 

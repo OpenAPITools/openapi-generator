@@ -50,10 +50,10 @@ public class Foo {
   private org.springframework.core.io.@Nullable Resource nullableBinary = null;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private List<java.time.Instant> listOfDt = new ArrayList<>();
+  private @Nullable List<java.time.Instant> listOfDt = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private List<java.time.Instant> listMinIntems = new ArrayList<>();
+  private @Nullable List<java.time.Instant> listMinIntems = new ArrayList<>();
 
   private @Nullable List<java.time.Instant> nullableListMinIntems;
 
@@ -66,7 +66,7 @@ public class Foo {
   private java.math.@Nullable BigDecimal nullableNumber = null;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String color = "red";
+  private @Nullable String color = "red";
 
   private String requiredColor = "red";
 
@@ -224,7 +224,7 @@ public class Foo {
   @JacksonXmlProperty(localName = "listOfDt")
   @JacksonXmlElementWrapper(useWrapping = false)
   @XmlElement(name = "listOfDt")
-  public List<java.time.Instant> getListOfDt() {
+  public @Nullable List<java.time.Instant> getListOfDt() {
     return listOfDt;
   }
 
@@ -232,7 +232,7 @@ public class Foo {
   @JsonProperty("listOfDt")
   @JacksonXmlProperty(localName = "listOfDt")
   @JacksonXmlElementWrapper(useWrapping = false)
-  public void setListOfDt(List<java.time.Instant> listOfDt) {
+  public void setListOfDt(@Nullable List<java.time.Instant> listOfDt) {
     this.listOfDt = listOfDt;
   }
 
@@ -259,7 +259,7 @@ public class Foo {
   @JacksonXmlProperty(localName = "listMinIntems")
   @JacksonXmlElementWrapper(useWrapping = false)
   @XmlElement(name = "listMinIntems")
-  public List<java.time.Instant> getListMinIntems() {
+  public @Nullable List<java.time.Instant> getListMinIntems() {
     return listMinIntems;
   }
 
@@ -267,7 +267,7 @@ public class Foo {
   @JsonProperty("listMinIntems")
   @JacksonXmlProperty(localName = "listMinIntems")
   @JacksonXmlElementWrapper(useWrapping = false)
-  public void setListMinIntems(List<java.time.Instant> listMinIntems) {
+  public void setListMinIntems(@Nullable List<java.time.Instant> listMinIntems) {
     this.listMinIntems = listMinIntems;
   }
 
@@ -392,14 +392,14 @@ public class Foo {
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")
   @XmlElement(name = "color")
-  public String getColor() {
+  public @Nullable String getColor() {
     return color;
   }
 
   @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")
-  public void setColor(String color) {
+  public void setColor(@Nullable String color) {
     this.color = color;
   }
 
@@ -505,7 +505,7 @@ public class Foo {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
@@ -538,37 +538,37 @@ public class Foo {
       return this;
     }
 
-    public Foo.Builder dt(java.time.Instant dt) {
+    public Foo.Builder dt(java.time.@Nullable Instant dt) {
       this.instance.dt(dt);
       return this;
     }
     
-    public Foo.Builder nullableDt(java.time.Instant nullableDt) {
+    public Foo.Builder nullableDt(java.time.@Nullable Instant nullableDt) {
       this.instance.nullableDt(nullableDt);
       return this;
     }
     
-    public Foo.Builder binary(org.springframework.core.io.Resource binary) {
+    public Foo.Builder binary(org.springframework.core.io.@Nullable Resource binary) {
       this.instance.binary(binary);
       return this;
     }
     
-    public Foo.Builder nullableBinary(org.springframework.core.io.Resource nullableBinary) {
+    public Foo.Builder nullableBinary(org.springframework.core.io.@Nullable Resource nullableBinary) {
       this.instance.nullableBinary(nullableBinary);
       return this;
     }
     
-    public Foo.Builder listOfDt(List<java.time.Instant> listOfDt) {
+    public Foo.Builder listOfDt(@Nullable List<java.time.Instant> listOfDt) {
       this.instance.listOfDt(listOfDt);
       return this;
     }
     
-    public Foo.Builder listMinIntems(List<java.time.Instant> listMinIntems) {
+    public Foo.Builder listMinIntems(@Nullable List<java.time.Instant> listMinIntems) {
       this.instance.listMinIntems(listMinIntems);
       return this;
     }
     
-    public Foo.Builder nullableListMinIntems(List<java.time.Instant> nullableListMinIntems) {
+    public Foo.Builder nullableListMinIntems(@Nullable List<java.time.Instant> nullableListMinIntems) {
       this.instance.nullableListMinIntems(nullableListMinIntems);
       return this;
     }
@@ -578,17 +578,17 @@ public class Foo {
       return this;
     }
     
-    public Foo.Builder number(java.math.BigDecimal number) {
+    public Foo.Builder number(java.math.@Nullable BigDecimal number) {
       this.instance.number(number);
       return this;
     }
     
-    public Foo.Builder nullableNumber(java.math.BigDecimal nullableNumber) {
+    public Foo.Builder nullableNumber(java.math.@Nullable BigDecimal nullableNumber) {
       this.instance.nullableNumber(nullableNumber);
       return this;
     }
     
-    public Foo.Builder color(String color) {
+    public Foo.Builder color(@Nullable String color) {
       this.instance.color(color);
       return this;
     }
@@ -598,7 +598,7 @@ public class Foo {
       return this;
     }
     
-    public Foo.Builder nullableColor(String nullableColor) {
+    public Foo.Builder nullableColor(@Nullable String nullableColor) {
       this.instance.nullableColor(nullableColor);
       return this;
     }

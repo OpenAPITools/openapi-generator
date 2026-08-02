@@ -5537,7 +5537,7 @@ public class SpringCodegenTest {
                 .fileContains("@Nullable Set<String> stringSet")
                 .fileContains("private Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
                 .fileContains("private Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
-                .fileContains("private String toIndentedString(@Nullable Object o)")
+                .fileContains("private String toIndentedString(Object o)")
                 .fileDoesNotContain("private List<@Valid TagDto> tags = new ArrayList<>()")
                 .fileDoesNotContain("private Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
                 .fileDoesNotContain("private List<String> stringList = new ArrayList<>()")
@@ -7047,6 +7047,7 @@ public class SpringCodegenTest {
                         USE_BEANVALIDATION, true,
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
                         INTERFACE_ONLY, false,
+                        GENERATE_BUILDERS, true,
                         springVersionProperty, springBootVersion > 2
                 ),
                 codegenConfigurator ->
@@ -7072,14 +7073,23 @@ public class SpringCodegenTest {
                         "private org.springframework.core.io.@Nullable Resource binary",
                         "setBinary(org.springframework.core.io.@Nullable Resource binary)",
                         "public Foo(java.time.@Nullable Instant dt, java.time.@Nullable Instant nullableDt, org.springframework.core.io.@Nullable Resource binary, org.springframework.core.io.@Nullable Resource nullableBinary, @Nullable List<java.time.Instant> listOfDt, @Nullable List<java.time.Instant> listMinIntems, @Nullable List<java.time.Instant> nullableListMinIntems, java.time.Instant requiredDt, @Nullable BigDecimal number, @Nullable BigDecimal nullableNumber, @Nullable String color, String requiredColor, @Nullable String nullableColor) {",
-                        "Foo listOfDt(@Nullable List<java.time.Instant> listOfDt) {"
+                        "Foo listOfDt(@Nullable List<java.time.Instant> listOfDt) {",
+                        "private @Nullable String color = \"red\";",
+                        "public @Nullable String getColor() {",
+                        "public void setColor(@Nullable String color) {",
+                        "Foo color(@Nullable String color) {",
+                        "private String toIndentedString(@Nullable Object o)",
+                        "Foo.Builder dt(java.time.@Nullable Instant dt)",
+                        "Foo.Builder requiredDt(java.time.Instant requiredDt)",
+                        "Foo.Builder nullableNumber(@Nullable BigDecimal nullableNumber)"
                 );
         JavaFileAssert.assertThat(files.get(fooApiFilename))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "java.time.@Nullable Instant dtParam",
                         "java.time.@Nullable Instant dtQuery",
-                        "java.time.@Nullable Instant dtCookie"
+                        "java.time.@Nullable Instant dtCookie",
+                        " @RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color"
                 );
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
@@ -7105,6 +7115,7 @@ public class SpringCodegenTest {
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
                         CodegenConstants.OPENAPI_NULLABLE, true,
                         INTERFACE_ONLY, false,
+                        GENERATE_BUILDERS, true,
                         springVersionProperty, springBootVersion > 2
                 ),
                 codegenConfigurator ->
@@ -7130,7 +7141,14 @@ public class SpringCodegenTest {
                         "private org.springframework.core.io.@Nullable Resource binary",
                         "setBinary(org.springframework.core.io.@Nullable Resource binary)",
                         "Foo nullableDt(java.time.@Nullable Instant nullableDt) {",
-                        "public Foo(java.time.@Nullable Instant dt, java.time.@Nullable Instant nullableDt, org.springframework.core.io.@Nullable Resource binary, org.springframework.core.io.@Nullable Resource nullableBinary, @Nullable List<java.time.Instant> listOfDt, @Nullable List<java.time.Instant> listMinIntems, @Nullable List<java.time.Instant> nullableListMinIntems, java.time.Instant requiredDt, @Nullable BigDecimal number, @Nullable BigDecimal nullableNumber, @Nullable String color, String requiredColor, @Nullable String nullableColor) {"
+                        "private @Nullable String color = \"red\";",
+                        "public Foo color(@Nullable String color) {",
+                        "public @Nullable String getColor() {",
+                        "public Foo(java.time.@Nullable Instant dt, java.time.@Nullable Instant nullableDt, org.springframework.core.io.@Nullable Resource binary, org.springframework.core.io.@Nullable Resource nullableBinary, @Nullable List<java.time.Instant> listOfDt, @Nullable List<java.time.Instant> listMinIntems, @Nullable List<java.time.Instant> nullableListMinIntems, java.time.Instant requiredDt, @Nullable BigDecimal number, @Nullable BigDecimal nullableNumber, @Nullable String color, String requiredColor, @Nullable String nullableColor) {",
+                        "Foo.Builder dt(java.time.@Nullable Instant dt)",
+                        "Foo.Builder requiredDt(java.time.Instant requiredDt)",
+                        "Foo.Builder nullableNumber(@Nullable BigDecimal nullableNumber)",
+                        "Foo.Builder nullableNumber(JsonNullable<BigDecimal> nullableNumber)"
                 );
         JavaFileAssert.assertThat(files.get(fooApiFilename))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
@@ -7153,17 +7171,29 @@ public class SpringCodegenTest {
         }
     }
 
-    @Test(dataProvider = "jspecifyLibraries")
-    public void testJspecify_useOptional(String library, int springBootVersion, String fooApiFilename) throws IOException {
+    @DataProvider(name = "jspecifyLibrariesUseOptional")
+    public Object[][] jspecifyLibrariesUseOptional() {
+        return new Object[][]{
+                {SPRING_BOOT, 4, "FooApi.java", false},
+                {SPRING_BOOT, 4, "FooApi.java", true},
+                {SPRING_CLOUD_LIBRARY, 3, "FooApi.java", false},
+                {SPRING_CLOUD_LIBRARY, 3, "FooApi.java", true},
+                {SPRING_HTTP_INTERFACE, 4, "DefaultApi.java", false},
+                {SPRING_HTTP_INTERFACE, 4, "DefaultApi.java", true}
+        };
+    }
+    @Test(dataProvider = "jspecifyLibrariesUseOptional")
+    public void testJspecify_useOptional(String library, int springBootVersion, String fooApiFilename, boolean optionalAcceptNullable) throws IOException {
         String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         CONTAINER_DEFAULT_TO_NULL, true,
                         USE_BEANVALIDATION, true,
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
-//                        CodegenConstants.OPENAPI_NULLABLE, true,
                         SpringCodegen.USE_OPTIONAL, true,
+                        OPTIONAL_ACCEPT_NULLABLE, optionalAcceptNullable,
                         INTERFACE_ONLY, false,
+                        GENERATE_BUILDERS, true,
                         springVersionProperty, springBootVersion > 2
                 ),
                 codegenConfigurator ->
@@ -7182,15 +7212,26 @@ public class SpringCodegenTest {
                             "<version>1.0.0</version>")
                     .doesNotContain("findbugs");
         }
-        JavaFileAssert.assertThat(files.get("Foo.java"))
+        JavaFileAssert fooAssert = JavaFileAssert.assertThat(files.get("Foo.java"));
+        fooAssert
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "private Optional<java.time.Instant> dt = Optional.empty()",
                         "private JsonNullable<org.springframework.core.io.Resource> nullableBinary = JsonNullable.<org.springframework.core.io.Resource>undefined();",
                         "setBinary(Optional<org.springframework.core.io.Resource> binary)",
-                        "Foo nullableDt(java.time.@Nullable Instant nullableDt) {",
-                        "public Foo(java.time.@Nullable Instant dt, java.time.@Nullable Instant nullableDt, org.springframework.core.io.@Nullable Resource binary, org.springframework.core.io.@Nullable Resource nullableBinary, @Nullable List<java.time.Instant> listOfDt, @Nullable List<java.time.Instant> listMinIntems, @Nullable List<java.time.Instant> nullableListMinIntems, java.time.Instant requiredDt, @Nullable BigDecimal number, @Nullable BigDecimal nullableNumber, @Nullable String color, String requiredColor, @Nullable String nullableColor) {"
+                        "public Foo(java.time.@Nullable Instant dt, java.time.@Nullable Instant nullableDt, org.springframework.core.io.@Nullable Resource binary, org.springframework.core.io.@Nullable Resource nullableBinary, @Nullable List<java.time.Instant> listOfDt, @Nullable List<java.time.Instant> listMinIntems, @Nullable List<java.time.Instant> nullableListMinIntems, java.time.Instant requiredDt, @Nullable BigDecimal number, @Nullable BigDecimal nullableNumber, @Nullable String color, String requiredColor, @Nullable String nullableColor) {",
+                        "Foo.Builder requiredDt(java.time.Instant requiredDt)",
+                        "Foo.Builder nullableNumber(JsonNullable<BigDecimal> nullableNumber)"
                 );
+        if (optionalAcceptNullable) {
+            fooAssert.fileContains(
+                    "Foo dt(java.time.@Nullable Instant dt) {",
+                    "Foo.Builder dt(java.time.@Nullable Instant dt) {");
+        } else {
+            fooAssert.fileContains(
+                    "Foo dt(java.time.Instant dt) {",
+                    "Foo.Builder dt(java.time.Instant dt) {");
+        }
         JavaFileAssert.assertThat(files.get(fooApiFilename))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
