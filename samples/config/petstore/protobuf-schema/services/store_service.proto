@@ -40,7 +40,7 @@ message DeleteOrderResponse {
 }
 message GetInventoryResponse {
     oneof response {
-        int32 int32_200 = 1;
+        map<string, int32> int32_map_200 = 1;
     }
 }
 message GetOrderByIdRequest {

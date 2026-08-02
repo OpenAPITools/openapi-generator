@@ -59,7 +59,7 @@ getInventory =
         []
         []
         Nothing
-        (Json.Decode.dict Json.Decode.int)
+        (Json.Decode.dict )
 
 
 {-| Find purchase order by ID

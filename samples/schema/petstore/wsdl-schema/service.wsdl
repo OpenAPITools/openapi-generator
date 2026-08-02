@@ -393,7 +393,7 @@
       <xs:complexType name="GetStoreInventory_RequestMessage" />
       <xs:complexType name="GetStoreInventory_ResponseMessage">
         <xs:sequence>
-          <xs:element minOccurs="1" name="response" type="xs:integer">
+          <xs:element minOccurs="1" name="response" type="xs:Map">
             <xs:annotation>
               <xs:documentation>successful operation</xs:documentation>
             </xs:annotation>
