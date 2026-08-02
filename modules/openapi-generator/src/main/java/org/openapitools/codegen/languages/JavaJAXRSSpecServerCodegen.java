@@ -393,6 +393,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 additionalProperties.put("hasResponseStatusAnnotations", true);
             }
         }
+
+        // The quarkus templates bind file form parameters to org.jboss.resteasy.reactive types, so the
+        // corresponding imports must only be emitted for API files that actually declare such a parameter.
+        // Always set explicitly so Mustache does not fall through to the global additionalProperties value.
+        objs.put("hasFileFormParams", objs.getOperations().getOperation().stream()
+                .flatMap(op -> op.formParams.stream())
+                .anyMatch(p -> p.isFile));
         return objs;
     }
 
