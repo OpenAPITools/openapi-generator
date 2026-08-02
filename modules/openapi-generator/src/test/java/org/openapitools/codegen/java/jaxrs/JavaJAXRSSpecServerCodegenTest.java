@@ -30,6 +30,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.*;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 import static org.testng.Assert.assertTrue;
@@ -1401,6 +1402,71 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                     // @JsonIgnoreProperties must precede @JsonTypeInfo on the class declaration.
                     .fileContainsPattern("@JsonIgnoreProperties\\([\\s\\S]*?@JsonTypeInfo");
         }
+    }
+
+    /**
+     * With {@code disableDiscriminatorJsonIgnoreProperties=false} (the default) the jaxrs-spec
+     * template emits {@code @JsonIgnoreProperties} on the discriminated model and uses
+     * {@code JsonTypeInfo.As.PROPERTY}. Regression guard mirroring the Java/Spring template behaviour.
+     */
+    @Test
+    public void disableDiscriminatorJsonIgnorePropertiesIsFalseThenJsonIgnorePropertiesShouldBeAdded() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("legacyDiscriminatorBehavior", "false");
+        properties.put(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "false");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/discriminator-mapping-children.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetResponse.java"))
+                .fileContains(
+                        "@JsonIgnoreProperties(",
+                        "value = \"petType\"",
+                        "allowSetters = true",
+                        "include = JsonTypeInfo.As.PROPERTY")
+                .fileDoesNotContain("include = JsonTypeInfo.As.EXISTING_PROPERTY");
+    }
+
+    /**
+     * With {@code disableDiscriminatorJsonIgnoreProperties=true} the jaxrs-spec template must OMIT
+     * {@code @JsonIgnoreProperties} (so a user-supplied one does not collide — Jackson forbids
+     * duplicate annotations) and switch {@code @JsonTypeInfo} to {@code JsonTypeInfo.As.EXISTING_PROPERTY}
+     * so the discriminator is not serialized twice. Aligns JavaJaxRS/spec/typeInfoAnnotation.mustache
+     * with Java/typeInfoAnnotation.mustache (PRs #22528 / #22924).
+     */
+    @Test
+    public void disableDiscriminatorJsonIgnorePropertiesIsTrueThenJsonIgnorePropertiesShouldBeNotAdded() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("legacyDiscriminatorBehavior", "false");
+        properties.put(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/jaxrs-spec/discriminator-mapping-children.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetResponse.java"))
+                .fileDoesNotContain("@JsonIgnoreProperties(")
+                .fileContains("include = JsonTypeInfo.As.EXISTING_PROPERTY")
+                .fileDoesNotContain("include = JsonTypeInfo.As.PROPERTY");
     }
 
     /**

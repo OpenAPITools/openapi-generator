@@ -22,9 +22,6 @@ from threading import Lock
 from urllib.parse import quote
 from typing import Tuple, Optional, List, Dict, Union{{#compatibleWithPythonLegacy}}, Any{{/compatibleWithPythonLegacy}}
 from pydantic import SecretStr
-{{#tornado}}
-import tornado.gen
-{{/tornado}}
 
 from {{packageName}}.configuration import Configuration
 from {{packageName}}.api_response import ApiResponse, T as ApiResponseT
@@ -392,10 +389,6 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 
         return method, url, header_params, body, post_params
 
-
-    {{#tornado}}
-    @tornado.gen.coroutine
-    {{/tornado}}
     {{#async}}async {{/async}}def call_api(
         self,
         method,
@@ -419,7 +412,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 
         try:
             # perform request and return response
-            response_data = {{#async}}await {{/async}}{{#tornado}}yield {{/tornado}}self.rest_client.request(
+            response_data = {{#async}}await {{/async}}self.rest_client.request(
                 method, url,
                 headers=header_params,
                 body=body, post_params=post_params,

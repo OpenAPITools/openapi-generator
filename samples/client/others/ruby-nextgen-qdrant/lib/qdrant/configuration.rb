@@ -2,13 +2,18 @@
 
 module Qdrant
   class Configuration
-    attr_accessor :base_url, :timeout, :logger, :debugging, :query_array_encoding, :api_key, :access_token
+    # `ssl` is handed to Faraday verbatim, e.g. `{ ca_file: "/path/to/root.crt" }` for a server
+    # whose certificate is issued by a private CA. Such a server is otherwise unreachable — the
+    # default trust store holds public authorities only — and no middleware can make up for it:
+    # TLS is settled when the connection is built, before any middleware runs.
+    attr_accessor :base_url, :timeout, :logger, :debugging, :query_array_encoding, :ssl, :api_key, :access_token
 
     def initialize(base_url: nil, **options)
       @base_url = base_url || 'http://localhost:6333'
       @timeout = 60
       @query_array_encoding = :repeat
       @debugging = false
+      @ssl = {}
       @middlewares = []
       options.each do |k, v|
         raise ArgumentError, "unknown configuration option: #{k}" unless respond_to?("#{k}=")

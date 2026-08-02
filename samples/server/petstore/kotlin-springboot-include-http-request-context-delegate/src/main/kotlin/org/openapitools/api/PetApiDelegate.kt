@@ -160,7 +160,7 @@ interface PetApiDelegate {
      */
     suspend fun uploadFile(petId: kotlin.Long,
         additionalMetadata: kotlin.String?,
-        file: org.springframework.web.multipart.MultipartFile,
+        file: org.springframework.http.codec.multipart.Part?,
         exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<ModelApiResponse>
 
 }

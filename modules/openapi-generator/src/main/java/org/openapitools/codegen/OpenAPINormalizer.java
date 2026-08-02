@@ -998,8 +998,8 @@ public class OpenAPINormalizer {
             }
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
-            normalizeMapSchema(schema);
-            Schema additionalProperties = (Schema) schema.getAdditionalProperties();
+            Schema result = normalizeMapSchema(schema);
+            Schema additionalProperties = (Schema) result.getAdditionalProperties();
             if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, additionalProperties)) {
                 // OAS 3.1 allows a map value schema of `type: "null"` (e.g.
                 // `additionalProperties: { type: "null" }`). There's no OAS 3.0 equivalent type,
@@ -1008,15 +1008,17 @@ public class OpenAPINormalizer {
                 // generated as a normal (nullable) object instead.
                 Schema anyTypeNullable = new Schema();
                 anyTypeNullable.setNullable(true);
-                schema.setAdditionalProperties(anyTypeNullable);
+                result.setAdditionalProperties(anyTypeNullable);
             } else {
                 Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
                 if (getRule(NORMALIZE_31SPEC)) {
                     // capture the normalized value schema (e.g. an OAS 3.1 `type: [array, "null"]`
                     // value is rewritten to a proper array schema), which would otherwise be lost.
-                    schema.setAdditionalProperties(normalized);
+                    result.setAdditionalProperties(normalized);
                 }
             }
+
+            return result;
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof IntegerSchema) {
@@ -1105,7 +1107,8 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeMapSchema(Schema schema) {
-        return processSetMapToNullable(schema);
+        Schema result = processNormalize31Spec(schema, new HashSet<>());
+        return processSetMapToNullable(result);
     }
 
     protected Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
@@ -2179,13 +2182,22 @@ public class OpenAPINormalizer {
         normalizeExclusiveMinMax31(schema);
 
         if (schema instanceof JsonSchema &&
-                schema.get$schema() == null &&
-                schema.getTypes() == null && schema.getType() == null) {
+                schema.get$schema() == null && schema.getTypes() == null && schema.getType() == null) {
             // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
             // components:
             //  schemas:
             //    any_type: {}
-            return new Schema();
+            Schema sc = new Schema<>();
+
+            // copy description, title, etc
+            ModelUtils.copyMetadata(schema, sc);
+
+            // additional properties set?
+            if (schema.getAdditionalProperties() != null) {
+                sc.setAdditionalProperties(schema.getAdditionalProperties());
+            }
+
+            return sc;
         }
 
         // return schema if nothing in 3.1 spec types to normalize

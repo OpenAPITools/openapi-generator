@@ -5,13 +5,6 @@ on:
     paths:
       - samples/client/others/typescript-angular/**
       - samples/client/others/typescript-angular-v20/**
-      # comment out angular released before Nov 2023
-      #- samples/client/petstore/typescript-angular-v12-provided-in-root/**
-      #- samples/client/petstore/typescript-angular-v13-provided-in-root/**
-      #- samples/client/petstore/typescript-angular-v14-provided-in-root/**
-      #- samples/client/petstore/typescript-angular-v15-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v16-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v17-provided-in-root/**
       - samples/client/petstore/typescript-angular-v18-provided-in-root/**
       - samples/client/petstore/typescript-angular-v19-provided-in-root/**
       - samples/client/petstore/typescript-angular-v20-provided-in-root/**
@@ -43,12 +36,6 @@ on:
     paths:
       - samples/client/others/typescript-angular/**
       - samples/client/others/typescript-angular-v20/**
-      #- samples/client/petstore/typescript-angular-v12-provided-in-root/**
-      #- samples/client/petstore/typescript-angular-v13-provided-in-root/**
-      #- samples/client/petstore/typescript-angular-v14-provided-in-root/**
-      #- samples/client/petstore/typescript-angular-v15-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v16-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v17-provided-in-root/**
       - samples/client/petstore/typescript-angular-v18-provided-in-root/**
       - samples/client/petstore/typescript-angular-v19-provided-in-root/**
       - samples/client/petstore/typescript-angular-v20-provided-in-root/**
@@ -91,12 +78,6 @@ jobs:
         sample:
           - samples/client/others/typescript-angular/
           - samples/client/others/typescript-angular-v20/
-          #- samples/client/petstore/typescript-angular-v12-provided-in-root/
-          #- samples/client/petstore/typescript-angular-v13-provided-in-root/
-          #- samples/client/petstore/typescript-angular-v14-provided-in-root/
-          #- samples/client/petstore/typescript-angular-v15-provided-in-root/
-          - samples/client/petstore/typescript-angular-v16-provided-in-root/
-          - samples/client/petstore/typescript-angular-v17-provided-in-root/
           - samples/client/petstore/typescript-angular-v18-provided-in-root/
           - samples/client/petstore/typescript-angular-v19-provided-in-root/
           - samples/client/petstore/typescript-angular-v20-provided-in-root/

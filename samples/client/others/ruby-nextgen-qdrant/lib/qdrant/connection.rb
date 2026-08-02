@@ -10,7 +10,9 @@ module Qdrant
       # relative (their leading slash is stripped in #call) and resolved against it.
       base = configuration.base_url
       base += '/' unless base.end_with?('/')
-      @faraday = Faraday.new(url: base) do |conn|
+      # `ssl` belongs to the connection options and not to `configure_faraday`: Faraday settles
+      # TLS when it builds the connection, so a middleware could never supply it.
+      @faraday = Faraday.new(url: base, ssl: configuration.ssl) do |conn|
         configuration.configure_faraday(conn)
       end
     end
