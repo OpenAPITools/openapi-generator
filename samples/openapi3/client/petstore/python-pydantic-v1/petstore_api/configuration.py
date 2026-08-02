@@ -244,6 +244,11 @@ conf = petstore_api.Configuration(
         self.proxy_headers = None
         """Proxy headers
         """
+        self.proxy_ssl_context = None
+        """SSL context used only for the TLS handshake with the proxy itself
+        (e.g. an HTTPS CONNECT tunnel), independent of the destination TLS
+        settings above.
+        """
         self.safe_chars_for_path_param = ''
         """Safe chars for path_param
         """
@@ -270,6 +275,10 @@ conf = petstore_api.Configuration(
         result = cls.__new__(cls)
         memo[id(self)] = result
         for k, v in self.__dict__.items():
+            if k == 'proxy_ssl_context':
+                # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
+                setattr(result, k, v)
+                continue
             if k not in ('logger', 'logger_file_handler'):
                 setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers

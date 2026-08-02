@@ -14,6 +14,11 @@ from logging import FileHandler
 {{^async}}
 import multiprocessing
 {{/async}}
+{{^async}}
+{{^tornado}}
+import ssl
+{{/tornado}}
+{{/async}}
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 {{^async}}
@@ -227,6 +232,11 @@ class Configuration:
     :param no_proxy: Comma-separated hosts that bypass the proxy.
 {{/async}}
     :param proxy_headers: Proxy headers.
+{{^async}}
+{{^tornado}}
+    :param proxy_ssl_context: SSL context used only for the TLS handshake with the proxy itself, independent of the destination TLS settings.
+{{/tornado}}
+{{/async}}
     :param safe_chars_for_path_param: Safe characters for path parameter encoding.
     :param client_side_validation: Enable client-side validation. Default True.
     :param socket_options: Options to pass down to the underlying urllib3 socket.
@@ -361,6 +371,11 @@ conf = {{{packageName}}}.Configuration(
         no_proxy: Optional[str]=None,
 {{/async}}
         proxy_headers: Optional[Any]=None,
+{{^async}}
+{{^tornado}}
+        proxy_ssl_context: Optional[ssl.SSLContext]=None,
+{{/tornado}}
+{{/async}}
         safe_chars_for_path_param: str='',
         client_side_validation: bool=True,
         socket_options: Optional[Any]=None,
@@ -505,6 +520,15 @@ conf = {{{packageName}}}.Configuration(
         self.proxy_headers = proxy_headers
         """Proxy headers
         """
+{{^async}}
+{{^tornado}}
+        self.proxy_ssl_context = proxy_ssl_context
+        """SSL context used only for the TLS handshake with the proxy itself
+        (e.g. an HTTPS CONNECT tunnel), independent of the destination TLS
+        settings above.
+        """
+{{/tornado}}
+{{/async}}
         self.safe_chars_for_path_param = safe_chars_for_path_param
         """Safe chars for path_param
         """
@@ -557,6 +581,14 @@ conf = {{{packageName}}}.Configuration(
                 if callable(copy_method):
                     setattr(result, k, copy_method())
                     continue
+{{^async}}
+{{^tornado}}
+            if k == 'proxy_ssl_context':
+                # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
+                setattr(result, k, v)
+                continue
+{{/tornado}}
+{{/async}}
 {{#asyncio}}
             if k in ('client_session_kwargs', 'trace_configs'):
                 setattr(result, k, copy.copy(v))
@@ -578,6 +610,14 @@ conf = {{{packageName}}}.Configuration(
         result.logger_stream_handler = self.logger_stream_handler
 {{/useIndependentImplicitClients}}
 {{^useIndependentImplicitClients}}
+{{^async}}
+{{^tornado}}
+            if k == 'proxy_ssl_context':
+                # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
+                setattr(result, k, v)
+                continue
+{{/tornado}}
+{{/async}}
             if k not in ('logger', 'logger_file_handler'):
                 setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
