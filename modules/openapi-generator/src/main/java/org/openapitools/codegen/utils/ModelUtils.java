@@ -2802,6 +2802,19 @@ public class ModelUtils {
         return schemaMap.values().stream().anyMatch(ModelUtils::isEnumSchema);
     }
 
+    /**
+     * Whether all branches in the oneOf contains a {@code const}. Returns false for OAS 3.0 since that does not support
+     * {@code const}.
+     * @param schema The Schema
+     * @return true if all {@code oneOf} branches contains a {@code const}.
+     */
+    public static boolean isOneOfOfConsts(Schema<?> schema) {
+        if (hasOneOf(schema) && !schema.getSpecVersion().equals(SpecVersion.V30)) {
+            return schema.getOneOf().stream().allMatch(oneOf -> oneOf.getConst() != null);
+        }
+        return false;
+    }
+
     @FunctionalInterface
     private interface OpenAPISchemaVisitor {
 
