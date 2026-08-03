@@ -45,10 +45,10 @@ export function BehaviorTypeFromJSONTyped(json: any, ignoreDiscriminator: boolea
 }
 
 export function BehaviorTypeToJSON(value?: BehaviorType | null): any {
-    return value as any;
+    return BehaviorTypeToJSONTyped(value, false);
 }
 
-export function BehaviorTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): BehaviorType {
+export function BehaviorTypeToJSONTyped(value?: BehaviorType | null, ignoreDiscriminator: boolean): any {
     return value as BehaviorType;
 }
 

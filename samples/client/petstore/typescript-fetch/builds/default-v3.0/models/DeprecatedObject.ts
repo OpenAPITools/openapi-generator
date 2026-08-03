@@ -46,8 +46,8 @@ export function DeprecatedObjectFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function DeprecatedObjectToJSON(json: any): DeprecatedObject {
-    return DeprecatedObjectToJSONTyped(json, false);
+export function DeprecatedObjectToJSON(value?: DeprecatedObject | null): any {
+    return DeprecatedObjectToJSONTyped(value, false);
 }
 
 export function DeprecatedObjectToJSONTyped(value?: DeprecatedObject | null, ignoreDiscriminator: boolean = false): any {

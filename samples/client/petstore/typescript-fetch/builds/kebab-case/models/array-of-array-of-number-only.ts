@@ -46,8 +46,8 @@ export function ArrayOfArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function ArrayOfArrayOfNumberOnlyToJSON(json: any): ArrayOfArrayOfNumberOnly {
-    return ArrayOfArrayOfNumberOnlyToJSONTyped(json, false);
+export function ArrayOfArrayOfNumberOnlyToJSON(value?: ArrayOfArrayOfNumberOnly | null): any {
+    return ArrayOfArrayOfNumberOnlyToJSONTyped(value, false);
 }
 
 export function ArrayOfArrayOfNumberOnlyToJSONTyped(value?: ArrayOfArrayOfNumberOnly | null, ignoreDiscriminator: boolean = false): any {

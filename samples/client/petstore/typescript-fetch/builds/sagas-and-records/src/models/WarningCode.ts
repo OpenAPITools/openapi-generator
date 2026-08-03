@@ -45,10 +45,10 @@ export function WarningCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean
 }
 
 export function WarningCodeToJSON(value?: WarningCode | null): any {
-    return value as any;
+    return WarningCodeToJSONTyped(value, false);
 }
 
-export function WarningCodeToJSONTyped(value: any, ignoreDiscriminator: boolean): WarningCode {
+export function WarningCodeToJSONTyped(value?: WarningCode | null, ignoreDiscriminator: boolean): any {
     return value as WarningCode;
 }
 

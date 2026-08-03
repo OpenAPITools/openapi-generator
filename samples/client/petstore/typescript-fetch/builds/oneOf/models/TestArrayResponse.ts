@@ -63,8 +63,8 @@ export function TestArrayResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     return {} as any;
 }
 
-export function TestArrayResponseToJSON(json: any): any {
-    return TestArrayResponseToJSONTyped(json, false);
+export function TestArrayResponseToJSON(value?: TestArrayResponse | null): any {
+    return TestArrayResponseToJSONTyped(value, false);
 }
 
 export function TestArrayResponseToJSONTyped(value?: TestArrayResponse | null, ignoreDiscriminator: boolean = false): any {

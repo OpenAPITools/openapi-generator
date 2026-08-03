@@ -56,8 +56,8 @@ export function ChildWithNullableFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function ChildWithNullableToJSON(json: any): ChildWithNullable {
-    return ChildWithNullableToJSONTyped(json, false);
+export function ChildWithNullableToJSON(value?: ChildWithNullable | null): any {
+    return ChildWithNullableToJSONTyped(value, false);
 }
 
 export function ChildWithNullableToJSONTyped(value?: ChildWithNullable | null, ignoreDiscriminator: boolean = false): any {
