@@ -49,6 +49,6 @@ export function OuterEnumIntegerDefaultValueToJSON(value?: OuterEnumIntegerDefau
 }
 
 export function OuterEnumIntegerDefaultValueToJSONTyped(value?: OuterEnumIntegerDefaultValue | null, ignoreDiscriminator: boolean = false): any {
-    return value as OuterEnumIntegerDefaultValue;
+    return value as any;
 }
 

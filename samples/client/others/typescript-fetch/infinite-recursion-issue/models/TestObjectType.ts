@@ -49,6 +49,6 @@ export function TestObjectTypeToJSON(value?: TestObjectType | null): any {
 }
 
 export function TestObjectTypeToJSONTyped(value?: TestObjectType | null, ignoreDiscriminator: boolean = false): any {
-    return value as TestObjectType;
+    return value as any;
 }
 
