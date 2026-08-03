@@ -48,7 +48,7 @@ export function BehaviorTypeToJSON(value?: BehaviorType | null): any {
     return BehaviorTypeToJSONTyped(value, false);
 }
 
-export function BehaviorTypeToJSONTyped(value?: BehaviorType | null, ignoreDiscriminator: boolean): any {
+export function BehaviorTypeToJSONTyped(value?: BehaviorType | null, ignoreDiscriminator: boolean = false): any {
     return value as BehaviorType;
 }
 

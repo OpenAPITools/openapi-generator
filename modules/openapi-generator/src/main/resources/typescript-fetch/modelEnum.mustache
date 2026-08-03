@@ -23,6 +23,6 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     return {{classname}}ToJSONTyped(value, false);
 }
 
-export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator: boolean): any {
+export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator: boolean = false): any {
     return value as {{classname}};
 }

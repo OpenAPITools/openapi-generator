@@ -63,7 +63,7 @@ export function ErrorCodeToJSON(value?: ErrorCode | null): any {
     return ErrorCodeToJSONTyped(value, false);
 }
 
-export function ErrorCodeToJSONTyped(value?: ErrorCode | null, ignoreDiscriminator: boolean): any {
+export function ErrorCodeToJSONTyped(value?: ErrorCode | null, ignoreDiscriminator: boolean = false): any {
     return value as ErrorCode;
 }
 

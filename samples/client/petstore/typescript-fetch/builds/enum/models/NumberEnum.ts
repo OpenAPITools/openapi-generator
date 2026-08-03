@@ -48,7 +48,7 @@ export function NumberEnumToJSON(value?: NumberEnum | null): any {
     return NumberEnumToJSONTyped(value, false);
 }
 
-export function NumberEnumToJSONTyped(value?: NumberEnum | null, ignoreDiscriminator: boolean): any {
+export function NumberEnumToJSONTyped(value?: NumberEnum | null, ignoreDiscriminator: boolean = false): any {
     return value as NumberEnum;
 }
 
