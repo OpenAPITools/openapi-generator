@@ -5004,8 +5004,8 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = false;
         } else if (ModelUtils.isMapSchema(responseSchema)) {
             r.isMap = true;
-            r.isModel = false;
             r.simpleType = false;
+            r.isModel = false;
             r.containerType = cp.containerType;
             r.containerTypeMapped = cp.containerTypeMapped;
         } else if (ModelUtils.isArraySchema(responseSchema)) {
