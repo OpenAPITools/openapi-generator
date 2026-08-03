@@ -48,7 +48,7 @@ export function PetPartTypeToJSON(value?: PetPartType | null): any {
     return PetPartTypeToJSONTyped(value, false);
 }
 
-export function PetPartTypeToJSONTyped(value?: PetPartType | null, ignoreDiscriminator: boolean): any {
+export function PetPartTypeToJSONTyped(value?: PetPartType | null, ignoreDiscriminator: boolean = false): any {
     return value as PetPartType;
 }
 

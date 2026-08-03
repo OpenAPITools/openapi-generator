@@ -48,7 +48,7 @@ export function TestObjectTypeToJSON(value?: TestObjectType | null): any {
     return TestObjectTypeToJSONTyped(value, false);
 }
 
-export function TestObjectTypeToJSONTyped(value?: TestObjectType | null, ignoreDiscriminator: boolean): any {
+export function TestObjectTypeToJSONTyped(value?: TestObjectType | null, ignoreDiscriminator: boolean = false): any {
     return value as TestObjectType;
 }
 

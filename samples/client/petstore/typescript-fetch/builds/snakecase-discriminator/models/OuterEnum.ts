@@ -48,7 +48,7 @@ export function OuterEnumToJSON(value?: OuterEnum | null): any {
     return OuterEnumToJSONTyped(value, false);
 }
 
-export function OuterEnumToJSONTyped(value?: OuterEnum | null, ignoreDiscriminator: boolean): any {
+export function OuterEnumToJSONTyped(value?: OuterEnum | null, ignoreDiscriminator: boolean = false): any {
     return value as OuterEnum;
 }
 
