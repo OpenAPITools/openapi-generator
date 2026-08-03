@@ -4999,12 +4999,21 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isDoubleSchema(responseSchema)) { // double
                 r.isDouble = Boolean.TRUE;
             }
+        } else if (ModelUtils.isFreeFormObject(responseSchema, openAPI)) {
+            r.isFreeFormObject = true;
+            r.simpleType = false;
+        } else if (ModelUtils.isMapSchema(responseSchema)) {
+            r.isMap = true;
+            r.simpleType = false;
+            r.isModel = false;
+            r.containerType = cp.containerType;
+            r.containerTypeMapped = cp.containerTypeMapped;
+        } else if (ModelUtils.isArraySchema(responseSchema)) {
+            r.isArray = true;
+            r.simpleType = false;
+            r.containerType = cp.containerType;
+            r.containerTypeMapped = cp.containerTypeMapped;
         } else if (ModelUtils.isTypeObjectSchema(responseSchema)) {
-            if (ModelUtils.isFreeFormObject(responseSchema, openAPI)) {
-                r.isFreeFormObject = true;
-            } else {
-                r.isModel = true;
-            }
             r.simpleType = false;
             r.containerType = cp.containerType;
             r.containerTypeMapped = cp.containerTypeMapped;

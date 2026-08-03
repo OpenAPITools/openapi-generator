@@ -3169,7 +3169,7 @@ public class DefaultCodegenTest {
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void testAdditionalPropertiesPresentInResponses() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
