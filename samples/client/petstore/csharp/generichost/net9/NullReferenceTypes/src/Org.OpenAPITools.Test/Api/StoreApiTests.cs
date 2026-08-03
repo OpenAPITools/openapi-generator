@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             var response = await _instance.GetInventoryAsync();
             var model = response.Ok();
-            Assert.IsType<Org.OpenAPITools.Model.Dictionary<string, int>>(model);
+            Assert.IsType<Dictionary<string, int>>(model);
         }
 
         /// <summary>
