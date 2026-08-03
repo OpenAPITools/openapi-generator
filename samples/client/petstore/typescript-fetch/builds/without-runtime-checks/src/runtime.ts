@@ -28,7 +28,11 @@ export interface ConfigurationParameters {
 }
 
 export class Configuration {
-    constructor(private configuration: ConfigurationParameters = {}) {}
+    private configuration: ConfigurationParameters;
+
+    constructor(configuration: ConfigurationParameters = {}) {
+        this.configuration = configuration;
+    }
 
     set config(configuration: Configuration) {
         this.configuration = configuration;
@@ -92,8 +96,10 @@ export class BaseAPI {
 
     private static readonly jsonRegex = /^(:?application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(:?;.*)?$/i;
     private middleware: Middleware[];
+    protected configuration: Configuration;
 
-    constructor(protected configuration = DefaultConfig) {
+    constructor(configuration: Configuration = DefaultConfig) {
+        this.configuration = configuration;
         this.middleware = configuration.middleware;
     }
 
@@ -258,8 +264,10 @@ function isFormData(value: any): value is FormData {
 
 export class ResponseError extends Error {
     override name: "ResponseError" = "ResponseError";
-    constructor(public response: Response, msg?: string) {
+    response: Response;
+    constructor(response: Response, msg?: string) {
         super(msg);
+        this.response = response;
 
         // restore prototype chain
         const actualProto = new.target.prototype;
@@ -269,10 +277,17 @@ export class ResponseError extends Error {
     }
 }
 
+// `cause` is declared through an interface so that it stays compatible with lib targets
+// that already declare `Error.cause` (ES2022+) as well as the ones that do not
+export interface FetchError {
+    cause: Error;
+}
+
 export class FetchError extends Error {
     override name: "FetchError" = "FetchError";
-    constructor(public cause: Error, msg?: string) {
+    constructor(cause: Error, msg?: string) {
         super(msg);
+        this.cause = cause;
 
         // restore prototype chain
         const actualProto = new.target.prototype;
@@ -284,8 +299,10 @@ export class FetchError extends Error {
 
 export class RequiredError extends Error {
     override name: "RequiredError" = "RequiredError";
-    constructor(public field: string, msg?: string) {
+    field: string;
+    constructor(field: string, msg?: string) {
         super(msg);
+        this.field = field;
 
         // restore prototype chain
         const actualProto = new.target.prototype;
@@ -410,7 +427,13 @@ export interface ResponseTransformer<T> {
 }
 
 export class JSONApiResponse<T> {
-    constructor(public raw: Response, private transformer: ResponseTransformer<T> = (jsonValue: any) => jsonValue) {}
+    raw: Response;
+    private transformer: ResponseTransformer<T>;
+
+    constructor(raw: Response, transformer: ResponseTransformer<T> = (jsonValue: any) => jsonValue) {
+        this.raw = raw;
+        this.transformer = transformer;
+    }
 
     async value(): Promise<T> {
         return this.transformer(await this.raw.json());
@@ -418,7 +441,11 @@ export class JSONApiResponse<T> {
 }
 
 export class VoidApiResponse {
-    constructor(public raw: Response) {}
+    raw: Response;
+
+    constructor(raw: Response) {
+        this.raw = raw;
+    }
 
     async value(): Promise<void> {
         return undefined;
@@ -426,7 +453,11 @@ export class VoidApiResponse {
 }
 
 export class BlobApiResponse {
-    constructor(public raw: Response) {}
+    raw: Response;
+
+    constructor(raw: Response) {
+        this.raw = raw;
+    }
 
     async value(): Promise<Blob> {
         return await this.raw.blob();
@@ -434,7 +465,11 @@ export class BlobApiResponse {
 }
 
 export class TextApiResponse {
-    constructor(public raw: Response) {}
+    raw: Response;
+
+    constructor(raw: Response) {
+        this.raw = raw;
+    }
 
     async value(): Promise<string> {
         return await this.raw.text();
