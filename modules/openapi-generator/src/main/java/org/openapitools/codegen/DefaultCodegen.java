@@ -2941,7 +2941,7 @@ public class DefaultCodegen implements CodegenConfig {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
             newProperties.forEach((key, value) ->
-                    existingProperties.put(key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)))
+                    putProperty(existingProperties, key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)))
             );
             if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
                 for (Object e : newType.getEnum()) {
@@ -3608,7 +3608,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isComposedSchema(schema)) {
             // fix issue #16797 and #15796, constructor fail by missing parent required params
             if (ModelUtils.hasProperties(schema)) {
-                properties.putAll(schema.getProperties());
+                putProperties(properties, schema.getProperties());
             }
 
             if (schema.getAllOf() != null) {
@@ -3642,11 +3642,65 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         if (schema.getProperties() != null) {
-            properties.putAll(schema.getProperties());
+            putProperties(properties, schema.getProperties());
         }
         if (schema.getRequired() != null) {
             required.addAll(schema.getRequired());
         }
+    }
+
+    /**
+     * Adds each property to the target map. When a property of the same name is already present
+     * with type information and the incoming schema carries no type of its own (for example an
+     * allOf part that only sets 'nullable: true' on an inherited property), the incoming
+     * constraints are applied on top of the existing schema instead of replacing it, so the
+     * type is not lost. See issue #4128.
+     */
+    private void putProperties(Map<String, Schema> targetProperties, Map<String, Schema> newProperties) {
+        newProperties.forEach((name, incoming) -> putProperty(targetProperties, name, incoming));
+    }
+
+    private void putProperty(Map<String, Schema> targetProperties, String name, Schema incoming) {
+        Schema existing = targetProperties.get(name);
+        if (existing != null && incoming != null
+                && !ModelUtils.isAnyType(existing) && isConstraintOnlySchema(incoming)) {
+            Schema merged = ModelUtils.cloneSchema(existing, specVersionGreaterThanOrEqualTo310(openAPI));
+            if (incoming.getNullable() != null) {
+                merged.setNullable(incoming.getNullable());
+            }
+            if (incoming.getDescription() != null) {
+                merged.setDescription(incoming.getDescription());
+            }
+            if (incoming.getDeprecated() != null) {
+                merged.setDeprecated(incoming.getDeprecated());
+            }
+            if (incoming.getReadOnly() != null) {
+                merged.setReadOnly(incoming.getReadOnly());
+            }
+            if (incoming.getWriteOnly() != null) {
+                merged.setWriteOnly(incoming.getWriteOnly());
+            }
+            if (incoming.getExtensions() != null) {
+                incoming.getExtensions().forEach((k, v) -> merged.addExtension(String.valueOf(k), v));
+            }
+            targetProperties.put(name, merged);
+        } else {
+            targetProperties.put(name, incoming);
+        }
+    }
+
+    /**
+     * True when the schema defines no type of its own: no type, no $ref, no items,
+     * no properties, no composition and no enum.
+     */
+    private static boolean isConstraintOnlySchema(Schema schema) {
+        return ModelUtils.isAnyType(schema)
+                && schema.getItems() == null
+                && schema.getProperties() == null
+                && schema.getAllOf() == null
+                && schema.getOneOf() == null
+                && schema.getAnyOf() == null
+                && schema.getEnum() == null;
     }
 
     /**
