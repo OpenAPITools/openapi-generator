@@ -7225,11 +7225,11 @@ public class SpringCodegenTest {
                 );
         if (optionalAcceptNullable) {
             fooAssert.fileContains(
-                    "Foo dt(java.time.@Nullable Instant dt) {",
+                    "Foo dt(java.time.@Nullable Instant dt) {\n    this.dt = Optional.ofNullable(dt);",
                     "Foo.Builder dt(java.time.@Nullable Instant dt) {");
         } else {
             fooAssert.fileContains(
-                    "Foo dt(java.time.Instant dt) {",
+                    "Foo dt(java.time.Instant dt) {\n    this.dt = Optional.of(dt);",
                     "Foo.Builder dt(java.time.Instant dt) {");
         }
         JavaFileAssert.assertThat(files.get(fooApiFilename))
