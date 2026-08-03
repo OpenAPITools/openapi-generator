@@ -23,7 +23,7 @@ jobs:
           - samples/client/echo_api/kotlin-jvm-okhttp-multipart-json
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v5.6.0
         with:
           distribution: 'temurin'
           java-version: 17
