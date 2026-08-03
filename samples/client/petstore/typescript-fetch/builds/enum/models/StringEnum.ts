@@ -49,6 +49,6 @@ export function StringEnumToJSON(value?: StringEnum | null): any {
 }
 
 export function StringEnumToJSONTyped(value?: StringEnum | null, ignoreDiscriminator: boolean = false): any {
-    return value as StringEnum;
+    return value as any;
 }
 

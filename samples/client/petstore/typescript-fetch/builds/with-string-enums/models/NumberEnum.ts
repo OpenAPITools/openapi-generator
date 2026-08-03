@@ -48,6 +48,6 @@ export function NumberEnumToJSON(value?: NumberEnum | null): any {
 }
 
 export function NumberEnumToJSONTyped(value?: NumberEnum | null, ignoreDiscriminator: boolean = false): any {
-    return value as NumberEnum;
+    return value as any;
 }
 

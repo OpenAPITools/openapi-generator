@@ -64,6 +64,6 @@ export function ErrorCodeToJSON(value?: ErrorCode | null): any {
 }
 
 export function ErrorCodeToJSONTyped(value?: ErrorCode | null, ignoreDiscriminator: boolean = false): any {
-    return value as ErrorCode;
+    return value as any;
 }
 

@@ -58,6 +58,6 @@ export function DeploymentRequestStatusToJSON(value?: DeploymentRequestStatus | 
 }
 
 export function DeploymentRequestStatusToJSONTyped(value?: DeploymentRequestStatus | null, ignoreDiscriminator: boolean = false): any {
-    return value as DeploymentRequestStatus;
+    return value as any;
 }
 
