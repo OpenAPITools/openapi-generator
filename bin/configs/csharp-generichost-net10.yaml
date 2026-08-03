@@ -14,3 +14,7 @@ additionalProperties:
   operationParameterSorting: alphabetical
   treatWarningsAsErrors: true
   warningsNotAsErrors: CS0612
+injectModelVendorExtensions:
+  InjectedVendorExtensionsTest.potentiallyOverriddenPropertyToPrivate.x-setter-visibility: private
+  InjectedVendorExtensionsTest.potentiallyOverriddenPropertyToInternal.x-setter-visibility: internal
+  InjectedVendorExtensionsTest.potentiallyOverriddenPropertyToPublic.x-setter-visibility: public

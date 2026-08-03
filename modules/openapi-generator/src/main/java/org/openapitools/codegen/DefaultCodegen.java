@@ -199,6 +199,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> enumNameMapping = new HashMap<>();
     // a map to store the mapping between operation id name and the name provided by the user
     protected Map<String, String> operationIdNameMapping = new HashMap<>();
+    // a map to inject vendor extensions into model classes or their properties: key=ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name, value=extensionValue
+    protected Map<String, String> injectModelVendorExtensions = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     @Setter
@@ -544,6 +546,42 @@ public class DefaultCodegen implements CodegenConfig {
             }
             for (CodegenProperty property : model.nonNullableVars) {
                 property.isNew = codegenPropertyIsNew(model, property);
+            }
+        }
+
+        // Inject vendor extensions from --inject-property-extensions into matching schema properties
+        if (!injectModelVendorExtensions.isEmpty()) {
+            for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+                CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+                if (model == null) continue;
+
+                for (Map.Entry<String, String> extEntry : injectModelVendorExtensions.entrySet()) {
+                    String[] parts = extEntry.getKey().split("\\.", 3);
+                    if (parts.length < 2) continue;
+                    String modelName = parts[0];
+                    String extensionValue = extEntry.getValue();
+
+                    if (!modelName.equals(entry.getKey())) continue;
+
+                    if (parts.length == 2) {
+                        // class-level extension: ModelName.x-extension-name
+                        model.vendorExtensions.put(parts[1], extensionValue);
+                    } else {
+                        // property-level extension: ModelName.propertyBaseName.x-extension-name
+                        String propertyBaseName = parts[1];
+                        String extensionName = parts[2];
+                        List<List<CodegenProperty>> allPropertyLists = Arrays.asList(
+                                model.vars, model.allVars, model.readWriteVars, model.requiredVars,
+                                model.optionalVars, model.parentVars, model.readOnlyVars, model.nonNullableVars);
+                        for (List<CodegenProperty> properties : allPropertyLists) {
+                            for (CodegenProperty property : properties) {
+                                if (propertyBaseName.equals(property.baseName)) {
+                                    property.vendorExtensions.put(extensionName, extensionValue);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -1364,6 +1402,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> operationIdNameMapping() {
         return operationIdNameMapping;
+    }
+
+    @Override
+    public Map<String, String> injectModelVendorExtensions() {
+        return injectModelVendorExtensions;
     }
 
     @Override
