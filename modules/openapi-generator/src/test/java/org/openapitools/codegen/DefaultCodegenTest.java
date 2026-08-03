@@ -3213,11 +3213,11 @@ public class DefaultCodegenTest {
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
         mapWithAddPropsUnset = co.responses.get(0);
-        assertEquals(mapWithAddPropsUnset.isFreeFormObject, true);
-        //assertTrue(mapWithAddPropsUnset.getAdditionalPropertiesIsAnyType());
+        assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        assertTrue(mapWithAddPropsUnset.getAdditionalPropertiesIsAnyType());
         mapWithAddPropsTrue = co.responses.get(1);
-        assertEquals(mapWithAddPropsTrue.isFreeFormObject, true);
-        //assertTrue(mapWithAddPropsTrue.getAdditionalPropertiesIsAnyType());
+        assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        assertTrue(mapWithAddPropsTrue.getAdditionalPropertiesIsAnyType());
         mapWithAddPropsFalse = co.responses.get(2);
         assertNull(mapWithAddPropsFalse.getAdditionalProperties());
         assertFalse(mapWithAddPropsFalse.getAdditionalPropertiesIsAnyType());
