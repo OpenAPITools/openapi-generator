@@ -68,8 +68,8 @@ export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function ParentWithNullableToJSON(json: any): ParentWithNullable {
-    return ParentWithNullableToJSONTyped(json, false);
+export function ParentWithNullableToJSON(value?: ParentWithNullable | null): any {
+    return ParentWithNullableToJSONTyped(value, false);
 }
 
 export function ParentWithNullableToJSONTyped(value?: ParentWithNullable | null, ignoreDiscriminator: boolean = false): any {

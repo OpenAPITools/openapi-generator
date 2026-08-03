@@ -45,10 +45,10 @@ export function OuterEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean):
 }
 
 export function OuterEnumToJSON(value?: OuterEnum | null): any {
-    return value as any;
+    return OuterEnumToJSONTyped(value, false);
 }
 
-export function OuterEnumToJSONTyped(value: any, ignoreDiscriminator: boolean): OuterEnum {
+export function OuterEnumToJSONTyped(value?: OuterEnum | null, ignoreDiscriminator: boolean): any {
     return value as OuterEnum;
 }
 

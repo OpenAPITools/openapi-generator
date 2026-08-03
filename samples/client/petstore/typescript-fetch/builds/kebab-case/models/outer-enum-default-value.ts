@@ -45,10 +45,10 @@ export function OuterEnumDefaultValueFromJSONTyped(json: any, ignoreDiscriminato
 }
 
 export function OuterEnumDefaultValueToJSON(value?: OuterEnumDefaultValue | null): any {
-    return value as any;
+    return OuterEnumDefaultValueToJSONTyped(value, false);
 }
 
-export function OuterEnumDefaultValueToJSONTyped(value: any, ignoreDiscriminator: boolean): OuterEnumDefaultValue {
+export function OuterEnumDefaultValueToJSONTyped(value?: OuterEnumDefaultValue | null, ignoreDiscriminator: boolean): any {
     return value as OuterEnumDefaultValue;
 }
 

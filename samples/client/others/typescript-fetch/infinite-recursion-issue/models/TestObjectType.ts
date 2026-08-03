@@ -45,10 +45,10 @@ export function TestObjectTypeFromJSONTyped(json: any, ignoreDiscriminator: bool
 }
 
 export function TestObjectTypeToJSON(value?: TestObjectType | null): any {
-    return value as any;
+    return TestObjectTypeToJSONTyped(value, false);
 }
 
-export function TestObjectTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): TestObjectType {
+export function TestObjectTypeToJSONTyped(value?: TestObjectType | null, ignoreDiscriminator: boolean): any {
     return value as TestObjectType;
 }
 
