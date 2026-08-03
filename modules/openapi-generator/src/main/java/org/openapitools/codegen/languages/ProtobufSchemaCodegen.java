@@ -664,6 +664,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        // patch to work around the fix to set isArray, isMap in response objects
+        // ref: https://github.com/OpenAPITools/openapi-generator/pull/24566/
         CodegenResponse cr = super.fromResponse(responseCode, response);
 
         Schema responseSchema;
