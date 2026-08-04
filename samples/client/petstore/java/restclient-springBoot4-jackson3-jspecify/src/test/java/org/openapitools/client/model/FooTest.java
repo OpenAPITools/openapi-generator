@@ -51,27 +51,11 @@ class FooTest {
     }
 
     /**
-     * Test the property 'nullableDt'
-     */
-    @Test
-    void nullableDtTest() {
-        // TODO: test nullableDt
-    }
-
-    /**
      * Test the property 'binary'
      */
     @Test
     void binaryTest() {
         // TODO: test binary
-    }
-
-    /**
-     * Test the property 'nullableBinary'
-     */
-    @Test
-    void nullableBinaryTest() {
-        // TODO: test nullableBinary
     }
 
     /**
@@ -91,14 +75,6 @@ class FooTest {
     }
 
     /**
-     * Test the property 'nullableListMinIntems'
-     */
-    @Test
-    void nullableListMinIntemsTest() {
-        // TODO: test nullableListMinIntems
-    }
-
-    /**
      * Test the property 'requiredDt'
      */
     @Test
@@ -112,38 +88,6 @@ class FooTest {
     @Test
     void numberTest() {
         // TODO: test number
-    }
-
-    /**
-     * Test the property 'nullableNumber'
-     */
-    @Test
-    void nullableNumberTest() {
-        // TODO: test nullableNumber
-    }
-
-    /**
-     * Test the property 'color'
-     */
-    @Test
-    void colorTest() {
-        // TODO: test color
-    }
-
-    /**
-     * Test the property 'requiredColor'
-     */
-    @Test
-    void requiredColorTest() {
-        // TODO: test requiredColor
-    }
-
-    /**
-     * Test the property 'nullableColor'
-     */
-    @Test
-    void nullableColorTest() {
-        // TODO: test nullableColor
     }
 
 }
