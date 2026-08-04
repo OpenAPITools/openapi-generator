@@ -3664,101 +3664,14 @@ public class DefaultCodegen implements CodegenConfig {
     private void putProperty(Map<String, Schema> targetProperties, String name, Schema incoming) {
         Schema existing = targetProperties.get(name);
         if (existing != null && incoming != null
-                && !ModelUtils.isAnyType(existing) && isConstraintOnlySchema(incoming)) {
+                && !ModelUtils.isAnyType(existing)
+                && ModelUtils.isMetadataOnlySchema(incoming) && incoming.getEnum() == null) {
             Schema merged = ModelUtils.cloneSchema(existing, specVersionGreaterThanOrEqualTo310(openAPI));
-            if (incoming.getNullable() != null) {
-                merged.setNullable(incoming.getNullable());
-            }
-            if (incoming.getDescription() != null) {
-                merged.setDescription(incoming.getDescription());
-            }
-            if (incoming.getDeprecated() != null) {
-                merged.setDeprecated(incoming.getDeprecated());
-            }
-            if (incoming.getReadOnly() != null) {
-                merged.setReadOnly(incoming.getReadOnly());
-            }
-            if (incoming.getWriteOnly() != null) {
-                merged.setWriteOnly(incoming.getWriteOnly());
-            }
-            if (incoming.getTitle() != null) {
-                merged.setTitle(incoming.getTitle());
-            }
-            if (incoming.getFormat() != null) {
-                merged.setFormat(incoming.getFormat());
-            }
-            if (incoming.getDefault() != null) {
-                merged.setDefault(incoming.getDefault());
-            }
-            if (incoming.getExample() != null) {
-                merged.setExample(incoming.getExample());
-            }
-            if (incoming.getPattern() != null) {
-                merged.setPattern(incoming.getPattern());
-            }
-            if (incoming.getMaxLength() != null) {
-                merged.setMaxLength(incoming.getMaxLength());
-            }
-            if (incoming.getMinLength() != null) {
-                merged.setMinLength(incoming.getMinLength());
-            }
-            if (incoming.getMaximum() != null) {
-                merged.setMaximum(incoming.getMaximum());
-            }
-            if (incoming.getMinimum() != null) {
-                merged.setMinimum(incoming.getMinimum());
-            }
-            if (incoming.getExclusiveMaximum() != null) {
-                merged.setExclusiveMaximum(incoming.getExclusiveMaximum());
-            }
-            if (incoming.getExclusiveMinimum() != null) {
-                merged.setExclusiveMinimum(incoming.getExclusiveMinimum());
-            }
-            if (incoming.getExclusiveMaximumValue() != null) {
-                merged.setExclusiveMaximumValue(incoming.getExclusiveMaximumValue());
-            }
-            if (incoming.getExclusiveMinimumValue() != null) {
-                merged.setExclusiveMinimumValue(incoming.getExclusiveMinimumValue());
-            }
-            if (incoming.getMultipleOf() != null) {
-                merged.setMultipleOf(incoming.getMultipleOf());
-            }
-            if (incoming.getMaxItems() != null) {
-                merged.setMaxItems(incoming.getMaxItems());
-            }
-            if (incoming.getMinItems() != null) {
-                merged.setMinItems(incoming.getMinItems());
-            }
-            if (incoming.getUniqueItems() != null) {
-                merged.setUniqueItems(incoming.getUniqueItems());
-            }
-            if (incoming.getMaxProperties() != null) {
-                merged.setMaxProperties(incoming.getMaxProperties());
-            }
-            if (incoming.getMinProperties() != null) {
-                merged.setMinProperties(incoming.getMinProperties());
-            }
-            if (incoming.getExtensions() != null) {
-                incoming.getExtensions().forEach((k, v) -> merged.addExtension(String.valueOf(k), v));
-            }
+            ModelUtils.copyConstraints(incoming, merged);
             targetProperties.put(name, merged);
         } else {
             targetProperties.put(name, incoming);
         }
-    }
-
-    /**
-     * True when the schema defines no type of its own: no type, no $ref, no items,
-     * no properties, no composition and no enum.
-     */
-    private static boolean isConstraintOnlySchema(Schema schema) {
-        return ModelUtils.isAnyType(schema)
-                && schema.getItems() == null
-                && schema.getProperties() == null
-                && schema.getAllOf() == null
-                && schema.getOneOf() == null
-                && schema.getAnyOf() == null
-                && schema.getEnum() == null;
     }
 
     /**
