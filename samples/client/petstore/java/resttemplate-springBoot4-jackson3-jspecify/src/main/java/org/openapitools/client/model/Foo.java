@@ -509,9 +509,123 @@ public class Foo {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private Foo instance;
+
+    public Builder() {
+      this(new Foo());
+    }
+
+    protected Builder(Foo instance) {
+      this.instance = instance;
+    }
+
+    public Foo.Builder dt(java.time.@Nullable Instant dt) {
+      this.instance.dt = dt;
+      return this;
+    }
+    public Foo.Builder nullableDt(java.time.@Nullable Instant nullableDt) {
+      this.instance.nullableDt = nullableDt;
+      return this;
+    }
+    public Foo.Builder binary(@Nullable File binary) {
+      this.instance.binary = binary;
+      return this;
+    }
+    public Foo.Builder nullableBinary(@Nullable File nullableBinary) {
+      this.instance.nullableBinary = nullableBinary;
+      return this;
+    }
+    public Foo.Builder listOfDt(@Nullable List<java.time.Instant> listOfDt) {
+      this.instance.listOfDt = listOfDt;
+      return this;
+    }
+    public Foo.Builder listMinIntems(@Nullable List<java.time.Instant> listMinIntems) {
+      this.instance.listMinIntems = listMinIntems;
+      return this;
+    }
+    public Foo.Builder nullableListMinIntems(@Nullable List<java.time.Instant> nullableListMinIntems) {
+      this.instance.nullableListMinIntems = nullableListMinIntems;
+      return this;
+    }
+    public Foo.Builder requiredDt(java.time.Instant requiredDt) {
+      this.instance.requiredDt = requiredDt;
+      return this;
+    }
+    public Foo.Builder number(java.math.@Nullable BigDecimal number) {
+      this.instance.number = number;
+      return this;
+    }
+    public Foo.Builder nullableNumber(java.math.@Nullable BigDecimal nullableNumber) {
+      this.instance.nullableNumber = nullableNumber;
+      return this;
+    }
+    public Foo.Builder color(@Nullable String color) {
+      this.instance.color = color;
+      return this;
+    }
+    public Foo.Builder requiredColor(String requiredColor) {
+      this.instance.requiredColor = requiredColor;
+      return this;
+    }
+    public Foo.Builder nullableColor(@Nullable String nullableColor) {
+      this.instance.nullableColor = nullableColor;
+      return this;
+    }
+
+
+    /**
+    * returns a built Foo instance.
+    *
+    * The builder is not reusable.
+    */
+    public Foo build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Foo.Builder builder() {
+    return new Foo.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Foo.Builder toBuilder() {
+    return new Foo.Builder()
+      .dt(getDt())
+      .nullableDt(getNullableDt())
+      .binary(getBinary())
+      .nullableBinary(getNullableBinary())
+      .listOfDt(getListOfDt())
+      .listMinIntems(getListMinIntems())
+      .nullableListMinIntems(getNullableListMinIntems())
+      .requiredDt(getRequiredDt())
+      .number(getNumber())
+      .nullableNumber(getNullableNumber())
+      .color(getColor())
+      .requiredColor(getRequiredColor())
+      .nullableColor(getNullableColor());
+  }
+
 
 }
 

@@ -1,0 +1,1 @@
+{{#useJspecify}}{{#lambda.jSpecifyNullable}}{{^required}}@{{javaxPackage}}.annotation.Nullable{{/required}}{{/lambda.jSpecifyNullable}}{{#lambda.jSpecifyDatatype}}{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}{{/lambda.jSpecifyDatatype}}{{/useJspecify}}{{^useJspecify}}{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}{{/useJspecify}}
