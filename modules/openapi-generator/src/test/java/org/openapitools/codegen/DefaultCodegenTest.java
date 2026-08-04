@@ -1330,6 +1330,9 @@ public class DefaultCodegenTest {
         assertEquals("String", addressId.dataType);
         assertTrue(addressId.isNullable);
         assertEquals(Integer.valueOf(36), addressId.maxLength);
+        // extensions from both parts survive the merge
+        assertEquals("keep", addressId.vendorExtensions.get("x-base-marker"));
+        assertEquals("added", addressId.vendorExtensions.get("x-overlay-marker"));
     }
 
     @Test

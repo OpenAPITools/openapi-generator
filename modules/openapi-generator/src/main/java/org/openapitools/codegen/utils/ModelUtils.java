@@ -2816,7 +2816,14 @@ public class ModelUtils {
      * @param to   schema to copy to
      */
     public static void copyConstraints(Schema from, Schema to) {
+        Map<String, Object> targetExtensions = to.getExtensions() == null ? null : new HashMap<>(to.getExtensions());
         copyMetadata(from, to);
+        // merge extensions per key instead of replacing, the source wins on conflicts
+        if (targetExtensions != null && from.getExtensions() != null) {
+            Map<String, Object> mergedExtensions = new HashMap<>(targetExtensions);
+            mergedExtensions.putAll(from.getExtensions());
+            to.setExtensions(mergedExtensions);
+        }
         if (from.getFormat() != null) {
             to.setFormat(from.getFormat());
         }

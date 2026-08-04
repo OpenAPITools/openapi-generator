@@ -3665,7 +3665,8 @@ public class DefaultCodegen implements CodegenConfig {
         Schema existing = targetProperties.get(name);
         if (existing != null && incoming != null
                 && !ModelUtils.isAnyType(existing)
-                && ModelUtils.isMetadataOnlySchema(incoming) && incoming.getEnum() == null) {
+                && ModelUtils.isMetadataOnlySchema(incoming)
+                && incoming.getEnum() == null && incoming.getConst() == null && incoming.getNot() == null) {
             Schema merged = ModelUtils.cloneSchema(existing, specVersionGreaterThanOrEqualTo310(openAPI));
             ModelUtils.copyConstraints(incoming, merged);
             targetProperties.put(name, merged);

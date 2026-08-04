@@ -27,6 +27,7 @@ components:
       properties:
         addressId:
           type: string
+          x-base-marker: keep
     UpdateFirm:
       allOf:
         - $ref: "#/components/schemas/FirmProperties"
@@ -37,3 +38,4 @@ components:
             addressId:
               nullable: true
               maxLength: 36
+              x-overlay-marker: added
