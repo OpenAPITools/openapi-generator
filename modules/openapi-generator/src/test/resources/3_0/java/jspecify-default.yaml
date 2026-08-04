@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  description: test jspecify @Nullable on non-required fields that carry a default value
+  title: jspecify-default
+  version: 1.0.0
+paths:
+  /job:
+    get:
+      operationId: listJobs
+      parameters:
+        # non-required query param WITH a default: Spring supplies the default when
+        # the request value is absent, so the generated param must NOT be @Nullable
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 20
+        # non-required query param WITHOUT a default: nullable, keeps @Nullable
+        - in: query
+          name: filter
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CobJob'
+    post:
+      operationId: createJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CobJob'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CobJob'
+components:
+  schemas:
+    CobJob:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        force:
+          type: boolean
+          default: false
+        retries:
+          type: integer
+          format: int32
+          default: 3
+        label:
+          type: string
+          default: "none"
