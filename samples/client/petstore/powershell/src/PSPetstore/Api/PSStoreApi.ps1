@@ -53,7 +53,7 @@ function Remove-PSOrder {
         if (!$OrderId) {
             throw "Error! The required parameter `OrderId` missing when calling deleteOrder."
         }
-        $LocalVarUri = $LocalVarUri.replace('{order_id}', [System.Web.HTTPUtility]::UrlEncode($OrderId))
+        $LocalVarUri = $LocalVarUri.replace('{order_id}', [System.Uri]::EscapeDataString([string]$OrderId))
 
         $LocalVarResult = Invoke-PSApiClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
@@ -211,7 +211,7 @@ function Get-PSOrderById {
         if (!$OrderId) {
             throw "Error! The required parameter `OrderId` missing when calling getOrderById."
         }
-        $LocalVarUri = $LocalVarUri.replace('{order_id}', [System.Web.HTTPUtility]::UrlEncode($OrderId))
+        $LocalVarUri = $LocalVarUri.replace('{order_id}', [System.Uri]::EscapeDataString([string]$OrderId))
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
