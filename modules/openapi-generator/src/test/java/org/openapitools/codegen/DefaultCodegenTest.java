@@ -1329,6 +1329,7 @@ public class DefaultCodegenTest {
                 .filter(v -> "addressId".equals(v.baseName)).findFirst().orElseThrow();
         assertEquals("String", addressId.dataType);
         assertTrue(addressId.isNullable);
+        assertEquals(Integer.valueOf(36), addressId.maxLength);
     }
 
     @Test

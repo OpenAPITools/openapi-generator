@@ -3653,8 +3653,9 @@ public class DefaultCodegen implements CodegenConfig {
      * Adds each property to the target map. When a property of the same name is already present
      * with type information and the incoming schema carries no type of its own (for example an
      * allOf part that only sets 'nullable: true' on an inherited property), the incoming
-     * constraints are applied on top of the existing schema instead of replacing it, so the
-     * type is not lost. See issue #4128.
+     * constraints (nullable, description, validation keywords, format, default, extensions)
+     * are applied on top of the existing schema instead of replacing it, so the type is not
+     * lost. See issue #4128.
      */
     private void putProperties(Map<String, Schema> targetProperties, Map<String, Schema> newProperties) {
         newProperties.forEach((name, incoming) -> putProperty(targetProperties, name, incoming));
@@ -3679,6 +3680,63 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (incoming.getWriteOnly() != null) {
                 merged.setWriteOnly(incoming.getWriteOnly());
+            }
+            if (incoming.getTitle() != null) {
+                merged.setTitle(incoming.getTitle());
+            }
+            if (incoming.getFormat() != null) {
+                merged.setFormat(incoming.getFormat());
+            }
+            if (incoming.getDefault() != null) {
+                merged.setDefault(incoming.getDefault());
+            }
+            if (incoming.getExample() != null) {
+                merged.setExample(incoming.getExample());
+            }
+            if (incoming.getPattern() != null) {
+                merged.setPattern(incoming.getPattern());
+            }
+            if (incoming.getMaxLength() != null) {
+                merged.setMaxLength(incoming.getMaxLength());
+            }
+            if (incoming.getMinLength() != null) {
+                merged.setMinLength(incoming.getMinLength());
+            }
+            if (incoming.getMaximum() != null) {
+                merged.setMaximum(incoming.getMaximum());
+            }
+            if (incoming.getMinimum() != null) {
+                merged.setMinimum(incoming.getMinimum());
+            }
+            if (incoming.getExclusiveMaximum() != null) {
+                merged.setExclusiveMaximum(incoming.getExclusiveMaximum());
+            }
+            if (incoming.getExclusiveMinimum() != null) {
+                merged.setExclusiveMinimum(incoming.getExclusiveMinimum());
+            }
+            if (incoming.getExclusiveMaximumValue() != null) {
+                merged.setExclusiveMaximumValue(incoming.getExclusiveMaximumValue());
+            }
+            if (incoming.getExclusiveMinimumValue() != null) {
+                merged.setExclusiveMinimumValue(incoming.getExclusiveMinimumValue());
+            }
+            if (incoming.getMultipleOf() != null) {
+                merged.setMultipleOf(incoming.getMultipleOf());
+            }
+            if (incoming.getMaxItems() != null) {
+                merged.setMaxItems(incoming.getMaxItems());
+            }
+            if (incoming.getMinItems() != null) {
+                merged.setMinItems(incoming.getMinItems());
+            }
+            if (incoming.getUniqueItems() != null) {
+                merged.setUniqueItems(incoming.getUniqueItems());
+            }
+            if (incoming.getMaxProperties() != null) {
+                merged.setMaxProperties(incoming.getMaxProperties());
+            }
+            if (incoming.getMinProperties() != null) {
+                merged.setMinProperties(incoming.getMinProperties());
             }
             if (incoming.getExtensions() != null) {
                 incoming.getExtensions().forEach((k, v) -> merged.addExtension(String.valueOf(k), v));
