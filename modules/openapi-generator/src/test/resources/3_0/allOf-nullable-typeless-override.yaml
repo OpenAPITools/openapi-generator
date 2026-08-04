@@ -36,3 +36,4 @@ components:
               nullable: true
             addressId:
               nullable: true
+              maxLength: 36
