@@ -53,11 +53,11 @@ public class Foo {
 
   public static final String JSON_PROPERTY_LIST_OF_DT = "listOfDt";
   
-  private List<java.time.@Nullable Instant> listOfDt;
+  private @Nullable List<java.time.Instant> listOfDt;
 
   public static final String JSON_PROPERTY_LIST_MIN_INTEMS = "listMinIntems";
   
-  private List<java.time.@Nullable Instant> listMinIntems;
+  private @Nullable List<java.time.Instant> listMinIntems;
 
   public static final String JSON_PROPERTY_REQUIRED_DT = "requiredDt";
   
@@ -68,6 +68,18 @@ public class Foo {
   private java.math.@Nullable BigDecimal number;
 
   public Foo() {
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public Foo(@JsonProperty(JSON_PROPERTY_DT) java.time.@Nullable Instant dt, @JsonProperty(JSON_PROPERTY_BINARY) @Nullable File binary, @JsonProperty(JSON_PROPERTY_LIST_OF_DT) @Nullable List<java.time.Instant> listOfDt, @JsonProperty(JSON_PROPERTY_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> listMinIntems, @JsonProperty(JSON_PROPERTY_REQUIRED_DT) java.time.Instant requiredDt, @JsonProperty(JSON_PROPERTY_NUMBER) java.math.@Nullable BigDecimal number) {
+    this.dt = dt;
+    this.binary = binary;
+    this.listOfDt = listOfDt;
+    this.listMinIntems = listMinIntems;
+    this.requiredDt = requiredDt;
+    this.number = number;
   }
 
   public Foo dt(java.time.@Nullable Instant dt) {
@@ -120,7 +132,7 @@ public class Foo {
     this.binary = binary;
   }
 
-  public Foo listOfDt(List<java.time.@Nullable Instant> listOfDt) {
+  public Foo listOfDt(@Nullable List<java.time.Instant> listOfDt) {
     
     this.listOfDt = listOfDt;
     return this;
@@ -142,18 +154,18 @@ public class Foo {
   @JsonProperty(value = JSON_PROPERTY_LIST_OF_DT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<java.time.@Nullable Instant> getListOfDt() {
+  public @Nullable List<java.time.Instant> getListOfDt() {
     return listOfDt;
   }
 
 
   @JsonProperty(value = JSON_PROPERTY_LIST_OF_DT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setListOfDt(List<java.time.@Nullable Instant> listOfDt) {
+  public void setListOfDt(@Nullable List<java.time.Instant> listOfDt) {
     this.listOfDt = listOfDt;
   }
 
-  public Foo listMinIntems(List<java.time.@Nullable Instant> listMinIntems) {
+  public Foo listMinIntems(@Nullable List<java.time.Instant> listMinIntems) {
     
     this.listMinIntems = listMinIntems;
     return this;
@@ -175,14 +187,14 @@ public class Foo {
   @JsonProperty(value = JSON_PROPERTY_LIST_MIN_INTEMS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<java.time.@Nullable Instant> getListMinIntems() {
+  public @Nullable List<java.time.Instant> getListMinIntems() {
     return listMinIntems;
   }
 
 
   @JsonProperty(value = JSON_PROPERTY_LIST_MIN_INTEMS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setListMinIntems(List<java.time.@Nullable Instant> listMinIntems) {
+  public void setListMinIntems(@Nullable List<java.time.Instant> listMinIntems) {
     this.listMinIntems = listMinIntems;
   }
 
@@ -277,9 +289,88 @@ public class Foo {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private Foo instance;
+
+    public Builder() {
+      this(new Foo());
+    }
+
+    protected Builder(Foo instance) {
+      this.instance = instance;
+    }
+
+    public Foo.Builder dt(java.time.@Nullable Instant dt) {
+      this.instance.dt = dt;
+      return this;
+    }
+    public Foo.Builder binary(@Nullable File binary) {
+      this.instance.binary = binary;
+      return this;
+    }
+    public Foo.Builder listOfDt(@Nullable List<java.time.Instant> listOfDt) {
+      this.instance.listOfDt = listOfDt;
+      return this;
+    }
+    public Foo.Builder listMinIntems(@Nullable List<java.time.Instant> listMinIntems) {
+      this.instance.listMinIntems = listMinIntems;
+      return this;
+    }
+    public Foo.Builder requiredDt(java.time.Instant requiredDt) {
+      this.instance.requiredDt = requiredDt;
+      return this;
+    }
+    public Foo.Builder number(java.math.@Nullable BigDecimal number) {
+      this.instance.number = number;
+      return this;
+    }
+
+
+    /**
+    * returns a built Foo instance.
+    *
+    * The builder is not reusable.
+    */
+    public Foo build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Foo.Builder builder() {
+    return new Foo.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Foo.Builder toBuilder() {
+    return new Foo.Builder()
+      .dt(getDt())
+      .binary(getBinary())
+      .listOfDt(getListOfDt())
+      .listMinIntems(getListMinIntems())
+      .requiredDt(getRequiredDt())
+      .number(getNumber());
+  }
+
 
 }
 

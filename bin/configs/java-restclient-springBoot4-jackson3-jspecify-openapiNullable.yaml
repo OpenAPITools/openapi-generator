@@ -1,17 +1,19 @@
 generatorName: java
-outputDir: samples/client/petstore/java/native-jackson3-jspecify
-library: native
+outputDir: samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify-openapiNullable
+library: restclient
 inputSpec: modules/openapi-generator/src/test/resources/3_0/java/jspecify.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
 validateSpec: false
 additionalProperties:
-  artifactId: petstore-native-jackson3
+  artifactId: petstore-restclient
   hideGenerationTimestamp: "true"
-  useReflectionEqualsHashCode: "true"
-  useJackson3: "true"
-  openApiNullable: "false"
+  containerDefaultToNull: "true"
+  useSpringBoot4: true
+  useJackson3: true
+  openApiNullable: true
   useJspecify: true
   generateBuilders: true
+  generateConstructorWithAllArgs: true
 typeMappings:
   OffsetDateTime: java.time.Instant
   BigDecimal: java.math.BigDecimal
