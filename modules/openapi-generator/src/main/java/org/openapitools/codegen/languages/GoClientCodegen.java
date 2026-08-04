@@ -44,6 +44,8 @@ import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -543,7 +545,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             boolean addedFmtImport = false;
 
             // oneOf
-            if (model.oneOf != null && !model.oneOf.isEmpty()) {
+            if (hasOneOf(model)) {
                 imports.add(createMapping("import", "fmt"));
                 addedFmtImport = true;
 
@@ -554,7 +556,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
 
             // anyOf
-            if (model.anyOf != null && !model.anyOf.isEmpty()) {
+            if (hasAnyOf(model)) {
                 imports.add(createMapping("import", "fmt"));
                 addedFmtImport = true;
             }

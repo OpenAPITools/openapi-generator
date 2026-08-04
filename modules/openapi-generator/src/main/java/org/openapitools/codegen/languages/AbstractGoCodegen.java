@@ -32,6 +32,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -866,13 +868,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             // if oneOf contains "null" type
-            if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {
+            if (hasOneOf(model) && model.oneOf.contains("nil")) {
                 model.isNullable = true;
                 model.oneOf.remove("nil");
             }
 
             // if anyOf contains "null" type
-            if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("nil")) {
+            if (hasAnyOf(model) && model.anyOf.contains("nil")) {
                 model.isNullable = true;
                 model.anyOf.remove("nil");
             }

@@ -43,6 +43,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -668,7 +670,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         for (ModelsMap modelsMap : objs.values()) {
             for (ModelMap modelMap : modelsMap.getModels()) {
                 CodegenModel model = modelMap.getModel();
-                if (model == null || !model.oneOf.isEmpty() || !model.anyOf.isEmpty()) {
+                if (model == null || hasOneOf(model) || hasAnyOf(model)) {
                     continue;
                 }
                 List<CodegenProperty> generatedProperties = generatedProperties(model);
@@ -993,7 +995,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!model.oneOf.isEmpty() || !model.anyOf.isEmpty()) {
+        if (hasOneOf(model) || hasAnyOf(model)) {
             return;
         }
 

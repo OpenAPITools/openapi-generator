@@ -38,8 +38,9 @@ import java.io.File;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
-import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -1060,11 +1061,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 if (modelMaps.containsKey(op.returnType) && modelMaps.get(op.returnType) != null) {
                     CodegenModel cm = modelMaps.get(op.returnType);
 
-                    if (cm.oneOf != null && !cm.oneOf.isEmpty()) {
+                    if (hasOneOf(cm)) {
                         op.vendorExtensions.put("x-ps-return-type-one-of", true);
                     }
 
-                    if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+                    if (hasAnyOf(cm)) {
                         op.vendorExtensions.put("x-ps-return-type-any-of", true);
                     }
                 } else {
@@ -1101,13 +1102,13 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
 
             // if oneOf contains "null" type
-            if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("ModelNull")) {
+            if (hasOneOf(model) && model.oneOf.contains("ModelNull")) {
                 model.isNullable = true;
                 model.oneOf.remove("ModelNull");
             }
 
             // if anyOf contains "null" type
-            if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("ModelNull")) {
+            if (hasAnyOf(model) && model.anyOf.contains("ModelNull")) {
                 model.isNullable = true;
                 model.anyOf.remove("ModelNull");
             }
