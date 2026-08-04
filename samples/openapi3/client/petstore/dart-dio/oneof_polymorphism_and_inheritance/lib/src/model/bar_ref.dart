@@ -198,3 +198,4 @@ class _$BarRefSerializer implements PrimitiveSerializer<BarRef> {
   }
 }
 
+

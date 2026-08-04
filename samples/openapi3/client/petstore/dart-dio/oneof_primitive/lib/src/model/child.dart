@@ -107,3 +107,4 @@ class _$ChildSerializer implements PrimitiveSerializer<Child> {
   }
 }
 
+

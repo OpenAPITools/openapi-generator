@@ -110,6 +110,7 @@ class _$ObjectWithDuplicateInlineEnumSerializer implements PrimitiveSerializer<O
   }
 }
 
+
 class ObjectWithDuplicateInlineEnumAttributeEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'value_one')

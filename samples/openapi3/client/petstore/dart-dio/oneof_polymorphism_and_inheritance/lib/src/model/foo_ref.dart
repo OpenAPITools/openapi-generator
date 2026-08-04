@@ -217,3 +217,4 @@ class _$FooRefSerializer implements PrimitiveSerializer<FooRef> {
   }
 }
 
+

@@ -107,3 +107,4 @@ class _$AppleSerializer implements PrimitiveSerializer<Apple> {
   }
 }
 
+

@@ -84,6 +84,7 @@ class _$ExtensibleSerializer implements PrimitiveSerializer<Extensible> {
   }
 }
 
+
 /// a concrete implementation of [Extensible], since [Extensible] is not instantiable
 @BuiltValue(instantiable: true)
 abstract class $Extensible implements Extensible, Built<$Extensible, $ExtensibleBuilder> {

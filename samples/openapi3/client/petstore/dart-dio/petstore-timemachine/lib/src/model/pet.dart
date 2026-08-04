@@ -202,6 +202,7 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
   }
 }
 
+
 /// pet status in the store
 class PetStatusEnum extends EnumClass {
 

@@ -162,6 +162,7 @@ class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
   }
 }
 
+
 /// a concrete implementation of [EntityRef], since [EntityRef] is not instantiable
 @BuiltValue(instantiable: true)
 abstract class $EntityRef implements EntityRef, Built<$EntityRef, $EntityRefBuilder> {
