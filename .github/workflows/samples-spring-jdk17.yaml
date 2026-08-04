@@ -65,7 +65,7 @@ jobs:
           - samples/client/petstore/spring-http-interface-oauth
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v5.7.0
         with:
           distribution: 'temurin'
           java-version: 17

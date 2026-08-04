@@ -47,6 +47,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -1621,7 +1622,7 @@ public class ModelUtils {
             Schema ref = allSchemas.get(simpleRef);
             if (ref == null) {
                 if (!isRefToSchemaWithProperties(schema.get$ref())) {
-                    once(LOGGER).warn("{} is not defined", schema.get$ref());
+                    once(LOGGER).warn(MessageFormatter.format("{} is not defined", schema.get$ref()).getMessage());
                 }
                 return schema;
             } else if (isEnumSchema(ref)) {
@@ -2001,9 +2002,7 @@ public class ModelUtils {
         if (schema.getExtensions() != null && schema.getExtensions().get(X_NULLABLE) != null) {
             return Boolean.parseBoolean(schema.getExtensions().get(X_NULLABLE).toString());
         }
-        if (schema.getTypes() != null && schema.getTypes().contains("null")) {
-            return true;
-        }
+
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
         if (isComposedSchema(schema)) {
             return isNullableComposedSchema(schema);
@@ -2622,8 +2621,9 @@ public class ModelUtils {
             return false;
         }
 
-        // schema with properties
-        if (schema.getProperties() != null) {
+        // schema with properties or additional properties
+        if (schema.getProperties() != null ||
+                (schema.getAdditionalProperties() != null && !Boolean.FALSE.equals(schema.getBooleanSchemaValue()))) {
             return false;
         }
 
@@ -2728,7 +2728,7 @@ public class ModelUtils {
             to.setExample(from.getExample());
         }
         if (from.getExamples() != null) {
-            to.setExample(from.getExamples());
+            to.setExamples(from.getExamples());
         }
         if (from.getReadOnly() != null) {
             to.setReadOnly(from.getReadOnly());

@@ -170,6 +170,8 @@ class RESTClientObject:
             else:
                 pool_args["proxy_url"] = configuration.proxy
                 pool_args["proxy_headers"] = configuration.proxy_headers
+                if configuration.proxy_ssl_context is not None:
+                    pool_args["proxy_ssl_context"] = configuration.proxy_ssl_context
                 self.pool_manager = urllib3.ProxyManager(**pool_args)
         else:
             self.pool_manager = urllib3.PoolManager(**pool_args)

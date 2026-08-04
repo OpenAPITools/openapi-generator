@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             var response = await _instance.NowGetAsync();
             var model = response.Ok();
-            Assert.IsType<NowGet200Response>(model);
+            Assert.IsType<Org.OpenAPITools.Model.NowGet200Response>(model);
         }
     }
 }

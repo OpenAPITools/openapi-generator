@@ -1014,7 +1014,7 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setOpenAPI(OpenAPI openAPI) {
         if (specVersionGreaterThanOrEqualTo310(openAPI)) {
-            LOGGER.warn(UNSUPPORTED_V310_SPEC_MSG);
+            once(LOGGER).warn(UNSUPPORTED_V310_SPEC_MSG);
         }
         this.openAPI = openAPI;
         // Set global settings such that helper functions in ModelUtils can lookup the value
@@ -1264,7 +1264,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String escapeUnsafeCharacters(String input) {
-        LOGGER.warn("escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape " +
+        once(LOGGER).warn("escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape " +
                 "unsafe characters");
         // doing nothing by default and code generator should implement
         // the logic to prevent code injection
@@ -1281,7 +1281,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String escapeQuotationMark(String input) {
-        LOGGER.warn("escapeQuotationMark should be overridden in the code generator with proper logic to escape " +
+        once(LOGGER).warn("escapeQuotationMark should be overridden in the code generator with proper logic to escape " +
                 "single/double quote");
         return input.replace("\"", "\\\"");
     }
@@ -2924,7 +2924,7 @@ public class DefaultCodegen implements CodegenConfig {
             addAdditionPropertiesToCodeGenModel(m, schema);
         }
 
-        if (Boolean.TRUE.equals(schema.getNullable())) {
+        if (ModelUtils.isNullable(schema)) {
             m.isNullable = Boolean.TRUE;
         }
 
@@ -2974,12 +2974,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateModelForAnyType(CodegenModel m, Schema schema) {
-        // The 'null' value is allowed when the OAS schema is 'any type'.
-        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        if (Boolean.FALSE.equals(schema.getNullable())) {
-            LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", m.name);
-        }
-        // m.isNullable = true;
         if (ModelUtils.isMapSchema(schema)) {
             // an object or anyType composed schema that has additionalProperties set
             addAdditionPropertiesToCodeGenModel(m, schema);
@@ -3714,12 +3708,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
-        // The 'null' value is allowed when the OAS schema is 'any type'.
-        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        if (Boolean.FALSE.equals(p.getNullable())) {
-            LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
-        }
-
         property.isNullable = property.isNullable ||
                 !(ModelUtils.isComposedSchema(p)) ||
                 p.getAllOf() == null ||
@@ -3926,8 +3914,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
         if (ModelUtils.isNullable(p)) {
             property.isNullable = true;
-        } else if (p.getNullable() != null) {
-            property.isNullable = p.getNullable();
         }
 
         if (p.getExtensions() != null && !p.getExtensions().isEmpty()) {
@@ -3977,14 +3963,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        // set isNullable using nullable or x-nullable in the schema
         if (ModelUtils.isNullable(referencedSchema)) {
             property.isNullable = true;
-        } else if (referencedSchema.getNullable() != null) {
-            property.isNullable = referencedSchema.getNullable();
-        } else if (referencedSchema.getExtensions() != null &&
-                referencedSchema.getExtensions().containsKey(X_NULLABLE)) {
-            property.isNullable = (Boolean) referencedSchema.getExtensions().get(X_NULLABLE);
         }
 
         final XML referencedSchemaXml = referencedSchema.getXml();
@@ -4085,10 +4065,6 @@ public class DefaultCodegen implements CodegenConfig {
             // evaluate common attributes if defined in the top level
             if (ModelUtils.isNullable(p)) {
                 property.isNullable = true;
-            } else if (p.getNullable() != null) {
-                property.isNullable = p.getNullable();
-            } else if (p.getExtensions() != null && p.getExtensions().containsKey(X_NULLABLE)) {
-                property.isNullable = (Boolean) p.getExtensions().get(X_NULLABLE);
             }
 
             if (p.getReadOnly() != null) {
@@ -5023,12 +4999,21 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isDoubleSchema(responseSchema)) { // double
                 r.isDouble = Boolean.TRUE;
             }
+        } else if (ModelUtils.isFreeFormObject(responseSchema, openAPI)) {
+            r.isFreeFormObject = true;
+            r.simpleType = false;
+        } else if (ModelUtils.isMapSchema(responseSchema)) {
+            r.isMap = true;
+            r.simpleType = false;
+            r.isModel = false;
+            r.containerType = cp.containerType;
+            r.containerTypeMapped = cp.containerTypeMapped;
+        } else if (ModelUtils.isArraySchema(responseSchema)) {
+            r.isArray = true;
+            r.simpleType = false;
+            r.containerType = cp.containerType;
+            r.containerTypeMapped = cp.containerTypeMapped;
         } else if (ModelUtils.isTypeObjectSchema(responseSchema)) {
-            if (ModelUtils.isFreeFormObject(responseSchema, openAPI)) {
-                r.isFreeFormObject = true;
-            } else {
-                r.isModel = true;
-            }
             r.simpleType = false;
             r.containerType = cp.containerType;
             r.containerTypeMapped = cp.containerTypeMapped;
@@ -5292,7 +5277,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.setTypeProperties(parameterSchema, openAPI);
         codegenParameter.setComposedSchemas(getComposedSchemas(parameterSchema));
 
-        if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
+        if (ModelUtils.isNullable(parameterSchema)) { // use nullable defined in the spec
             codegenParameter.isNullable = true;
         }
 
@@ -8066,7 +8051,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getNullable() != null) {
                 codegenParameter.isNullable = original.getNullable();
             } else if (original.getExtensions() != null && original.getExtensions().containsKey(X_NULLABLE)) {
-                codegenParameter.isNullable = (Boolean) original.getExtensions().get(X_NULLABLE);
+                codegenParameter.isNullable = Boolean.parseBoolean(String.valueOf(original.getExtensions().get(X_NULLABLE)));
+            } else if (ModelUtils.isNullable(original)) {
+                codegenParameter.isNullable = true;
             }
 
             if (original.getExtensions() != null) {
