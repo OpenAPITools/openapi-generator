@@ -214,4 +214,49 @@ public class RustServerCodegenTest {
         // Clean up
         target.toFile().deleteOnExit();
     }
+
+    /**
+     * Test that each generated security scheme block in context.rs only matches the auth
+     * scheme it was generated for (see issue #24095).
+     *
+     * Since swagger-rs 7, swagger::auth::from_headers is no longer scheme-typed: it returns
+     * Option<AuthData> and matches either a Basic or a Bearer Authorization header. Because
+     * each generated block returns early on a match, an unrestricted block captures requests
+     * belonging to a different scheme and makes every later security scheme block
+     * unreachable - including in-header apiKey blocks, which is an authorization bypass.
+     */
+    @Test
+    public void testAuthSchemeBlocksOnlyMatchTheirOwnScheme() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/2_0/rust-server/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path contextPath = Path.of(target.toString(), "/src/context.rs");
+        TestUtils.assertFileExists(contextPath);
+
+        // The oauth2 (petstore_auth) block must only accept a Bearer header.
+        TestUtils.assertFileContains(contextPath,
+                "if let Some(bearer @ AuthData::Bearer(..)) = swagger::auth::from_headers(headers) {");
+        // The basic (http_basic_test) block must only accept a Basic header.
+        TestUtils.assertFileContains(contextPath,
+                "if let Some(auth @ AuthData::Basic(..)) = swagger::auth::from_headers(headers) {");
+        // No block may accept any Authorization header regardless of scheme, which would
+        // short-circuit the api_key / api_key_query blocks that follow it.
+        TestUtils.assertFileNotContains(contextPath,
+                "if let Some(bearer) = swagger::auth::from_headers(headers) {");
+        TestUtils.assertFileNotContains(contextPath,
+                "if let Some(auth) = swagger::auth::from_headers(headers) {");
+
+        // The in-header apiKey block must still be generated and reachable.
+        TestUtils.assertFileContains(contextPath,
+                "if let Some(header) = api_key_from_header(headers, \"api_key\") {");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
 }
