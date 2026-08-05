@@ -3,8 +3,8 @@ pub mod payments;
 #[allow(dead_code)]
 #[derive(Debug, Eq, PartialEq)]
 pub enum Authorization {
-  Authorized,
-  Forbidden,
+    Authorized,
+    Forbidden,
 }
 
 pub mod event {
