@@ -13,7 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * Simplified identifier of an item
  * @export

@@ -13,7 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A tag for a pet
  * @export

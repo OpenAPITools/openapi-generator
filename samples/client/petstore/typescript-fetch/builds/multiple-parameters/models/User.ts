@@ -13,7 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A User who is purchasing from the pet store
  * @export

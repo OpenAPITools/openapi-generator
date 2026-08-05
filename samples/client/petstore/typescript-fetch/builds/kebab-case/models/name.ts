@@ -13,7 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * Model for testing model name same as property name
  * @export

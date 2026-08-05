@@ -21,7 +21,6 @@ import {
     SingleRefTypeToJSONTyped,
 } from './SingleRefType';
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

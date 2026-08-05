@@ -21,7 +21,6 @@ import {
     FooToJSONTyped,
 } from './foo';
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

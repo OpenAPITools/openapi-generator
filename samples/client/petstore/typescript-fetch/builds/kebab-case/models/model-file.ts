@@ -13,7 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * Must be named `File` for test.
  * @export

@@ -22,7 +22,6 @@ import {
 } from './TestObjectType';
 
 import { type ExtendDto, ExtendDtoFromJSONTyped, ExtendDtoToJSON, ExtendDtoToJSONTyped } from './ExtendDto';
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

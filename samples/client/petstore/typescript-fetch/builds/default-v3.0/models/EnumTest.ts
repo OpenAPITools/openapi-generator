@@ -42,7 +42,6 @@ import {
     OuterEnumDefaultValueToJSONTyped,
 } from './OuterEnumDefaultValue';
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

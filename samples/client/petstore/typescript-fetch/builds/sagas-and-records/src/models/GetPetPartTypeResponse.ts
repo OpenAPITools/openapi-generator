@@ -28,7 +28,6 @@ import {
     PetPartTypeToJSONTyped,
 } from './PetPartType';
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

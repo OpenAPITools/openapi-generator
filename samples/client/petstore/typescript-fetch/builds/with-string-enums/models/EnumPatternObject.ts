@@ -28,7 +28,6 @@ import {
     StringEnumToJSONTyped,
 } from './StringEnum';
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

@@ -453,18 +453,3 @@ export class TextApiResponse {
     };
 }
 
-export interface PropertyValidationAttributes {
-    dataType?: string,
-    required?: boolean,
-    maxLength?: number,
-    minLength?: number,
-    pattern?: string,
-    maximum?: number,
-    exclusiveMaximum?: boolean,
-    minimum?: number,
-    exclusiveMinimum?: boolean,
-    multipleOf?: number,
-    maxItems?: number,
-    minItems?: number,
-    uniqueItems?: boolean
-}

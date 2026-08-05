@@ -28,7 +28,6 @@ import {
     MatchingPartsToJSONTyped,
 } from './MatchingParts';
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

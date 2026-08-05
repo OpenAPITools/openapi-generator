@@ -21,7 +21,6 @@ import {
     PartToJSONTyped,
 } from './Part';
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * Contains all the matching parts
  * @export

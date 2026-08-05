@@ -21,7 +21,6 @@ import {
     ItemIdToJSONTyped,
 } from './ItemId';
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * This represent an error normally linked to a specific item from a previous request
  * @export

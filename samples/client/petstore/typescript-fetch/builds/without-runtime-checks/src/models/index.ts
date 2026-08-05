@@ -1,6 +1,5 @@
 /* tslint:disable */
 /* eslint-disable */
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A category for a pet
  * @export
@@ -16,7 +15,6 @@ export interface Category {
      */
     name?: string;
 }
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * Describes the result of uploading an image resource
  * @export
@@ -36,7 +34,6 @@ export interface ModelApiResponse {
      */
     message?: string;
 }
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * An order for a pets from the pet store
  * @export
@@ -80,7 +77,6 @@ export const OrderStatusEnum = {
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A pet for sale in the pet store
  * @export
@@ -124,7 +120,6 @@ export const PetStatusEnum = {
 } as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A tag for a pet
  * @export
@@ -140,7 +135,6 @@ export interface Tag {
      */
     name?: string;
 }
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A User who is purchasing from the pet store
  * @export

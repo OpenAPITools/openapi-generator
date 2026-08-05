@@ -21,7 +21,6 @@ import {
     DeprecatedObjectToJSONTyped,
 } from './DeprecatedObject';
 
-import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export
