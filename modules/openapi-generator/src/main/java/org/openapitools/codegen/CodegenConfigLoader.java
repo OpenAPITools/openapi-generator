@@ -44,7 +44,12 @@ public class CodegenConfigLoader {
         // else try to load directly
         try {
             return loadConfigClass(name).asSubclass(CodegenConfig.class).getDeclaredConstructor().newInstance();
-        } catch (ClassNotFoundException | NoClassDefFoundError e) {
+        } catch (ClassNotFoundException e) {
+            throw generatorNotFoundException(name, availableConfigs, e);
+        } catch (NoClassDefFoundError e) {
+            if (e.getCause() instanceof ExceptionInInitializerError) {
+                throw generatorInitializationException(name, availableConfigs, e);
+            }
             throw generatorNotFoundException(name, availableConfigs, e);
         } catch (UnsupportedClassVersionError e) {
             throw generatorIncompatibleException(name, availableConfigs, e);
