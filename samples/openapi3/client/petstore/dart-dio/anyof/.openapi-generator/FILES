@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 analysis_options.yaml
 doc/DefaultApi.md
@@ -18,5 +17,3 @@ lib/src/model/date.dart
 lib/src/model/field_value.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/default_api_test.dart
-test/field_value_test.dart
