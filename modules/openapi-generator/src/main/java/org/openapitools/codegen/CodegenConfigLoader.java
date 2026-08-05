@@ -29,7 +29,7 @@ public class CodegenConfigLoader {
      * @return config class
      */
     public static CodegenConfig forName(String name) {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
+        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, getConfigClassLoader());
 
         StringBuilder availableConfigs = new StringBuilder();
 
@@ -43,18 +43,43 @@ public class CodegenConfigLoader {
 
         // else try to load directly
         try {
-            return (CodegenConfig) Class.forName(name).getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
-            throw new GeneratorNotFoundException("Can't load config class with name '".concat(name) + "'\nAvailable:\n" + availableConfigs, e);
+            return loadConfigClass(name).asSubclass(CodegenConfig.class).getDeclaredConstructor().newInstance();
+        } catch (ClassNotFoundException e) {
+            throw new GeneratorNotFoundException(
+                    "Can't load config class with name '" + name + "'. The class was not found on the generation "
+                            + "runtime classpath. Ensure the class (and its dependencies) is on the classpath used "
+                            + "to launch the generator.\nAvailable:\n" + availableConfigs, e);
+        } catch (ReflectiveOperationException | ClassCastException e) {
+            throw new GeneratorNotFoundException(
+                    "Can't instantiate config class with name '" + name + "'. The class was found but could not be "
+                            + "constructed; it must implement CodegenConfig, declare a public no-argument constructor, "
+                            + "and that constructor must not throw.\nAvailable:\n" + availableConfigs, e);
         }
     }
 
     public static List<CodegenConfig> getAll() {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
+        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, getConfigClassLoader());
         List<CodegenConfig> output = new ArrayList<CodegenConfig>();
         for (CodegenConfig aLoader : loader) {
             output.add(aLoader);
         }
         return output;
+    }
+
+    private static ClassLoader getConfigClassLoader() {
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        return contextClassLoader != null ? contextClassLoader : CodegenConfig.class.getClassLoader();
+    }
+
+    private static Class<?> loadConfigClass(String className) throws ClassNotFoundException {
+        ClassLoader classLoader = getConfigClassLoader();
+        try {
+            return Class.forName(className, true, classLoader);
+        } catch (ClassNotFoundException ignored) {
+            if (classLoader != CodegenConfig.class.getClassLoader()) {
+                return Class.forName(className, true, CodegenConfig.class.getClassLoader());
+            }
+            throw ignored;
+        }
     }
 }

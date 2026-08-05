@@ -653,6 +653,11 @@ a custom `NORMALIZER_CLASS` that isn't already on the plugin's own classpath mus
 code generation worker in both `workerIsolation` modes (`process` and `classloader`) - see the plugin's README for
 details.
 
+Similarly, a custom generator selected by name or fully qualified class name must be resolvable on the generation
+runtime classpath. With the Gradle plugin, add its jar or project output to `openApiGeneratorExtra` (preferred) or
+`generatorClasspath` so it is forwarded to the code generation worker in both `process` and `classloader`
+`workerIsolation` modes.
+
 - `LOOSE_NULL_DEFINITIONS`: When set to true, allow more schema definitions in OpenAPI 3.0 spec to be the same as `null` in OpenAPI 3.1 spec by setting ModelUtils.looseNullDefinitions to true.
 
 Example:
