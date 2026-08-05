@@ -2866,7 +2866,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Mustache.Lambda jSpecifyDatatypeLambda = (fragment, writer) -> {
             String dataType = fragment.execute();
             if (jSpecifyNullableLambda.isSetAndClear()) {
-                int idx = dataType.lastIndexOf('.');
+                int idx = getLastIndex(dataType);
                 if (idx > 0) {
                     // generate declaration like java.time.@Nullable Timestamp
                     writer.write(dataType.substring(0, idx + 1));
@@ -2884,6 +2884,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
                 .put("jSpecifyNullable", jSpecifyNullableLambda);
 
+    }
+
+    private int getLastIndex(String dataType) {
+        int index = dataType.indexOf('<');
+        if (index >= 0) {
+            dataType = dataType.substring(0, index);
+        }
+        return dataType.lastIndexOf('.');
     }
 
     /**
