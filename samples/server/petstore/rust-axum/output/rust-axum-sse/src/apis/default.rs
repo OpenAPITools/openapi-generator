@@ -24,6 +24,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// LiveUpdatesGet - GET /live-updates
     async fn live_updates_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

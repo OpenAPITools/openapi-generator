@@ -47,6 +47,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Foo - POST /
     async fn foo(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -56,6 +57,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// I211431 - POST /issue21143_1
     async fn i211431(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -65,6 +67,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// I211432 - POST /issue21143_2
     async fn i211432(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -74,6 +77,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// I211433 - POST /issue21143_3
     async fn i211433(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

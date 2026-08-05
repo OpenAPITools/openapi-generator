@@ -23,6 +23,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// UsersPost - POST /users
     async fn users_post(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

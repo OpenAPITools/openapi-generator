@@ -313,6 +313,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// AnyOfGet - GET /any-of
     async fn any_of_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -322,6 +323,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// CallbackWithHeaderPost - POST /callback-with-header
     async fn callback_with_header_post(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -331,6 +333,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// ComplexQueryParamGet - GET /complex-query-param
     async fn complex_query_param_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -340,6 +343,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// EnumInPathPathParamGet - GET /enum_in_path/{path_param}
     async fn enum_in_path_path_param_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -351,6 +355,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// ExamplesTest - GET /examples-test
     async fn examples_test(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -362,6 +367,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// FormTest - POST /form-test
     async fn form_test(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -371,6 +377,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// GetWithBooleanParameter - GET /get-with-bool
     async fn get_with_boolean_parameter(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -380,6 +387,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// JsonComplexQueryParamGet - GET /json-complex-query-param
     async fn json_complex_query_param_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -389,6 +397,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// MandatoryRequestHeaderGet - GET /mandatory-request-header
     async fn mandatory_request_header_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -398,6 +407,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// MergePatchJsonGet - GET /merge-patch-json
     async fn merge_patch_json_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -408,6 +418,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// MultigetGet - GET /multiget
     async fn multiget_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -416,6 +427,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// MultipleAuthSchemeGet - GET /multiple_auth_scheme
     async fn multiple_auth_scheme_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -424,6 +436,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet - GET /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}
     async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -435,6 +448,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// MultipleResponseContentTypes - POST /multiple-response-content-types
     async fn multiple_response_content_types(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -444,6 +458,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// OneOfGet - GET /one-of
     async fn one_of_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -452,6 +467,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// OverrideServerGet - GET /override-server
     async fn override_server_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -462,6 +478,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// ParamgetGet - GET /paramget
     async fn paramget_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -473,6 +490,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// QueryExampleGet - GET /query-example
     async fn query_example_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -482,6 +500,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
     async fn readonly_auth_scheme_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -490,6 +509,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// RegisterCallbackPost - POST /register-callback
     async fn register_callback_post(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -499,6 +519,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// RequiredBinaryStreamPut - PUT /required_binary_stream
     async fn required_binary_stream_put(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -508,6 +529,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// RequiredOctetStreamPut - PUT /required_octet_stream
     async fn required_octet_stream_put(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -517,6 +539,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// ResponsesWithHeadersGet - GET /responses_with_headers
     async fn responses_with_headers_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -525,6 +548,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Rfc7807Get - GET /rfc7807
     async fn rfc7807_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -533,6 +557,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// TwoFirstLetterHeaders - POST /operation-two-first-letter-headers
     async fn two_first_letter_headers(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -542,6 +567,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// UntypedPropertyGet - GET /untyped_property
     async fn untyped_property_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -551,6 +577,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// UuidGet - GET /uuid
     async fn uuid_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -559,6 +586,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// XmlExtraPost - POST /xml_extra
     async fn xml_extra_post(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -568,6 +596,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// XmlOtherPost - POST /xml_other
     async fn xml_other_post(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -577,6 +606,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// XmlOtherPut - PUT /xml_other
     async fn xml_other_put(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -588,6 +618,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// XmlPost - POST /xml
     async fn xml_post(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -597,6 +628,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// XmlPut - PUT /xml
     async fn xml_put(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

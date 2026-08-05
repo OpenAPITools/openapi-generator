@@ -23,6 +23,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// GetIntegers - GET /integers
     async fn get_integers(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
