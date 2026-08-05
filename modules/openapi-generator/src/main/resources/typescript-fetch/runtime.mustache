@@ -445,6 +445,7 @@ export class TextApiResponse {
     };
 }
 
+{{#validationAttributes}}
 export interface PropertyValidationAttributes {
     dataType?: string,
     required?: boolean,
@@ -460,3 +461,4 @@ export interface PropertyValidationAttributes {
     minItems?: number,
     uniqueItems?: boolean
 }
+{{/validationAttributes}}
