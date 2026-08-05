@@ -1,5 +1,7 @@
 pub mod default;
 
+
+
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[non_exhaustive]
 pub enum BasicAuthKind {
@@ -14,13 +16,9 @@ pub trait ApiAuthBasic {
     type Claims;
 
     /// Extracting Claims from Header. Return None if the Claims are invalid.
-    async fn extract_claims_from_auth_header(
-        &self,
-        kind: BasicAuthKind,
-        headers: &axum::http::header::HeaderMap,
-        key: &str,
-    ) -> Option<Self::Claims>;
+    async fn extract_claims_from_auth_header(&self, kind: BasicAuthKind, headers: &axum::http::header::HeaderMap, key: &str) -> Option<Self::Claims>;
 }
+
 
 // Error handler for unhandled errors.
 #[async_trait::async_trait]
@@ -32,7 +30,7 @@ pub trait ErrorHandler<E: std::fmt::Debug + Send + Sync + 'static = ()> {
         method: &::http::Method,
         host: &headers::Host,
         cookies: &axum_extra::extract::CookieJar,
-        error: E,
+        error: E
     ) -> Result<axum::response::Response, http::StatusCode> {
         tracing::error!("Unhandled error: {:?}", error);
         axum::response::Response::builder()

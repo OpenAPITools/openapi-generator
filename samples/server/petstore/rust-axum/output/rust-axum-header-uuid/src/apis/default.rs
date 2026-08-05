@@ -13,8 +13,12 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum UsersPostResponse {
     /// Added row to table!
-    Status201_AddedRowToTable(String),
+    Status201_AddedRowToTable
+    (String)
 }
+
+
+
 
 /// Default
 #[async_trait]
@@ -22,11 +26,11 @@ pub enum UsersPostResponse {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// UsersPost - POST /users
     async fn users_post(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        header_params: &models::UsersPostHeaderParams,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+      header_params: &models::UsersPostHeaderParams,
     ) -> Result<UsersPostResponse, E>;
 }

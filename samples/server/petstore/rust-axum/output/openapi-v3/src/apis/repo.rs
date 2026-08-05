@@ -13,8 +13,11 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum CreateRepoResponse {
     /// Success
-    Status200_Success,
+    Status200_Success
 }
+
+
+
 
 /// Repo
 #[async_trait]
@@ -22,11 +25,11 @@ pub enum CreateRepoResponse {
 pub trait Repo<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// CreateRepo - POST /repos
     async fn create_repo(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        body: &models::ObjectParam,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+            body: &models::ObjectParam,
     ) -> Result<CreateRepoResponse, E>;
 }

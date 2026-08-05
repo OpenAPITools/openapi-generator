@@ -13,8 +13,12 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum GetIntegersResponse {
     /// OK
-    Status200_OK(models::IntegerTypes),
+    Status200_OK
+    (models::IntegerTypes)
 }
+
+
+
 
 /// Default
 #[async_trait]
@@ -22,11 +26,11 @@ pub enum GetIntegersResponse {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// GetIntegers - GET /integers
     async fn get_integers(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        query_params: &models::GetIntegersQueryParams,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+      query_params: &models::GetIntegersQueryParams,
     ) -> Result<GetIntegersResponse, E>;
 }

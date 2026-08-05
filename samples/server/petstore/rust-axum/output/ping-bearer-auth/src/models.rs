@@ -8,20 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
-pub type SSE = std::pin::Pin<
-    std::boxed::Box<
-        dyn futures_util::Stream<
-                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
-            > + std::marker::Send
-            + std::marker::Sync,
-    >,
->;
+pub type SSE = std::pin::Pin<std::boxed::Box<dyn futures_util::Stream<Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>> + std::marker::Send + std::marker::Sync>>;
 
 #[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
-    let mut errs = validator::ValidationErrors::new();
-    errs.add("na", e);
-    errs
+  let mut errs = validator::ValidationErrors::new();
+  errs.add("na", e);
+  errs
 }
 
 #[allow(dead_code)]
@@ -68,12 +61,13 @@ where
 }
 
 #[allow(dead_code)]
-pub fn check_xss_map<T>(
-    v: &std::collections::HashMap<String, T>,
-) -> std::result::Result<(), validator::ValidationError> {
+pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result::Result<(), validator::ValidationError> {
     if v.keys().any(|k| ammonia::is_html(k)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
     }
 }
+
+
+

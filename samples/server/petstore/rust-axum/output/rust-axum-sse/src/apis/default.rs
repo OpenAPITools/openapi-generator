@@ -12,10 +12,16 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum LiveUpdatesGetResponse {
     /// Response
-    Status200_Response(models::SSE),
+    Status200_Response
+    (models::SSE)
+    ,
     /// Other Status
-    Status201_OtherStatus(models::LiveUpdatesGet201Response),
+    Status201_OtherStatus
+    (models::LiveUpdatesGet201Response)
 }
+
+
+
 
 /// Default
 #[async_trait]
@@ -23,10 +29,10 @@ pub enum LiveUpdatesGetResponse {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// LiveUpdatesGet - GET /live-updates
     async fn live_updates_get(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
     ) -> Result<LiveUpdatesGetResponse, E>;
 }

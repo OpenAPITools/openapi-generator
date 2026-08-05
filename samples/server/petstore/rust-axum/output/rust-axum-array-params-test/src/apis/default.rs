@@ -13,8 +13,11 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum EndpointGetResponse {
     /// OK.
-    Status200_OK,
+    Status200_OK
 }
+
+
+
 
 /// Default
 #[async_trait]
@@ -22,11 +25,11 @@ pub enum EndpointGetResponse {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// EndpointGet - GET /endpoint
     async fn endpoint_get(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        query_params: &models::EndpointGetQueryParams,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+      query_params: &models::EndpointGetQueryParams,
     ) -> Result<EndpointGetResponse, E>;
 }

@@ -13,7 +13,7 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUserResponse {
     /// successful operation
-    Status0_SuccessfulOperation,
+    Status0_SuccessfulOperation
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -21,7 +21,7 @@ pub enum CreateUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithArrayInputResponse {
     /// successful operation
-    Status0_SuccessfulOperation,
+    Status0_SuccessfulOperation
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -29,7 +29,7 @@ pub enum CreateUsersWithArrayInputResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithListInputResponse {
     /// successful operation
-    Status0_SuccessfulOperation,
+    Status0_SuccessfulOperation
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -37,9 +37,10 @@ pub enum CreateUsersWithListInputResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteUserResponse {
     /// Invalid username supplied
-    Status400_InvalidUsernameSupplied,
+    Status400_InvalidUsernameSupplied
+    ,
     /// User not found
-    Status404_UserNotFound,
+    Status404_UserNotFound
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -47,11 +48,14 @@ pub enum DeleteUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetUserByNameResponse {
     /// successful operation
-    Status200_SuccessfulOperation(String),
+    Status200_SuccessfulOperation
+    (String)
+    ,
     /// Invalid username supplied
-    Status400_InvalidUsernameSupplied,
+    Status400_InvalidUsernameSupplied
+    ,
     /// User not found
-    Status404_UserNotFound,
+    Status404_UserNotFound
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -59,14 +63,27 @@ pub enum GetUserByNameResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum LoginUserResponse {
     /// successful operation
-    Status200_SuccessfulOperation {
+    Status200_SuccessfulOperation
+    {
         body: String,
-        set_cookie: Option<String>,
-        x_rate_limit: Option<i32>,
-        x_expires_after: Option<chrono::DateTime<chrono::Utc>>,
-    },
+        set_cookie:
+        Option<
+        String
+        >
+        ,
+        x_rate_limit:
+        Option<
+        i32
+        >
+        ,
+        x_expires_after:
+        Option<
+        chrono::DateTime::<chrono::Utc>
+        >
+    }
+    ,
     /// Invalid username/password supplied
-    Status400_InvalidUsername,
+    Status400_InvalidUsername
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -74,7 +91,7 @@ pub enum LoginUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum LogoutUserResponse {
     /// successful operation
-    Status0_SuccessfulOperation,
+    Status0_SuccessfulOperation
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -82,10 +99,14 @@ pub enum LogoutUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum UpdateUserResponse {
     /// Invalid user supplied
-    Status400_InvalidUserSupplied,
+    Status400_InvalidUserSupplied
+    ,
     /// User not found
-    Status404_UserNotFound,
+    Status404_UserNotFound
 }
+
+
+
 
 /// User
 #[async_trait]
@@ -97,87 +118,87 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     ///
     /// CreateUser - POST /v2/user
     async fn create_user(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
         claims: &Self::Claims,
-        body: &models::User,
+            body: &models::User,
     ) -> Result<CreateUserResponse, E>;
 
     /// Creates list of users with given input array.
     ///
     /// CreateUsersWithArrayInput - POST /v2/user/createWithArray
     async fn create_users_with_array_input(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
         claims: &Self::Claims,
-        body: &Vec<models::User>,
+            body: &Vec<models::User>,
     ) -> Result<CreateUsersWithArrayInputResponse, E>;
 
     /// Creates list of users with given input array.
     ///
     /// CreateUsersWithListInput - POST /v2/user/createWithList
     async fn create_users_with_list_input(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
         claims: &Self::Claims,
-        body: &Vec<models::User>,
+            body: &Vec<models::User>,
     ) -> Result<CreateUsersWithListInputResponse, E>;
 
     /// Delete user.
     ///
     /// DeleteUser - DELETE /v2/user/{username}
     async fn delete_user(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
         claims: &Self::Claims,
-        path_params: &models::DeleteUserPathParams,
+      path_params: &models::DeleteUserPathParams,
     ) -> Result<DeleteUserResponse, E>;
 
     /// Get user by user name.
     ///
     /// GetUserByName - GET /v2/user/{username}
     async fn get_user_by_name(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        path_params: &models::GetUserByNamePathParams,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+      path_params: &models::GetUserByNamePathParams,
     ) -> Result<GetUserByNameResponse, E>;
 
     /// Logs user into the system.
     ///
     /// LoginUser - GET /v2/user/login
     async fn login_user(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        query_params: &models::LoginUserQueryParams,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+      query_params: &models::LoginUserQueryParams,
     ) -> Result<LoginUserResponse, E>;
 
     /// Logs out current logged in user session.
     ///
     /// LogoutUser - GET /v2/user/logout
     async fn logout_user(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
         claims: &Self::Claims,
     ) -> Result<LogoutUserResponse, E>;
 
@@ -185,13 +206,13 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     ///
     /// UpdateUser - PUT /v2/user/{username}
     async fn update_user(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
         claims: &Self::Claims,
-        path_params: &models::UpdateUserPathParams,
-        body: &models::User,
+      path_params: &models::UpdateUserPathParams,
+            body: &models::User,
     ) -> Result<UpdateUserResponse, E>;
 }

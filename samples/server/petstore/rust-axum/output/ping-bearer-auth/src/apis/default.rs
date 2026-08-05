@@ -13,8 +13,11 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum PingGetResponse {
     /// OK
-    Status201_OK,
+    Status201_OK
 }
+
+
+
 
 /// Default
 #[async_trait]
@@ -24,11 +27,11 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
 
     /// PingGet - GET /ping
     async fn ping_get(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
         claims: &Self::Claims,
     ) -> Result<PingGetResponse, E>;
 }

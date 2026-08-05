@@ -8,20 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
-pub type SSE = std::pin::Pin<
-    std::boxed::Box<
-        dyn futures_util::Stream<
-                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
-            > + std::marker::Send
-            + std::marker::Sync,
-    >,
->;
+pub type SSE = std::pin::Pin<std::boxed::Box<dyn futures_util::Stream<Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>> + std::marker::Send + std::marker::Sync>>;
 
 #[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
-    let mut errs = validator::ValidationErrors::new();
-    errs.add("na", e);
-    errs
+  let mut errs = validator::ValidationErrors::new();
+  errs.add("na", e);
+  errs
 }
 
 #[allow(dead_code)]
@@ -68,9 +61,7 @@ where
 }
 
 #[allow(dead_code)]
-pub fn check_xss_map<T>(
-    v: &std::collections::HashMap<String, T>,
-) -> std::result::Result<(), validator::ValidationError> {
+pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result::Result<(), validator::ValidationError> {
     if v.keys().any(|k| ammonia::is_html(k)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
@@ -78,171 +69,224 @@ pub fn check_xss_map<T>(
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct HyphenParamPathParams {
-    /// Parameter with hyphen in name
-    pub hyphen_param: String,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct TestBodyWithQueryParamsQueryParams {
-    #[serde(rename = "query")]
-    pub query: String,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct TestEnumParametersHeaderParams {
-    pub enum_header_string_array: Option<Vec<String>>,
-    pub enum_header_string: Option<String>,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct TestEnumParametersQueryParams {
-    /// Query parameter enum test (string array)
-    /// Note: inline enums are not fully supported by openapi-generator
-    #[serde(rename = "enum_query_string_array")]
-    #[serde(default)]
-    pub enum_query_string_array: Vec<String>,
-    /// Query parameter enum test (string)
-    /// Note: inline enums are not fully supported by openapi-generator
-    #[serde(rename = "enum_query_string")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub enum_query_string: Option<String>,
-    /// Query parameter enum test (double)
-    /// Note: inline enums are not fully supported by openapi-generator
-    #[serde(rename = "enum_query_integer")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub enum_query_integer: Option<i32>,
-    /// Query parameter enum test (double)
-    /// Note: inline enums are not fully supported by openapi-generator
-    #[serde(rename = "enum_query_double")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub enum_query_double: Option<f64>,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct DeletePetHeaderParams {
-    pub api_key: Option<String>,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct DeletePetPathParams {
-    /// Pet id to delete
-    pub pet_id: i64,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct FindPetsByStatusQueryParams {
-    /// Status values that need to be considered for filter
-    /// Note: inline enums are not fully supported by openapi-generator
-    #[serde(rename = "status")]
-    pub status: Vec<String>,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct FindPetsByTagsQueryParams {
-    /// Tags to filter by
-    #[serde(rename = "tags")]
-    pub tags: Vec<String>,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct GetPetByIdPathParams {
-    /// ID of pet to return
-    pub pet_id: i64,
-}
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct HyphenParamPathParams {
+            /// Parameter with hyphen in name
+                pub hyphen_param: String,
+    }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct UpdatePetWithFormPathParams {
-    /// ID of pet that needs to be updated
-    pub pet_id: i64,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct UploadFilePathParams {
-    /// ID of pet to update
-    pub pet_id: i64,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct DeleteOrderPathParams {
-    /// ID of the order that needs to be deleted
-    pub order_id: String,
-}
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct TestBodyWithQueryParamsQueryParams {
+                #[serde(rename = "query")]
+                    pub query: String,
+    }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct GetOrderByIdPathParams {
-    /// ID of pet that needs to be fetched
-    #[validate(range(min = 1u64, max = 5u64))]
-    pub order_id: u64,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct DeleteUserPathParams {
-    /// The name that needs to be deleted
-    pub username: String,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct GetUserByNamePathParams {
-    /// The name that needs to be fetched. Use user1 for testing.
-    pub username: String,
-}
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct LoginUserQueryParams {
-    /// The user name for login
-    #[serde(rename = "username")]
-    pub username: String,
-    /// The password for login in clear text
-    #[serde(rename = "password")]
-    pub password: String,
-}
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct TestEnumParametersHeaderParams {
+        pub enum_header_string_array: Option<Vec<String>>,
+        pub enum_header_string: Option<String>,
+    }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct UpdateUserPathParams {
-    /// name that need to be deleted
-    pub username: String,
-}
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct TestEnumParametersQueryParams {
+            /// Query parameter enum test (string array)
+            /// Note: inline enums are not fully supported by openapi-generator
+                #[serde(rename = "enum_query_string_array")]
+                    #[serde(default)]
+                    pub enum_query_string_array: Vec<String>,
+            /// Query parameter enum test (string)
+            /// Note: inline enums are not fully supported by openapi-generator
+                #[serde(rename = "enum_query_string")]
+                    #[serde(skip_serializing_if="Option::is_none")]
+                    pub enum_query_string: Option<String>,
+            /// Query parameter enum test (double)
+            /// Note: inline enums are not fully supported by openapi-generator
+                #[serde(rename = "enum_query_integer")]
+                    #[serde(skip_serializing_if="Option::is_none")]
+                    pub enum_query_integer: Option<i32>,
+            /// Query parameter enum test (double)
+            /// Note: inline enums are not fully supported by openapi-generator
+                #[serde(rename = "enum_query_double")]
+                    #[serde(skip_serializing_if="Option::is_none")]
+                    pub enum_query_double: Option<f64>,
+    }
+
+
+
+
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct DeletePetHeaderParams {
+        pub api_key: Option<String>,
+    }
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct DeletePetPathParams {
+            /// Pet id to delete
+                pub pet_id: i64,
+    }
+
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct FindPetsByStatusQueryParams {
+            /// Status values that need to be considered for filter
+            /// Note: inline enums are not fully supported by openapi-generator
+                #[serde(rename = "status")]
+                    pub status: Vec<String>,
+    }
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct FindPetsByTagsQueryParams {
+            /// Tags to filter by
+                #[serde(rename = "tags")]
+                    pub tags: Vec<String>,
+    }
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct GetPetByIdPathParams {
+            /// ID of pet to return
+                pub pet_id: i64,
+    }
+
+
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct UpdatePetWithFormPathParams {
+            /// ID of pet that needs to be updated
+                pub pet_id: i64,
+    }
+
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct UploadFilePathParams {
+            /// ID of pet to update
+                pub pet_id: i64,
+    }
+
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct DeleteOrderPathParams {
+            /// ID of the order that needs to be deleted
+                pub order_id: String,
+    }
+
+
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct GetOrderByIdPathParams {
+            /// ID of pet that needs to be fetched
+                #[validate(
+                        range(min = 1u64, max = 5u64),
+            )]
+                pub order_id: u64,
+    }
+
+
+
+
+
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct DeleteUserPathParams {
+            /// The name that needs to be deleted
+                pub username: String,
+    }
+
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct GetUserByNamePathParams {
+            /// The name that needs to be fetched. Use user1 for testing.
+                pub username: String,
+    }
+
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct LoginUserQueryParams {
+            /// The user name for login
+                #[serde(rename = "username")]
+                    pub username: String,
+            /// The password for login in clear text
+                #[serde(rename = "password")]
+                    pub password: String,
+    }
+
+
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct UpdateUserPathParams {
+            /// name that need to be deleted
+                pub username: String,
+    }
+
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
-    #[validate(custom(function = "check_xss_map_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_map_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub map_property: Option<std::collections::HashMap<String, String>>,
 
     #[serde(rename = "map_of_map_property")]
-    #[validate(custom(function = "check_xss_map"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub map_of_map_property:
-        Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+          #[validate(custom(function = "check_xss_map"))]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub map_of_map_property: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+
 }
+
+
 
 impl AdditionalPropertiesClass {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> AdditionalPropertiesClass {
         AdditionalPropertiesClass {
-            map_property: None,
-            map_of_map_property: None,
+ map_property: None,
+ map_of_map_property: None,
         }
     }
 }
@@ -260,11 +304,7 @@ impl std::fmt::Display for AdditionalPropertiesClass {
 
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -280,8 +320,7 @@ impl std::str::FromStr for AdditionalPropertiesClass {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub map_property: Vec<std::collections::HashMap<String, String>>,
-            pub map_of_map_property:
-                Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+            pub map_of_map_property: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -293,11 +332,7 @@ impl std::str::FromStr for AdditionalPropertiesClass {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing AdditionalPropertiesClass".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing AdditionalPropertiesClass".to_string())
             };
 
             if let Some(key) = key_result {
@@ -327,15 +362,11 @@ impl std::str::FromStr for AdditionalPropertiesClass {
 impl std::convert::TryFrom<header::IntoHeaderValue<AdditionalPropertiesClass>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<AdditionalPropertiesClass>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<AdditionalPropertiesClass>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for AdditionalPropertiesClass - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for AdditionalPropertiesClass - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -346,22 +377,18 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AdditionalPr
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <AdditionalPropertiesClass as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <AdditionalPropertiesClass as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into AdditionalPropertiesClass - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into AdditionalPropertiesClass - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -369,13 +396,14 @@ pub struct Animal {
     #[serde(default = "Animal::_name_for_class_name")]
     #[serde(serialize_with = "Animal::_serialize_class_name")]
     #[serde(rename = "className")]
-    #[validate(custom(function = "check_xss_string"))]
+          #[validate(custom(function = "check_xss_string"))]
     pub class_name: String,
 
     #[serde(rename = "color")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
+
 }
 
 impl Animal {
@@ -391,12 +419,13 @@ impl Animal {
     }
 }
 
+
 impl Animal {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> Animal {
         Animal {
-            class_name: Self::_name_for_class_name(),
-            color: Some(r#"red"#.to_string()),
+ class_name: Self::_name_for_class_name(),
+ color: Some(r#"red"#.to_string()),
         }
     }
 }
@@ -407,18 +436,21 @@ impl Animal {
 impl std::fmt::Display for Animal {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
+
             Some("className".to_string()),
             Some(self.class_name.to_string()),
-            self.color
-                .as_ref()
-                .map(|color| ["color".to_string(), color.to_string()].join(",")),
+
+
+            self.color.as_ref().map(|color| {
+                [
+                    "color".to_string(),
+                    color.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -446,29 +478,17 @@ impl std::str::FromStr for Animal {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing Animal".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing Animal".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "className" => intermediate_rep.class_name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "className" => intermediate_rep.class_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "color" => intermediate_rep.color.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Animal".to_string(),
-                        );
-                    }
+                    "color" => intermediate_rep.color.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Animal".to_string())
                 }
             }
 
@@ -478,11 +498,7 @@ impl std::str::FromStr for Animal {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Animal {
-            class_name: intermediate_rep
-                .class_name
-                .into_iter()
-                .next()
-                .ok_or_else(|| "className missing in Animal".to_string())?,
+            class_name: intermediate_rep.class_name.into_iter().next().ok_or_else(|| "className missing in Animal".to_string())?,
             color: intermediate_rep.color.into_iter().next(),
         })
     }
@@ -494,15 +510,11 @@ impl std::str::FromStr for Animal {
 impl std::convert::TryFrom<header::IntoHeaderValue<Animal>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<Animal>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Animal>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Animal - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Animal - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -513,22 +525,18 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Animal> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <Animal as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <Animal as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Animal - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into Animal - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -553,7 +561,7 @@ impl std::convert::From<AnimalFarm> for Vec<Animal> {
 }
 
 impl std::iter::FromIterator<Animal> for AnimalFarm {
-    fn from_iter<U: IntoIterator<Item = Animal>>(u: U) -> Self {
+    fn from_iter<U: IntoIterator<Item=Animal>>(u: U) -> Self {
         AnimalFarm(Vec::<Animal>::from_iter(u))
     }
 }
@@ -602,15 +610,8 @@ impl std::ops::DerefMut for AnimalFarm {
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for AnimalFarm {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            self.iter()
-                .map(|x| x.to_string())
-                .collect::<Vec<_>>()
-                .join(",")
-        )
+   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+       write!(f, "{}", self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))
     }
 }
 
@@ -622,12 +623,14 @@ impl std::str::FromStr for AnimalFarm {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         let mut items = vec![];
-        for item in s.split(',') {
+        for item in s.split(',')
+        {
             items.push(item.parse()?);
         }
         std::result::Result::Ok(AnimalFarm(items))
     }
 }
+
 
 // Methods for converting between header::IntoHeaderValue<AnimalFarm> and HeaderValue
 
@@ -635,15 +638,11 @@ impl std::str::FromStr for AnimalFarm {
 impl std::convert::TryFrom<header::IntoHeaderValue<AnimalFarm>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<AnimalFarm>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<AnimalFarm>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for AnimalFarm - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for AnimalFarm - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -654,48 +653,47 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnimalFarm> 
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <AnimalFarm as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <AnimalFarm as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into AnimalFarm - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into AnimalFarm - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ApiResponse {
     #[serde(rename = "code")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub code: Option<i32>,
 
     #[serde(rename = "type")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub r_type: Option<String>,
 
     #[serde(rename = "message")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub message: Option<String>,
+
 }
+
+
 
 impl ApiResponse {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> ApiResponse {
         ApiResponse {
-            code: None,
-            r_type: None,
-            message: None,
+ code: None,
+ r_type: None,
+ message: None,
         }
     }
 }
@@ -706,22 +704,33 @@ impl ApiResponse {
 impl std::fmt::Display for ApiResponse {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.code
-                .as_ref()
-                .map(|code| ["code".to_string(), code.to_string()].join(",")),
-            self.r_type
-                .as_ref()
-                .map(|r_type| ["type".to_string(), r_type.to_string()].join(",")),
-            self.message
-                .as_ref()
-                .map(|message| ["message".to_string(), message.to_string()].join(",")),
+
+            self.code.as_ref().map(|code| {
+                [
+                    "code".to_string(),
+                    code.to_string(),
+                ].join(",")
+            }),
+
+
+            self.r_type.as_ref().map(|r_type| {
+                [
+                    "type".to_string(),
+                    r_type.to_string(),
+                ].join(",")
+            }),
+
+
+            self.message.as_ref().map(|message| {
+                [
+                    "message".to_string(),
+                    message.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -750,33 +759,19 @@ impl std::str::FromStr for ApiResponse {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing ApiResponse".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing ApiResponse".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "code" => intermediate_rep.code.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "code" => intermediate_rep.code.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "type" => intermediate_rep.r_type.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "type" => intermediate_rep.r_type.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "message" => intermediate_rep.message.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing ApiResponse".to_string(),
-                        );
-                    }
+                    "message" => intermediate_rep.message.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing ApiResponse".to_string())
                 }
             }
 
@@ -799,15 +794,11 @@ impl std::str::FromStr for ApiResponse {
 impl std::convert::TryFrom<header::IntoHeaderValue<ApiResponse>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<ApiResponse>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ApiResponse>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for ApiResponse - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for ApiResponse - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -818,36 +809,35 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ApiResponse>
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <ApiResponse as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <ApiResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into ApiResponse - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into ApiResponse - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_number: Option<Vec<Vec<f64>>>,
+
 }
+
+
 
 impl ArrayOfArrayOfNumberOnly {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> ArrayOfArrayOfNumberOnly {
         ArrayOfArrayOfNumberOnly {
-            array_array_number: None,
+ array_array_number: None,
         }
     }
 }
@@ -862,11 +852,7 @@ impl std::fmt::Display for ArrayOfArrayOfNumberOnly {
 
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -893,11 +879,7 @@ impl std::str::FromStr for ArrayOfArrayOfNumberOnly {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing ArrayOfArrayOfNumberOnly".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing ArrayOfArrayOfNumberOnly".to_string())
             };
 
             if let Some(key) = key_result {
@@ -925,15 +907,11 @@ impl std::str::FromStr for ArrayOfArrayOfNumberOnly {
 impl std::convert::TryFrom<header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for ArrayOfArrayOfNumberOnly - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for ArrayOfArrayOfNumberOnly - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -944,35 +922,36 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ArrayOfArray
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <ArrayOfArrayOfNumberOnly as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <ArrayOfArrayOfNumberOnly as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into ArrayOfArrayOfNumberOnly - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into ArrayOfArrayOfNumberOnly - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub array_number: Option<Vec<f64>>,
+
 }
+
+
 
 impl ArrayOfNumberOnly {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> ArrayOfNumberOnly {
-        ArrayOfNumberOnly { array_number: None }
+        ArrayOfNumberOnly {
+ array_number: None,
+        }
     }
 }
 
@@ -981,23 +960,18 @@ impl ArrayOfNumberOnly {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for ArrayOfNumberOnly {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self.array_number.as_ref().map(|array_number| {
-            [
-                "ArrayNumber".to_string(),
-                array_number
-                    .iter()
-                    .map(|x| x.to_string())
-                    .collect::<Vec<_>>()
-                    .join(","),
-            ]
-            .join(",")
-        })];
+        let params: Vec<Option<String>> = vec![
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+            self.array_number.as_ref().map(|array_number| {
+                [
+                    "ArrayNumber".to_string(),
+                    array_number.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
+
+        ];
+
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -1024,25 +998,14 @@ impl std::str::FromStr for ArrayOfNumberOnly {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing ArrayOfNumberOnly".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing ArrayOfNumberOnly".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    "ArrayNumber" => return std::result::Result::Err(
-                        "Parsing a container in this style is not supported in ArrayOfNumberOnly"
-                            .to_string(),
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing ArrayOfNumberOnly".to_string(),
-                        );
-                    }
+                    "ArrayNumber" => return std::result::Result::Err("Parsing a container in this style is not supported in ArrayOfNumberOnly".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing ArrayOfNumberOnly".to_string())
                 }
             }
 
@@ -1063,15 +1026,11 @@ impl std::str::FromStr for ArrayOfNumberOnly {
 impl std::convert::TryFrom<header::IntoHeaderValue<ArrayOfNumberOnly>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<ArrayOfNumberOnly>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ArrayOfNumberOnly>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for ArrayOfNumberOnly - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for ArrayOfNumberOnly - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -1082,54 +1041,53 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ArrayOfNumbe
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <ArrayOfNumberOnly as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <ArrayOfNumberOnly as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into ArrayOfNumberOnly - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into ArrayOfNumberOnly - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
-    #[validate(custom(function = "check_xss_vec_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_vec_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_string: Option<Vec<String>>,
 
     #[serde(rename = "array_array_of_integer")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_integer: Option<Vec<Vec<i64>>>,
 
     #[serde(rename = "array_array_of_model")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_model: Option<Vec<Vec<models::ReadOnlyFirst>>>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "array_of_enum")]
-    #[validate(custom(function = "check_xss_vec_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_vec_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_enum: Option<Vec<String>>,
+
 }
+
+
 
 impl ArrayTest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> ArrayTest {
         ArrayTest {
-            array_of_string: None,
-            array_array_of_integer: None,
-            array_array_of_model: None,
-            array_of_enum: None,
+ array_of_string: None,
+ array_array_of_integer: None,
+ array_array_of_model: None,
+ array_of_enum: None,
         }
     }
 }
@@ -1140,38 +1098,29 @@ impl ArrayTest {
 impl std::fmt::Display for ArrayTest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
+
             self.array_of_string.as_ref().map(|array_of_string| {
                 [
                     "array_of_string".to_string(),
-                    array_of_string
-                        .iter()
-                        .map(|x| x.to_string())
-                        .collect::<Vec<_>>()
-                        .join(","),
-                ]
-                .join(",")
+                    array_of_string.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
             }),
+
             // Skipping array_array_of_integer in query parameter serialization
 
             // Skipping array_array_of_model in query parameter serialization
+
+
             self.array_of_enum.as_ref().map(|array_of_enum| {
                 [
                     "array_of_enum".to_string(),
-                    array_of_enum
-                        .iter()
-                        .map(|x| x.to_string())
-                        .collect::<Vec<_>>()
-                        .join(","),
-                ]
-                .join(",")
+                    array_of_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
             }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -1201,45 +1150,17 @@ impl std::str::FromStr for ArrayTest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing ArrayTest".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing ArrayTest".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    "array_of_string" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in ArrayTest"
-                                .to_string(),
-                        );
-                    }
-                    "array_array_of_integer" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in ArrayTest"
-                                .to_string(),
-                        );
-                    }
-                    "array_array_of_model" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in ArrayTest"
-                                .to_string(),
-                        );
-                    }
-                    "array_of_enum" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in ArrayTest"
-                                .to_string(),
-                        );
-                    }
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing ArrayTest".to_string(),
-                        );
-                    }
+                    "array_of_string" => return std::result::Result::Err("Parsing a container in this style is not supported in ArrayTest".to_string()),
+                    "array_array_of_integer" => return std::result::Result::Err("Parsing a container in this style is not supported in ArrayTest".to_string()),
+                    "array_array_of_model" => return std::result::Result::Err("Parsing a container in this style is not supported in ArrayTest".to_string()),
+                    "array_of_enum" => return std::result::Result::Err("Parsing a container in this style is not supported in ArrayTest".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing ArrayTest".to_string())
                 }
             }
 
@@ -1263,15 +1184,11 @@ impl std::str::FromStr for ArrayTest {
 impl std::convert::TryFrom<header::IntoHeaderValue<ArrayTest>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<ArrayTest>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ArrayTest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for ArrayTest - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for ArrayTest - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -1282,68 +1199,67 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ArrayTest> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <ArrayTest as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <ArrayTest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into ArrayTest - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into ArrayTest - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub small_camel: Option<String>,
 
     #[serde(rename = "CapitalCamel")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub capital_camel: Option<String>,
 
     #[serde(rename = "small_Snake")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub small_snake: Option<String>,
 
     #[serde(rename = "Capital_Snake")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub capital_snake: Option<String>,
 
     #[serde(rename = "SCA_ETH_Flow_Points")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub sca_eth_flow_points: Option<String>,
 
-    /// Name of the pet
+    /// Name of the pet 
     #[serde(rename = "ATT_NAME")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub att_name: Option<String>,
+
 }
+
+
 
 impl Capitalization {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> Capitalization {
         Capitalization {
-            small_camel: None,
-            capital_camel: None,
-            small_snake: None,
-            capital_snake: None,
-            sca_eth_flow_points: None,
-            att_name: None,
+ small_camel: None,
+ capital_camel: None,
+ small_snake: None,
+ capital_snake: None,
+ sca_eth_flow_points: None,
+ att_name: None,
         }
     }
 }
@@ -1354,37 +1270,57 @@ impl Capitalization {
 impl std::fmt::Display for Capitalization {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.small_camel
-                .as_ref()
-                .map(|small_camel| ["smallCamel".to_string(), small_camel.to_string()].join(",")),
+
+            self.small_camel.as_ref().map(|small_camel| {
+                [
+                    "smallCamel".to_string(),
+                    small_camel.to_string(),
+                ].join(",")
+            }),
+
+
             self.capital_camel.as_ref().map(|capital_camel| {
-                ["CapitalCamel".to_string(), capital_camel.to_string()].join(",")
+                [
+                    "CapitalCamel".to_string(),
+                    capital_camel.to_string(),
+                ].join(",")
             }),
-            self.small_snake
-                .as_ref()
-                .map(|small_snake| ["small_Snake".to_string(), small_snake.to_string()].join(",")),
+
+
+            self.small_snake.as_ref().map(|small_snake| {
+                [
+                    "small_Snake".to_string(),
+                    small_snake.to_string(),
+                ].join(",")
+            }),
+
+
             self.capital_snake.as_ref().map(|capital_snake| {
-                ["Capital_Snake".to_string(), capital_snake.to_string()].join(",")
+                [
+                    "Capital_Snake".to_string(),
+                    capital_snake.to_string(),
+                ].join(",")
             }),
-            self.sca_eth_flow_points
-                .as_ref()
-                .map(|sca_eth_flow_points| {
-                    [
-                        "SCA_ETH_Flow_Points".to_string(),
-                        sca_eth_flow_points.to_string(),
-                    ]
-                    .join(",")
-                }),
-            self.att_name
-                .as_ref()
-                .map(|att_name| ["ATT_NAME".to_string(), att_name.to_string()].join(",")),
+
+
+            self.sca_eth_flow_points.as_ref().map(|sca_eth_flow_points| {
+                [
+                    "SCA_ETH_Flow_Points".to_string(),
+                    sca_eth_flow_points.to_string(),
+                ].join(",")
+            }),
+
+
+            self.att_name.as_ref().map(|att_name| {
+                [
+                    "ATT_NAME".to_string(),
+                    att_name.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -1416,45 +1352,25 @@ impl std::str::FromStr for Capitalization {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing Capitalization".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing Capitalization".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "smallCamel" => intermediate_rep.small_camel.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "smallCamel" => intermediate_rep.small_camel.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "CapitalCamel" => intermediate_rep.capital_camel.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "CapitalCamel" => intermediate_rep.capital_camel.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "small_Snake" => intermediate_rep.small_snake.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "small_Snake" => intermediate_rep.small_snake.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "Capital_Snake" => intermediate_rep.capital_snake.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "Capital_Snake" => intermediate_rep.capital_snake.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "SCA_ETH_Flow_Points" => intermediate_rep.sca_eth_flow_points.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "SCA_ETH_Flow_Points" => intermediate_rep.sca_eth_flow_points.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "ATT_NAME" => intermediate_rep.att_name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Capitalization".to_string(),
-                        );
-                    }
+                    "ATT_NAME" => intermediate_rep.att_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Capitalization".to_string())
                 }
             }
 
@@ -1480,15 +1396,11 @@ impl std::str::FromStr for Capitalization {
 impl std::convert::TryFrom<header::IntoHeaderValue<Capitalization>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<Capitalization>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Capitalization>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Capitalization - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Capitalization - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -1499,47 +1411,46 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Capitalizati
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <Capitalization as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <Capitalization as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Capitalization - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into Capitalization - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
-    #[validate(custom(function = "check_xss_string"))]
+          #[validate(custom(function = "check_xss_string"))]
     pub class_name: String,
 
     #[serde(rename = "color")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "declawed")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub declawed: Option<bool>,
+
 }
+
+
 
 impl Cat {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(class_name: String) -> Cat {
+    pub fn new(class_name: String, ) -> Cat {
         Cat {
-            class_name,
-            color: Some(r#"red"#.to_string()),
-            declawed: None,
+ class_name,
+ color: Some(r#"red"#.to_string()),
+ declawed: None,
         }
     }
 }
@@ -1550,21 +1461,29 @@ impl Cat {
 impl std::fmt::Display for Cat {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
+
             Some("className".to_string()),
             Some(self.class_name.to_string()),
-            self.color
-                .as_ref()
-                .map(|color| ["color".to_string(), color.to_string()].join(",")),
-            self.declawed
-                .as_ref()
-                .map(|declawed| ["declawed".to_string(), declawed.to_string()].join(",")),
+
+
+            self.color.as_ref().map(|color| {
+                [
+                    "color".to_string(),
+                    color.to_string(),
+                ].join(",")
+            }),
+
+
+            self.declawed.as_ref().map(|declawed| {
+                [
+                    "declawed".to_string(),
+                    declawed.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -1593,31 +1512,19 @@ impl std::str::FromStr for Cat {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err("Missing value while parsing Cat".to_string());
-                }
+                None => return std::result::Result::Err("Missing value while parsing Cat".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "className" => intermediate_rep.class_name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "className" => intermediate_rep.class_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "color" => intermediate_rep.color.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "color" => intermediate_rep.color.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "declawed" => intermediate_rep.declawed.push(
-                        <bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Cat".to_string(),
-                        );
-                    }
+                    "declawed" => intermediate_rep.declawed.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Cat".to_string())
                 }
             }
 
@@ -1627,11 +1534,7 @@ impl std::str::FromStr for Cat {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Cat {
-            class_name: intermediate_rep
-                .class_name
-                .into_iter()
-                .next()
-                .ok_or_else(|| "className missing in Cat".to_string())?,
+            class_name: intermediate_rep.class_name.into_iter().next().ok_or_else(|| "className missing in Cat".to_string())?,
             color: intermediate_rep.color.into_iter().next(),
             declawed: intermediate_rep.declawed.into_iter().next(),
         })
@@ -1647,10 +1550,8 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Cat>> for HeaderValue {
     fn try_from(hdr_value: header::IntoHeaderValue<Cat>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Cat - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Cat - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -1661,40 +1562,41 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Cat> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => match <Cat as std::str::FromStr>::from_str(value) {
-                std::result::Result::Ok(value) => {
-                    std::result::Result::Ok(header::IntoHeaderValue(value))
-                }
-                std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    r#"Unable to convert header value '{value}' into Cat - {err}"#
-                )),
-            },
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             std::result::Result::Ok(value) => {
+                    match <Cat as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Cat - {err}"#))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Category {
     #[serde(rename = "id")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
+
 }
+
+
 
 impl Category {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> Category {
         Category {
-            id: None,
-            name: None,
+ id: None,
+ name: None,
         }
     }
 }
@@ -1705,19 +1607,25 @@ impl Category {
 impl std::fmt::Display for Category {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.id
-                .as_ref()
-                .map(|id| ["id".to_string(), id.to_string()].join(",")),
-            self.name
-                .as_ref()
-                .map(|name| ["name".to_string(), name.to_string()].join(",")),
+
+            self.id.as_ref().map(|id| {
+                [
+                    "id".to_string(),
+                    id.to_string(),
+                ].join(",")
+            }),
+
+
+            self.name.as_ref().map(|name| {
+                [
+                    "name".to_string(),
+                    name.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -1745,29 +1653,17 @@ impl std::str::FromStr for Category {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing Category".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing Category".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "id" => intermediate_rep.id.push(
-                        <i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Category".to_string(),
-                        );
-                    }
+                    "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Category".to_string())
                 }
             }
 
@@ -1789,15 +1685,11 @@ impl std::str::FromStr for Category {
 impl std::convert::TryFrom<header::IntoHeaderValue<Category>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<Category>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Category>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Category - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Category - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -1808,37 +1700,38 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Category> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <Category as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <Category as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Category - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into Category - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 /// Model for testing model with \"_class\" property
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub _class: Option<String>,
+
 }
+
+
 
 impl ClassModel {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> ClassModel {
-        ClassModel { _class: None }
+        ClassModel {
+ _class: None,
+        }
     }
 }
 
@@ -1848,16 +1741,17 @@ impl ClassModel {
 impl std::fmt::Display for ClassModel {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self._class
-                .as_ref()
-                .map(|_class| ["_class".to_string(), _class.to_string()].join(",")),
+
+            self._class.as_ref().map(|_class| {
+                [
+                    "_class".to_string(),
+                    _class.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -1884,25 +1778,15 @@ impl std::str::FromStr for ClassModel {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing ClassModel".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing ClassModel".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "_class" => intermediate_rep._class.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing ClassModel".to_string(),
-                        );
-                    }
+                    "_class" => intermediate_rep._class.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing ClassModel".to_string())
                 }
             }
 
@@ -1923,15 +1807,11 @@ impl std::str::FromStr for ClassModel {
 impl std::convert::TryFrom<header::IntoHeaderValue<ClassModel>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<ClassModel>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ClassModel>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for ClassModel - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for ClassModel - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -1942,36 +1822,37 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ClassModel> 
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <ClassModel as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <ClassModel as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into ClassModel - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into ClassModel - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub client: Option<String>,
+
 }
+
+
 
 impl Client {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> Client {
-        Client { client: None }
+        Client {
+ client: None,
+        }
     }
 }
 
@@ -1981,16 +1862,17 @@ impl Client {
 impl std::fmt::Display for Client {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.client
-                .as_ref()
-                .map(|client| ["client".to_string(), client.to_string()].join(",")),
+
+            self.client.as_ref().map(|client| {
+                [
+                    "client".to_string(),
+                    client.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -2017,25 +1899,15 @@ impl std::str::FromStr for Client {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing Client".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing Client".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "client" => intermediate_rep.client.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Client".to_string(),
-                        );
-                    }
+                    "client" => intermediate_rep.client.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Client".to_string())
                 }
             }
 
@@ -2056,15 +1928,11 @@ impl std::str::FromStr for Client {
 impl std::convert::TryFrom<header::IntoHeaderValue<Client>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<Client>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Client>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Client - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Client - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -2075,48 +1943,47 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Client> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <Client as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <Client as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Client - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into Client - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
-    #[validate(custom(function = "check_xss_string"))]
+          #[validate(custom(function = "check_xss_string"))]
     pub class_name: String,
 
     #[serde(rename = "color")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "breed")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub breed: Option<String>,
+
 }
+
+
 
 impl Dog {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(class_name: String) -> Dog {
+    pub fn new(class_name: String, ) -> Dog {
         Dog {
-            class_name,
-            color: Some(r#"red"#.to_string()),
-            breed: None,
+ class_name,
+ color: Some(r#"red"#.to_string()),
+ breed: None,
         }
     }
 }
@@ -2127,21 +1994,29 @@ impl Dog {
 impl std::fmt::Display for Dog {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
+
             Some("className".to_string()),
             Some(self.class_name.to_string()),
-            self.color
-                .as_ref()
-                .map(|color| ["color".to_string(), color.to_string()].join(",")),
-            self.breed
-                .as_ref()
-                .map(|breed| ["breed".to_string(), breed.to_string()].join(",")),
+
+
+            self.color.as_ref().map(|color| {
+                [
+                    "color".to_string(),
+                    color.to_string(),
+                ].join(",")
+            }),
+
+
+            self.breed.as_ref().map(|breed| {
+                [
+                    "breed".to_string(),
+                    breed.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -2170,31 +2045,19 @@ impl std::str::FromStr for Dog {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err("Missing value while parsing Dog".to_string());
-                }
+                None => return std::result::Result::Err("Missing value while parsing Dog".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "className" => intermediate_rep.class_name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "className" => intermediate_rep.class_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "color" => intermediate_rep.color.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "color" => intermediate_rep.color.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "breed" => intermediate_rep.breed.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Dog".to_string(),
-                        );
-                    }
+                    "breed" => intermediate_rep.breed.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Dog".to_string())
                 }
             }
 
@@ -2204,11 +2067,7 @@ impl std::str::FromStr for Dog {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Dog {
-            class_name: intermediate_rep
-                .class_name
-                .into_iter()
-                .next()
-                .ok_or_else(|| "className missing in Dog".to_string())?,
+            class_name: intermediate_rep.class_name.into_iter().next().ok_or_else(|| "className missing in Dog".to_string())?,
             color: intermediate_rep.color.into_iter().next(),
             breed: intermediate_rep.breed.into_iter().next(),
         })
@@ -2224,10 +2083,8 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Dog>> for HeaderValue {
     fn try_from(hdr_value: header::IntoHeaderValue<Dog>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Dog - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Dog - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -2238,34 +2095,35 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Dog> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => match <Dog as std::str::FromStr>::from_str(value) {
-                std::result::Result::Ok(value) => {
-                    std::result::Result::Ok(header::IntoHeaderValue(value))
-                }
-                std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    r#"Unable to convert header value '{value}' into Dog - {err}"#
-                )),
-            },
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             std::result::Result::Ok(value) => {
+                    match <Dog as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Dog - {err}"#))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     #[serde(rename = "$special[property.name]")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub dollar_special_left_square_bracket_property_name_right_square_bracket: Option<i64>,
+
 }
+
+
 
 impl DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
         DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
-            dollar_special_left_square_bracket_property_name_right_square_bracket: None,
+ dollar_special_left_square_bracket_property_name_right_square_bracket: None,
         }
     }
 }
@@ -2276,25 +2134,17 @@ impl DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
 impl std::fmt::Display for DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.dollar_special_left_square_bracket_property_name_right_square_bracket
-                .as_ref()
-                .map(
-                    |dollar_special_left_square_bracket_property_name_right_square_bracket| {
-                        [
-                            "$special[property.name]".to_string(),
-                            dollar_special_left_square_bracket_property_name_right_square_bracket
-                                .to_string(),
-                        ]
-                        .join(",")
-                    },
-                ),
+
+            self.dollar_special_left_square_bracket_property_name_right_square_bracket.as_ref().map(|dollar_special_left_square_bracket_property_name_right_square_bracket| {
+                [
+                    "$special[property.name]".to_string(),
+                    dollar_special_left_square_bracket_property_name_right_square_bracket.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -2339,10 +2189,7 @@ impl std::str::FromStr for DollarSpecialLeftSquareBracketModelNameRightSquareBra
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
-            dollar_special_left_square_bracket_property_name_right_square_bracket: intermediate_rep
-                .dollar_special_left_square_bracket_property_name_right_square_bracket
-                .into_iter()
-                .next(),
+            dollar_special_left_square_bracket_property_name_right_square_bracket: intermediate_rep.dollar_special_left_square_bracket_property_name_right_square_bracket.into_iter().next(),
         })
     }
 }
@@ -2350,32 +2197,20 @@ impl std::str::FromStr for DollarSpecialLeftSquareBracketModelNameRightSquareBra
 // Methods for converting between header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket> and HeaderValue
 
 #[cfg(feature = "server")]
-impl
-    std::convert::TryFrom<
-        header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>,
-    > for HeaderValue
-{
+impl std::convert::TryFrom<header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<
-            DollarSpecialLeftSquareBracketModelNameRightSquareBracket,
-        >,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for DollarSpecialLeftSquareBracketModelNameRightSquareBracket - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for DollarSpecialLeftSquareBracketModelNameRightSquareBracket - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
 
 #[cfg(feature = "server")]
-impl std::convert::TryFrom<HeaderValue>
-    for header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>
-{
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket> {
     type Error = String;
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
@@ -2391,34 +2226,39 @@ impl std::convert::TryFrom<HeaderValue>
     }
 }
 
+
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumArrays {
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "just_symbol")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub just_symbol: Option<String>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "array_enum")]
-    #[validate(custom(function = "check_xss_vec_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_vec_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub array_enum: Option<Vec<String>>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "array_array_enum")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_enum: Option<Vec<Vec<String>>>,
+
 }
+
+
 
 impl EnumArrays {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> EnumArrays {
         EnumArrays {
-            just_symbol: None,
-            array_enum: None,
-            array_array_enum: None,
+ just_symbol: None,
+ array_enum: None,
+ array_array_enum: None,
         }
     }
 }
@@ -2429,28 +2269,27 @@ impl EnumArrays {
 impl std::fmt::Display for EnumArrays {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.just_symbol
-                .as_ref()
-                .map(|just_symbol| ["just_symbol".to_string(), just_symbol.to_string()].join(",")),
+
+            self.just_symbol.as_ref().map(|just_symbol| {
+                [
+                    "just_symbol".to_string(),
+                    just_symbol.to_string(),
+                ].join(",")
+            }),
+
+
             self.array_enum.as_ref().map(|array_enum| {
                 [
                     "array_enum".to_string(),
-                    array_enum
-                        .iter()
-                        .map(|x| x.to_string())
-                        .collect::<Vec<_>>()
-                        .join(","),
-                ]
-                .join(",")
+                    array_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
             }),
+
             // Skipping array_array_enum in query parameter serialization
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -2479,37 +2318,17 @@ impl std::str::FromStr for EnumArrays {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing EnumArrays".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing EnumArrays".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "just_symbol" => intermediate_rep.just_symbol.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    "array_enum" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in EnumArrays"
-                                .to_string(),
-                        );
-                    }
-                    "array_array_enum" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in EnumArrays"
-                                .to_string(),
-                        );
-                    }
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing EnumArrays".to_string(),
-                        );
-                    }
+                    "just_symbol" => intermediate_rep.just_symbol.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "array_enum" => return std::result::Result::Err("Parsing a container in this style is not supported in EnumArrays".to_string()),
+                    "array_array_enum" => return std::result::Result::Err("Parsing a container in this style is not supported in EnumArrays".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing EnumArrays".to_string())
                 }
             }
 
@@ -2532,15 +2351,11 @@ impl std::str::FromStr for EnumArrays {
 impl std::convert::TryFrom<header::IntoHeaderValue<EnumArrays>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<EnumArrays>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<EnumArrays>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for EnumArrays - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for EnumArrays - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -2551,31 +2366,25 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<EnumArrays> 
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <EnumArrays as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <EnumArrays as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into EnumArrays - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into EnumArrays - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
-#[derive(
-    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumClass {
     #[serde(rename = "_abc")]
@@ -2586,7 +2395,8 @@ pub enum EnumClass {
     LeftParenthesisXyzRightParenthesis,
 }
 
-impl validator::Validate for EnumClass {
+impl validator::Validate for EnumClass
+{
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         std::result::Result::Ok(())
     }
@@ -2615,45 +2425,49 @@ impl std::str::FromStr for EnumClass {
     }
 }
 
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumTest {
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_string")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub enum_string: Option<String>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_string_required")]
-    #[validate(custom(function = "check_xss_string"))]
+          #[validate(custom(function = "check_xss_string"))]
     pub enum_string_required: String,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_integer")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub enum_integer: Option<i32>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_number")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub enum_number: Option<f64>,
 
     #[serde(rename = "outerEnum")]
-    #[validate(nested)]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(nested)]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub outer_enum: Option<models::OuterEnum>,
+
 }
+
+
 
 impl EnumTest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(enum_string_required: String) -> EnumTest {
+    pub fn new(enum_string_required: String, ) -> EnumTest {
         EnumTest {
-            enum_string: None,
-            enum_string_required,
-            enum_integer: None,
-            enum_number: None,
-            outer_enum: None,
+ enum_string: None,
+ enum_string_required,
+ enum_integer: None,
+ enum_number: None,
+ outer_enum: None,
         }
     }
 }
@@ -2664,25 +2478,39 @@ impl EnumTest {
 impl std::fmt::Display for EnumTest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.enum_string
-                .as_ref()
-                .map(|enum_string| ["enum_string".to_string(), enum_string.to_string()].join(",")),
+
+            self.enum_string.as_ref().map(|enum_string| {
+                [
+                    "enum_string".to_string(),
+                    enum_string.to_string(),
+                ].join(",")
+            }),
+
+
             Some("enum_string_required".to_string()),
             Some(self.enum_string_required.to_string()),
+
+
             self.enum_integer.as_ref().map(|enum_integer| {
-                ["enum_integer".to_string(), enum_integer.to_string()].join(",")
+                [
+                    "enum_integer".to_string(),
+                    enum_integer.to_string(),
+                ].join(",")
             }),
-            self.enum_number
-                .as_ref()
-                .map(|enum_number| ["enum_number".to_string(), enum_number.to_string()].join(",")),
+
+
+            self.enum_number.as_ref().map(|enum_number| {
+                [
+                    "enum_number".to_string(),
+                    enum_number.to_string(),
+                ].join(",")
+            }),
+
             // Skipping outerEnum in query parameter serialization
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -2713,42 +2541,23 @@ impl std::str::FromStr for EnumTest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing EnumTest".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing EnumTest".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "enum_string" => intermediate_rep.enum_string.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "enum_string" => intermediate_rep.enum_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "enum_string_required" => intermediate_rep.enum_string_required.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "enum_string_required" => intermediate_rep.enum_string_required.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "enum_integer" => intermediate_rep.enum_integer.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "enum_integer" => intermediate_rep.enum_integer.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "enum_number" => intermediate_rep.enum_number.push(
-                        <f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "enum_number" => intermediate_rep.enum_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "outerEnum" => intermediate_rep.outer_enum.push(
-                        <models::OuterEnum as std::str::FromStr>::from_str(val)
-                            .map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing EnumTest".to_string(),
-                        );
-                    }
+                    "outerEnum" => intermediate_rep.outer_enum.push(<models::OuterEnum as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing EnumTest".to_string())
                 }
             }
 
@@ -2759,11 +2568,7 @@ impl std::str::FromStr for EnumTest {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(EnumTest {
             enum_string: intermediate_rep.enum_string.into_iter().next(),
-            enum_string_required: intermediate_rep
-                .enum_string_required
-                .into_iter()
-                .next()
-                .ok_or_else(|| "enum_string_required missing in EnumTest".to_string())?,
+            enum_string_required: intermediate_rep.enum_string_required.into_iter().next().ok_or_else(|| "enum_string_required missing in EnumTest".to_string())?,
             enum_integer: intermediate_rep.enum_integer.into_iter().next(),
             enum_number: intermediate_rep.enum_number.into_iter().next(),
             outer_enum: intermediate_rep.outer_enum.into_iter().next(),
@@ -2777,15 +2582,11 @@ impl std::str::FromStr for EnumTest {
 impl std::convert::TryFrom<header::IntoHeaderValue<EnumTest>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<EnumTest>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<EnumTest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for EnumTest - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for EnumTest - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -2796,52 +2597,58 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<EnumTest> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <EnumTest as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <EnumTest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into EnumTest - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into EnumTest - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
-    #[validate(range(min = 10u8, max = 100u8))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[validate(
+            range(min = 10u8, max = 100u8),
+    )]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
-    #[validate(range(min = 20u32, max = 200u32))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[validate(
+            range(min = 20u32, max = 200u32),
+    )]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub int32: Option<u32>,
 
     #[serde(rename = "int64")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub int64: Option<i64>,
 
     #[serde(rename = "number")]
-    #[validate(range(min = 32.1f64, max = 543.2f64))]
+    #[validate(
+            range(min = 32.1f64, max = 543.2f64),
+    )]
     pub number: f64,
 
     #[serde(rename = "float")]
-    #[validate(range(min = 54.3f32, max = 987.6f32))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[validate(
+            range(min = 54.3f32, max = 987.6f32),
+    )]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub float: Option<f32>,
 
     #[serde(rename = "double")]
-    #[validate(range(min = 67.8f64, max = 123.4f64))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[validate(
+            range(min = 67.8f64, max = 123.4f64),
+    )]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub double: Option<f64>,
 
     #[serde(rename = "string")]
@@ -2849,32 +2656,39 @@ pub struct FormatTest {
             regex(path = *RE_FORMATTEST_STRING),
           custom(function = "check_xss_string"),
     )]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
-    #[validate(custom(function = "validate_byte_formattest_byte"))]
+    #[validate(
+            custom(function = "validate_byte_formattest_byte"),
+    )]
     pub byte: ByteArray,
 
     #[serde(rename = "binary")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub binary: Option<ByteArray>,
 
     #[serde(rename = "date")]
     pub date: chrono::naive::NaiveDate,
 
     #[serde(rename = "dateTime")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub date_time: Option<chrono::DateTime<chrono::Utc>>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "uuid")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "password")]
-    #[validate(length(min = 10, max = 64), custom(function = "check_xss_string"))]
+    #[validate(
+            length(min = 10, max = 64),
+          custom(function = "check_xss_string"),
+    )]
     pub password: String,
+
 }
+
 
 lazy_static::lazy_static! {
     static ref RE_FORMATTEST_STRING: regex::Regex = regex::Regex::new("/[a-z]/i").unwrap();
@@ -2883,7 +2697,7 @@ lazy_static::lazy_static! {
     static ref RE_FORMATTEST_BYTE: regex::bytes::Regex = regex::bytes::Regex::new("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$").unwrap();
 }
 fn validate_byte_formattest_byte(
-    b: &ByteArray,
+    b: &ByteArray
 ) -> std::result::Result<(), validator::ValidationError> {
     if !RE_FORMATTEST_BYTE.is_match(&b.0) {
         return Err(validator::ValidationError::new("Character not allowed"));
@@ -2893,26 +2707,21 @@ fn validate_byte_formattest_byte(
 
 impl FormatTest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(
-        number: f64,
-        byte: ByteArray,
-        date: chrono::naive::NaiveDate,
-        password: String,
-    ) -> FormatTest {
+    pub fn new(number: f64, byte: ByteArray, date: chrono::naive::NaiveDate, password: String, ) -> FormatTest {
         FormatTest {
-            integer: None,
-            int32: None,
-            int64: None,
-            number,
-            float: None,
-            double: None,
-            string: None,
-            byte,
-            binary: None,
-            date,
-            date_time: None,
-            uuid: None,
-            password,
+ integer: None,
+ int32: None,
+ int64: None,
+ number,
+ float: None,
+ double: None,
+ string: None,
+ byte,
+ binary: None,
+ date,
+ date_time: None,
+ uuid: None,
+ password,
         }
     }
 }
@@ -2923,26 +2732,58 @@ impl FormatTest {
 impl std::fmt::Display for FormatTest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.integer
-                .as_ref()
-                .map(|integer| ["integer".to_string(), integer.to_string()].join(",")),
-            self.int32
-                .as_ref()
-                .map(|int32| ["int32".to_string(), int32.to_string()].join(",")),
-            self.int64
-                .as_ref()
-                .map(|int64| ["int64".to_string(), int64.to_string()].join(",")),
+
+            self.integer.as_ref().map(|integer| {
+                [
+                    "integer".to_string(),
+                    integer.to_string(),
+                ].join(",")
+            }),
+
+
+            self.int32.as_ref().map(|int32| {
+                [
+                    "int32".to_string(),
+                    int32.to_string(),
+                ].join(",")
+            }),
+
+
+            self.int64.as_ref().map(|int64| {
+                [
+                    "int64".to_string(),
+                    int64.to_string(),
+                ].join(",")
+            }),
+
+
             Some("number".to_string()),
             Some(self.number.to_string()),
-            self.float
-                .as_ref()
-                .map(|float| ["float".to_string(), float.to_string()].join(",")),
-            self.double
-                .as_ref()
-                .map(|double| ["double".to_string(), double.to_string()].join(",")),
-            self.string
-                .as_ref()
-                .map(|string| ["string".to_string(), string.to_string()].join(",")),
+
+
+            self.float.as_ref().map(|float| {
+                [
+                    "float".to_string(),
+                    float.to_string(),
+                ].join(",")
+            }),
+
+
+            self.double.as_ref().map(|double| {
+                [
+                    "double".to_string(),
+                    double.to_string(),
+                ].join(",")
+            }),
+
+
+            self.string.as_ref().map(|string| {
+                [
+                    "string".to_string(),
+                    string.to_string(),
+                ].join(",")
+            }),
+
             // Skipping byte in query parameter serialization
             // Skipping byte in query parameter serialization
 
@@ -2954,15 +2795,14 @@ impl std::fmt::Display for FormatTest {
             // Skipping dateTime in query parameter serialization
 
             // Skipping uuid in query parameter serialization
+
+
             Some("password".to_string()),
             Some(self.password.to_string()),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -2987,7 +2827,7 @@ impl std::str::FromStr for FormatTest {
             pub byte: Vec<ByteArray>,
             pub binary: Vec<ByteArray>,
             pub date: Vec<chrono::naive::NaiveDate>,
-            pub date_time: Vec<chrono::DateTime<chrono::Utc>>,
+            pub date_time: Vec<chrono::DateTime::<chrono::Utc>>,
             pub uuid: Vec<uuid::Uuid>,
             pub password: Vec<String>,
         }
@@ -3001,80 +2841,37 @@ impl std::str::FromStr for FormatTest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing FormatTest".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing FormatTest".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "integer" => intermediate_rep
-                        .integer
-                        .push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "integer" => intermediate_rep.integer.push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "int32" => intermediate_rep.int32.push(
-                        <u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "int32" => intermediate_rep.int32.push(<u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "int64" => intermediate_rep.int64.push(
-                        <i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "int64" => intermediate_rep.int64.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "number" => intermediate_rep.number.push(
-                        <f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "number" => intermediate_rep.number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "float" => intermediate_rep.float.push(
-                        <f32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "float" => intermediate_rep.float.push(<f32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "double" => intermediate_rep.double.push(
-                        <f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "double" => intermediate_rep.double.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "string" => intermediate_rep.string.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    "byte" => {
-                        return std::result::Result::Err(
-                            "Parsing binary data in this style is not supported in FormatTest"
-                                .to_string(),
-                        );
-                    }
-                    "binary" => {
-                        return std::result::Result::Err(
-                            "Parsing binary data in this style is not supported in FormatTest"
-                                .to_string(),
-                        );
-                    }
+                    "string" => intermediate_rep.string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "byte" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
+                    "binary" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
                     #[allow(clippy::redundant_clone)]
-                    "date" => intermediate_rep.date.push(
-                        <chrono::naive::NaiveDate as std::str::FromStr>::from_str(val)
-                            .map_err(|x| x.to_string())?,
-                    ),
+                    "date" => intermediate_rep.date.push(<chrono::naive::NaiveDate as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "dateTime" => intermediate_rep.date_time.push(
-                        <chrono::DateTime<chrono::Utc> as std::str::FromStr>::from_str(val)
-                            .map_err(|x| x.to_string())?,
-                    ),
+                    "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "uuid" => intermediate_rep.uuid.push(
-                        <uuid::Uuid as std::str::FromStr>::from_str(val)
-                            .map_err(|x| x.to_string())?,
-                    ),
+                    "uuid" => intermediate_rep.uuid.push(<uuid::Uuid as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "password" => intermediate_rep.password.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing FormatTest".to_string(),
-                        );
-                    }
+                    "password" => intermediate_rep.password.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing FormatTest".to_string())
                 }
             }
 
@@ -3087,32 +2884,16 @@ impl std::str::FromStr for FormatTest {
             integer: intermediate_rep.integer.into_iter().next(),
             int32: intermediate_rep.int32.into_iter().next(),
             int64: intermediate_rep.int64.into_iter().next(),
-            number: intermediate_rep
-                .number
-                .into_iter()
-                .next()
-                .ok_or_else(|| "number missing in FormatTest".to_string())?,
+            number: intermediate_rep.number.into_iter().next().ok_or_else(|| "number missing in FormatTest".to_string())?,
             float: intermediate_rep.float.into_iter().next(),
             double: intermediate_rep.double.into_iter().next(),
             string: intermediate_rep.string.into_iter().next(),
-            byte: intermediate_rep
-                .byte
-                .into_iter()
-                .next()
-                .ok_or_else(|| "byte missing in FormatTest".to_string())?,
+            byte: intermediate_rep.byte.into_iter().next().ok_or_else(|| "byte missing in FormatTest".to_string())?,
             binary: intermediate_rep.binary.into_iter().next(),
-            date: intermediate_rep
-                .date
-                .into_iter()
-                .next()
-                .ok_or_else(|| "date missing in FormatTest".to_string())?,
+            date: intermediate_rep.date.into_iter().next().ok_or_else(|| "date missing in FormatTest".to_string())?,
             date_time: intermediate_rep.date_time.into_iter().next(),
             uuid: intermediate_rep.uuid.into_iter().next(),
-            password: intermediate_rep
-                .password
-                .into_iter()
-                .next()
-                .ok_or_else(|| "password missing in FormatTest".to_string())?,
+            password: intermediate_rep.password.into_iter().next().ok_or_else(|| "password missing in FormatTest".to_string())?,
         })
     }
 }
@@ -3123,15 +2904,11 @@ impl std::str::FromStr for FormatTest {
 impl std::convert::TryFrom<header::IntoHeaderValue<FormatTest>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<FormatTest>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<FormatTest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for FormatTest - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for FormatTest - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -3142,43 +2919,42 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FormatTest> 
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <FormatTest as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <FormatTest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into FormatTest - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into FormatTest - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "foo")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub foo: Option<String>,
+
 }
+
+
 
 impl HasOnlyReadOnly {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> HasOnlyReadOnly {
         HasOnlyReadOnly {
-            bar: None,
-            foo: None,
+ bar: None,
+ foo: None,
         }
     }
 }
@@ -3189,19 +2965,25 @@ impl HasOnlyReadOnly {
 impl std::fmt::Display for HasOnlyReadOnly {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.bar
-                .as_ref()
-                .map(|bar| ["bar".to_string(), bar.to_string()].join(",")),
-            self.foo
-                .as_ref()
-                .map(|foo| ["foo".to_string(), foo.to_string()].join(",")),
+
+            self.bar.as_ref().map(|bar| {
+                [
+                    "bar".to_string(),
+                    bar.to_string(),
+                ].join(",")
+            }),
+
+
+            self.foo.as_ref().map(|foo| {
+                [
+                    "foo".to_string(),
+                    foo.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -3229,29 +3011,17 @@ impl std::str::FromStr for HasOnlyReadOnly {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing HasOnlyReadOnly".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing HasOnlyReadOnly".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "bar" => intermediate_rep.bar.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "bar" => intermediate_rep.bar.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "foo" => intermediate_rep.foo.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing HasOnlyReadOnly".to_string(),
-                        );
-                    }
+                    "foo" => intermediate_rep.foo.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing HasOnlyReadOnly".to_string())
                 }
             }
 
@@ -3273,15 +3043,11 @@ impl std::str::FromStr for HasOnlyReadOnly {
 impl std::convert::TryFrom<header::IntoHeaderValue<HasOnlyReadOnly>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<HasOnlyReadOnly>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<HasOnlyReadOnly>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for HasOnlyReadOnly - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for HasOnlyReadOnly - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -3292,37 +3058,36 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<HasOnlyReadO
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <HasOnlyReadOnly as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <HasOnlyReadOnly as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into HasOnlyReadOnly - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into HasOnlyReadOnly - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub param_123_list: Option<String>,
+
 }
+
+
 
 impl List {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> List {
         List {
-            param_123_list: None,
+ param_123_list: None,
         }
     }
 }
@@ -3332,16 +3097,18 @@ impl List {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for List {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> =
-            vec![self.param_123_list.as_ref().map(|param_123_list| {
-                ["123-list".to_string(), param_123_list.to_string()].join(",")
-            })];
+        let params: Vec<Option<String>> = vec![
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+            self.param_123_list.as_ref().map(|param_123_list| {
+                [
+                    "123-list".to_string(),
+                    param_123_list.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -3368,25 +3135,15 @@ impl std::str::FromStr for List {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing List".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing List".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "123-list" => intermediate_rep.param_123_list.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing List".to_string(),
-                        );
-                    }
+                    "123-list" => intermediate_rep.param_123_list.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing List".to_string())
                 }
             }
 
@@ -3407,15 +3164,11 @@ impl std::str::FromStr for List {
 impl std::convert::TryFrom<header::IntoHeaderValue<List>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<List>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<List>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for List - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for List - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -3426,51 +3179,50 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<List> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => match <List as std::str::FromStr>::from_str(value) {
-                std::result::Result::Ok(value) => {
-                    std::result::Result::Ok(header::IntoHeaderValue(value))
-                }
-                std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    r#"Unable to convert header value '{value}' into List - {err}"#
-                )),
-            },
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             std::result::Result::Ok(value) => {
+                    match <List as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into List - {err}"#))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
-    #[validate(custom(function = "check_xss_map"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub map_map_of_string:
-        Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+          #[validate(custom(function = "check_xss_map"))]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub map_map_of_string: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_map_of_enum")]
-    #[validate(custom(function = "check_xss_map"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub map_map_of_enum:
-        Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+          #[validate(custom(function = "check_xss_map"))]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub map_map_of_enum: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_of_enum_string")]
-    #[validate(custom(function = "check_xss_map_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_map_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_enum_string: Option<std::collections::HashMap<String, String>>,
+
 }
+
+
 
 impl MapTest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> MapTest {
         MapTest {
-            map_map_of_string: None,
-            map_map_of_enum: None,
-            map_of_enum_string: None,
+ map_map_of_string: None,
+ map_map_of_enum: None,
+ map_of_enum_string: None,
         }
     }
 }
@@ -3491,11 +3243,7 @@ impl std::fmt::Display for MapTest {
 
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -3510,10 +3258,8 @@ impl std::str::FromStr for MapTest {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub map_map_of_string:
-                Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
-            pub map_map_of_enum:
-                Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+            pub map_map_of_string: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+            pub map_map_of_enum: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
             pub map_of_enum_string: Vec<std::collections::HashMap<String, String>>,
         }
 
@@ -3526,39 +3272,16 @@ impl std::str::FromStr for MapTest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing MapTest".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing MapTest".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    "map_map_of_string" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in MapTest"
-                                .to_string(),
-                        );
-                    }
-                    "map_map_of_enum" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in MapTest"
-                                .to_string(),
-                        );
-                    }
-                    "map_of_enum_string" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in MapTest"
-                                .to_string(),
-                        );
-                    }
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing MapTest".to_string(),
-                        );
-                    }
+                    "map_map_of_string" => return std::result::Result::Err("Parsing a container in this style is not supported in MapTest".to_string()),
+                    "map_map_of_enum" => return std::result::Result::Err("Parsing a container in this style is not supported in MapTest".to_string()),
+                    "map_of_enum_string" => return std::result::Result::Err("Parsing a container in this style is not supported in MapTest".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing MapTest".to_string())
                 }
             }
 
@@ -3581,15 +3304,11 @@ impl std::str::FromStr for MapTest {
 impl std::convert::TryFrom<header::IntoHeaderValue<MapTest>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<MapTest>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<MapTest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for MapTest - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for MapTest - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -3600,47 +3319,46 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MapTest> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <MapTest as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <MapTest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into MapTest - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into MapTest - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "dateTime")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub date_time: Option<chrono::DateTime<chrono::Utc>>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "map")]
-    #[validate(custom(function = "check_xss_map_nested"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_map_nested"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub map: Option<std::collections::HashMap<String, models::Animal>>,
+
 }
+
+
 
 impl MixedPropertiesAndAdditionalPropertiesClass {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> MixedPropertiesAndAdditionalPropertiesClass {
         MixedPropertiesAndAdditionalPropertiesClass {
-            uuid: None,
-            date_time: None,
-            map: None,
+ uuid: None,
+ date_time: None,
+ map: None,
         }
     }
 }
@@ -3660,11 +3378,7 @@ impl std::fmt::Display for MixedPropertiesAndAdditionalPropertiesClass {
 
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -3680,7 +3394,7 @@ impl std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub uuid: Vec<uuid::Uuid>,
-            pub date_time: Vec<chrono::DateTime<chrono::Utc>>,
+            pub date_time: Vec<chrono::DateTime::<chrono::Utc>>,
             pub map: Vec<std::collections::HashMap<String, models::Animal>>,
         }
 
@@ -3691,14 +3405,10 @@ impl std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
-            let val =
-                match string_iter.next() {
-                    Some(x) => x,
-                    None => return std::result::Result::Err(
-                        "Missing value while parsing MixedPropertiesAndAdditionalPropertiesClass"
-                            .to_string(),
-                    ),
-                };
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing MixedPropertiesAndAdditionalPropertiesClass".to_string())
+            };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
@@ -3728,71 +3438,60 @@ impl std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
 // Methods for converting between header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> and HeaderValue
 
 #[cfg(feature = "server")]
-impl std::convert::TryFrom<header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>>
-    for HeaderValue
-{
+impl std::convert::TryFrom<header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for MixedPropertiesAndAdditionalPropertiesClass - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for MixedPropertiesAndAdditionalPropertiesClass - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
 
 #[cfg(feature = "server")]
-impl std::convert::TryFrom<HeaderValue>
-    for header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>
-{
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> {
     type Error = String;
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <MixedPropertiesAndAdditionalPropertiesClass as std::str::FromStr>::from_str(
-                    value,
-                ) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <MixedPropertiesAndAdditionalPropertiesClass as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into MixedPropertiesAndAdditionalPropertiesClass - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into MixedPropertiesAndAdditionalPropertiesClass - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 /// Model for testing model name starting with number
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Model200Response {
     #[serde(rename = "name")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<i32>,
 
     #[serde(rename = "class")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub class: Option<String>,
+
 }
+
+
 
 impl Model200Response {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> Model200Response {
         Model200Response {
-            name: None,
-            class: None,
+ name: None,
+ class: None,
         }
     }
 }
@@ -3803,19 +3502,25 @@ impl Model200Response {
 impl std::fmt::Display for Model200Response {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.name
-                .as_ref()
-                .map(|name| ["name".to_string(), name.to_string()].join(",")),
-            self.class
-                .as_ref()
-                .map(|class| ["class".to_string(), class.to_string()].join(",")),
+
+            self.name.as_ref().map(|name| {
+                [
+                    "name".to_string(),
+                    name.to_string(),
+                ].join(",")
+            }),
+
+
+            self.class.as_ref().map(|class| {
+                [
+                    "class".to_string(),
+                    class.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -3843,29 +3548,17 @@ impl std::str::FromStr for Model200Response {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing Model200Response".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing Model200Response".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "name" => intermediate_rep.name.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "class" => intermediate_rep.class.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Model200Response".to_string(),
-                        );
-                    }
+                    "class" => intermediate_rep.class.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Model200Response".to_string())
                 }
             }
 
@@ -3887,15 +3580,11 @@ impl std::str::FromStr for Model200Response {
 impl std::convert::TryFrom<header::IntoHeaderValue<Model200Response>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<Model200Response>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Model200Response>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Model200Response - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Model200Response - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -3906,22 +3595,18 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Model200Resp
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <Model200Response as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <Model200Response as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Model200Response - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into Model200Response - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 /// Model for testing model name same as property name
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -3931,27 +3616,30 @@ pub struct Name {
     pub name: i32,
 
     #[serde(rename = "snake_case")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub snake_case: Option<i32>,
 
     #[serde(rename = "property")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub property: Option<String>,
 
     #[serde(rename = "123Number")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub param_123_number: Option<i32>,
+
 }
+
+
 
 impl Name {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(name: i32) -> Name {
+    pub fn new(name: i32, ) -> Name {
         Name {
-            name,
-            snake_case: None,
-            property: None,
-            param_123_number: None,
+ name,
+ snake_case: None,
+ property: None,
+ param_123_number: None,
         }
     }
 }
@@ -3962,24 +3650,37 @@ impl Name {
 impl std::fmt::Display for Name {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
+
             Some("name".to_string()),
             Some(self.name.to_string()),
-            self.snake_case
-                .as_ref()
-                .map(|snake_case| ["snake_case".to_string(), snake_case.to_string()].join(",")),
-            self.property
-                .as_ref()
-                .map(|property| ["property".to_string(), property.to_string()].join(",")),
-            self.param_123_number.as_ref().map(|param_123_number| {
-                ["123Number".to_string(), param_123_number.to_string()].join(",")
+
+
+            self.snake_case.as_ref().map(|snake_case| {
+                [
+                    "snake_case".to_string(),
+                    snake_case.to_string(),
+                ].join(",")
             }),
+
+
+            self.property.as_ref().map(|property| {
+                [
+                    "property".to_string(),
+                    property.to_string(),
+                ].join(",")
+            }),
+
+
+            self.param_123_number.as_ref().map(|param_123_number| {
+                [
+                    "123Number".to_string(),
+                    param_123_number.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -4009,37 +3710,21 @@ impl std::str::FromStr for Name {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing Name".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing Name".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "name" => intermediate_rep.name.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "snake_case" => intermediate_rep.snake_case.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "snake_case" => intermediate_rep.snake_case.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "property" => intermediate_rep.property.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "property" => intermediate_rep.property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "123Number" => intermediate_rep.param_123_number.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Name".to_string(),
-                        );
-                    }
+                    "123Number" => intermediate_rep.param_123_number.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Name".to_string())
                 }
             }
 
@@ -4049,11 +3734,7 @@ impl std::str::FromStr for Name {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Name {
-            name: intermediate_rep
-                .name
-                .into_iter()
-                .next()
-                .ok_or_else(|| "name missing in Name".to_string())?,
+            name: intermediate_rep.name.into_iter().next().ok_or_else(|| "name missing in Name".to_string())?,
             snake_case: intermediate_rep.snake_case.into_iter().next(),
             property: intermediate_rep.property.into_iter().next(),
             param_123_number: intermediate_rep.param_123_number.into_iter().next(),
@@ -4067,15 +3748,11 @@ impl std::str::FromStr for Name {
 impl std::convert::TryFrom<header::IntoHeaderValue<Name>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<Name>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Name>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Name - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Name - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -4086,33 +3763,36 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Name> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => match <Name as std::str::FromStr>::from_str(value) {
-                std::result::Result::Ok(value) => {
-                    std::result::Result::Ok(header::IntoHeaderValue(value))
-                }
-                std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    r#"Unable to convert header value '{value}' into Name - {err}"#
-                )),
-            },
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             std::result::Result::Ok(value) => {
+                    match <Name as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Name - {err}"#))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub just_number: Option<f64>,
+
 }
+
+
 
 impl NumberOnly {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> NumberOnly {
-        NumberOnly { just_number: None }
+        NumberOnly {
+ just_number: None,
+        }
     }
 }
 
@@ -4122,16 +3802,17 @@ impl NumberOnly {
 impl std::fmt::Display for NumberOnly {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.just_number
-                .as_ref()
-                .map(|just_number| ["JustNumber".to_string(), just_number.to_string()].join(",")),
+
+            self.just_number.as_ref().map(|just_number| {
+                [
+                    "JustNumber".to_string(),
+                    just_number.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -4158,25 +3839,15 @@ impl std::str::FromStr for NumberOnly {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing NumberOnly".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing NumberOnly".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "JustNumber" => intermediate_rep.just_number.push(
-                        <f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing NumberOnly".to_string(),
-                        );
-                    }
+                    "JustNumber" => intermediate_rep.just_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing NumberOnly".to_string())
                 }
             }
 
@@ -4197,15 +3868,11 @@ impl std::str::FromStr for NumberOnly {
 impl std::convert::TryFrom<header::IntoHeaderValue<NumberOnly>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<NumberOnly>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<NumberOnly>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for NumberOnly - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for NumberOnly - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -4216,36 +3883,37 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<NumberOnly> 
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <NumberOnly as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <NumberOnly as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into NumberOnly - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into NumberOnly - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
-    #[validate(nested)]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(nested)]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub inner: Option<models::ObjectWithOnlyAdditionalProperties>,
+
 }
+
+
 
 impl ObjectContainingObjectWithOnlyAdditionalProperties {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> ObjectContainingObjectWithOnlyAdditionalProperties {
-        ObjectContainingObjectWithOnlyAdditionalProperties { inner: None }
+        ObjectContainingObjectWithOnlyAdditionalProperties {
+ inner: None,
+        }
     }
 }
 
@@ -4259,11 +3927,7 @@ impl std::fmt::Display for ObjectContainingObjectWithOnlyAdditionalProperties {
 
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -4316,30 +3980,20 @@ impl std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
 // Methods for converting between header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> and HeaderValue
 
 #[cfg(feature = "server")]
-impl
-    std::convert::TryFrom<
-        header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>,
-    > for HeaderValue
-{
+impl std::convert::TryFrom<header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for ObjectContainingObjectWithOnlyAdditionalProperties - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for ObjectContainingObjectWithOnlyAdditionalProperties - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
 
 #[cfg(feature = "server")]
-impl std::convert::TryFrom<HeaderValue>
-    for header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>
-{
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> {
     type Error = String;
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
@@ -4355,27 +4009,26 @@ impl std::convert::TryFrom<HeaderValue>
     }
 }
 
+
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectWithOnlyAdditionalProperties(pub std::collections::HashMap<String, String>);
 
 impl validator::Validate for ObjectWithOnlyAdditionalProperties {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+
         std::result::Result::Ok(())
     }
 }
 
-impl std::convert::From<std::collections::HashMap<String, String>>
-    for ObjectWithOnlyAdditionalProperties
-{
+impl std::convert::From<std::collections::HashMap<String, String>> for ObjectWithOnlyAdditionalProperties {
     fn from(x: std::collections::HashMap<String, String>) -> Self {
         ObjectWithOnlyAdditionalProperties(x)
     }
 }
 
-impl std::convert::From<ObjectWithOnlyAdditionalProperties>
-    for std::collections::HashMap<String, String>
-{
+impl std::convert::From<ObjectWithOnlyAdditionalProperties> for std::collections::HashMap<String, String> {
     fn from(x: ObjectWithOnlyAdditionalProperties) -> Self {
         x.0
     }
@@ -4411,53 +4064,55 @@ impl ::std::str::FromStr for ObjectWithOnlyAdditionalProperties {
     type Err = &'static str;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err(
-            "Parsing additionalProperties for ObjectWithOnlyAdditionalProperties is not supported",
-        )
+        std::result::Result::Err("Parsing additionalProperties for ObjectWithOnlyAdditionalProperties is not supported")
     }
 }
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Order {
     #[serde(rename = "id")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "petId")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub pet_id: Option<i64>,
 
     #[serde(rename = "quantity")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub quantity: Option<i32>,
 
     #[serde(rename = "shipDate")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub ship_date: Option<chrono::DateTime<chrono::Utc>>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub ship_date: Option<chrono::DateTime::<chrono::Utc>>,
 
     /// Order Status
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<String>,
 
     #[serde(rename = "complete")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub complete: Option<bool>,
+
 }
+
+
 
 impl Order {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> Order {
         Order {
-            id: None,
-            pet_id: None,
-            quantity: None,
-            ship_date: None,
-            status: None,
-            complete: Some(false),
+ id: None,
+ pet_id: None,
+ quantity: None,
+ ship_date: None,
+ status: None,
+ complete: Some(false),
         }
     }
 }
@@ -4468,29 +4123,51 @@ impl Order {
 impl std::fmt::Display for Order {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.id
-                .as_ref()
-                .map(|id| ["id".to_string(), id.to_string()].join(",")),
-            self.pet_id
-                .as_ref()
-                .map(|pet_id| ["petId".to_string(), pet_id.to_string()].join(",")),
-            self.quantity
-                .as_ref()
-                .map(|quantity| ["quantity".to_string(), quantity.to_string()].join(",")),
+
+            self.id.as_ref().map(|id| {
+                [
+                    "id".to_string(),
+                    id.to_string(),
+                ].join(",")
+            }),
+
+
+            self.pet_id.as_ref().map(|pet_id| {
+                [
+                    "petId".to_string(),
+                    pet_id.to_string(),
+                ].join(",")
+            }),
+
+
+            self.quantity.as_ref().map(|quantity| {
+                [
+                    "quantity".to_string(),
+                    quantity.to_string(),
+                ].join(",")
+            }),
+
             // Skipping shipDate in query parameter serialization
-            self.status
-                .as_ref()
-                .map(|status| ["status".to_string(), status.to_string()].join(",")),
-            self.complete
-                .as_ref()
-                .map(|complete| ["complete".to_string(), complete.to_string()].join(",")),
+
+
+            self.status.as_ref().map(|status| {
+                [
+                    "status".to_string(),
+                    status.to_string(),
+                ].join(",")
+            }),
+
+
+            self.complete.as_ref().map(|complete| {
+                [
+                    "complete".to_string(),
+                    complete.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -4508,7 +4185,7 @@ impl std::str::FromStr for Order {
             pub id: Vec<i64>,
             pub pet_id: Vec<i64>,
             pub quantity: Vec<i32>,
-            pub ship_date: Vec<chrono::DateTime<chrono::Utc>>,
+            pub ship_date: Vec<chrono::DateTime::<chrono::Utc>>,
             pub status: Vec<String>,
             pub complete: Vec<bool>,
         }
@@ -4522,46 +4199,25 @@ impl std::str::FromStr for Order {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing Order".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing Order".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "id" => intermediate_rep.id.push(
-                        <i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "petId" => intermediate_rep.pet_id.push(
-                        <i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "petId" => intermediate_rep.pet_id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "quantity" => intermediate_rep.quantity.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "quantity" => intermediate_rep.quantity.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "shipDate" => intermediate_rep.ship_date.push(
-                        <chrono::DateTime<chrono::Utc> as std::str::FromStr>::from_str(val)
-                            .map_err(|x| x.to_string())?,
-                    ),
+                    "shipDate" => intermediate_rep.ship_date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "status" => intermediate_rep.status.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "status" => intermediate_rep.status.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "complete" => intermediate_rep.complete.push(
-                        <bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Order".to_string(),
-                        );
-                    }
+                    "complete" => intermediate_rep.complete.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Order".to_string())
                 }
             }
 
@@ -4587,15 +4243,11 @@ impl std::str::FromStr for Order {
 impl std::convert::TryFrom<header::IntoHeaderValue<Order>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<Order>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Order>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Order - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Order - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -4606,27 +4258,26 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Order> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => match <Order as std::str::FromStr>::from_str(value) {
-                std::result::Result::Ok(value) => {
-                    std::result::Result::Ok(header::IntoHeaderValue(value))
-                }
-                std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    r#"Unable to convert header value '{value}' into Order - {err}"#
-                )),
-            },
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             std::result::Result::Ok(value) => {
+                    match <Order as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Order - {err}"#))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd,  serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterBoolean(pub bool);
 
 impl validator::Validate for OuterBoolean {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+
         std::result::Result::Ok(())
     }
 }
@@ -4656,30 +4307,35 @@ impl std::ops::DerefMut for OuterBoolean {
     }
 }
 
+
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub my_number: Option<f64>,
 
     #[serde(rename = "my_string")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub my_string: Option<String>,
 
     #[serde(rename = "my_boolean")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub my_boolean: Option<bool>,
+
 }
+
+
 
 impl OuterComposite {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> OuterComposite {
         OuterComposite {
-            my_number: None,
-            my_string: None,
-            my_boolean: None,
+ my_number: None,
+ my_string: None,
+ my_boolean: None,
         }
     }
 }
@@ -4690,22 +4346,33 @@ impl OuterComposite {
 impl std::fmt::Display for OuterComposite {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.my_number
-                .as_ref()
-                .map(|my_number| ["my_number".to_string(), my_number.to_string()].join(",")),
-            self.my_string
-                .as_ref()
-                .map(|my_string| ["my_string".to_string(), my_string.to_string()].join(",")),
-            self.my_boolean
-                .as_ref()
-                .map(|my_boolean| ["my_boolean".to_string(), my_boolean.to_string()].join(",")),
+
+            self.my_number.as_ref().map(|my_number| {
+                [
+                    "my_number".to_string(),
+                    my_number.to_string(),
+                ].join(",")
+            }),
+
+
+            self.my_string.as_ref().map(|my_string| {
+                [
+                    "my_string".to_string(),
+                    my_string.to_string(),
+                ].join(",")
+            }),
+
+
+            self.my_boolean.as_ref().map(|my_boolean| {
+                [
+                    "my_boolean".to_string(),
+                    my_boolean.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -4734,33 +4401,19 @@ impl std::str::FromStr for OuterComposite {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing OuterComposite".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing OuterComposite".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "my_number" => intermediate_rep.my_number.push(
-                        <f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "my_number" => intermediate_rep.my_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "my_string" => intermediate_rep.my_string.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "my_string" => intermediate_rep.my_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "my_boolean" => intermediate_rep.my_boolean.push(
-                        <bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing OuterComposite".to_string(),
-                        );
-                    }
+                    "my_boolean" => intermediate_rep.my_boolean.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing OuterComposite".to_string())
                 }
             }
 
@@ -4783,15 +4436,11 @@ impl std::str::FromStr for OuterComposite {
 impl std::convert::TryFrom<header::IntoHeaderValue<OuterComposite>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<OuterComposite>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<OuterComposite>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for OuterComposite - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for OuterComposite - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -4802,31 +4451,25 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<OuterComposi
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <OuterComposite as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <OuterComposite as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into OuterComposite - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into OuterComposite - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
-#[derive(
-    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OuterEnum {
     #[serde(rename = "placed")]
@@ -4837,7 +4480,8 @@ pub enum OuterEnum {
     Delivered,
 }
 
-impl validator::Validate for OuterEnum {
+impl validator::Validate for OuterEnum
+{
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         std::result::Result::Ok(())
     }
@@ -4866,12 +4510,14 @@ impl std::str::FromStr for OuterEnum {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
+#[derive(Debug, Clone, PartialEq, PartialOrd,  serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterNumber(pub f64);
 
 impl validator::Validate for OuterNumber {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+
         std::result::Result::Ok(())
     }
 }
@@ -4901,12 +4547,15 @@ impl std::ops::DerefMut for OuterNumber {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd,  serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterString(pub String);
 
 impl validator::Validate for OuterString {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+
         std::result::Result::Ok(())
     }
 }
@@ -4919,7 +4568,7 @@ impl std::convert::From<String> for OuterString {
 
 impl std::fmt::Display for OuterString {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
+       write!(f, "{}", self.0)
     }
 }
 
@@ -4949,49 +4598,54 @@ impl std::ops::DerefMut for OuterString {
     }
 }
 
+
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Pet {
     #[serde(rename = "id")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "category")]
-    #[validate(nested)]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(nested)]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub category: Option<models::Category>,
 
     #[serde(rename = "name")]
-    #[validate(custom(function = "check_xss_string"))]
+          #[validate(custom(function = "check_xss_string"))]
     pub name: String,
 
     #[serde(rename = "photoUrls")]
-    #[validate(custom(function = "check_xss_vec_string"))]
+          #[validate(custom(function = "check_xss_vec_string"))]
     pub photo_urls: Vec<String>,
 
     #[serde(rename = "tags")]
-    #[validate(nested)]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(nested)]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub tags: Option<Vec<models::Tag>>,
 
     /// pet status in the store
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<String>,
+
 }
+
+
 
 impl Pet {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(name: String, photo_urls: Vec<String>) -> Pet {
+    pub fn new(name: String, photo_urls: Vec<String>, ) -> Pet {
         Pet {
-            id: None,
-            category: None,
-            name,
-            photo_urls,
-            tags: None,
-            status: None,
+ id: None,
+ category: None,
+ name,
+ photo_urls,
+ tags: None,
+ status: None,
         }
     }
 }
@@ -5002,31 +4656,37 @@ impl Pet {
 impl std::fmt::Display for Pet {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.id
-                .as_ref()
-                .map(|id| ["id".to_string(), id.to_string()].join(",")),
+
+            self.id.as_ref().map(|id| {
+                [
+                    "id".to_string(),
+                    id.to_string(),
+                ].join(",")
+            }),
+
             // Skipping category in query parameter serialization
+
+
             Some("name".to_string()),
             Some(self.name.to_string()),
+
+
             Some("photoUrls".to_string()),
-            Some(
-                self.photo_urls
-                    .iter()
-                    .map(|x| x.to_string())
-                    .collect::<Vec<_>>()
-                    .join(","),
-            ),
+            Some(self.photo_urls.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
+
             // Skipping tags in query parameter serialization
-            self.status
-                .as_ref()
-                .map(|status| ["status".to_string(), status.to_string()].join(",")),
+
+
+            self.status.as_ref().map(|status| {
+                [
+                    "status".to_string(),
+                    status.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -5058,46 +4718,23 @@ impl std::str::FromStr for Pet {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err("Missing value while parsing Pet".to_string());
-                }
+                None => return std::result::Result::Err("Missing value while parsing Pet".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "id" => intermediate_rep.id.push(
-                        <i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "category" => intermediate_rep.category.push(
-                        <models::Category as std::str::FromStr>::from_str(val)
-                            .map_err(|x| x.to_string())?,
-                    ),
+                    "category" => intermediate_rep.category.push(<models::Category as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    "photoUrls" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in Pet".to_string(),
-                        );
-                    }
-                    "tags" => {
-                        return std::result::Result::Err(
-                            "Parsing a container in this style is not supported in Pet".to_string(),
-                        );
-                    }
+                    "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "photoUrls" => return std::result::Result::Err("Parsing a container in this style is not supported in Pet".to_string()),
+                    "tags" => return std::result::Result::Err("Parsing a container in this style is not supported in Pet".to_string()),
                     #[allow(clippy::redundant_clone)]
-                    "status" => intermediate_rep.status.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Pet".to_string(),
-                        );
-                    }
+                    "status" => intermediate_rep.status.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Pet".to_string())
                 }
             }
 
@@ -5109,16 +4746,8 @@ impl std::str::FromStr for Pet {
         std::result::Result::Ok(Pet {
             id: intermediate_rep.id.into_iter().next(),
             category: intermediate_rep.category.into_iter().next(),
-            name: intermediate_rep
-                .name
-                .into_iter()
-                .next()
-                .ok_or_else(|| "name missing in Pet".to_string())?,
-            photo_urls: intermediate_rep
-                .photo_urls
-                .into_iter()
-                .next()
-                .ok_or_else(|| "photoUrls missing in Pet".to_string())?,
+            name: intermediate_rep.name.into_iter().next().ok_or_else(|| "name missing in Pet".to_string())?,
+            photo_urls: intermediate_rep.photo_urls.into_iter().next().ok_or_else(|| "photoUrls missing in Pet".to_string())?,
             tags: intermediate_rep.tags.into_iter().next(),
             status: intermediate_rep.status.into_iter().next(),
         })
@@ -5134,10 +4763,8 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Pet>> for HeaderValue {
     fn try_from(hdr_value: header::IntoHeaderValue<Pet>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Pet - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Pet - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -5148,41 +4775,42 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Pet> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => match <Pet as std::str::FromStr>::from_str(value) {
-                std::result::Result::Ok(value) => {
-                    std::result::Result::Ok(header::IntoHeaderValue(value))
-                }
-                std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    r#"Unable to convert header value '{value}' into Pet - {err}"#
-                )),
-            },
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             std::result::Result::Ok(value) => {
+                    match <Pet as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Pet - {err}"#))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "baz")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub baz: Option<String>,
+
 }
+
+
 
 impl ReadOnlyFirst {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> ReadOnlyFirst {
         ReadOnlyFirst {
-            bar: None,
-            baz: None,
+ bar: None,
+ baz: None,
         }
     }
 }
@@ -5193,19 +4821,25 @@ impl ReadOnlyFirst {
 impl std::fmt::Display for ReadOnlyFirst {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.bar
-                .as_ref()
-                .map(|bar| ["bar".to_string(), bar.to_string()].join(",")),
-            self.baz
-                .as_ref()
-                .map(|baz| ["baz".to_string(), baz.to_string()].join(",")),
+
+            self.bar.as_ref().map(|bar| {
+                [
+                    "bar".to_string(),
+                    bar.to_string(),
+                ].join(",")
+            }),
+
+
+            self.baz.as_ref().map(|baz| {
+                [
+                    "baz".to_string(),
+                    baz.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -5233,29 +4867,17 @@ impl std::str::FromStr for ReadOnlyFirst {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing ReadOnlyFirst".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing ReadOnlyFirst".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "bar" => intermediate_rep.bar.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "bar" => intermediate_rep.bar.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "baz" => intermediate_rep.baz.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing ReadOnlyFirst".to_string(),
-                        );
-                    }
+                    "baz" => intermediate_rep.baz.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing ReadOnlyFirst".to_string())
                 }
             }
 
@@ -5277,15 +4899,11 @@ impl std::str::FromStr for ReadOnlyFirst {
 impl std::convert::TryFrom<header::IntoHeaderValue<ReadOnlyFirst>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<ReadOnlyFirst>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ReadOnlyFirst>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for ReadOnlyFirst - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for ReadOnlyFirst - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -5296,36 +4914,37 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ReadOnlyFirs
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <ReadOnlyFirst as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <ReadOnlyFirst as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into ReadOnlyFirst - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into ReadOnlyFirst - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 /// Model for testing reserved words
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Return {
     #[serde(rename = "return")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub r_return: Option<i32>,
+
 }
+
+
 
 impl Return {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> Return {
-        Return { r_return: None }
+        Return {
+ r_return: None,
+        }
     }
 }
 
@@ -5335,16 +4954,17 @@ impl Return {
 impl std::fmt::Display for Return {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.r_return
-                .as_ref()
-                .map(|r_return| ["return".to_string(), r_return.to_string()].join(",")),
+
+            self.r_return.as_ref().map(|r_return| {
+                [
+                    "return".to_string(),
+                    r_return.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -5371,25 +4991,15 @@ impl std::str::FromStr for Return {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing Return".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing Return".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "return" => intermediate_rep.r_return.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Return".to_string(),
-                        );
-                    }
+                    "return" => intermediate_rep.r_return.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Return".to_string())
                 }
             }
 
@@ -5410,15 +5020,11 @@ impl std::str::FromStr for Return {
 impl std::convert::TryFrom<header::IntoHeaderValue<Return>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<Return>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Return>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Return - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Return - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -5429,42 +5035,41 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Return> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <Return as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <Return as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Return - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into Return - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Tag {
     #[serde(rename = "id")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
+
 }
+
+
 
 impl Tag {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> Tag {
         Tag {
-            id: None,
-            name: None,
+ id: None,
+ name: None,
         }
     }
 }
@@ -5475,19 +5080,25 @@ impl Tag {
 impl std::fmt::Display for Tag {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.id
-                .as_ref()
-                .map(|id| ["id".to_string(), id.to_string()].join(",")),
-            self.name
-                .as_ref()
-                .map(|name| ["name".to_string(), name.to_string()].join(",")),
+
+            self.id.as_ref().map(|id| {
+                [
+                    "id".to_string(),
+                    id.to_string(),
+                ].join(",")
+            }),
+
+
+            self.name.as_ref().map(|name| {
+                [
+                    "name".to_string(),
+                    name.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -5515,27 +5126,17 @@ impl std::str::FromStr for Tag {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err("Missing value while parsing Tag".to_string());
-                }
+                None => return std::result::Result::Err("Missing value while parsing Tag".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "id" => intermediate_rep.id.push(
-                        <i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing Tag".to_string(),
-                        );
-                    }
+                    "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Tag".to_string())
                 }
             }
 
@@ -5560,10 +5161,8 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Tag>> for HeaderValue {
     fn try_from(hdr_value: header::IntoHeaderValue<Tag>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for Tag - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Tag - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -5574,55 +5173,63 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Tag> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => match <Tag as std::str::FromStr>::from_str(value) {
-                std::result::Result::Ok(value) => {
-                    std::result::Result::Ok(header::IntoHeaderValue(value))
-                }
-                std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    r#"Unable to convert header value '{value}' into Tag - {err}"#
-                )),
-            },
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             std::result::Result::Ok(value) => {
+                    match <Tag as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Tag - {err}"#))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct TestEndpointParametersRequest {
     /// None
     #[serde(rename = "integer")]
-    #[validate(range(min = 10u32, max = 100u32))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[validate(
+            range(min = 10u32, max = 100u32),
+    )]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub integer: Option<u32>,
 
     /// None
     #[serde(rename = "int32")]
-    #[validate(range(min = 20u32, max = 200u32))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[validate(
+            range(min = 20u32, max = 200u32),
+    )]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub int32: Option<u32>,
 
     /// None
     #[serde(rename = "int64")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub int64: Option<i64>,
 
     /// None
     #[serde(rename = "number")]
-    #[validate(range(min = 32.1f64, max = 543.2f64))]
+    #[validate(
+            range(min = 32.1f64, max = 543.2f64),
+    )]
     pub number: f64,
 
     /// None
     #[serde(rename = "float")]
-    #[validate(range(max = 987.6f32))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[validate(
+            range(max = 987.6f32),
+    )]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub float: Option<f32>,
 
     /// None
     #[serde(rename = "double")]
-    #[validate(range(min = 67.8f64, max = 123.4f64))]
+    #[validate(
+            range(min = 67.8f64, max = 123.4f64),
+    )]
     pub double: f64,
 
     /// None
@@ -5631,7 +5238,7 @@ pub struct TestEndpointParametersRequest {
             regex(path = *RE_TESTENDPOINTPARAMETERSREQUEST_STRING),
           custom(function = "check_xss_string"),
     )]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub string: Option<String>,
 
     /// None
@@ -5648,31 +5255,36 @@ pub struct TestEndpointParametersRequest {
 
     /// None
     #[serde(rename = "binary")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub binary: Option<ByteArray>,
 
     /// None
     #[serde(rename = "date")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub date: Option<chrono::naive::NaiveDate>,
 
     /// None
     #[serde(rename = "dateTime")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub date_time: Option<chrono::DateTime<chrono::Utc>>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     /// None
     #[serde(rename = "password")]
-    #[validate(length(min = 10, max = 64), custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[validate(
+            length(min = 10, max = 64),
+          custom(function = "check_xss_string"),
+    )]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub password: Option<String>,
 
     /// None
     #[serde(rename = "callback")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub callback: Option<String>,
+
 }
+
 
 lazy_static::lazy_static! {
     static ref RE_TESTENDPOINTPARAMETERSREQUEST_STRING: regex::Regex = regex::Regex::new("/[a-z]/i").unwrap();
@@ -5683,27 +5295,22 @@ lazy_static::lazy_static! {
 
 impl TestEndpointParametersRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(
-        number: f64,
-        double: f64,
-        pattern_without_delimiter: String,
-        byte: ByteArray,
-    ) -> TestEndpointParametersRequest {
+    pub fn new(number: f64, double: f64, pattern_without_delimiter: String, byte: ByteArray, ) -> TestEndpointParametersRequest {
         TestEndpointParametersRequest {
-            integer: None,
-            int32: None,
-            int64: None,
-            number,
-            float: None,
-            double,
-            string: None,
-            pattern_without_delimiter,
-            byte,
-            binary: None,
-            date: None,
-            date_time: None,
-            password: None,
-            callback: None,
+ integer: None,
+ int32: None,
+ int64: None,
+ number,
+ float: None,
+ double,
+ string: None,
+ pattern_without_delimiter,
+ byte,
+ binary: None,
+ date: None,
+ date_time: None,
+ password: None,
+ callback: None,
         }
     }
 }
@@ -5714,27 +5321,58 @@ impl TestEndpointParametersRequest {
 impl std::fmt::Display for TestEndpointParametersRequest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.integer
-                .as_ref()
-                .map(|integer| ["integer".to_string(), integer.to_string()].join(",")),
-            self.int32
-                .as_ref()
-                .map(|int32| ["int32".to_string(), int32.to_string()].join(",")),
-            self.int64
-                .as_ref()
-                .map(|int64| ["int64".to_string(), int64.to_string()].join(",")),
+
+            self.integer.as_ref().map(|integer| {
+                [
+                    "integer".to_string(),
+                    integer.to_string(),
+                ].join(",")
+            }),
+
+
+            self.int32.as_ref().map(|int32| {
+                [
+                    "int32".to_string(),
+                    int32.to_string(),
+                ].join(",")
+            }),
+
+
+            self.int64.as_ref().map(|int64| {
+                [
+                    "int64".to_string(),
+                    int64.to_string(),
+                ].join(",")
+            }),
+
+
             Some("number".to_string()),
             Some(self.number.to_string()),
-            self.float
-                .as_ref()
-                .map(|float| ["float".to_string(), float.to_string()].join(",")),
+
+
+            self.float.as_ref().map(|float| {
+                [
+                    "float".to_string(),
+                    float.to_string(),
+                ].join(",")
+            }),
+
+
             Some("double".to_string()),
             Some(self.double.to_string()),
-            self.string
-                .as_ref()
-                .map(|string| ["string".to_string(), string.to_string()].join(",")),
+
+
+            self.string.as_ref().map(|string| {
+                [
+                    "string".to_string(),
+                    string.to_string(),
+                ].join(",")
+            }),
+
+
             Some("pattern_without_delimiter".to_string()),
             Some(self.pattern_without_delimiter.to_string()),
+
             // Skipping byte in query parameter serialization
             // Skipping byte in query parameter serialization
 
@@ -5744,19 +5382,26 @@ impl std::fmt::Display for TestEndpointParametersRequest {
             // Skipping date in query parameter serialization
 
             // Skipping dateTime in query parameter serialization
-            self.password
-                .as_ref()
-                .map(|password| ["password".to_string(), password.to_string()].join(",")),
-            self.callback
-                .as_ref()
-                .map(|callback| ["callback".to_string(), callback.to_string()].join(",")),
+
+
+            self.password.as_ref().map(|password| {
+                [
+                    "password".to_string(),
+                    password.to_string(),
+                ].join(",")
+            }),
+
+
+            self.callback.as_ref().map(|callback| {
+                [
+                    "callback".to_string(),
+                    callback.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -5782,7 +5427,7 @@ impl std::str::FromStr for TestEndpointParametersRequest {
             pub byte: Vec<ByteArray>,
             pub binary: Vec<ByteArray>,
             pub date: Vec<chrono::naive::NaiveDate>,
-            pub date_time: Vec<chrono::DateTime<chrono::Utc>>,
+            pub date_time: Vec<chrono::DateTime::<chrono::Utc>>,
             pub password: Vec<String>,
             pub callback: Vec<String>,
         }
@@ -5796,11 +5441,7 @@ impl std::str::FromStr for TestEndpointParametersRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing TestEndpointParametersRequest".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing TestEndpointParametersRequest".to_string())
             };
 
             if let Some(key) = key_result {
@@ -5845,30 +5486,12 @@ impl std::str::FromStr for TestEndpointParametersRequest {
             integer: intermediate_rep.integer.into_iter().next(),
             int32: intermediate_rep.int32.into_iter().next(),
             int64: intermediate_rep.int64.into_iter().next(),
-            number: intermediate_rep
-                .number
-                .into_iter()
-                .next()
-                .ok_or_else(|| "number missing in TestEndpointParametersRequest".to_string())?,
+            number: intermediate_rep.number.into_iter().next().ok_or_else(|| "number missing in TestEndpointParametersRequest".to_string())?,
             float: intermediate_rep.float.into_iter().next(),
-            double: intermediate_rep
-                .double
-                .into_iter()
-                .next()
-                .ok_or_else(|| "double missing in TestEndpointParametersRequest".to_string())?,
+            double: intermediate_rep.double.into_iter().next().ok_or_else(|| "double missing in TestEndpointParametersRequest".to_string())?,
             string: intermediate_rep.string.into_iter().next(),
-            pattern_without_delimiter: intermediate_rep
-                .pattern_without_delimiter
-                .into_iter()
-                .next()
-                .ok_or_else(|| {
-                    "pattern_without_delimiter missing in TestEndpointParametersRequest".to_string()
-                })?,
-            byte: intermediate_rep
-                .byte
-                .into_iter()
-                .next()
-                .ok_or_else(|| "byte missing in TestEndpointParametersRequest".to_string())?,
+            pattern_without_delimiter: intermediate_rep.pattern_without_delimiter.into_iter().next().ok_or_else(|| "pattern_without_delimiter missing in TestEndpointParametersRequest".to_string())?,
+            byte: intermediate_rep.byte.into_iter().next().ok_or_else(|| "byte missing in TestEndpointParametersRequest".to_string())?,
             binary: intermediate_rep.binary.into_iter().next(),
             date: intermediate_rep.date.into_iter().next(),
             date_time: intermediate_rep.date_time.into_iter().next(),
@@ -5884,15 +5507,11 @@ impl std::str::FromStr for TestEndpointParametersRequest {
 impl std::convert::TryFrom<header::IntoHeaderValue<TestEndpointParametersRequest>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<TestEndpointParametersRequest>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<TestEndpointParametersRequest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for TestEndpointParametersRequest - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for TestEndpointParametersRequest - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -5903,22 +5522,18 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<TestEndpoint
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <TestEndpointParametersRequest as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <TestEndpointParametersRequest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into TestEndpointParametersRequest - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into TestEndpointParametersRequest - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -5926,16 +5541,19 @@ pub struct TestEnumParametersRequest {
     /// Form parameter enum test (string)
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_form_string")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub enum_form_string: Option<String>,
+
 }
+
+
 
 impl TestEnumParametersRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> TestEnumParametersRequest {
         TestEnumParametersRequest {
-            enum_form_string: None,
+ enum_form_string: None,
         }
     }
 }
@@ -5945,16 +5563,18 @@ impl TestEnumParametersRequest {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for TestEnumParametersRequest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> =
-            vec![self.enum_form_string.as_ref().map(|enum_form_string| {
-                ["enum_form_string".to_string(), enum_form_string.to_string()].join(",")
-            })];
+        let params: Vec<Option<String>> = vec![
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+            self.enum_form_string.as_ref().map(|enum_form_string| {
+                [
+                    "enum_form_string".to_string(),
+                    enum_form_string.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -5981,25 +5601,15 @@ impl std::str::FromStr for TestEnumParametersRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing TestEnumParametersRequest".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing TestEnumParametersRequest".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "enum_form_string" => intermediate_rep.enum_form_string.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing TestEnumParametersRequest".to_string(),
-                        );
-                    }
+                    "enum_form_string" => intermediate_rep.enum_form_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing TestEnumParametersRequest".to_string())
                 }
             }
 
@@ -6020,15 +5630,11 @@ impl std::str::FromStr for TestEnumParametersRequest {
 impl std::convert::TryFrom<header::IntoHeaderValue<TestEnumParametersRequest>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<TestEnumParametersRequest>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<TestEnumParametersRequest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for TestEnumParametersRequest - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for TestEnumParametersRequest - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -6039,41 +5645,43 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<TestEnumPara
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <TestEnumParametersRequest as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <TestEnumParametersRequest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into TestEnumParametersRequest - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into TestEnumParametersRequest - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct TestJsonFormDataRequest {
     /// field1
     #[serde(rename = "param")]
-    #[validate(custom(function = "check_xss_string"))]
+          #[validate(custom(function = "check_xss_string"))]
     pub param: String,
 
     /// field2
     #[serde(rename = "param2")]
-    #[validate(custom(function = "check_xss_string"))]
+          #[validate(custom(function = "check_xss_string"))]
     pub param2: String,
+
 }
+
+
 
 impl TestJsonFormDataRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(param: String, param2: String) -> TestJsonFormDataRequest {
-        TestJsonFormDataRequest { param, param2 }
+    pub fn new(param: String, param2: String, ) -> TestJsonFormDataRequest {
+        TestJsonFormDataRequest {
+ param,
+ param2,
+        }
     }
 }
 
@@ -6083,17 +5691,17 @@ impl TestJsonFormDataRequest {
 impl std::fmt::Display for TestJsonFormDataRequest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
+
             Some("param".to_string()),
             Some(self.param.to_string()),
+
+
             Some("param2".to_string()),
             Some(self.param2.to_string()),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -6121,29 +5729,17 @@ impl std::str::FromStr for TestJsonFormDataRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing TestJsonFormDataRequest".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing TestJsonFormDataRequest".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "param" => intermediate_rep.param.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "param" => intermediate_rep.param.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "param2" => intermediate_rep.param2.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing TestJsonFormDataRequest".to_string(),
-                        );
-                    }
+                    "param2" => intermediate_rep.param2.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing TestJsonFormDataRequest".to_string())
                 }
             }
 
@@ -6153,16 +5749,8 @@ impl std::str::FromStr for TestJsonFormDataRequest {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(TestJsonFormDataRequest {
-            param: intermediate_rep
-                .param
-                .into_iter()
-                .next()
-                .ok_or_else(|| "param missing in TestJsonFormDataRequest".to_string())?,
-            param2: intermediate_rep
-                .param2
-                .into_iter()
-                .next()
-                .ok_or_else(|| "param2 missing in TestJsonFormDataRequest".to_string())?,
+            param: intermediate_rep.param.into_iter().next().ok_or_else(|| "param missing in TestJsonFormDataRequest".to_string())?,
+            param2: intermediate_rep.param2.into_iter().next().ok_or_else(|| "param2 missing in TestJsonFormDataRequest".to_string())?,
         })
     }
 }
@@ -6173,15 +5761,11 @@ impl std::str::FromStr for TestJsonFormDataRequest {
 impl std::convert::TryFrom<header::IntoHeaderValue<TestJsonFormDataRequest>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<TestJsonFormDataRequest>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<TestJsonFormDataRequest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for TestJsonFormDataRequest - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for TestJsonFormDataRequest - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -6192,45 +5776,44 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<TestJsonForm
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <TestJsonFormDataRequest as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <TestJsonFormDataRequest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into TestJsonFormDataRequest - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into TestJsonFormDataRequest - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct UpdatePetWithFormRequest {
     /// Updated name of the pet
     #[serde(rename = "name")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
 
     /// Updated status of the pet
     #[serde(rename = "status")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<String>,
+
 }
+
+
 
 impl UpdatePetWithFormRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> UpdatePetWithFormRequest {
         UpdatePetWithFormRequest {
-            name: None,
-            status: None,
+ name: None,
+ status: None,
         }
     }
 }
@@ -6241,19 +5824,25 @@ impl UpdatePetWithFormRequest {
 impl std::fmt::Display for UpdatePetWithFormRequest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.name
-                .as_ref()
-                .map(|name| ["name".to_string(), name.to_string()].join(",")),
-            self.status
-                .as_ref()
-                .map(|status| ["status".to_string(), status.to_string()].join(",")),
+
+            self.name.as_ref().map(|name| {
+                [
+                    "name".to_string(),
+                    name.to_string(),
+                ].join(",")
+            }),
+
+
+            self.status.as_ref().map(|status| {
+                [
+                    "status".to_string(),
+                    status.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -6281,29 +5870,17 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing UpdatePetWithFormRequest".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing UpdatePetWithFormRequest".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "status" => intermediate_rep.status.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing UpdatePetWithFormRequest".to_string(),
-                        );
-                    }
+                    "status" => intermediate_rep.status.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing UpdatePetWithFormRequest".to_string())
                 }
             }
 
@@ -6325,15 +5902,11 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
 impl std::convert::TryFrom<header::IntoHeaderValue<UpdatePetWithFormRequest>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<UpdatePetWithFormRequest>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<UpdatePetWithFormRequest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for UpdatePetWithFormRequest - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for UpdatePetWithFormRequest - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -6344,44 +5917,43 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<UpdatePetWit
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <UpdatePetWithFormRequest as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <UpdatePetWithFormRequest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into UpdatePetWithFormRequest - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into UpdatePetWithFormRequest - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct UploadFileRequest {
     /// Additional data to pass to server
     #[serde(rename = "additionalMetadata")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub additional_metadata: Option<String>,
 
     /// file to upload
     #[serde(rename = "file")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub file: Option<ByteArray>,
+
 }
+
+
 
 impl UploadFileRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> UploadFileRequest {
         UploadFileRequest {
-            additional_metadata: None,
-            file: None,
+ additional_metadata: None,
+ file: None,
         }
     }
 }
@@ -6392,24 +5964,20 @@ impl UploadFileRequest {
 impl std::fmt::Display for UploadFileRequest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.additional_metadata
-                .as_ref()
-                .map(|additional_metadata| {
-                    [
-                        "additionalMetadata".to_string(),
-                        additional_metadata.to_string(),
-                    ]
-                    .join(",")
-                }),
+
+            self.additional_metadata.as_ref().map(|additional_metadata| {
+                [
+                    "additionalMetadata".to_string(),
+                    additional_metadata.to_string(),
+                ].join(",")
+            }),
+
             // Skipping file in query parameter serialization
             // Skipping file in query parameter serialization
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -6437,29 +6005,16 @@ impl std::str::FromStr for UploadFileRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing UploadFileRequest".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing UploadFileRequest".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "additionalMetadata" => intermediate_rep.additional_metadata.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    "file" => return std::result::Result::Err(
-                        "Parsing binary data in this style is not supported in UploadFileRequest"
-                            .to_string(),
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing UploadFileRequest".to_string(),
-                        );
-                    }
+                    "additionalMetadata" => intermediate_rep.additional_metadata.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "file" => return std::result::Result::Err("Parsing binary data in this style is not supported in UploadFileRequest".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing UploadFileRequest".to_string())
                 }
             }
 
@@ -6481,15 +6036,11 @@ impl std::str::FromStr for UploadFileRequest {
 impl std::convert::TryFrom<header::IntoHeaderValue<UploadFileRequest>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<UploadFileRequest>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<UploadFileRequest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for UploadFileRequest - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for UploadFileRequest - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -6500,78 +6051,77 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<UploadFileRe
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <UploadFileRequest as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <UploadFileRequest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into UploadFileRequest - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into UploadFileRequest - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct User {
     #[serde(rename = "id")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "username")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub username: Option<String>,
 
     #[serde(rename = "firstName")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub first_name: Option<String>,
 
     #[serde(rename = "lastName")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub last_name: Option<String>,
 
     #[serde(rename = "email")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub email: Option<String>,
 
     #[serde(rename = "password")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub password: Option<String>,
 
     #[serde(rename = "phone")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
+          #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub phone: Option<String>,
 
     /// User Status
     #[serde(rename = "userStatus")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if="Option::is_none")]
     pub user_status: Option<i32>,
+
 }
+
+
 
 impl User {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> User {
         User {
-            id: None,
-            username: None,
-            first_name: None,
-            last_name: None,
-            email: None,
-            password: None,
-            phone: None,
-            user_status: None,
+ id: None,
+ username: None,
+ first_name: None,
+ last_name: None,
+ email: None,
+ password: None,
+ phone: None,
+ user_status: None,
         }
     }
 }
@@ -6582,37 +6132,73 @@ impl User {
 impl std::fmt::Display for User {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.id
-                .as_ref()
-                .map(|id| ["id".to_string(), id.to_string()].join(",")),
-            self.username
-                .as_ref()
-                .map(|username| ["username".to_string(), username.to_string()].join(",")),
-            self.first_name
-                .as_ref()
-                .map(|first_name| ["firstName".to_string(), first_name.to_string()].join(",")),
-            self.last_name
-                .as_ref()
-                .map(|last_name| ["lastName".to_string(), last_name.to_string()].join(",")),
-            self.email
-                .as_ref()
-                .map(|email| ["email".to_string(), email.to_string()].join(",")),
-            self.password
-                .as_ref()
-                .map(|password| ["password".to_string(), password.to_string()].join(",")),
-            self.phone
-                .as_ref()
-                .map(|phone| ["phone".to_string(), phone.to_string()].join(",")),
-            self.user_status
-                .as_ref()
-                .map(|user_status| ["userStatus".to_string(), user_status.to_string()].join(",")),
+
+            self.id.as_ref().map(|id| {
+                [
+                    "id".to_string(),
+                    id.to_string(),
+                ].join(",")
+            }),
+
+
+            self.username.as_ref().map(|username| {
+                [
+                    "username".to_string(),
+                    username.to_string(),
+                ].join(",")
+            }),
+
+
+            self.first_name.as_ref().map(|first_name| {
+                [
+                    "firstName".to_string(),
+                    first_name.to_string(),
+                ].join(",")
+            }),
+
+
+            self.last_name.as_ref().map(|last_name| {
+                [
+                    "lastName".to_string(),
+                    last_name.to_string(),
+                ].join(",")
+            }),
+
+
+            self.email.as_ref().map(|email| {
+                [
+                    "email".to_string(),
+                    email.to_string(),
+                ].join(",")
+            }),
+
+
+            self.password.as_ref().map(|password| {
+                [
+                    "password".to_string(),
+                    password.to_string(),
+                ].join(",")
+            }),
+
+
+            self.phone.as_ref().map(|phone| {
+                [
+                    "phone".to_string(),
+                    phone.to_string(),
+                ].join(",")
+            }),
+
+
+            self.user_status.as_ref().map(|user_status| {
+                [
+                    "userStatus".to_string(),
+                    user_status.to_string(),
+                ].join(",")
+            }),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -6646,53 +6232,29 @@ impl std::str::FromStr for User {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing User".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing User".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "id" => intermediate_rep.id.push(
-                        <i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "username" => intermediate_rep.username.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "username" => intermediate_rep.username.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "firstName" => intermediate_rep.first_name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "firstName" => intermediate_rep.first_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "lastName" => intermediate_rep.last_name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "lastName" => intermediate_rep.last_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "email" => intermediate_rep.email.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "email" => intermediate_rep.email.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "password" => intermediate_rep.password.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "password" => intermediate_rep.password.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "phone" => intermediate_rep.phone.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "phone" => intermediate_rep.phone.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "userStatus" => intermediate_rep.user_status.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing User".to_string(),
-                        );
-                    }
+                    "userStatus" => intermediate_rep.user_status.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing User".to_string())
                 }
             }
 
@@ -6720,15 +6282,11 @@ impl std::str::FromStr for User {
 impl std::convert::TryFrom<header::IntoHeaderValue<User>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<User>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<User>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for User - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for User - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -6739,17 +6297,15 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<User> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => match <User as std::str::FromStr>::from_str(value) {
-                std::result::Result::Ok(value) => {
-                    std::result::Result::Ok(header::IntoHeaderValue(value))
-                }
-                std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    r#"Unable to convert header value '{value}' into User - {err}"#
-                )),
-            },
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             std::result::Result::Ok(value) => {
+                    match <User as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into User - {err}"#))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+

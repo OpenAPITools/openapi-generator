@@ -8,20 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
-pub type SSE = std::pin::Pin<
-    std::boxed::Box<
-        dyn futures_util::Stream<
-                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
-            > + std::marker::Send
-            + std::marker::Sync,
-    >,
->;
+pub type SSE = std::pin::Pin<std::boxed::Box<dyn futures_util::Stream<Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>> + std::marker::Send + std::marker::Sync>>;
 
 #[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
-    let mut errs = validator::ValidationErrors::new();
-    errs.add("na", e);
-    errs
+  let mut errs = validator::ValidationErrors::new();
+  errs.add("na", e);
+  errs
 }
 
 #[allow(dead_code)]
@@ -68,9 +61,7 @@ where
 }
 
 #[allow(dead_code)]
-pub fn check_xss_map<T>(
-    v: &std::collections::HashMap<String, T>,
-) -> std::result::Result<(), validator::ValidationError> {
+pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result::Result<(), validator::ValidationError> {
     if v.keys().any(|k| ammonia::is_html(k)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
@@ -78,23 +69,32 @@ pub fn check_xss_map<T>(
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct GetIntegersQueryParams {
-    #[serde(rename = "legacy_uint32")]
-    pub legacy_uint32: u32,
-    #[serde(rename = "legacy_uint64")]
-    pub legacy_uint64: u64,
-    #[serde(rename = "positive_int32")]
-    #[validate(range(min = 0u32))]
-    pub positive_int32: u32,
-    #[serde(rename = "positive_int64")]
-    #[validate(range(min = 0u64))]
-    pub positive_int64: u64,
-    #[serde(rename = "small_positive")]
-    #[validate(range(min = 0u8, max = 255u8))]
-    pub small_positive: u8,
-}
+
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct GetIntegersQueryParams {
+                #[serde(rename = "legacy_uint32")]
+                    pub legacy_uint32: u32,
+                #[serde(rename = "legacy_uint64")]
+                    pub legacy_uint64: u64,
+                #[serde(rename = "positive_int32")]
+                #[validate(
+                        range(min = 0u32),
+              )]
+                    pub positive_int32: u32,
+                #[serde(rename = "positive_int64")]
+                #[validate(
+                        range(min = 0u64),
+              )]
+                    pub positive_int64: u64,
+                #[serde(rename = "small_positive")]
+                #[validate(
+                        range(min = 0u8, max = 255u8),
+              )]
+                    pub small_positive: u8,
+    }
+
+
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -106,33 +106,36 @@ pub struct IntegerTypes {
     pub legacy_uint64: u64,
 
     #[serde(rename = "positive_int32")]
-    #[validate(range(min = 0u32))]
+    #[validate(
+            range(min = 0u32),
+    )]
     pub positive_int32: u32,
 
     #[serde(rename = "positive_int64")]
-    #[validate(range(min = 0u64))]
+    #[validate(
+            range(min = 0u64),
+    )]
     pub positive_int64: u64,
 
     #[serde(rename = "small_positive")]
-    #[validate(range(min = 0u8, max = 255u8))]
+    #[validate(
+            range(min = 0u8, max = 255u8),
+    )]
     pub small_positive: u8,
+
 }
+
+
 
 impl IntegerTypes {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(
-        legacy_uint32: u32,
-        legacy_uint64: u64,
-        positive_int32: u32,
-        positive_int64: u64,
-        small_positive: u8,
-    ) -> IntegerTypes {
+    pub fn new(legacy_uint32: u32, legacy_uint64: u64, positive_int32: u32, positive_int64: u64, small_positive: u8, ) -> IntegerTypes {
         IntegerTypes {
-            legacy_uint32,
-            legacy_uint64,
-            positive_int32,
-            positive_int64,
-            small_positive,
+ legacy_uint32,
+ legacy_uint64,
+ positive_int32,
+ positive_int64,
+ small_positive,
         }
     }
 }
@@ -143,23 +146,29 @@ impl IntegerTypes {
 impl std::fmt::Display for IntegerTypes {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
+
             Some("legacy_uint32".to_string()),
             Some(self.legacy_uint32.to_string()),
+
+
             Some("legacy_uint64".to_string()),
             Some(self.legacy_uint64.to_string()),
+
+
             Some("positive_int32".to_string()),
             Some(self.positive_int32.to_string()),
+
+
             Some("positive_int64".to_string()),
             Some(self.positive_int64.to_string()),
+
+
             Some("small_positive".to_string()),
             Some(self.small_positive.to_string()),
+
         ];
 
-        write!(
-            f,
-            "{}",
-            params.into_iter().flatten().collect::<Vec<_>>().join(",")
-        )
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
@@ -190,41 +199,23 @@ impl std::str::FromStr for IntegerTypes {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => {
-                    return std::result::Result::Err(
-                        "Missing value while parsing IntegerTypes".to_string(),
-                    );
-                }
+                None => return std::result::Result::Err("Missing value while parsing IntegerTypes".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "legacy_uint32" => intermediate_rep.legacy_uint32.push(
-                        <u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "legacy_uint32" => intermediate_rep.legacy_uint32.push(<u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "legacy_uint64" => intermediate_rep.legacy_uint64.push(
-                        <u64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "legacy_uint64" => intermediate_rep.legacy_uint64.push(<u64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "positive_int32" => intermediate_rep.positive_int32.push(
-                        <u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "positive_int32" => intermediate_rep.positive_int32.push(<u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "positive_int64" => intermediate_rep.positive_int64.push(
-                        <u64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "positive_int64" => intermediate_rep.positive_int64.push(<u64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "small_positive" => intermediate_rep
-                        .small_positive
-                        .push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => {
-                        return std::result::Result::Err(
-                            "Unexpected key while parsing IntegerTypes".to_string(),
-                        );
-                    }
+                    "small_positive" => intermediate_rep.small_positive.push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing IntegerTypes".to_string())
                 }
             }
 
@@ -234,31 +225,11 @@ impl std::str::FromStr for IntegerTypes {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(IntegerTypes {
-            legacy_uint32: intermediate_rep
-                .legacy_uint32
-                .into_iter()
-                .next()
-                .ok_or_else(|| "legacy_uint32 missing in IntegerTypes".to_string())?,
-            legacy_uint64: intermediate_rep
-                .legacy_uint64
-                .into_iter()
-                .next()
-                .ok_or_else(|| "legacy_uint64 missing in IntegerTypes".to_string())?,
-            positive_int32: intermediate_rep
-                .positive_int32
-                .into_iter()
-                .next()
-                .ok_or_else(|| "positive_int32 missing in IntegerTypes".to_string())?,
-            positive_int64: intermediate_rep
-                .positive_int64
-                .into_iter()
-                .next()
-                .ok_or_else(|| "positive_int64 missing in IntegerTypes".to_string())?,
-            small_positive: intermediate_rep
-                .small_positive
-                .into_iter()
-                .next()
-                .ok_or_else(|| "small_positive missing in IntegerTypes".to_string())?,
+            legacy_uint32: intermediate_rep.legacy_uint32.into_iter().next().ok_or_else(|| "legacy_uint32 missing in IntegerTypes".to_string())?,
+            legacy_uint64: intermediate_rep.legacy_uint64.into_iter().next().ok_or_else(|| "legacy_uint64 missing in IntegerTypes".to_string())?,
+            positive_int32: intermediate_rep.positive_int32.into_iter().next().ok_or_else(|| "positive_int32 missing in IntegerTypes".to_string())?,
+            positive_int64: intermediate_rep.positive_int64.into_iter().next().ok_or_else(|| "positive_int64 missing in IntegerTypes".to_string())?,
+            small_positive: intermediate_rep.small_positive.into_iter().next().ok_or_else(|| "small_positive missing in IntegerTypes".to_string())?,
         })
     }
 }
@@ -269,15 +240,11 @@ impl std::str::FromStr for IntegerTypes {
 impl std::convert::TryFrom<header::IntoHeaderValue<IntegerTypes>> for HeaderValue {
     type Error = String;
 
-    fn try_from(
-        hdr_value: header::IntoHeaderValue<IntegerTypes>,
-    ) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<IntegerTypes>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-            std::result::Result::Ok(value) => std::result::Result::Ok(value),
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Invalid header value for IntegerTypes - value: {hdr_value} is invalid {e}"#
-            )),
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for IntegerTypes - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -288,19 +255,15 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<IntegerTypes
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-            std::result::Result::Ok(value) => {
-                match <IntegerTypes as std::str::FromStr>::from_str(value) {
-                    std::result::Result::Ok(value) => {
-                        std::result::Result::Ok(header::IntoHeaderValue(value))
+             std::result::Result::Ok(value) => {
+                    match <IntegerTypes as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into IntegerTypes - {err}"#))
                     }
-                    std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        r#"Unable to convert header value '{value}' into IntegerTypes - {err}"#
-                    )),
-                }
-            }
-            std::result::Result::Err(e) => std::result::Result::Err(format!(
-                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
-            )),
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
+
+

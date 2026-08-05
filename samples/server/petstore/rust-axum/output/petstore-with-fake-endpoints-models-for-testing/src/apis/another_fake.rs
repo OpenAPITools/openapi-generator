@@ -13,24 +13,26 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum TestSpecialTagsResponse {
     /// successful operation
-    Status200_SuccessfulOperation(models::Client),
+    Status200_SuccessfulOperation
+    (models::Client)
 }
+
+
+
 
 /// AnotherFake
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait AnotherFake<E: std::fmt::Debug + Send + Sync + 'static = ()>:
-    super::ErrorHandler<E>
-{
+pub trait AnotherFake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// To test special tags.
     ///
     /// TestSpecialTags - PATCH /v2/another-fake/dummy
     async fn test_special_tags(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        body: &models::Client,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+            body: &models::Client,
     ) -> Result<TestSpecialTagsResponse, E>;
 }

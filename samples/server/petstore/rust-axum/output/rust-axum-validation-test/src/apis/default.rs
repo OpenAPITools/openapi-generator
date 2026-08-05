@@ -13,8 +13,11 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum MailPutResponse {
     /// OK.
-    Status204_OK,
+    Status204_OK
 }
+
+
+
 
 /// Default
 #[async_trait]
@@ -22,11 +25,11 @@ pub enum MailPutResponse {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// MailPut - PUT /mail
     async fn mail_put(
-        &self,
-
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        body: &models::Email,
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+            body: &models::Email,
     ) -> Result<MailPutResponse, E>;
 }
