@@ -146,7 +146,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Option<models::OuterBoolean>,
+        body: &Option<models::OuterBoolean>,
     ) -> Result<FakeOuterBooleanSerializeResponse, E>;
 
     /// FakeOuterCompositeSerialize - POST /v2/fake/outer/composite
@@ -155,7 +155,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Option<models::OuterComposite>,
+        body: &Option<models::OuterComposite>,
     ) -> Result<FakeOuterCompositeSerializeResponse, E>;
 
     /// FakeOuterNumberSerialize - POST /v2/fake/outer/number
@@ -164,7 +164,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Option<models::OuterNumber>,
+        body: &Option<models::OuterNumber>,
     ) -> Result<FakeOuterNumberSerializeResponse, E>;
 
     /// FakeOuterStringSerialize - POST /v2/fake/outer/string
@@ -173,7 +173,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Option<models::OuterString>,
+        body: &Option<models::OuterString>,
     ) -> Result<FakeOuterStringSerializeResponse, E>;
 
     /// FakeResponseWithNumericalDescription - GET /v2/fake/response-with-numerical-description
@@ -190,7 +190,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          path_params: &models::HyphenParamPathParams,
+        path_params: &models::HyphenParamPathParams,
     ) -> Result<HyphenParamResponse, E>;
 
     /// TestBodyWithQueryParams - PUT /v2/fake/body-with-query-params
@@ -199,8 +199,8 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::TestBodyWithQueryParamsQueryParams,
-                body: &models::User,
+        query_params: &models::TestBodyWithQueryParamsQueryParams,
+        body: &models::User,
     ) -> Result<TestBodyWithQueryParamsResponse, E>;
 
     /// To test \"client\" model.
@@ -211,7 +211,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::Client,
+        body: &models::Client,
     ) -> Result<TestClientModelResponse, E>;
 
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트.
@@ -222,8 +222,8 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-            claims: &Self::Claims,
-                body: &models::TestEndpointParametersRequest,
+        claims: &Self::Claims,
+        body: &models::TestEndpointParametersRequest,
     ) -> Result<TestEndpointParametersResponse, E>;
 
     /// To test enum parameters.
@@ -234,9 +234,9 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          header_params: &models::TestEnumParametersHeaderParams,
-          query_params: &models::TestEnumParametersQueryParams,
-                body: &Option<models::TestEnumParametersRequest>,
+        header_params: &models::TestEnumParametersHeaderParams,
+        query_params: &models::TestEnumParametersQueryParams,
+        body: &Option<models::TestEnumParametersRequest>,
     ) -> Result<TestEnumParametersResponse, E>;
 
     /// test inline additionalProperties.
@@ -247,7 +247,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &std::collections::HashMap<String, String>,
+        body: &std::collections::HashMap<String, String>,
     ) -> Result<TestInlineAdditionalPropertiesResponse, E>;
 
     /// test json serialization of form data.
@@ -258,6 +258,6 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::TestJsonFormDataRequest,
+        body: &models::TestJsonFormDataRequest,
     ) -> Result<TestJsonFormDataResponse, E>;
 }

@@ -116,7 +116,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::FooDummyPutRequest,
+        body: &models::FooDummyPutRequest,
     ) -> Result<DummyPutResponse, E>;
 
     /// Get a file.
@@ -145,7 +145,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &String,
+        body: &String,
     ) -> Result<HtmlPostResponse, E>;
 
     /// PostYaml - POST /post-yaml
@@ -154,7 +154,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &String,
+        body: &String,
     ) -> Result<PostYamlResponse, E>;
 
     /// Get an arbitrary JSON blob..
@@ -175,6 +175,6 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &crate::types::Object,
+        body: &crate::types::Object,
     ) -> Result<SoloObjectPostResponse, E>;
 }

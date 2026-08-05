@@ -30,6 +30,6 @@ pub trait InfoRepo<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Erro
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          path_params: &models::GetRepoInfoPathParams,
+        path_params: &models::GetRepoInfoPathParams,
     ) -> Result<GetRepoInfoResponse, E>;
 }

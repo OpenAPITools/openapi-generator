@@ -72,7 +72,7 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          path_params: &models::DeleteOrderPathParams,
+        path_params: &models::DeleteOrderPathParams,
     ) -> Result<DeleteOrderResponse, E>;
 
     /// Returns pet inventories by status.
@@ -83,7 +83,7 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-            claims: &Self::Claims,
+        claims: &Self::Claims,
     ) -> Result<GetInventoryResponse, E>;
 
     /// Find purchase order by ID.
@@ -94,7 +94,7 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          path_params: &models::GetOrderByIdPathParams,
+        path_params: &models::GetOrderByIdPathParams,
     ) -> Result<GetOrderByIdResponse, E>;
 
     /// Place an order for a pet.
@@ -105,6 +105,6 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::Order,
+        body: &models::Order,
     ) -> Result<PlaceOrderResponse, E>;
 }

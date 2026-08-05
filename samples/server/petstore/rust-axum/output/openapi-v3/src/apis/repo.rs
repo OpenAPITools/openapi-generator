@@ -29,6 +29,6 @@ pub trait Repo<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::ObjectParam,
+        body: &models::ObjectParam,
     ) -> Result<CreateRepoResponse, E>;
 }

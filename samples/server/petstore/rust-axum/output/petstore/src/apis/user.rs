@@ -122,8 +122,8 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-            claims: &Self::Claims,
-                body: &models::User,
+        claims: &Self::Claims,
+        body: &models::User,
     ) -> Result<CreateUserResponse, E>;
 
     /// Creates list of users with given input array.
@@ -134,8 +134,8 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-            claims: &Self::Claims,
-                body: &Vec<models::User>,
+        claims: &Self::Claims,
+        body: &Vec<models::User>,
     ) -> Result<CreateUsersWithArrayInputResponse, E>;
 
     /// Creates list of users with given input array.
@@ -146,8 +146,8 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-            claims: &Self::Claims,
-                body: &Vec<models::User>,
+        claims: &Self::Claims,
+        body: &Vec<models::User>,
     ) -> Result<CreateUsersWithListInputResponse, E>;
 
     /// Delete user.
@@ -158,8 +158,8 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-            claims: &Self::Claims,
-          path_params: &models::DeleteUserPathParams,
+        claims: &Self::Claims,
+        path_params: &models::DeleteUserPathParams,
     ) -> Result<DeleteUserResponse, E>;
 
     /// Get user by user name.
@@ -170,7 +170,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          path_params: &models::GetUserByNamePathParams,
+        path_params: &models::GetUserByNamePathParams,
     ) -> Result<GetUserByNameResponse, E>;
 
     /// Logs user into the system.
@@ -181,7 +181,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::LoginUserQueryParams,
+        query_params: &models::LoginUserQueryParams,
     ) -> Result<LoginUserResponse, E>;
 
     /// Logs out current logged in user session.
@@ -192,7 +192,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-            claims: &Self::Claims,
+        claims: &Self::Claims,
     ) -> Result<LogoutUserResponse, E>;
 
     /// Updated user.
@@ -203,8 +203,8 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-            claims: &Self::Claims,
-          path_params: &models::UpdateUserPathParams,
-                body: &models::User,
+        claims: &Self::Claims,
+        path_params: &models::UpdateUserPathParams,
+        body: &models::User,
     ) -> Result<UpdateUserResponse, E>;
 }

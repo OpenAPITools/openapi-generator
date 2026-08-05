@@ -32,6 +32,6 @@ pub trait AnotherFake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::E
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::Client,
+        body: &models::Client,
     ) -> Result<TestSpecialTagsResponse, E>;
 }

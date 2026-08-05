@@ -32,6 +32,6 @@ pub trait FakeClassnameTags123<E: std::fmt::Debug + Send + Sync + 'static = ()>:
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::Client,
+        body: &models::Client,
     ) -> Result<TestClassnameResponse, E>;
 }

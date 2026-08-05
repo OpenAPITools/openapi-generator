@@ -30,6 +30,6 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          header_params: &models::UsersPostHeaderParams,
+        header_params: &models::UsersPostHeaderParams,
     ) -> Result<UsersPostResponse, E>;
 }

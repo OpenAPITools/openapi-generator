@@ -119,7 +119,7 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::Pet,
+        body: &models::Pet,
     ) -> Result<AddPetResponse, E>;
 
     /// Deletes a pet.
@@ -130,8 +130,8 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          header_params: &models::DeletePetHeaderParams,
-          path_params: &models::DeletePetPathParams,
+        header_params: &models::DeletePetHeaderParams,
+        path_params: &models::DeletePetPathParams,
     ) -> Result<DeletePetResponse, E>;
 
     /// Finds Pets by status.
@@ -142,7 +142,7 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::FindPetsByStatusQueryParams,
+        query_params: &models::FindPetsByStatusQueryParams,
     ) -> Result<FindPetsByStatusResponse, E>;
 
     /// Finds Pets by tags.
@@ -153,7 +153,7 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::FindPetsByTagsQueryParams,
+        query_params: &models::FindPetsByTagsQueryParams,
     ) -> Result<FindPetsByTagsResponse, E>;
 
     /// Find pet by ID.
@@ -164,8 +164,8 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-            claims: &Self::Claims,
-          path_params: &models::GetPetByIdPathParams,
+        claims: &Self::Claims,
+        path_params: &models::GetPetByIdPathParams,
     ) -> Result<GetPetByIdResponse, E>;
 
     /// Update an existing pet.
@@ -176,7 +176,7 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::Pet,
+        body: &models::Pet,
     ) -> Result<UpdatePetResponse, E>;
 
     /// Updates a pet in the store with form data.
@@ -187,8 +187,8 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          path_params: &models::UpdatePetWithFormPathParams,
-                body: &Option<models::UpdatePetWithFormRequest>,
+        path_params: &models::UpdatePetWithFormPathParams,
+        body: &Option<models::UpdatePetWithFormRequest>,
     ) -> Result<UpdatePetWithFormResponse, E>;
 
     /// uploads an image.
@@ -199,7 +199,7 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          path_params: &models::UploadFilePathParams,
+        path_params: &models::UploadFilePathParams,
         body: Multipart,
     ) -> Result<UploadFileResponse, E>;
 }

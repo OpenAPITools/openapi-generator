@@ -375,7 +375,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::AnyOfGetQueryParams,
+        query_params: &models::AnyOfGetQueryParams,
     ) -> Result<AnyOfGetResponse, E>;
 
     /// CallbackWithHeaderPost - POST /callback-with-header
@@ -384,7 +384,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::CallbackWithHeaderPostQueryParams,
+        query_params: &models::CallbackWithHeaderPostQueryParams,
     ) -> Result<CallbackWithHeaderPostResponse, E>;
 
     /// ComplexQueryParamGet - GET /complex-query-param
@@ -393,7 +393,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::ComplexQueryParamGetQueryParams,
+        query_params: &models::ComplexQueryParamGetQueryParams,
     ) -> Result<ComplexQueryParamGetResponse, E>;
 
     /// EnumInPathPathParamGet - GET /enum_in_path/{path_param}
@@ -402,7 +402,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          path_params: &models::EnumInPathPathParamGetPathParams,
+        path_params: &models::EnumInPathPathParamGetPathParams,
     ) -> Result<EnumInPathPathParamGetResponse, E>;
 
     /// Test examples.
@@ -413,7 +413,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::ExamplesTestQueryParams,
+        query_params: &models::ExamplesTestQueryParams,
     ) -> Result<ExamplesTestResponse, E>;
 
     /// Test a Form Post.
@@ -424,7 +424,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::FormTestRequest,
+        body: &models::FormTestRequest,
     ) -> Result<FormTestResponse, E>;
 
     /// GetWithBooleanParameter - GET /get-with-bool
@@ -433,7 +433,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::GetWithBooleanParameterQueryParams,
+        query_params: &models::GetWithBooleanParameterQueryParams,
     ) -> Result<GetWithBooleanParameterResponse, E>;
 
     /// JsonComplexQueryParamGet - GET /json-complex-query-param
@@ -442,7 +442,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::JsonComplexQueryParamGetQueryParams,
+        query_params: &models::JsonComplexQueryParamGetQueryParams,
     ) -> Result<JsonComplexQueryParamGetResponse, E>;
 
     /// MandatoryRequestHeaderGet - GET /mandatory-request-header
@@ -451,7 +451,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          header_params: &models::MandatoryRequestHeaderGetHeaderParams,
+        header_params: &models::MandatoryRequestHeaderGetHeaderParams,
     ) -> Result<MandatoryRequestHeaderGetResponse, E>;
 
     /// MergePatchJsonGet - GET /merge-patch-json
@@ -486,7 +486,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          path_params: &models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
+        path_params: &models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
     ) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, E>;
 
     /// Test multiple content types in a single response.
@@ -497,7 +497,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::ObjectParam,
+        body: &models::ObjectParam,
     ) -> Result<MultipleResponseContentTypesResponse, E>;
 
     /// OneOfGet - GET /one-of
@@ -524,7 +524,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::ParamgetGetQueryParams,
+        query_params: &models::ParamgetGetQueryParams,
     ) -> Result<ParamgetGetResponse, E>;
 
     /// Test required query params with and without examples.
@@ -535,7 +535,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::QueryExampleGetQueryParams,
+        query_params: &models::QueryExampleGetQueryParams,
     ) -> Result<QueryExampleGetResponse, E>;
 
     /// ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
@@ -552,7 +552,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          query_params: &models::RegisterCallbackPostQueryParams,
+        query_params: &models::RegisterCallbackPostQueryParams,
     ) -> Result<RegisterCallbackPostResponse, E>;
 
     /// RequiredBinaryStreamPut - PUT /required_binary_stream
@@ -561,7 +561,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Bytes,
+        body: &Bytes,
     ) -> Result<RequiredBinaryStreamPutResponse, E>;
 
     /// RequiredOctetStreamPut - PUT /required_octet_stream
@@ -570,7 +570,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Bytes,
+        body: &Bytes,
     ) -> Result<RequiredOctetStreamPutResponse, E>;
 
     /// ResponsesWithHeadersGet - GET /responses_with_headers
@@ -595,7 +595,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-          header_params: &models::TwoFirstLetterHeadersHeaderParams,
+        header_params: &models::TwoFirstLetterHeadersHeaderParams,
     ) -> Result<TwoFirstLetterHeadersResponse, E>;
 
     /// UntypedPropertyGet - GET /untyped_property
@@ -604,7 +604,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Option<models::ObjectUntypedProps>,
+        body: &Option<models::ObjectUntypedProps>,
     ) -> Result<UntypedPropertyGetResponse, E>;
 
     /// UuidGet - GET /uuid
@@ -621,7 +621,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Bytes,
+        body: &Bytes,
     ) -> Result<XmlExtraPostResponse, E>;
 
     /// XmlOtherPost - POST /xml_other
@@ -630,7 +630,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Bytes,
+        body: &Bytes,
     ) -> Result<XmlOtherPostResponse, E>;
 
     /// XmlOtherPut - PUT /xml_other
@@ -639,7 +639,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Bytes,
+        body: &Bytes,
     ) -> Result<XmlOtherPutResponse, E>;
 
     /// Post an array.  It's important we test apostrophes, so include one here..
@@ -650,7 +650,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Bytes,
+        body: &Bytes,
     ) -> Result<XmlPostResponse, E>;
 
     /// XmlPut - PUT /xml
@@ -659,6 +659,6 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Bytes,
+        body: &Bytes,
     ) -> Result<XmlPutResponse, E>;
 }

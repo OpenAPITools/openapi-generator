@@ -57,7 +57,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &models::Message,
+        body: &models::Message,
     ) -> Result<FooResponse, E>;
 
     /// I211431 - POST /issue21143_1
@@ -66,7 +66,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &Vec<i32>,
+        body: &Vec<i32>,
     ) -> Result<I211431Response, E>;
 
     /// I211432 - POST /issue21143_2
@@ -75,7 +75,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &String,
+        body: &String,
     ) -> Result<I211432Response, E>;
 
     /// I211433 - POST /issue21143_3
@@ -84,6 +84,6 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-                body: &i32,
+        body: &i32,
     ) -> Result<I211433Response, E>;
 }
