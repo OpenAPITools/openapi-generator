@@ -29,12 +29,14 @@ import org.testng.annotations.Test;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
 import static org.testng.Assert.*;
@@ -1749,23 +1751,28 @@ public class OpenAPINormalizerTest {
         // resolvable only via a custom thread context classloader. This simulates how Gradle's
         // Worker API sets the TCCL to a classloader that can see a user-supplied classpath.
         Path classesDir = Files.createTempDirectory("normalizer-tccl-test");
-        String className = "org.openapitools.codegen.testfixture.TcclOnlyNormalizer";
-        compileNormalizerFixture(classesDir, className);
-
-        ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
-        URLClassLoader isolatedLoader = new URLClassLoader(
-                new URL[]{classesDir.toUri().toURL()}, originalTccl);
         try {
-            Thread.currentThread().setContextClassLoader(isolatedLoader);
+            String className = "org.openapitools.codegen.testfixture.TcclOnlyNormalizer";
+            compileNormalizerFixture(classesDir, className);
 
-            OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/required-properties.yaml");
-            Map<String, String> inputRules = Map.of("NORMALIZER_CLASS", className);
-            OpenAPINormalizer openAPINormalizer = OpenAPINormalizer.createNormalizer(openAPI, inputRules);
+            ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
+            URLClassLoader isolatedLoader = new URLClassLoader(
+                    new URL[]{classesDir.toUri().toURL()}, originalTccl);
+            try {
+                Thread.currentThread().setContextClassLoader(isolatedLoader);
 
-            assertEquals(openAPINormalizer.getClass().getName(), className);
-            assertEquals(openAPINormalizer.getClass().getClassLoader(), isolatedLoader);
+                OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/required-properties.yaml");
+                Map<String, String> inputRules = Map.of("NORMALIZER_CLASS", className);
+                OpenAPINormalizer openAPINormalizer = OpenAPINormalizer.createNormalizer(openAPI, inputRules);
+
+                assertEquals(openAPINormalizer.getClass().getName(), className);
+                assertEquals(openAPINormalizer.getClass().getClassLoader(), isolatedLoader);
+            } finally {
+                Thread.currentThread().setContextClassLoader(originalTccl);
+                isolatedLoader.close();
+            }
         } finally {
-            Thread.currentThread().setContextClassLoader(originalTccl);
+            deleteRecursively(classesDir);
         }
     }
 
@@ -1822,8 +1829,8 @@ public class OpenAPINormalizerTest {
         try {
             OpenAPINormalizer.createNormalizer(openAPI, inputRules);
         } catch (RuntimeException e) {
-            assertTrue(e.getMessage().contains("generatorClasspath"));
-            assertTrue(e.getMessage().contains("openApiGeneratorExtra"));
+            assertTrue(e.getMessage().contains("org.openapitools.codegen.DoesNotExistNormalizer"));
+            assertTrue(e.getMessage().contains("classpath"));
             throw e;
         }
     }
@@ -1840,27 +1847,52 @@ public class OpenAPINormalizerTest {
         String simpleName = fullyQualifiedClassName.substring(lastDot + 1);
 
         Path sourceDir = Files.createTempDirectory("normalizer-tccl-src");
-        Path packageDir = sourceDir.resolve(packageName.replace('.', File.separatorChar));
-        Files.createDirectories(packageDir);
-        Path sourceFile = packageDir.resolve(simpleName + ".java");
+        try {
+            Path packageDir = sourceDir.resolve(packageName.replace('.', File.separatorChar));
+            Files.createDirectories(packageDir);
+            Path sourceFile = packageDir.resolve(simpleName + ".java");
 
-        String source = "package " + packageName + ";\n"
-                + "import io.swagger.v3.oas.models.OpenAPI;\n"
-                + "import java.util.Map;\n"
-                + "public class " + simpleName + " extends org.openapitools.codegen.OpenAPINormalizer {\n"
-                + "    public " + simpleName + "(OpenAPI openAPI, Map<String, String> inputRules) {\n"
-                + "        super(openAPI, inputRules);\n"
-                + "    }\n"
-                + "}\n";
-        Files.writeString(sourceFile, source);
+            String source = "package " + packageName + ";\n"
+                    + "import io.swagger.v3.oas.models.OpenAPI;\n"
+                    + "import java.util.Map;\n"
+                    + "public class " + simpleName + " extends org.openapitools.codegen.OpenAPINormalizer {\n"
+                    + "    public " + simpleName + "(OpenAPI openAPI, Map<String, String> inputRules) {\n"
+                    + "        super(openAPI, inputRules);\n"
+                    + "    }\n"
+                    + "}\n";
+            Files.writeString(sourceFile, source);
 
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        String classpath = System.getProperty("java.class.path");
-        int result = compiler.run(null, null, null,
-                "-d", outputDir.toString(),
-                "-cp", classpath,
-                sourceFile.toString());
-        assertEquals(result, 0, "Failed to compile test fixture normalizer class");
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            String classpath = System.getProperty("java.class.path");
+            int result = compiler.run(null, null, null,
+                    "-d", outputDir.toString(),
+                    "-cp", classpath,
+                    sourceFile.toString());
+            assertEquals(result, 0, "Failed to compile test fixture normalizer class");
+        } finally {
+            deleteRecursively(sourceDir);
+        }
+    }
+
+    /**
+     * Recursively deletes a temporary directory tree created by the NORMALIZER_CLASS
+     * classloader-fallback tests, so compiled fixture sources/classes don't leak on disk across
+     * test runs.
+     */
+    private static void deleteRecursively(Path root) throws IOException {
+        if (!Files.exists(root)) {
+            return;
+        }
+        try (Stream<Path> paths = Files.walk(root)) {
+            paths.sorted(Comparator.reverseOrder())
+                    .forEach(path -> {
+                        try {
+                            Files.deleteIfExists(path);
+                        } catch (IOException ignored) {
+                            // best-effort cleanup
+                        }
+                    });
+        }
     }
 
 

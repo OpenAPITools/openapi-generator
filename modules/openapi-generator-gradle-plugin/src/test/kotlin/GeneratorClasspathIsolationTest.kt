@@ -123,8 +123,8 @@ class GeneratorClasspathIsolationTest : TestBase() {
             "Expected a ClassNotFoundException to be reported for the unresolvable NORMALIZER_CLASS, got:\n${result.output}"
         )
         assertTrue(
-            result.output.contains("generatorClasspath") && result.output.contains("openApiGeneratorExtra"),
-            "Expected the clear error message pointing at generatorClasspath/openApiGeneratorExtra, got:\n${result.output}"
+            result.output.contains(NORMALIZER_CLASS_NAME),
+            "Expected the clear error message to reference the unresolvable class name, got:\n${result.output}"
         )
     }
 
@@ -202,6 +202,32 @@ class GeneratorClasspathIsolationTest : TestBase() {
                 outputDir = file("build/kotlin").absolutePath
                 openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME"]
                 workerIsolation = "process"
+                generatorClasspath.from(files("${jar.absolutePath.replace("\\", "\\\\")}"))
+            }
+            """.trimIndent()
+        )
+
+        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+    }
+
+    // -------------------------------------------------------------------------
+    // generatorClasspath extension property - low-level escape hatch, classloader isolation
+    // -------------------------------------------------------------------------
+
+    @Test
+    fun `custom NORMALIZER_CLASS loads via generatorClasspath property under classloader isolation`() {
+        copySpec()
+        val jar = buildNormalizerFixtureJar()
+
+        val result = runOpenApiGenerateExpectingSuccess(
+            """
+            plugins { id 'org.openapi.generator' }
+            openApiGenerate {
+                generatorName = "kotlin"
+                inputSpec = file("spec.yaml").absolutePath
+                outputDir = file("build/kotlin").absolutePath
+                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME"]
+                workerIsolation = "classloader"
                 generatorClasspath.from(files("${jar.absolutePath.replace("\\", "\\\\")}"))
             }
             """.trimIndent()

@@ -191,10 +191,8 @@ public class OpenAPINormalizer {
                         "Failed to load custom " + NORMALIZER_CLASS + " '" + className + "'. This class must be "
                                 + "visible on the generation runtime classpath (i.e. resolvable either by the "
                                 + "current thread's context classloader or by the classloader that loaded "
-                                + "openapi-generator itself). When using the Gradle plugin, make sure the class "
-                                + "is provided via the 'openApiGeneratorExtra' dependency configuration or the "
-                                + "'generatorClasspath' property so it is forwarded to the worker in both "
-                                + "'process' and 'classloader' isolation modes.", e);
+                                + "openapi-generator itself). Ensure the class (and its dependencies) is on the "
+                                + "classpath used to launch the generator.", e);
             }
         } else {
             return new OpenAPINormalizer(openAPI, inputRules);
