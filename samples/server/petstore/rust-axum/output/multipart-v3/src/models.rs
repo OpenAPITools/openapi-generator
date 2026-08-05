@@ -12,9 +12,9 @@ pub type SSE = std::pin::Pin<std::boxed::Box<dyn futures_util::Stream<Item = std
 
 #[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
-  let mut errs = validator::ValidationErrors::new();
-  errs.add("na", e);
-  errs
+    let mut errs = validator::ValidationErrors::new();
+    errs.add("na", e);
+    errs
 }
 
 #[allow(dead_code)]
