@@ -58,11 +58,30 @@ class GeneratorClasspathIsolationTest : TestBase() {
             package com.example.fixture;
 
             import io.swagger.v3.oas.models.OpenAPI;
+            import java.io.IOException;
+            import java.nio.file.Files;
+            import java.nio.file.Paths;
             import java.util.Map;
 
             public class NoOpNormalizer extends org.openapitools.codegen.OpenAPINormalizer {
+                private final Map<String, String> inputRules;
+
                 public NoOpNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
                     super(openAPI, inputRules);
+                    this.inputRules = inputRules;
+                }
+
+                @Override
+                public void normalize() {
+                    String markerFile = inputRules.get("MARKER_FILE");
+                    if (markerFile != null) {
+                        try {
+                            Files.writeString(Paths.get(markerFile), "NORMALIZER_RAN");
+                        } catch (IOException e) {
+                            throw new RuntimeException("Failed to write normalizer marker file", e);
+                        }
+                    }
+                    super.normalize();
                 }
             }
             """.trimIndent()
@@ -112,6 +131,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
     @Test
     fun `custom NORMALIZER_CLASS without generatorClasspath fails with a clear error`() {
         copySpec()
+        val marker = File(temp, "normalizer-ran.marker")
 
         // Note: DefaultGenerator logs (but does not fail the build on) NORMALIZER_CLASS load
         // failures - this is pre-existing behavior unrelated to this fix. Assert on the log
@@ -123,7 +143,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
                 generatorName = "kotlin"
                 inputSpec = file("spec.yaml").absolutePath
                 outputDir = file("build/kotlin").absolutePath
-                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME"]
+                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${marker.absolutePath.replace("\\", "\\\\")}"]
             }
             """.trimIndent()
         )
@@ -142,9 +162,14 @@ class GeneratorClasspathIsolationTest : TestBase() {
             result.output.contains("Failed to load custom NORMALIZER_CLASS"),
             "Expected the wrapped classpath-guidance message to be logged, got:\n${result.output}"
         )
+        // Direct proof the normalizer never ran (in addition to the log-based checks above).
+        assertTrue(
+            !marker.exists(),
+            "Did not expect the normalizer marker file to be created, since NORMALIZER_CLASS could not be loaded"
+        )
     }
 
-    private fun assertNormalizerLoadedSuccessfully(result: org.gradle.testkit.runner.BuildResult) {
+    private fun assertNormalizerLoadedSuccessfully(result: org.gradle.testkit.runner.BuildResult, marker: File) {
         assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
         // Guard against a false-positive SUCCESS: DefaultGenerator only logs (but does not fail
         // the build on) a NORMALIZER_CLASS load failure, so a regression that drops the forwarded
@@ -157,6 +182,13 @@ class GeneratorClasspathIsolationTest : TestBase() {
             !result.output.contains("ClassNotFoundException"),
             "Did not expect a ClassNotFoundException to be logged, got:\n${result.output}"
         )
+        // Direct proof the custom normalizer's normalize() actually executed, rather than relying
+        // solely on the absence of failure markers above.
+        assertTrue(
+            marker.exists(),
+            "Expected the custom normalizer to have written its marker file, proving it actually ran"
+        )
+        assertEquals("NORMALIZER_RAN", marker.readText())
     }
 
     // -------------------------------------------------------------------------
@@ -167,6 +199,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
     fun `custom NORMALIZER_CLASS loads via openApiGeneratorExtra configuration under process isolation`() {
         copySpec()
         val jar = buildNormalizerFixtureJar()
+        val marker = File(temp, "normalizer-ran.marker")
 
         val result = runOpenApiGenerateExpectingSuccess(
             """
@@ -178,13 +211,13 @@ class GeneratorClasspathIsolationTest : TestBase() {
                 generatorName = "kotlin"
                 inputSpec = file("spec.yaml").absolutePath
                 outputDir = file("build/kotlin").absolutePath
-                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME"]
+                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${marker.absolutePath.replace("\\", "\\\\")}"]
                 workerIsolation = "process"
             }
             """.trimIndent()
         )
 
-        assertNormalizerLoadedSuccessfully(result)
+        assertNormalizerLoadedSuccessfully(result, marker)
     }
 
     // -------------------------------------------------------------------------
@@ -195,6 +228,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
     fun `custom NORMALIZER_CLASS loads via openApiGeneratorExtra configuration under classloader isolation`() {
         copySpec()
         val jar = buildNormalizerFixtureJar()
+        val marker = File(temp, "normalizer-ran.marker")
 
         val result = runOpenApiGenerateExpectingSuccess(
             """
@@ -206,13 +240,13 @@ class GeneratorClasspathIsolationTest : TestBase() {
                 generatorName = "kotlin"
                 inputSpec = file("spec.yaml").absolutePath
                 outputDir = file("build/kotlin").absolutePath
-                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME"]
+                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${marker.absolutePath.replace("\\", "\\\\")}"]
                 workerIsolation = "classloader"
             }
             """.trimIndent()
         )
 
-        assertNormalizerLoadedSuccessfully(result)
+        assertNormalizerLoadedSuccessfully(result, marker)
     }
 
     // -------------------------------------------------------------------------
@@ -223,6 +257,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
     fun `custom NORMALIZER_CLASS loads via generatorClasspath property under process isolation`() {
         copySpec()
         val jar = buildNormalizerFixtureJar()
+        val marker = File(temp, "normalizer-ran.marker")
 
         val result = runOpenApiGenerateExpectingSuccess(
             """
@@ -231,14 +266,14 @@ class GeneratorClasspathIsolationTest : TestBase() {
                 generatorName = "kotlin"
                 inputSpec = file("spec.yaml").absolutePath
                 outputDir = file("build/kotlin").absolutePath
-                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME"]
+                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${marker.absolutePath.replace("\\", "\\\\")}"]
                 workerIsolation = "process"
                 generatorClasspath.from(files("${jar.absolutePath.replace("\\", "\\\\")}"))
             }
             """.trimIndent()
         )
 
-        assertNormalizerLoadedSuccessfully(result)
+        assertNormalizerLoadedSuccessfully(result, marker)
     }
 
     // -------------------------------------------------------------------------
@@ -249,6 +284,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
     fun `custom NORMALIZER_CLASS loads via generatorClasspath property under classloader isolation`() {
         copySpec()
         val jar = buildNormalizerFixtureJar()
+        val marker = File(temp, "normalizer-ran.marker")
 
         val result = runOpenApiGenerateExpectingSuccess(
             """
@@ -257,13 +293,13 @@ class GeneratorClasspathIsolationTest : TestBase() {
                 generatorName = "kotlin"
                 inputSpec = file("spec.yaml").absolutePath
                 outputDir = file("build/kotlin").absolutePath
-                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME"]
+                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${marker.absolutePath.replace("\\", "\\\\")}"]
                 workerIsolation = "classloader"
                 generatorClasspath.from(files("${jar.absolutePath.replace("\\", "\\\\")}"))
             }
             """.trimIndent()
         )
 
-        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+        assertNormalizerLoadedSuccessfully(result, marker)
     }
 }
