@@ -28,11 +28,10 @@ pub trait FakeClassnameTags123<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     ///
     /// TestClassname - PATCH /v2/fake_classname_test
     async fn test_classname(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &models::Client,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &models::Client,
     ) -> Result<TestClassnameResponse, E>;
 }

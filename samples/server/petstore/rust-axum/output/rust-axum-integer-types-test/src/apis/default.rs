@@ -26,11 +26,10 @@ pub enum GetIntegersResponse {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// GetIntegers - GET /integers
     async fn get_integers(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-      query_params: &models::GetIntegersQueryParams,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+          query_params: &models::GetIntegersQueryParams,
     ) -> Result<GetIntegersResponse, E>;
 }

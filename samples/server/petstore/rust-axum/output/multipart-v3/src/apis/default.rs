@@ -41,31 +41,28 @@ pub enum MultipleIdenticalMimeTypesPostResponse {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// MultipartRelatedRequestPost - POST /multipart_related_request
     async fn multipart_related_request_post(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-    body: axum::body::Body,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: axum::body::Body,
     ) -> Result<MultipartRelatedRequestPostResponse, E>;
 
     /// MultipartRequestPost - POST /multipart_request
     async fn multipart_request_post(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-    body: Multipart,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: Multipart,
     ) -> Result<MultipartRequestPostResponse, E>;
 
     /// MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
     async fn multiple_identical_mime_types_post(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-    body: axum::body::Body,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: axum::body::Body,
     ) -> Result<MultipleIdenticalMimeTypesPostResponse, E>;
 }

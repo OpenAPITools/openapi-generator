@@ -56,37 +56,34 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Erro
     ///
     /// GetPaymentMethodById - GET /v71/paymentMethods/{id}
     async fn get_payment_method_by_id(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-        claims: &Self::Claims,
-      path_params: &models::GetPaymentMethodByIdPathParams,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+            claims: &Self::Claims,
+          path_params: &models::GetPaymentMethodByIdPathParams,
     ) -> Result<GetPaymentMethodByIdResponse, E>;
 
     /// Get payment methods.
     ///
     /// GetPaymentMethods - GET /v71/paymentMethods
     async fn get_payment_methods(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-        claims: &Self::Claims,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+            claims: &Self::Claims,
     ) -> Result<GetPaymentMethodsResponse, E>;
 
     /// Make a payment.
     ///
     /// PostMakePayment - POST /v71/payments
     async fn post_make_payment(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-        claims: &Self::Claims,
-            body: &Option<models::Payment>,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+            claims: &Self::Claims,
+                body: &Option<models::Payment>,
     ) -> Result<PostMakePaymentResponse, E>;
 }

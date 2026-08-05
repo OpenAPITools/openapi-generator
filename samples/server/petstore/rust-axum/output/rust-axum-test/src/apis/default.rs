@@ -94,96 +94,87 @@ pub enum SoloObjectPostResponse {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// AllOfGet - GET /allOf
     async fn all_of_get(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<AllOfGetResponse, E>;
 
     /// A dummy endpoint to make the spec valid..
     ///
     /// DummyGet - GET /dummy
     async fn dummy_get(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<DummyGetResponse, E>;
 
     /// DummyPut - PUT /dummy
     async fn dummy_put(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &models::FooDummyPutRequest,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &models::FooDummyPutRequest,
     ) -> Result<DummyPutResponse, E>;
 
     /// Get a file.
     ///
     /// FileResponseGet - GET /file_response
     async fn file_response_get(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<FileResponseGetResponse, E>;
 
     /// GetStructuredYaml - GET /get-structured-yaml
     async fn get_structured_yaml(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<GetStructuredYamlResponse, E>;
 
     /// Test HTML handling.
     ///
     /// HtmlPost - POST /html
     async fn html_post(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &String,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &String,
     ) -> Result<HtmlPostResponse, E>;
 
     /// PostYaml - POST /post-yaml
     async fn post_yaml(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &String,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &String,
     ) -> Result<PostYamlResponse, E>;
 
     /// Get an arbitrary JSON blob..
     ///
     /// RawJsonGet - GET /raw_json
     async fn raw_json_get(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<RawJsonGetResponse, E>;
 
     /// Send an arbitrary JSON blob.
     ///
     /// SoloObjectPost - POST /solo-object
     async fn solo_object_post(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &crate::types::Object,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &crate::types::Object,
     ) -> Result<SoloObjectPostResponse, E>;
 }

@@ -29,10 +29,9 @@ pub enum LiveUpdatesGetResponse {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// LiveUpdatesGet - GET /live-updates
     async fn live_updates_get(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<LiveUpdatesGetResponse, E>;
 }

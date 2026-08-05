@@ -68,47 +68,43 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     ///
     /// DeleteOrder - DELETE /v2/store/order/{order_id}
     async fn delete_order(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-      path_params: &models::DeleteOrderPathParams,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+          path_params: &models::DeleteOrderPathParams,
     ) -> Result<DeleteOrderResponse, E>;
 
     /// Returns pet inventories by status.
     ///
     /// GetInventory - GET /v2/store/inventory
     async fn get_inventory(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-        claims: &Self::Claims,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+            claims: &Self::Claims,
     ) -> Result<GetInventoryResponse, E>;
 
     /// Find purchase order by ID.
     ///
     /// GetOrderById - GET /v2/store/order/{order_id}
     async fn get_order_by_id(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-      path_params: &models::GetOrderByIdPathParams,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+          path_params: &models::GetOrderByIdPathParams,
     ) -> Result<GetOrderByIdResponse, E>;
 
     /// Place an order for a pet.
     ///
     /// PlaceOrder - POST /v2/store/order
     async fn place_order(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &models::Order,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &models::Order,
     ) -> Result<PlaceOrderResponse, E>;
 }

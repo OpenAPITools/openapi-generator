@@ -26,11 +26,10 @@ pub enum GetRepoInfoResponse {
 pub trait InfoRepo<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// GetRepoInfo - GET /repos/{repoId}
     async fn get_repo_info(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-      path_params: &models::GetRepoInfoPathParams,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+          path_params: &models::GetRepoInfoPathParams,
     ) -> Result<GetRepoInfoResponse, E>;
 }

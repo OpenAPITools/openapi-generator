@@ -27,11 +27,10 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
 
     /// PingGet - GET /ping
     async fn ping_get(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-        claims: &Self::Claims,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+            claims: &Self::Claims,
     ) -> Result<PingGetResponse, E>;
 }

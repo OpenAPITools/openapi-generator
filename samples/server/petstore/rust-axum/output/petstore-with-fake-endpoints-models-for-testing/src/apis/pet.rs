@@ -107,99 +107,91 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     ///
     /// AddPet - POST /v2/pet
     async fn add_pet(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &models::Pet,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &models::Pet,
     ) -> Result<AddPetResponse, E>;
 
     /// Deletes a pet.
     ///
     /// DeletePet - DELETE /v2/pet/{petId}
     async fn delete_pet(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-      header_params: &models::DeletePetHeaderParams,
-      path_params: &models::DeletePetPathParams,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+          header_params: &models::DeletePetHeaderParams,
+          path_params: &models::DeletePetPathParams,
     ) -> Result<DeletePetResponse, E>;
 
     /// Finds Pets by status.
     ///
     /// FindPetsByStatus - GET /v2/pet/findByStatus
     async fn find_pets_by_status(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-      query_params: &models::FindPetsByStatusQueryParams,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+          query_params: &models::FindPetsByStatusQueryParams,
     ) -> Result<FindPetsByStatusResponse, E>;
 
     /// Finds Pets by tags.
     ///
     /// FindPetsByTags - GET /v2/pet/findByTags
     async fn find_pets_by_tags(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-      query_params: &models::FindPetsByTagsQueryParams,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+          query_params: &models::FindPetsByTagsQueryParams,
     ) -> Result<FindPetsByTagsResponse, E>;
 
     /// Find pet by ID.
     ///
     /// GetPetById - GET /v2/pet/{petId}
     async fn get_pet_by_id(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-        claims: &Self::Claims,
-      path_params: &models::GetPetByIdPathParams,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+            claims: &Self::Claims,
+          path_params: &models::GetPetByIdPathParams,
     ) -> Result<GetPetByIdResponse, E>;
 
     /// Update an existing pet.
     ///
     /// UpdatePet - PUT /v2/pet
     async fn update_pet(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &models::Pet,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &models::Pet,
     ) -> Result<UpdatePetResponse, E>;
 
     /// Updates a pet in the store with form data.
     ///
     /// UpdatePetWithForm - POST /v2/pet/{petId}
     async fn update_pet_with_form(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-      path_params: &models::UpdatePetWithFormPathParams,
-            body: &Option<models::UpdatePetWithFormRequest>,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+          path_params: &models::UpdatePetWithFormPathParams,
+                body: &Option<models::UpdatePetWithFormRequest>,
     ) -> Result<UpdatePetWithFormResponse, E>;
 
     /// uploads an image.
     ///
     /// UploadFile - POST /v2/pet/{petId}/uploadImage
     async fn upload_file(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-      path_params: &models::UploadFilePathParams,
-    body: Multipart,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+          path_params: &models::UploadFilePathParams,
+        body: Multipart,
     ) -> Result<UploadFileResponse, E>;
 }

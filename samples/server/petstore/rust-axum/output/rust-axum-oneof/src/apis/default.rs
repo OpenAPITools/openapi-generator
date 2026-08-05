@@ -53,41 +53,37 @@ pub enum I211433Response {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// Foo - POST /
     async fn foo(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &models::Message,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &models::Message,
     ) -> Result<FooResponse, E>;
 
     /// I211431 - POST /issue21143_1
     async fn i211431(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &Vec<i32>,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &Vec<i32>,
     ) -> Result<I211431Response, E>;
 
     /// I211432 - POST /issue21143_2
     async fn i211432(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &String,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &String,
     ) -> Result<I211432Response, E>;
 
     /// I211433 - POST /issue21143_3
     async fn i211433(
-    &self,
-    
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
-            body: &i32,
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+                body: &i32,
     ) -> Result<I211433Response, E>;
 }
