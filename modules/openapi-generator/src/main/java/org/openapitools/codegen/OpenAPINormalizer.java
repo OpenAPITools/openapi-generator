@@ -181,16 +181,47 @@ public class OpenAPINormalizer {
      */
     public static OpenAPINormalizer createNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
         if (inputRules.containsKey(NORMALIZER_CLASS)) {
+            String className = inputRules.get(NORMALIZER_CLASS);
             try {
-                Class clazz = Class.forName(inputRules.get(NORMALIZER_CLASS));
-                Constructor constructor = clazz.getConstructor(OpenAPI.class, Map.class);
+                Class<?> clazz = loadNormalizerClass(className);
+                Constructor<?> constructor = clazz.getConstructor(OpenAPI.class, Map.class);
                 return (OpenAPINormalizer) constructor.newInstance(openAPI, inputRules);
             } catch (ReflectiveOperationException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException(
+                        "Failed to load custom " + NORMALIZER_CLASS + " '" + className + "'. This class must be "
+                                + "visible on the generation runtime classpath (i.e. resolvable either by the "
+                                + "current thread's context classloader or by the classloader that loaded "
+                                + "openapi-generator itself). When using the Gradle plugin, make sure the class "
+                                + "is provided via the 'openApiGeneratorExtra' dependency configuration or the "
+                                + "'generatorClasspath' property so it is forwarded to the worker in both "
+                                + "'process' and 'classloader' isolation modes.", e);
             }
         } else {
             return new OpenAPINormalizer(openAPI, inputRules);
         }
+    }
+
+    /**
+     * Loads a custom normalizer class, preferring the current thread's context classloader (which
+     * frameworks such as Gradle's Worker API set to a classloader that includes any user-supplied
+     * classpath) and falling back to the classloader that defined {@link OpenAPINormalizer} itself
+     * (the original, pre-existing behavior) so that normalizers already visible on the default
+     * classpath keep working unchanged.
+     *
+     * @param className fully qualified name of the custom {@link OpenAPINormalizer} subclass
+     * @return the resolved {@link Class}
+     * @throws ClassNotFoundException if the class cannot be resolved via either classloader
+     */
+    private static Class<?> loadNormalizerClass(String className) throws ClassNotFoundException {
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        if (contextClassLoader != null) {
+            try {
+                return Class.forName(className, true, contextClassLoader);
+            } catch (ClassNotFoundException ignored) {
+                // fall through and try the defining classloader below
+            }
+        }
+        return Class.forName(className, true, OpenAPINormalizer.class.getClassLoader());
     }
 
     /**
