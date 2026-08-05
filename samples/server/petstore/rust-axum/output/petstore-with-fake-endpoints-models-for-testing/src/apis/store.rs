@@ -13,10 +13,9 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteOrderResponse {
     /// Invalid ID supplied
-    Status400_InvalidIDSupplied
-    ,
+    Status400_InvalidIDSupplied,
     /// Order not found
-    Status404_OrderNotFound
+    Status404_OrderNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -24,8 +23,7 @@ pub enum DeleteOrderResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetInventoryResponse {
     /// successful operation
-    Status200_SuccessfulOperation
-    (std::collections::HashMap<String, i32>)
+    Status200_SuccessfulOperation(std::collections::HashMap<String, i32>),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -33,14 +31,11 @@ pub enum GetInventoryResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetOrderByIdResponse {
     /// successful operation
-    Status200_SuccessfulOperation
-    (String)
-    ,
+    Status200_SuccessfulOperation(String),
     /// Invalid ID supplied
-    Status400_InvalidIDSupplied
-    ,
+    Status400_InvalidIDSupplied,
     /// Order not found
-    Status404_OrderNotFound
+    Status404_OrderNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -48,15 +43,10 @@ pub enum GetOrderByIdResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum PlaceOrderResponse {
     /// successful operation
-    Status200_SuccessfulOperation
-    (String)
-    ,
+    Status200_SuccessfulOperation(String),
     /// Invalid Order
-    Status400_InvalidOrder
+    Status400_InvalidOrder,
 }
-
-
-
 
 /// Store
 #[async_trait]

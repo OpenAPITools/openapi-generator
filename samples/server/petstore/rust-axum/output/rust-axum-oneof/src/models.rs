@@ -8,7 +8,14 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
-pub type SSE = std::pin::Pin<std::boxed::Box<dyn futures_util::Stream<Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>> + std::marker::Send + std::marker::Sync>>;
+pub type SSE = std::pin::Pin<
+    std::boxed::Box<
+        dyn futures_util::Stream<
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
+            > + std::marker::Send
+            + std::marker::Sync,
+    >,
+>;
 
 #[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
@@ -61,19 +68,15 @@ where
 }
 
 #[allow(dead_code)]
-pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result::Result<(), validator::ValidationError> {
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
     if v.keys().any(|k| ammonia::is_html(k)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
         std::result::Result::Ok(())
     }
 }
-
-
-
-
-
-
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -82,13 +85,12 @@ pub struct Goodbye {
     #[serde(default = "Goodbye::_name_for_op")]
     #[serde(serialize_with = "Goodbye::_serialize_op")]
     #[serde(rename = "op")]
-          #[validate(custom(function = "check_xss_string"))]
+    #[validate(custom(function = "check_xss_string"))]
     pub op: String,
 
     #[serde(rename = "d")]
-          #[validate(nested)]
+    #[validate(nested)]
     pub d: models::GoodbyeD,
-
 }
 
 impl Goodbye {
@@ -104,13 +106,12 @@ impl Goodbye {
     }
 }
 
-
 impl Goodbye {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(d: models::GoodbyeD, ) -> Goodbye {
+    pub fn new(d: models::GoodbyeD) -> Goodbye {
         Goodbye {
- op: Self::_name_for_op(),
- d,
+            op: Self::_name_for_op(),
+            d,
         }
     }
 }
@@ -121,15 +122,16 @@ impl Goodbye {
 impl std::fmt::Display for Goodbye {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-
             Some("op".to_string()),
             Some(self.op.to_string()),
-
             // Skipping d in query parameter serialization
-
         ];
 
-        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -157,17 +159,30 @@ impl std::str::FromStr for Goodbye {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing Goodbye".to_string())
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing Goodbye".to_string(),
+                    )
+                }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "op" => intermediate_rep.op.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "op" => intermediate_rep.op.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
                     #[allow(clippy::redundant_clone)]
-                    "d" => intermediate_rep.d.push(<models::GoodbyeD as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing Goodbye".to_string())
+                    "d" => intermediate_rep.d.push(
+                        <models::GoodbyeD as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing Goodbye".to_string(),
+                        )
+                    }
                 }
             }
 
@@ -177,8 +192,16 @@ impl std::str::FromStr for Goodbye {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Goodbye {
-            op: intermediate_rep.op.into_iter().next().ok_or_else(|| "op missing in Goodbye".to_string())?,
-            d: intermediate_rep.d.into_iter().next().ok_or_else(|| "d missing in Goodbye".to_string())?,
+            op: intermediate_rep
+                .op
+                .into_iter()
+                .next()
+                .ok_or_else(|| "op missing in Goodbye".to_string())?,
+            d: intermediate_rep
+                .d
+                .into_iter()
+                .next()
+                .ok_or_else(|| "d missing in Goodbye".to_string())?,
         })
     }
 }
@@ -189,11 +212,15 @@ impl std::str::FromStr for Goodbye {
 impl std::convert::TryFrom<header::IntoHeaderValue<Goodbye>> for HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Goodbye>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<Goodbye>,
+    ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Goodbye - value: {hdr_value} is invalid {e}"#))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for Goodbye - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -204,36 +231,35 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Goodbye> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <Goodbye as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Goodbye - {err}"#))
+            std::result::Result::Ok(value) => {
+                match <Goodbye as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into Goodbye - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }
-
-
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GoodbyeD {
     #[serde(rename = "goodbye_message")]
-          #[validate(custom(function = "check_xss_string"))]
+    #[validate(custom(function = "check_xss_string"))]
     pub goodbye_message: String,
-
 }
-
-
 
 impl GoodbyeD {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(goodbye_message: String, ) -> GoodbyeD {
-        GoodbyeD {
- goodbye_message,
-        }
+    pub fn new(goodbye_message: String) -> GoodbyeD {
+        GoodbyeD { goodbye_message }
     }
 }
 
@@ -243,13 +269,15 @@ impl GoodbyeD {
 impl std::fmt::Display for GoodbyeD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-
             Some("goodbye_message".to_string()),
             Some(self.goodbye_message.to_string()),
-
         ];
 
-        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -276,15 +304,25 @@ impl std::str::FromStr for GoodbyeD {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing GoodbyeD".to_string())
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing GoodbyeD".to_string(),
+                    )
+                }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "goodbye_message" => intermediate_rep.goodbye_message.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing GoodbyeD".to_string())
+                    "goodbye_message" => intermediate_rep.goodbye_message.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing GoodbyeD".to_string(),
+                        )
+                    }
                 }
             }
 
@@ -294,7 +332,11 @@ impl std::str::FromStr for GoodbyeD {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(GoodbyeD {
-            goodbye_message: intermediate_rep.goodbye_message.into_iter().next().ok_or_else(|| "goodbye_message missing in GoodbyeD".to_string())?,
+            goodbye_message: intermediate_rep
+                .goodbye_message
+                .into_iter()
+                .next()
+                .ok_or_else(|| "goodbye_message missing in GoodbyeD".to_string())?,
         })
     }
 }
@@ -305,11 +347,15 @@ impl std::str::FromStr for GoodbyeD {
 impl std::convert::TryFrom<header::IntoHeaderValue<GoodbyeD>> for HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<GoodbyeD>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<GoodbyeD>,
+    ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for GoodbyeD - value: {hdr_value} is invalid {e}"#))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for GoodbyeD - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -320,31 +366,34 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GoodbyeD> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <GoodbyeD as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into GoodbyeD - {err}"#))
+            std::result::Result::Ok(value) => {
+                match <GoodbyeD as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into GoodbyeD - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }
-
-
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Greeting {
     #[serde(rename = "d")]
-          #[validate(nested)]
+    #[validate(nested)]
     pub d: models::GreetingD,
 
     #[serde(default = "Greeting::_name_for_op")]
     #[serde(serialize_with = "Greeting::_serialize_op")]
     #[serde(rename = "op")]
     pub op: String,
-
 }
 
 impl Greeting {
@@ -360,13 +409,12 @@ impl Greeting {
     }
 }
 
-
 impl Greeting {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(d: models::GreetingD, ) -> Greeting {
+    pub fn new(d: models::GreetingD) -> Greeting {
         Greeting {
- d,
- op: Self::_name_for_op(),
+            d,
+            op: Self::_name_for_op(),
         }
     }
 }
@@ -378,14 +426,15 @@ impl std::fmt::Display for Greeting {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping d in query parameter serialization
-
-
             Some("op".to_string()),
             Some(self.op.to_string()),
-
         ];
 
-        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -413,17 +462,30 @@ impl std::str::FromStr for Greeting {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing Greeting".to_string())
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing Greeting".to_string(),
+                    )
+                }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "d" => intermediate_rep.d.push(<models::GreetingD as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "d" => intermediate_rep.d.push(
+                        <models::GreetingD as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
                     #[allow(clippy::redundant_clone)]
-                    "op" => intermediate_rep.op.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing Greeting".to_string())
+                    "op" => intermediate_rep.op.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing Greeting".to_string(),
+                        )
+                    }
                 }
             }
 
@@ -433,8 +495,16 @@ impl std::str::FromStr for Greeting {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Greeting {
-            d: intermediate_rep.d.into_iter().next().ok_or_else(|| "d missing in Greeting".to_string())?,
-            op: intermediate_rep.op.into_iter().next().ok_or_else(|| "op missing in Greeting".to_string())?,
+            d: intermediate_rep
+                .d
+                .into_iter()
+                .next()
+                .ok_or_else(|| "d missing in Greeting".to_string())?,
+            op: intermediate_rep
+                .op
+                .into_iter()
+                .next()
+                .ok_or_else(|| "op missing in Greeting".to_string())?,
         })
     }
 }
@@ -445,11 +515,15 @@ impl std::str::FromStr for Greeting {
 impl std::convert::TryFrom<header::IntoHeaderValue<Greeting>> for HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Greeting>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<Greeting>,
+    ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Greeting - value: {hdr_value} is invalid {e}"#))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for Greeting - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -460,36 +534,35 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Greeting> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <Greeting as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Greeting - {err}"#))
+            std::result::Result::Ok(value) => {
+                match <Greeting as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into Greeting - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }
-
-
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GreetingD {
     #[serde(rename = "greet_message")]
-          #[validate(custom(function = "check_xss_string"))]
+    #[validate(custom(function = "check_xss_string"))]
     pub greet_message: String,
-
 }
-
-
 
 impl GreetingD {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(greet_message: String, ) -> GreetingD {
-        GreetingD {
- greet_message,
-        }
+    pub fn new(greet_message: String) -> GreetingD {
+        GreetingD { greet_message }
     }
 }
 
@@ -499,13 +572,15 @@ impl GreetingD {
 impl std::fmt::Display for GreetingD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-
             Some("greet_message".to_string()),
             Some(self.greet_message.to_string()),
-
         ];
 
-        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -532,15 +607,25 @@ impl std::str::FromStr for GreetingD {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing GreetingD".to_string())
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing GreetingD".to_string(),
+                    )
+                }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "greet_message" => intermediate_rep.greet_message.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing GreetingD".to_string())
+                    "greet_message" => intermediate_rep.greet_message.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing GreetingD".to_string(),
+                        )
+                    }
                 }
             }
 
@@ -550,7 +635,11 @@ impl std::str::FromStr for GreetingD {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(GreetingD {
-            greet_message: intermediate_rep.greet_message.into_iter().next().ok_or_else(|| "greet_message missing in GreetingD".to_string())?,
+            greet_message: intermediate_rep
+                .greet_message
+                .into_iter()
+                .next()
+                .ok_or_else(|| "greet_message missing in GreetingD".to_string())?,
         })
     }
 }
@@ -561,11 +650,15 @@ impl std::str::FromStr for GreetingD {
 impl std::convert::TryFrom<header::IntoHeaderValue<GreetingD>> for HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<GreetingD>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<GreetingD>,
+    ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for GreetingD - value: {hdr_value} is invalid {e}"#))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for GreetingD - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -576,18 +669,22 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GreetingD> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <GreetingD as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into GreetingD - {err}"#))
+            std::result::Result::Ok(value) => {
+                match <GreetingD as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into GreetingD - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }
-
-
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -596,13 +693,12 @@ pub struct Hello {
     #[serde(default = "Hello::_name_for_op")]
     #[serde(serialize_with = "Hello::_serialize_op")]
     #[serde(rename = "op")]
-          #[validate(custom(function = "check_xss_string"))]
+    #[validate(custom(function = "check_xss_string"))]
     pub op: String,
 
     #[serde(rename = "d")]
-          #[validate(nested)]
+    #[validate(nested)]
     pub d: models::HelloD,
-
 }
 
 impl Hello {
@@ -618,13 +714,12 @@ impl Hello {
     }
 }
 
-
 impl Hello {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(d: models::HelloD, ) -> Hello {
+    pub fn new(d: models::HelloD) -> Hello {
         Hello {
- op: Self::_name_for_op(),
- d,
+            op: Self::_name_for_op(),
+            d,
         }
     }
 }
@@ -635,15 +730,16 @@ impl Hello {
 impl std::fmt::Display for Hello {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-
             Some("op".to_string()),
             Some(self.op.to_string()),
-
             // Skipping d in query parameter serialization
-
         ];
 
-        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -671,17 +767,30 @@ impl std::str::FromStr for Hello {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing Hello".to_string())
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing Hello".to_string(),
+                    )
+                }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "op" => intermediate_rep.op.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "op" => intermediate_rep.op.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
                     #[allow(clippy::redundant_clone)]
-                    "d" => intermediate_rep.d.push(<models::HelloD as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing Hello".to_string())
+                    "d" => intermediate_rep.d.push(
+                        <models::HelloD as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing Hello".to_string(),
+                        )
+                    }
                 }
             }
 
@@ -691,8 +800,16 @@ impl std::str::FromStr for Hello {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Hello {
-            op: intermediate_rep.op.into_iter().next().ok_or_else(|| "op missing in Hello".to_string())?,
-            d: intermediate_rep.d.into_iter().next().ok_or_else(|| "d missing in Hello".to_string())?,
+            op: intermediate_rep
+                .op
+                .into_iter()
+                .next()
+                .ok_or_else(|| "op missing in Hello".to_string())?,
+            d: intermediate_rep
+                .d
+                .into_iter()
+                .next()
+                .ok_or_else(|| "d missing in Hello".to_string())?,
         })
     }
 }
@@ -703,11 +820,15 @@ impl std::str::FromStr for Hello {
 impl std::convert::TryFrom<header::IntoHeaderValue<Hello>> for HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Hello>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<Hello>,
+    ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for Hello - value: {hdr_value} is invalid {e}"#))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for Hello - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -718,36 +839,33 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Hello> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <Hello as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into Hello - {err}"#))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
+            std::result::Result::Ok(value) => match <Hello as std::str::FromStr>::from_str(value) {
+                std::result::Result::Ok(value) => {
+                    std::result::Result::Ok(header::IntoHeaderValue(value))
+                }
+                std::result::Result::Err(err) => std::result::Result::Err(format!(
+                    r#"Unable to convert header value '{value}' into Hello - {err}"#
+                )),
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }
-
-
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HelloD {
     #[serde(rename = "welcome_message")]
-          #[validate(custom(function = "check_xss_string"))]
+    #[validate(custom(function = "check_xss_string"))]
     pub welcome_message: String,
-
 }
-
-
 
 impl HelloD {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(welcome_message: String, ) -> HelloD {
-        HelloD {
- welcome_message,
-        }
+    pub fn new(welcome_message: String) -> HelloD {
+        HelloD { welcome_message }
     }
 }
 
@@ -757,13 +875,15 @@ impl HelloD {
 impl std::fmt::Display for HelloD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-
             Some("welcome_message".to_string()),
             Some(self.welcome_message.to_string()),
-
         ];
 
-        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -790,15 +910,25 @@ impl std::str::FromStr for HelloD {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing HelloD".to_string())
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing HelloD".to_string(),
+                    )
+                }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "welcome_message" => intermediate_rep.welcome_message.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing HelloD".to_string())
+                    "welcome_message" => intermediate_rep.welcome_message.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing HelloD".to_string(),
+                        )
+                    }
                 }
             }
 
@@ -808,7 +938,11 @@ impl std::str::FromStr for HelloD {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(HelloD {
-            welcome_message: intermediate_rep.welcome_message.into_iter().next().ok_or_else(|| "welcome_message missing in HelloD".to_string())?,
+            welcome_message: intermediate_rep
+                .welcome_message
+                .into_iter()
+                .next()
+                .ok_or_else(|| "welcome_message missing in HelloD".to_string())?,
         })
     }
 }
@@ -819,11 +953,15 @@ impl std::str::FromStr for HelloD {
 impl std::convert::TryFrom<header::IntoHeaderValue<HelloD>> for HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<HelloD>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<HelloD>,
+    ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for HelloD - value: {hdr_value} is invalid {e}"#))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for HelloD - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -834,18 +972,22 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<HelloD> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <HelloD as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into HelloD - {err}"#))
+            std::result::Result::Ok(value) => {
+                match <HelloD as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into HelloD - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }
-
-
 
 #[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "op")]
@@ -863,8 +1005,7 @@ pub enum Message {
     YoMessage(models::YoMessage),
 }
 
-impl validator::Validate for Message
-{
+impl validator::Validate for Message {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
             Self::Hello(v) => v.validate(),
@@ -889,14 +1030,16 @@ impl std::str::FromStr for Message {
 
 impl serde::Serialize for Message {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where S: serde::Serializer {
-            match self {
-                Self::Hello(x) => x.serialize(serializer),
-                Self::Greeting(x) => x.serialize(serializer),
-                Self::Goodbye(x) => x.serialize(serializer),
-                Self::SomethingCompletelyDifferent(x) => x.serialize(serializer),
-                Self::YoMessage(x) => x.serialize(serializer),
-            }
+    where
+        S: serde::Serializer,
+    {
+        match self {
+            Self::Hello(x) => x.serialize(serializer),
+            Self::Greeting(x) => x.serialize(serializer),
+            Self::Goodbye(x) => x.serialize(serializer),
+            Self::SomethingCompletelyDifferent(x) => x.serialize(serializer),
+            Self::YoMessage(x) => x.serialize(serializer),
+        }
     }
 }
 
@@ -926,10 +1069,6 @@ impl From<models::YoMessage> for Message {
     }
 }
 
-
-
-
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
 #[allow(non_camel_case_types, clippy::large_enum_variant)]
@@ -938,8 +1077,7 @@ pub enum SomethingCompletelyDifferent {
     Object(crate::types::Object),
 }
 
-impl validator::Validate for SomethingCompletelyDifferent
-{
+impl validator::Validate for SomethingCompletelyDifferent {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
             Self::VecOfObject(_) => std::result::Result::Ok(()),
@@ -959,7 +1097,6 @@ impl std::str::FromStr for SomethingCompletelyDifferent {
     }
 }
 
-
 impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
     fn from(value: Vec<crate::types::Object>) -> Self {
         Self::VecOfObject(value)
@@ -971,22 +1108,17 @@ impl From<crate::types::Object> for SomethingCompletelyDifferent {
     }
 }
 
-
-
-
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct YoMessage {
     #[serde(rename = "d")]
-          #[validate(nested)]
+    #[validate(nested)]
     pub d: models::YoMessageD,
 
     #[serde(default = "YoMessage::_name_for_op")]
     #[serde(serialize_with = "YoMessage::_serialize_op")]
     #[serde(rename = "op")]
     pub op: String,
-
 }
 
 impl YoMessage {
@@ -1002,13 +1134,12 @@ impl YoMessage {
     }
 }
 
-
 impl YoMessage {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(d: models::YoMessageD, ) -> YoMessage {
+    pub fn new(d: models::YoMessageD) -> YoMessage {
         YoMessage {
- d,
- op: Self::_name_for_op(),
+            d,
+            op: Self::_name_for_op(),
         }
     }
 }
@@ -1020,14 +1151,15 @@ impl std::fmt::Display for YoMessage {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping d in query parameter serialization
-
-
             Some("op".to_string()),
             Some(self.op.to_string()),
-
         ];
 
-        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -1055,17 +1187,30 @@ impl std::str::FromStr for YoMessage {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing YoMessage".to_string())
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing YoMessage".to_string(),
+                    )
+                }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "d" => intermediate_rep.d.push(<models::YoMessageD as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "d" => intermediate_rep.d.push(
+                        <models::YoMessageD as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
                     #[allow(clippy::redundant_clone)]
-                    "op" => intermediate_rep.op.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing YoMessage".to_string())
+                    "op" => intermediate_rep.op.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing YoMessage".to_string(),
+                        )
+                    }
                 }
             }
 
@@ -1075,8 +1220,16 @@ impl std::str::FromStr for YoMessage {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(YoMessage {
-            d: intermediate_rep.d.into_iter().next().ok_or_else(|| "d missing in YoMessage".to_string())?,
-            op: intermediate_rep.op.into_iter().next().ok_or_else(|| "op missing in YoMessage".to_string())?,
+            d: intermediate_rep
+                .d
+                .into_iter()
+                .next()
+                .ok_or_else(|| "d missing in YoMessage".to_string())?,
+            op: intermediate_rep
+                .op
+                .into_iter()
+                .next()
+                .ok_or_else(|| "op missing in YoMessage".to_string())?,
         })
     }
 }
@@ -1087,11 +1240,15 @@ impl std::str::FromStr for YoMessage {
 impl std::convert::TryFrom<header::IntoHeaderValue<YoMessage>> for HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<YoMessage>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<YoMessage>,
+    ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for YoMessage - value: {hdr_value} is invalid {e}"#))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for YoMessage - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -1102,36 +1259,35 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<YoMessage> {
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <YoMessage as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into YoMessage - {err}"#))
+            std::result::Result::Ok(value) => {
+                match <YoMessage as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into YoMessage - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }
-
-
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct YoMessageD {
     #[serde(rename = "nickname")]
-          #[validate(custom(function = "check_xss_string"))]
+    #[validate(custom(function = "check_xss_string"))]
     pub nickname: String,
-
 }
-
-
 
 impl YoMessageD {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(nickname: String, ) -> YoMessageD {
-        YoMessageD {
- nickname,
-        }
+    pub fn new(nickname: String) -> YoMessageD {
+        YoMessageD { nickname }
     }
 }
 
@@ -1141,13 +1297,15 @@ impl YoMessageD {
 impl std::fmt::Display for YoMessageD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-
             Some("nickname".to_string()),
             Some(self.nickname.to_string()),
-
         ];
 
-        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -1174,15 +1332,25 @@ impl std::str::FromStr for YoMessageD {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing YoMessageD".to_string())
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing YoMessageD".to_string(),
+                    )
+                }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "nickname" => intermediate_rep.nickname.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing YoMessageD".to_string())
+                    "nickname" => intermediate_rep.nickname.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing YoMessageD".to_string(),
+                        )
+                    }
                 }
             }
 
@@ -1192,7 +1360,11 @@ impl std::str::FromStr for YoMessageD {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(YoMessageD {
-            nickname: intermediate_rep.nickname.into_iter().next().ok_or_else(|| "nickname missing in YoMessageD".to_string())?,
+            nickname: intermediate_rep
+                .nickname
+                .into_iter()
+                .next()
+                .ok_or_else(|| "nickname missing in YoMessageD".to_string())?,
         })
     }
 }
@@ -1203,11 +1375,15 @@ impl std::str::FromStr for YoMessageD {
 impl std::convert::TryFrom<header::IntoHeaderValue<YoMessageD>> for HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<YoMessageD>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<YoMessageD>,
+    ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for YoMessageD - value: {hdr_value} is invalid {e}"#))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for YoMessageD - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -1218,15 +1394,19 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<YoMessageD> 
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <YoMessageD as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into YoMessageD - {err}"#))
+            std::result::Result::Ok(value) => {
+                match <YoMessageD as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into YoMessageD - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }
-
-

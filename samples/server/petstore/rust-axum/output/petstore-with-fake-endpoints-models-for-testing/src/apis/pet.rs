@@ -13,7 +13,7 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum AddPetResponse {
     /// Invalid input
-    Status405_InvalidInput
+    Status405_InvalidInput,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -21,7 +21,7 @@ pub enum AddPetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum DeletePetResponse {
     /// Invalid pet value
-    Status400_InvalidPetValue
+    Status400_InvalidPetValue,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -29,11 +29,9 @@ pub enum DeletePetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum FindPetsByStatusResponse {
     /// successful operation
-    Status200_SuccessfulOperation
-    (String)
-    ,
+    Status200_SuccessfulOperation(String),
     /// Invalid status value
-    Status400_InvalidStatusValue
+    Status400_InvalidStatusValue,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -41,11 +39,9 @@ pub enum FindPetsByStatusResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum FindPetsByTagsResponse {
     /// successful operation
-    Status200_SuccessfulOperation
-    (String)
-    ,
+    Status200_SuccessfulOperation(String),
     /// Invalid tag value
-    Status400_InvalidTagValue
+    Status400_InvalidTagValue,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -53,14 +49,11 @@ pub enum FindPetsByTagsResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetPetByIdResponse {
     /// successful operation
-    Status200_SuccessfulOperation
-    (String)
-    ,
+    Status200_SuccessfulOperation(String),
     /// Invalid ID supplied
-    Status400_InvalidIDSupplied
-    ,
+    Status400_InvalidIDSupplied,
     /// Pet not found
-    Status404_PetNotFound
+    Status404_PetNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -68,13 +61,11 @@ pub enum GetPetByIdResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum UpdatePetResponse {
     /// Invalid ID supplied
-    Status400_InvalidIDSupplied
-    ,
+    Status400_InvalidIDSupplied,
     /// Pet not found
-    Status404_PetNotFound
-    ,
+    Status404_PetNotFound,
     /// Validation exception
-    Status405_ValidationException
+    Status405_ValidationException,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -82,7 +73,7 @@ pub enum UpdatePetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum UpdatePetWithFormResponse {
     /// Invalid input
-    Status405_InvalidInput
+    Status405_InvalidInput,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -90,12 +81,8 @@ pub enum UpdatePetWithFormResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum UploadFileResponse {
     /// successful operation
-    Status200_SuccessfulOperation
-    (models::ApiResponse)
+    Status200_SuccessfulOperation(models::ApiResponse),
 }
-
-
-
 
 /// Pet
 #[async_trait]

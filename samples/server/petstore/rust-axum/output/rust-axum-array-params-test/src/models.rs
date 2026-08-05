@@ -8,7 +8,14 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
-pub type SSE = std::pin::Pin<std::boxed::Box<dyn futures_util::Stream<Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>> + std::marker::Send + std::marker::Sync>>;
+pub type SSE = std::pin::Pin<
+    std::boxed::Box<
+        dyn futures_util::Stream<
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
+            > + std::marker::Send
+            + std::marker::Sync,
+    >,
+>;
 
 #[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
@@ -61,7 +68,9 @@ where
 }
 
 #[allow(dead_code)]
-pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result::Result<(), validator::ValidationError> {
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
     if v.keys().any(|k| ammonia::is_html(k)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
@@ -69,18 +78,15 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
     }
 }
 
-
-    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-    pub struct EndpointGetQueryParams {
-            /// Some numbers.
-                #[serde(rename = "numbers")]
-                    #[serde(default)]
-                    pub numbers: Vec<f64>,
-            /// Multipler for sum.
-                #[serde(rename = "multiplier")]
-                    #[serde(skip_serializing_if="Option::is_none")]
-                    pub multiplier: Option<f64>,
-    }
-
-
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct EndpointGetQueryParams {
+    /// Some numbers.
+    #[serde(rename = "numbers")]
+    #[serde(default)]
+    pub numbers: Vec<f64>,
+    /// Multipler for sum.
+    #[serde(rename = "multiplier")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub multiplier: Option<f64>,
+}

@@ -13,8 +13,7 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum AllOfGetResponse {
     /// OK
-    Status200_OK
-    (models::FooAllOfObject)
+    Status200_OK(models::FooAllOfObject),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -22,7 +21,7 @@ pub enum AllOfGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum DummyGetResponse {
     /// Success
-    Status200_Success
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -30,7 +29,7 @@ pub enum DummyGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum DummyPutResponse {
     /// Success
-    Status200_Success
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -38,8 +37,7 @@ pub enum DummyPutResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum FileResponseGetResponse {
     /// Success
-    Status200_Success
-    (ByteArray)
+    Status200_Success(ByteArray),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -47,8 +45,7 @@ pub enum FileResponseGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetStructuredYamlResponse {
     /// OK
-    Status200_OK
-    (String)
+    Status200_OK(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -56,8 +53,7 @@ pub enum GetStructuredYamlResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum HtmlPostResponse {
     /// Success
-    Status200_Success
-    (String)
+    Status200_Success(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -65,7 +61,7 @@ pub enum HtmlPostResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum PostYamlResponse {
     /// OK
-    Status204_OK
+    Status204_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -73,8 +69,7 @@ pub enum PostYamlResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum RawJsonGetResponse {
     /// Success
-    Status200_Success
-    (crate::types::Object)
+    Status200_Success(crate::types::Object),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -82,11 +77,8 @@ pub enum RawJsonGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum SoloObjectPostResponse {
     /// OK
-    Status204_OK
+    Status204_OK,
 }
-
-
-
 
 /// Default
 #[async_trait]

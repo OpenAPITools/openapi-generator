@@ -13,11 +13,8 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum EndpointGetResponse {
     /// OK.
-    Status200_OK
+    Status200_OK,
 }
-
-
-
 
 /// Default
 #[async_trait]

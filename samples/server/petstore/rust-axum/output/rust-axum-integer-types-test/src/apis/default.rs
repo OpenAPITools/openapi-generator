@@ -13,12 +13,8 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum GetIntegersResponse {
     /// OK
-    Status200_OK
-    (models::IntegerTypes)
+    Status200_OK(models::IntegerTypes),
 }
-
-
-
 
 /// Default
 #[async_trait]

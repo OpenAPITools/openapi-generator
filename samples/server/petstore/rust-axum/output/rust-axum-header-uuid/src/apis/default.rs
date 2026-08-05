@@ -13,12 +13,8 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum UsersPostResponse {
     /// Added row to table!
-    Status201_AddedRowToTable
-    (String)
+    Status201_AddedRowToTable(String),
 }
-
-
-
 
 /// Default
 #[async_trait]

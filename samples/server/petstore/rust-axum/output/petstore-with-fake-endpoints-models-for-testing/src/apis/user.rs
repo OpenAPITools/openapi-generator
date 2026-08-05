@@ -13,7 +13,7 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUserResponse {
     /// successful operation
-    Status0_SuccessfulOperation
+    Status0_SuccessfulOperation,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -21,7 +21,7 @@ pub enum CreateUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithArrayInputResponse {
     /// successful operation
-    Status0_SuccessfulOperation
+    Status0_SuccessfulOperation,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -29,7 +29,7 @@ pub enum CreateUsersWithArrayInputResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithListInputResponse {
     /// successful operation
-    Status0_SuccessfulOperation
+    Status0_SuccessfulOperation,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -37,10 +37,9 @@ pub enum CreateUsersWithListInputResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteUserResponse {
     /// Invalid username supplied
-    Status400_InvalidUsernameSupplied
-    ,
+    Status400_InvalidUsernameSupplied,
     /// User not found
-    Status404_UserNotFound
+    Status404_UserNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -48,14 +47,11 @@ pub enum DeleteUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetUserByNameResponse {
     /// successful operation
-    Status200_SuccessfulOperation
-    (String)
-    ,
+    Status200_SuccessfulOperation(String),
     /// Invalid username supplied
-    Status400_InvalidUsernameSupplied
-    ,
+    Status400_InvalidUsernameSupplied,
     /// User not found
-    Status404_UserNotFound
+    Status404_UserNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -63,22 +59,13 @@ pub enum GetUserByNameResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum LoginUserResponse {
     /// successful operation
-    Status200_SuccessfulOperation
-    {
+    Status200_SuccessfulOperation {
         body: String,
-        x_rate_limit:
-        Option<
-        i32
-        >
-        ,
-        x_expires_after:
-        Option<
-        chrono::DateTime::<chrono::Utc>
-        >
-    }
-    ,
+        x_rate_limit: Option<i32>,
+        x_expires_after: Option<chrono::DateTime<chrono::Utc>>,
+    },
     /// Invalid username/password supplied
-    Status400_InvalidUsername
+    Status400_InvalidUsername,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -86,7 +73,7 @@ pub enum LoginUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum LogoutUserResponse {
     /// successful operation
-    Status0_SuccessfulOperation
+    Status0_SuccessfulOperation,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -94,14 +81,10 @@ pub enum LogoutUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum UpdateUserResponse {
     /// Invalid user supplied
-    Status400_InvalidUserSupplied
-    ,
+    Status400_InvalidUserSupplied,
     /// User not found
-    Status404_UserNotFound
+    Status404_UserNotFound,
 }
-
-
-
 
 /// User
 #[async_trait]

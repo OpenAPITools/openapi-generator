@@ -13,16 +13,11 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum AnyOfGetResponse {
     /// Success
-    Status200_Success
-    (models::AnyOfObject)
-    ,
+    Status200_Success(models::AnyOfObject),
     /// AlternateSuccess
-    Status201_AlternateSuccess
-    (models::Model12345AnyOfObject)
-    ,
+    Status201_AlternateSuccess(models::Model12345AnyOfObject),
     /// AnyOfSuccess
-    Status202_AnyOfSuccess
-    (models::AnyOfGet202Response)
+    Status202_AnyOfSuccess(models::AnyOfGet202Response),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -30,7 +25,7 @@ pub enum AnyOfGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum CallbackWithHeaderPostResponse {
     /// OK
-    Status204_OK
+    Status204_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -38,7 +33,7 @@ pub enum CallbackWithHeaderPostResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum ComplexQueryParamGetResponse {
     /// Success
-    Status200_Success
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -46,7 +41,7 @@ pub enum ComplexQueryParamGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum EnumInPathPathParamGetResponse {
     /// Success
-    Status200_Success
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -54,8 +49,7 @@ pub enum EnumInPathPathParamGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum ExamplesTestResponse {
     /// OK
-    Status200_OK
-    (models::AdditionalPropertiesReferencedAnyOfObject)
+    Status200_OK(models::AdditionalPropertiesReferencedAnyOfObject),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -63,7 +57,7 @@ pub enum ExamplesTestResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum FormTestResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -71,7 +65,7 @@ pub enum FormTestResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetWithBooleanParameterResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -79,7 +73,7 @@ pub enum GetWithBooleanParameterResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum JsonComplexQueryParamGetResponse {
     /// Success
-    Status200_Success
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -87,7 +81,7 @@ pub enum JsonComplexQueryParamGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum MandatoryRequestHeaderGetResponse {
     /// Success
-    Status200_Success
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -95,8 +89,7 @@ pub enum MandatoryRequestHeaderGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum MergePatchJsonGetResponse {
     /// merge-patch+json-encoded response
-    Status200_Merge
-    (models::AnotherXmlObject)
+    Status200_Merge(models::AnotherXmlObject),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -104,32 +97,19 @@ pub enum MergePatchJsonGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum MultigetGetResponse {
     /// JSON rsp
-    Status200_JSONRsp
-    (models::AnotherXmlObject)
-    ,
+    Status200_JSONRsp(models::AnotherXmlObject),
     /// XML rsp
-    Status201_XMLRsp
-    (String)
-    ,
+    Status201_XMLRsp(String),
     /// octet rsp
-    Status202_OctetRsp
-    (ByteArray)
-    ,
+    Status202_OctetRsp(ByteArray),
     /// string rsp
-    Status203_StringRsp
-    (String)
-    ,
+    Status203_StringRsp(String),
     /// Duplicate Response long text. One.
-    Status204_DuplicateResponseLongText
-    (models::AnotherXmlObject)
-    ,
+    Status204_DuplicateResponseLongText(models::AnotherXmlObject),
     /// Duplicate Response long text. Two.
-    Status205_DuplicateResponseLongText
-    (models::AnotherXmlObject)
-    ,
+    Status205_DuplicateResponseLongText(models::AnotherXmlObject),
     /// Duplicate Response long text. Three.
-    Status206_DuplicateResponseLongText
-    (models::AnotherXmlObject)
+    Status206_DuplicateResponseLongText(models::AnotherXmlObject),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -137,7 +117,7 @@ pub enum MultigetGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum MultipleAuthSchemeGetResponse {
     /// Check that limiting to multiple required auth schemes works
-    Status200_CheckThatLimitingToMultipleRequiredAuthSchemesWorks
+    Status200_CheckThatLimitingToMultipleRequiredAuthSchemesWorks,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -145,7 +125,7 @@ pub enum MultipleAuthSchemeGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse {
     /// Success
-    Status200_Success
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -153,12 +133,9 @@ pub enum MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBG
 #[allow(clippy::large_enum_variant)]
 pub enum MultipleResponseContentTypesResponse {
     /// Created
-    Status201_Created
-    (models::AnyOfObject)
-    ,
+    Status201_Created(models::AnyOfObject),
     /// Forbidden
-    Status403_Forbidden
-    (String)
+    Status403_Forbidden(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -166,8 +143,7 @@ pub enum MultipleResponseContentTypesResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum OneOfGetResponse {
     /// Success
-    Status200_Success
-    (models::OneOfGet200Response)
+    Status200_Success(models::OneOfGet200Response),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -175,7 +151,7 @@ pub enum OneOfGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum OverrideServerGetResponse {
     /// Success.
-    Status204_Success
+    Status204_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -183,8 +159,7 @@ pub enum OverrideServerGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum ParamgetGetResponse {
     /// JSON rsp
-    Status200_JSONRsp
-    (models::AnotherXmlObject)
+    Status200_JSONRsp(models::AnotherXmlObject),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -192,7 +167,7 @@ pub enum ParamgetGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum QueryExampleGetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -200,7 +175,7 @@ pub enum QueryExampleGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum ReadonlyAuthSchemeGetResponse {
     /// Check that limiting to a single required auth scheme works
-    Status200_CheckThatLimitingToASingleRequiredAuthSchemeWorks
+    Status200_CheckThatLimitingToASingleRequiredAuthSchemeWorks,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -208,7 +183,7 @@ pub enum ReadonlyAuthSchemeGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum RegisterCallbackPostResponse {
     /// OK
-    Status204_OK
+    Status204_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -216,7 +191,7 @@ pub enum RegisterCallbackPostResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum RequiredBinaryStreamPutResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -224,7 +199,7 @@ pub enum RequiredBinaryStreamPutResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum RequiredOctetStreamPutResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -232,36 +207,17 @@ pub enum RequiredOctetStreamPutResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum ResponsesWithHeadersGetResponse {
     /// Success
-    Status200_Success
-    {
+    Status200_Success {
         body: String,
-        success_info:
-        String
-        ,
-        bool_header:
-        Option<
-        bool
-        >
-        ,
-        object_header:
-        Option<
-        models::ObjectHeader
-        >
-    }
-    ,
+        success_info: String,
+        bool_header: Option<bool>,
+        object_header: Option<models::ObjectHeader>,
+    },
     /// Precondition Failed
-    Status412_PreconditionFailed
-    {
-        further_info:
-        Option<
-        String
-        >
-        ,
-        failure_info:
-        Option<
-        String
-        >
-    }
+    Status412_PreconditionFailed {
+        further_info: Option<String>,
+        failure_info: Option<String>,
+    },
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -269,16 +225,11 @@ pub enum ResponsesWithHeadersGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Rfc7807GetResponse {
     /// OK
-    Status204_OK
-    (models::ObjectWithArrayOfObjects)
-    ,
+    Status204_OK(models::ObjectWithArrayOfObjects),
     /// NotFound
-    Status404_NotFound
-    (models::ObjectWithArrayOfObjects)
-    ,
+    Status404_NotFound(models::ObjectWithArrayOfObjects),
     /// NotAcceptable
-    Status406_NotAcceptable
-    (String)
+    Status406_NotAcceptable(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -286,7 +237,7 @@ pub enum Rfc7807GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum TwoFirstLetterHeadersResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -294,7 +245,7 @@ pub enum TwoFirstLetterHeadersResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum UntypedPropertyGetResponse {
     /// Check that untyped properties works
-    Status200_CheckThatUntypedPropertiesWorks
+    Status200_CheckThatUntypedPropertiesWorks,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -302,8 +253,7 @@ pub enum UntypedPropertyGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum UuidGetResponse {
     /// Duplicate Response long text. One.
-    Status200_DuplicateResponseLongText
-    (uuid::Uuid)
+    Status200_DuplicateResponseLongText(uuid::Uuid),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -311,10 +261,9 @@ pub enum UuidGetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum XmlExtraPostResponse {
     /// OK
-    Status201_OK
-    ,
+    Status201_OK,
     /// Bad Request
-    Status400_BadRequest
+    Status400_BadRequest,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -322,11 +271,9 @@ pub enum XmlExtraPostResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum XmlOtherPostResponse {
     /// OK
-    Status201_OK
-    (String)
-    ,
+    Status201_OK(String),
     /// Bad Request
-    Status400_BadRequest
+    Status400_BadRequest,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -334,10 +281,9 @@ pub enum XmlOtherPostResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum XmlOtherPutResponse {
     /// OK
-    Status201_OK
-    ,
+    Status201_OK,
     /// Bad Request
-    Status400_BadRequest
+    Status400_BadRequest,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -345,10 +291,9 @@ pub enum XmlOtherPutResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum XmlPostResponse {
     /// OK
-    Status201_OK
-    ,
+    Status201_OK,
     /// Bad Request
-    Status400_BadRequest
+    Status400_BadRequest,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -356,14 +301,10 @@ pub enum XmlPostResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum XmlPutResponse {
     /// OK
-    Status201_OK
-    ,
+    Status201_OK,
     /// Bad Request
-    Status400_BadRequest
+    Status400_BadRequest,
 }
-
-
-
 
 /// Default
 #[async_trait]

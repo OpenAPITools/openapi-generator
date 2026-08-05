@@ -13,12 +13,9 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum GetPaymentMethodByIdResponse {
     /// OK - the request has succeeded.
-    Status200_OK
-    (models::PaymentMethod)
-    ,
+    Status200_OK(models::PaymentMethod),
     /// Unprocessable Entity - a request validation error.
-    Status422_UnprocessableEntity
-    (models::CheckoutError)
+    Status422_UnprocessableEntity(models::CheckoutError),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -26,8 +23,7 @@ pub enum GetPaymentMethodByIdResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetPaymentMethodsResponse {
     /// OK - the request has succeeded.
-    Status200_OK
-    (Vec<models::PaymentMethod>)
+    Status200_OK(Vec<models::PaymentMethod>),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -35,21 +31,17 @@ pub enum GetPaymentMethodsResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum PostMakePaymentResponse {
     /// OK - the request has succeeded.
-    Status200_OK
-    (models::PaymentResult)
-    ,
+    Status200_OK(models::PaymentResult),
     /// Unprocessable Entity - a request validation error.
-    Status422_UnprocessableEntity
-    (models::CheckoutError)
+    Status422_UnprocessableEntity(models::CheckoutError),
 }
-
-
-
 
 /// Payments
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
+pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
+    super::ErrorHandler<E>
+{
     type Claims;
 
     /// Get payment method by id.

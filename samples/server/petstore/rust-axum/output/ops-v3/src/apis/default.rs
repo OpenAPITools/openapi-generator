@@ -13,7 +13,7 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum Op10GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -21,7 +21,7 @@ pub enum Op10GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op11GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -29,7 +29,7 @@ pub enum Op11GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op12GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -37,7 +37,7 @@ pub enum Op12GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op13GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -45,7 +45,7 @@ pub enum Op13GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op14GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -53,7 +53,7 @@ pub enum Op14GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op15GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -61,7 +61,7 @@ pub enum Op15GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op16GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -69,7 +69,7 @@ pub enum Op16GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op17GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -77,7 +77,7 @@ pub enum Op17GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op18GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -85,7 +85,7 @@ pub enum Op18GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op19GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -93,7 +93,7 @@ pub enum Op19GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op1GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -101,7 +101,7 @@ pub enum Op1GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op20GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -109,7 +109,7 @@ pub enum Op20GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op21GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -117,7 +117,7 @@ pub enum Op21GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op22GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -125,7 +125,7 @@ pub enum Op22GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op23GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -133,7 +133,7 @@ pub enum Op23GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op24GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -141,7 +141,7 @@ pub enum Op24GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op25GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -149,7 +149,7 @@ pub enum Op25GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op26GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -157,7 +157,7 @@ pub enum Op26GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op27GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -165,7 +165,7 @@ pub enum Op27GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op28GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -173,7 +173,7 @@ pub enum Op28GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op29GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -181,7 +181,7 @@ pub enum Op29GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op2GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -189,7 +189,7 @@ pub enum Op2GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op30GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -197,7 +197,7 @@ pub enum Op30GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op31GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -205,7 +205,7 @@ pub enum Op31GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op32GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -213,7 +213,7 @@ pub enum Op32GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op33GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -221,7 +221,7 @@ pub enum Op33GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op34GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -229,7 +229,7 @@ pub enum Op34GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op35GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -237,7 +237,7 @@ pub enum Op35GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op36GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -245,7 +245,7 @@ pub enum Op36GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op37GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -253,7 +253,7 @@ pub enum Op37GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op3GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -261,7 +261,7 @@ pub enum Op3GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op4GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -269,7 +269,7 @@ pub enum Op4GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op5GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -277,7 +277,7 @@ pub enum Op5GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op6GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -285,7 +285,7 @@ pub enum Op6GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op7GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -293,7 +293,7 @@ pub enum Op7GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op8GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -301,11 +301,8 @@ pub enum Op8GetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum Op9GetResponse {
     /// OK
-    Status200_OK
+    Status200_OK,
 }
-
-
-
 
 /// Default
 #[async_trait]

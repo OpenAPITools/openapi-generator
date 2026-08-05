@@ -13,8 +13,7 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum FooResponse {
     /// Re-serialize and echo the request data
-    Status200_Re
-    (models::Message)
+    Status200_Re(models::Message),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -22,8 +21,7 @@ pub enum FooResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum I211431Response {
     /// Re-serialize and echo the request data
-    Status200_Re
-    (models::Message)
+    Status200_Re(models::Message),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -31,8 +29,7 @@ pub enum I211431Response {
 #[allow(clippy::large_enum_variant)]
 pub enum I211432Response {
     /// Re-serialize and echo the request data
-    Status200_Re
-    (models::Message)
+    Status200_Re(models::Message),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -40,12 +37,8 @@ pub enum I211432Response {
 #[allow(clippy::large_enum_variant)]
 pub enum I211433Response {
     /// Re-serialize and echo the request data
-    Status200_Re
-    (models::Message)
+    Status200_Re(models::Message),
 }
-
-
-
 
 /// Default
 #[async_trait]

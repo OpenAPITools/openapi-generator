@@ -13,11 +13,8 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum CreateRepoResponse {
     /// Success
-    Status200_Success
+    Status200_Success,
 }
-
-
-
 
 /// Repo
 #[async_trait]

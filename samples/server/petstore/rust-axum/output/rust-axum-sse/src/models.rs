@@ -8,7 +8,14 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
-pub type SSE = std::pin::Pin<std::boxed::Box<dyn futures_util::Stream<Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>> + std::marker::Send + std::marker::Sync>>;
+pub type SSE = std::pin::Pin<
+    std::boxed::Box<
+        dyn futures_util::Stream<
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
+            > + std::marker::Send
+            + std::marker::Sync,
+    >,
+>;
 
 #[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
@@ -61,7 +68,9 @@ where
 }
 
 #[allow(dead_code)]
-pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result::Result<(), validator::ValidationError> {
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
     if v.keys().any(|k| ammonia::is_html(k)) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
     } else {
@@ -69,34 +78,28 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
     }
 }
 
-
-
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct LiveUpdatesGet200Response {
     /// Payload data
     #[serde(rename = "data")]
-          #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if="Option::is_none")]
+    #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub data: Option<String>,
 
     /// Event type
     #[serde(rename = "event")]
-          #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if="Option::is_none")]
+    #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub event: Option<String>,
-
 }
-
-
 
 impl LiveUpdatesGet200Response {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> LiveUpdatesGet200Response {
         LiveUpdatesGet200Response {
- data: None,
- event: None,
+            data: None,
+            event: None,
         }
     }
 }
@@ -107,25 +110,19 @@ impl LiveUpdatesGet200Response {
 impl std::fmt::Display for LiveUpdatesGet200Response {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-
-            self.data.as_ref().map(|data| {
-                [
-                    "data".to_string(),
-                    data.to_string(),
-                ].join(",")
-            }),
-
-
-            self.event.as_ref().map(|event| {
-                [
-                    "event".to_string(),
-                    event.to_string(),
-                ].join(",")
-            }),
-
+            self.data
+                .as_ref()
+                .map(|data| ["data".to_string(), data.to_string()].join(",")),
+            self.event
+                .as_ref()
+                .map(|event| ["event".to_string(), event.to_string()].join(",")),
         ];
 
-        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -153,17 +150,29 @@ impl std::str::FromStr for LiveUpdatesGet200Response {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing LiveUpdatesGet200Response".to_string())
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing LiveUpdatesGet200Response".to_string(),
+                    )
+                }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "data" => intermediate_rep.data.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "data" => intermediate_rep.data.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
                     #[allow(clippy::redundant_clone)]
-                    "event" => intermediate_rep.event.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing LiveUpdatesGet200Response".to_string())
+                    "event" => intermediate_rep.event.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing LiveUpdatesGet200Response".to_string(),
+                        )
+                    }
                 }
             }
 
@@ -185,11 +194,15 @@ impl std::str::FromStr for LiveUpdatesGet200Response {
 impl std::convert::TryFrom<header::IntoHeaderValue<LiveUpdatesGet200Response>> for HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<LiveUpdatesGet200Response>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<LiveUpdatesGet200Response>,
+    ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for LiveUpdatesGet200Response - value: {hdr_value} is invalid {e}"#))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for LiveUpdatesGet200Response - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -200,37 +213,36 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<LiveUpdatesG
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <LiveUpdatesGet200Response as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into LiveUpdatesGet200Response - {err}"#))
+            std::result::Result::Ok(value) => {
+                match <LiveUpdatesGet200Response as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into LiveUpdatesGet200Response - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }
-
-
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct LiveUpdatesGet201Response {
     #[serde(rename = "data")]
-          #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if="Option::is_none")]
+    #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub data: Option<String>,
-
 }
-
-
 
 impl LiveUpdatesGet201Response {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> LiveUpdatesGet201Response {
-        LiveUpdatesGet201Response {
- data: None,
-        }
+        LiveUpdatesGet201Response { data: None }
     }
 }
 
@@ -239,18 +251,16 @@ impl LiveUpdatesGet201Response {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for LiveUpdatesGet201Response {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![
+        let params: Vec<Option<String>> = vec![self
+            .data
+            .as_ref()
+            .map(|data| ["data".to_string(), data.to_string()].join(","))];
 
-            self.data.as_ref().map(|data| {
-                [
-                    "data".to_string(),
-                    data.to_string(),
-                ].join(",")
-            }),
-
-        ];
-
-        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -277,15 +287,25 @@ impl std::str::FromStr for LiveUpdatesGet201Response {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing LiveUpdatesGet201Response".to_string())
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing LiveUpdatesGet201Response".to_string(),
+                    )
+                }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "data" => intermediate_rep.data.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing LiveUpdatesGet201Response".to_string())
+                    "data" => intermediate_rep.data.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing LiveUpdatesGet201Response".to_string(),
+                        )
+                    }
                 }
             }
 
@@ -306,11 +326,15 @@ impl std::str::FromStr for LiveUpdatesGet201Response {
 impl std::convert::TryFrom<header::IntoHeaderValue<LiveUpdatesGet201Response>> for HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<LiveUpdatesGet201Response>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<LiveUpdatesGet201Response>,
+    ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for LiveUpdatesGet201Response - value: {hdr_value} is invalid {e}"#))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for LiveUpdatesGet201Response - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -321,15 +345,19 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<LiveUpdatesG
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <LiveUpdatesGet201Response as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into LiveUpdatesGet201Response - {err}"#))
+            std::result::Result::Ok(value) => {
+                match <LiveUpdatesGet201Response as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into LiveUpdatesGet201Response - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }
-
-

@@ -13,17 +13,15 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum GetRepoInfoResponse {
     /// OK
-    Status200_OK
-    (String)
+    Status200_OK(String),
 }
-
-
-
 
 /// InfoRepo
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait InfoRepo<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
+pub trait InfoRepo<E: std::fmt::Debug + Send + Sync + 'static = ()>:
+    super::ErrorHandler<E>
+{
     /// GetRepoInfo - GET /repos/{repoId}
     async fn get_repo_info(
         &self,
