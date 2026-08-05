@@ -182,17 +182,25 @@ public class OpenAPINormalizer {
     public static OpenAPINormalizer createNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
         if (inputRules.containsKey(NORMALIZER_CLASS)) {
             String className = inputRules.get(NORMALIZER_CLASS);
+            Class<?> clazz;
             try {
-                Class<?> clazz = loadNormalizerClass(className);
-                Constructor<?> constructor = clazz.getConstructor(OpenAPI.class, Map.class);
-                return (OpenAPINormalizer) constructor.newInstance(openAPI, inputRules);
-            } catch (ReflectiveOperationException e) {
+                clazz = loadNormalizerClass(className);
+            } catch (ClassNotFoundException e) {
                 throw new RuntimeException(
                         "Failed to load custom " + NORMALIZER_CLASS + " '" + className + "'. This class must be "
                                 + "visible on the generation runtime classpath (i.e. resolvable either by the "
                                 + "current thread's context classloader or by the classloader that loaded "
                                 + "openapi-generator itself). Ensure the class (and its dependencies) is on the "
                                 + "classpath used to launch the generator.", e);
+            }
+            try {
+                Constructor<?> constructor = clazz.getConstructor(OpenAPI.class, Map.class);
+                return (OpenAPINormalizer) constructor.newInstance(openAPI, inputRules);
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException(
+                        "Failed to instantiate custom " + NORMALIZER_CLASS + " '" + className + "'. The class was "
+                                + "found but could not be constructed; it must declare a public constructor "
+                                + "accepting (OpenAPI, Map<String, String>) and that constructor must not throw.", e);
             }
         } else {
             return new OpenAPINormalizer(openAPI, inputRules);

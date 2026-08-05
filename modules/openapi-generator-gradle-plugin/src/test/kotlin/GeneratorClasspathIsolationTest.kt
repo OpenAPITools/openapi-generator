@@ -2,6 +2,7 @@ package org.openapitools.generator.gradle.plugin
 
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.testng.annotations.AfterMethod
 import org.testng.annotations.Test
 import java.io.File
 import java.io.FileOutputStream
@@ -31,6 +32,14 @@ class GeneratorClasspathIsolationTest : TestBase() {
         private const val NORMALIZER_CLASS_NAME = "com.example.fixture.NoOpNormalizer"
     }
 
+    private val fixtureRoots = mutableListOf<File>()
+
+    @AfterMethod
+    fun cleanUpFixtureRoots() {
+        fixtureRoots.forEach { it.deleteRecursively() }
+        fixtureRoots.clear()
+    }
+
     /**
      * Compiles a trivial `OpenAPINormalizer` subclass and packages it into a jar file that is
      * *not* on the Gradle plugin's own runtime/test classpath, simulating a user-supplied
@@ -38,6 +47,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
      */
     private fun buildNormalizerFixtureJar(): File {
         val fixtureRoot = Files.createTempDirectory("normalizer-fixture").toFile()
+        fixtureRoots.add(fixtureRoot)
         val sourceDir = File(fixtureRoot, "src").apply { mkdirs() }
         val classesDir = File(fixtureRoot, "classes").apply { mkdirs() }
 
@@ -125,6 +135,12 @@ class GeneratorClasspathIsolationTest : TestBase() {
         assertTrue(
             result.output.contains(NORMALIZER_CLASS_NAME),
             "Expected the clear error message to reference the unresolvable class name, got:\n${result.output}"
+        )
+        // Additional, more stable marker: our custom normalizer wrapping message should also be present,
+        // independent of the exact stack trace formatting DefaultGenerator happens to log.
+        assertTrue(
+            result.output.contains("Failed to load custom NORMALIZER_CLASS"),
+            "Expected the wrapped classpath-guidance message to be logged, got:\n${result.output}"
         )
     }
 

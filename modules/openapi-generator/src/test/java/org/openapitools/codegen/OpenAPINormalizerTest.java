@@ -1820,19 +1820,16 @@ public class OpenAPINormalizerTest {
         }
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
+    @Test
     public void testNormalizerClassNotFoundProducesClearErrorMessage() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/required-properties.yaml");
         Map<String, String> inputRules = Map.of(
                 "NORMALIZER_CLASS", "org.openapitools.codegen.DoesNotExistNormalizer"
         );
-        try {
-            OpenAPINormalizer.createNormalizer(openAPI, inputRules);
-        } catch (RuntimeException e) {
-            assertTrue(e.getMessage().contains("org.openapitools.codegen.DoesNotExistNormalizer"));
-            assertTrue(e.getMessage().contains("classpath"));
-            throw e;
-        }
+        RuntimeException e = expectThrows(RuntimeException.class,
+                () -> OpenAPINormalizer.createNormalizer(openAPI, inputRules));
+        assertTrue(e.getMessage().contains("org.openapitools.codegen.DoesNotExistNormalizer"));
+        assertTrue(e.getMessage().contains("classpath"));
     }
 
     /**
