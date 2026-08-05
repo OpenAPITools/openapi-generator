@@ -27,6 +27,7 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * A pet for sale in the pet store
@@ -42,22 +43,28 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Pet (
 
+    @param:JsonProperty("name")
     @get:JsonProperty("name")
     val name: kotlin.String,
 
+    @param:JsonProperty("photoUrls")
     @get:JsonProperty("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
 
+    @param:JsonProperty("id")
     @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
+    @param:JsonProperty("category")
     @get:JsonProperty("category")
     val category: Category? = null,
 
+    @param:JsonProperty("tags")
     @get:JsonProperty("tags")
     val tags: kotlin.collections.List<Tag>? = null,
 
     /* pet status in the store */
+    @param:JsonProperty("status")
     @get:JsonProperty("status")
     @Deprecated(message = "This property is deprecated.")
     val status: Pet.Status? = null
@@ -69,7 +76,7 @@ data class Pet (
      *
      * Values: available,pending,sold
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "available") available("available"),
         @JsonProperty(value = "pending") pending("pending"),
         @JsonProperty(value = "sold") sold("sold");

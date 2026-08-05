@@ -74,8 +74,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Cat" />
     /// </summary>
-    public class CatJsonConverter : JsonConverter<Cat>
+    public partial class CatJsonConverter : JsonConverter<Cat>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CatJsonConverter" /> class.
+        /// </summary>
+        public CatJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Cat" />
         /// </summary>

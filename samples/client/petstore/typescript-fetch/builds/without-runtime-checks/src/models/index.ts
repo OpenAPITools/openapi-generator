@@ -8,14 +8,10 @@
 export interface Category {
     /**
      * 
-     * @type {number}
-     * @memberof Category
      */
     id?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Category
      */
     name?: string;
 }
@@ -27,20 +23,14 @@ export interface Category {
 export interface ModelApiResponse {
     /**
      * 
-     * @type {number}
-     * @memberof ModelApiResponse
      */
     code?: number;
     /**
      * 
-     * @type {string}
-     * @memberof ModelApiResponse
      */
     type?: string;
     /**
      * 
-     * @type {string}
-     * @memberof ModelApiResponse
      */
     message?: string;
 }
@@ -52,38 +42,26 @@ export interface ModelApiResponse {
 export interface Order {
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     id?: number;
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     petId?: number;
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     quantity?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Order
      */
     shipDate?: string;
     /**
      * Order Status
-     * @type {OrderStatusEnum}
-     * @memberof Order
      */
     status?: OrderStatusEnum;
     /**
      * 
-     * @type {boolean}
-     * @memberof Order
      */
     complete?: boolean;
 }
@@ -107,38 +85,26 @@ export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnu
 export interface Pet {
     /**
      * 
-     * @type {number}
-     * @memberof Pet
      */
     id?: number;
     /**
      * 
-     * @type {Category}
-     * @memberof Pet
      */
     category?: Category;
     /**
      * 
-     * @type {string}
-     * @memberof Pet
      */
     name: string;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof Pet
      */
     photoUrls: Array<string>;
     /**
      * 
-     * @type {Array<Tag>}
-     * @memberof Pet
      */
     tags?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {PetStatusEnum}
-     * @memberof Pet
      */
     status?: PetStatusEnum;
 }
@@ -162,14 +128,10 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 export interface Tag {
     /**
      * 
-     * @type {number}
-     * @memberof Tag
      */
     id?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Tag
      */
     name?: string;
 }
@@ -181,50 +143,34 @@ export interface Tag {
 export interface User {
     /**
      * 
-     * @type {number}
-     * @memberof User
      */
     id?: number;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     username?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     firstName?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     lastName?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     email?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     password?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     phone?: string;
     /**
      * User Status
-     * @type {number}
-     * @memberof User
      */
     userStatus?: number;
 }

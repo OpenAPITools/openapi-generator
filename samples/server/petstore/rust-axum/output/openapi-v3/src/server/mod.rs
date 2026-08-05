@@ -2,12 +2,12 @@ use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
 use axum_extra::{
-    TypedHeader,
     extract::{CookieJar, Query as QueryExtra},
+    TypedHeader,
 };
 use bytes::Bytes;
 use headers::Host;
-use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
+use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
@@ -70,6 +70,9 @@ where
         .route("/multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}",
             get(multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get::<I, A, E>)
         )
+        .route("/multiple-response-content-types",
+            post(multiple_response_content_types::<I, A, E>)
+        )
         .route("/multiple_auth_scheme",
             get(multiple_auth_scheme_get::<I, A, E>)
         )
@@ -99,6 +102,9 @@ where
         )
         .route("/repos/{repo_id}",
             get(get_repo_info::<I, A, E>)
+        )
+        .route("/required_binary_stream",
+            put(required_binary_stream_put::<I, A, E>)
         )
         .route("/required_octet_stream",
             put(required_octet_stream_put::<I, A, E>)
@@ -163,11 +169,10 @@ where
         .any_of_get(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::AnyOfGetResponse::Status200_Success(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -186,6 +191,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::AnyOfGetResponse::Status201_AlternateSuccess(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -204,6 +210,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::AnyOfGetResponse::Status202_AnyOfSuccess(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(202);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -274,11 +281,10 @@ where
         .callback_with_header_post(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::CallbackWithHeaderPostResponse::Status204_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }
@@ -335,11 +341,10 @@ where
         .complex_query_param_get(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::ComplexQueryParamGetResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -396,11 +401,10 @@ where
         .enum_in_path_path_param_get(&method, &host, &cookies, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::EnumInPathPathParamGetResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -457,11 +461,10 @@ where
         .examples_test(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::ExamplesTestResponse::Status200_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -540,11 +543,10 @@ where
         .form_test(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::FormTestResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -601,11 +603,10 @@ where
         .get_with_boolean_parameter(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::GetWithBooleanParameterResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -662,11 +663,10 @@ where
         .json_complex_query_param_get(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::JsonComplexQueryParamGetResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -756,11 +756,10 @@ where
         .mandatory_request_header_get(&method, &host, &cookies, &header_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::MandatoryRequestHeaderGetResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -812,11 +811,10 @@ where
         .merge_patch_json_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::MergePatchJsonGetResponse::Status200_Merge(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -884,11 +882,10 @@ where
         .multiget_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::MultigetGetResponse::Status200_JSONRsp(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -907,6 +904,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::MultigetGetResponse::Status201_XMLRsp(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -917,6 +915,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::MultigetGetResponse::Status202_OctetRsp(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(202);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -930,6 +929,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::MultigetGetResponse::Status203_StringRsp(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(203);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -940,6 +940,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::MultigetGetResponse::Status204_DuplicateResponseLongText(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(204);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -958,6 +959,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::MultigetGetResponse::Status205_DuplicateResponseLongText(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(205);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -976,6 +978,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::MultigetGetResponse::Status206_DuplicateResponseLongText(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(206);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1041,12 +1044,11 @@ where
         .multiple_auth_scheme_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
                                             Ok(rsp) => match rsp {
                                                 apis::default::MultipleAuthSchemeGetResponse::Status200_CheckThatLimitingToMultipleRequiredAuthSchemesWorks
                                                 => {
+                                                let mut response = Response::builder();
                                                   let mut response = response.status(200);
                                                   response.body(Body::empty())
                                                 },
@@ -1118,12 +1120,11 @@ where
         )
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
                                             Ok(rsp) => match rsp {
                                                 apis::default::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse::Status200_Success
                                                 => {
+                                                let mut response = Response::builder();
                                                   let mut response = response.status(200);
                                                   response.body(Body::empty())
                                                 },
@@ -1134,6 +1135,99 @@ where
                                                     return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct MultipleResponseContentTypesBodyValidator<'a> {
+    #[validate(nested)]
+    body: &'a models::ObjectParam,
+}
+
+#[tracing::instrument(skip_all)]
+fn multiple_response_content_types_validation(
+    body: models::ObjectParam,
+) -> std::result::Result<(models::ObjectParam,), ValidationErrors> {
+    let b = MultipleResponseContentTypesBodyValidator { body: &body };
+    b.validate()?;
+
+    Ok((body,))
+}
+/// MultipleResponseContentTypes - POST /multiple-response-content-types
+#[tracing::instrument(skip_all)]
+async fn multiple_response_content_types<I, A, E>(
+    method: Method,
+    TypedHeader(host): TypedHeader<Host>,
+    cookies: CookieJar,
+    State(api_impl): State<I>,
+    Json(body): Json<models::ObjectParam>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
+{
+    let validation = multiple_response_content_types_validation(body);
+
+    let Ok((body,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .multiple_response_content_types(&method, &host, &cookies, &body)
+        .await;
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::MultipleResponseContentTypesResponse::Status201_Created(body) => {
+                let mut response = Response::builder();
+                let mut response = response.status(201);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                }
+
+                let body_content = tokio::task::spawn_blocking(move || {
+                    serde_json::to_vec(&body).map_err(|e| {
+                        error!(error = ?e);
+                        StatusCode::INTERNAL_SERVER_ERROR
+                    })
+                })
+                .await
+                .unwrap()?;
+                response.body(Body::from(body_content))
+            }
+            apis::default::MultipleResponseContentTypesResponse::Status403_Forbidden(body) => {
+                let mut response = Response::builder();
+                let mut response = response.status(403);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
+                }
+
+                let body_content = body;
+                response.body(Body::from(body_content))
+            }
+        },
+        Err(why) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
+        }
+    };
 
     resp.map_err(|e| {
         error!(error = ?e);
@@ -1169,11 +1263,10 @@ where
 
     let result = api_impl.as_ref().one_of_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::OneOfGetResponse::Status200_Success(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1239,11 +1332,10 @@ where
         .override_server_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::OverrideServerGetResponse::Status204_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }
@@ -1300,11 +1392,10 @@ where
         .paramget_get(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::ParamgetGetResponse::Status200_JSONRsp(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1375,11 +1466,10 @@ where
         .query_example_get(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::QueryExampleGetResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1431,12 +1521,11 @@ where
         .readonly_auth_scheme_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
                                             Ok(rsp) => match rsp {
                                                 apis::default::ReadonlyAuthSchemeGetResponse::Status200_CheckThatLimitingToASingleRequiredAuthSchemeWorks
                                                 => {
+                                                let mut response = Response::builder();
                                                   let mut response = response.status(200);
                                                   response.body(Body::empty())
                                                 },
@@ -1490,12 +1579,75 @@ where
         .register_callback_post(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::RegisterCallbackPostResponse::Status204_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(204);
+                response.body(Body::empty())
+            }
+        },
+        Err(why) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct RequiredBinaryStreamPutBodyValidator<'a> {
+    body: &'a [u8],
+}
+
+#[tracing::instrument(skip_all)]
+fn required_binary_stream_put_validation(
+    body: Bytes,
+) -> std::result::Result<(Bytes,), ValidationErrors> {
+    Ok((body,))
+}
+/// RequiredBinaryStreamPut - PUT /required_binary_stream
+#[tracing::instrument(skip_all)]
+async fn required_binary_stream_put<I, A, E>(
+    method: Method,
+    TypedHeader(host): TypedHeader<Host>,
+    cookies: CookieJar,
+    State(api_impl): State<I>,
+    body: Bytes,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
+{
+    let validation = required_binary_stream_put_validation(body);
+
+    let Ok((body,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .required_binary_stream_put(&method, &host, &cookies, &body)
+        .await;
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::RequiredBinaryStreamPutResponse::Status200_OK => {
+                let mut response = Response::builder();
+                let mut response = response.status(200);
                 response.body(Body::empty())
             }
         },
@@ -1555,11 +1707,10 @@ where
         .required_octet_stream_put(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::RequiredOctetStreamPutResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1611,8 +1762,6 @@ where
         .responses_with_headers_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::ResponsesWithHeadersGetResponse::Status200_Success {
@@ -1621,16 +1770,17 @@ where
                 bool_header,
                 object_header,
             } => {
-                let success_info = match header::IntoHeaderValue(success_info).try_into() {
-                    Ok(val) => val,
-                    Err(e) => {
-                        return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling success_info header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
-                    }
-                };
-
+                let mut response = Response::builder();
                 {
+                    let success_info = match header::IntoHeaderValue(success_info).try_into() {
+                        Ok(val) => val,
+                        Err(e) => {
+                            return Response::builder()
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling success_info header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                        }
+                    };
+
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(HeaderName::from_static("success-info"), success_info);
                 }
@@ -1639,32 +1789,27 @@ where
                         Ok(val) => val,
                         Err(e) => {
                             return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling bool_header header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling bool_header header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
-                    {
-                        let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("bool-header"), bool_header);
-                    }
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers.insert(HeaderName::from_static("bool-header"), bool_header);
                 }
                 if let Some(object_header) = object_header {
                     let object_header = match header::IntoHeaderValue(object_header).try_into() {
                         Ok(val) => val,
                         Err(e) => {
                             return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling object_header header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling object_header header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
-                    {
-                        let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("object-header"), object_header);
-                    }
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(HeaderName::from_static("object-header"), object_header);
                 }
                 let mut response = response.status(200);
                 {
@@ -1687,37 +1832,32 @@ where
                 further_info,
                 failure_info,
             } => {
+                let mut response = Response::builder();
                 if let Some(further_info) = further_info {
                     let further_info = match header::IntoHeaderValue(further_info).try_into() {
                         Ok(val) => val,
                         Err(e) => {
                             return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling further_info header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling further_info header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
-                    {
-                        let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("further-info"), further_info);
-                    }
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers.insert(HeaderName::from_static("further-info"), further_info);
                 }
                 if let Some(failure_info) = failure_info {
                     let failure_info = match header::IntoHeaderValue(failure_info).try_into() {
                         Ok(val) => val,
                         Err(e) => {
                             return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling failure_info header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling failure_info header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
-                    {
-                        let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("failure-info"), failure_info);
-                    }
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers.insert(HeaderName::from_static("failure-info"), failure_info);
                 }
                 let mut response = response.status(412);
                 response.body(Body::empty())
@@ -1770,11 +1910,10 @@ where
         .rfc7807_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::Rfc7807GetResponse::Status204_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(204);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1793,6 +1932,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::Rfc7807GetResponse::Status404_NotFound(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1813,6 +1953,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::Rfc7807GetResponse::Status406_NotAcceptable(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(406);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1918,11 +2059,10 @@ where
         .two_first_letter_headers(&method, &host, &cookies, &header_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::TwoFirstLetterHeadersResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1989,12 +2129,11 @@ where
         .untyped_property_get(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
                                             Ok(rsp) => match rsp {
                                                 apis::default::UntypedPropertyGetResponse::Status200_CheckThatUntypedPropertiesWorks
                                                 => {
+                                                let mut response = Response::builder();
                                                   let mut response = response.status(200);
                                                   response.body(Body::empty())
                                                 },
@@ -2040,11 +2179,10 @@ where
 
     let result = api_impl.as_ref().uuid_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::UuidGetResponse::Status200_DuplicateResponseLongText(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2117,15 +2255,15 @@ where
         .xml_extra_post(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::XmlExtraPostResponse::Status201_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
             apis::default::XmlExtraPostResponse::Status400_BadRequest => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -2184,11 +2322,10 @@ where
         .xml_other_post(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::XmlOtherPostResponse::Status201_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2199,6 +2336,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::default::XmlOtherPostResponse::Status400_BadRequest => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -2257,15 +2395,15 @@ where
         .xml_other_put(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::XmlOtherPutResponse::Status201_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
             apis::default::XmlOtherPutResponse::Status400_BadRequest => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -2324,15 +2462,15 @@ where
         .xml_post(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::XmlPostResponse::Status201_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
             apis::default::XmlPostResponse::Status400_BadRequest => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -2391,15 +2529,15 @@ where
         .xml_put(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::XmlPutResponse::Status201_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
             apis::default::XmlPutResponse::Status400_BadRequest => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -2456,11 +2594,10 @@ where
         .get_repo_info(&method, &host, &cookies, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::info_repo::GetRepoInfoResponse::Status200_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2539,11 +2676,10 @@ where
         .create_repo(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::repo::CreateRepoResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }

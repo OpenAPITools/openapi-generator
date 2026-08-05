@@ -134,7 +134,7 @@ import java.util.concurrent.atomic.AtomicLong
     private var isAdaptersInitialized = false
 
     @JvmStatic
-    val kotlinxSerializationAdapters: SerializersModule by lazy {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val kotlinxSerializationAdapters: SerializersModule by lazy {
         isAdaptersInitialized = true
         SerializersModule {
             contextual(BigDecimal::class, BigDecimalAdapter)
@@ -156,7 +156,7 @@ import java.util.concurrent.atomic.AtomicLong
         }
     }
 
-    var kotlinxSerializationAdaptersConfiguration: SerializersModuleBuilder.() -> Unit = {}
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var kotlinxSerializationAdaptersConfiguration: SerializersModuleBuilder.() -> Unit = {}
         set(value) {
             check(!isAdaptersInitialized) {
                 "Cannot configure kotlinxSerializationAdaptersConfiguration after kotlinxSerializationAdapters has been initialized."
@@ -167,7 +167,7 @@ import java.util.concurrent.atomic.AtomicLong
     private var isJsonInitialized = false
 
     @JvmStatic
-    val kotlinxSerializationJson: Json by lazy {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val kotlinxSerializationJson: Json by lazy {
         isJsonInitialized = true
         Json {
             serializersModule = kotlinxSerializationAdapters
@@ -179,7 +179,7 @@ import java.util.concurrent.atomic.AtomicLong
         }
     }
 
-    var kotlinxSerializationJsonConfiguration: JsonBuilder.() -> Unit = {}
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var kotlinxSerializationJsonConfiguration: JsonBuilder.() -> Unit = {}
         set(value) {
             check(!isJsonInitialized) {
                 "Cannot configure kotlinxSerializationJsonConfiguration after kotlinxSerializationJson has been initialized."

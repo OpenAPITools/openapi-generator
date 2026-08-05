@@ -2,12 +2,12 @@ use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
 use axum_extra::{
-    TypedHeader,
     extract::{CookieJar, Query as QueryExtra},
+    TypedHeader,
 };
 use bytes::Bytes;
 use headers::Host;
-use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
+use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
@@ -80,11 +80,10 @@ where
         .multipart_related_request_post(&method, &host, &cookies, body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::MultipartRelatedRequestPostResponse::Status201_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
@@ -140,11 +139,10 @@ where
         .multipart_request_post(&method, &host, &cookies, body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::MultipartRequestPostResponse::Status201_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
@@ -201,11 +199,10 @@ where
         .multiple_identical_mime_types_post(&method, &host, &cookies, body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::MultipleIdenticalMimeTypesPostResponse::Status200_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }

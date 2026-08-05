@@ -69,9 +69,6 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
         );
 
         // clear import mapping (from default generator) as php does not use it
@@ -127,6 +124,8 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("FormDataProcessor.mustache", toSrcPath(invokerPackage, srcBasePath), "FormDataProcessor.php"));
         supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toSrcPath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
         supportingFiles.add(new SupportingFile("ModelInterface.mustache", toSrcPath(modelPackage, srcBasePath), "ModelInterface.php"));
+        supportingFiles.add(new SupportingFile("OneOfInterface.mustache", toSrcPath(modelPackage, srcBasePath), "OneOfInterface.php"));
+        supportingFiles.add(new SupportingFile("AnyOfInterface.mustache", toSrcPath(modelPackage, srcBasePath), "AnyOfInterface.php"));
         supportingFiles.add(new SupportingFile("HeaderSelector.mustache", toSrcPath(invokerPackage, srcBasePath), "HeaderSelector.php"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -145,30 +144,247 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
 
+        Map<String, String> composedTypeHints = new HashMap<>();
+        for (ModelsMap modelsMap : processed.values()) {
+            for (ModelMap m : modelsMap.getModels()) {
+                collectComposedTypeHint(m.getModel(), composedTypeHints);
+            }
+        }
+        flattenComposedTypeHints(composedTypeHints);
+
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
-            entry.setValue(postProcessModelsMap(entry.getValue()));
+            entry.setValue(postProcessModelsMap(entry.getValue(), composedTypeHints));
         }
 
         return processed;
     }
 
-    private ModelsMap postProcessModelsMap(ModelsMap objs) {
+    /**
+     * If the given model is a oneOf or anyOf composition, record the PHP union type that should be
+     * used wherever the model is referenced. A model that declares both contributes all members.
+     */
+    private void collectComposedTypeHint(CodegenModel model, Map<String, String> composedTypeHints) {
+        Set<String> memberTypes = directComposedMemberTypes(model);
+        if (memberTypes.isEmpty()) {
+            return;
+        }
+
+        composedTypeHints.put("\\" + modelPackage + "\\" + model.classname, String.join("|", memberTypes));
+    }
+
+    /**
+     * The immediate (non-recursive) oneOf/anyOf member types of a composed model, containers
+     * collapsed to {@code array}. Empty when the model is not a composition.
+     */
+    private Set<String> directComposedMemberTypes(CodegenModel model) {
+        Set<String> memberTypes = new LinkedHashSet<>();
+        if (model == null || model.getComposedSchemas() == null) {
+            return memberTypes;
+        }
+
+        CodegenComposedSchemas composed = model.getComposedSchemas();
+        List<CodegenProperty> members = new ArrayList<>();
+        if (composed.getOneOf() != null) {
+            members.addAll(composed.getOneOf());
+        }
+        if (composed.getAnyOf() != null) {
+            members.addAll(composed.getAnyOf());
+        }
+        for (CodegenProperty member : members) {
+            memberTypes.add((member.isArray || member.isMap) ? "array" : member.dataType);
+        }
+        return memberTypes;
+    }
+
+    /**
+     * Split a flattened union into doc-link entries. A class member (starts with {@code \}) gets a
+     * {@code complexType} - its bare class name - for the {@code .md} link; a primitive gets none.
+     */
+    private List<Map<String, String>> composedLeafDocEntries(String union) {
+        List<Map<String, String>> entries = new ArrayList<>();
+        for (String leaf : union.split("\\|")) {
+            Map<String, String> entry = new HashMap<>();
+            entry.put("dataType", leaf);
+            if (leaf.startsWith("\\")) {
+                entry.put("complexType", leaf.substring(leaf.lastIndexOf('\\') + 1));
+            }
+            entries.add(entry);
+        }
+        return entries;
+    }
+
+    /**
+     * Expand each composed type's union hint transitively: a member that is itself a composed type
+     * is replaced by its own leaf members. The generated {@code ObjectSerializer} dispatches
+     * nested composition down to the leaf instance, so a property typed with an intermediate
+     * composed member would otherwise reject the leaf the deserializer actually returns.
+     */
+    private void flattenComposedTypeHints(Map<String, String> composedTypeHints) {
+        Map<String, String> resolved = new HashMap<>();
+        for (String composedType : composedTypeHints.keySet()) {
+            Set<String> leaves = new LinkedHashSet<>();
+            collectLeafTypes(composedType, composedTypeHints, new LinkedHashSet<>(), leaves);
+            // No leaves means a fully cyclic composition; keep the original hint, not an empty type.
+            if (!leaves.isEmpty()) {
+                resolved.put(composedType, String.join("|", leaves));
+            }
+        }
+        composedTypeHints.putAll(resolved);
+    }
+
+    /**
+     * Accumulate into {@code leaves} the non-composed member types reachable from {@code type}. A
+     * member that is itself a composed type (a key in {@code composedTypeHints}) is expanded
+     * recursively; {@code visiting} guards against cycles in self-referential schemas.
+     */
+    private void collectLeafTypes(String type, Map<String, String> composedTypeHints, Set<String> visiting, Set<String> leaves) {
+        if (!composedTypeHints.containsKey(type)) {
+            leaves.add(type);
+            return;
+        }
+        if (!visiting.add(type)) {
+            return;
+        }
+        for (String member : composedTypeHints.get(type).split("\\|")) {
+            collectLeafTypes(member, composedTypeHints, visiting, leaves);
+        }
+        visiting.remove(type);
+    }
+
+    /**
+     * PHP forbids the nullable shorthand ({@code ?T}) on union types, so a union must instead
+     * gain an explicit {@code |null} member.
+     */
+    private static String makeNullable(String phpType) {
+        return phpType.contains("|") ? phpType + "|null" : "?" + phpType;
+    }
+
+    /**
+     * The base PHP type hint for a single element: a container collapses to {@code array} (PHP
+     * cannot type-hint {@code Foo[]}), a composed (oneOf/anyOf) alias expands to the union of its members, and
+     * everything else stays its {@code dataType}.
+     */
+    private String phpBaseType(String dataType, boolean isContainer, Map<String, String> composedTypeHints) {
+        return isContainer ? "array" : composedTypeHints.getOrDefault(dataType, dataType);
+    }
+
+    /**
+     * The PHP signature type hint: the {@link #phpBaseType base type}, made nullable when the
+     * element is optional or nullable - except {@code mixed}, which already admits null.
+     */
+    private String phpSignatureType(String dataType, boolean isContainer, boolean nullable, Map<String, String> composedTypeHints) {
+        String base = phpBaseType(dataType, isContainer, composedTypeHints);
+        return (nullable && !base.equals("mixed")) ? makeNullable(base) : base;
+    }
+
+    /**
+     * Wrap an expanded inner union back into container phpdoc notation: {@code (Apple|Banana)[]}
+     * for arrays (parenthesised so {@code []} binds to the whole union, not just its last member)
+     * and {@code array<string,Apple|Banana>} for maps. A {@code null} inner propagates, signalling
+     * "no composed schema in this type".
+     */
+    private static String wrapContainerDoc(boolean isArray, String inner) {
+        if (inner == null) {
+            return null;
+        }
+        return isArray ? (inner.contains("|") ? "(" + inner + ")[]" : inner + "[]")
+                : "array<string," + inner + ">";
+    }
+
+    /**
+     * The phpdoc type with any reference to a composed (oneOf/anyOf) model expanded to the union of its members.
+     * A composed model is only a deserialization dispatcher, so its members do not inherit from it
+     * and {@code @param Fruit} would be a lie — {@code @param Apple|Banana} is the truth.
+     * Returns {@code null} when no composed model is involved, so the caller can leave the original
+     * {@code dataType} phpdoc untouched.
+     */
+    private String composedDocType(CodegenProperty prop, Map<String, String> composedTypeHints) {
+        return docTypeOf(prop.isArray, prop.isMap, prop.items, prop.dataType, composedTypeHints);
+    }
+
+    /** @see #composedDocType(CodegenProperty, Map) */
+    private String composedDocType(CodegenParameter param, Map<String, String> composedTypeHints) {
+        return docTypeOf(param.isArray, param.isMap, param.items, param.dataType, composedTypeHints);
+    }
+
+    /** @see #composedDocType(CodegenProperty, Map) */
+    private String composedDocType(CodegenResponse response, Map<String, String> composedTypeHints) {
+        return docTypeOf(response.isArray, response.isMap, response.items, response.dataType, composedTypeHints);
+    }
+
+    /**
+     * The shared core of the {@code composedDocType} overloads: expands a composed {@code dataType} to the
+     * union of its members (recursing through array/map items so the expansion reaches nested composed schemas),
+     * or returns {@code null} when no composed model is involved. See {@link #composedDocType(CodegenProperty, Map)}.
+     */
+    private String docTypeOf(boolean isArray, boolean isMap, CodegenProperty items, String dataType, Map<String, String> composedTypeHints) {
+        if ((isArray || isMap) && items != null) {
+            return wrapContainerDoc(isArray, composedDocType(items, composedTypeHints));
+        }
+        return composedTypeHints.get(dataType);
+    }
+
+    /**
+     * The final phpdoc type, ready for the template to emit verbatim: the union-expanded type (or the
+     * unchanged {@code dataType} when no composed model is involved), with a {@code |null} member appended
+     * when the element is optional or nullable. phpdoc unions always spell out {@code |null}
+     * rather than using the {@code ?T} shorthand.
+     */
+    private String phpDocType(CodegenProperty prop, Map<String, String> composedTypeHints) {
+        return bakeDocType(composedDocType(prop, composedTypeHints), prop.dataType, prop.notRequiredOrIsNullable());
+    }
+
+    private String phpDocType(CodegenParameter param, Map<String, String> composedTypeHints) {
+        return bakeDocType(composedDocType(param, composedTypeHints), param.dataType, param.notRequiredOrIsNullable());
+    }
+
+    /**
+     * The shared core of the {@code phpDocType} overloads: uses {@code expandedType}, falling back to
+     * {@code dataType} when it is {@code null}, and appends {@code |null} when {@code nullable}.
+     * See {@link #phpDocType(CodegenProperty, Map)}.
+     */
+    private static String bakeDocType(String expandedType, String dataType, boolean nullable) {
+        String docType = expandedType != null ? expandedType : dataType;
+        return nullable ? docType + "|null" : docType;
+    }
+
+    /**
+     * A composed model is an abstract dispatcher, so the default doc example ({@code new Mammal()})
+     * instantiates a type that cannot be used. Rewrite the example to instantiate the first member
+     * of the union instead ({@code new Whale()}). Handles a composed parameter directly as well as a
+     * container whose items are composed.
+     */
+    private void useFirstComposedMemberInExample(CodegenParameter param, Map<String, String> composedTypeHints) {
+        if (param.example == null) {
+            return;
+        }
+        String alias = composedTypeHints.containsKey(param.dataType) ? param.dataType
+                : (param.items != null && composedTypeHints.containsKey(param.items.dataType) ? param.items.dataType : null);
+        if (alias == null) {
+            return;
+        }
+        String firstMember = composedTypeHints.get(alias).split("\\|", 2)[0];
+        if (firstMember.startsWith("\\")) { // a concrete class we can instantiate
+            param.example = param.example.replace(alias, firstMember);
+        }
+    }
+
+    private ModelsMap postProcessModelsMap(ModelsMap objs, Map<String, String> composedTypeHints) {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
 
+            // Surface a composed model's flattened leaf types so the doc page lists the concrete
+            // types users actually work with, matching the generated method signatures.
+            String composedKey = "\\" + modelPackage + "\\" + model.classname;
+            if (composedTypeHints.containsKey(composedKey)) {
+                model.vendorExtensions.putIfAbsent("x-php-composed-leaves",
+                        composedLeafDocEntries(composedTypeHints.get(composedKey)));
+            }
+
             for (CodegenProperty prop : model.vars) {
-                String propType;
-                if (prop.isArray || prop.isMap) {
-                    propType = "array";
-                } else {
-                    propType = prop.dataType;
-                }
-
-                if ((!prop.required || prop.isNullable) && !propType.equals("mixed")) { // optional or nullable but not mixed
-                    propType = "?" + propType;
-                }
-
-                prop.vendorExtensions.putIfAbsent("x-php-prop-type", propType);
+                prop.vendorExtensions.putIfAbsent("x-php-prop-type",
+                        phpSignatureType(prop.dataType, prop.isArray || prop.isMap, prop.notRequiredOrIsNullable(), composedTypeHints));
+                prop.vendorExtensions.putIfAbsent("x-php-prop-doc-type", phpDocType(prop, composedTypeHints));
             }
         }
         return objs;
@@ -177,6 +393,13 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        Map<String, String> composedTypeHints = new HashMap<>();
+        for (ModelMap m : allModels) {
+            collectComposedTypeHint(m.getModel(), composedTypeHints);
+        }
+        flattenComposedTypeHints(composedTypeHints);
+
         OperationMap operations = objs.getOperations();
         for (CodegenOperation operation : operations.getOperation()) {
             Set<String> phpReturnTypeOptions = new LinkedHashSet<>();
@@ -185,16 +408,15 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
 
             for (CodegenResponse response : operation.responses) {
                 if (response.dataType != null) {
-                    String returnType = response.dataType;
-                    if (response.isArray || response.isMap) {
-                        // PHP does not understand array type hinting so we strip it
-                        // The phpdoc will still contain the array type hinting
-                        returnType = "array";
-                    }
-
-                    phpReturnTypeOptions.add(returnType);
-                    docReturnTypeOptions.add(response.dataType);
-                } else {
+                    // The signature collapses a container to `array` (PHP cannot type-hint Foo[]);
+                    // the phpdoc keeps the full notation, with any composed alias expanded to its union.
+                    phpReturnTypeOptions.add(phpBaseType(response.dataType, response.isArray || response.isMap, composedTypeHints));
+                    String responseDocType = composedDocType(response, composedTypeHints);
+                    docReturnTypeOptions.add(responseDocType != null ? responseDocType : response.dataType);
+                } else if (response.is2xx) {
+                    // Only a body-less *success* response makes the method return null. A body-less
+                    // error response throws an ApiException instead, so it must not make the return
+                    // type nullable.
                     hasEmptyResponse = true;
                 }
             }
@@ -207,11 +429,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                 String phpReturnType = String.join("|", phpReturnTypeOptions);
                 String docReturnType = String.join("|", docReturnTypeOptions);
                 if (hasEmptyResponse) {
-                    if (phpReturnTypeOptions.size() > 1) {
-                        phpReturnType = phpReturnType + "|null";
-                    } else {
-                        phpReturnType = "?" + phpReturnType;
-                    }
+                    phpReturnType = makeNullable(phpReturnType);
                     docReturnType = docReturnType + "|null";
                 }
 
@@ -221,16 +439,10 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             }
 
             for (CodegenParameter param : operation.allParams) {
-                String paramType;
-                if (param.isArray || param.isMap) {
-                    paramType = "array";
-                } else {
-                    paramType = param.dataType;
-                }
-                if ((!param.required || param.isNullable) && !paramType.equals("mixed")) { // optional or nullable but not mixed
-                    paramType = "?" + paramType;
-                }
-                param.vendorExtensions.putIfAbsent("x-php-param-type", paramType);
+                param.vendorExtensions.putIfAbsent("x-php-param-type",
+                        phpSignatureType(param.dataType, param.isArray || param.isMap, param.notRequiredOrIsNullable(), composedTypeHints));
+                param.vendorExtensions.putIfAbsent("x-php-param-doc-type", phpDocType(param, composedTypeHints));
+                useFirstComposedMemberInExample(param, composedTypeHints);
             }
         }
 

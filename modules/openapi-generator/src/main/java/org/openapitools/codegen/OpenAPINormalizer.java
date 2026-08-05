@@ -27,9 +27,9 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +41,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.EnumUtils.ANY_OF;
+import static org.openapitools.codegen.utils.EnumUtils.ONE_OF;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -52,6 +54,7 @@ public class OpenAPINormalizer {
     private TreeSet<String> anyTypeTreeSet = new TreeSet<>();
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
+    protected static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
 
     Set<String> ruleNames = new TreeSet<>();
     Set<String> rulesDefaultToTrue = new TreeSet<>();
@@ -164,7 +167,12 @@ public class OpenAPINormalizer {
     // when set to true, sort model properties by name to ensure deterministic output
     final String SORT_MODEL_PROPERTIES = "SORT_MODEL_PROPERTIES";
 
+    // when set to true, some more schema definitions are considered as `null` in 3.1 spec
+    final String LOOSE_NULL_DEFINITIONS = "LOOSE_NULL_DEFINITIONS";
+
     // ============= end of rules =============
+
+    private static final String ONE_OF_ANY_OF_ENUM_SIMPLIFIED = "Simplified {} with enum sub-schemas to single enum: {} since rule {} was enabled";
 
     /**
      * Factory constructor for OpenAPINormalizer.
@@ -224,6 +232,7 @@ public class OpenAPINormalizer {
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
         ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
         ruleNames.add(SORT_MODEL_PROPERTIES);
+        ruleNames.add(LOOSE_NULL_DEFINITIONS);
         ruleNames.add(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING);
 
         // rules that are default to true
@@ -339,6 +348,11 @@ public class OpenAPINormalizer {
         bearerAuthSecuritySchemeName = inputRules.get(SET_BEARER_AUTH_FOR_NAME);
         if (bearerAuthSecuritySchemeName != null) {
             rules.put(SET_BEARER_AUTH_FOR_NAME, true);
+        }
+
+        // update ModelUtils to allow loose null definitions if the normalizer rule LOOSE_NULL_DEFINITIONS is set
+        if (Boolean.TRUE.equals(rules.get(LOOSE_NULL_DEFINITIONS))) {
+            ModelUtils.looseNullDefinitions = true;
         }
     }
 
@@ -919,6 +933,10 @@ public class OpenAPINormalizer {
             return schema;
         }
 
+        // Normalize contentMediaType-only schemas before type-less JsonSchema instances
+        // are treated as empty/null schemas.
+        normalizeBinaryContentSchema31(schema);
+
         if (ModelUtils.isNullTypeSchema(openAPI, schema)) {
             return schema;
         }
@@ -966,10 +984,41 @@ public class OpenAPINormalizer {
 
             return schema;
         } else if (ModelUtils.hasProperties(schema)) {
+            // OAS 3.1: if the type array includes "null", extract it and set nullable:true
+            // on the parent schema before normalizing its child properties.
+            // We intentionally do NOT call the full processNormalize31Spec here because
+            // that method can replace a JsonSchema with properties (but no explicit type)
+            // with an empty schema, discarding all properties.
+            if (getRule(NORMALIZE_31SPEC) && schema.getTypes() != null && schema.getTypes().contains("null")) {
+                schema.setNullable(true);
+                schema.getTypes().remove("null");
+                if (schema.getTypes().size() == 1) {
+                    schema.setType(String.valueOf(schema.getTypes().iterator().next()));
+                }
+            }
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
-            normalizeMapSchema(schema);
-            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
+            Schema result = normalizeMapSchema(schema);
+            Schema additionalProperties = (Schema) result.getAdditionalProperties();
+            if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, additionalProperties)) {
+                // OAS 3.1 allows a map value schema of `type: "null"` (e.g.
+                // `additionalProperties: { type: "null" }`). There's no OAS 3.0 equivalent type,
+                // so generators emit a fictional `Null` / `ModelNull` value type that fails to
+                // compile. Normalize it to an any-type nullable schema so the map value is
+                // generated as a normal (nullable) object instead.
+                Schema anyTypeNullable = new Schema();
+                anyTypeNullable.setNullable(true);
+                result.setAdditionalProperties(anyTypeNullable);
+            } else {
+                Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
+                if (getRule(NORMALIZE_31SPEC)) {
+                    // capture the normalized value schema (e.g. an OAS 3.1 `type: [array, "null"]`
+                    // value is rewritten to a proper array schema), which would otherwise be lost.
+                    result.setAdditionalProperties(normalized);
+                }
+            }
+
+            return result;
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof IntegerSchema) {
@@ -1058,7 +1107,8 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeMapSchema(Schema schema) {
-        return processSetMapToNullable(schema);
+        Schema result = processNormalize31Spec(schema, new HashSet<>());
+        return processSetMapToNullable(result);
     }
 
     protected Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
@@ -1599,100 +1649,18 @@ public class OpenAPINormalizer {
      * @return Simplified schema
      */
     protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
-        Map<Object, String> enumValues = new LinkedHashMap<>();
-
-        if(schema.getTypes() != null && schema.getTypes().size() > 1) {
-            // we cannot handle enums with multiple types
-            return schema;
+        Schema enumSchema = EnumUtils.simplifyComposedSchemaWithEnums(schema, subSchemas, composedType, openAPI);
+        if (hasComposedSchemaWithEnumsBeenSimplified(schema, composedType)) {
+            LOGGER.debug(ONE_OF_ANY_OF_ENUM_SIMPLIFIED, composedType, enumSchema, SIMPLIFY_ONEOF_ANYOF_ENUM);
         }
-
-        if(subSchemas.size() < 2) {
-            //do not process if there's less than 2 sub-schemas. It will be normalized later, and this prevents
-            //named enum schemas from being converted to inline enum schemas
-            return schema;
-        }
-        String schemaType = ModelUtils.getType(schema);
-
-        for (Object item : subSchemas) {
-            if (!(item instanceof Schema)) {
-                return schema;
-            }
-
-            Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
-
-            // Check if this sub-schema has an enum (with one or more values)
-            if (subSchema.getEnum() == null || subSchema.getEnum().isEmpty()) {
-                return schema;
-            }
-
-            // Ensure all sub-schemas have the same type (if type is specified)
-            if(subSchema.getTypes() != null && subSchema.getTypes().size() > 1) {
-                // we cannot handle enums with multiple types
-                return schema;
-            }
-            String subSchemaType = ModelUtils.getType(subSchema);
-            if (subSchemaType != null) {
-                if (schemaType == null) {
-                    schemaType = subSchemaType;
-                } else if (!schemaType.equals(subSchema.getType())) {
-                    return schema;
-                }
-            }
-            // Add all enum values from this sub-schema to our collection
-            if(subSchema.getEnum().size() == 1) {
-                String description = subSchema.getTitle() == null ? "" : subSchema.getTitle();
-                if(subSchema.getDescription() != null) {
-                    if(!description.isEmpty()) {
-                        description += " - ";
-                    }
-                    description += subSchema.getDescription();
-                }
-                enumValues.put(subSchema.getEnum().get(0), description);
-            } else {
-                for(Object e: subSchema.getEnum()) {
-                    enumValues.put(e, "");
-                }
-            }
-
-        }
-
-        return createSimplifiedEnumSchema(schema, enumValues, schemaType, composedType);
+        return enumSchema;
     }
 
-
-    /**
-     * Creates a simplified enum schema from collected enum values.
-     *
-     * @param originalSchema Original schema to modify
-     * @param enumValues Collected enum values
-     * @param schemaType Consistent type across sub-schemas
-     * @param composedType Type of composed schema being simplified
-     * @return Simplified enum schema
-     */
-    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, String schemaType, String composedType) {
-        // Clear the composed schema type
-        if ("oneOf".equals(composedType)) {
-            originalSchema.setOneOf(null);
-        } else if ("anyOf".equals(composedType)) {
-            originalSchema.setAnyOf(null);
-        }
-
-        if (ModelUtils.getType(originalSchema) == null && schemaType != null) {
-            //if type was specified in subschemas, keep it in the main schema
-            ModelUtils.setType(originalSchema, schemaType);
-        }
-
-        originalSchema.setEnum(new ArrayList<>(enumValues.keySet()));
-        if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
-            //set x-enum-descriptions only if there's at least one non-empty description
-            originalSchema.addExtension(X_ENUM_DESCRIPTIONS, new ArrayList<>(enumValues.values()));
-        }
-
-        LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);
-
-        return originalSchema;
+    private boolean hasComposedSchemaWithEnumsBeenSimplified(Schema schema, String composedType) {
+        boolean oneOfSimplified = ONE_OF.equals(composedType) && schema.getOneOf() == null;
+        boolean anyOfSimplified = ANY_OF.equals(composedType) && schema.getAnyOf() == null;
+        return oneOfSimplified || anyOfSimplified;
     }
-
 
     /**
      * If the schema is oneOf and the sub-schemas is null, set `nullable: true`
@@ -1778,7 +1746,7 @@ public class OpenAPINormalizer {
                     return schema;
                 }
                 Map<String, String> mappings = new TreeMap<>();
-                // is the discriminator qttribute qlready in this schema?
+                // is the discriminator attribute already in this schema?
                 // if yes, it will be deleted in references oneOf to avoid duplicates
                 boolean hasProperty = findProperty(schema, discriminator.getPropertyName(), false, new HashSet<>()) != null;
                 discriminator.setMapping(mappings);
@@ -2214,13 +2182,22 @@ public class OpenAPINormalizer {
         normalizeExclusiveMinMax31(schema);
 
         if (schema instanceof JsonSchema &&
-                schema.get$schema() == null &&
-                schema.getTypes() == null && schema.getType() == null) {
+                schema.get$schema() == null && schema.getTypes() == null && schema.getType() == null) {
             // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
             // components:
             //  schemas:
             //    any_type: {}
-            return new Schema();
+            Schema sc = new Schema<>();
+
+            // copy description, title, etc
+            ModelUtils.copyMetadata(schema, sc);
+
+            // additional properties set?
+            if (schema.getAdditionalProperties() != null) {
+                sc.setAdditionalProperties(schema.getAdditionalProperties());
+            }
+
+            return sc;
         }
 
         // return schema if nothing in 3.1 spec types to normalize
@@ -2308,6 +2285,68 @@ public class OpenAPINormalizer {
         }
 
         return schema;
+    }
+
+    /**
+     * Normalizes OAS 3.1 binary content media schemas to the OAS 3.0 binary schema shape.
+     *
+     * @param schema Schema to normalize
+     */
+    protected void normalizeBinaryContentSchema31(Schema<?> schema) {
+        if (!getRule(NORMALIZE_31SPEC)) {
+            return;
+        }
+        if (schema == null || schema.get$ref() != null) {
+            return;
+        }
+        if (StringUtils.isNotBlank(schema.getFormat()) || StringUtils.isNotBlank(schema.getContentEncoding())) {
+            return;
+        }
+        if (!isContentMediaType(schema.getContentMediaType(), APPLICATION_OCTET_STREAM)) {
+            return;
+        }
+        if (!isStringTypeOrTypeAbsent(schema)) {
+            return;
+        }
+
+        if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            schema.setType("string");
+        } else {
+            ModelUtils.setType(schema, "string");
+        }
+        schema.setFormat("binary");
+    }
+
+    /**
+     * Checks whether the schema has no type or only string/null types.
+     *
+     * @param schema Schema to check
+     * @return true if the schema can be treated as a string schema
+     */
+    protected boolean isStringTypeOrTypeAbsent(Schema<?> schema) {
+        boolean hasType = StringUtils.isNotBlank(schema.getType());
+        boolean hasTypes = schema.getTypes() != null && !schema.getTypes().isEmpty();
+        if (!hasType && !hasTypes) {
+            return true;
+        }
+        if (hasType) {
+            return "string".equals(schema.getType());
+        }
+        return schema.getTypes().stream()
+                .map(String::valueOf)
+                .allMatch(type -> "string".equals(type) || "null".equals(type));
+    }
+
+    /**
+     * Compares media types without parameters and case sensitivity.
+     *
+     * @param actualContentMediaType   Actual media type
+     * @param expectedContentMediaType Expected media type
+     * @return true if the media types match
+     */
+    protected boolean isContentMediaType(String actualContentMediaType, String expectedContentMediaType) {
+        String normalizedContentMediaType = StringUtils.substringBefore(actualContentMediaType, ";");
+        return StringUtils.equalsIgnoreCase(StringUtils.trim(normalizedContentMediaType), expectedContentMediaType);
     }
 
     private void normalizeExclusiveMinMax31(Schema<?> schema) {

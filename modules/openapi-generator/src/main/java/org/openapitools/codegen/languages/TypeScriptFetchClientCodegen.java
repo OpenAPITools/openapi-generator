@@ -42,7 +42,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
+import static org.openapitools.codegen.CodegenConstants.ENUM_NAME;
+import static org.openapitools.codegen.CodegenConstants.ENUM_VARS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVarsAsString;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 /**
@@ -92,6 +95,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_ENTITY_ID = "x-entityId";
     private static final String X_OPERATION_RETURN_PASSTHROUGH = "x-operationReturnPassthrough";
     private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
+    private static final String X_TYPESCRIPT_FETCH_API_EXAMPLE = "x-typescriptFetchApiExample";
+    private static final String BLOB_API_EXAMPLE = "new Blob(['example file content'], { type: 'application/octet-stream' })";
 
     protected boolean sagasAndRecords = false;
     @Getter @Setter
@@ -416,9 +421,44 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+        if (isBinaryFormArray(parameter)) {
+            parameter.isFile = true;
             parameter.isCollectionFormatMulti = true;
         }
+    }
+
+    private void addMultipartFileArrayApiExampleValues(OperationsMap operations) {
+        for (CodegenOperation operation : operations.getOperations().getOperation()) {
+            if (operation.allParams == null || operation.allParams.stream().noneMatch(TypeScriptFetchClientCodegen::isBinaryFormArray)) {
+                continue;
+            }
+
+            for (CodegenParameter parameter : operation.allParams) {
+                setApiExampleValue(parameter);
+            }
+        }
+    }
+
+    private void setApiExampleValue(CodegenParameter parameter) {
+        String example = toApiExampleValue(parameter);
+        if (example != null) {
+            parameter.vendorExtensions.put(X_TYPESCRIPT_FETCH_API_EXAMPLE, example);
+        }
+    }
+
+    private String toApiExampleValue(CodegenParameter parameter) {
+        if (isBinaryFormArray(parameter)) {
+            return "[" + BLOB_API_EXAMPLE + "]";
+        } else if (parameter.isFile || parameter.isBinary) {
+            return BLOB_API_EXAMPLE;
+        } else if (parameter.isString) {
+            String example = parameter.example;
+            if (example == null) {
+                example = parameter.paramName + "_example";
+            }
+            return "'" + escapeText(example) + "'";
+        }
+        return null;
     }
 
     @Override
@@ -552,8 +592,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         } else if (var.dataType.equalsIgnoreCase("boolean")) {
             var.defaultValue = "false";
         } else {
-            if (var.allowableValues != null && var.allowableValues.get("enumVars") instanceof ArrayList && ((ArrayList) var.allowableValues.get("enumVars")).get(0) instanceof HashMap) {
-                var.defaultValue = var.dataTypeAlternate + "." + ((HashMap<String, String>) ((ArrayList) var.allowableValues.get("enumVars")).get(0)).get("name");
+            if (var.allowableValues != null && var.allowableValues.get(ENUM_VARS) instanceof ArrayList && ((ArrayList<?>) var.allowableValues.get(ENUM_VARS)).get(0) instanceof HashMap) {
+                var.defaultValue = var.dataTypeAlternate + "." + getEnumVarsAsString(var.allowableValues).get(0).get(ENUM_NAME);
             }
         }
     }
@@ -568,10 +608,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        // in case ECMAScript 6 is supported add another tsconfig for an ESM (ECMAScript Module)
-        if (supportsES6) {
-            supportingFiles.add(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
-        }
+
+        // by default ECMAScript 6 is supported add another tsconfig for an ESM (ECMAScript Module)
+        supportingFiles.add(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+
         supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
@@ -746,6 +786,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
+        this.addMultipartFileArrayApiExampleValues(operations);
 
         return operations;
     }
@@ -957,6 +998,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             existingClassNames.add(className);
             existingRecordClassNames.add(className + "Record");
             im.put("className", className);
+            im.put("classFileName", convertUsingFileNamingConvention(className));
         }
 
         if (this.getSagasAndRecords()) {
@@ -1164,6 +1206,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public ExtendedCodegenParameter(CodegenParameter cp) {
             super();
 
+            this.isDeprecated = cp.isDeprecated;
             this.isFormParam = cp.isFormParam;
             this.isQueryParam = cp.isQueryParam;
             this.isPathParam = cp.isPathParam;

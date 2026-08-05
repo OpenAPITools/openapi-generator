@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Healthy Test API
+  version: 1.0.0
+  description: A completely valid specification with no errors or recommendations.
+paths:
+  /ping:
+    get:
+      summary: Simple healthcheck endpoint
+      operationId: pingCheck
+      responses:
+        '200':
+          description: Server is operational
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pong'
+components:
+  schemas:
+    Pong:
+      type: object
+      properties:
+        status:
+          type: string
+          example: healthy

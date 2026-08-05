@@ -135,8 +135,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ChildCat" />
     /// </summary>
-    public class ChildCatJsonConverter : JsonConverter<ChildCat>
+    public partial class ChildCatJsonConverter : JsonConverter<ChildCat>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChildCatJsonConverter" /> class.
+        /// </summary>
+        public ChildCatJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ChildCat" />
         /// </summary>
@@ -178,7 +188,12 @@ namespace Org.OpenAPITools.Model
                         case "pet_type":
                             string? petTypeRawValue = utf8JsonReader.GetString();
                             if (petTypeRawValue != null)
-                                petType = new Option<ChildCat.PetTypeEnum?>(ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue));
+                            {
+                                ChildCat.PetTypeEnum? petTypeValue = ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue);
+                                if (petTypeValue == null)
+                                    throw new JsonException();
+                                petType = new Option<ChildCat.PetTypeEnum?>(petTypeValue);
+                            }
                             break;
                         default:
                             break;

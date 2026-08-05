@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: oneOf inline required zero value
+  version: 1.0.0
+servers:
+  - url: https://localhost:8080/api/v1
+paths:
+  /items:
+    post:
+      summary: Create item
+      operationId: createItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemRequest'
+      responses:
+        '204':
+          description: Successful operation
+components:
+  schemas:
+    NestedLabel:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    ItemRequest:
+      oneOf:
+        - $ref: '#/components/schemas/NestedLabel'
+        - type: string
+      properties:
+        quantity:
+          type: integer
+          minimum: 0
+      required:
+        - quantity

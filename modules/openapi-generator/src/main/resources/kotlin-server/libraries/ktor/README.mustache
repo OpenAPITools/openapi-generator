@@ -44,6 +44,181 @@ docker run -p 8080:8080 {{artifactId}}
 * ~Supports collection formats for query parameters: csv, tsv, ssv, pipes.~
 * Some Kotlin and Java types are fully qualified to avoid conflicts with types defined in OpenAPI definitions.
 
+{{#delegatePattern}}
+## Using the delegate pattern (ktor)
+
+When generating a server with the `delegatePattern` enabled, the router delegates request handling to small, focused interfaces you implement. This is ideal for API‑first development: you wire your business logic without touching generated routing code.
+
+
+### What gets generated
+- For each API: an interface `{{apiPackage}}.<ApiName>Delegate` with one `suspend` function per operation. Each function receives parsed parameters plus a `io.ktor.server.routing.RoutingCall` named `call`.
+- In `{{packageName}}.infrastructure`:
+  - `AppDelegates` – a data holder aggregating all optional delegates.
+  - `Delegates` – helpers to register and inject delegates (`Application.delegates(AppDelegates(...))`, `RoutingCall.delegates(AppDelegates(...))`.
+  - `APINotImplementedException` – thrown when a delegate is missing.
+  – `BadParameterException` – used for parameter validation errors (400).
+
+{{#generateApis}}{{#apiInfo}}{{#apis}}- Generated interface: `{{apiPackage}}.{{classname}}Delegate`
+{{/apis}}{{/apiInfo}}{{/generateApis}}
+
+### Implement a delegate
+Implement the generated interface(s) in your codebase. Example (using the first generated API):
+{{#apiInfo}}{{#apis}}{{#-first}}
+```kotlin
+package com.example.impl
+
+import {{apiPackage}}.{{classname}}Delegate
+import io.ktor.server.routing.RoutingCall
+{{#operations}}{{#operation}}{{#-first}}{{#imports}}import {{import}}
+{{/imports}}{{/-first}}{{/operation}}{{/operations}}
+class {{classname}}DelegateImpl : {{classname}}Delegate {
+{{#operations}}{{#operation}}{{#-first}}
+    override suspend fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}{{^required}}?{{/required}}{{/defaultValue}}{{/isNullable}}, {{/allParams}}call: RoutingCall): {{{returnType}}}{{^returnType}}Unit{{/returnType}} {
+        // Access authentication, request, etc. via the call if needed
+        // val principal = call.principal<{{packageName}}.infrastructure.ApiPrincipal>()
+        // Return the payload expected by the spec (or Unit if no body)
+        TODO("Provide implementation")
+    }
+{{/-first}}{{/operation}}{{/operations}}
+}
+```
+{{/-first}}{{/apis}}{{/apiInfo}}
+
+
+Notes:
+- Do not call `call.respond(...)` inside the delegate. Return the value; the generated route will serialize and respond for you. For operations without a response body, return `kotlin.Unit` and the route responds with 200 by default.
+
+
+### Register your delegates
+Register your implementations once during application startup so routes can resolve them:
+```kotlin
+import {{packageName}}.infrastructure.AppDelegates
+import {{packageName}}.infrastructure.delegates
+import {{packageName}}.AllApis
+import io.ktor.server.application.Application
+import io.ktor.server.routing.routing
+
+fun Application.module() {
+    delegates(
+        AppDelegates(
+            // Property names are lowerCamelCase of the API class + "Delegate"
+            // Provide only what you implement; others can be left null
+{{#apiInfo}}{{#apis}}            // {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Delegate = {{classname}}DelegateImpl(),
+{{/apis}}{{/apiInfo}}
+        )
+    )
+
+    // ... install features, etc.
+    routing {
+        AllApis()
+    }
+}
+```
+
+If you prefer to register APIs individually:
+```kotlin
+{{#apiInfo}}{{#apis}}import {{apiPackage}}.{{classname}}
+{{/apis}}{{/apiInfo}}
+import io.ktor.server.application.Application
+import io.ktor.server.routing.routing
+
+fun Application.module() {
+    // ...
+    routing {
+{{#apiInfo}}{{#apis}}        {{classname}}()
+{{/apis}}{{/apiInfo}}
+    }
+}
+```
+If you prefer per-request scoping, you may also attach delegates to a specific `RoutingCall`:
+```kotlin
+{{#apiInfo}}{{#apis}}{{#-first}}call.delegates(AppDelegates({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Delegate = {{classname}}DelegateImpl())){{/-first}}{{/apis}}{{/apiInfo}}
+```
+
+### Runtime behavior
+- If a route is invoked and its corresponding delegate is not provided, the server throws `APINotImplementedException` and responds with 501 Not Implemented.
+- If a required parameter is missing or invalid, `BadParameterException` is thrown and the server responds with 400 Bad Request.
+- You can access authenticated principals within delegates via `call.principal<{{packageName}}.infrastructure.ApiPrincipal>()` when auth is enabled for the operation.
+
+### Handle delegate exceptions with StatusPages
+To return consistent responses for delegate errors, install Ktor `StatusPages` and map both exceptions:
+
+```kotlin
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.plugins.statuspages.exception
+import io.ktor.server.response.respondText
+import {{packageName}}.infrastructure.APINotImplementedException
+import {{packageName}}.infrastructure.BadParameterException
+
+install(StatusPages) {
+    exception<Throwable> { call, cause ->
+        when (cause) {
+            is BadParameterException -> {
+                call.respondText(
+                    status = cause.statusCode,
+                    text = mapOf(
+                        "message" to (cause.message ?: "Invalid parameter"),
+                        "parameter" to cause.parameterName,
+                        "validation" to cause.validationType,
+                        "expected" to cause.expectedValue,
+                        "actual" to cause.actualValue
+                    ).filterValues { it != null }.mapValues { it.toString() }.toString()
+                )
+            }
+
+            is APINotImplementedException -> {
+                call.respondText(
+                    status = HttpStatusCode.NotImplemented,
+                    text = cause.message ?: "API not implemented"
+                )
+            }
+        }
+    }
+}
+```
+
+### Handle file uploads in delegates
+For multipart endpoints, generated delegates receive an `<operation_id>MultiPartReceiver` (operation-specific name) so you can parse form fields and process file parts inside your implementation.
+
+Example (`uploadFile`):
+```kotlin
+import io.ktor.server.routing.RoutingCall
+import io.ktor.utils.io.toByteArray
+import {{apiPackage}}.PetApiDelegate
+import {{modelPackage}}.ModelApiResponse
+
+class PetApiDelegateImpl : PetApiDelegate {
+    override suspend fun uploadFile(
+        petId: Long,
+        uploadFileMultipartReceiver: PetApiDelegate.UploadFileMultiPartReceiver,
+        call: RoutingCall
+    ): ModelApiResponse {
+        var fileName: String? = null
+        var fileContent: String? = null
+
+        val multipart = uploadFileMultipartReceiver.receiveMultipart {
+            onReceiveFile {
+                fileName = originalFileName
+                fileContent = provider().toByteArray().decodeToString()
+            }
+        }
+
+        val additionalMetadata = multipart.additionalMetadata
+
+        return ModelApiResponse(
+            code = 200,
+            message = "uploaded file=$fileName metadata=$additionalMetadata content=$fileContent"
+        )
+    }
+}
+```
+
+Notes:
+- `receiveMultipart { ... }` iterates incoming parts and maps known fields into the generated multipart model.
+- Use `onReceiveFile { ... }` to handle each uploaded file stream (`PartData.FileItem`) without calling `call.receiveMultipart()` directly in your delegate.
+- Scalar form values (for example `additionalMetadata`) are available on the returned multipart object.
+{{/delegatePattern}}
 {{#generateApiDocs}}
 <a id="documentation-for-api-endpoints"></a>
 ## Documentation for API Endpoints

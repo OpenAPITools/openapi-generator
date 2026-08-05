@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
@@ -26,29 +27,40 @@ import jakarta.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, String> mapString = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Integer> mapInteger = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Boolean> mapBoolean = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Object> anytype1 = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Object> anytype3 = Optional.empty();
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
@@ -406,7 +418,7 @@ public class AdditionalPropertiesClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   

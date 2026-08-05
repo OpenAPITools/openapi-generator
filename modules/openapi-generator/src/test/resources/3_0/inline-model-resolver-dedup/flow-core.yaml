@@ -1,0 +1,8 @@
+title: Flow Core
+description: Core flow properties
+type: object
+properties:
+  id:
+    type: string
+  container_mapping:
+    $ref: container-mapping.yaml

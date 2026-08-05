@@ -3,7 +3,6 @@
 
         // Consumes multipart/form body
 {{>client-request-body-multipart-form}}
-
   {{/x-consumes-multipart-form}}
   {{#x-consumes-multipart-related}}
 
@@ -83,23 +82,27 @@
         {{^isByteArray}}
         {{^isBinary}}
         let body = param_{{{paramName}}};
+        *request.body_mut() = body_from_string(body);
         {{/isBinary}}
         {{/isByteArray}}
         {{#isByteArray}}
-        let body = String::from_utf8(param_{{{paramName}}}.0).expect("Body was not valid UTF8");
+        // Raw binary body - pass the bytes through without coercing to UTF-8.
+        *request.body_mut() = body_from_bytes(param_{{{paramName}}}.0);
         {{/isByteArray}}
         {{#isBinary}}
-        let body = String::from_utf8(param_{{{paramName}}}.0).expect("Body was not valid UTF8");
+        // Raw binary body - pass the bytes through without coercing to UTF-8.
+        *request.body_mut() = body_from_bytes(param_{{{paramName}}}.0);
         {{/isBinary}}
         {{/x-consumes-plain-text}}
         {{#x-consumes-xml}}
         let body = param_{{{paramName}}}.as_xml();
+        *request.body_mut() = body_from_string(body);
         {{/x-consumes-xml}}
         {{#x-consumes-json}}
         let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");
+        *request.body_mut() = body_from_string(body);
         {{/x-consumes-json}}
       {{/exts}}
-        *request.body_mut() = body_from_string(body);
       {{^required}}
         }
       {{/required}}

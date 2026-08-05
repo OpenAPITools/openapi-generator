@@ -47,6 +47,10 @@ Serializers serializers = (_$serializers.toBuilder()
         const FullType(BuiltList, [FullType(String)]),
         () => ListBuilder<String>(),
       )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(Tag)]),
+        () => ListBuilder<Tag>(),
+      )
       ..add(const OneOfSerializer())
       ..add(const AnyOfSerializer())      
       ..add(const OffsetDateSerializer())

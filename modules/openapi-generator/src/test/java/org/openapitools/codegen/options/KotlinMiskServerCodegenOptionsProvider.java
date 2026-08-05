@@ -55,7 +55,6 @@ public class KotlinMiskServerCodegenOptionsProvider implements OptionsProvider {
             .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
             .put(CodegenConstants.SERIALIZABLE_MODEL, SERIALIZABLE_MODEL_VALUE)
             .put(CodegenConstants.PARCELIZE_MODELS, PARCELIZE_MODELS_VALUE)
-            .put(CodegenConstants.API_SUFFIX, API_SUFFIX_VALUE)
             .put(AbstractKotlinCodegen.MODEL_MUTABLE, MODEL_MUTABLE_VALUE)
             .put(AbstractKotlinCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS,
                 ADDITIONAL_MODEL_TYPE_ANNOTATIONS_VALUE)

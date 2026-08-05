@@ -35,24 +35,54 @@ import {
 } from '../models/StringEnum';
 
 export interface FakeEnumRequestGetInlineRequest {
+    /**
+     * 
+     */
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
+    /**
+     * 
+     */
     nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum;
+    /**
+     * 
+     */
     numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum;
+    /**
+     * 
+     */
     nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum;
 }
 
 export interface FakeEnumRequestGetRefRequest {
+    /**
+     * 
+     */
     stringEnum?: StringEnum;
+    /**
+     * 
+     */
     nullableStringEnum?: StringEnum | null;
+    /**
+     * 
+     */
     numberEnum?: NumberEnum;
+    /**
+     * 
+     */
     nullableNumberEnum?: NumberEnum | null;
 }
 
 export interface FakeEnumRequestPostInlineRequest {
+    /**
+     * 
+     */
     fakeEnumRequestGetInline200Response?: FakeEnumRequestGetInline200Response;
 }
 
 export interface FakeEnumRequestPostRefRequest {
+    /**
+     * 
+     */
     enumPatternObject?: EnumPatternObject;
 }
 

@@ -1,0 +1,192 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+#define BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+
+{{#imports}}{{{this}}}
+{{/imports}}
+{{#parent}}
+#include "{{{parent}}}.h"
+{{/parent}}
+#include <memory>
+{{#parent}}
+#include <type_traits>
+#include <utility>
+{{/parent}}
+#include <boost/json.hpp>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{#parent}}
+template <typename...>
+struct {{classname}}ModelMakeVoid
+{
+    typedef void type;
+};
+
+template <typename... Types>
+using {{classname}}ModelVoid = typename {{classname}}ModelMakeVoid<Types...>::type;
+
+template <typename ValueType, bool Inherited>
+struct {{classname}}ModelPropertyStorage;
+
+template <typename ValueType>
+struct {{classname}}ModelPropertyStorage<ValueType, false>
+{
+    explicit {{classname}}ModelPropertyStorage(ValueType initialValue = ValueType())
+        : value(std::move(initialValue))
+    {
+    }
+
+    ValueType value;
+};
+
+template <typename ValueType>
+struct {{classname}}ModelPropertyStorage<ValueType, true>
+{
+    explicit {{classname}}ModelPropertyStorage(ValueType = ValueType())
+    {
+    }
+};
+{{/parent}}
+
+{{#parent}}
+{{#vars}}
+template <typename ParentType, typename = void>
+struct {{classname}}{{name}}PropertyIsInherited : std::false_type
+{
+};
+
+template <typename ParentType>
+struct {{classname}}{{name}}PropertyIsInherited<ParentType, {{classname}}ModelVoid<
+    decltype(std::declval<const ParentType&>().{{getter}}()),
+    decltype(std::declval<ParentType&>().{{setter}}(std::declval<{{{dataType}}}>()))>>
+    : std::is_same<
+          typename std::decay<decltype(std::declval<const ParentType&>().{{getter}}())>::type,
+          {{{dataType}}}>
+{
+};
+
+{{/vars}}
+{{/parent}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+{{#circularReferences}}
+class {{{this}}};
+{{/circularReferences}}
+class {{declspec}} {{classname}}{{#parent}} : public {{{parent}}}{{/parent}}
+{
+public:
+    {{classname}}() = default;
+    explicit {{classname}}(boost::json::value const& value);
+    virtual ~{{classname}}() = default;
+
+    std::string toJsonString(bool prettyJson = false) const;
+    void fromJsonString(std::string const& jsonString);
+    boost::json::value toJsonValue() const;
+    void fromJsonValue(boost::json::value const& value);
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+    {{#vars}}
+
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    {{{dataType}}} {{getter}}() const;
+    void {{setter}}({{{dataType}}} value);
+    {{/vars}}
+
+protected:
+    //////////////////////////////////////
+    // Override these for customization //
+    //////////////////////////////////////
+
+    virtual boost::json::object toJsonObject_internal() const;
+    virtual void fromJsonObject_internal(boost::json::object const& object);
+
+    {{#parent}}
+    {{#vars}}
+    template <typename ParentType, typename StorageType>
+    {{{dataType}}} read{{name}}Property(std::true_type, const StorageType&) const
+    {
+        return static_cast<const ParentType&>(*this).{{getter}}();
+    }
+
+    template <typename ParentType, typename StorageType>
+    {{{dataType}}} read{{name}}Property(std::false_type, const StorageType& storage) const
+    {
+        return storage.value;
+    }
+
+    template <typename ParentType, typename StorageType>
+    void write{{name}}Property(std::true_type, StorageType&, {{{dataType}}} value)
+    {
+        static_cast<ParentType&>(*this).{{setter}}(std::move(value));
+    }
+
+    template <typename ParentType, typename StorageType>
+    void write{{name}}Property(std::false_type, StorageType& storage, {{{dataType}}} value)
+    {
+        storage.value = std::move(value);
+    }
+
+    {{/vars}}
+    {{/parent}}
+
+protected:
+    {{#vars}}
+    {{#parent}}
+    {{^isContainer}}
+    {{^isModel}}
+    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}} =
+        {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value>({{{defaultValue}}});
+    {{/isModel}}
+    {{#isModel}}
+    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
+    {{/isModel}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
+    {{/isContainer}}
+    {{/parent}}
+    {{^parent}}
+    {{^isContainer}}
+    {{^isModel}}
+    {{{dataType}}} m_{{name}} = {{{defaultValue}}};
+    {{/isModel}}
+    {{#isModel}}
+    {{{dataType}}} m_{{name}};
+    {{/isModel}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{{dataType}}} m_{{name}};
+    {{/isContainer}}
+    {{/parent}}
+    {{^required}}
+    bool m_{{name}}IsSet = false;
+    {{/required}}
+    {{/vars}}
+};
+
+std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data);
+
+void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json);
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+{{/model}}
+{{/models}}
+
+#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */

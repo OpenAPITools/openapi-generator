@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: Sort Output Test
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /zebra:
+    post:
+      operationId: createZebra
+      summary: Create a zebra
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ZebraModel'
+      responses:
+        '201':
+          description: Created
+    get:
+      operationId: listZebras
+      summary: List zebras
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZebraModel'
+  /mammals:
+    delete:
+      operationId: deleteMammal
+      summary: Delete a mammal
+      responses:
+        '204':
+          description: No Content
+    get:
+      operationId: getMammal
+      summary: Get a mammal
+      parameters:
+        - $ref: '#/components/parameters/zLimit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MammalModel'
+  /animals:
+    get:
+      operationId: listAnimals
+      summary: List animals
+      parameters:
+        - $ref: '#/components/parameters/mPage'
+        - $ref: '#/components/parameters/aFilter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnimalModel'
+components:
+  schemas:
+    ZebraModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    MammalModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        species:
+          type: string
+    AnimalModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+  parameters:
+    zLimit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+    mPage:
+      name: page
+      in: query
+      schema:
+        type: integer
+    aFilter:
+      name: filter
+      in: query
+      schema:
+        type: string

@@ -155,8 +155,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ZeroBasedEnumClass" />
     /// </summary>
-    public class ZeroBasedEnumClassJsonConverter : JsonConverter<ZeroBasedEnumClass>
+    public partial class ZeroBasedEnumClassJsonConverter : JsonConverter<ZeroBasedEnumClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZeroBasedEnumClassJsonConverter" /> class.
+        /// </summary>
+        public ZeroBasedEnumClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ZeroBasedEnumClass" />
         /// </summary>
@@ -194,7 +204,12 @@ namespace Org.OpenAPITools.Model
                         case "ZeroBasedEnum":
                             string zeroBasedEnumRawValue = utf8JsonReader.GetString();
                             if (zeroBasedEnumRawValue != null)
-                                zeroBasedEnum = new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum?>(ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue));
+                            {
+                                ZeroBasedEnumClass.ZeroBasedEnumEnum? zeroBasedEnumValue = ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue);
+                                if (zeroBasedEnumValue == null)
+                                    throw new JsonException();
+                                zeroBasedEnum = new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum?>(zeroBasedEnumValue);
+                            }
                             break;
                         default:
                             break;

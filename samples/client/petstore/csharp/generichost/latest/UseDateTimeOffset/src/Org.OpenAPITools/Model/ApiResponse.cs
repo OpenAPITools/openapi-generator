@@ -115,8 +115,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ApiResponse" />
     /// </summary>
-    public class ApiResponseJsonConverter : JsonConverter<ApiResponse>
+    public partial class ApiResponseJsonConverter : JsonConverter<ApiResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiResponseJsonConverter" /> class.
+        /// </summary>
+        public ApiResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ApiResponse" />
         /// </summary>

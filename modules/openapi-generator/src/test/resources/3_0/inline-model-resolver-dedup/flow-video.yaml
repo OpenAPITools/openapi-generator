@@ -1,0 +1,9 @@
+title: Video Flow
+description: A video flow
+type: object
+allOf:
+  - $ref: flow-core.yaml
+  - type: object
+    properties:
+      format:
+        type: string

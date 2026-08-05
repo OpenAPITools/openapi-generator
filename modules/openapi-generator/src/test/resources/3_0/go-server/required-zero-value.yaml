@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: Test - OpenAPI 3.0
+  version: 1.0.0
+servers:
+  - url: https://localhost:8080/api/v1
+paths:
+  /config:
+    put:
+      summary: Update something
+      operationId: update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestObject'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+components:
+  schemas:
+    BaseObject:
+      type: object
+      discriminator:
+        propertyName: kind
+      properties:
+        kind:
+          type: string
+        name:
+          type: string
+      required:
+        - name
+    TestObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseObject'
+        - type: object
+          properties:
+            n:
+              type: integer
+              minimum: 0
+          required:
+            - n

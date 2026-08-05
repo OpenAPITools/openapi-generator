@@ -8,6 +8,16 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+pub type SSE = std::pin::Pin<
+    std::boxed::Box<
+        dyn futures_util::Stream<
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
+            > + std::marker::Send
+            + std::marker::Sync,
+    >,
+>;
+
+#[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
     let mut errs = validator::ValidationErrors::new();
     errs.add("na", e);
@@ -183,7 +193,7 @@ impl std::str::FromStr for IntegerTypes {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing IntegerTypes".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -213,7 +223,7 @@ impl std::str::FromStr for IntegerTypes {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing IntegerTypes".to_string(),
-                        );
+                        )
                     }
                 }
             }

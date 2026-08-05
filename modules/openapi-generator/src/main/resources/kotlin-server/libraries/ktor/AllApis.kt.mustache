@@ -1,0 +1,18 @@
+package {{packageName}}
+
+import io.ktor.server.routing.*
+{{#generateApis}}{{#apiInfo}}{{#apis}}import {{apiPackage}}.{{classname}}
+{{/apis}}{{/apiInfo}}{{/generateApis}}
+
+
+{{#generateApis}}
+fun Route.AllApis() {
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+    {{classname}}()
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+}
+{{/generateApis}}

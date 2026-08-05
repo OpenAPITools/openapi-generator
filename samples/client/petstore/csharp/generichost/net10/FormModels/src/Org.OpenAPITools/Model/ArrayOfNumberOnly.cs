@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ArrayOfNumberOnly" />
     /// </summary>
-    public class ArrayOfNumberOnlyJsonConverter : JsonConverter<ArrayOfNumberOnly>
+    public partial class ArrayOfNumberOnlyJsonConverter : JsonConverter<ArrayOfNumberOnly>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayOfNumberOnlyJsonConverter" /> class.
+        /// </summary>
+        public ArrayOfNumberOnlyJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ArrayOfNumberOnly" />
         /// </summary>

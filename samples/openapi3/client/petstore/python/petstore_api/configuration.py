@@ -15,8 +15,11 @@ import http.client as httplib
 import logging
 from logging import FileHandler
 import multiprocessing
+import ssl
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
+from urllib.parse import urlparse
+from urllib.request import getproxies
 from typing_extensions import NotRequired, Self
 
 import urllib3
@@ -177,7 +180,9 @@ class Configuration:
     :param tls_server_name: SSL/TLS Server Name Indication (SNI). Set this to the SNI value expected by the server.
     :param connection_pool_maxsize: Connection pool max size. None in the constructor is coerced to 100 for async and cpu_count * 5 for sync.
     :param proxy: Proxy URL.
+    :param no_proxy: Comma-separated hosts that bypass the proxy.
     :param proxy_headers: Proxy headers.
+    :param proxy_ssl_context: SSL context used only for the TLS handshake with the proxy itself, independent of the destination TLS settings.
     :param safe_chars_for_path_param: Safe characters for path parameter encoding.
     :param client_side_validation: Enable client-side validation. Default True.
     :param socket_options: Options to pass down to the underlying urllib3 socket.
@@ -287,7 +292,9 @@ conf = petstore_api.Configuration(
         tls_server_name: Optional[str]=None,
         connection_pool_maxsize: Optional[int]=None,
         proxy: Optional[str]=None,
+        no_proxy: Optional[str]=None,
         proxy_headers: Optional[Any]=None,
+        proxy_ssl_context: Optional[ssl.SSLContext]=None,
         safe_chars_for_path_param: str='',
         client_side_validation: bool=True,
         socket_options: Optional[Any]=None,
@@ -398,11 +405,28 @@ conf = petstore_api.Configuration(
            per pool. None in the constructor is coerced to cpu_count * 5.
         """
 
+        # urllib3 does not read proxy environment variables itself:
+        # https://github.com/urllib3/urllib3/issues/1785
+        if proxy is None or no_proxy is None:
+            proxies = getproxies()
+            if proxy is None:
+                scheme = urlparse(self.host).scheme
+                proxy = proxies.get(scheme) or proxies.get("all")
+            if no_proxy is None:
+                no_proxy = proxies.get("no")
         self.proxy = proxy
         """Proxy URL
         """
+        self.no_proxy = no_proxy
+        """Hosts that bypass the proxy
+        """
         self.proxy_headers = proxy_headers
         """Proxy headers
+        """
+        self.proxy_ssl_context = proxy_ssl_context
+        """SSL context used only for the TLS handshake with the proxy itself
+        (e.g. an HTTPS CONNECT tunnel), independent of the destination TLS
+        settings above.
         """
         self.safe_chars_for_path_param = safe_chars_for_path_param
         """Safe chars for path_param
@@ -430,13 +454,17 @@ conf = petstore_api.Configuration(
         result = cls.__new__(cls)
         memo[id(self)] = result
         for k, v in self.__dict__.items():
+            if k == 'proxy_ssl_context':
+                # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
+                setattr(result, k, v)
+                continue
             if k not in ('logger', 'logger_file_handler'):
                 setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
         result.logger = copy.copy(self.logger)
-        # use setters to configure loggers
+        # use setter to re-create the file handler (excluded from __dict__ copy)
         result.logger_file = self.logger_file
-        result.debug = self.debug
+
         return result
 
     def __setattr__(self, name: str, value: Any) -> None:
@@ -577,7 +605,8 @@ conf = petstore_api.Configuration(
             self.refresh_api_key_hook(self)
         key = self.api_key.get(identifier, self.api_key.get(alias) if alias is not None else None)
         if key:
-            prefix = self.api_key_prefix.get(identifier)
+            prefix = self.api_key_prefix.get(
+                identifier, self.api_key_prefix.get(alias) if alias is not None else None)
             if prefix:
                 return "%s %s" % (prefix, key)
             else:

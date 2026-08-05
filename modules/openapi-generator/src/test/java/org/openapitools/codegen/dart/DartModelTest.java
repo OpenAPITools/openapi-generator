@@ -374,6 +374,8 @@ public class DartModelTest {
                 {"hello", "hello"},
                 {"FOO", "FOO"},
                 {"FOO_BAR", "FOO_BAR"},
+                {"FOO2", "FOO2"},
+                {"FOO_BAR2", "FOO_BAR2"},
                 {"FOO_BAR_BAZ_", "FOO_BAR_BAZ_"},
                 {"123hello", "n123hello"},
                 {"_hello", "hello"},
@@ -418,6 +420,8 @@ public class DartModelTest {
                 new EnumVarName("hello", "hello", "String"),
                 new EnumVarName("FOO", "FOO", "String"),
                 new EnumVarName("FOO_BAR", "FOO_BAR", "String"),
+                new EnumVarName("FOO2", "FOO2", "String"),
+                new EnumVarName("FOO_BAR2", "FOO_BAR2", "String"),
                 new EnumVarName("FOO_BAR_BAZ_", "FOO_BAR_BAZ_", "String"),
                 new EnumVarName("123hello", "n123hello", "String"),
                 new EnumVarName("_hello", "hello", "String"),
@@ -546,12 +550,12 @@ public class DartModelTest {
         Assert.assertEquals(enumVars.get(0).get("name"), "foo");
         Assert.assertEquals(enumVars.get(0).get("value"), "1");
         Assert.assertEquals(enumVars.get(0).get("isString"), false);
-        Assert.assertEquals(enumVars.get(0).get("description"), "the foo");
+        Assert.assertEquals(enumVars.get(0).get("enumDescription"), "the foo");
 
         Assert.assertEquals(enumVars.get(1).get("name"), "bar");
         Assert.assertEquals(enumVars.get(1).get("value"), "2");
         Assert.assertEquals(enumVars.get(1).get("isString"), false);
-        Assert.assertEquals(enumVars.get(1).get("description"), "the bar");
+        Assert.assertEquals(enumVars.get(1).get("enumDescription"), "the bar");
     }
 
     // datetime (or primitive type) not yet supported in HTTP request body

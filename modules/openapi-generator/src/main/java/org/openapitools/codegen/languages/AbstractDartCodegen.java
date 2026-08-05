@@ -28,7 +28,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.BUNGIE_X_ENUM_VALUES;
+import static org.openapitools.codegen.utils.EnumUtils.getBungieEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
@@ -416,7 +419,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         name = name.replaceAll("^_", "");
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (name.matches("^[A-Z_][A-Z0-9_]*$")) {
             return name;
         }
 
@@ -633,6 +636,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (useOptional) {
             for (ModelMap modelMap : objs.getModels()) {
                 CodegenModel model = modelMap.getModel();
+                boolean hasOptionalProperties = false;
 
                 boolean shouldUseOptional;
 
@@ -647,9 +651,12 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                     for (CodegenProperty prop : model.vars) {
                         if (!prop.required && !prop.dataType.startsWith("Optional<")) {
                             wrapPropertyWithOptional(prop);
+                            hasOptionalProperties = true;
                         }
                     }
                 }
+
+                model.vendorExtensions.put("x-has-optional-properties", hasOptionalProperties);
             }
         }
 
@@ -664,6 +671,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         boolean hasNullableSuffix = property.dataType.endsWith("?");
         String baseType = hasNullableSuffix ? property.dataType.substring(0, property.dataType.length() - 1) : property.dataType;
+        property.vendorExtensions.put("x-unwrapped-datatype-nullable", baseType + "?");
         property.dataType = "Optional<" + baseType + "?" + ">";
 
         if (property.datatypeWithEnum != null && !property.datatypeWithEnum.startsWith("Optional<")) {
@@ -671,6 +679,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             baseType = hasNullableSuffix ? property.datatypeWithEnum.substring(0, property.datatypeWithEnum.length() - 1) : property.datatypeWithEnum;
             property.datatypeWithEnum = "Optional<" + baseType + "?" + ">";
         }
+
+        property.isNullable = false;
     }
 
     @Override
@@ -851,21 +861,19 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
-        if (vendorExtensions != null && useEnumExtension && vendorExtensions.containsKey("x-enum-values")) {
+        if (vendorExtensions != null && useEnumExtension && vendorExtensions.containsKey(BUNGIE_X_ENUM_VALUES)) {
             // Use the x-enum-values extension for this enum
             // Existing enumVars added by the default handling need to be removed first
             enumVars.clear();
 
-            Object extension = vendorExtensions.get("x-enum-values");
-            List<Map<String, Object>> values = (List<Map<String, Object>>) extension;
-            for (Map<String, Object> value : values) {
-                Map<String, Object> enumVar = new HashMap<>();
-                enumVar.put("name", toEnumVarName((String) value.get("identifier"), dataType));
-                enumVar.put("value", toEnumValue(value.get("numericValue").toString(), dataType));
-                enumVar.put("isString", isDataTypeString(dataType));
-                if (value.containsKey("description")) {
-                    enumVar.put("description", value.get("description").toString());
-                }
+            List<Map<String, String>> bungieEnumValues = getBungieEnumValues((List<Map<String, Object>>) vendorExtensions.get(BUNGIE_X_ENUM_VALUES));
+
+            boolean isString = isDataTypeString(dataType);
+            for (Map<String, String> value : bungieEnumValues) {
+                Map<String, Object> enumVar = new HashMap<>(value);
+                enumVar.put(ENUM_NAME, toEnumVarName(value.get(ENUM_NAME), dataType));
+                enumVar.put(ENUM_VALUE, toEnumValue(value.get(ENUM_VALUE), dataType));
+                enumVar.put(ENUM_IS_STRING, isString);
                 enumVars.add(enumVar);
             }
         } else {

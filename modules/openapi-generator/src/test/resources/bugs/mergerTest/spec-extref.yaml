@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info:
+  title: ExtRef Spec
+  version: 1.0.0
+servers:
+  - url: api.my-domain.com/my-context-root/v1
+paths:
+  /extref:
+    get:
+      tags:
+        - extref
+      summary: extref
+      operationId: extrefOperation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: './common-components.yaml#/components/schemas/SharedModel'

@@ -77,8 +77,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Adult" />
     /// </summary>
-    public class AdultJsonConverter : JsonConverter<Adult>
+    public partial class AdultJsonConverter : JsonConverter<Adult>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdultJsonConverter" /> class.
+        /// </summary>
+        public AdultJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Adult" />
         /// </summary>

@@ -35,6 +35,7 @@ frunk-enum-core = { version = "0.3", optional = true }
 frunk-enum-derive = { version = "0.3", optional = true }
 frunk_core = { version = "0.4", optional = true }
 frunk_derives = { version = "0.4", optional = true }
+futures-util = "0.3"
 headers = "0.4"
 http = "1"
 lazy_static = "1"

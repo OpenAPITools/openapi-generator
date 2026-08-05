@@ -107,8 +107,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="SpecialModelName" />
     /// </summary>
-    public class SpecialModelNameJsonConverter : JsonConverter<SpecialModelName>
+    public partial class SpecialModelNameJsonConverter : JsonConverter<SpecialModelName>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpecialModelNameJsonConverter" /> class.
+        /// </summary>
+        public SpecialModelNameJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="SpecialModelName" />
         /// </summary>

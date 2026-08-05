@@ -13,13 +13,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Validates that the page number and page size in the annotated {@link Pageable} parameter do not
- * exceed their configured maximums.
+ * Validates that the page number and page size in the annotated {@link Pageable} parameter are
+ * within their configured bounds.
  *
  * <p>Apply directly on a {@code Pageable} parameter. Each attribute is independently optional:
  * <ul>
  *   <li>{@link #maxSize()} — when set (&gt;= 0), validates {@code pageable.getPageSize() <= maxSize}
  *   <li>{@link #maxPage()} — when set (&gt;= 0), validates {@code pageable.getPageNumber() <= maxPage}
+ *   <li>{@link #minSize()} — when set (&gt;= 0), validates {@code pageable.getPageSize() >= minSize}
+ *   <li>{@link #minPage()} — when set (&gt;= 0), validates {@code pageable.getPageNumber() >= minPage}
  * </ul>
  *
  * <p>Use {@link #NO_LIMIT} (= {@code -1}, the default) to leave an attribute unconstrained.
@@ -43,6 +45,12 @@ public @interface ValidPageable {
     /** Maximum allowed page number (0-based), or {@link #NO_LIMIT} if unconstrained. */
     int maxPage() default NO_LIMIT;
 
+    /** Minimum allowed page size, or {@link #NO_LIMIT} if unconstrained. */
+    int minSize() default NO_LIMIT;
+
+    /** Minimum allowed page number (0-based), or {@link #NO_LIMIT} if unconstrained. */
+    int minPage() default NO_LIMIT;
+
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
@@ -53,11 +61,15 @@ public @interface ValidPageable {
 
         private int maxSize = NO_LIMIT;
         private int maxPage = NO_LIMIT;
+        private int minSize = NO_LIMIT;
+        private int minPage = NO_LIMIT;
 
         @Override
         public void initialize(ValidPageable constraintAnnotation) {
             maxSize = constraintAnnotation.maxSize();
             maxPage = constraintAnnotation.maxPage();
+            minSize = constraintAnnotation.minSize();
+            minPage = constraintAnnotation.minPage();
         }
 
         @Override
@@ -88,6 +100,26 @@ public @interface ValidPageable {
                                 context.getDefaultConstraintMessageTemplate()
                                         + ": page number " + pageable.getPageNumber()
                                         + " exceeds maximum " + maxPage)
+                        .addPropertyNode("page")
+                        .addConstraintViolation();
+                valid = false;
+            }
+
+            if (minSize >= 0 && pageable.getPageSize() < minSize) {
+                context.buildConstraintViolationWithTemplate(
+                                context.getDefaultConstraintMessageTemplate()
+                                        + ": page size " + pageable.getPageSize()
+                                        + " is below minimum " + minSize)
+                        .addPropertyNode("size")
+                        .addConstraintViolation();
+                valid = false;
+            }
+
+            if (minPage >= 0 && pageable.getPageNumber() < minPage) {
+                context.buildConstraintViolationWithTemplate(
+                                context.getDefaultConstraintMessageTemplate()
+                                        + ": page number " + pageable.getPageNumber()
+                                        + " is below minimum " + minPage)
                         .addPropertyNode("page")
                         .addConstraintViolation();
                 valid = false;

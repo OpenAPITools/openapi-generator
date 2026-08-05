@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  title: 'Issue 23886 Jackson nested numeric enum'
+  version: latest
+paths:
+  '/example':
+    get:
+      operationId: getExample
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleModel'
+components:
+  schemas:
+    ExampleModel:
+      type: object
+      properties:
+        source:
+          type: integer
+          format: int32
+          enum:
+            - -1
+            - 0
+            - 1

@@ -1,0 +1,15 @@
+openapi: 3.0.3
+info:
+  title: Go enum unknown default case
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    StatusA:
+      type: string
+      enum:
+        - active
+    StatusB:
+      type: string
+      enum:
+        - active

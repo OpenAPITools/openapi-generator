@@ -4,7 +4,7 @@ wiremock = "3.5.4"
 
 [libraries]
 wiremock = { module = "org.wiremock:wiremock", version.ref = "wiremock" }
-jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version = "2.17.1" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version = "2.18.9" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

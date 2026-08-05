@@ -22,6 +22,8 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -32,6 +34,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -173,6 +176,180 @@ public class InlineModelResolverTest {
         assertNotNull(address.getProperties().get("street"));
         Schema duplicateAddress = openapi.getComponents().getSchemas().get("UserAddressTitle_0");
         assertNull(duplicateAddress);
+    }
+
+    @Test
+    public void resolveInlineModelDeduplicatesAgainstExistingComponentSchema() {
+        // When a pre-existing components/schemas entry has the same title and content as an
+        // inline schema encountered during flattening, the inline schema should reuse the
+        // pre-existing name rather than being registered as a numbered variant (e.g. Foo_1).
+        // Regression test for: external $ref chains producing ContainerMapping + ContainerMapping_1.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+
+        // Pre-existing named schema registered directly in components
+        openapi.getComponents().addSchemas("ContainerMapping", new ObjectSchema()
+                .title("ContainerMapping")
+                .description("Describes the mapping of essence from a container")
+                .addProperty("track_index", new IntegerSchema()));
+
+        // Schema whose inline property content is identical to the pre-existing ContainerMapping
+        openapi.getComponents().addSchemas("FlowCore", new ObjectSchema()
+                .name("FlowCore")
+                .addProperty("container_mapping", new ObjectSchema()
+                        .title("ContainerMapping")
+                        .description("Describes the mapping of essence from a container")
+                        .addProperty("track_index", new IntegerSchema())));
+
+        new InlineModelResolver().flatten(openapi);
+
+        // The pre-existing entry must still exist
+        assertNotNull(openapi.getComponents().getSchemas().get("ContainerMapping"));
+        // No numbered duplicate should have been created
+        assertNull(openapi.getComponents().getSchemas().get("ContainerMapping_1"));
+    }
+
+    @Test
+    public void resolveInlineModelDeduplicatesAcrossExternalRefChains() {
+        // Regression test: same external schema referenced from two schemas (one via plain $ref,
+        // one via $ref + sibling description as allowed in OpenAPI 3.1) must not produce a
+        // duplicate numbered model (Container_Mapping_1).
+        ParseOptions parseOptions = new ParseOptions();
+        parseOptions.setResolve(true);
+        parseOptions.setResolveResponses(true);
+        OpenAPI openAPI = new OpenAPIParser().readLocation(
+                "src/test/resources/3_0/inline-model-resolver-dedup/root.yaml",
+                null, parseOptions).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+        assertNotNull(schemas.get("Container_Mapping"));
+        assertNull("Duplicate Container_Mapping_1 must not exist", schemas.get("Container_Mapping_1"));
+    }
+
+    @Test
+    public void resolveInlineModelDeduplicatesWhenParserMutatesPropertyDescriptions() {
+        // Regression test: when the Swagger Parser shares and mutates resolved Schema objects
+        // (e.g. a shared uuid.json resolved Schema has its description overwritten by whichever
+        // property referencing it was last processed), two Schema objects from the same external
+        // file may end up with different serialised JSON despite being structurally identical.
+        // The structural-hash fallback in matchGenerated() (serialised without any 'description'
+        // fields at any level) must still deduplicate them rather than creating a numbered variant.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        // Schema A: properties have "correct" descriptions (as the file author wrote them)
+        Schema widgetA = new ObjectSchema()
+                .title("Widget")
+                .description("A reusable widget")
+                .addProperty("id", new StringSchema().description("Widget identifier"))
+                .addProperty("name", new StringSchema().description("Widget name"));
+
+        // Schema B: same title/description/property-names, but 'id' has a DIFFERENT description
+        // (simulating what the Swagger Parser does when it shares and mutates a resolved sub-schema)
+        Schema widgetB = new ObjectSchema()
+                .title("Widget")
+                .description("A reusable widget")
+                .addProperty("id", new StringSchema().description("MUTATED description from another schema"))
+                .addProperty("name", new StringSchema().description("Widget name"));
+
+        ApiResponse responseA = new ApiResponse()
+                .description("OK")
+                .content(new Content().addMediaType("application/json",
+                        new MediaType().schema(widgetA)));
+        ApiResponse responseB = new ApiResponse()
+                .description("OK")
+                .content(new Content().addMediaType("application/json",
+                        new MediaType().schema(widgetB)));
+
+        openapi.getPaths()
+                .addPathItem("/a", new PathItem().get(
+                        new Operation().operationId("getA").responses(new ApiResponses().addApiResponse("200", responseA))))
+                .addPathItem("/b", new PathItem().get(
+                        new Operation().operationId("getB").responses(new ApiResponses().addApiResponse("200", responseB))));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        assertNotNull("Widget schema must exist", schemas.get("Widget"));
+        assertNull("Duplicate Widget_1 must not exist — shape-fingerprint dedup must fire", schemas.get("Widget_1"));
+    }
+
+    @Test
+    public void resolveInlineModelDeduplicatesMultipleRefsToSameExternalFile() {
+        // Regression test: when the same external schema file is referenced from three separate
+        // paths (simulating DeletionRequest appearing multiple times in the TAMS spec), the parser
+        // may share the same Java Schema object across all three references. After the first
+        // processing mutates the object (inline sub-schemas replaced with $refs), subsequent
+        // encounters hash differently. The identity-based fast path in matchGenerated() must
+        // recognise the same object reference and avoid registering a numbered duplicate.
+        ParseOptions parseOptions = new ParseOptions();
+        parseOptions.setResolve(true);
+        parseOptions.setResolveResponses(true);
+        OpenAPI openAPI = new OpenAPIParser().readLocation(
+                "src/test/resources/3_0/inline-model-resolver-dedup/root.yaml",
+                null, parseOptions).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+        assertNotNull(schemas.get("Deletion_Request"));
+        assertNull("Duplicate Deletion_Request_1 must not exist", schemas.get("Deletion_Request_1"));
+    }
+
+    @Test
+    public void resolveInlineModelKeepsUntitledSchemasDifferingOnlyByDescriptionDistinct() {
+        // Regression test for #24004: two distinct *untitled* inline object schemas that differ
+        // only in their descriptions (here the nested 'result' property: "ABC Result" vs
+        // "DEF Result") must NOT be merged. The volatile-stripped structural-signature fallback in
+        // matchGenerated() collapses them once description/type are removed; that fallback is only
+        // intended to unify titled named types across parser volatility, so it must not fire for
+        // untitled inline schemas — otherwise 'def' silently gets the type generated for 'abc' and
+        // breaks user code that expects two separate types (regression introduced in 7.23).
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        Schema abc = new ObjectSchema()
+                .description("first container")
+                .addProperty("result", new StringSchema().description("ABC Result"));
+        Schema def = new ObjectSchema()
+                .description("second container")
+                .addProperty("result", new StringSchema().description("DEF Result"));
+
+        Schema response = new ObjectSchema()
+                .addProperty("abc", abc)
+                .addProperty("def", def);
+
+        ApiResponse apiResponse = new ApiResponse()
+                .description("OK")
+                .content(new Content().addMediaType("application/json",
+                        new MediaType().schema(response)));
+
+        openapi.getPaths().addPathItem("/default", new PathItem().get(
+                new Operation().operationId("apiGetDefault")
+                        .responses(new ApiResponses().addApiResponse("200", apiResponse))));
+
+        new InlineModelResolver().flatten(openapi);
+
+        // Locate the flattened response model (the only component schema carrying both properties).
+        Schema responseModel = null;
+        for (Schema candidate : openapi.getComponents().getSchemas().values()) {
+            if (candidate.getProperties() != null
+                    && candidate.getProperties().containsKey("abc")
+                    && candidate.getProperties().containsKey("def")) {
+                responseModel = candidate;
+                break;
+            }
+        }
+        assertNotNull("Flattened response model with abc/def properties must exist", responseModel);
+
+        String abcRef = ((Schema) responseModel.getProperties().get("abc")).get$ref();
+        String defRef = ((Schema) responseModel.getProperties().get("def")).get$ref();
+        assertNotNull("abc property must be a $ref to a generated schema", abcRef);
+        assertNotNull("def property must be a $ref to a generated schema", defRef);
+        assertFalse("abc and def must resolve to DISTINCT schemas, not be merged: " + abcRef,
+                abcRef.equals(defRef));
     }
 
     @Test
@@ -1204,5 +1381,289 @@ public class InlineModelResolverTest {
         Schema allOfRefWithDescriptionAndReadonly = (Schema) limitsModel.getProperties().get("allOfRefWithDescriptionAndReadonly");
         assertNotNull(allOfRefWithDescriptionAndReadonly.getAllOf());
         assertEquals(numberRangeRef, ((Schema) allOfRefWithDescriptionAndReadonly.getAllOf().get(0)).get$ref());
+    }
+
+    @Test
+    public void resolveInlineModelDeduplicatesWhenParserMutatesPropertyTypes() {
+        // Regression test: the Swagger Parser shares a single resolved Schema object across all
+        // usages of an external type (e.g. storage-backend.json) and strips the 'type' field
+        // from its properties between processing passes.  The first usage sees properties with
+        // type:"string"; the second usage sees the same object but with type stripped to null.
+        // IgnoreVolatileFieldsMixIn now strips 'type' in addition to 'description', so the
+        // structural-hash fallback in matchGenerated() must still unify them rather than creating
+        // a numbered variant.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        // First inline schema: properties carry explicit type annotations (as delivered by the
+        // parser on first encounter of the shared external schema object)
+        StringSchema prop1First = new StringSchema();
+        prop1First.setDescription("The store type");
+        StringSchema prop2First = new StringSchema();
+        prop2First.setDescription("The provider");
+        Schema schemaFirstPass = new ObjectSchema()
+                .title("StorageBackend")
+                .description("A storage backend")
+                .addProperty("store_type", prop1First)
+                .addProperty("provider",   prop2First);
+
+        // Second inline schema: same structure but 'type' has been stripped from properties,
+        // simulating the Swagger Parser mutating the shared resolved Schema object between passes.
+        StringSchema prop1Second = new StringSchema();
+        prop1Second.setType(null);   // simulate parser stripping the type field
+        prop1Second.setDescription("The store type");
+        StringSchema prop2Second = new StringSchema();
+        prop2Second.setType(null);
+        prop2Second.setDescription("The provider");
+        Schema schemaSecondPass = new ObjectSchema()
+                .title("StorageBackend")
+                .description("A storage backend")
+                .addProperty("store_type", prop1Second)
+                .addProperty("provider",   prop2Second);
+
+        openapi.getPaths()
+                .addPathItem("/a", new PathItem().get(new Operation().operationId("getA")
+                        .responses(new ApiResponses().addApiResponse("200", new ApiResponse()
+                                .description("OK")
+                                .content(new Content().addMediaType("application/json",
+                                        new MediaType().schema(schemaFirstPass)))))))
+                .addPathItem("/b", new PathItem().get(new Operation().operationId("getB")
+                        .responses(new ApiResponses().addApiResponse("200", new ApiResponse()
+                                .description("OK")
+                                .content(new Content().addMediaType("application/json",
+                                        new MediaType().schema(schemaSecondPass)))))));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        assertNotNull("StorageBackend schema must exist", schemas.get("StorageBackend"));
+        assertNull("Duplicate StorageBackend_1 must not exist — type-stripped structural match must fire",
+                schemas.get("StorageBackend_1"));
+    }
+
+    @Test
+    public void deduplicateComponentsRemovesNumberedDuplicateOfTitledSchemaAndRewritesRefs() {
+        // Regression test: when flattening creates a numbered duplicate of a titled component
+        // (e.g. FlowSegment_1 alongside FlowSegment) because matchGenerated() missed the match
+        // due to T0-vs-T1 pre-populate timing, deduplicateComponents() must remove the duplicate
+        // and rewrite all $refs to it throughout the spec so the generated code only contains one
+        // class.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        Schema canonical = new ObjectSchema()
+                .title("Widget")
+                .description("A widget")
+                .addProperty("name", new StringSchema());
+
+        // Duplicate: same title and structure — simulates what flatten() can produce when the
+        // pre-populate T0 signature no longer matches the T1 form of the same inline schema.
+        Schema duplicate = new ObjectSchema()
+                .title("Widget")
+                .description("A widget")
+                .addProperty("name", new StringSchema());
+
+        openapi.getComponents().addSchemas("Widget",   canonical);
+        openapi.getComponents().addSchemas("Widget_1", duplicate);
+
+        // Path whose response references the numbered duplicate
+        openapi.getPaths().addPathItem("/widgets", new PathItem().get(
+                new Operation().operationId("getWidget").responses(
+                        new ApiResponses().addApiResponse("200", new ApiResponse()
+                                .description("OK")
+                                .content(new Content().addMediaType("application/json",
+                                        new MediaType().schema(new Schema<>()
+                                                .$ref("#/components/schemas/Widget_1"))))))));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        assertNotNull("Canonical Widget must survive deduplication", schemas.get("Widget"));
+        assertNull("Duplicate Widget_1 must be removed by deduplicateComponents()", schemas.get("Widget_1"));
+
+        // The $ref in the path response must have been rewritten to the canonical name
+        Schema responseSchema = openapi.getPaths().get("/widgets").getGet()
+                .getResponses().get("200").getContent().get("application/json").getSchema();
+        assertEquals("$ref must be rewritten from Widget_1 to Widget",
+                "#/components/schemas/Widget", responseSchema.get$ref());
+    }
+
+    @Test
+    public void deduplicateComponentsRewritesDiscriminatorMappings() {
+        // Regression test: deduplicateComponents() removes a structural duplicate and rewrites
+        // every $ref to it. A discriminator mapping is a reference too, but it lives in
+        // `discriminator.mapping` rather than in a `$ref` field. When it is not rewritten, the
+        // mapping keeps naming a schema that no longer exists, so no model is generated for it
+        // and the generated polymorphic dispatch references an undefined type.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        // ApiError and BetaApiError share a title and a structure, so BetaApiError is removed and
+        // ApiError (alphabetically first) is kept as canonical.
+        Schema apiError = new ObjectSchema()
+                .title("ApiError")
+                .addProperty("message", new StringSchema());
+        Schema betaApiError = new ObjectSchema()
+                .title("ApiError")
+                .addProperty("message", new StringSchema());
+        Schema notFound = new ObjectSchema()
+                .title("NotFound")
+                .addProperty("detail", new StringSchema());
+
+        openapi.getComponents().addSchemas("ApiError", apiError);
+        openapi.getComponents().addSchemas("BetaApiError", betaApiError);
+        openapi.getComponents().addSchemas("NotFound", notFound);
+
+        // A discriminated union whose mapping points at the schema that is about to be removed.
+        Schema errorResponse = new ObjectSchema()
+                .title("ErrorResponse")
+                .discriminator(new Discriminator()
+                        .propertyName("type")
+                        .mapping("api_error", "#/components/schemas/BetaApiError")
+                        // the spec also allows a bare schema name as a mapping value
+                        .mapping("legacy_api_error", "BetaApiError")
+                        .mapping("not_found", "#/components/schemas/NotFound"));
+        errorResponse.setOneOf(List.of(
+                new Schema<>().$ref("#/components/schemas/BetaApiError"),
+                new Schema<>().$ref("#/components/schemas/NotFound")));
+        openapi.getComponents().addSchemas("ErrorResponse", errorResponse);
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        assertNotNull("Canonical ApiError must survive deduplication", schemas.get("ApiError"));
+        assertNull("Duplicate BetaApiError must be removed", schemas.get("BetaApiError"));
+
+        Schema union = schemas.get("ErrorResponse");
+        // Control: the oneOf $ref is rewritten (this already worked).
+        assertEquals("oneOf $ref must be rewritten to the canonical schema",
+                "#/components/schemas/ApiError", ((Schema) union.getOneOf().get(0)).get$ref());
+        // The defect: the discriminator mapping must follow the same rewrite.
+        assertEquals("discriminator mapping must be rewritten to the canonical schema",
+                "#/components/schemas/ApiError", union.getDiscriminator().getMapping().get("api_error"));
+        // a bare-name mapping value is rewritten too, and stays a bare name
+        assertEquals("bare-name discriminator mapping must be rewritten, keeping the bare form",
+                "ApiError", union.getDiscriminator().getMapping().get("legacy_api_error"));
+        assertEquals("an untouched mapping entry must be left alone",
+                "#/components/schemas/NotFound", union.getDiscriminator().getMapping().get("not_found"));
+    }
+
+    /** A schema that is a structural duplicate of "Canonical" and therefore gets removed. */
+    private static void addCanonicalAndDuplicate(OpenAPI openapi) {
+        openapi.getComponents().addSchemas("Canonical",
+                new ObjectSchema().title("Thing").addProperty("name", new StringSchema()));
+        openapi.getComponents().addSchemas("Duplicate",
+                new ObjectSchema().title("Thing").addProperty("name", new StringSchema()));
+    }
+
+    private static Schema refToDuplicate() {
+        return new Schema<>().$ref("#/components/schemas/Duplicate");
+    }
+
+    private static void assertRewritten(String carrier, Schema schema) {
+        assertNotNull("no schema found for carrier " + carrier, schema);
+        assertEquals("$ref in " + carrier + " must be rewritten to the canonical schema",
+                "#/components/schemas/Canonical", schema.get$ref());
+    }
+
+    @Test
+    public void deduplicateComponentsRewritesRefsInEverySubSchemaContainer() {
+        // deduplicateComponents() rewrites $refs by walking a schema's sub-schemas. The walk used
+        // to stop at properties/items/allOf/anyOf/oneOf/not/additionalProperties, so a $ref held in
+        // any other JSON Schema 2020-12 container survived pointing at the removed schema.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+        addCanonicalAndDuplicate(openapi);
+
+        Schema holder = new ObjectSchema().title("Holder");
+        // control: an already-walked container, so a total failure of the probe is visible
+        holder.addProperty("control", refToDuplicate());
+        holder.setPatternProperties(new HashMap<>(Map.of("^x-", refToDuplicate())));
+        holder.setDependentSchemas(new HashMap<>(Map.of("a", refToDuplicate())));
+        holder.setPrefixItems(new ArrayList<>(List.of(refToDuplicate())));
+        holder.setIf(refToDuplicate());
+        holder.setThen(refToDuplicate());
+        holder.setElse(refToDuplicate());
+        holder.setContains(refToDuplicate());
+        holder.setPropertyNames(refToDuplicate());
+        holder.setUnevaluatedItems(refToDuplicate());
+        holder.setUnevaluatedProperties(refToDuplicate());
+        holder.setAdditionalItems(refToDuplicate());
+        holder.setContentSchema(refToDuplicate());
+        openapi.getComponents().addSchemas("Holder", holder);
+
+        new InlineModelResolver().flatten(openapi);
+
+        assertNull("the duplicate must be removed", openapi.getComponents().getSchemas().get("Duplicate"));
+        Schema h = openapi.getComponents().getSchemas().get("Holder");
+        assertRewritten("properties (control)", (Schema) h.getProperties().get("control"));
+        assertRewritten("patternProperties", (Schema) h.getPatternProperties().get("^x-"));
+        assertRewritten("dependentSchemas", (Schema) h.getDependentSchemas().get("a"));
+        assertRewritten("prefixItems", (Schema) h.getPrefixItems().get(0));
+        assertRewritten("if", h.getIf());
+        assertRewritten("then", h.getThen());
+        assertRewritten("else", h.getElse());
+        assertRewritten("contains", h.getContains());
+        assertRewritten("propertyNames", h.getPropertyNames());
+        assertRewritten("unevaluatedItems", h.getUnevaluatedItems());
+        assertRewritten("unevaluatedProperties", h.getUnevaluatedProperties());
+        assertRewritten("additionalItems", h.getAdditionalItems());
+        assertRewritten("contentSchema", h.getContentSchema());
+    }
+
+    @Test
+    public void deduplicateComponentsRewritesRefsOutsideComponentsSchemas() {
+        // The rewrite used to visit components/schemas, paths and webhooks only, and inside a path
+        // it skipped response headers and encoding headers. A $ref to the removed schema held in
+        // any of those places kept naming a schema that no longer exists.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+        addCanonicalAndDuplicate(openapi);
+
+        openapi.getComponents().addResponses("SharedResponse", new ApiResponse().description("d")
+                .content(new Content().addMediaType("application/json",
+                        new MediaType().schema(refToDuplicate()))));
+        openapi.getComponents().addParameters("SharedParameter",
+                new Parameter().name("p").in("query").schema(refToDuplicate()));
+        openapi.getComponents().addRequestBodies("SharedBody", new RequestBody()
+                .content(new Content().addMediaType("application/json",
+                        new MediaType().schema(refToDuplicate()))));
+        openapi.getComponents().addHeaders("SharedHeader", new Header().schema(refToDuplicate()));
+
+        // response headers, and headers carried by a media type's encoding object
+        Content responseContent = new Content().addMediaType("application/json",
+                new MediaType()
+                        .schema(new ObjectSchema().addProperty("ok", new StringSchema()))
+                        .encoding(new HashMap<>(Map.of("ok", new Encoding()
+                                .headers(new HashMap<>(Map.of("X-Encoding",
+                                        new Header().schema(refToDuplicate()))))))));
+        openapi.getPaths().addPathItem("/probe", new PathItem().get(new Operation()
+                .operationId("probe")
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse()
+                        .description("d")
+                        .headers(new HashMap<>(Map.of("X-Response", new Header().schema(refToDuplicate()))))
+                        .content(responseContent)))));
+
+        new InlineModelResolver().flatten(openapi);
+
+        assertNull("the duplicate must be removed", openapi.getComponents().getSchemas().get("Duplicate"));
+        assertRewritten("components/responses", openapi.getComponents().getResponses()
+                .get("SharedResponse").getContent().get("application/json").getSchema());
+        assertRewritten("components/parameters", openapi.getComponents().getParameters()
+                .get("SharedParameter").getSchema());
+        assertRewritten("components/requestBodies", openapi.getComponents().getRequestBodies()
+                .get("SharedBody").getContent().get("application/json").getSchema());
+        assertRewritten("components/headers", openapi.getComponents().getHeaders()
+                .get("SharedHeader").getSchema());
+
+        ApiResponse response = openapi.getPaths().get("/probe").getGet().getResponses().get("200");
+        assertRewritten("response headers", response.getHeaders().get("X-Response").getSchema());
+        assertRewritten("encoding headers", response.getContent().get("application/json")
+                .getEncoding().get("ok").getHeaders().get("X-Encoding").getSchema());
     }
 }

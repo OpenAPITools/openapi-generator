@@ -40,7 +40,12 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -514,6 +519,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
             if (model.isEnum) {
+                prefixEnumUnknownDefaultCase(model);
                 continue;
             }
 
@@ -539,7 +545,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             boolean addedFmtImport = false;
 
             // oneOf
-            if (model.oneOf != null && !model.oneOf.isEmpty()) {
+            if (hasOneOf(model)) {
                 imports.add(createMapping("import", "fmt"));
                 addedFmtImport = true;
 
@@ -550,7 +556,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
 
             // anyOf
-            if (model.anyOf != null && !model.anyOf.isEmpty()) {
+            if (hasAnyOf(model)) {
                 imports.add(createMapping("import", "fmt"));
                 addedFmtImport = true;
             }
@@ -574,6 +580,41 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
         }
         return objs;
+    }
+
+    /**
+     * Prefixes the generated {@code unknown_default_open_api} enum case with the model name when enum class prefixing
+     * is disabled.
+     * <p>
+     * Go enum constants are emitted at package scope, so multiple models otherwise generate duplicate
+     * {@code UNKNOWN_DEFAULT_OPEN_API} constants.
+     */
+    @SuppressWarnings("unchecked")
+    private void prefixEnumUnknownDefaultCase(CodegenModel model) {
+        // Only the synthetic unknown-default fallback needs a model-specific prefix. Regular enum class prefixing
+        // already prefixes every enum case, and models without allowable values do not need any post-processing.
+        if (!enumUnknownDefaultCase || enumClassPrefix || model.allowableValues == null) {
+            return;
+        }
+
+        // The enum variables are stored by the shared enum post-processing as allowableValues["enumVars"].
+        Object enumVarsObject = model.allowableValues.get(ENUM_VARS);
+        if (!(enumVarsObject instanceof List)) {
+            return;
+        }
+
+        // The unknown-default fallback is appended as the last enum variable. If that shape changes, skip safely.
+        List<?> enumVars = (List<?>) enumVarsObject;
+        if (enumVars.isEmpty() || !(enumVars.get(enumVars.size() - 1) instanceof Map)) {
+            return;
+        }
+
+        // Prefix only the fallback name so user-defined enum values keep their existing generated names.
+        Map<String, Object> fallbackEnumVar = (Map<String, Object>) enumVars.get(enumVars.size() - 1);
+        Object fallbackName = fallbackEnumVar.get(ENUM_NAME);
+        if (fallbackName instanceof String) {
+            fallbackEnumVar.put(ENUM_NAME, model.classname.toUpperCase(Locale.ROOT) + "_" + fallbackName);
+        }
     }
 
     @Override
@@ -763,8 +804,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + depthList.size());
             }
         } else if (codegenModel.isEnum) {
-            Map<String, Object> allowableValues = codegenModel.allowableValues;
-            List<Object> values = (List<Object>) allowableValues.get("values");
+            List<Object> values = getEnumValues(codegenModel.allowableValues);
             String example = String.valueOf(values.get(0));
             if (codegenModel.isString) {
                 example = "\"" + example + "\"";

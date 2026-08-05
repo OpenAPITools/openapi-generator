@@ -94,8 +94,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ScaleneTriangle" />
     /// </summary>
-    public class ScaleneTriangleJsonConverter : JsonConverter<ScaleneTriangle>
+    public partial class ScaleneTriangleJsonConverter : JsonConverter<ScaleneTriangle>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScaleneTriangleJsonConverter" /> class.
+        /// </summary>
+        public ScaleneTriangleJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ScaleneTriangle" />
         /// </summary>

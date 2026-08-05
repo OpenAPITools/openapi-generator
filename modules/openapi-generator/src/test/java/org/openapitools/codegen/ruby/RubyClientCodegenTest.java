@@ -749,4 +749,17 @@ public class RubyClientCodegenTest {
         // patten_starts_ends_with_slash '/root/'
         Assert.assertEquals(op.allParams.get(8).pattern, "/root/");
     }
+
+    @Test
+    public void testQueryParamJsonSerializationSetsQueryIsJsonMimeType() {
+        RubyClientCodegen codegen = new RubyClientCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/echo_api.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/query/style_jsonSerialization/object";
+        CodegenOperation op = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+
+        Assert.assertEquals(op.queryParams.size(), 2);
+        assertTrue(op.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType),
+                "All content:application/json query params should have queryIsJsonMimeType=true");
+    }
 }

@@ -73,7 +73,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Setter protected String artifactVersion = "1.0.0";
     @Setter protected String groupId = "org.openapitools";
     @Setter protected String packageName = "org.openapitools";
-    @Setter protected String apiSuffix = "Api";
 
     @Setter protected String sourceFolder = "src/main/kotlin";
     @Setter protected String testFolder = "src/test/kotlin";
@@ -309,7 +308,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         cliOptions.clear();
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
         addOption(CodegenConstants.PACKAGE_NAME, "Generated artifact package name.", packageName);
-        addOption(CodegenConstants.API_SUFFIX, CodegenConstants.API_SUFFIX_DESC, apiSuffix);
         addOption(CodegenConstants.GROUP_ID, "Generated artifact package's organization (i.e. maven groupId).", groupId);
         addOption(CodegenConstants.ARTIFACT_ID, "Generated artifact id (name of jar).", artifactId);
         addOption(CodegenConstants.ARTIFACT_VERSION, "Generated artifact's package version.", artifactVersion);
@@ -384,6 +382,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
             throw new RuntimeException(sb.toString());
         }
+    }
+
+    @Override
+    public String toExampleValue(Schema schema) {
+        if (schema.getExample() != null) {
+            return super.toExampleValue(schema);
+        }
+        return null;
     }
 
     /**
@@ -576,10 +582,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.API_SUFFIX)) {
-            this.setApiSuffix((String) additionalProperties.get(CodegenConstants.API_SUFFIX));
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
             this.setArtifactId((String) additionalProperties.get(CodegenConstants.ARTIFACT_ID));
         } else {
@@ -761,7 +763,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return (this.apiSuffix.isEmpty() ? camelize(name) : camelize(name) + this.apiSuffix);
+        return this.apiNamePrefix + camelize(name) + this.apiNameSuffix;
     }
 
     /**
@@ -1044,6 +1046,28 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
         allVarsMap.keySet()
                 .removeAll(m.vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toSet()));
+
+        // if there is a parent, find the redefined vars
+        if (m.parent != null && m.parentSchema != null) {
+
+            // get the parent schema
+            Schema<?> parentSchema = ModelUtils.getSchemas(this.openAPI).get(m.parentSchema);
+
+            // if parent schema has properties, find the intersection
+            if (parentSchema != null && parentSchema.getProperties() != null) {
+                Set<String> varNames = parentSchema.getProperties().keySet();
+
+                // compute intersection of m.allVars and parent properties, this will give us the overridden properties
+                Map<String, CodegenProperty> overriddenProperties = m.allVars.stream()
+                        .filter(p -> varNames.contains(p.getBaseName()))
+                        .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
+
+                // overridden properties contain the properties that are redefined in the child model.
+                // add them to allVarsMap so that they are marked as inherited.
+                allVarsMap.putAll(overriddenProperties);
+            }
+        }
+
         // Update the allVars
         allVarsMap.values().forEach(p -> p.isInherited = true);
         // Update any other vars (requiredVars, optionalVars)
@@ -1058,7 +1082,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("kotlin.Int".equals(datatype) || "kotlin.Long".equals(datatype)) {
+        if ("kotlin.Int".equals(datatype) || "kotlin.Long".equals(datatype)
+                || "kotlin.Boolean".equals(datatype)) {
             return value;
         } else if ("kotlin.Double".equals(datatype)) {
             if (value.contains(".")) {
@@ -1346,6 +1371,18 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             if (end > 0) {
                 dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableList<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
+            }
+        } else if (returnType.startsWith("kotlin.collections.MutableSet")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableSet<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("Set");
+            }
+        } else if (returnType.startsWith("kotlin.collections.Set")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Set<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("Set");
             }
         } else if (returnType.startsWith("kotlin.collections.Map")) {
             int end = returnType.lastIndexOf(">");

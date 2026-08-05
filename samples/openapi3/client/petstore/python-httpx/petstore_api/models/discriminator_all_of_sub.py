@@ -28,7 +28,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
     """
     DiscriminatorAllOfSub
     """ # noqa: E501
-    __properties: ClassVar[List[str]] = ["elementType"]
+    __properties: ClassVar[List[str]] = ["element'\"\\Type"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -81,7 +81,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "elementType": obj.get("elementType")
+            "element'\"\\Type": obj.get("element'\"\\Type")
         })
         return _obj
 

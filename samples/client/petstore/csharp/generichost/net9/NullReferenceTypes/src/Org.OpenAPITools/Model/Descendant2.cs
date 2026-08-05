@@ -69,8 +69,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Descendant2" />
     /// </summary>
-    public class Descendant2JsonConverter : JsonConverter<Descendant2>
+    public partial class Descendant2JsonConverter : JsonConverter<Descendant2>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Descendant2JsonConverter" /> class.
+        /// </summary>
+        public Descendant2JsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Descendant2" />
         /// </summary>
@@ -116,7 +126,12 @@ namespace Org.OpenAPITools.Model
                         case "objectType":
                             string? objectTypeRawValue = utf8JsonReader.GetString();
                             if (objectTypeRawValue != null)
-                                objectType = new Option<Descendant2.ObjectTypeEnum?>(Descendant2.ObjectTypeEnumFromStringOrDefault(objectTypeRawValue));
+                            {
+                                Descendant2.ObjectTypeEnum? objectTypeValue = Descendant2.ObjectTypeEnumFromStringOrDefault(objectTypeRawValue);
+                                if (objectTypeValue == null)
+                                    throw new JsonException();
+                                objectType = new Option<Descendant2.ObjectTypeEnum?>(objectTypeValue);
+                            }
                             break;
                         default:
                             break;

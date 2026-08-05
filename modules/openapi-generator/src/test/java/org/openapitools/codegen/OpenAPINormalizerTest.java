@@ -597,6 +597,38 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testNormalize31BinaryContentMediaType() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/binary-schema.yaml");
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        openAPINormalizer.normalize();
+
+        Map<String, Schema> properties = ModelUtils.getSchema(openAPI, "UploadBody").getProperties();
+
+        Schema file = properties.get("file");
+        assertEquals(file.getType(), "string");
+        assertEquals(file.getFormat(), "binary");
+
+        Schema nullableFile = properties.get("nullableFile");
+        assertEquals(nullableFile.getType(), "string");
+        assertEquals(nullableFile.getFormat(), "binary");
+        assertTrue(nullableFile.getNullable());
+
+        Schema inferredFile = properties.get("inferredFile");
+        assertEquals(ModelUtils.getType(inferredFile), "string");
+        assertEquals(inferredFile.getType(), "string");
+        assertEquals(inferredFile.getFormat(), "binary");
+
+        Schema encodedFile = properties.get("encodedFile");
+        assertEquals(encodedFile.getType(), "string");
+        assertNull(encodedFile.getFormat());
+
+        Schema image = properties.get("image");
+        assertEquals(image.getType(), "string");
+        assertNull(image.getFormat());
+    }
+
+    @Test
     public void testNormalize31Parameters() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/common-parameters.yaml");
 
@@ -1536,9 +1568,16 @@ public class OpenAPINormalizerTest {
         assertEquals(schema14.getType(), null);
 
         Schema schema16 = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
-        assertEquals(schema16.getOneOf().size(),3);
-        assertEquals(((Schema) schema16.getOneOf().get(0)).getConst(), 1);
-        assertEquals(((Schema) schema16.getOneOf().get(0)).getDeprecated(), true);
+        // After normalization, oneOf with const values should be simplified to enum
+        assertEquals(schema16.getOneOf(), null);
+        assertEquals(schema16.getEnum().size(), 3);
+        assertEquals(schema16.getEnum().get(0), 1);
+        // per-value deprecated flags from oneOf sub-schemas should be preserved as x-enum-deprecated
+        List<Boolean> enumDeprecated = (List<Boolean>) schema16.getExtensions().get("x-enum-deprecated");
+        assertEquals(enumDeprecated.size(), 3);
+        assertEquals(enumDeprecated.get(0), Boolean.TRUE);
+        assertEquals(enumDeprecated.get(1), Boolean.FALSE);
+        assertEquals(enumDeprecated.get(2), Boolean.FALSE);
 
         Schema schema18 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
         // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead
@@ -1802,7 +1841,7 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void testREPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING() {
+    public void testReplaceOneOfByDiscriminatorMapping() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_23527.yaml");
 
         Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
@@ -1815,12 +1854,11 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void issue_14769() {
+    public void testIssue14769() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_14769.yaml");
         Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
         openAPINormalizer.normalize();
-//        ModelUtils.dumpAsYaml(openAPI);
         Schema vehicle = openAPI.getComponents().getSchemas().get("Vehicle");
         Map<String, String> mapping = vehicle.getDiscriminator().getMapping();
         assertEquals(mapping, Map.of("car", "#/components/schemas/Car", "plane", "#/components/schemas/Plane" ));
@@ -1833,15 +1871,119 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void oneOf_issue_23276() {
+    public void oneOfIssue23276() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_23276.yaml");
         Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
         openAPINormalizer.normalize();
-//         ModelUtils.dumpAsYaml(openAPI);
         Schema payload = (Schema)openAPI.getComponents().getSchemas().get("DeviceLifecycleEvent").getProperties().get("payload");
         // inline oneOf are not converted
         assertNotNull(payload.getOneOf());
     }
 
+    @Test
+    public void testLooseNullDefinitions() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/bugs/issue_anyof_bare_nullable_object.yaml");
+
+        Schema<?> order = openAPI.getComponents().getSchemas().get("Order");
+        assertEquals(((Schema) order.getProperties().get("shippingAddress").getAnyOf().get(0)).get$ref(),  "#/components/schemas/Address");
+        assertEquals(((Schema) order.getProperties().get("shippingAddress").getAnyOf().get(1)).getNullable(), true);
+        assertEquals(((Schema) order.getProperties().get("shippingAddress").getAnyOf().get(1)).getType(), "object");
+
+        Map<String, String> options = Map.of("LOOSE_NULL_DEFINITIONS", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema<?> order2 = openAPI.getComponents().getSchemas().get("Order");
+        assertEquals(order2.getProperties().get("shippingAddress").get$ref(),  null);
+        assertEquals(order2.getProperties().get("shippingAddress").getNullable(), true);
+        assertEquals( ((Schema) order2.getProperties().get("shippingAddress").getAllOf().get(0)).get$ref(), "#/components/schemas/Address");
+
+        // reset to false after tests
+        ModelUtils.looseNullDefinitions = false;
+    }
+
+    /**
+     * Verify that a schema defined as type:[object,"null"] WITH properties (OAS 3.1 style)
+     * is correctly normalized so that nullable:true is set on the schema itself.
+     * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
+     */
+    @Test
+    public void testIssue24139NullableObjectWithPropertiesGetsNullableTrue() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24139.yaml");
+
+        // Before normalization: NestedNullable has types=[object,null], nullable is not yet set
+        Schema<?> nestedNullableBefore = openAPI.getComponents().getSchemas().get("NestedNullable");
+        assertNotNull(nestedNullableBefore);
+        assertNotNull(nestedNullableBefore.getProperties());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        // After normalization: nullable must be true and type must be "object"
+        Schema<?> nestedNullableAfter = openAPI.getComponents().getSchemas().get("NestedNullable");
+        assertNotNull(nestedNullableAfter);
+        assertEquals(nestedNullableAfter.getNullable(), Boolean.TRUE,
+                "NestedNullable with type:[object,\"null\"] should have nullable:true after normalization");
+        assertEquals(nestedNullableAfter.getType(), "object");
+        assertNotNull(nestedNullableAfter.getProperties(),
+                "NestedNullable properties must be preserved after normalization");
+    }
+
+    /**
+     * Regression test: an OAS 3.1 schema with properties but NO explicit type declaration
+     * must keep its properties after NORMALIZE_31SPEC normalization.
+     * Regression for a potential regression introduced by the fix for issue 24139.
+     */
+    @Test
+    public void testIssue24139ImpliedObjectSchemaKeepsProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24139.yaml");
+
+        Schema<?> impliedBefore = openAPI.getComponents().getSchemas().get("ImpliedObject");
+        assertNotNull(impliedBefore);
+        assertNotNull(impliedBefore.getProperties());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema<?> impliedAfter = openAPI.getComponents().getSchemas().get("ImpliedObject");
+        assertNotNull(impliedAfter);
+        assertNotNull(impliedAfter.getProperties(),
+                "ImpliedObject (no explicit type, just properties) must keep its properties after normalization");
+        assertNotNull(impliedAfter.getProperties().get("name"),
+                "ImpliedObject.name property must be preserved after normalization");
+        assertNull(impliedAfter.getNullable(),
+                "ImpliedObject must not be marked nullable (no null type was declared)");
+    }
+
+    @Test
+    public void testOpenAPINormalizer31SpecNullMapAdditionalProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_23945.yaml");
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("NullableMaps");
+
+        // `additionalProperties: { type: "null" }` must not keep the OAS 3.1 `null` type (which makes
+        // generators emit a fictional `Null` / `ModelNull` value type); it is normalized to an
+        // any-type nullable schema so the map value generates as a normal (nullable) object.
+        Schema stringMapValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("stringMap"));
+        assertNull(stringMapValue.getType());
+        assertNull(stringMapValue.getTypes());
+        assertTrue(stringMapValue.getNullable());
+
+        // `additionalProperties: { type: [array, "null"], items: ... }` is normalized to a proper
+        // (nullable) array value schema rather than being left half-converted.
+        Schema errorsValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("errorsByKey"));
+        assertEquals(errorsValue.getType(), "array");
+        assertTrue(errorsValue.getNullable());
+        assertNotNull(errorsValue.getItems());
+    }
+
 }
+

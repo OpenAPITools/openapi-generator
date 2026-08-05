@@ -406,7 +406,7 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
                             childModel.getVendorExtensions().put("x-oneOfParent", cModel.classname);
                             // Store parent's discriminator info for use in template
                             if (cModel.discriminator != null) {
-                                childModel.getVendorExtensions().put("x-parentDiscriminatorName", cModel.discriminator.getPropertyName());
+                                childModel.getVendorExtensions().put("x-parentDiscriminatorBaseName", cModel.discriminator.getPropertyBaseName());
                             }
                             oneOfMembers.add(childModel);
 
@@ -461,7 +461,7 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
                         for (CodegenModel member : oneOfMembers) {
                             member.getVendorExtensions().remove("x-isOneOfMember");
                             member.getVendorExtensions().remove("x-oneOfParent");
-                            member.getVendorExtensions().remove("x-parentDiscriminatorName");
+                            member.getVendorExtensions().remove("x-parentDiscriminatorBaseName");
                         }
 
                         if (oneOfMembers.isEmpty()) {
@@ -624,11 +624,24 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
         }
     }
 
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        String sanitized = sanitizeName(value);
+
+        // Preserve SCREAMING_SNAKE_CASE values
+        if (sanitized.matches("^[A-Z][A-Z0-9_]*$")
+                && !isReservedWord(sanitized)) {
+            return sanitized;
+        }
+
+        return super.formatIdentifier(sanitized, true);
+
+    }
 
     private class EnumEntryLambda extends CustomLambda {
         @Override
         public String formatFragment(String fragment) {
-            return formatIdentifier(fragment, true);
+            return toEnumVarName(fragment, "string");
         }
     }
 

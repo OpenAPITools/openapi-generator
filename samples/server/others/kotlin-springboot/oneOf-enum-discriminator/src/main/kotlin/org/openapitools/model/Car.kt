@@ -26,8 +26,10 @@ import jakarta.validation.Valid
 data class Car(
 
     @field:Valid
+    @param:JsonProperty("vehicleType")
     @get:JsonProperty("vehicleType", required = true) override val vehicleType: VehicleType = VehicleType.CAR,
 
+    @param:JsonProperty("numDoors")
     @get:JsonProperty("numDoors", required = true) val numDoors: kotlin.Int
 ) : Vehicle {
 

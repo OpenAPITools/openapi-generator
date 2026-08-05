@@ -36,13 +36,16 @@ public class CodegenConstants {
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
+    /**
+     * Wildcard token for {@code forcedGenerateSchemas}: when this value is present in the set,
+     * all schemas are generated even if they appear in schemaMappings or importMappings.
+     */
+    public static final String FORCE_GENERATE_ALL_SCHEMAS = "*";
+
     public static final String API_NAME = "apiName";
 
     public static final String API_PACKAGE = "apiPackage";
     public static final String API_PACKAGE_DESC = "package for generated api classes";
-
-    public static final String API_SUFFIX = "apiSuffix";
-    public static final String API_SUFFIX_DESC = "suffix for api classes";
 
     public static final String AUTOSET_CONSTANTS = "autosetConstants";
 
@@ -464,6 +467,19 @@ public class CodegenConstants {
     public static final String DEFAULT_TO_EMPTY_CONTAINER = "defaultToEmptyContainer";
     public static final String DEFAULT_TO_EMPTY_CONTAINER_DESC = "Initialize containers (array/set/map) to empty containers instead of null by default. Usage: https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#default-values";
 
+    // The raw enum values from the OpenAPI specification
+    public static final String ENUM_VALUES = "values";
+    // The map that stores all enum values and their metadata (name, value, enumDescription...)
+    public static final String ENUM_VARS = "enumVars";
+    // The name of the enum, for example NAME("value") in Java
+    public static final String ENUM_NAME = "name";
+    // The on-the-line value, i.e., the one present in the "values"
+    public static final String ENUM_VALUE = "value";
+    // If the enum is typed as a string
+    public static final String ENUM_IS_STRING = "isString";
+    // The description that should be attached to an entry in "enumVars"
+    public static final String ENUM_DESCRIPTION = "enumDescription";
+
     // Vendor extensions
     public static final String X_INTERNAL = "x-internal";
     public static final String X_PARENT = "x-parent";
@@ -487,11 +503,19 @@ public class CodegenConstants {
     public static final String X_NULLABLE_TYPE = "x-nullable-type";
     public static final String X_CSHARP_VALUE_TYPE = "x-csharp-value-type";
     public static final String X_REGEX = "x-regex";
+    public static final String X_PATTERN = "x-pattern";
     public static final String X_MODIFIERS = "x-modifiers";
     public static final String X_MODIFIER_PREFIX = "x-modifier-";
     public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
     public static final String X_IMPLEMENTS = "x-implements";
     public static final String X_IS_ONE_OF_INTERFACE = "x-is-one-of-interface";
+    public static final String USE_ENUM_VALUE_INTERFACE = "useEnumValueInterface";
+    public static final String USE_ENUM_VALUE_INTERFACE_DESC =
+            "Generate a ValuedEnum<T> interface in the config package and make all generated enums " +
+                    "implement it, providing a common typed way to access the underlying enum value. " +
+                    "Use `importMappings.ValuedEnum` to substitute a custom/library-provided interface " +
+                    "instead of generating one.";
+
     public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
     public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC =
             "Annotate discriminator-free oneOf interfaces with Jackson's " +
@@ -504,4 +528,32 @@ public class CodegenConstants {
     public static final String X_NULLABLE = "x-nullable";
     public static final String X_ENUM_VARNAMES = "x-enum-varnames";
     public static final String X_ENUM_DESCRIPTIONS = "x-enum-descriptions";
+    public static final String X_ENUM_DEPRECATED = "x-enum-deprecated";
+    public static final String X_PY_TYPING = "x-py-typing";
+    public static final String X_PY_EXAMPLE = "x-py-example";
+    public static final String X_PY_EXAMPLE_IMPORT = "x-py-example-import";
+    public static final String X_PY_FASTAPI_EXAMPLE = "x-py-fastapi-example";
+    public static final String X_PY_NAME = "x-py-name";
+    public static final String X_PY_EXPLICIT_PUBLIC_NAME = "x-py-explicit-public-name";
+    public static final String X_PY_LEGACY_PUBLIC_NAME = "x-py-legacy-public-name";
+    public static final String X_PY_HAS_PUBLIC_NAME_PROPERTIES = "x-py-has-public-name-properties";
+    public static final String X_PY_HIDDEN_STORAGE_NAMES = "x-py-hidden-storage-names";
+    public static final String X_PY_INPUT_NAME_PROPERTIES = "x-py-input-name-properties";
+    public static final String X_PY_PREPROCESSES_INPUT_NAMES = "x-py-preprocesses-input-names";
+    public static final String X_PY_VALIDATES_INPUT_NAMES = "x-py-validates-input-names";
+    public static final String X_PY_PUBLIC_NAME = "x-py-public-name";
+    public static final String X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE = "x-py-public-name-differs-from-storage";
+    public static final String X_PY_PUBLIC_NAME_DIFFERS_FROM_WIRE = "x-py-public-name-differs-from-wire";
+    public static final String X_PY_PUBLIC_NAME_LITERAL = "x-py-public-name-literal";
+    public static final String X_PY_PUBLIC_NAME_OVERRIDES_BASE_MODEL = "x-py-public-name-overrides-base-model";
+    public static final String X_PY_PUBLIC_NAME_TYPING = "x-py-public-name-typing";
+    public static final String X_PY_WIRE_NAME_LITERAL = "x-py-wire-name-literal";
+    public static final String X_PY_ENUM_TYPE = "x-py-enum-type";
+    public static final String X_PY_READONLY = "x-py-readonly";
+    public static final String X_PY_MODEL_IMPORTS = "x-py-model-imports";
+    public static final String X_PY_OTHER_IMPORTS = "x-py-other-imports";
+    public static final String X_PY_POSTPONED_MODEL_IMPORTS = "x-py-postponed-model-imports";
+    public static final String X_PY_TYPING_IMPORTS = "x-py-typing-imports";
+    public static final String X_PY_PYDANTIC_IMPORTS = "x-py-pydantic-imports";
+    public static final String X_PY_DATETIME_IMPORTS = "x-py-datetime-imports";
 }
