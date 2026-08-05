@@ -2,12 +2,12 @@ use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
 use axum_extra::{
-    TypedHeader,
     extract::{CookieJar, Query as QueryExtra},
+    TypedHeader,
 };
 use bytes::Bytes;
 use headers::Host;
-use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
+use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
@@ -70,6 +70,9 @@ where
         .route("/multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}",
             get(multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get::<I, A, E>)
         )
+        .route("/multiple-response-content-types",
+            post(multiple_response_content_types::<I, A, E>)
+        )
         .route("/multiple_auth_scheme",
             get(multiple_auth_scheme_get::<I, A, E>)
         )
@@ -99,6 +102,9 @@ where
         )
         .route("/repos/{repo_id}",
             get(get_repo_info::<I, A, E>)
+        )
+        .route("/required_binary_stream",
+            put(required_binary_stream_put::<I, A, E>)
         )
         .route("/required_octet_stream",
             put(required_octet_stream_put::<I, A, E>)
@@ -1136,6 +1142,99 @@ where
     })
 }
 
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct MultipleResponseContentTypesBodyValidator<'a> {
+    #[validate(nested)]
+    body: &'a models::ObjectParam,
+}
+
+#[tracing::instrument(skip_all)]
+fn multiple_response_content_types_validation(
+    body: models::ObjectParam,
+) -> std::result::Result<(models::ObjectParam,), ValidationErrors> {
+    let b = MultipleResponseContentTypesBodyValidator { body: &body };
+    b.validate()?;
+
+    Ok((body,))
+}
+/// MultipleResponseContentTypes - POST /multiple-response-content-types
+#[tracing::instrument(skip_all)]
+async fn multiple_response_content_types<I, A, E>(
+    method: Method,
+    TypedHeader(host): TypedHeader<Host>,
+    cookies: CookieJar,
+    State(api_impl): State<I>,
+    Json(body): Json<models::ObjectParam>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
+{
+    let validation = multiple_response_content_types_validation(body);
+
+    let Ok((body,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .multiple_response_content_types(&method, &host, &cookies, &body)
+        .await;
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::MultipleResponseContentTypesResponse::Status201_Created(body) => {
+                let mut response = Response::builder();
+                let mut response = response.status(201);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                }
+
+                let body_content = tokio::task::spawn_blocking(move || {
+                    serde_json::to_vec(&body).map_err(|e| {
+                        error!(error = ?e);
+                        StatusCode::INTERNAL_SERVER_ERROR
+                    })
+                })
+                .await
+                .unwrap()?;
+                response.body(Body::from(body_content))
+            }
+            apis::default::MultipleResponseContentTypesResponse::Status403_Forbidden(body) => {
+                let mut response = Response::builder();
+                let mut response = response.status(403);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
+                }
+
+                let body_content = body;
+                response.body(Body::from(body_content))
+            }
+        },
+        Err(why) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
 #[tracing::instrument(skip_all)]
 fn one_of_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
@@ -1485,6 +1584,70 @@ where
             apis::default::RegisterCallbackPostResponse::Status204_OK => {
                 let mut response = Response::builder();
                 let mut response = response.status(204);
+                response.body(Body::empty())
+            }
+        },
+        Err(why) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct RequiredBinaryStreamPutBodyValidator<'a> {
+    body: &'a [u8],
+}
+
+#[tracing::instrument(skip_all)]
+fn required_binary_stream_put_validation(
+    body: Bytes,
+) -> std::result::Result<(Bytes,), ValidationErrors> {
+    Ok((body,))
+}
+/// RequiredBinaryStreamPut - PUT /required_binary_stream
+#[tracing::instrument(skip_all)]
+async fn required_binary_stream_put<I, A, E>(
+    method: Method,
+    TypedHeader(host): TypedHeader<Host>,
+    cookies: CookieJar,
+    State(api_impl): State<I>,
+    body: Bytes,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
+{
+    let validation = required_binary_stream_put_validation(body);
+
+    let Ok((body,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .required_binary_stream_put(&method, &host, &cookies, &body)
+        .await;
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::RequiredBinaryStreamPutResponse::Status200_OK => {
+                let mut response = Response::builder();
+                let mut response = response.status(200);
                 response.body(Body::empty())
             }
         },
