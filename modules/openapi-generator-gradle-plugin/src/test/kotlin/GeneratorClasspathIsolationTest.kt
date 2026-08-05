@@ -144,6 +144,21 @@ class GeneratorClasspathIsolationTest : TestBase() {
         )
     }
 
+    private fun assertNormalizerLoadedSuccessfully(result: org.gradle.testkit.runner.BuildResult) {
+        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+        // Guard against a false-positive SUCCESS: DefaultGenerator only logs (but does not fail
+        // the build on) a NORMALIZER_CLASS load failure, so a regression that drops the forwarded
+        // classpath would otherwise leave these tests passing. Assert the failure markers are absent.
+        assertTrue(
+            !result.output.contains("Failed to load custom NORMALIZER_CLASS"),
+            "Did not expect a NORMALIZER_CLASS load failure to be logged, got:\n${result.output}"
+        )
+        assertTrue(
+            !result.output.contains("ClassNotFoundException"),
+            "Did not expect a ClassNotFoundException to be logged, got:\n${result.output}"
+        )
+    }
+
     // -------------------------------------------------------------------------
     // openApiGeneratorExtra configuration - process isolation
     // -------------------------------------------------------------------------
@@ -169,7 +184,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
             """.trimIndent()
         )
 
-        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+        assertNormalizerLoadedSuccessfully(result)
     }
 
     // -------------------------------------------------------------------------
@@ -197,7 +212,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
             """.trimIndent()
         )
 
-        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+        assertNormalizerLoadedSuccessfully(result)
     }
 
     // -------------------------------------------------------------------------
@@ -223,7 +238,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
             """.trimIndent()
         )
 
-        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+        assertNormalizerLoadedSuccessfully(result)
     }
 
     // -------------------------------------------------------------------------

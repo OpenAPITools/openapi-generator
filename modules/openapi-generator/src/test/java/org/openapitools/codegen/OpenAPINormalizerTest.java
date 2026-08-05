@@ -1860,6 +1860,10 @@ public class OpenAPINormalizerTest {
             Files.writeString(sourceFile, source);
 
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            if (compiler == null) {
+                throw new org.testng.SkipException(
+                        "No system Java compiler available (test requires a JDK, not a JRE)");
+            }
             String classpath = System.getProperty("java.class.path");
             int result = compiler.run(null, null, null,
                     "-d", outputDir.toString(),
