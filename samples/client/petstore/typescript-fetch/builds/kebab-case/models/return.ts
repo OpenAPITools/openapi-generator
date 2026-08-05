@@ -13,6 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * Model for testing reserved words
  * @export

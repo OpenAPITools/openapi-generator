@@ -13,6 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * Contains all the info about a pet part
  * @export

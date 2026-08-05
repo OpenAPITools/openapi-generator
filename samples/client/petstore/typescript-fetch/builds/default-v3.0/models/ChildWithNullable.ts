@@ -21,6 +21,7 @@ import {
     ParentWithNullableToJSONTyped,
 } from './ParentWithNullable';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

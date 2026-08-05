@@ -28,6 +28,7 @@ import {
     AbstractUserDtoToJSONTyped,
 } from './AbstractUserDto';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

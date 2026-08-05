@@ -14,6 +14,7 @@
 
 import { mapValues } from '../runtime';
 import { type ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON, ChildWithNullableToJSONTyped } from './ChildWithNullable';
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

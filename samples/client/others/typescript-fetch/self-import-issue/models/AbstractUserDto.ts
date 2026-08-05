@@ -23,6 +23,7 @@ import {
 
 import { type InternalAuthenticatedUserDto, InternalAuthenticatedUserDtoFromJSONTyped, InternalAuthenticatedUserDtoToJSON, InternalAuthenticatedUserDtoToJSONTyped } from './InternalAuthenticatedUserDto';
 import { type RemoteAuthenticatedUserDto, RemoteAuthenticatedUserDtoFromJSONTyped, RemoteAuthenticatedUserDtoToJSON, RemoteAuthenticatedUserDtoToJSONTyped } from './RemoteAuthenticatedUserDto';
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

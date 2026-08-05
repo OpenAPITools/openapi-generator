@@ -13,6 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A User who is purchasing from the pet store
  * @export
@@ -55,24 +56,7 @@ export interface User {
      * User Status
      */
     userStatus?: number;
-}
-export const UserPropertyValidationAttributesMap: {
-    [property: string]: {
-        dataType?: string,
-        required?: boolean,
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
+}export const UserPropertyValidationAttributesMap = {
     password: {
         dataType: "string",
         maxLength: 256,
@@ -90,7 +74,7 @@ export const UserPropertyValidationAttributesMap: {
         exclusiveMinimum: true,
         multipleOf: 10,
     },
-}
+} satisfies Record<string, PropertyValidationAttributes>;
 
 
 /**

@@ -21,6 +21,7 @@ import {
     AnimalToJSONTyped,
 } from './Animal';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

@@ -21,6 +21,7 @@ import {
     ReadOnlyFirstToJSONTyped,
 } from './read-only-first';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

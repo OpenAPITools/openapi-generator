@@ -13,6 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A category for a pet
  * @export
@@ -27,29 +28,12 @@ export interface Category {
      * 
      */
     name?: string;
-}
-export const CategoryPropertyValidationAttributesMap: {
-    [property: string]: {
-        dataType?: string,
-        required?: boolean,
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
+}export const CategoryPropertyValidationAttributesMap = {
     name: {
         dataType: "string",
         pattern: '/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/',
     },
-}
+} satisfies Record<string, PropertyValidationAttributes>;
 
 
 /**

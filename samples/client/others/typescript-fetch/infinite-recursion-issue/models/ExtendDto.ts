@@ -28,6 +28,7 @@ import {
     TestObjectTypeToJSONTyped,
 } from './TestObjectType';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

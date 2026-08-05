@@ -28,6 +28,7 @@ import {
     TagToJSONTyped,
 } from './Tag';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

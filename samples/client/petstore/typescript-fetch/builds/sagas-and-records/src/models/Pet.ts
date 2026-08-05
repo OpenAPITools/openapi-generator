@@ -42,6 +42,7 @@ import {
     WarningCodeToJSONTyped,
 } from './WarningCode';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A pet for sale in the pet store
  * @export

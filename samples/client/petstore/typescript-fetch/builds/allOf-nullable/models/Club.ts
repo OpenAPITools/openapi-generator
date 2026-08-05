@@ -21,6 +21,7 @@ import {
     OwnerToJSONTyped,
 } from './Owner';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

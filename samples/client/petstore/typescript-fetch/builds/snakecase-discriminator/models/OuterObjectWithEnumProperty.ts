@@ -21,6 +21,7 @@ import {
     OuterEnumIntegerToJSONTyped,
 } from './OuterEnumInteger';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

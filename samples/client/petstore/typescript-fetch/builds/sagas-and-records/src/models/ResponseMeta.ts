@@ -21,6 +21,7 @@ import {
     ErrorCodeToJSONTyped,
 } from './ErrorCode';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * Mandatory part of each response given by our API
  * @export

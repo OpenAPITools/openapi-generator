@@ -21,6 +21,7 @@ import {
     ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * 
  * @export

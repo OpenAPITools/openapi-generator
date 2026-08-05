@@ -28,6 +28,7 @@ import {
     TagToJSONTyped,
 } from './Tag';
 
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A pet for sale in the pet store
  * @export
@@ -71,24 +72,7 @@ export const PetStatusEnum = {
     Sold: 'sold'
 } as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
-
-export const PetPropertyValidationAttributesMap: {
-    [property: string]: {
-        dataType?: string,
-        required?: boolean,
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
+export const PetPropertyValidationAttributesMap = {
     photoUrls: {
         dataType: "Set<string>",
         required: true,
@@ -96,7 +80,7 @@ export const PetPropertyValidationAttributesMap: {
         minItems: 1,
         uniqueItems: true,
     },
-}
+} satisfies Record<string, PropertyValidationAttributes>;
 
 
 /**
