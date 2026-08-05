@@ -28,7 +28,8 @@ export interface Tag {
      * 
      */
     name?: string;
-}export const TagPropertyValidationAttributesMap = {
+}
+export const TagPropertyValidationAttributesMap = {
 } satisfies Record<string, PropertyValidationAttributes>;
 
 

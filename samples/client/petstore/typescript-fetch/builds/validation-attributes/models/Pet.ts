@@ -72,6 +72,7 @@ export const PetStatusEnum = {
     Sold: 'sold'
 } as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
+
 export const PetPropertyValidationAttributesMap = {
     photoUrls: {
         dataType: "Set<string>",

@@ -57,6 +57,7 @@ export const OrderStatusEnum = {
     Delivered: 'delivered'
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
+
 export const OrderPropertyValidationAttributesMap = {
 } satisfies Record<string, PropertyValidationAttributes>;
 

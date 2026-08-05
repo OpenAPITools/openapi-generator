@@ -32,7 +32,8 @@ export interface ModelApiResponse {
      * 
      */
     message?: string;
-}export const ModelApiResponsePropertyValidationAttributesMap = {
+}
+export const ModelApiResponsePropertyValidationAttributesMap = {
 } satisfies Record<string, PropertyValidationAttributes>;
 
 

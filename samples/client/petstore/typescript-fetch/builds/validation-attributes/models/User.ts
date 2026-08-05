@@ -56,7 +56,8 @@ export interface User {
      * User Status
      */
     userStatus?: number;
-}export const UserPropertyValidationAttributesMap = {
+}
+export const UserPropertyValidationAttributesMap = {
     password: {
         dataType: "string",
         maxLength: 256,
