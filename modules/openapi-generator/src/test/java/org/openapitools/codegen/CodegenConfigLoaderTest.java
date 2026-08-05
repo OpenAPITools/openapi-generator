@@ -116,7 +116,7 @@ public class CodegenConfigLoaderTest {
         Path classesDir = Files.createTempDirectory("codegen-config-constructor-test");
         try {
             String className = "org.openapitools.codegen.testfixture.PrivateConstructorCodegen";
-            compileCodegenFixture(classesDir, className, false);
+            compileCodegenFixture(classesDir, className, false, "private-constructor-codegen");
 
             ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
             try (URLClassLoader isolatedLoader = new URLClassLoader(
@@ -138,11 +138,11 @@ public class CodegenConfigLoaderTest {
     }
 
     private static void compileCodegenFixture(Path outputDir, String fullyQualifiedClassName) throws Exception {
-        compileCodegenFixture(outputDir, fullyQualifiedClassName, true);
+        compileCodegenFixture(outputDir, fullyQualifiedClassName, true, "tccl-only-codegen");
     }
 
     private static void compileCodegenFixture(Path outputDir, String fullyQualifiedClassName,
-                                              boolean publicNoArgConstructor) throws Exception {
+                                              boolean publicNoArgConstructor, String generatorName) throws Exception {
         int lastDot = fullyQualifiedClassName.lastIndexOf('.');
         String packageName = fullyQualifiedClassName.substring(0, lastDot);
         String simpleName = fullyQualifiedClassName.substring(lastDot + 1);
@@ -154,7 +154,7 @@ public class CodegenConfigLoaderTest {
             Files.writeString(sourceFile, "package " + packageName + ";\n"
                     + "public class " + simpleName + " extends org.openapitools.codegen.DefaultCodegen {\n"
                     + "    " + (publicNoArgConstructor ? "public" : "private") + " " + simpleName + "() {}\n"
-                    + "    @Override public String getName() { return \"tccl-only-codegen\"; }\n"
+                    + "    @Override public String getName() { return \"" + generatorName + "\"; }\n"
                     + "}\n");
 
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
