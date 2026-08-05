@@ -276,6 +276,38 @@ public class GoModelTest {
         Assert.assertEquals(codegen.getTypeDeclaration(model3), "File");
     }
 
+    @Test(description = "convert a model with case-sensitive properties")
+    public void caseSensitivePropsTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperty("name", new StringSchema())
+                .addProperty("Name", new StringSchema())
+                .addProperty("FirstName", new StringSchema())
+                .addProperty("first_name", new StringSchema());
+        final DefaultCodegen codegen = new GoClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.vars.size(), 4);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "name");
+        Assert.assertEquals(property1.name, "Name");
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "Name");
+        Assert.assertEquals(property2.name, "P_Name");
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "FirstName");
+        Assert.assertEquals(property3.name, "FirstName");
+
+        final CodegenProperty property4 = cm.vars.get(3);
+        Assert.assertEquals(property4.baseName, "first_name");
+        Assert.assertEquals(property4.name, "P_first_name");
+    }
+
     @DataProvider(name = "modelNames")
     public static Object[][] primeNumbers() {
         return new Object[][]{

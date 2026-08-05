@@ -755,6 +755,16 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 || (property.isAnyType && !property.isModel)) {
             property.vendorExtensions.put("x-golang-is-container", true);
         }
+        for(CodegenProperty cp: model.allVars) {
+            if (cp.baseName.equals(property.baseName)) {
+                return;
+            }
+            if (cp.name.equals(property.name)) {
+                property.name = "P_" + property.baseName;
+                property.setHasSanitizedName(true);
+                return;
+            }
+        }
     }
 
     @Override
