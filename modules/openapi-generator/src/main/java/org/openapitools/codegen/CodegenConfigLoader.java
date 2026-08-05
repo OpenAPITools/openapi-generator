@@ -44,8 +44,14 @@ public class CodegenConfigLoader {
         // else try to load directly
         try {
             return loadConfigClass(name).asSubclass(CodegenConfig.class).getDeclaredConstructor().newInstance();
-        } catch (ClassNotFoundException | LinkageError e) {
+        } catch (ClassNotFoundException | NoClassDefFoundError e) {
             throw generatorNotFoundException(name, availableConfigs, e);
+        } catch (UnsupportedClassVersionError e) {
+            throw generatorIncompatibleException(name, availableConfigs, e);
+        } catch (ExceptionInInitializerError e) {
+            throw generatorInitializationException(name, availableConfigs, e);
+        } catch (LinkageError e) {
+            throw generatorLinkageException(name, availableConfigs, e);
         } catch (ReflectiveOperationException | ClassCastException e) {
             throw new GeneratorNotFoundException(
                     "Can't instantiate config class with name '" + name + "'. The class was found but could not be "
@@ -59,11 +65,11 @@ public class CodegenConfigLoader {
         Set<String> configClasses = new HashSet<String>();
         for (ClassLoader classLoader : getConfigClassLoaders()) {
             ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, classLoader);
-            for (CodegenConfig config : loader) {
-                if (configClasses.add(config.getClass().getName())) {
-                    output.add(config);
+            loader.stream().forEach(provider -> {
+                if (configClasses.add(provider.type().getName())) {
+                    output.add(provider.get());
                 }
-            }
+            });
         }
         return output;
     }
@@ -101,5 +107,31 @@ public class CodegenConfigLoader {
                 "Can't load config class with name '" + name + "'. The class or one of its dependencies could not "
                         + "be loaded from the generation runtime classpath. Ensure the class (and its dependencies) "
                         + "are on the classpath used to launch the generator.\nAvailable:\n" + availableConfigs, cause);
+    }
+
+    private static GeneratorNotFoundException generatorIncompatibleException(String name,
+                                                                              StringBuilder availableConfigs,
+                                                                              Throwable cause) {
+        return new GeneratorNotFoundException(
+                "Can't load config class with name '" + name + "'. The class or one of its dependencies was compiled "
+                        + "for an incompatible Java version. Use a generator compiled for the Java version running "
+                        + "OpenAPI Generator.\nAvailable:\n" + availableConfigs, cause);
+    }
+
+    private static GeneratorNotFoundException generatorInitializationException(String name,
+                                                                                StringBuilder availableConfigs,
+                                                                                Throwable cause) {
+        return new GeneratorNotFoundException(
+                "Can't load config class with name '" + name + "'. The class was found but its static initializer "
+                        + "failed; inspect the underlying exception for the cause.\nAvailable:\n" + availableConfigs, cause);
+    }
+
+    private static GeneratorNotFoundException generatorLinkageException(String name,
+                                                                         StringBuilder availableConfigs,
+                                                                         Throwable cause) {
+        return new GeneratorNotFoundException(
+                "Can't load config class with name '" + name + "'. The class was found but could not be linked "
+                        + "(" + cause.getClass().getSimpleName() + "); inspect the underlying error for the cause.\nAvailable:\n"
+                        + availableConfigs, cause);
     }
 }

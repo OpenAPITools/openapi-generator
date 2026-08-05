@@ -84,8 +84,10 @@ public class CodegenConfigLoaderTest {
             Thread.currentThread().setContextClassLoader(isolatedLoader);
 
             CodegenConfig config = CodegenConfigLoader.forName("java");
+            CodegenConfig configByClassName = CodegenConfigLoader.forName(DefaultCodegen.class.getName());
 
             assertEquals(config.getName(), "java");
+            assertEquals(configByClassName.getClass(), DefaultCodegen.class);
             assertTrue(CodegenConfigLoader.getAll().stream().anyMatch(candidate -> "java".equals(candidate.getName())));
         } finally {
             Thread.currentThread().setContextClassLoader(originalTccl);
@@ -157,6 +159,34 @@ public class CodegenConfigLoaderTest {
                 assertTrue(exception.getMessage().contains(className));
                 assertTrue(exception.getMessage().contains("classpath"));
                 assertTrue(exception.getCause() instanceof NoClassDefFoundError);
+            } finally {
+                Thread.currentThread().setContextClassLoader(originalTccl);
+            }
+        } finally {
+            deleteRecursively(classesDir);
+        }
+    }
+
+    @Test
+    public void testConfigClassWithFailingStaticInitializerProducesPreciseErrorMessage() throws Exception {
+        Path classesDir = Files.createTempDirectory("codegen-config-initializer-test");
+        try {
+            String className = "org.openapitools.codegen.testfixture.InitializerErrorCodegen";
+            compileCodegenFixture(classesDir, className, true, "initializer-error-codegen",
+                    "    static { if (System.nanoTime() >= 0) throw new IllegalStateException(\"fixture failure\"); }\n");
+
+            ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
+            try (URLClassLoader isolatedLoader = new URLClassLoader(
+                    new URL[]{classesDir.toUri().toURL()}, originalTccl)) {
+                Thread.currentThread().setContextClassLoader(isolatedLoader);
+
+                GeneratorNotFoundException exception = expectThrows(GeneratorNotFoundException.class,
+                        () -> CodegenConfigLoader.forName(className));
+
+                assertTrue(exception.getMessage().contains(className));
+                assertTrue(exception.getMessage().contains("static initializer failed"));
+                assertFalse(exception.getMessage().contains("classpath"));
+                assertTrue(exception.getCause() instanceof ExceptionInInitializerError);
             } finally {
                 Thread.currentThread().setContextClassLoader(originalTccl);
             }
