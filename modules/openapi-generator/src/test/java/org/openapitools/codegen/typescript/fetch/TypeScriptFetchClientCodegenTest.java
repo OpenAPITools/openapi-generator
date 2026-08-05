@@ -577,7 +577,7 @@ public class TypeScriptFetchClientCodegenTest {
         Path modelsIndex = Paths.get(output + "/models/index.ts");
         TestUtils.assertFileExists(modelsIndex);
         TestUtils.assertFileContains(modelsIndex, "PetPropertyValidationAttributesMap");
-        TestUtils.assertFileContains(modelsIndex, "[property: string]:");
+        TestUtils.assertFileContains(modelsIndex, "satisfies Record<string, PropertyValidationAttributes>");
     }
 
     @Test(description = "Verify pattern is not HTML-escaped in validationAttributes")
