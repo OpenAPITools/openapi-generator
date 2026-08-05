@@ -30,9 +30,7 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.expectThrows;
+import static org.testng.Assert.*;
 
 public class CodegenConfigLoaderTest {
 
@@ -47,9 +45,8 @@ public class CodegenConfigLoaderTest {
             Files.writeString(serviceFile, className);
 
             ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
-            URLClassLoader isolatedLoader = new URLClassLoader(
-                    new URL[]{classesDir.toUri().toURL()}, originalTccl);
-            try {
+            try (URLClassLoader isolatedLoader = new URLClassLoader(
+                    new URL[]{classesDir.toUri().toURL()}, originalTccl)) {
                 Thread.currentThread().setContextClassLoader(isolatedLoader);
 
                 CodegenConfig config = CodegenConfigLoader.forName("tccl-only-codegen");
@@ -60,7 +57,6 @@ public class CodegenConfigLoaderTest {
                 assertEquals(configByClassName.getClass().getClassLoader(), isolatedLoader);
             } finally {
                 Thread.currentThread().setContextClassLoader(originalTccl);
-                isolatedLoader.close();
             }
         } finally {
             deleteRecursively(classesDir);
@@ -84,8 +80,7 @@ public class CodegenConfigLoaderTest {
     @Test
     public void testConfigClassFallsBackWhenContextClassLoaderCannotResolveClass() throws Exception {
         ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
-        URLClassLoader isolatedLoader = new URLClassLoader(new URL[0], null);
-        try {
+        try (URLClassLoader isolatedLoader = new URLClassLoader(new URL[0], null)) {
             Thread.currentThread().setContextClassLoader(isolatedLoader);
 
             CodegenConfig config = CodegenConfigLoader.forName(DefaultCodegen.class.getName());
@@ -93,7 +88,6 @@ public class CodegenConfigLoaderTest {
             assertEquals(config.getClass(), DefaultCodegen.class);
         } finally {
             Thread.currentThread().setContextClassLoader(originalTccl);
-            isolatedLoader.close();
         }
     }
 
@@ -107,7 +101,48 @@ public class CodegenConfigLoaderTest {
         assertTrue(exception.getMessage().contains("Available:"));
     }
 
+    @Test
+    public void testFoundClassThatDoesNotImplementCodegenConfigProducesClearErrorMessage() {
+        GeneratorNotFoundException exception = expectThrows(GeneratorNotFoundException.class,
+                () -> CodegenConfigLoader.forName(String.class.getName()));
+
+        assertTrue(exception.getMessage().contains(String.class.getName()));
+        assertTrue(exception.getMessage().contains("found but could not be constructed"));
+        assertTrue(exception.getMessage().contains("implement CodegenConfig"));
+    }
+
+    @Test
+    public void testFoundConfigClassWithoutPublicNoArgConstructorProducesClearErrorMessage() throws Exception {
+        Path classesDir = Files.createTempDirectory("codegen-config-constructor-test");
+        try {
+            String className = "org.openapitools.codegen.testfixture.PrivateConstructorCodegen";
+            compileCodegenFixture(classesDir, className, false);
+
+            ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
+            try (URLClassLoader isolatedLoader = new URLClassLoader(
+                    new URL[]{classesDir.toUri().toURL()}, originalTccl)) {
+                Thread.currentThread().setContextClassLoader(isolatedLoader);
+
+                GeneratorNotFoundException exception = expectThrows(GeneratorNotFoundException.class,
+                        () -> CodegenConfigLoader.forName(className));
+
+                assertTrue(exception.getMessage().contains(className));
+                assertTrue(exception.getMessage().contains("found but could not be constructed"));
+                assertTrue(exception.getMessage().contains("public no-argument constructor"));
+            } finally {
+                Thread.currentThread().setContextClassLoader(originalTccl);
+            }
+        } finally {
+            deleteRecursively(classesDir);
+        }
+    }
+
     private static void compileCodegenFixture(Path outputDir, String fullyQualifiedClassName) throws Exception {
+        compileCodegenFixture(outputDir, fullyQualifiedClassName, true);
+    }
+
+    private static void compileCodegenFixture(Path outputDir, String fullyQualifiedClassName,
+                                              boolean publicNoArgConstructor) throws Exception {
         int lastDot = fullyQualifiedClassName.lastIndexOf('.');
         String packageName = fullyQualifiedClassName.substring(0, lastDot);
         String simpleName = fullyQualifiedClassName.substring(lastDot + 1);
@@ -118,7 +153,7 @@ public class CodegenConfigLoaderTest {
             Path sourceFile = packageDir.resolve(simpleName + ".java");
             Files.writeString(sourceFile, "package " + packageName + ";\n"
                     + "public class " + simpleName + " extends org.openapitools.codegen.DefaultCodegen {\n"
-                    + "    public " + simpleName + "() {}\n"
+                    + "    " + (publicNoArgConstructor ? "public" : "private") + " " + simpleName + "() {}\n"
                     + "    @Override public String getName() { return \"tccl-only-codegen\"; }\n"
                     + "}\n");
 
