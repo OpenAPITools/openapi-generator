@@ -157,7 +157,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.processOpts();
         Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
     }
-    
+
     @Test
     public void toVarNameWithAtSign() {
         TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
@@ -582,7 +582,7 @@ public class TypeScriptFetchClientCodegenTest {
 
         Path runtime = Paths.get(output + "/runtime.ts");
         TestUtils.assertFileExists(runtime);
-        TestUtils.assertFileContains(modelsIndex, "export interface PropertyValidationAttributes");
+        TestUtils.assertFileContains(runtime, "export interface PropertyValidationAttributes");
     }
 
     @Test(description = "Verify validationAttributes not exist with validationAttributes=false")
@@ -601,7 +601,7 @@ public class TypeScriptFetchClientCodegenTest {
 
         Path runtime = Paths.get(output + "/runtime.ts");
         TestUtils.assertFileExists(runtime);
-        TestUtils.assertFileExistsNotContains(modelsIndex, "export interface PropertyValidationAttributes");
+        TestUtils.assertFileNotContains(runtime, "export interface PropertyValidationAttributes");
     }
 
     @Test(description = "Verify pattern is not HTML-escaped in validationAttributes")
