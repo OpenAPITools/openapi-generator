@@ -704,6 +704,11 @@ abstract class GenerateTask : DefaultTask() {
      * Example rules: `REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true`,
      * `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true`. See the OpenAPI Generator docs for
      * the full list of normalizer rules.
+     *
+     * For the `NORMALIZER_CLASS` rule (a custom class extending `OpenAPINormalizer`), the class
+     * must be added to [generatorClasspath] (or the `openApiGeneratorExtra` dependency
+     * configuration) so it is resolvable by the code generation worker in both `workerIsolation`
+     * modes; otherwise it will fail to load with a `ClassNotFoundException`.
      */
     @get:Optional
     @get:Input
