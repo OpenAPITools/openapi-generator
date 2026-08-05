@@ -50,6 +50,7 @@ import com.google.common.base.CaseFormat;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.EnumUtils.*;
+import static org.openapitools.codegen.utils.ModelUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 /**
@@ -740,9 +741,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
             }
 
-            if(cm.oneOf != null && !cm.oneOf.isEmpty()){
+            if(hasOneOf(cm)){
                 cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getOneOf());
-            } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+            } else if (hasAnyOf(cm)) {
                 cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getAnyOf());
             }
             int index = 1;
@@ -1059,7 +1060,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         // Phase 1: Bottom-up property propagation
         // Each child copies its properties to all ancestors in the chain
         for (CodegenModel model : allModels.values()) {
-            if (!model.allOf.isEmpty() && model.getParentModel() != null) {
+            if (hasAllOf(model) && model.getParentModel() != null) {
                 // Walk up the entire parent chain
                 CodegenModel currentAncestor = model.getParentModel();
                 

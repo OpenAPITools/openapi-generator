@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
+import static org.openapitools.codegen.utils.ModelUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 
@@ -1059,7 +1060,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
 
             List<CodegenProperty> codegenProperties = null;
-            if (!model.oneOf.isEmpty()) { // oneOfValidationError
+            if (hasOneOf(model)) {
                 codegenProperties = model.getComposedSchemas().getOneOf();
                 moduleImports.add("typing", "Any");
                 moduleImports.add("typing", "List");
@@ -1067,7 +1068,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 moduleImports.add(PYDANTIC, "StrictStr");
                 moduleImports.add(PYDANTIC, "ValidationError");
                 moduleImports.add(PYDANTIC, "field_validator");
-            } else if (!model.anyOf.isEmpty()) { // anyOF
+            } else if (hasAnyOf(model)) {
                 codegenProperties = model.getComposedSchemas().getAnyOf();
                 moduleImports.add(PYDANTIC, "Field");
                 moduleImports.add(PYDANTIC, "StrictStr");
@@ -1083,7 +1084,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            if (!model.allOf.isEmpty()) { // allOf
+            if (hasAllOf(model)) {
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
                         if (cp.isArray || cp.isMap) { // if array or map
@@ -1121,9 +1122,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 cp.vendorExtensions.put(X_PY_TYPING, typing);
 
                 // setup x-py-name for each oneOf/anyOf schema
-                if (!model.oneOf.isEmpty()) { // oneOf
+                if (hasOneOf(model)) {
                     cp.vendorExtensions.put(X_PY_NAME, String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
-                } else if (!model.anyOf.isEmpty()) { // anyOf
+                } else if (hasAnyOf(model)) {
                     cp.vendorExtensions.put(X_PY_NAME, String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
                 }
             }
@@ -1301,9 +1302,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         List<CodegenProperty> codegenProperties = null;
-        if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOf
+        if (hasOneOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getOneOf();
-        } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
+        } else if (hasAnyOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getAnyOf();
         } else { // typical model
             codegenProperties = cm.vars;
@@ -1352,9 +1353,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         List<CodegenProperty> codegenProperties = null;
-        if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOfValidationError
+        if (hasOneOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getOneOf();
-        } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
+        } else if (hasAnyOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getAnyOf();
         } else { // typical model
             codegenProperties = cm.vars;
