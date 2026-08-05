@@ -3671,6 +3671,37 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test(description = "Regression test for issue #24588: with useJackson3=true the generated"
+            + " createDefaultMapper must fall back to createDefaultDateFormat() when called with"
+            + " null, like the Jackson 2 branch does. Otherwise date-time fields serialize as"
+            + " epoch numbers instead of RFC 3339.")
+    public void testJackson3DefaultMapperFallsBackToDefaultDateFormat_issue_24588() {
+        for (String library : new String[]{JavaClientCodegen.RESTCLIENT, JavaClientCodegen.WEBCLIENT}) {
+            final Path output = newTempFolder();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(JAVA_GENERATOR)
+                    .setLibrary(library)
+                    .setAdditionalProperties(Map.of(
+                            CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                            JavaClientCodegen.USE_JACKSON_3, true,
+                            JavaClientCodegen.USE_SPRING_BOOT4, true,
+                            JavaClientCodegen.OPENAPI_NULLABLE, false
+                    ))
+                    .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                    .setOutputDir(output.toString().replace("\\", "/"));
+
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            validateJavaSourceFiles(files);
+            assertFileContains(
+                    output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                    "public static JsonMapper createDefaultMapper(@Nullable DateFormat dateFormat) {",
+                    "if (null == dateFormat) {",
+                    "dateFormat = createDefaultDateFormat();"
+            );
+        }
+    }
+
 
     @Test
     public void testRestClientWithUseSingleRequestParameter_issue_19406() {

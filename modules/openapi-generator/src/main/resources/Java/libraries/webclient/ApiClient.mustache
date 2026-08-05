@@ -183,6 +183,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     {{#useJackson3}}
     public static JsonMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
+        if (null == dateFormat) {
+            dateFormat = createDefaultDateFormat();
+        }
         return JsonMapper.builder()
             .defaultDateFormat(dateFormat)
             {{#failOnUnknownProperties}}
