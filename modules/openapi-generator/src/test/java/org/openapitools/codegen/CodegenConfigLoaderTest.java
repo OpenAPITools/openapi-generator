@@ -83,9 +83,10 @@ public class CodegenConfigLoaderTest {
         try (URLClassLoader isolatedLoader = new URLClassLoader(new URL[0], null)) {
             Thread.currentThread().setContextClassLoader(isolatedLoader);
 
-            CodegenConfig config = CodegenConfigLoader.forName(DefaultCodegen.class.getName());
+            CodegenConfig config = CodegenConfigLoader.forName("java");
 
-            assertEquals(config.getClass(), DefaultCodegen.class);
+            assertEquals(config.getName(), "java");
+            assertTrue(CodegenConfigLoader.getAll().stream().anyMatch(candidate -> "java".equals(candidate.getName())));
         } finally {
             Thread.currentThread().setContextClassLoader(originalTccl);
         }
@@ -137,12 +138,45 @@ public class CodegenConfigLoaderTest {
         }
     }
 
+    @Test
+    public void testConfigClassWithLinkageErrorProducesClasspathGuidance() throws Exception {
+        Path classesDir = Files.createTempDirectory("codegen-config-linkage-test");
+        try {
+            String className = "org.openapitools.codegen.testfixture.LinkageErrorCodegen";
+            compileCodegenFixture(classesDir, className, true, "linkage-error-codegen",
+                    "    static { if (System.nanoTime() >= 0) throw new NoClassDefFoundError(\"missing dependency\"); }\n");
+
+            ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
+            try (URLClassLoader isolatedLoader = new URLClassLoader(
+                    new URL[]{classesDir.toUri().toURL()}, originalTccl)) {
+                Thread.currentThread().setContextClassLoader(isolatedLoader);
+
+                GeneratorNotFoundException exception = expectThrows(GeneratorNotFoundException.class,
+                        () -> CodegenConfigLoader.forName(className));
+
+                assertTrue(exception.getMessage().contains(className));
+                assertTrue(exception.getMessage().contains("classpath"));
+                assertTrue(exception.getCause() instanceof NoClassDefFoundError);
+            } finally {
+                Thread.currentThread().setContextClassLoader(originalTccl);
+            }
+        } finally {
+            deleteRecursively(classesDir);
+        }
+    }
+
     private static void compileCodegenFixture(Path outputDir, String fullyQualifiedClassName) throws Exception {
-        compileCodegenFixture(outputDir, fullyQualifiedClassName, true, "tccl-only-codegen");
+        compileCodegenFixture(outputDir, fullyQualifiedClassName, true, "tccl-only-codegen", "");
     }
 
     private static void compileCodegenFixture(Path outputDir, String fullyQualifiedClassName,
                                               boolean publicNoArgConstructor, String generatorName) throws Exception {
+        compileCodegenFixture(outputDir, fullyQualifiedClassName, publicNoArgConstructor, generatorName, "");
+    }
+
+    private static void compileCodegenFixture(Path outputDir, String fullyQualifiedClassName,
+                                              boolean publicNoArgConstructor, String generatorName,
+                                              String staticInitializer) throws Exception {
         int lastDot = fullyQualifiedClassName.lastIndexOf('.');
         String packageName = fullyQualifiedClassName.substring(0, lastDot);
         String simpleName = fullyQualifiedClassName.substring(lastDot + 1);
@@ -154,6 +188,7 @@ public class CodegenConfigLoaderTest {
             Files.writeString(sourceFile, "package " + packageName + ";\n"
                     + "public class " + simpleName + " extends org.openapitools.codegen.DefaultCodegen {\n"
                     + "    " + (publicNoArgConstructor ? "public" : "private") + " " + simpleName + "() {}\n"
+                    + staticInitializer
                     + "    @Override public String getName() { return \"" + generatorName + "\"; }\n"
                     + "}\n");
 

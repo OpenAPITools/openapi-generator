@@ -18,8 +18,10 @@
 package org.openapitools.codegen;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ServiceLoader;
+import java.util.Set;
 
 public class CodegenConfigLoader {
     /**
@@ -29,11 +31,9 @@ public class CodegenConfigLoader {
      * @return config class
      */
     public static CodegenConfig forName(String name) {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, getConfigClassLoader());
-
         StringBuilder availableConfigs = new StringBuilder();
 
-        for (CodegenConfig config : loader) {
+        for (CodegenConfig config : getAll()) {
             if (config.getName().equals(name)) {
                 return config;
             }
@@ -44,11 +44,8 @@ public class CodegenConfigLoader {
         // else try to load directly
         try {
             return loadConfigClass(name).asSubclass(CodegenConfig.class).getDeclaredConstructor().newInstance();
-        } catch (ClassNotFoundException e) {
-            throw new GeneratorNotFoundException(
-                    "Can't load config class with name '" + name + "'. The class was not found on the generation "
-                            + "runtime classpath. Ensure the class (and its dependencies) is on the classpath used "
-                            + "to launch the generator.\nAvailable:\n" + availableConfigs, e);
+        } catch (ClassNotFoundException | LinkageError e) {
+            throw generatorNotFoundException(name, availableConfigs, e);
         } catch (ReflectiveOperationException | ClassCastException e) {
             throw new GeneratorNotFoundException(
                     "Can't instantiate config class with name '" + name + "'. The class was found but could not be "
@@ -58,10 +55,15 @@ public class CodegenConfigLoader {
     }
 
     public static List<CodegenConfig> getAll() {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, getConfigClassLoader());
         List<CodegenConfig> output = new ArrayList<CodegenConfig>();
-        for (CodegenConfig aLoader : loader) {
-            output.add(aLoader);
+        Set<String> configClasses = new HashSet<String>();
+        for (ClassLoader classLoader : getConfigClassLoaders()) {
+            ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, classLoader);
+            for (CodegenConfig config : loader) {
+                if (configClasses.add(config.getClass().getName())) {
+                    output.add(config);
+                }
+            }
         }
         return output;
     }
@@ -69,6 +71,15 @@ public class CodegenConfigLoader {
     private static ClassLoader getConfigClassLoader() {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         return contextClassLoader != null ? contextClassLoader : CodegenConfig.class.getClassLoader();
+    }
+
+    private static List<ClassLoader> getConfigClassLoaders() {
+        ClassLoader primaryClassLoader = getConfigClassLoader();
+        ClassLoader definingClassLoader = CodegenConfig.class.getClassLoader();
+        if (primaryClassLoader == definingClassLoader) {
+            return List.of(definingClassLoader);
+        }
+        return List.of(primaryClassLoader, definingClassLoader);
     }
 
     private static Class<?> loadConfigClass(String className) throws ClassNotFoundException {
@@ -81,5 +92,14 @@ public class CodegenConfigLoader {
             }
             throw ignored;
         }
+    }
+
+    private static GeneratorNotFoundException generatorNotFoundException(String name,
+                                                                         StringBuilder availableConfigs,
+                                                                         Throwable cause) {
+        return new GeneratorNotFoundException(
+                "Can't load config class with name '" + name + "'. The class or one of its dependencies could not "
+                        + "be loaded from the generation runtime classpath. Ensure the class (and its dependencies) "
+                        + "are on the classpath used to launch the generator.\nAvailable:\n" + availableConfigs, cause);
     }
 }

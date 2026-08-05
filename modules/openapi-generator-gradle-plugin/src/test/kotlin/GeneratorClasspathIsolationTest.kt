@@ -42,20 +42,52 @@ class GeneratorClasspathIsolationTest : TestBase() {
         fixtureRoots.clear()
     }
 
+    private fun buildFixtureJar(
+        fixtureName: String,
+        sourceFileName: String,
+        source: String,
+        compilationFailureMessage: String
+    ): File {
+        val fixtureRoot = Files.createTempDirectory("$fixtureName-fixture").toFile()
+        fixtureRoots.add(fixtureRoot)
+        val sourceDir = File(fixtureRoot, "src").apply { mkdirs() }
+        val classesDir = File(fixtureRoot, "classes").apply { mkdirs() }
+        val sourceFile = File(sourceDir, "com/example/fixture/$sourceFileName").apply {
+            parentFile.mkdirs()
+            writeText(source)
+        }
+
+        val compiler = ToolProvider.getSystemJavaCompiler()
+            ?: throw SkipException("No system Java compiler available (test requires a JDK, not a JRE)")
+        val result = compiler.run(
+            null, null, null,
+            "-d", classesDir.absolutePath,
+            "-cp", System.getProperty("java.class.path"),
+            sourceFile.absolutePath
+        )
+        assertEquals(0, result, compilationFailureMessage)
+
+        val jarFile = File(fixtureRoot, "$fixtureName-fixture.jar")
+        JarOutputStream(FileOutputStream(jarFile)).use { jar ->
+            classesDir.walkTopDown().filter { it.isFile }.forEach { classFile ->
+                val entryName = classFile.relativeTo(classesDir).path.replace(File.separatorChar, '/')
+                jar.putNextEntry(JarEntry(entryName))
+                jar.write(classFile.readBytes())
+                jar.closeEntry()
+            }
+        }
+        return jarFile
+    }
+
     /**
      * Compiles a trivial `OpenAPINormalizer` subclass and packages it into a jar file that is
      * *not* on the Gradle plugin's own runtime/test classpath, simulating a user-supplied
      * normalizer artifact.
      */
     private fun buildNormalizerFixtureJar(): File {
-        val fixtureRoot = Files.createTempDirectory("normalizer-fixture").toFile()
-        fixtureRoots.add(fixtureRoot)
-        val sourceDir = File(fixtureRoot, "src").apply { mkdirs() }
-        val classesDir = File(fixtureRoot, "classes").apply { mkdirs() }
-
-        val packageDir = File(sourceDir, "com/example/fixture").apply { mkdirs() }
-        val sourceFile = File(packageDir, "NoOpNormalizer.java")
-        sourceFile.writeText(
+        return buildFixtureJar(
+            "normalizer",
+            "NoOpNormalizer.java",
             """
             package com.example.fixture;
 
@@ -86,41 +118,15 @@ class GeneratorClasspathIsolationTest : TestBase() {
                     super.normalize();
                 }
             }
-            """.trimIndent()
+            """.trimIndent(),
+            "Failed to compile NORMALIZER_CLASS test fixture"
         )
-
-        val compiler = ToolProvider.getSystemJavaCompiler()
-            ?: throw SkipException("No system Java compiler available (test requires a JDK, not a JRE)")
-        val classpath = System.getProperty("java.class.path")
-        val result = compiler.run(
-            null, null, null,
-            "-d", classesDir.absolutePath,
-            "-cp", classpath,
-            sourceFile.absolutePath
-        )
-        assertEquals(0, result, "Failed to compile NORMALIZER_CLASS test fixture")
-
-        val jarFile = File(fixtureRoot, "normalizer-fixture.jar")
-        JarOutputStream(FileOutputStream(jarFile)).use { jar ->
-            classesDir.walkTopDown().filter { it.isFile }.forEach { classFile ->
-                val entryName = classFile.relativeTo(classesDir).path.replace(File.separatorChar, '/')
-                jar.putNextEntry(JarEntry(entryName))
-                jar.write(classFile.readBytes())
-                jar.closeEntry()
-            }
-        }
-        return jarFile
     }
 
     private fun buildGeneratorFixtureJar(): File {
-        val fixtureRoot = Files.createTempDirectory("generator-fixture").toFile()
-        fixtureRoots.add(fixtureRoot)
-        val sourceDir = File(fixtureRoot, "src").apply { mkdirs() }
-        val classesDir = File(fixtureRoot, "classes").apply { mkdirs() }
-
-        val packageDir = File(sourceDir, "com/example/fixture").apply { mkdirs() }
-        val sourceFile = File(packageDir, "MarkerCodegen.java")
-        sourceFile.writeText(
+        return buildFixtureJar(
+            "generator",
+            "MarkerCodegen.java",
             """
             package com.example.fixture;
 
@@ -148,29 +154,9 @@ class GeneratorClasspathIsolationTest : TestBase() {
                     super.processOpts();
                 }
             }
-            """.trimIndent()
+            """.trimIndent(),
+            "Failed to compile custom generator test fixture"
         )
-
-        val compiler = ToolProvider.getSystemJavaCompiler()
-            ?: throw SkipException("No system Java compiler available (test requires a JDK, not a JRE)")
-        val result = compiler.run(
-            null, null, null,
-            "-d", classesDir.absolutePath,
-            "-cp", System.getProperty("java.class.path"),
-            sourceFile.absolutePath
-        )
-        assertEquals(0, result, "Failed to compile custom generator test fixture")
-
-        val jarFile = File(fixtureRoot, "generator-fixture.jar")
-        JarOutputStream(FileOutputStream(jarFile)).use { jar ->
-            classesDir.walkTopDown().filter { it.isFile }.forEach { classFile ->
-                val entryName = classFile.relativeTo(classesDir).path.replace(File.separatorChar, '/')
-                jar.putNextEntry(JarEntry(entryName))
-                jar.write(classFile.readBytes())
-                jar.closeEntry()
-            }
-        }
-        return jarFile
     }
 
     private fun runOpenApiGenerateExpectingSuccess(buildContents: String): org.gradle.testkit.runner.BuildResult =
