@@ -166,6 +166,7 @@ class _$MapTestSerializer implements PrimitiveSerializer<MapTest> {
   }
 }
 
+
 class MapTestMapOfEnumStringEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'UPPER')

@@ -140,3 +140,4 @@ class _$ChildWithNullableSerializer implements PrimitiveSerializer<ChildWithNull
   }
 }
 
+

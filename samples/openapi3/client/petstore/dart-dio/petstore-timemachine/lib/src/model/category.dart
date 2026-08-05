@@ -126,3 +126,4 @@ class _$CategorySerializer implements PrimitiveSerializer<Category> {
   }
 }
 
+

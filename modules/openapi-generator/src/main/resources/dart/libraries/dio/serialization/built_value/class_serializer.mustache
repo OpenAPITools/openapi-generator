@@ -77,12 +77,12 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     final anyOf = object.anyOf;
     {{#vendorExtensions.x-self-and-ancestor-only-props}}
     final result = _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-    final serialized = serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()));
+    final serialized = serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.types.map((type) => FullType(type)).toList()));
     result.addAll((serialized is Map ? serialized.entries.map((e) => <dynamic>[e.key, e.value]).expand<dynamic>((e) => e) : serialized) as Iterable<Object?>);
     return result;
     {{/vendorExtensions.x-self-and-ancestor-only-props}}
     {{^vendorExtensions.x-self-and-ancestor-only-props}}
-    return serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()))!;
+    return serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.types.map((type) => FullType(type)).toList()))!;
     {{/vendorExtensions.x-self-and-ancestor-only-props}}
     {{/-first}}
     {{/anyOf}}

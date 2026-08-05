@@ -128,3 +128,4 @@ class _$FileSchemaTestClassSerializer implements PrimitiveSerializer<FileSchemaT
   }
 }
 
+

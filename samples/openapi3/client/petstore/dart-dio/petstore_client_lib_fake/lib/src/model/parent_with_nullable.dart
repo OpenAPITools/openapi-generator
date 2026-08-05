@@ -107,6 +107,7 @@ class _$ParentWithNullableSerializer implements PrimitiveSerializer<ParentWithNu
   }
 }
 
+
 /// a concrete implementation of [ParentWithNullable], since [ParentWithNullable] is not instantiable
 @BuiltValue(instantiable: true)
 abstract class $ParentWithNullable implements ParentWithNullable, Built<$ParentWithNullable, $ParentWithNullableBuilder> {
