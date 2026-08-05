@@ -2,6 +2,7 @@ package org.openapitools.generator.gradle.plugin
 
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.testng.SkipException
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.Test
 import java.io.File
@@ -88,6 +89,7 @@ class GeneratorClasspathIsolationTest : TestBase() {
         )
 
         val compiler = ToolProvider.getSystemJavaCompiler()
+            ?: throw SkipException("No system Java compiler available (test requires a JDK, not a JRE)")
         val classpath = System.getProperty("java.class.path")
         val result = compiler.run(
             null, null, null,
