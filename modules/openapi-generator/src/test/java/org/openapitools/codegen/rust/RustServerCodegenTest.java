@@ -3,6 +3,7 @@ package org.openapitools.codegen.rust;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -255,6 +256,62 @@ public class RustServerCodegenTest {
         // The in-header apiKey block must still be generated and reachable.
         TestUtils.assertFileContains(contextPath,
                 "if let Some(header) = api_key_from_header(headers, \"api_key\") {");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
+
+    /**
+     * Companion to {@link #testAuthSchemeBlocksOnlyMatchTheirOwnScheme()} covering the
+     * scheme combinations the petstore fixture cannot express.
+     *
+     * The petstore fixture pairs `isOAuth` with `isBasicBasic`, and declares HTTP Basic
+     * last so its block is generated after the apiKey blocks and cannot shadow them.
+     * This spec instead declares HTTP Basic, then HTTP Bearer, then an in-header apiKey
+     * scheme. That covers the `isBasicBasic` / `isBasicBearer` pairing - two HTTP schemes
+     * that both read the Authorization header, and so are the pair most able to swallow
+     * each other - and puts both of them ahead of an apiKey block, which is the ordering
+     * that turns an unrestricted block into an authorization bypass: the block claims
+     * credentials for a scheme it does not handle, returns early, and the apiKey block
+     * below it never runs.
+     */
+    @Test
+    public void testOverlappingAuthSchemeBlocksDoNotShadowEachOther() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/overlapping-auth-schemes.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path contextPath = Path.of(target.toString(), "/src/context.rs");
+        TestUtils.assertFileExists(contextPath);
+
+        String context = Files.readString(contextPath);
+
+        String basicBlock = "if let Some(auth @ AuthData::Basic(..)) = swagger::auth::from_headers(headers) {";
+        String bearerBlock = "if let Some(bearer @ AuthData::Bearer(..)) = swagger::auth::from_headers(headers) {";
+        String apiKeyBlock = "if let Some(header) = api_key_from_header(headers, \"x-api-key\") {";
+
+        // Each Authorization-based block must be restricted to its own scheme...
+        TestUtils.assertFileContains(contextPath, basicBlock);
+        TestUtils.assertFileContains(contextPath, bearerBlock);
+        TestUtils.assertFileNotContains(contextPath,
+                "if let Some(auth) = swagger::auth::from_headers(headers) {");
+        TestUtils.assertFileNotContains(contextPath,
+                "if let Some(bearer) = swagger::auth::from_headers(headers) {");
+        // ...and the apiKey block that follows them must still be generated.
+        TestUtils.assertFileContains(contextPath, apiKeyBlock);
+
+        // Guard the premise of this test: if the generator ever emits these blocks in a
+        // different order then this spec no longer exercises the shadowing case, and the
+        // assertions above would silently stop proving anything.
+        Assert.assertTrue(context.indexOf(basicBlock) < context.indexOf(bearerBlock),
+                "expected the Basic auth block to be generated before the Bearer auth block");
+        Assert.assertTrue(context.indexOf(bearerBlock) < context.indexOf(apiKeyBlock),
+                "expected the Bearer auth block to be generated before the apiKey block");
 
         // Clean up
         target.toFile().deleteOnExit();
