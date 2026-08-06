@@ -323,6 +323,7 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const allowsAnonymous = true;
 
             localVarHeaderParameter['Accept'] = 'image/gif';
 
@@ -354,6 +355,7 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const allowsAnonymous = true;
 
             localVarHeaderParameter['Content-Type'] = 'application/octet-stream';
             localVarHeaderParameter['Accept'] = 'text/plain';
@@ -390,6 +392,7 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+            const allowsAnonymous = true;
 
             if (files) {
                 files.forEach((element) => {
@@ -430,6 +433,7 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+            const allowsAnonymous = true;
 
 
             if (myFile !== undefined) { 
