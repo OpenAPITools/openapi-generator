@@ -65,7 +65,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     private static final String FRAMEWORK_SWITCH = "framework";
     private static final String FRAMEWORK_SWITCH_DESC = "Specify the framework which should be used in the client code.";
-    private static final String[] FRAMEWORKS = {"fetch-api", "jquery"};
+    private static final String[] FRAMEWORKS = {"fetch-api", "jquery", "express-zod"};
+    private static final String EXPRESS_ZOD_FRAMEWORK = "express-zod";
     private static final String PLATFORM_SWITCH = "platform";
     private static final String PLATFORM_SWITCH_DESC = "Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.";
     private static final String[] PLATFORMS = {"browser", "node", "deno"};
@@ -219,11 +220,20 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         objs.put("fileContentDataType", additionalProperties.get(FILE_CONTENT_DATA_TYPE));
 
+        if (isExpressZodFramework()) {
+            objs = TypeScriptExpressZodClientUtils.postProcessSupportingFileData(objs);
+        }
+
         return objs;
     }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> models) {
+        if (isExpressZodFramework()) {
+            // express-zod resolves its return types via TypeScriptExpressZodUtils;
+            // the 2xx-union returnType rewrite below would desync from that machinery.
+            return TypeScriptExpressZodClientUtils.postProcessOperations(operations);
+        }
 
         // Add additional filename information for model imports in the apis
         List<Map<String, String>> imports = operations.getImports();
@@ -384,6 +394,12 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        if (isExpressZodFramework()) {
+            // express-zod templates render enums from enumVars and compute their own
+            // imports, so skip the enum namespacing / oneOf import filtering below.
+            return super.postProcessModels(objs);
+        }
+
         // process enum in models
         List<ModelMap> models = postProcessModelsEnum(objs).getModels();
         for (ModelMap mo : models) {
@@ -423,6 +439,15 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        if (isExpressZodFramework()) {
+            TypeScriptExpressZodUtils.annotateModels(result, this.openAPI, this::toModelName);
+        }
+        return result;
+    }
+
+    @Override
     public String apiDocFileFolder() {
         return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
     }
@@ -455,13 +480,19 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     public void processOpts() {
         super.processOpts();
 
+        additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
+
+        if (isExpressZodFramework()) {
+            configureExpressZodFramework();
+            return;
+        }
+
         // change package names
         apiPackage = this.apiPackage + ".apis";
         testPackage = this.testPackage + ".tests";
 
         additionalProperties.put("apiDocPath", apiDocPath);
 
-        additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
         supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
 
         String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
@@ -532,9 +563,59 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         return this.frameworkToHttpLibMap.get(object);
     }
 
+    private boolean isExpressZodFramework() {
+        return EXPRESS_ZOD_FRAMEWORK.equals(additionalProperties.get(FRAMEWORK_SWITCH));
+    }
+
+    /**
+     * Configure the {@code express-zod} framework: a typed HTTP client with Zod
+     * response validation matching the {@code typescript-express-zod-server} generator.
+     * Everything is emitted as supporting files from the {@code express-zod/} template
+     * subtree; the heavy post-processing lives in {@link TypeScriptExpressZodClientUtils}
+     * and {@link TypeScriptExpressZodUtils}.
+     */
+    private void configureExpressZodFramework() {
+        // These options only affect the fetch-api/jquery template set.
+        for (String option : new String[]{PLATFORM_SWITCH, USE_RXJS_SWITCH, USE_INVERSIFY_SWITCH,
+                USE_OBJECT_PARAMS_SWITCH, ENUM_TYPE_SWITCH, IMPORT_FILE_EXTENSION_SWITCH,
+                FILE_CONTENT_DATA_TYPE}) {
+            if (additionalProperties.containsKey(option)) {
+                LOGGER.warn("Option '{}' is not supported by framework 'express-zod' and will be ignored.", option);
+            }
+        }
+
+        // Restore the AbstractTypeScriptClientCodegen mappings that this class's
+        // constructor overrides: express-zod DTOs carry dates as strings over the wire
+        // and treat free-form objects as `object`.
+        typeMapping.put("object", "object");
+        typeMapping.put("DateTime", "string");
+
+        apiPackage = "";
+        modelPackage = "";
+
+        supportingFiles.clear();
+        modelTemplateFiles.clear();
+        apiTemplateFiles.clear();
+        apiDocTemplateFiles.clear();
+
+        String dir = EXPRESS_ZOD_FRAMEWORK + File.separator;
+        supportingFiles.add(new SupportingFile(dir + "types.mustache", "", "types.ts"));
+        supportingFiles.add(new SupportingFile(dir + "schemas.mustache", "", "schemas.ts"));
+        supportingFiles.add(new SupportingFile(dir + "dtos" + File.separator + "types.mustache", "dtos", "types.ts"));
+        supportingFiles.add(new SupportingFile(dir + "dtos" + File.separator + "mappers.mustache", "dtos", "mappers.ts"));
+        supportingFiles.add(new SupportingFile(dir + "dtos" + File.separator + "index.mustache", "dtos", "index.ts"));
+        supportingFiles.add(new SupportingFile(dir + "http-client.mustache", "", "http-client.ts"));
+        supportingFiles.add(new SupportingFile(dir + "index.mustache", "", "index.ts"));
+    }
+
 
     @Override
     public String getTypeDeclaration(Schema p) {
+        if (isExpressZodFramework()) {
+            // express-zod emits no HttpFile symbol and keeps the abstract base's
+            // type declarations (parity with the typescript-express-zod-server generator).
+            return super.getTypeDeclaration(p);
+        }
         if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
             String postfix = "";
