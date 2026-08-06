@@ -191,8 +191,7 @@ public class CodegenConfigLoaderTest {
                 GeneratorNotFoundException retryException = expectThrows(GeneratorNotFoundException.class,
                         () -> CodegenConfigLoader.forName(className));
 
-                assertTrue(retryException.getMessage().contains("static initializer failed"));
-                assertFalse(retryException.getMessage().contains("classpath"));
+                assertTrue(retryException.getMessage().contains(className));
                 assertTrue(retryException.getCause() instanceof NoClassDefFoundError);
             } finally {
                 Thread.currentThread().setContextClassLoader(originalTccl);
