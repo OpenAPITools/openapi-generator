@@ -18,12 +18,18 @@
 package org.openapitools.codegen;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 public class CodegenConfigLoader {
+    private static final Map<ClassLoader, Set<String>> INITIALIZATION_FAILURES =
+            Collections.synchronizedMap(new WeakHashMap<>());
+
     /**
      * Tries to load config class with SPI first, then with class name directly from classpath
      *
@@ -47,7 +53,7 @@ public class CodegenConfigLoader {
         } catch (ClassNotFoundException e) {
             throw generatorNotFoundException(name, availableConfigs, e);
         } catch (NoClassDefFoundError e) {
-            if (e.getCause() instanceof ExceptionInInitializerError) {
+            if (e.getCause() instanceof ExceptionInInitializerError || hasInitializationFailed(name)) {
                 throw generatorInitializationException(name, availableConfigs, e);
             }
             throw generatorNotFoundException(name, availableConfigs, e);
@@ -96,12 +102,35 @@ public class CodegenConfigLoader {
     private static Class<?> loadConfigClass(String className) throws ClassNotFoundException {
         ClassLoader classLoader = getConfigClassLoader();
         try {
-            return Class.forName(className, true, classLoader);
+            return loadConfigClass(className, classLoader);
         } catch (ClassNotFoundException ignored) {
             if (classLoader != CodegenConfig.class.getClassLoader()) {
-                return Class.forName(className, true, CodegenConfig.class.getClassLoader());
+                return loadConfigClass(className, CodegenConfig.class.getClassLoader());
             }
             throw ignored;
+        }
+    }
+
+    private static Class<?> loadConfigClass(String className, ClassLoader classLoader) throws ClassNotFoundException {
+        try {
+            return Class.forName(className, true, classLoader);
+        } catch (ExceptionInInitializerError e) {
+            rememberInitializationFailure(className, classLoader);
+            throw e;
+        }
+    }
+
+    private static void rememberInitializationFailure(String name, ClassLoader classLoader) {
+        synchronized (INITIALIZATION_FAILURES) {
+            INITIALIZATION_FAILURES.computeIfAbsent(classLoader, ignored -> new HashSet<>()).add(name);
+        }
+    }
+
+    private static boolean hasInitializationFailed(String name) {
+        synchronized (INITIALIZATION_FAILURES) {
+            return getConfigClassLoaders().stream()
+                    .map(INITIALIZATION_FAILURES::get)
+                    .anyMatch(failures -> failures != null && failures.contains(name));
         }
     }
 
