@@ -765,6 +765,86 @@ public class TypeScriptFetchClientCodegenTest {
         );
     }
 
+    @Test(description = "Verify dateLibrary=date (the default) maps date and date-time to Date and converts them through the runtime helpers")
+    public void testDateLibraryDateIsTheDefault() throws IOException {
+        File output = generate(new HashMap<>(), DATE_HANDLING_SPEC);
+
+        Path event = Paths.get(output + "/models/Event.ts");
+        TestUtils.assertFileContains(event, "startsOn: Date;");
+        TestUtils.assertFileContains(event, "createdAt?: Date;");
+        TestUtils.assertFileContains(event, "'startsOn': (parseDate(json['startsOn']))");
+        TestUtils.assertFileContains(event, "'createdAt': json['createdAt'] == null ? undefined : (parseDateTime(json['createdAt']))");
+        TestUtils.assertFileContains(event, "'startsOn': serializeDate(value['startsOn'])");
+
+        Path runtime = Paths.get(output + "/runtime.ts");
+        TestUtils.assertFileContains(runtime, "export function parseDate(");
+        TestUtils.assertFileContains(runtime, "export function parseDateTime(");
+    }
+
+    @Test(description = "Verify dateLibrary=string leaves date values untouched as strings")
+    public void testDateLibraryString() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.DATE_LIBRARY, TypeScriptFetchClientCodegen.DATE_LIBRARY_STRING);
+
+        File output = generate(properties, DATE_HANDLING_SPEC);
+
+        Path event = Paths.get(output + "/models/Event.ts");
+        TestUtils.assertFileContains(event, "startsOn: string;");
+        TestUtils.assertFileContains(event, "createdAt?: string;");
+        TestUtils.assertFileContains(event, "'startsOn': json['startsOn'],");
+        TestUtils.assertFileNotContains(event, "parseDate");
+        TestUtils.assertFileNotContains(event, "serializeDate");
+
+        // Only the helper querystring needs is emitted.
+        Path runtime = Paths.get(output + "/runtime.ts");
+        TestUtils.assertFileNotContains(runtime, "export function parseDate(");
+        TestUtils.assertFileNotContains(runtime, "export function parseDateTime(");
+        TestUtils.assertFileNotContains(runtime, "export function serializeDate(");
+        TestUtils.assertFileContains(runtime, "export function serializeDateTime(");
+    }
+
+    @Test(description = "Verify withoutRuntimeChecks forces dateLibrary=string, since there is no model code left to convert with")
+    public void testDateLibraryDateFallsBackToStringWithoutRuntimeChecks() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, true);
+        properties.put(TypeScriptFetchClientCodegen.DATE_LIBRARY, TypeScriptFetchClientCodegen.DATE_LIBRARY_DATE);
+
+        File output = generate(properties, DATE_HANDLING_SPEC);
+
+        Path modelsIndex = Paths.get(output + "/models/index.ts");
+        TestUtils.assertFileContains(modelsIndex, "startsOn: string;");
+        TestUtils.assertFileNotContains(modelsIndex, "startsOn: Date;");
+    }
+
+    @Test(description = "Verify format: date is serialized as a calendar date in every parameter location, not as a date-time")
+    public void testDateFormatIsSerializedAsACalendarDate() throws IOException {
+        File output = generate(new HashMap<>(), DATE_HANDLING_SPEC);
+
+        Path api = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api, "urlPath.replace('{onDate}', encodeURIComponent(runtime.serializeDate(requestParameters['onDate'])))");
+        TestUtils.assertFileContains(api, "queryParameters['from'] = runtime.serializeDate(requestParameters['from'] as any)");
+        TestUtils.assertFileContains(api, "formParams.append('startsOn', runtime.serializeDate(requestParameters['startsOn'] as any))");
+        // date-time keeps the full timestamp.
+        TestUtils.assertFileContains(api, "queryParameters['updatedSince'] = runtime.serializeDateTime(requestParameters['updatedSince'] as any)");
+        TestUtils.assertFileContains(api, "formParams.append('createdAt', runtime.serializeDateTime(requestParameters['createdAt'] as any))");
+    }
+
+    @Test(description = "Verify a calendar date is (de)serialized against the local calendar, so it cannot shift by a day")
+    public void testDateFormatUsesTheLocalCalendar() throws IOException {
+        File output = generate(new HashMap<>(), DATE_HANDLING_SPEC);
+
+        Path runtime = Paths.get(output + "/runtime.ts");
+        // A calendar date is converted against the local calendar on both ends.
+        TestUtils.assertFileContains(runtime, "value.getFullYear()");
+        TestUtils.assertFileContains(runtime, "value.getMonth() + 1");
+        TestUtils.assertFileContains(runtime, "value.getDate()");
+        TestUtils.assertFileContains(runtime, "new Date(Number(fullDate[1]), Number(fullDate[2]) - 1, Number(fullDate[3]))");
+        // A date-time is a genuine instant and stays UTC.
+        TestUtils.assertFileContains(runtime, "export function serializeDateTime(value: Date): string {\n    return value.toISOString();");
+    }
+
+    private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
+
     private static File generate(
         Map<String, Object> properties,
         String inputSpec

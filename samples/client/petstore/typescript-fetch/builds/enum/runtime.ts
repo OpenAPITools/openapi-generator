@@ -346,7 +346,7 @@ function querystringSingleKey(key: string, value: string | number | null | undef
         return querystringSingleKey(key, valueAsArray, keyPrefix);
     }
     if (value instanceof Date) {
-        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toISOString())}`;
+        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(serializeDateTime(value))}`;
     }
     if (value instanceof Object) {
         return querystring(value as HTTPQuery, fullKey);
@@ -357,6 +357,42 @@ function querystringSingleKey(key: string, value: string | number | null | undef
 export function exists(json: any, key: string) {
     const value = json[key];
     return value !== null && value !== undefined;
+}
+
+/**
+ * Every generated date call site routes through these.
+ *
+ * `format: date` is a calendar date, with no time and no offset, so it is converted
+ * against the local calendar on both ends: they have to agree or the date shifts by
+ * a day. `format: date-time` is an instant and uses UTC.
+ */
+export function serializeDateTime(value: Date): string {
+    return value.toISOString();
+}
+
+export function serializeDate(value: Date): string {
+    const year = String(value.getFullYear()).padStart(4, '0');
+    const month = String(value.getMonth() + 1).padStart(2, '0');
+    const day = String(value.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+
+export function parseDate(value: any): Date {
+    if (value instanceof Date) {
+        return value;
+    }
+    // `new Date("2026-08-05")` would parse as UTC midnight: a different day west of UTC.
+    // `new Date(2026, 7, 5)` builds local midnight, which is the stated day everywhere.
+    const fullDate = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value));
+    if (fullDate) {
+        return new Date(Number(fullDate[1]), Number(fullDate[2]) - 1, Number(fullDate[3]));
+    }
+    return new Date(value);
+}
+
+export function parseDateTime(value: any): Date {
+    return new Date(value);
 }
 
 export function mapValues(data: any, fn: (item: any) => any) {
