@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: Enum Test API
+  description: API for testing enum generation with enumUnknownDefaultCase
+  version: 1.0.0
+paths:
+  /colors:
+    get:
+      summary: Get color
+      operationId: getColor
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorResponse'
+components:
+  schemas:
+    ColorResponse:
+      type: object
+      required:
+        - color
+        - status
+      properties:
+        color:
+          $ref: '#/components/schemas/ColorEnum'
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+    ColorEnum:
+      type: string
+      description: Available colors
+      enum:
+        - RED
+        - GREEN
+        - BLUE
+        - YELLOW
+    StatusEnum:
+      type: string
+      description: Status values
+      enum:
+        - PENDING
+        - APPROVED
+        - REJECTED
+        - IN_PROGRESS
+    PriorityEnum:
+      type: integer
+      description: Priority levels
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
