@@ -29,6 +29,7 @@ import java.util.WeakHashMap;
 public class CodegenConfigLoader {
     private static final Map<ClassLoader, Set<String>> INITIALIZATION_FAILURES =
             Collections.synchronizedMap(new WeakHashMap<>());
+    private static final ThreadLocal<ClassLoader> LOADING_CLASS_LOADER = new ThreadLocal<>();
 
     /**
      * Tries to load config class with SPI first, then with class name directly from classpath
@@ -68,6 +69,8 @@ public class CodegenConfigLoader {
                     "Can't instantiate config class with name '" + name + "'. The class was found but could not be "
                             + "constructed; it must implement CodegenConfig, declare a public no-argument constructor, "
                             + "and that constructor must not throw.\nAvailable:\n" + availableConfigs, e);
+        } finally {
+            LOADING_CLASS_LOADER.remove();
         }
     }
 
@@ -112,6 +115,7 @@ public class CodegenConfigLoader {
     }
 
     private static Class<?> loadConfigClass(String className, ClassLoader classLoader) throws ClassNotFoundException {
+        LOADING_CLASS_LOADER.set(classLoader);
         try {
             return Class.forName(className, true, classLoader);
         } catch (ExceptionInInitializerError e) {
@@ -127,10 +131,13 @@ public class CodegenConfigLoader {
     }
 
     private static boolean hasInitializationFailed(String name) {
+        ClassLoader classLoader = LOADING_CLASS_LOADER.get();
+        if (classLoader == null) {
+            return false;
+        }
         synchronized (INITIALIZATION_FAILURES) {
-            return getConfigClassLoaders().stream()
-                    .map(INITIALIZATION_FAILURES::get)
-                    .anyMatch(failures -> failures != null && failures.contains(name));
+            Set<String> failures = INITIALIZATION_FAILURES.get(classLoader);
+            return failures != null && failures.contains(name);
         }
     }
 
