@@ -19,6 +19,8 @@ import android.os.Parcelable;
 import android.os.Parcel;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import com.google.gson.TypeAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
@@ -37,7 +39,18 @@ public enum EnumClass {
   
   _XYZ_("(xyz)");
 
+  private static final Map<String, EnumClass> cacheByValue = new HashMap<>();
+
   private String value;
+
+  static {
+    for (EnumClass e: values()) {
+      String key = e.value;
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
+      }
+    }
+  }
 
   EnumClass(String value) {
     this.value = value;
@@ -53,10 +66,9 @@ public enum EnumClass {
   }
 
   public static EnumClass fromValue(String value) {
-    for (EnumClass b : EnumClass.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
+    EnumClass result = cacheByValue.get(value);
+    if (result != null) {
+      return result;
     }
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
