@@ -5,6 +5,7 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
@@ -1453,6 +1454,49 @@ public class KotlinSpringServerCodegenTest {
                 path,
                 "suspend",
                 "@HttpExchange(BASE_PATH)" // this should not be present since "requestMappingMode" is set to "none"
+        );
+    }
+
+    @Test(description = "x-operation-extra-annotation should be rendered for spring-declarative-http-interface library (issue: extension unavailable in declarative interface mode)")
+    public void generateHttpInterfaceRendersOperationExtraAnnotation() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml");
+        Operation getInventory = openAPI.getPaths().get("/store/inventory").getGet();
+        getInventory.addExtension("x-operation-extra-annotation", "@Secured(\"ROLE_ADMIN\")");
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
+        codegen.additionalProperties().put(REACTIVE, false);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, true);
+        codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
+        assertFileContains(
+                path,
+                "    @Secured(\"ROLE_ADMIN\")\n"
+                        + "    @HttpExchange(\n"
+                        + "        // \"/store/inventory\"\n"
+                        + "        url = PATH_GET_INVENTORY,\n"
+                        + "        method = \"GET\"\n"
+                        + "    )\n"
+                        + "    fun getInventory("
         );
     }
 
