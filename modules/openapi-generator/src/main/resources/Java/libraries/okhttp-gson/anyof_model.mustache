@@ -109,23 +109,26 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
                     {{#useOneOfDiscriminatorLookup}}
                     {{#discriminator}}
-                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+                    // non-object payloads can still match a non-object anyOf schema below
+                    if (jsonElement.isJsonObject()) {
+                        JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-                    // use discriminator value for faster anyOf lookup
-                    {{classname}} new{{classname}} = new {{classname}}();
-                    if (jsonObject.get("{{{propertyBaseName}}}") == null) {
-                        log.log(Level.WARNING, "Failed to lookup discriminator value for {{classname}} as `{{{propertyBaseName}}}` was not found in the payload or the payload is empty.");
-                    } else  {
-                        // look up the discriminator value in the field `{{{propertyBaseName}}}`
-                        switch (jsonObject.get("{{{propertyBaseName}}}").getAsString()) {
-                        {{#mappedModels}}
-                            case "{{{mappingName}}}":
-                                deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
-                                new{{classname}}.setActualInstance(deserialized);
-                                return new{{classname}};
-                        {{/mappedModels}}
-                            default:
-                                log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", jsonObject.get("{{{propertyBaseName}}}").getAsString()));
+                        // use discriminator value for faster anyOf lookup
+                        {{classname}} new{{classname}} = new {{classname}}();
+                        if (jsonObject.get("{{{propertyBaseName}}}") == null) {
+                            log.log(Level.WARNING, "Failed to lookup discriminator value for {{classname}} as `{{{propertyBaseName}}}` was not found in the payload or the payload is empty.");
+                        } else  {
+                            // look up the discriminator value in the field `{{{propertyBaseName}}}`
+                            switch (jsonObject.get("{{{propertyBaseName}}}").getAsString()) {
+                            {{#mappedModels}}
+                                case "{{{mappingName}}}":
+                                    deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
+                                    new{{classname}}.setActualInstance(deserialized);
+                                    return new{{classname}};
+                            {{/mappedModels}}
+                                default:
+                                    log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", jsonObject.get("{{{propertyBaseName}}}").getAsString()));
+                            }
                         }
                     }
 
