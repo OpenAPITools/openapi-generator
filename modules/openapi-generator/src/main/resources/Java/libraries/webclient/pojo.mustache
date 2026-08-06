@@ -218,7 +218,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
-  {{>nullable_var_annotations}}{{! prevent indent}}
+  {{^optionalGettersForNullableFieldsOnly}}{{>nullable_var_annotations}}{{/optionalGettersForNullableFieldsOnly}}{{#optionalGettersForNullableFieldsOnly}}{{#required}}{{>nullable_var_annotations}}{{/required}}{{^required}}{{#isInherited}}{{>nullable_var_annotations}}{{/isInherited}}{{#isDiscriminator}}{{>nullable_var_annotations}}{{/isDiscriminator}}{{/required}}{{/optionalGettersForNullableFieldsOnly}}{{! prevent indent}}
 {{#jsonb}}
   @JsonbProperty("{{baseName}}")
 {{/jsonb}}
@@ -240,18 +240,12 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
   @JsonIgnore
 {{/vendorExtensions.x-is-jackson-optional-nullable}}
 {{^vendorExtensions.x-is-jackson-optional-nullable}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}
-  public {{>nullableDatatypeWithEnum}} {{getter}}() {
-    {{#vendorExtensions.x-is-jackson-optional-nullable}}
-    {{#isReadOnly}}{{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}
+  public {{#optionalGettersForNullableFieldsOnly}}{{^required}}{{^isInherited}}{{^isDiscriminator}}{{^vendorExtensions.x-is-jackson-optional-nullable}}java.util.Optional<{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/isDiscriminator}}{{/isInherited}}{{/required}}{{/optionalGettersForNullableFieldsOnly}}{{>nullableDatatypeWithEnum}}{{#optionalGettersForNullableFieldsOnly}}{{^required}}{{^isInherited}}{{^isDiscriminator}}{{^vendorExtensions.x-is-jackson-optional-nullable}}>{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/isDiscriminator}}{{/isInherited}}{{/required}}{{/optionalGettersForNullableFieldsOnly}} {{getter}}() {
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}{{#isReadOnly}}{{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}
     if ({{name}} == null) {
       {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
     }
-    {{/isReadOnly}}
-    return {{name}}.orElse(null);
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^vendorExtensions.x-is-jackson-optional-nullable}}
-    return {{name}};
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{/isReadOnly}}return {{name}}.orElse(null);{{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}return {{#optionalGettersForNullableFieldsOnly}}{{^required}}{{^isInherited}}{{^isDiscriminator}}java.util.Optional.ofNullable({{name}}){{/isDiscriminator}}{{#isDiscriminator}}{{name}}{{/isDiscriminator}}{{/isInherited}}{{#isInherited}}{{name}}{{/isInherited}}{{/required}}{{#required}}{{name}}{{/required}}{{/optionalGettersForNullableFieldsOnly}}{{^optionalGettersForNullableFieldsOnly}}{{name}}{{/optionalGettersForNullableFieldsOnly}};{{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
 
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
