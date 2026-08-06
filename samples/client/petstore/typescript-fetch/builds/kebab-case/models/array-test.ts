@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 import type { ReadOnlyFirst } from './read-only-first';
 import {
     ReadOnlyFirstFromJSON,

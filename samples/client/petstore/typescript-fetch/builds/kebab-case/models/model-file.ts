@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 /**
  * Must be named `File` for test.
  * @export
