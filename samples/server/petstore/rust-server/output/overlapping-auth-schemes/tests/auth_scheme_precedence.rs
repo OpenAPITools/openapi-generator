@@ -75,9 +75,11 @@ const BEARER_TOKEN: &str = "some-token";
 
 #[test]
 fn basic_block_does_not_swallow_bearer_credentials() {
-    // The regression, in the only form that is observable at runtime: with an unrestricted
-    // Basic block, block 1 claims the bearer credentials and returns, so the `x-api-key`
-    // block below it never runs and this resolves to `AuthData::Bearer` instead.
+    // The regression, in the only form that is observable at runtime. With an unrestricted
+    // Basic block, block 1 claims the bearer credentials and returns early, so the
+    // `x-api-key` block below it never runs and the request resolves to `AuthData::Bearer`.
+    // With the fix, block 1 declines, and the API key below it is reached - which is what
+    // this test asserts.
     assert_eq!(
         resolve_auth_data(&[
             ("authorization", BEARER_HEADER),

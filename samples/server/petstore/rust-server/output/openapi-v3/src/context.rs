@@ -103,8 +103,6 @@ impl<T, A, B, C, ReqBody> Service<Request<ReqBody>> for AddContext<T, A>
         let headers = request.headers();
 
         {
-            use headers::authorization::Bearer;
-            use std::ops::Deref;
             if let Some(bearer @ AuthData::Bearer(..)) = swagger::auth::from_headers(headers) {
                 let context = context.push(Some(bearer));
 
@@ -112,8 +110,6 @@ impl<T, A, B, C, ReqBody> Service<Request<ReqBody>> for AddContext<T, A>
             }
         }
         {
-            use headers::authorization::Bearer;
-            use std::ops::Deref;
             if let Some(bearer @ AuthData::Bearer(..)) = swagger::auth::from_headers(headers) {
                 let context = context.push(Some(bearer));
 
