@@ -21,23 +21,27 @@ components:
   #    header, so an unrestricted block for either one also matches the other. This is
   #    the `isBasicBasic` / `isBasicBearer` pairing; the petstore fixture only covers
   #    `isBasicBasic` alongside `isOAuth`.
-  #  * `apiKeyAuth` is declared last. Blocks are emitted in declaration order and each
-  #    returns early, so an unrestricted Basic or Bearer block does not merely pick the
-  #    wrong scheme - it makes the apiKey block below it unreachable, which is an
-  #    authorization bypass rather than a mislabelling.
+  #  * `apiKeyAuth` is declared *between* the two HTTP schemes. Blocks are emitted in
+  #    declaration order and each returns early, so an unrestricted Basic block does not
+  #    merely pick the wrong scheme for a bearer-credentialed request - it makes the
+  #    apiKey block below it unreachable, which is an authorization bypass rather than a
+  #    mislabelling. The interleaving is also what makes the bug observable at runtime:
+  #    were the two HTTP blocks adjacent, a broken and a fixed generator would both
+  #    resolve bearer credentials to `AuthData::Bearer` and no request-level test could
+  #    tell them apart.
   securitySchemes:
         basicAuth:
             scheme: basic
-            type: http
-        bearerAuth:
-            scheme: bearer
-            bearerFormat: token
             type: http
         apiKeyAuth:
             type: apiKey
             name: x-api-key
             in: header
+        bearerAuth:
+            scheme: bearer
+            bearerFormat: token
+            type: http
 security:
   - basicAuth: []
-  - bearerAuth: []
   - apiKeyAuth: []
+  - bearerAuth: []

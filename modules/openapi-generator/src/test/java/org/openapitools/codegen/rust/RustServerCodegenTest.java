@@ -267,13 +267,17 @@ public class RustServerCodegenTest {
      *
      * The petstore fixture pairs `isOAuth` with `isBasicBasic`, and declares HTTP Basic
      * last so its block is generated after the apiKey blocks and cannot shadow them.
-     * This spec instead declares HTTP Basic, then HTTP Bearer, then an in-header apiKey
-     * scheme. That covers the `isBasicBasic` / `isBasicBearer` pairing - two HTTP schemes
+     * This spec instead declares HTTP Basic, then an in-header apiKey scheme, then HTTP
+     * Bearer. That covers the `isBasicBasic` / `isBasicBearer` pairing - two HTTP schemes
      * that both read the Authorization header, and so are the pair most able to swallow
-     * each other - and puts both of them ahead of an apiKey block, which is the ordering
-     * that turns an unrestricted block into an authorization bypass: the block claims
-     * credentials for a scheme it does not handle, returns early, and the apiKey block
-     * below it never runs.
+     * each other - and interleaves an apiKey block between them, which is the ordering
+     * that turns an unrestricted block into an authorization bypass: the Basic block
+     * claims credentials for a scheme it does not handle, returns early, and the apiKey
+     * block below it never runs.
+     *
+     * The same sample is generated into
+     * `samples/server/petstore/rust-server/output/overlapping-auth-schemes`, where
+     * `tests/auth_scheme_precedence.rs` asserts the same property at request level.
      */
     @Test
     public void testOverlappingAuthSchemeBlocksDoNotShadowEachOther() throws IOException {
@@ -302,16 +306,16 @@ public class RustServerCodegenTest {
                 "if let Some(auth) = swagger::auth::from_headers(headers) {");
         TestUtils.assertFileNotContains(contextPath,
                 "if let Some(bearer) = swagger::auth::from_headers(headers) {");
-        // ...and the apiKey block that follows them must still be generated.
+        // ...and the apiKey block sitting between them must still be generated.
         TestUtils.assertFileContains(contextPath, apiKeyBlock);
 
         // Guard the premise of this test: if the generator ever emits these blocks in a
         // different order then this spec no longer exercises the shadowing case, and the
         // assertions above would silently stop proving anything.
-        Assert.assertTrue(context.indexOf(basicBlock) < context.indexOf(bearerBlock),
-                "expected the Basic auth block to be generated before the Bearer auth block");
-        Assert.assertTrue(context.indexOf(bearerBlock) < context.indexOf(apiKeyBlock),
-                "expected the Bearer auth block to be generated before the apiKey block");
+        Assert.assertTrue(context.indexOf(basicBlock) < context.indexOf(apiKeyBlock),
+                "expected the Basic auth block to be generated before the apiKey block");
+        Assert.assertTrue(context.indexOf(apiKeyBlock) < context.indexOf(bearerBlock),
+                "expected the apiKey block to be generated between the two HTTP auth blocks");
 
         // Clean up
         target.toFile().deleteOnExit();

@@ -78,7 +78,12 @@ fn bearer_block_does_not_claim_basic_credentials() {
 }
 
 #[test]
-fn basic_block_does_not_claim_bearer_credentials() {
+fn bearer_credentials_resolve_to_bearer_auth_data() {
+    // Note this cannot prove the *Basic* block stays in its lane: the OAuth block above it
+    // legitimately claims these credentials first, so a broken Basic block would be
+    // unobservable here. That direction is covered at request level by the
+    // `overlapping-auth-schemes` sample, whose spec interleaves an apiKey scheme between
+    // the Basic and Bearer blocks.
     assert_eq!(
         resolve_auth_data("/", &[("authorization", "Bearer some-token")]),
         Some(AuthData::Bearer("some-token".to_owned())),
