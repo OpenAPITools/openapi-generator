@@ -110,6 +110,32 @@ public class MammalAnyof extends AbstractOpenApiSchema {
                     Object deserialized = null;
                     JsonElement jsonElement = elementAdapter.read(in);
 
+                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+                    // use discriminator value for faster anyOf lookup
+                    MammalAnyof newMammalAnyof = new MammalAnyof();
+                    if (jsonObject.get("className") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for MammalAnyof as `className` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `className`
+                        switch (jsonObject.get("className").getAsString()) {
+                            case "Pig":
+                                deserialized = adapterPig.fromJsonTree(jsonObject);
+                                newMammalAnyof.setActualInstance(deserialized);
+                                return newMammalAnyof;
+                            case "whale":
+                                deserialized = adapterWhale.fromJsonTree(jsonObject);
+                                newMammalAnyof.setActualInstance(deserialized);
+                                return newMammalAnyof;
+                            case "zebra":
+                                deserialized = adapterZebra.fromJsonTree(jsonObject);
+                                newMammalAnyof.setActualInstance(deserialized);
+                                return newMammalAnyof;
+                            default:
+                                log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for MammalAnyof. Possible values: Pig whale zebra", jsonObject.get("className").getAsString()));
+                        }
+                    }
+
                     ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 

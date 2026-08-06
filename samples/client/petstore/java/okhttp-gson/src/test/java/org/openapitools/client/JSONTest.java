@@ -500,6 +500,59 @@ public class JSONTest {
     }
 
     /**
+     * Validate an anyOf schema can be deserialized into the expected class.
+     * The anyOf schema has a discriminator.
+     */
+    @Test
+    public void testAnyOfSchemaWithDiscriminator() throws Exception {
+        {
+            // Zebra is listed after Whale in anyOf, and a zebra payload also satisfies Whale
+            // (className is Whale's only required field), so without the discriminator lookup
+            // this deserializes as Whale.
+            String str = "{ \"className\": \"zebra\", \"type\": \"plains\" }";
+
+            MammalAnyof o = json.getGson().fromJson(str, MammalAnyof.class);
+            assertTrue(o.getActualInstance() instanceof Zebra);
+            Zebra inst = (Zebra) o.getActualInstance();
+            assertEquals(inst.getClassName(), "zebra");
+            assertEquals(inst.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+            assertEquals(o.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+        }
+        {
+            String str = "{ \"className\": \"whale\", \"hasBaleen\": false, \"hasTeeth\": false }";
+
+            MammalAnyof o = json.getGson().fromJson(str, MammalAnyof.class);
+            assertTrue(o.getActualInstance() instanceof Whale);
+            Whale inst = (Whale) o.getActualInstance();
+            assertEquals(inst.getClassName(), "whale");
+            assertEquals(inst.getHasBaleen(), false);
+            assertEquals(inst.getHasTeeth(), false);
+            assertEquals(inst.toJson(), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+            assertEquals(json.getGson().toJson(o), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+            assertEquals(o.toJson(), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+        }
+        {
+            // an unmapped discriminator value falls back to matching the anyOf schemas in order
+            String str = "{ \"className\": \"dolphin\", \"hasBaleen\": true }";
+
+            MammalAnyof o = json.getGson().fromJson(str, MammalAnyof.class);
+            assertTrue(o.getActualInstance() instanceof Whale);
+            Whale inst = (Whale) o.getActualInstance();
+            assertEquals(inst.getClassName(), "dolphin");
+            assertEquals(inst.getHasBaleen(), true);
+        }
+        {
+            // Try to deserialize empty object. This should fail 'anyOf' because none will match
+            // whale, zebra or Pig.
+            String str = "{ }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                json.getGson().fromJson(str, MammalAnyof.class);
+            });
+            assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for MammalAnyof"));
+        }
+    }
+
+    /**
      * Test JSON validation method
      */
     @Test
