@@ -2,12 +2,14 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.model.EnumVarMap;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_DEPRECATED;
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
+import static org.openapitools.codegen.model.EnumVarMap.*;
 
 public class EnumUtils {
 
@@ -22,7 +24,7 @@ public class EnumUtils {
     /**
      *
      * @param allowableValues The allowableValues map
-     * @return whether the allowableValues map contains {@value CodegenConstants#ENUM_VARS}
+     * @return whether the allowableValues map contains {@value EnumVarMap#ENUM_VARS}
      */
     public static boolean hasEnumVars(Map<String, Object> allowableValues) {
         return allowableValues != null && allowableValues.containsKey(ENUM_VARS);
@@ -31,25 +33,26 @@ public class EnumUtils {
     /**
      *
      * @param allowableValues The allowableValues map
-     * @return whether the allowableValues map contains {@value CodegenConstants#ENUM_VALUES}
+     * @return whether the allowableValues map contains {@value EnumVarMap#ENUM_VALUES}
      */
     public static boolean hasEnumValues(Map<String, Object> allowableValues) {
         return allowableValues != null && allowableValues.containsKey(ENUM_VALUES);
     }
 
     /**
-     * Get the {@value CodegenConstants#ENUM_VARS} from the allowableValues map.
+     * Get the {@value EnumVarMap#ENUM_VARS} from the allowableValues map.
+     *
      * @param allowableValues The allowableValues map
      * @return the list of enumVars
      */
-    public static List<Map<String, Object>> getEnumVars(Map<String, Object> allowableValues) {
+    public static List<EnumVarMap> getEnumVars(Map<String, Object> allowableValues) {
         @SuppressWarnings("unchecked")
-        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get(ENUM_VARS);
+        List<EnumVarMap> enumVars = (List<EnumVarMap>) allowableValues.get(ENUM_VARS);
         return enumVars;
     }
 
     /**
-     * Get the {@value CodegenConstants#ENUM_VALUES} from the allowableValues map.
+     * Get the {@value EnumVarMap#ENUM_VALUES} from the allowableValues map.
      * @param allowableValues The allowableValues map
      * @return the list of enumValues
      */
@@ -60,7 +63,7 @@ public class EnumUtils {
     }
 
     /**
-     * Get the {@value CodegenConstants#ENUM_VALUES} from the allowableValues map.
+     * Get the {@value EnumVarMap#ENUM_VALUES} from the allowableValues map.
      * @param allowableValues The allowableValues map
      * @return the list of enumValues
      */

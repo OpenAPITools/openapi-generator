@@ -24,6 +24,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -39,7 +40,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
-import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -825,9 +825,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
      * Shared post-processing for one generated api class, whether its operations come from
      * {@code paths} or from {@code webhooks}.
      *
-     * @param objs       the template bundle for the api file (also carries specHelperPath)
-     * @param operations the operations to process, or null when the group is empty
-     * @param allModels  every generated model, used to qualify model types and build examples
+     * @param objs        the template bundle for the api file (also carries specHelperPath)
+     * @param operations0 the operations to process, or null when the group is empty
+     * @param allModels   every generated model, used to qualify model types and build examples
      */
     private void processApiGroup(Map<String, Object> objs, OperationMap operations0, List<ModelMap> allModels) {
         String classname = (operations0 != null) ? operations0.getClassname() : "";
@@ -1100,8 +1100,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + count);
             }
         } else if (codegenModel.isEnum) {
-            List<Map<String, Object>> enumVars = getEnumVars(codegenModel.allowableValues);
-            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get(ENUM_NAME);
+            List<EnumVarMap> enumVars = getEnumVars(codegenModel.allowableValues);
+            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).getEnumName();
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
             if (modelMaps.get(subModel) == null) {

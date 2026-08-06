@@ -32,6 +32,7 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -48,7 +49,7 @@ import java.util.stream.Collectors;
 
 import com.google.common.base.CaseFormat;
 
-import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.model.EnumVarMap.*;
 import static org.openapitools.codegen.utils.EnumUtils.*;
 import static org.openapitools.codegen.utils.ModelUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -570,12 +571,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      */
     public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix) {
         if (hasEnumVars(allowableValues)) {
-            List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
+            List<EnumVarMap> enumVars = getEnumVars(allowableValues);
             prefix = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, prefix);
-            for (Map<String, Object> value : enumVars) {
-                String name = (String) value.get(ENUM_NAME);
-                value.put(ENUM_NAME, useSimplifiedEnumNames ? name : prefix + "_" + name);
-                value.put(ENUM_VALUE, useSimplifiedEnumNames ? name : "\"" + prefix + "_" + name + "\"");
+            for (EnumVarMap value : enumVars) {
+                String name = (String) value.getEnumName();
+                value.setEnumName(useSimplifiedEnumNames ? name : prefix + "_" + name);
+                value.setEnumValue(useSimplifiedEnumNames ? name : "\"" + prefix + "_" + name + "\"");
             }
         }
 
@@ -598,14 +599,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         if (startEnumsWithUnspecified) {
             if (hasEnumVars(allowableValues)) {
-                List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
+                List<EnumVarMap> enumVars = getEnumVars(allowableValues);
                 boolean unspecifiedPresent = enumVars.stream()
-                        .anyMatch(e -> UNSPECIFIED.equals(e.get(ENUM_NAME)));
+                        .anyMatch(e -> UNSPECIFIED.equals(e.getEnumName()));
                 if (!unspecifiedPresent) {
-                    HashMap<String, Object> unspecifiedEnum = new HashMap<>();
-                    unspecifiedEnum.put(ENUM_NAME, UNSPECIFIED);
-                    unspecifiedEnum.put(ENUM_IS_STRING, false);
-                    unspecifiedEnum.put(ENUM_VALUE, "\"" + UNSPECIFIED + "\"");
+                    EnumVarMap unspecifiedEnum = new EnumVarMap();
+                    unspecifiedEnum.enumVar(UNSPECIFIED, "\"" + UNSPECIFIED + "\"", false);
                     enumVars.add(0, unspecifiedEnum);
                 }
             }
@@ -626,9 +625,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      *
      * @param enumVars list of enum vars
      */
-    public void addEnumIndexes(List<Map<String, Object>> enumVars) {
+    public void addEnumIndexes(List<EnumVarMap> enumVars) {
         int enumIndex = 0;
-        for (Map<String, Object> enumVar : enumVars) {
+        for (EnumVarMap enumVar : enumVars) {
             enumVar.put("protobuf-enum-index", enumIndex);
             enumIndex++;
         }
@@ -734,7 +733,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 addUnspecifiedToAllowableValues(allowableValues);
                 addEnumValuesPrefix(allowableValues, cm.getClassname());
                 if (hasEnumVars(allowableValues)) {
-                    List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
+                    List<EnumVarMap> enumVars = getEnumVars(allowableValues);
                     addEnumIndexes(enumVars);
                 }
             }
@@ -790,7 +789,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     addEnumValuesPrefix(enumProperty.allowableValues, enumProperty.getEnumName());
 
                     if (hasEnumVars(enumProperty.allowableValues)) {
-                        List<Map<String, Object>> enumVars = getEnumVars(enumProperty.allowableValues);
+                        List<EnumVarMap> enumVars = getEnumVars(enumProperty.allowableValues);
                         addEnumIndexes(enumVars);
                     }
                     

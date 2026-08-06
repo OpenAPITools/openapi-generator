@@ -1652,10 +1652,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 additionalProperties.put("apiUsesIntegerEnums", true);
 
                 // Add numeric discriminant values for enum variants
-                List<Map<String, Object>> enumVars = getEnumVars(model.allowableValues);
+                List<EnumVarMap> enumVars = getEnumVars(model.allowableValues);
 
                 if (enumVars != null) {
-                    for (Map<String, Object> enumVar : enumVars) {
+                    for (EnumVarMap enumVar : enumVars) {
                         String value = (String) enumVar.get("value");
                         if (value != null) {
                             // Strip quotes to get raw numeric value

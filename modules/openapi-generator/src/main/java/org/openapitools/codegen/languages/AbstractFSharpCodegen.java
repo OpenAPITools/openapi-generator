@@ -25,6 +25,7 @@ import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -39,6 +40,7 @@ import java.util.*;
 
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_BYTE;
 import static org.openapitools.codegen.CodegenConstants.X_EXAMPLE;
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_VARS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -450,12 +452,12 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
                     // Since we iterate enumVars for modelInnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
                     // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
-                    List<Map<String, Object>> enumVars = getEnumVars(model.allowableValues);
-                    List<Map<String, Object>> newEnumVars = new ArrayList<>();
-                    for (Map<String, Object> enumVar : enumVars) {
-                        Map<String, Object> mixedVars = new HashMap<>(enumVar);
+                    List<EnumVarMap> enumVars = getEnumVars(model.allowableValues);
+                    List<EnumVarMap> newEnumVars = new ArrayList<>();
+                    for (EnumVarMap enumVar : enumVars) {
+                        EnumVarMap mixedVars = new EnumVarMap(enumVar);
 
-                        mixedVars.put(ENUM_IS_STRING, isString);
+                        mixedVars.isString(isString);
                         mixedVars.put("isLong", isLong);
                         mixedVars.put("isInteger", isInteger);
                         mixedVars.put("isByte", isByte);
@@ -474,7 +476,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * Update codegen property's enum by adding {@value CodegenConstants#ENUM_VARS} (with name and value)
+     * Update codegen property's enum by adding {@value EnumVarMap#ENUM_VARS} (with name and value)
      *
      * @param var list of CodegenProperty
      */
