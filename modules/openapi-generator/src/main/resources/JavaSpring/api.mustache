@@ -140,6 +140,8 @@ public interface {{classname}} {
 {{#operation}}
 
     String PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = "{{{path}}}";
+    String OPERATION_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = "{{{operationId}}}";
+
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
     {{#notes}}
@@ -167,7 +169,7 @@ public interface {{classname}} {
     {{/virtualService}}
     {{#swagger2AnnotationLibrary}}
     @Operation(
-        operationId = "{{{operationId}}}",
+        operationId = {{classname}}.OPERATION_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}},
         {{#summary}}
         summary = "{{{.}}}",
         {{/summary}}
