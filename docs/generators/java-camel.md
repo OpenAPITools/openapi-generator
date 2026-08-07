@@ -105,6 +105,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |springApiVersion|Value for 'version' attribute in @RequestMapping (for Spring 7 and above).| |null|
+|springSecurityAuthorityPrefix|Prefix added to OAuth2/OpenID Connect scopes when generating Spring Security authorities.| |SCOPE_|
 |substituteGenericPagedModel|Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' pagination-metadata property) and replace their generated references with PagedModel&lt;T&gt;. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata schema are suppressed from code generation.| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|server title name or client service name| |OpenAPI Spring|
@@ -127,6 +128,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSpringBuiltInValidation|Disable `@Validated` at the class level when using built-in validation.| |false|
 |useSpringController|Annotate the generated API as a Spring Controller| |false|
+|useSpringSecurityPreAuthorize|Generate Spring Security @PreAuthorize annotations from OAuth2/OpenID Connect security scopes.| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|use tags for creating interface and controller classnames| |false|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki| |false|
