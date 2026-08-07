@@ -36,6 +36,7 @@ data class NullableModel(
     @param:JsonProperty("optionalNonNullable")
     @get:JsonProperty("optionalNonNullable") val optionalNonNullable: kotlin.String? = null,
 
+    @field:JsonInclude(JsonInclude.Include.NON_ABSENT)
     @param:JsonProperty("optionalNullable")
     @get:JsonProperty("optionalNullable") val optionalNullable: JsonNullable<kotlin.String> = JsonNullable.undefined()
 ) : java.io.Serializable {

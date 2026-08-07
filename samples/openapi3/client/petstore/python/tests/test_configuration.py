@@ -11,6 +11,7 @@ $ pytest
 from __future__ import absolute_import
 
 import unittest
+from unittest.mock import patch
 
 import petstore_api
 
@@ -57,6 +58,48 @@ class TestConfiguration(unittest.TestCase):
     def testAccessTokenWhenConstructingConfiguration(self):
         c1 = petstore_api.Configuration(access_token="12345")
         self.assertEqual(c1.access_token, "12345")
+
+    def test_proxy_settings_default_from_environment(self):
+        environment_proxies = {
+            "http": "http://plain-proxy.example",
+            "https": "http://secure-proxy.example",
+            "no": "internal.example",
+        }
+        with patch(
+            "petstore_api.configuration.getproxies",
+            return_value=environment_proxies,
+        ):
+            config = petstore_api.Configuration(host="https://api.example")
+
+        self.assertEqual(config.proxy, "http://secure-proxy.example")
+        self.assertEqual(config.no_proxy, "internal.example")
+
+    def test_explicit_proxy_settings_override_environment(self):
+        with patch(
+            "petstore_api.configuration.getproxies",
+            return_value={"https": "http://proxy.example", "no": "example"},
+        ) as getproxies:
+            config = petstore_api.Configuration(
+                host="https://api.example",
+                proxy="",
+                no_proxy="",
+            )
+
+        getproxies.assert_not_called()
+        self.assertEqual(config.proxy, "")
+        self.assertEqual(config.no_proxy, "")
+
+    def test_explicit_proxy_does_not_resolve_generated_host(self):
+        with patch(
+            "petstore_api.configuration.getproxies",
+            return_value={},
+        ):
+            config = petstore_api.Configuration(
+                server_index=999,
+                proxy="http://proxy.example",
+            )
+
+        self.assertEqual(config.proxy, "http://proxy.example")
 
     def test_ignore_operation_servers(self):
         self.config.ignore_operation_servers = True

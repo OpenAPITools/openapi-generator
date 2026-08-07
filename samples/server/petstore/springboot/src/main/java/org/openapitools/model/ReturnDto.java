@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 
 @Schema(name = "Return", description = "Model for testing reserved words")
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ReturnDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

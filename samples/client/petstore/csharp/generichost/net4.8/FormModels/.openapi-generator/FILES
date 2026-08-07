@@ -121,6 +121,7 @@ docs/models/TestCollectionEndingWithWordList.md
 docs/models/TestCollectionEndingWithWordListObject.md
 docs/models/TestDescendants.md
 docs/models/TestDescendantsObjectType.md
+docs/models/TestEnumParametersEnumHeaderStringParameter.md
 docs/models/TestEnumParametersEnumQueryDoubleParameter.md
 docs/models/TestEnumParametersEnumQueryIntegerParameter.md
 docs/models/TestEnumParametersRequestEnumFormString.md
@@ -176,6 +177,7 @@ src/Org.OpenAPITools/Client/TokenProvider`1.cs
 src/Org.OpenAPITools/Extensions/IHostBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IHttpClientBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IServiceCollectionExtensions.cs
+src/Org.OpenAPITools/Logging/RestLogEvents.cs
 src/Org.OpenAPITools/Model/Activity.cs
 src/Org.OpenAPITools/Model/ActivityOutputElementRepresentation.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
@@ -287,6 +289,7 @@ src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
 src/Org.OpenAPITools/Model/TestDescendants.cs
 src/Org.OpenAPITools/Model/TestDescendantsObjectType.cs
+src/Org.OpenAPITools/Model/TestEnumParametersEnumHeaderStringParameter.cs
 src/Org.OpenAPITools/Model/TestEnumParametersEnumQueryDoubleParameter.cs
 src/Org.OpenAPITools/Model/TestEnumParametersEnumQueryIntegerParameter.cs
 src/Org.OpenAPITools/Model/TestEnumParametersRequestEnumFormString.cs

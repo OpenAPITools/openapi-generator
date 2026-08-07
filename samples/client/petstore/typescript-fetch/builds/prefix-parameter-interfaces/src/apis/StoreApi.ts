@@ -20,14 +20,23 @@ import {
 } from '../models/Order';
 
 export interface StoreApiDeleteOrderRequest {
+    /**
+     * ID of the order that needs to be deleted
+     */
     orderId: string;
 }
 
 export interface StoreApiGetOrderByIdRequest {
+    /**
+     * ID of pet that needs to be fetched
+     */
     orderId: number;
 }
 
 export interface StoreApiPlaceOrderRequest {
+    /**
+     * 
+     */
     body: Order;
 }
 

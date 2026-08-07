@@ -130,15 +130,17 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
         case r'id':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.id = valueDes;
           break;
         case r'category':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(Category),
-          ) as Category;
+            specifiedType: const FullType.nullable(Category),
+          ) as Category?;
+          if (valueDes == null) continue;
           result.category.replace(valueDes);
           break;
         case r'name':
@@ -158,15 +160,17 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
         case r'tags':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(Tag)]),
-          ) as BuiltList<Tag>;
+            specifiedType: const FullType.nullable(BuiltList, [FullType(Tag)]),
+          ) as BuiltList<Tag>?;
+          if (valueDes == null) continue;
           result.tags.replace(valueDes);
           break;
         case r'status':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(PetStatusEnum),
-          ) as PetStatusEnum;
+            specifiedType: const FullType.nullable(PetStatusEnum),
+          ) as PetStatusEnum?;
+          if (valueDes == null) continue;
           result.status = valueDes;
           break;
         default:
@@ -198,18 +202,16 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
   }
 }
 
+
+/// pet status in the store
 class PetStatusEnum extends EnumClass {
 
-  /// pet status in the store
   @BuiltValueEnumConst(wireName: r'available')
   static const PetStatusEnum available = _$petStatusEnum_available;
-  /// pet status in the store
   @BuiltValueEnumConst(wireName: r'pending')
   static const PetStatusEnum pending = _$petStatusEnum_pending;
-  /// pet status in the store
   @BuiltValueEnumConst(wireName: r'sold')
   static const PetStatusEnum sold = _$petStatusEnum_sold;
-  /// pet status in the store
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
   static const PetStatusEnum unknownDefaultOpenApi = _$petStatusEnum_unknownDefaultOpenApi;
 

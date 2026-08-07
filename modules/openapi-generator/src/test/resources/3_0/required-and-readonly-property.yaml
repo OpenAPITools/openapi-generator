@@ -23,6 +23,7 @@ components:
       required:
         - requiredYesReadonlyYes
         - requiredYesReadonlyNo
+        - requiredEmail
       properties:
         requiredYesReadonlyYes:
           type: string
@@ -34,5 +35,11 @@ components:
           readOnly: true
         requiredNoReadonlyNo:
           type: string
+        requiredEmail:
+          type: string
+          format: email
+        optionalEmail:
+          type: string
+          format: email
 
   

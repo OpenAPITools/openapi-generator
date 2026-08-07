@@ -25,10 +25,10 @@ class BasquePig(BaseModel):
     """
     BasquePig
     """
-    class_name: StrictStr = Field(default=..., alias="className")
+    class_name: StrictStr = Field(default=..., alias="class'\"\\Name")
     color: StrictStr = Field(...)
     additional_properties: Dict[str, Any] = {}
-    __properties = ["className", "color"]
+    __properties = ["class'\"\\Name", "color"]
 
     class Config:
         """Pydantic configuration"""
@@ -72,7 +72,7 @@ class BasquePig(BaseModel):
             return BasquePig.parse_obj(obj)
 
         _obj = BasquePig.parse_obj({
-            "class_name": obj.get("className"),
+            "class_name": obj.get("class'\"\\Name"),
             "color": obj.get("color")
         })
         # store additional fields in additional_properties

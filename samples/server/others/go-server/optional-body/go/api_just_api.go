@@ -80,6 +80,11 @@ func (c *JustApiAPIController) SendOptionalPayload(w http.ResponseWriter, r *htt
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&payloadParam); err != nil && !errors.Is(err, io.EOF) {
+		var requiredErr *RequiredError
+		if errors.As(err, &requiredErr) {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}

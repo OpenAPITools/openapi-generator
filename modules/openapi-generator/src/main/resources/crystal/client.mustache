@@ -1,0 +1,38 @@
+# {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
+
+module {{moduleName}}
+  class Client
+    getter connection : Connection
+
+    def initialize(*, host : String, token : String? = nil, scheme : String = "https")
+      cfg = Configuration.new
+      cfg.host = host
+      cfg.scheme = scheme
+      cfg.access_token = token if token
+      @connection = Connection.new(cfg)
+    end
+
+    def initialize(@connection : Connection); end
+{{#crNamespaces}}
+    def {{name}} : {{className}}
+      @{{name}} ||= {{className}}.new(@connection)
+    end
+
+    @{{name}} : {{className}}?
+{{/crNamespaces}}
+  end
+{{#crNamespaces}}
+
+  class {{className}}
+    def initialize(@conn : Connection); end
+{{#resources}}
+
+    def {{accessor}} : {{className}}
+      @{{accessor}} ||= {{className}}.new(@conn)
+    end
+
+    @{{accessor}} : {{className}}?
+{{/resources}}
+  end
+{{/crNamespaces}}
+end

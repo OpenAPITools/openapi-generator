@@ -127,12 +127,12 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(headers_overwritten['Accept'], 'text/plain')
 
     def test_separate_default_config_instances(self):
-        # ensure the default api client is used
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
-        self.assertEqual(id(pet_api.api_client), id(pet_api2.api_client))
-        # ensure the default configuration is used
-        self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))
+        with petstore_api.PetApi() as pet_api, petstore_api.PetApi() as pet_api2:
+            self.assertIsNot(pet_api.api_client, pet_api2.api_client)
+            self.assertIsNot(
+                pet_api.api_client.configuration,
+                pet_api2.api_client.configuration,
+            )
 
     def test_add_pet_and_get_pet_by_id(self):
         self.pet_api.add_pet(self.pet)

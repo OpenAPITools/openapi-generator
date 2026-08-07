@@ -32,16 +32,13 @@ class NullableProperty(BaseModel):
     name: Optional[Annotated[str, Field(strict=True)]]
     __properties: ClassVar[List[str]] = ["id", "name"]
 
-    @field_validator('name')
+    @field_validator('name', mode="before")
     def name_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not isinstance(value, str):
-            value = str(value)
-
-        if not re.match(r"^[A-Z].*", value):
+        if isinstance(value, str) and not re.match(r"^[A-Z].*", value):
             raise ValueError(r"must validate the regular expression /^[A-Z].*/")
         return value
 

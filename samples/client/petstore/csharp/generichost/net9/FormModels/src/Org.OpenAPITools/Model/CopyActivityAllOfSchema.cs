@@ -134,6 +134,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override CopyActivityAllOfSchema? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             CopyActivityAllOfSchema? result = rawValue == null
@@ -154,7 +157,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, CopyActivityAllOfSchema? copyActivityAllOfSchema, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(copyActivityAllOfSchema.HasValue ? CopyActivityAllOfSchemaValueConverter.ToJsonValue(copyActivityAllOfSchema.Value).ToString() : "null");
+            if (copyActivityAllOfSchema.HasValue)
+                writer.WriteStringValue(CopyActivityAllOfSchemaValueConverter.ToJsonValue(copyActivityAllOfSchema.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

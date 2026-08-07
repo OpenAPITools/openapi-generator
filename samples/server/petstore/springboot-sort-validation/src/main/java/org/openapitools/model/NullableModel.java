@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * NullableModel
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class NullableModel implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -35,6 +35,7 @@ public class NullableModel implements Serializable {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String optionalNonNullable;
 
+  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> optionalNullable = JsonNullable.<String>undefined();
 
   public NullableModel() {

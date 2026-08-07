@@ -21,61 +21,45 @@ import { mapValues } from '../runtime';
 export interface User {
     /**
      * 
-     * @type {number}
-     * @memberof User
      */
     id?: number;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     username?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     firstName?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     lastName?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     email?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     password?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     phone?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     nickname?: string;
     /**
      * User Status
-     * @type {number}
-     * @memberof User
      */
     userStatus?: number;
 }
 export const UserPropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,
@@ -90,13 +74,16 @@ export const UserPropertyValidationAttributesMap: {
     }
 } = {
     password: {
+        dataType: "string",
         maxLength: 256,
         minLength: 8,
     },
     nickname: {
+        dataType: "string",
         pattern: '/^[a-z&]+$/',
     },
     userStatus: {
+        dataType: "number",
         maximum: 100,
         exclusiveMaximum: true,
         minimum: 0,

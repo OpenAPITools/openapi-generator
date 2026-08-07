@@ -51,10 +51,10 @@ class UserController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -87,10 +87,10 @@ class UserController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -123,10 +123,10 @@ class UserController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -159,10 +159,10 @@ class UserController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     'username' => $username,
                 ],
-                $request->all(),
             ),
             [
                 'username' => [
@@ -202,10 +202,10 @@ class UserController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     'username' => $username,
                 ],
-                $request->all(),
             ),
             [
                 'username' => [
@@ -249,10 +249,10 @@ class UserController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
                 'username' => [
@@ -299,10 +299,10 @@ class UserController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -333,10 +333,10 @@ class UserController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     'username' => $username,
                 ],
-                $request->all(),
             ),
             [
             ],

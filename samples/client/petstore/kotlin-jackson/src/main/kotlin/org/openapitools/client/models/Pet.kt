@@ -28,6 +28,7 @@ import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * A pet for sale in the pet store
@@ -75,7 +76,7 @@ data class Pet (
      *
      * Values: AVAILABLE,PENDING,SOLD,UNKNOWN_DEFAULT_OPEN_API
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "available") AVAILABLE("available"),
         @JsonProperty(value = "pending") PENDING("pending"),
         @JsonProperty(value = "sold") SOLD("sold"),

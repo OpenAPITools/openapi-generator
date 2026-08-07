@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -47,6 +48,9 @@ import java.util.stream.Collectors;
 
 import com.google.common.base.CaseFormat;
 
+import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.EnumUtils.*;
+import static org.openapitools.codegen.utils.ModelUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 /**
@@ -565,18 +569,18 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * @param prefix          added prefix
      */
     public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix) {
-        if (allowableValues.containsKey("enumVars")) {
-            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+        if (hasEnumVars(allowableValues)) {
+            List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
             prefix = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, prefix);
             for (Map<String, Object> value : enumVars) {
-                String name = (String) value.get("name");
-                value.put("name", useSimplifiedEnumNames ? name : prefix + "_" + name);
-                value.put("value", useSimplifiedEnumNames ? name : "\"" + prefix + "_" + name + "\"");
+                String name = (String) value.get(ENUM_NAME);
+                value.put(ENUM_NAME, useSimplifiedEnumNames ? name : prefix + "_" + name);
+                value.put(ENUM_VALUE, useSimplifiedEnumNames ? name : "\"" + prefix + "_" + name + "\"");
             }
         }
 
-        if (allowableValues.containsKey("values")) {
-            List<Object> values = (List<Object>) allowableValues.get("values");
+        if (hasEnumValues(allowableValues)) {
+            List<Object> values = getEnumValues(allowableValues);
             for (Object value : values) {
                 value = useSimplifiedEnumNames ? value : prefix + "_" + value;
             }
@@ -593,27 +597,27 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         final String UNSPECIFIED = "UNSPECIFIED";
 
         if (startEnumsWithUnspecified) {
-            if (allowableValues.containsKey("enumVars")) {
-                List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+            if (hasEnumVars(allowableValues)) {
+                List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
                 boolean unspecifiedPresent = enumVars.stream()
                         .anyMatch(e -> {
-                            return UNSPECIFIED.equals(e.get("name"));
+                            return UNSPECIFIED.equals(e.get(ENUM_NAME));
                         });
                 if (!unspecifiedPresent) {
                     HashMap<String, Object> unspecifiedEnum = new HashMap<String, Object>();
-                    unspecifiedEnum.put("name", UNSPECIFIED);
-                    unspecifiedEnum.put("isString", "false");
-                    unspecifiedEnum.put("value", "\"" + UNSPECIFIED + "\"");
+                    unspecifiedEnum.put(ENUM_NAME, UNSPECIFIED);
+                    unspecifiedEnum.put(ENUM_IS_STRING, "false");
+                    unspecifiedEnum.put(ENUM_VALUE, "\"" + UNSPECIFIED + "\"");
                     enumVars.add(0, unspecifiedEnum);
                 }
             }
 
-            if (allowableValues.containsKey("values")) {
-                List<String> values = (List<String>) allowableValues.get("values");
+            if (hasEnumValues(allowableValues)) {
+                List<String> values = getEnumValuesAsString(allowableValues);
                 if (!values.contains(UNSPECIFIED)) {
                     List<String> modifiableValues = new ArrayList<>(values);
                     modifiableValues.add(0, UNSPECIFIED);
-                    allowableValues.put("values", modifiableValues);
+                    allowableValues.put(ENUM_VALUES, modifiableValues);
                 }
             }
         }
@@ -659,6 +663,36 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        // patch to work around the fix to set isArray, isMap in response objects
+        // ref: https://github.com/OpenAPITools/openapi-generator/pull/24566/
+        CodegenResponse cr = super.fromResponse(responseCode, response);
+
+        Schema responseSchema;
+        if (this.openAPI != null && this.openAPI.getComponents() != null) {
+            responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, response));
+        } else { // no model/alias defined
+            responseSchema = ModelUtils.getSchemaFromResponse(openAPI, response);
+        }
+
+        if (ModelUtils.isTypeObjectSchema(responseSchema)) {
+            CodegenProperty cp = fromProperty("response", responseSchema, false);
+
+            if (ModelUtils.isFreeFormObject(responseSchema, openAPI)) {
+                cr.isFreeFormObject = true;
+            } else {
+                cr.isModel = true;
+            }
+            cr.simpleType = false;
+            cr.containerType = cp.containerType;
+            cr.containerTypeMapped = cp.containerTypeMapped;
+            addVarsRequiredVarsAdditionalProps(responseSchema, cr);
+        }
+
+        return cr;
+    }
+
     /**
      * Post-processes CodegenModel objects to apply protobuf-specific transformations.
      * 
@@ -701,15 +735,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 Map<String, Object> allowableValues = cm.getAllowableValues();
                 addUnspecifiedToAllowableValues(allowableValues);
                 addEnumValuesPrefix(allowableValues, cm.getClassname());
-                if (allowableValues.containsKey("enumVars")) {
-                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+                if (hasEnumVars(allowableValues)) {
+                    List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
                     addEnumIndexes(enumVars);
                 }
             }
 
-            if(cm.oneOf != null && !cm.oneOf.isEmpty()){
+            if(hasOneOf(cm)){
                 cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getOneOf());
-            } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+            } else if (hasAnyOf(cm)) {
                 cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getAnyOf());
             }
             int index = 1;
@@ -757,8 +791,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     addUnspecifiedToAllowableValues(enumProperty.allowableValues);
                     addEnumValuesPrefix(enumProperty.allowableValues, enumProperty.getEnumName());
 
-                    if (enumProperty.allowableValues.containsKey("enumVars")) {
-                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.allowableValues.get("enumVars");
+                    if (hasEnumVars(enumProperty.allowableValues)) {
+                        List<Map<String, Object>> enumVars = getEnumVars(enumProperty.allowableValues);
                         addEnumIndexes(enumVars);
                     }
                     
@@ -1026,7 +1060,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         // Phase 1: Bottom-up property propagation
         // Each child copies its properties to all ancestors in the chain
         for (CodegenModel model : allModels.values()) {
-            if (!model.allOf.isEmpty() && model.getParentModel() != null) {
+            if (hasAllOf(model) && model.getParentModel() != null) {
                 // Walk up the entire parent chain
                 CodegenModel currentAncestor = model.getParentModel();
                 

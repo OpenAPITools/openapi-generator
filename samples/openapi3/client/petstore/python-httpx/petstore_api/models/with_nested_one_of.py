@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.pig import Pig
@@ -30,9 +30,9 @@ class WithNestedOneOf(BaseModel):
     WithNestedOneOf
     """ # noqa: E501
     size: Optional[StrictInt] = None
-    nested_pig: Optional[Pig] = None
+    nested_pig: Optional[Pig] = Field(default=None, alias="nested_\npig")
     nested_oneof_enum_string: Optional[OneOfEnumString] = None
-    __properties: ClassVar[List[str]] = ["size", "nested_pig", "nested_oneof_enum_string"]
+    __properties: ClassVar[List[str]] = ["size", "nested_\npig", "nested_oneof_enum_string"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -75,7 +75,7 @@ class WithNestedOneOf(BaseModel):
         )
         # override the default output from pydantic by calling `to_dict()` of nested_pig
         if self.nested_pig:
-            _dict['nested_pig'] = self.nested_pig.to_dict()
+            _dict['nested_\npig'] = self.nested_pig.to_dict()
         return _dict
 
     @classmethod
@@ -89,7 +89,7 @@ class WithNestedOneOf(BaseModel):
 
         _obj = cls.model_validate({
             "size": obj.get("size"),
-            "nested_pig": Pig.from_dict(obj["nested_pig"]) if obj.get("nested_pig") is not None else None,
+            "nested_\npig": Pig.from_dict(obj["nested_\npig"]) if obj.get("nested_\npig") is not None else None,
             "nested_oneof_enum_string": obj.get("nested_oneof_enum_string")
         })
         return _obj

@@ -32,8 +32,8 @@ class DiscriminatorAllOfSuper(BaseModel):
     """
     DiscriminatorAllOfSuper
     """ # noqa: E501
-    element_type: StrictStr = Field(alias="elementType")
-    __properties: ClassVar[List[str]] = ["elementType"]
+    element_type: StrictStr = Field(alias="element'\"\\Type")
+    __properties: ClassVar[List[str]] = ["element'\"\\Type"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -44,17 +44,17 @@ class DiscriminatorAllOfSuper(BaseModel):
 
 
     # JSON field name that stores the object type
-    __discriminator_property_name: ClassVar[str] = 'elementType'
+    __discriminator_property_name: ClassVar[str] = 'element\'"\\Type'
 
     # discriminator mappings
     __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
-        'DiscriminatorAllOfSub': 'DiscriminatorAllOfSub'
+        'sub\'"\\kind\nvalue': 'DiscriminatorAllOfSub'
     }
 
     @classmethod
     def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
         """Returns the discriminator value (object type) of the data"""
-        discriminator_value = obj[cls.__discriminator_property_name]
+        discriminator_value = obj.get(cls.__discriminator_property_name)
         if discriminator_value:
             return cls.__discriminator_value_class_map.get(discriminator_value)
         else:

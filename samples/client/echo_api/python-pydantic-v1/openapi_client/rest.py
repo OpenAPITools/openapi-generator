@@ -106,6 +106,8 @@ class RESTClientObject:
                         **addition_pool_args
                     )
             else:
+                if configuration.proxy_ssl_context is not None:
+                    addition_pool_args['proxy_ssl_context'] = configuration.proxy_ssl_context
                 self.pool_manager = urllib3.ProxyManager(
                     num_pools=pools_size,
                     maxsize=maxsize,

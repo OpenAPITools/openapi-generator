@@ -22,38 +22,26 @@ export interface Order {
     [key: string]: string | any;
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     id?: number;
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     petId?: number;
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     quantity?: number;
     /**
      * 
-     * @type {Date}
-     * @memberof Order
      */
     shipDate?: Date;
     /**
      * Order Status
-     * @type {OrderStatusEnum}
-     * @memberof Order
      */
     status?: OrderStatusEnum;
     /**
      * 
-     * @type {boolean}
-     * @memberof Order
      */
     complete?: boolean;
 }
@@ -71,6 +59,8 @@ export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnu
 
 export const OrderPropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,

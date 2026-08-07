@@ -85,7 +85,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
          * @param apiKey  (optional)
          * @return void
         */
-        open suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): HttpResponse<Unit> {
+        open suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -257,7 +257,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
          * @param status Updated status of the pet (optional)
          * @return void
         */
-        open suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): HttpResponse<Unit> {
+        open suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): HttpResponse<Unit> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -296,7 +296,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
          * @return ModelApiResponse
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider>?): HttpResponse<ModelApiResponse> {
+        open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider>? = null): HttpResponse<ModelApiResponse> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 

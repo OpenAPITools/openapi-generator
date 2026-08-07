@@ -325,6 +325,7 @@ paths:
                 additionalProperties:
                   format: int32
                   type: integer
+                type: object
           description: successful operation
       security:
       - api_key: []
@@ -824,9 +825,7 @@ paths:
             application/json:
               schema:
                 items:
-                  allOf:
-                  - $ref: "#/components/schemas/myObject"
-                  nullable: true
+                  $ref: "#/components/schemas/myObject"
                 nullable: true
                 type: array
                 default: null

@@ -29,20 +29,14 @@ import {
 export interface MixedPropertiesAndAdditionalPropertiesClass {
     /**
      * 
-     * @type {string}
-     * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
     uuid?: string;
     /**
      * 
-     * @type {Date}
-     * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
     dateTime?: Date;
     /**
      * 
-     * @type {{ [key: string]: Animal; }}
-     * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
     map?: { [key: string]: Animal; };
 }

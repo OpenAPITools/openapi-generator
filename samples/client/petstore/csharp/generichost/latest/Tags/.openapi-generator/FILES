@@ -38,5 +38,6 @@ src/Org.OpenAPITools/Client/TokenProvider`1.cs
 src/Org.OpenAPITools/Extensions/IHostBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IHttpClientBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IServiceCollectionExtensions.cs
+src/Org.OpenAPITools/Logging/RestLogEvents.cs
 src/Org.OpenAPITools/Org.OpenAPITools.csproj
 src/Org.OpenAPITools/README.md

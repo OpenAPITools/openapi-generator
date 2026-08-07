@@ -449,7 +449,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_nested_response, "nested_response", validation);
 
-
                                 let result = api_impl.dummy_put(
                                             param_nested_response,
                                         &context
@@ -633,7 +632,6 @@ where
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
 
-
                                 let result = api_impl.html_post(
                                             param_body,
                                         &context
@@ -715,7 +713,6 @@ where
                                                         .body(BoxBody::new("Missing required body parameter value".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter value")),
                                 };
-
 
                                 let result = api_impl.post_yaml(
                                             param_value,
@@ -849,7 +846,6 @@ where
                                                         .body(BoxBody::new("Missing required body parameter value".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter value")),
                                 };
-
 
                                 let result = api_impl.solo_object_post(
                                             param_value,

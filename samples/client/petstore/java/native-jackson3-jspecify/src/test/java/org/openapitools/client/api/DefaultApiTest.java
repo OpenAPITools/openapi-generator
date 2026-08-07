@@ -46,12 +46,30 @@ public class DefaultApiTest {
      *          if the Api call fails
      */
     @Test
+    public void fileIdGetTest() throws ApiException {
+        String id = null;
+        
+        api.fileIdGet(id);
+        
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
     public void fooDtParamGetTest() throws ApiException {
         java.time.Instant dtParam = null;
         java.time.Instant dtQuery = null;
         java.time.Instant dtCookie = null;
+        String color = null;
         Foo response = 
-        api.fooDtParamGet(dtParam, dtQuery, dtCookie);
+        api.fooDtParamGet(dtParam, dtQuery, dtCookie, color);
         
         // TODO: test validations
     }

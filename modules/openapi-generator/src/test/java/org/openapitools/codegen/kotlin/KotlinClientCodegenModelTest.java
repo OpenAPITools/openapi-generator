@@ -575,6 +575,32 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(customKotlinParseListener.getStringReferenceCount(), 0);
     }
 
+    @Test(description = "add override on reference specialisation")
+    public void polymorphicReferenceOverrides() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+//        File output = Paths.get("/Users/sylvain_maillard/workspaces/openapi-generator/modules/openapi-generator/target/test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_1/issue_22216.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 36);
+
+        final Path carFile = Paths.get(output + "/src/main/kotlin/org/openapitools/client/models/Car.kt");
+        final Path vehicleFile = Paths.get(output + "/src/main/kotlin/org/openapitools/client/models/Vehicle.kt");
+        // file should contain override keyword for inherited properties ref
+        TestUtils.assertFileContains(carFile, "override val requiredProperty: kotlin.String,");
+        TestUtils.assertFileContains(carFile, "override val optionalProperty: kotlin.String? = null");
+        // file should not contain override keyword for own properties
+        TestUtils.assertFileNotContains(carFile, "override val color: kotlin.String? = null");
+    }
+
     @Test(description = "generate polymorphic kotlinx_serialization model")
     public void polymorphicKotlinxSerialization() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
@@ -815,7 +841,7 @@ public class KotlinClientCodegenModelTest {
 
       final Path modelKt = Paths.get(output + "/src/main/kotlin/model/ModelWithIntArrayEnum.kt");
 
-      TestUtils.assertFileContains(modelKt, "enum class DaysOfWeek(val value: kotlin.Int)");
+      TestUtils.assertFileContains(modelKt, "enum class DaysOfWeek(@get:JsonValue val value: kotlin.Int)");
   }
 
   @Test
@@ -842,7 +868,7 @@ public class KotlinClientCodegenModelTest {
       final Path modelKt = Paths.get(output + "/src/main/kotlin/model/ExceptionState.kt");
 
       TestUtils.assertFileContains(modelKt,
-              "enum class ExceptionPeriodIsClosed(val value: kotlin.Boolean)",
+              "enum class ExceptionPeriodIsClosed(@get:JsonValue val value: kotlin.Boolean)",
               "@JsonProperty(value = \"true\")",
               "`true`(true);");
       TestUtils.assertFileNotContains(modelKt, "`true`(\"true\")");
@@ -872,6 +898,34 @@ public class KotlinClientCodegenModelTest {
 
       TestUtils.assertFileContains(enumKt, "@get:JsonValue");
       TestUtils.assertFileContains(enumKt, "@JsonCreator");
+  }
+
+  @Test
+  public void testJacksonNestedEnumsUseJsonValue() throws IOException {
+      File output = Files.createTempDirectory("test").toFile();
+      output.deleteOnExit();
+
+      final CodegenConfigurator configurator = new CodegenConfigurator()
+              .setGeneratorName("kotlin")
+              .setLibrary("jvm-retrofit2")
+              .setAdditionalProperties(new HashMap<>() {{
+                put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                put(CodegenConstants.MODEL_PACKAGE, "model");
+              }})
+              .setInputSpec("src/test/resources/3_0/kotlin/issue23886-kotlin-nested-numeric-enum.yaml")
+              .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+      final ClientOptInput clientOptInput = configurator.toClientOptInput();
+      DefaultGenerator generator = new DefaultGenerator();
+
+      generator.opts(clientOptInput).generate();
+
+      final Path modelKt = Paths.get(output + "/src/main/kotlin/model/ExampleModel.kt");
+
+      // Without @get:JsonValue, Jackson serializes the Int-valued nested enum by its name instead
+      // of its numeric value. The import must be present so the generated code compiles.
+      TestUtils.assertFileContains(modelKt, "import com.fasterxml.jackson.annotation.JsonValue");
+      TestUtils.assertFileContains(modelKt, "enum class Source(@get:JsonValue val value: kotlin.Int)");
   }
 
   @Test

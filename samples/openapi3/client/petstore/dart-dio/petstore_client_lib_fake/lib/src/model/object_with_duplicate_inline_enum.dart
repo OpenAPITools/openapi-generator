@@ -76,8 +76,9 @@ class _$ObjectWithDuplicateInlineEnumSerializer implements PrimitiveSerializer<O
         case r'attribute':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltSet, [FullType(ObjectWithDuplicateInlineEnumAttributeEnum)]),
-          ) as BuiltSet<ObjectWithDuplicateInlineEnumAttributeEnum>;
+            specifiedType: const FullType.nullable(BuiltSet, [FullType(ObjectWithDuplicateInlineEnumAttributeEnum)]),
+          ) as BuiltSet<ObjectWithDuplicateInlineEnumAttributeEnum>?;
+          if (valueDes == null) continue;
           result.attribute.replace(valueDes);
           break;
         default:
@@ -108,6 +109,7 @@ class _$ObjectWithDuplicateInlineEnumSerializer implements PrimitiveSerializer<O
     return result.build();
   }
 }
+
 
 class ObjectWithDuplicateInlineEnumAttributeEnum extends EnumClass {
 

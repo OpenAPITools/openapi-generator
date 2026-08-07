@@ -391,6 +391,11 @@ fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
     BoxBody::new(Full::new(Bytes::from(s)))
 }
 
+#[allow(dead_code)]
+fn body_from_bytes(b: Vec<u8>) -> BoxBody<Bytes, Infallible> {
+    BoxBody::new(Full::new(Bytes::from(b)))
+}
+
 #[async_trait]
 impl<S, C, B> Api<C> for Client<S, C> where
     S: Service<
