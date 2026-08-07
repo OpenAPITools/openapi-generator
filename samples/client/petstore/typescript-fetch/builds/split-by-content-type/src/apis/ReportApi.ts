@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * split operations by content-type (issue 6708)
- * Spec behind the typescript-fetch `split-by-content-type` sample. It gathers the shapes the option has to handle: a response-only split, a split on both axes, a multipart body, a request split that mixes JSON and multipart, and an enum parameter carried by a split operation. 
+ * Spec behind the typescript-fetch `split-by-content-type` sample. It gathers the shapes the option has to handle: a response-only split, a split on both axes, a multipart body, a request split that mixes JSON and multipart, and an enum parameter carried by a split operation. Every media type here is one the generator can actually serialise: the option divides operations by content-type, it does not give the generator encoders it never had. 
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -24,14 +24,14 @@ import {
     ReportToJSON,
 } from '../models/Report';
 import {
-    type ReportXml,
-    ReportXmlFromJSON,
-    ReportXmlToJSON,
-} from '../models/ReportXml';
+    type ReportPatch,
+    ReportPatchFromJSON,
+    ReportPatchToJSON,
+} from '../models/ReportPatch';
 
 export type CreateReportRequest = runtime.ExclusiveUnion<
     | { contentType?: 'application/json'; report?: Report; }
-    | { contentType: 'application/xml'; reportXml?: ReportXml; }
+    | { contentType: 'application/merge-patch+json'; reportPatch?: ReportPatch; }
 >;
 
 export type GetReportRequest = 
@@ -58,9 +58,9 @@ export class ReportApi extends runtime.BaseAPI {
 
         let body: any;
         switch (requestParameters.contentType) {
-            case 'application/xml': {
-                headerParameters['Content-Type'] = 'application/xml';
-                body = ReportXmlToJSON(requestParameters['reportXml']);
+            case 'application/merge-patch+json': {
+                headerParameters['Content-Type'] = 'application/merge-patch+json';
+                body = ReportPatchToJSON(requestParameters['reportPatch']);
                 break;
             }
             default: {
@@ -86,7 +86,7 @@ export class ReportApi extends runtime.BaseAPI {
         const requestOptions = await this.createReportRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        const responseContentType = (response.headers.get('content-type') ?? '').split(';')[0].trim();
+        const responseContentType = (response.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase();
         if (responseContentType === 'application/pdf') {
             return new runtime.BlobApiResponse(response) as any;
         } else {
@@ -140,7 +140,7 @@ export class ReportApi extends runtime.BaseAPI {
         const requestOptions = await this.getReportRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        const responseContentType = (response.headers.get('content-type') ?? '').split(';')[0].trim();
+        const responseContentType = (response.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase();
         if (responseContentType === 'application/directlog') {
             return new runtime.BlobApiResponse(response) as any;
         } else {

@@ -4,7 +4,9 @@ info:
   description: >
     Spec behind the typescript-fetch `split-by-content-type` sample. It gathers the shapes the
     option has to handle: a response-only split, a split on both axes, a multipart body, a request
-    split that mixes JSON and multipart, and an enum parameter carried by a split operation.
+    split that mixes JSON and multipart, and an enum parameter carried by a split operation. Every
+    media type here is one the generator can actually serialise: the option divides operations by
+    content-type, it does not give the generator encoders it never had.
   version: 1.0.0
 paths:
   # Response axis only: the request body is untouched, `accept` selects the return type.
@@ -39,9 +41,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Report'
-          application/xml:
+          application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/ReportXml'
+              $ref: '#/components/schemas/ReportPatch'
       responses:
         '200':
           description: ok
@@ -138,10 +140,10 @@ components:
           type: string
         name:
           type: string
-    ReportXml:
+    ReportPatch:
       type: object
       properties:
-        ref:
+        name:
           type: string
     Receipt:
       type: object

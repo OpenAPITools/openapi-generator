@@ -42,6 +42,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -1084,11 +1085,37 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 merged.contentTypeResponseDispatch = dispatch;
             }
 
+            // the split narrowed each variant to a single media type per axis; the merged operation speaks
+            // them all again, so its documentation says so. apis.mustache reads consumes only where the
+            // request axis was not split - a case where this union is the single value anyway - and never
+            // reads produces, so this is documentation only.
+            base.consumes = mediaTypesOf(requestVariants, v -> v.consumes);
+            base.produces = mediaTypesOf(responseVariants, v -> v.produces);
+
             variants.stream().filter(op -> op != base).forEach(superseded::add);
         }
 
         // identity-based membership, so a variant is dropped without being compared field by field
         allOperations.removeAll(superseded);
+    }
+
+    /**
+     * The media types the variants of one axis declare, in the axis order, without repeating one two
+     * variants happen to share.
+     */
+    private static List<Map<String, String>> mediaTypesOf(List<ContentTypeVariant> axis,
+                                                          Function<ContentTypeVariant, List<Map<String, String>>> field) {
+        Map<String, Map<String, String>> byMediaType = new LinkedHashMap<>();
+        for (ContentTypeVariant variant : axis) {
+            List<Map<String, String>> declared = field.apply(variant);
+            if (declared == null) {
+                continue;
+            }
+            for (Map<String, String> entry : declared) {
+                byMediaType.putIfAbsent(entry.get("mediaType"), entry);
+            }
+        }
+        return byMediaType.isEmpty() ? null : new ArrayList<>(byMediaType.values());
     }
 
     /**
@@ -1124,6 +1151,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     entry.isArray = variant.isArray;
                     entry.isMap = variant.isMap;
                     entry.uniqueItems = variant.uniqueItems;
+                    entry.produces = variant.produces;
                 });
     }
 
@@ -1163,7 +1191,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public List<CodegenParameter> allParams, formParams;
         public CodegenParameter bodyParam;
         public boolean hasFormParams;
-        public List<Map<String, String>> consumes;
+        public List<Map<String, String>> consumes, produces;
 
         // response axis
         public boolean isResponseFile, returnTypeIsPrimitive, returnSimpleType, isArray, isMap, uniqueItems;

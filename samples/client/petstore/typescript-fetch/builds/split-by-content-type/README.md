@@ -62,7 +62,7 @@ All URIs are relative to *http://localhost*
 - [Order](docs/Order.md)
 - [Receipt](docs/Receipt.md)
 - [Report](docs/Report.md)
-- [ReportXml](docs/ReportXml.md)
+- [ReportPatch](docs/ReportPatch.md)
 
 ### Authorization
 

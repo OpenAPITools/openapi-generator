@@ -62,7 +62,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: `application/json`
+- **Content-Type**: `application/json`, `multipart/form-data`
 - **Accept**: `application/json`
 
 
@@ -131,7 +131,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: `multipart/form-data`
-- **Accept**: `application/json`
+- **Accept**: `application/json`, `application/pdf`
 
 
 ### HTTP response details

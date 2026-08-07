@@ -3,4 +3,4 @@
 export * from './Order';
 export * from './Receipt';
 export * from './Report';
-export * from './ReportXml';
+export * from './ReportPatch';

@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * split operations by content-type (issue 6708)
- * Spec behind the typescript-fetch `split-by-content-type` sample. It gathers the shapes the option has to handle: a response-only split, a split on both axes, a multipart body, a request split that mixes JSON and multipart, and an enum parameter carried by a split operation. 
+ * Spec behind the typescript-fetch `split-by-content-type` sample. It gathers the shapes the option has to handle: a response-only split, a split on both axes, a multipart body, a request split that mixes JSON and multipart, and an enum parameter carried by a split operation. Every media type here is one the generator can actually serialise: the option divides operations by content-type, it does not give the generator encoders it never had. 
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -61,7 +61,7 @@ export class OrderApi extends runtime.BaseAPI {
         const requestOptions = await this.getOrdersRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        const responseContentType = (response.headers.get('content-type') ?? '').split(';')[0].trim();
+        const responseContentType = (response.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase();
         if (responseContentType === 'application/pdf') {
             return new runtime.BlobApiResponse(response) as any;
         } else {

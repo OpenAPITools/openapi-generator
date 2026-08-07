@@ -62,8 +62,8 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
+- **Content-Type**: `application/json`, `application/merge-patch+json`
+- **Accept**: `application/json`, `application/pdf`
 
 
 ### HTTP response details
@@ -128,7 +128,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
+- **Accept**: `application/json`, `application/directlog`
 
 
 ### HTTP response details

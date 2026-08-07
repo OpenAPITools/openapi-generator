@@ -7,7 +7,7 @@ docs/OrderApi.md
 docs/Receipt.md
 docs/Report.md
 docs/ReportApi.md
-docs/ReportXml.md
+docs/ReportPatch.md
 package.json
 src/apis/FilesApi.ts
 src/apis/OrderApi.ts
@@ -17,7 +17,7 @@ src/index.ts
 src/models/Order.ts
 src/models/Receipt.ts
 src/models/Report.ts
-src/models/ReportXml.ts
+src/models/ReportPatch.ts
 src/models/index.ts
 src/runtime.ts
 tsconfig.esm.json

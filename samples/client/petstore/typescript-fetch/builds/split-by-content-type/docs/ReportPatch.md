@@ -1,22 +1,22 @@
 
-# ReportXml
+# ReportPatch
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`ref` | string
+`name` | string
 
 ## Example
 
 ```typescript
-import type { ReportXml } from '@openapitools/typescript-fetch-split-by-content-type'
+import type { ReportPatch } from '@openapitools/typescript-fetch-split-by-content-type'
 
 // TODO: Update the object below with actual values
 const example = {
-  "ref": null,
-} satisfies ReportXml
+  "name": null,
+} satisfies ReportPatch
 
 console.log(example)
 
@@ -25,7 +25,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as ReportXml
+const exampleParsed = JSON.parse(exampleJSON) as ReportPatch
 console.log(exampleParsed)
 ```
 

@@ -399,15 +399,16 @@ export class {{classname}} extends runtime.BaseAPI {
         {{! dispatch on the content-type the server actually returned, not on the requested `accept`:
             the header is a request, and a server is free not to honour it }}
         {{! type/subtype only, compared exactly: startsWith would let application/json win over
-            application/json-patch+json, and a `; charset=` parameter would defeat an equality test }}
-        const responseContentType = (response.headers.get('content-type') ?? '').split(';')[0].trim();
+            application/json-patch+json, and a `; charset=` parameter would defeat an equality test.
+            Lower-cased on both sides because a media type is case-insensitive (RFC 9110). }}
+        const responseContentType = (response.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase();
     {{#contentTypeResponseDispatch}}
     {{#-first}}
-        if (responseContentType === '{{mediaType}}') {
+        if (responseContentType === '{{#lambda.lowercase}}{{mediaType}}{{/lambda.lowercase}}') {
     {{/-first}}
     {{^-first}}
     {{^-last}}
-        } else if (responseContentType === '{{mediaType}}') {
+        } else if (responseContentType === '{{#lambda.lowercase}}{{mediaType}}{{/lambda.lowercase}}') {
     {{/-last}}
     {{/-first}}
     {{#-last}}

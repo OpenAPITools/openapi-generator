@@ -16,48 +16,48 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Order
+ * @interface ReportPatch
  */
-export interface Order {
+export interface ReportPatch {
     /**
      * 
      */
-    reference?: string;
+    name?: string;
 }
 
 /**
- * Check if a given object implements the Order interface.
+ * Check if a given object implements the ReportPatch interface.
  */
-export function instanceOfOrder(value: object): value is Order {
+export function instanceOfReportPatch(value: object): value is ReportPatch {
     return true;
 }
 
-export function OrderFromJSON(json: any): Order {
-    return OrderFromJSONTyped(json, false);
+export function ReportPatchFromJSON(json: any): ReportPatch {
+    return ReportPatchFromJSONTyped(json, false);
 }
 
-export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order {
+export function ReportPatchFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReportPatch {
     if (json == null) {
         return json;
     }
     return {
         
-        'reference': json['reference'] == null ? undefined : json['reference'],
+        'name': json['name'] == null ? undefined : json['name'],
     };
 }
 
-export function OrderToJSON(json: any): Order {
-    return OrderToJSONTyped(json, false);
+export function ReportPatchToJSON(json: any): ReportPatch {
+    return ReportPatchToJSONTyped(json, false);
 }
 
-export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: boolean = false): any {
+export function ReportPatchToJSONTyped(value?: ReportPatch | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'reference': value['reference'],
+        'name': value['name'],
     };
 }
 

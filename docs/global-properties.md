@@ -31,7 +31,7 @@ first one is normally kept, which leaves the others unreachable. With `splitOper
 such an operation is generated once per content-type instead — the cartesian product of the request and
 response axes, deduplicated by schema — each with a typed, collision-free operation id built from the base
 one: `With<Subtype>` for the request axis, `As<Subtype>` for the response axis, as in
-`createReportWithXmlAsPdf`.
+`createReportWithMergePatchAsPdf`.
 
 The content-type declared first on each axis is the default one, consistently with the rest of the
 generator. The option is opt-in and off by default, because it changes the shape of the generated API.
@@ -46,7 +46,7 @@ selected by overloads on `accept`.
 ```ts
 export type CreateReportRequest = runtime.ExclusiveUnion<
     | { contentType?: 'application/json'; report?: Report; }
-    | { contentType: 'application/xml'; reportXml?: ReportXml; }
+    | { contentType: 'application/merge-patch+json'; reportPatch?: ReportPatch; }
 >;
 
 async createReport(requestParameters: CreateReportRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Receipt>;
@@ -54,8 +54,8 @@ async createReport(requestParameters: CreateReportRequest & { accept: 'applicati
 ```
 
 `ExclusiveUnion` makes the members mutually exclusive, by declaring on each of them the keys it does not
-have as `never`. Without it nothing stops a caller from handing an XML body to the JSON member and having it
-silently sent as JSON: excess property checking, which would normally reject the surplus property, treats a
+have as `never`. Without it nothing stops a caller from handing a patch body to the JSON member and having it
+sent under the wrong content-type: excess property checking, which would normally reject the surplus property, treats a
 key present in *any* member of a union as known, so it never fires here — for an object literal no more than
 for a variable. What rejects most shapes is unrelated: weak type detection when every property of a member
 is optional, a missing required property otherwise. A member with a required parameter and an optional body
@@ -65,6 +65,13 @@ A form or multipart content-type is merged like any other: its parameters stay i
 gathered in a single body, so the union member carries them as they are and the body is assembled inside
 that content-type's branch of the switch. `Content-Type` is set in each branch rather than once up front,
 because a multipart body must not set it at all — `fetch` adds it with the boundary it generates.
+
+The option decides *which* content-types get their own operation; it does not change how a body is
+serialised. Each variant is handed to the generator's existing encoders, so a media type the generator has
+no encoder for is still sent the way it always was — `typescript-fetch`, for one, has no XML serialiser, and
+an `application/xml` body backed by an object schema is JSON-encoded under an XML `Content-Type` exactly as
+it is without this option. Splitting makes such a content-type reachable; teaching the generator to encode
+it is a separate matter.
 
 One case is left split rather than merged, with a warning: every operation when `useSingleRequestParameter`
 is off, since the parameters are then spread over the signature and there is no request object to carry the
