@@ -135,8 +135,9 @@ open class PetApi : ApiClient {
         pending("pending"),
         
         @SerialName(value = "sold")
-        sold("sold")
+        sold("sold");
         
+        override fun toString(): kotlin.String = value.toString()
     }
 
     /**
