@@ -13,6 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * Describes the result of uploading an image resource
  * @export
@@ -32,24 +33,8 @@ export interface ModelApiResponse {
      */
     message?: string;
 }
-export const ModelApiResponsePropertyValidationAttributesMap: {
-    [property: string]: {
-        dataType?: string,
-        required?: boolean,
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-}
+export const ModelApiResponsePropertyValidationAttributesMap = {
+} satisfies Record<string, PropertyValidationAttributes>;
 
 
 /**
