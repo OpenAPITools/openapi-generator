@@ -158,8 +158,7 @@ public class ApiClient extends JavaTimeFormatter {
     public static RestClient.Builder buildRestClientBuilder(JsonMapper mapper) {
 
         Consumer<HttpMessageConverters.ClientBuilder> messageConverters = builder -> {
-            builder.registerDefaults();
-            builder.addCustomConverter(new JacksonJsonHttpMessageConverter(mapper));
+            builder.registerDefaults().withJsonConverter(new JacksonJsonHttpMessageConverter(mapper));
         };
 
         return RestClient.builder().configureMessageConverters(messageConverters);
