@@ -504,8 +504,8 @@ openApiGenerate {
 
 [NOTE]
 ====
-The plugin creates an `openApiGeneratorExtra` dependency configuration (resolvable, not published) that entries
-are automatically forwarded from into `generatorClasspath` for both `workerIsolation` modes. Use it to declare a
+The plugin creates an `openApiGeneratorExtra` dependency configuration (resolvable, not published) whose entries
+are automatically forwarded into `generatorClasspath` for both `workerIsolation` modes. Use it to declare a
 custom `NORMALIZER_CLASS`, custom generator selected by `generatorName`/FQCN, or any other class referenced by name
 in generator options as a normal Gradle dependency - a published artifact, a local jar, or another project in the
 same build:

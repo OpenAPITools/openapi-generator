@@ -23,10 +23,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.ServiceConfigurationError;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CodegenConfigLoader {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigLoader.class);
     private static final Map<ClassLoader, Set<String>> INITIALIZATION_FAILURES =
             Collections.synchronizedMap(new WeakHashMap<>());
     private static final ThreadLocal<ClassLoader> LOADING_CLASS_LOADER = new ThreadLocal<>();
@@ -80,8 +85,16 @@ public class CodegenConfigLoader {
         for (ClassLoader classLoader : getConfigClassLoaders()) {
             ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, classLoader);
             loader.stream().forEach(provider -> {
-                if (configClasses.add(provider.type().getName())) {
-                    output.add(provider.get());
+                try {
+                    String configClassName = provider.type().getName();
+                    if (!configClasses.contains(configClassName)) {
+                        CodegenConfig config = provider.get();
+                        if (configClasses.add(configClassName)) {
+                            output.add(config);
+                        }
+                    }
+                } catch (ServiceConfigurationError | LinkageError e) {
+                    LOGGER.warn("Unable to load codegen config provider from {}", classLoader, e);
                 }
             });
         }

@@ -168,6 +168,33 @@ public class CodegenConfigLoaderTest {
     }
 
     @Test
+    public void testUnrelatedBrokenSpiProviderDoesNotPreventDirectConfigLoading() throws Exception {
+        Path classesDir = Files.createTempDirectory("codegen-config-broken-spi-test");
+        try {
+            String className = "org.openapitools.codegen.testfixture.BrokenSpiCodegen";
+            compileCodegenFixture(classesDir, className, true, "broken-spi-codegen",
+                    "    static { if (System.nanoTime() >= 0) throw new IllegalStateException(\"fixture failure\"); }\n");
+            Path serviceFile = classesDir.resolve("META-INF/services/" + CodegenConfig.class.getName());
+            Files.createDirectories(serviceFile.getParent());
+            Files.writeString(serviceFile, className);
+
+            ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
+            try (URLClassLoader isolatedLoader = new URLClassLoader(
+                    new URL[]{classesDir.toUri().toURL()}, originalTccl)) {
+                Thread.currentThread().setContextClassLoader(isolatedLoader);
+
+                CodegenConfig config = CodegenConfigLoader.forName(DefaultCodegen.class.getName());
+
+                assertEquals(config.getClass(), DefaultCodegen.class);
+            } finally {
+                Thread.currentThread().setContextClassLoader(originalTccl);
+            }
+        } finally {
+            deleteRecursively(classesDir);
+        }
+    }
+
+    @Test
     public void testConfigClassWithFailingStaticInitializerProducesPreciseErrorMessage() throws Exception {
         Path classesDir = Files.createTempDirectory("codegen-config-initializer-test");
         try {

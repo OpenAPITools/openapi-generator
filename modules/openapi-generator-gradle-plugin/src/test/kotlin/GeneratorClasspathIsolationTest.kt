@@ -159,23 +159,87 @@ class GeneratorClasspathIsolationTest : TestBase() {
         )
     }
 
-    private fun runOpenApiGenerateExpectingSuccess(buildContents: String): org.gradle.testkit.runner.BuildResult =
+    private data class Fixture(val jar: File, val marker: File)
+
+    private fun normalizerFixture(): Fixture {
+        writeSpec()
+        return Fixture(buildNormalizerFixtureJar(), File(temp, "normalizer-ran.marker"))
+    }
+
+    private fun generatorFixture(): Fixture {
+        writeSpec()
+        return Fixture(buildGeneratorFixtureJar(), File(temp, "generator-ran.marker"))
+    }
+
+    private fun groovyPath(file: File) = file.absolutePath.replace("\\", "\\\\")
+
+    private fun buildScript(taskConfiguration: String, extraClasspath: File? = null) = buildString {
+        appendLine("plugins { id 'org.openapi.generator' }")
+        extraClasspath?.let {
+            appendLine()
+            appendLine("dependencies {")
+            appendLine("    openApiGeneratorExtra(files(\"${groovyPath(it)}\"))")
+            appendLine("}")
+        }
+        appendLine("openApiGenerate {")
+        appendLine(taskConfiguration.prependIndent("    "))
+        appendLine("}")
+    }
+
+    private fun withWorkerConfiguration(
+        taskConfiguration: String,
+        workerIsolation: String?,
+        generatorClasspath: File?
+    ) = listOfNotNull(
+        taskConfiguration,
+        workerIsolation?.let { "workerIsolation = \"$it\"" },
+        generatorClasspath?.let { """generatorClasspath.from(files("${groovyPath(it)}"))""" }
+    ).joinToString("\n")
+
+    private fun normalizerConfiguration(
+        marker: File,
+        workerIsolation: String? = null,
+        generatorClasspath: File? = null
+    ) = withWorkerConfiguration(
+        """
+        generatorName = "kotlin"
+        inputSpec = file("spec.yaml").absolutePath
+        outputDir = file("build/kotlin").absolutePath
+        openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${groovyPath(marker)}"]
+        """.trimIndent(),
+        workerIsolation,
+        generatorClasspath
+    )
+
+    private fun generatorConfiguration(
+        marker: File,
+        workerIsolation: String? = null,
+        generatorClasspath: File? = null
+    ) = withWorkerConfiguration(
+        """
+        generatorName = "$GENERATOR_CLASS_NAME"
+        inputSpec = file("spec.yaml").absolutePath
+        outputDir = file("build/generator").absolutePath
+        additionalProperties = [markerFile: "${groovyPath(marker)}"]
+        """.trimIndent(),
+        workerIsolation,
+        generatorClasspath
+    )
+
+    private fun createRunner(buildContents: String): GradleRunner =
         GradleRunner.create()
             .withProjectDir(temp)
             .withArguments("openApiGenerate", "--stacktrace")
             .withPluginClasspath()
             .also { File(temp, "build.gradle").writeText(buildContents) }
-            .build()
 
-    private fun runOpenApiGenerateExpectingFailure(buildContents: String): org.gradle.testkit.runner.BuildResult =
-        GradleRunner.create()
-            .withProjectDir(temp)
-            .withArguments("openApiGenerate", "--stacktrace")
-            .withPluginClasspath()
-            .also { File(temp, "build.gradle").writeText(buildContents) }
-            .buildAndFail()
+    private fun runOpenApiGenerateExpectingSuccess(taskConfiguration: String, extraClasspath: File? = null) =
+        createRunner(buildScript(taskConfiguration, extraClasspath)).build()
 
-    private fun copySpec(): File {
+    private fun runOpenApiGenerateExpectingFailure(taskConfiguration: String) =
+        createRunner(buildScript(taskConfiguration)).buildAndFail()
+
+    private fun writeSpec(): File {
         val spec = File(temp, "spec.yaml")
         javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")!!.copyTo(spec.outputStream())
         return spec
@@ -188,23 +252,13 @@ class GeneratorClasspathIsolationTest : TestBase() {
 
     @Test
     fun `custom NORMALIZER_CLASS without generatorClasspath fails with a clear error`() {
-        copySpec()
+        writeSpec()
         val marker = File(temp, "normalizer-ran.marker")
 
         // Note: DefaultGenerator logs (but does not fail the build on) NORMALIZER_CLASS load
         // failures - this is pre-existing behavior unrelated to this fix. Assert on the log
         // output instead of the task outcome.
-        val result = runOpenApiGenerateExpectingSuccess(
-            """
-            plugins { id 'org.openapi.generator' }
-            openApiGenerate {
-                generatorName = "kotlin"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/kotlin").absolutePath
-                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${marker.absolutePath.replace("\\", "\\\\")}"]
-            }
-            """.trimIndent()
-        )
+        val result = runOpenApiGenerateExpectingSuccess(normalizerConfiguration(marker))
 
         assertTrue(
             result.output.contains("ClassNotFoundException"),
@@ -251,20 +305,10 @@ class GeneratorClasspathIsolationTest : TestBase() {
 
     @Test
     fun `custom generator without generatorClasspath fails with a clear error`() {
-        copySpec()
+        writeSpec()
         val marker = File(temp, "generator-ran.marker")
 
-        val result = runOpenApiGenerateExpectingFailure(
-            """
-            plugins { id 'org.openapi.generator' }
-            openApiGenerate {
-                generatorName = "$GENERATOR_CLASS_NAME"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/generator").absolutePath
-                additionalProperties = [markerFile: "${marker.absolutePath.replace("\\", "\\\\")}"]
-            }
-            """.trimIndent()
-        )
+        val result = runOpenApiGenerateExpectingFailure(generatorConfiguration(marker))
 
         assertTrue(result.output.contains(GENERATOR_CLASS_NAME))
         assertTrue(result.output.contains("classpath"))
@@ -279,98 +323,48 @@ class GeneratorClasspathIsolationTest : TestBase() {
 
     @Test
     fun `custom generator loads via openApiGeneratorExtra configuration under process isolation`() {
-        copySpec()
-        val jar = buildGeneratorFixtureJar()
-        val marker = File(temp, "generator-ran.marker")
+        val fixture = generatorFixture()
 
         val result = runOpenApiGenerateExpectingSuccess(
-            """
-            plugins { id 'org.openapi.generator' }
-            dependencies {
-                openApiGeneratorExtra(files("${jar.absolutePath.replace("\\", "\\\\")}"))
-            }
-            openApiGenerate {
-                generatorName = "$GENERATOR_CLASS_NAME"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/generator").absolutePath
-                additionalProperties = [markerFile: "${marker.absolutePath.replace("\\", "\\\\")}"]
-                workerIsolation = "process"
-            }
-            """.trimIndent()
+            generatorConfiguration(fixture.marker, "process"),
+            fixture.jar
         )
 
-        assertGeneratorLoadedSuccessfully(result, marker)
+        assertGeneratorLoadedSuccessfully(result, fixture.marker)
     }
 
     @Test
     fun `custom generator loads via openApiGeneratorExtra configuration under classloader isolation`() {
-        copySpec()
-        val jar = buildGeneratorFixtureJar()
-        val marker = File(temp, "generator-ran.marker")
+        val fixture = generatorFixture()
 
         val result = runOpenApiGenerateExpectingSuccess(
-            """
-            plugins { id 'org.openapi.generator' }
-            dependencies {
-                openApiGeneratorExtra(files("${jar.absolutePath.replace("\\", "\\\\")}"))
-            }
-            openApiGenerate {
-                generatorName = "$GENERATOR_CLASS_NAME"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/generator").absolutePath
-                additionalProperties = [markerFile: "${marker.absolutePath.replace("\\", "\\\\")}"]
-                workerIsolation = "classloader"
-            }
-            """.trimIndent()
+            generatorConfiguration(fixture.marker, "classloader"),
+            fixture.jar
         )
 
-        assertGeneratorLoadedSuccessfully(result, marker)
+        assertGeneratorLoadedSuccessfully(result, fixture.marker)
     }
 
     @Test
     fun `custom generator loads via generatorClasspath property under process isolation`() {
-        copySpec()
-        val jar = buildGeneratorFixtureJar()
-        val marker = File(temp, "generator-ran.marker")
+        val fixture = generatorFixture()
 
         val result = runOpenApiGenerateExpectingSuccess(
-            """
-            plugins { id 'org.openapi.generator' }
-            openApiGenerate {
-                generatorName = "$GENERATOR_CLASS_NAME"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/generator").absolutePath
-                additionalProperties = [markerFile: "${marker.absolutePath.replace("\\", "\\\\")}"]
-                workerIsolation = "process"
-                generatorClasspath.from(files("${jar.absolutePath.replace("\\", "\\\\")}"))
-            }
-            """.trimIndent()
+            generatorConfiguration(fixture.marker, "process", fixture.jar)
         )
 
-        assertGeneratorLoadedSuccessfully(result, marker)
+        assertGeneratorLoadedSuccessfully(result, fixture.marker)
     }
 
     @Test
     fun `custom generator loads via generatorClasspath property under classloader isolation`() {
-        copySpec()
-        val jar = buildGeneratorFixtureJar()
-        val marker = File(temp, "generator-ran.marker")
+        val fixture = generatorFixture()
 
         val result = runOpenApiGenerateExpectingSuccess(
-            """
-            plugins { id 'org.openapi.generator' }
-            openApiGenerate {
-                generatorName = "$GENERATOR_CLASS_NAME"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/generator").absolutePath
-                additionalProperties = [markerFile: "${marker.absolutePath.replace("\\", "\\\\")}"]
-                workerIsolation = "classloader"
-                generatorClasspath.from(files("${jar.absolutePath.replace("\\", "\\\\")}"))
-            }
-            """.trimIndent()
+            generatorConfiguration(fixture.marker, "classloader", fixture.jar)
         )
 
-        assertGeneratorLoadedSuccessfully(result, marker)
+        assertGeneratorLoadedSuccessfully(result, fixture.marker)
     }
 
     // -------------------------------------------------------------------------
@@ -379,27 +373,14 @@ class GeneratorClasspathIsolationTest : TestBase() {
 
     @Test
     fun `custom NORMALIZER_CLASS loads via openApiGeneratorExtra configuration under process isolation`() {
-        copySpec()
-        val jar = buildNormalizerFixtureJar()
-        val marker = File(temp, "normalizer-ran.marker")
+        val fixture = normalizerFixture()
 
         val result = runOpenApiGenerateExpectingSuccess(
-            """
-            plugins { id 'org.openapi.generator' }
-            dependencies {
-                openApiGeneratorExtra(files("${jar.absolutePath.replace("\\", "\\\\")}"))
-            }
-            openApiGenerate {
-                generatorName = "kotlin"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/kotlin").absolutePath
-                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${marker.absolutePath.replace("\\", "\\\\")}"]
-                workerIsolation = "process"
-            }
-            """.trimIndent()
+            normalizerConfiguration(fixture.marker, "process"),
+            fixture.jar
         )
 
-        assertNormalizerLoadedSuccessfully(result, marker)
+        assertNormalizerLoadedSuccessfully(result, fixture.marker)
     }
 
     // -------------------------------------------------------------------------
@@ -408,27 +389,14 @@ class GeneratorClasspathIsolationTest : TestBase() {
 
     @Test
     fun `custom NORMALIZER_CLASS loads via openApiGeneratorExtra configuration under classloader isolation`() {
-        copySpec()
-        val jar = buildNormalizerFixtureJar()
-        val marker = File(temp, "normalizer-ran.marker")
+        val fixture = normalizerFixture()
 
         val result = runOpenApiGenerateExpectingSuccess(
-            """
-            plugins { id 'org.openapi.generator' }
-            dependencies {
-                openApiGeneratorExtra(files("${jar.absolutePath.replace("\\", "\\\\")}"))
-            }
-            openApiGenerate {
-                generatorName = "kotlin"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/kotlin").absolutePath
-                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${marker.absolutePath.replace("\\", "\\\\")}"]
-                workerIsolation = "classloader"
-            }
-            """.trimIndent()
+            normalizerConfiguration(fixture.marker, "classloader"),
+            fixture.jar
         )
 
-        assertNormalizerLoadedSuccessfully(result, marker)
+        assertNormalizerLoadedSuccessfully(result, fixture.marker)
     }
 
     // -------------------------------------------------------------------------
@@ -437,25 +405,13 @@ class GeneratorClasspathIsolationTest : TestBase() {
 
     @Test
     fun `custom NORMALIZER_CLASS loads via generatorClasspath property under process isolation`() {
-        copySpec()
-        val jar = buildNormalizerFixtureJar()
-        val marker = File(temp, "normalizer-ran.marker")
+        val fixture = normalizerFixture()
 
         val result = runOpenApiGenerateExpectingSuccess(
-            """
-            plugins { id 'org.openapi.generator' }
-            openApiGenerate {
-                generatorName = "kotlin"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/kotlin").absolutePath
-                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${marker.absolutePath.replace("\\", "\\\\")}"]
-                workerIsolation = "process"
-                generatorClasspath.from(files("${jar.absolutePath.replace("\\", "\\\\")}"))
-            }
-            """.trimIndent()
+            normalizerConfiguration(fixture.marker, "process", fixture.jar)
         )
 
-        assertNormalizerLoadedSuccessfully(result, marker)
+        assertNormalizerLoadedSuccessfully(result, fixture.marker)
     }
 
     // -------------------------------------------------------------------------
@@ -464,24 +420,12 @@ class GeneratorClasspathIsolationTest : TestBase() {
 
     @Test
     fun `custom NORMALIZER_CLASS loads via generatorClasspath property under classloader isolation`() {
-        copySpec()
-        val jar = buildNormalizerFixtureJar()
-        val marker = File(temp, "normalizer-ran.marker")
+        val fixture = normalizerFixture()
 
         val result = runOpenApiGenerateExpectingSuccess(
-            """
-            plugins { id 'org.openapi.generator' }
-            openApiGenerate {
-                generatorName = "kotlin"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/kotlin").absolutePath
-                openapiNormalizer = ["NORMALIZER_CLASS": "$NORMALIZER_CLASS_NAME", "MARKER_FILE": "${marker.absolutePath.replace("\\", "\\\\")}"]
-                workerIsolation = "classloader"
-                generatorClasspath.from(files("${jar.absolutePath.replace("\\", "\\\\")}"))
-            }
-            """.trimIndent()
+            normalizerConfiguration(fixture.marker, "classloader", fixture.jar)
         )
 
-        assertNormalizerLoadedSuccessfully(result, marker)
+        assertNormalizerLoadedSuccessfully(result, fixture.marker)
     }
 }
