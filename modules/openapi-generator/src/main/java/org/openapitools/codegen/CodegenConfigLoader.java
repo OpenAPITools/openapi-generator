@@ -20,6 +20,7 @@ package org.openapitools.codegen;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -84,8 +85,13 @@ public class CodegenConfigLoader {
         Set<String> configClasses = new HashSet<String>();
         for (ClassLoader classLoader : getConfigClassLoaders()) {
             ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, classLoader);
-            loader.stream().forEach(provider -> {
+            Iterator<ServiceLoader.Provider<CodegenConfig>> providers = loader.stream().iterator();
+            while (true) {
                 try {
+                    if (!providers.hasNext()) {
+                        break;
+                    }
+                    ServiceLoader.Provider<CodegenConfig> provider = providers.next();
                     String configClassName = provider.type().getName();
                     if (!configClasses.contains(configClassName)) {
                         CodegenConfig config = provider.get();
@@ -96,7 +102,7 @@ public class CodegenConfigLoader {
                 } catch (ServiceConfigurationError | LinkageError e) {
                     LOGGER.warn("Unable to load codegen config provider from {}", classLoader, e);
                 }
-            });
+            }
         }
         return output;
     }
