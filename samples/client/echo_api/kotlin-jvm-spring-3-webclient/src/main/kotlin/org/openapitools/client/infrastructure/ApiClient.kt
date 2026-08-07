@@ -66,6 +66,21 @@ open class ApiClient(protected val client: WebClient) {
             }
         }
     }
+
+    companion object {
+        const val BASE_URL: String = "http://localhost:3000"
+        const val BASE_PATH_WITHOUT_HOST: String = ""
+    }
+}
+
+fun createUrlWithBasePath(baseUrl: String, basePath: String = ApiClient.BASE_PATH_WITHOUT_HOST): String {
+    if(baseUrl.endsWith("/") && basePath.startsWith("/")) {
+        return baseUrl.dropLast(1) + basePath
+    } else if(!baseUrl.endsWith("/") && !basePath.startsWith("/")) {
+        return "$baseUrl/$basePath"
+    } else {
+        return baseUrl + basePath;
+    }
 }
 
 inline fun <reified T: Any> parseDateToQueryString(value : T): String {
@@ -77,3 +92,4 @@ inline fun <reified T: Any> parseDateToQueryString(value : T): String {
         */
         return Serializer.jacksonObjectMapper.writeValueAsString(value).replace("\"", "")
     }
+
