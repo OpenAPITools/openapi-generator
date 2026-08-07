@@ -2,7 +2,9 @@ apis/DefaultApi.ts
 apis/index.ts
 docs/DefaultApi.md
 docs/Event.md
+docs/Venue.md
 index.ts
 models/Event.ts
+models/Venue.ts
 models/index.ts
 runtime.ts
