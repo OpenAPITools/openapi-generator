@@ -49,7 +49,7 @@ import static java.util.Objects.nonNull;
 import static org.openapitools.codegen.CodegenConstants.ENUM_NAME;
 import static org.openapitools.codegen.CodegenConstants.ENUM_VARS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.EnumUtils.getEnumVarsAsString;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -606,7 +606,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             var.defaultValue = "false";
         } else {
             if (var.allowableValues != null && var.allowableValues.get(ENUM_VARS) instanceof ArrayList && ((ArrayList<?>) var.allowableValues.get(ENUM_VARS)).get(0) instanceof HashMap) {
-                var.defaultValue = var.dataTypeAlternate + "." + getEnumVarsAsString(var.allowableValues).get(0).get(ENUM_NAME);
+                var.defaultValue = var.dataTypeAlternate + "." + getEnumVars(var.allowableValues).get(0).get(ENUM_NAME);
             }
         }
     }

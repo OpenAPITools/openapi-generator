@@ -37,11 +37,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.CodegenConstants.ENUM_VARS;
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_BYTE;
 import static org.openapitools.codegen.CodegenConstants.X_EXAMPLE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.EnumUtils.getEnumVarsAsString;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -451,12 +450,12 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
                     // Since we iterate enumVars for modelInnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
                     // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
-                    List<Map<String, String>> enumVars = getEnumVarsAsString(model.allowableValues);
+                    List<Map<String, Object>> enumVars = getEnumVars(model.allowableValues);
                     List<Map<String, Object>> newEnumVars = new ArrayList<>();
-                    for (Map<String, String> enumVar : enumVars) {
+                    for (Map<String, Object> enumVar : enumVars) {
                         Map<String, Object> mixedVars = new HashMap<>(enumVar);
 
-                        mixedVars.put("isString", isString);
+                        mixedVars.put(ENUM_IS_STRING, isString);
                         mixedVars.put("isLong", isLong);
                         mixedVars.put("isInteger", isInteger);
                         mixedVars.put("isByte", isByte);

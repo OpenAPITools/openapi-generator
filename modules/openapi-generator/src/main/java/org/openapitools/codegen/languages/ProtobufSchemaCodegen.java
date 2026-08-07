@@ -600,13 +600,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             if (hasEnumVars(allowableValues)) {
                 List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
                 boolean unspecifiedPresent = enumVars.stream()
-                        .anyMatch(e -> {
-                            return UNSPECIFIED.equals(e.get(ENUM_NAME));
-                        });
+                        .anyMatch(e -> UNSPECIFIED.equals(e.get(ENUM_NAME)));
                 if (!unspecifiedPresent) {
-                    HashMap<String, Object> unspecifiedEnum = new HashMap<String, Object>();
+                    HashMap<String, Object> unspecifiedEnum = new HashMap<>();
                     unspecifiedEnum.put(ENUM_NAME, UNSPECIFIED);
-                    unspecifiedEnum.put(ENUM_IS_STRING, "false");
+                    unspecifiedEnum.put(ENUM_IS_STRING, false);
                     unspecifiedEnum.put(ENUM_VALUE, "\"" + UNSPECIFIED + "\"");
                     enumVars.add(0, unspecifiedEnum);
                 }

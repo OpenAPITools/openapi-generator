@@ -60,17 +60,6 @@ public class EnumUtils {
     }
 
     /**
-     * Get the {@value CodegenConstants#ENUM_VARS} from the allowableValues map.
-     * @param allowableValues The allowableValues map
-     * @return the list of enumVars
-     */
-    public static List<Map<String, String>> getEnumVarsAsString(Map<String, Object> allowableValues) {
-        @SuppressWarnings("unchecked")
-        List<Map<String, String>> enumVars = (List<Map<String, String>>) allowableValues.get(ENUM_VARS);
-        return enumVars;
-    }
-
-    /**
      * Get the {@value CodegenConstants#ENUM_VALUES} from the allowableValues map.
      * @param allowableValues The allowableValues map
      * @return the list of enumValues
