@@ -28,10 +28,6 @@ public class PetApiHandler {
         this.api = api;
     }
 
-    @Deprecated
-    public PetApiHandler() {
-        this(new PetApiImpl());
-    }
 
     public void mount(RouterBuilder builder) {
         builder.operation("addPet").handler(this::addPet);

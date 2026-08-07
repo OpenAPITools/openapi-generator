@@ -2,12 +2,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>{{groupId}}</groupId>
-    <artifactId>{{artifactId}}</artifactId>
-    <version>{{artifactVersion}}</version>
+    <groupId>org.openapitools</groupId>
+    <artifactId>java-vertx-web-server-interface-only</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>{{appName}}</name>
+    <name>OpenAPI Petstore</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,9 +22,6 @@
         <slf4j.version>1.7.30</slf4j.version>
         <jackson.version>2.18.9</jackson.version>
 
-{{^interfaceOnly}}
-        <main.verticle>{{invokerPackage}}.HttpServerVerticle</main.verticle>
-{{/interfaceOnly}}
     </properties>
 
     <!-- Vert.x BOM -->
@@ -88,57 +85,10 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-{{^interfaceOnly}}
-            <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven-shade-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <manifestEntries>
-                                        <Main-Class>io.vertx.core.Launcher</Main-Class>
-                                        <Main-Verticle>${main.verticle}</Main-Verticle>
-                                    </manifestEntries>
-                                </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource>
-                                </transformer>
-                            </transformers>
-                            <artifactSet>
-                            </artifactSet>
-                            <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar
-                            </outputFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-{{/interfaceOnly}}
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
             </plugin>
-{{^interfaceOnly}}
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${exec-maven-plugin.version}</version>
-                <configuration>
-                    <mainClass>io.vertx.core.Launcher</mainClass>
-                    <arguments>
-                        <argument>run</argument>
-                        <argument>${main.verticle}</argument>
-                    </arguments>
-                </configuration>
-            </plugin>
-{{/interfaceOnly}}
         </plugins>
     </build>
 </project>
