@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -32,8 +33,7 @@ import org.slf4j.LoggerFactory;
 
 public class CodegenConfigLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigLoader.class);
-    // All access to this map (and the Sets it holds) is guarded by explicit synchronization on the
-    // map instance below, so a plain WeakHashMap is sufficient here.
+    // Guarded entirely by explicit synchronization on the map below, so a plain WeakHashMap suffices.
     private static final Map<ClassLoader, Set<String>> INITIALIZATION_FAILURES = new WeakHashMap<>();
     private static final ThreadLocal<ClassLoader> LOADING_CLASS_LOADER = new ThreadLocal<>();
 
@@ -88,21 +88,22 @@ public class CodegenConfigLoader {
             Iterator<ServiceLoader.Provider<CodegenConfig>> providers = loader.stream().iterator();
             while (true) {
                 ServiceLoader.Provider<CodegenConfig> provider;
-                // Advancing the lazy ServiceLoader iterator can fail with a non-recoverable, persistent
-                // error (e.g. an IOException opening a META-INF/services resource) that never advances
-                // the cursor. Such errors must break the loop, otherwise retrying hasNext()/next()
-                // would spin forever. Only per-provider processing failures below can be safely skipped.
+                // Per-entry failures (missing/invalid provider class, LinkageError) happen after the
+                // cursor advances, so skip them and keep discovering. A resource-location failure
+                // (getResources IOException) doesn't advance and would loop forever: terminate instead.
                 try {
                     if (!providers.hasNext()) {
                         break;
                     }
                     provider = providers.next();
                 } catch (ServiceConfigurationError | LinkageError e) {
-                    LOGGER.warn("Unable to enumerate codegen config providers from {}", classLoader, e);
-                    break;
+                    LOGGER.warn("Unable to enumerate codegen config provider from {}", classLoader, e);
+                    if (isNonAdvancingResourceError(e)) {
+                        break;
+                    }
+                    continue;
                 }
-                // At this point the cursor has advanced past this provider, so a failure to load or
-                // instantiate it can be skipped without risk of a non-terminating loop.
+                // Cursor has advanced past this provider, so loading/instantiation failures are safe to skip.
                 try {
                     String configClassName = provider.type().getName();
                     if (!configClasses.contains(configClassName)) {
@@ -116,6 +117,16 @@ public class CodegenConfigLoader {
             }
         }
         return output;
+    }
+
+    /**
+     * Whether an iterator-advancement error is a non-advancing resource-location failure (the
+     * provider-configuration resources couldn't be located/read) rather than a single-entry failure
+     * the cursor has already moved past. The former recurs on every retry, so enumeration must stop;
+     * the latter can be skipped to keep discovering the remaining valid providers.
+     */
+    private static boolean isNonAdvancingResourceError(Throwable e) {
+        return e instanceof ServiceConfigurationError && e.getCause() instanceof IOException;
     }
 
     private static ClassLoader getConfigClassLoader() {
