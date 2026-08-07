@@ -3,12 +3,15 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.List;
+
+import static org.openapitools.codegen.CodegenConstants.TYPE_INFO_DEFAULT_IMPLS;
 
 public class JavaMicroprofileServerCodegen extends JavaClientCodegen {
     public static final String PROJECT_NAME = "projectName";
@@ -24,6 +27,10 @@ public class JavaMicroprofileServerCodegen extends JavaClientCodegen {
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
         setLibrary("microprofile");
+
+        // The microprofile library uses its own model.mustache which does not route to
+        // oneof_interface.mustache, so typeInfoDefaultImpls / x-jackson-default-impl have no effect.
+        cliOptions.removeIf(opt -> TYPE_INFO_DEFAULT_IMPLS.equals(opt.getOpt()));
     }
 
     @Override
@@ -45,6 +52,16 @@ public class JavaMicroprofileServerCodegen extends JavaClientCodegen {
     public void processOpts() {
         super.processOpts();
         additionalProperties.put(MICROPROFILE_SERVER, microprofileServer);
+        // Clear any typeInfoDefaultImpls that the parent may have read; the microprofile
+        // model template does not support oneOf interfaces, so the option has no effect.
+        typeInfoDefaultImpls.clear();
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.remove(VendorExtension.X_JACKSON_DEFAULT_IMPL);
+        return extensions;
     }
 
     @Override

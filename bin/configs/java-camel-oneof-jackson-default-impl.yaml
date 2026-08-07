@@ -1,0 +1,23 @@
+generatorName: java-camel
+outputDir: samples/server/petstore/java-camel-oneof-jackson-default-impl
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jackson-default-impl-oneof.yaml
+templateDir: modules/openapi-generator/src/main/resources/java-camel-server
+globalProperties:
+  apiTests: "false"
+  modelTests: "false"
+additionalProperties:
+  hideGenerationTimestamp: true
+  artifactId: java-camel-oneof-jackson-default-impl
+  camelRestBindingMode: "auto"
+  performBeanValidation: true
+  camelDataformatProperties: "json.out.disableFeatures=WRITE_DATES_AS_TIMESTAMPS"
+  jackson: true
+  camelUseDefaultValidationErrorProcessor: true
+  camelRestClientRequestValidation: true
+  camelSecurityDefinitions: true
+  implicitHeaders: true
+  useSpringBoot3: false
+  useOneOfInterfaces: "true"
+  useDeductionForOneOfInterfaces: "true"
+  typeInfoDefaultImpls:
+    Fruit: Apple

@@ -1,0 +1,16 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-spring-oneof-jackson-default-impl
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jackson-default-impl-oneof.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  artifactId: kotlin-spring-oneof-jackson-default-impl
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
+  interfaceOnly: "true"
+  useSpringBoot3: "true"
+  useOneOfInterfaces: "true"
+  useDeductionForOneOfInterfaces: "true"
+  typeInfoDefaultImpls:
+    Fruit: Apple
