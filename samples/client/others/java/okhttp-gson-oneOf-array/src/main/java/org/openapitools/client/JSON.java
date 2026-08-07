@@ -36,6 +36,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -56,6 +57,7 @@ public class JSON {
     private static SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
     private static OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
     private static LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
+    private static LocalDateTimeTypeAdapter localDateTimeTypeAdapter = new LocalDateTimeTypeAdapter();
     private static ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
     @SuppressWarnings("unchecked")
@@ -95,6 +97,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter);
         gsonBuilder.registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter);
         gsonBuilder.registerTypeAdapter(LocalDate.class, localDateTypeAdapter);
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, localDateTimeTypeAdapter);
         gsonBuilder.registerTypeAdapter(byte[].class, byteArrayAdapter);
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.MyExampleGet200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.OneOf1.CustomTypeAdapterFactory());
@@ -298,12 +301,61 @@ public class JSON {
         }
     }
 
+    /**
+     * Gson TypeAdapter for JSR310 LocalDateTime type
+     */
+    public static class LocalDateTimeTypeAdapter extends TypeAdapter<LocalDateTime> {
+
+        private DateTimeFormatter formatter;
+
+        public LocalDateTimeTypeAdapter() {
+            this(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        }
+
+        public LocalDateTimeTypeAdapter(DateTimeFormatter formatter) {
+            this.formatter = formatter;
+        }
+
+        public void setFormat(DateTimeFormatter dateFormat) {
+            this.formatter = dateFormat;
+        }
+
+        @Override
+        public void write(JsonWriter out, LocalDateTime date) throws IOException {
+            if (date == null) {
+                out.nullValue();
+            } else {
+                out.value(formatter.format(date));
+            }
+        }
+
+        @Override
+        public LocalDateTime read(JsonReader in) throws IOException {
+            switch (in.peek()) {
+                case NULL:
+                    in.nextNull();
+                    return null;
+                default:
+                    String date = in.nextString();
+                    // RFC 3339 section 5.6 permits a space in place of the ISO 8601 'T' separator
+                    if (date.length() > 10 && date.charAt(10) == ' ') {
+                        date = date.substring(0, 10) + 'T' + date.substring(11);
+                    }
+                    return LocalDateTime.parse(date, formatter);
+            }
+        }
+    }
+
     public static void setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
         offsetDateTimeTypeAdapter.setFormat(dateFormat);
     }
 
     public static void setLocalDateFormat(DateTimeFormatter dateFormat) {
         localDateTypeAdapter.setFormat(dateFormat);
+    }
+
+    public static void setLocalDateTimeFormat(DateTimeFormatter dateFormat) {
+        localDateTimeTypeAdapter.setFormat(dateFormat);
     }
 
     /**
