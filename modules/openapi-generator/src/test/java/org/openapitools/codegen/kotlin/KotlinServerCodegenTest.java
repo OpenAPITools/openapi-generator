@@ -36,6 +36,11 @@ import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKAR
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN5;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN6;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INHERITANCE_MODE;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INHERITANCE_MODE_ABSTRACT;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INHERITANCE_MODE_COMPOSITION;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INHERITANCE_MODE_NONE;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INHERITANCE_MODE_SEALED;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RETURN_RESPONSE;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
@@ -43,6 +48,10 @@ import static org.openapitools.codegen.languages.features.BeanValidationFeatures
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.DELEGATE_PATTERN;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.KTOR;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RESOURCES;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.X_INHERITANCE_MODE_ABSTRACT;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.X_INHERITANCE_MODE_COMPOSITION;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.X_INHERITANCE_MODE_NONE;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.X_INHERITANCE_MODE_SEALED;
 
 public class KotlinServerCodegenTest {
 
@@ -466,6 +475,142 @@ public class KotlinServerCodegenTest {
     }
 
     @Test
+    public void allOfWithDiscriminator_javalinAbstractMode_generatesAbstractParent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(INHERITANCE_MODE, INHERITANCE_MODE_ABSTRACT);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petModel = Paths.get(outputPath + "/models/Pet.kt");
+
+        assertFileContains(
+                petModel,
+                "abstract class Pet(",
+                "open val name: kotlin.String",
+                "open val petType: kotlin.String"
+        );
+        assertFileNotContains(
+                petModel,
+                "sealed class Pet("
+        );
+    }
+
+    @Test
+    public void allOfWithDiscriminator_javalinNoneMode_generatesFlatModels() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(INHERITANCE_MODE, INHERITANCE_MODE_NONE);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petModel = Paths.get(outputPath + "/models/Pet.kt");
+        Path catModel = Paths.get(outputPath + "/models/Cat.kt");
+
+        assertFileContains(petModel, "data class Pet(");
+        assertFileNotContains(
+                petModel,
+                "sealed class Pet(",
+                "abstract class Pet(",
+                "@com.fasterxml.jackson.annotation.JsonTypeInfo",
+                "@com.fasterxml.jackson.annotation.JsonSubTypes"
+        );
+
+        assertFileContains(catModel, "data class Cat(");
+        assertFileNotContains(catModel, ") : Pet(");
+    }
+
+    @Test
+    public void oneOfWithDiscriminator_javalinCompositionMode_generatesWrapperParent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(INHERITANCE_MODE, INHERITANCE_MODE_COMPOSITION);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petModel = Paths.get(outputPath + "/models/Pet.kt");
+        Path catModel = Paths.get(outputPath + "/models/Cat.kt");
+
+        assertFileContains(
+                petModel,
+                "data class Pet(",
+                "val value: kotlin.Any"
+        );
+        assertFileNotContains(
+                petModel,
+                "sealed class Pet",
+                "abstract class Pet",
+                "@com.fasterxml.jackson.annotation.JsonTypeInfo",
+                "@com.fasterxml.jackson.annotation.JsonSubTypes"
+        );
+
+        assertFileContains(catModel, "data class Cat(");
+        assertFileNotContains(catModel, ") : Pet(");
+    }
+
+    @Test
+    public void allOfWithDiscriminator_jaxrsAbstractMode_generatesAbstractParentAndOverrideChildren() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(INHERITANCE_MODE, INHERITANCE_MODE_ABSTRACT);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+
+        Path petModel = Paths.get(outputPath + "/models/Pet.kt");
+        assertFileContains(
+                petModel,
+                "abstract class Pet(",
+                "open val name: kotlin.String",
+                "open val petType: kotlin.String"
+        );
+        assertFileNotContains(
+                petModel,
+                "interface Pet"
+        );
+
+        Path catModel = Paths.get(outputPath + "/models/Cat.kt");
+        assertFileContains(
+                catModel,
+                "override val name: kotlin.String",
+                "override val petType: kotlin.String",
+                ") : Pet(name = name, petType = petType)"
+        );
+    }
+
+    @Test
     public void polymorphismWithoutDiscriminator_generatesRegularDataClass() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -669,6 +814,78 @@ public class KotlinServerCodegenTest {
         Assert.assertTrue(Files.exists(Paths.get(infraPath + "/AppDelegates.kt")));
         Assert.assertTrue(Files.exists(Paths.get(infraPath + "/BadParameterException.kt")));
         Assert.assertTrue(Files.exists(Paths.get(infraPath + "/APINotImplementedException.kt")));
+    }
+
+    @Test
+    public void inheritanceMode_defaultIsSealedForKtor() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(INHERITANCE_MODE), INHERITANCE_MODE_SEALED);
+        Assert.assertEquals(codegen.additionalProperties().get(X_INHERITANCE_MODE_SEALED), Boolean.TRUE);
+        Assert.assertEquals(codegen.additionalProperties().get(X_INHERITANCE_MODE_ABSTRACT), Boolean.FALSE);
+        Assert.assertEquals(codegen.additionalProperties().get(X_INHERITANCE_MODE_COMPOSITION), Boolean.FALSE);
+        Assert.assertEquals(codegen.additionalProperties().get(X_INHERITANCE_MODE_NONE), Boolean.FALSE);
+    }
+
+    @Test
+    public void inheritanceMode_defaultIsAbstractForJaxrsSpec() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(INHERITANCE_MODE), INHERITANCE_MODE_ABSTRACT);
+        Assert.assertEquals(codegen.additionalProperties().get(X_INHERITANCE_MODE_ABSTRACT), Boolean.TRUE);
+        Assert.assertEquals(codegen.additionalProperties().get(X_INHERITANCE_MODE_SEALED), Boolean.FALSE);
+    }
+
+    @Test
+    public void inheritanceMode_rejectsInvalidValue() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+        codegen.additionalProperties().put(INHERITANCE_MODE, "invalid-mode");
+
+        IllegalArgumentException ex = Assert.expectThrows(IllegalArgumentException.class, codegen::processOpts);
+        Assert.assertTrue(ex.getMessage().contains("Invalid inheritanceMode value 'invalid-mode'"));
+    }
+
+    @Test
+    public void inheritanceMode_rejectsSealedForJaxrsSpec() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(INHERITANCE_MODE, INHERITANCE_MODE_SEALED);
+
+        IllegalArgumentException ex = Assert.expectThrows(IllegalArgumentException.class, codegen::processOpts);
+        Assert.assertTrue(ex.getMessage().contains("does not support inheritanceMode 'sealed'"));
+    }
+
+    @Test
+    public void inheritanceMode_acceptsCompositionForJaxrsSpec() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(INHERITANCE_MODE, INHERITANCE_MODE_COMPOSITION);
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(INHERITANCE_MODE), INHERITANCE_MODE_COMPOSITION);
+        Assert.assertEquals(codegen.additionalProperties().get(X_INHERITANCE_MODE_COMPOSITION), Boolean.TRUE);
+        Assert.assertEquals(codegen.additionalProperties().get(X_INHERITANCE_MODE_ABSTRACT), Boolean.FALSE);
+    }
+
+    @Test
+    public void inheritanceMode_acceptsNoneForJaxrsSpec() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(INHERITANCE_MODE, INHERITANCE_MODE_NONE);
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(INHERITANCE_MODE), INHERITANCE_MODE_NONE);
+        Assert.assertEquals(codegen.additionalProperties().get(X_INHERITANCE_MODE_NONE), Boolean.TRUE);
+        Assert.assertEquals(codegen.additionalProperties().get(X_INHERITANCE_MODE_ABSTRACT), Boolean.FALSE);
     }
 
     @Test
