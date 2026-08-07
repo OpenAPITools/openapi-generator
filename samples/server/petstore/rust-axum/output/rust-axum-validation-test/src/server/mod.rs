@@ -2,12 +2,12 @@ use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
 use axum_extra::{
-    TypedHeader,
     extract::{CookieJar, Query as QueryExtra},
+    TypedHeader,
 };
 use bytes::Bytes;
 use headers::Host;
-use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
+use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 

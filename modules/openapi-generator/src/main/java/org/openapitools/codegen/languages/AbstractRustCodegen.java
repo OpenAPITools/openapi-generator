@@ -15,6 +15,8 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
 
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractRustCodegen extends DefaultCodegen implements CodegenConfig {
@@ -292,7 +294,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
             } else {
                 mdl.arrayModelType = toModelName(mdl.arrayModelType);
             }
-        } else if ((!mdl.anyOf.isEmpty()) || (!mdl.oneOf.isEmpty())) {
+        } else if ((hasAnyOf(mdl)) || (hasOneOf(mdl))) {
             mdl.dataType = getSchemaType(model);
         }
 

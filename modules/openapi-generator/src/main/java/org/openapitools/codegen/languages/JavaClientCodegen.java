@@ -50,6 +50,8 @@ import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -1269,13 +1271,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
             cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
             if (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(NATIVE) || isLibrary(OKHTTP_GSON)) {
-                if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+                if (hasOneOf(cm) && cm.oneOf.contains("ModelNull")) {
                     // if oneOf contains "null" type
                     cm.isNullable = true;
                     cm.oneOf.remove("ModelNull");
                 }
 
-                if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+                if (hasAnyOf(cm) && cm.anyOf.contains("ModelNull")) {
                     // if anyOf contains "null" type
                     cm.isNullable = true;
                     cm.anyOf.remove("ModelNull");

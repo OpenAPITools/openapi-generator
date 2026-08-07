@@ -147,3 +147,4 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Primiti
   }
 }
 
+

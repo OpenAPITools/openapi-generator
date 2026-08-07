@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -49,6 +50,7 @@ import com.google.common.base.CaseFormat;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.EnumUtils.*;
+import static org.openapitools.codegen.utils.ModelUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 /**
@@ -661,6 +663,36 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        // patch to work around the fix to set isArray, isMap in response objects
+        // ref: https://github.com/OpenAPITools/openapi-generator/pull/24566/
+        CodegenResponse cr = super.fromResponse(responseCode, response);
+
+        Schema responseSchema;
+        if (this.openAPI != null && this.openAPI.getComponents() != null) {
+            responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, response));
+        } else { // no model/alias defined
+            responseSchema = ModelUtils.getSchemaFromResponse(openAPI, response);
+        }
+
+        if (ModelUtils.isTypeObjectSchema(responseSchema)) {
+            CodegenProperty cp = fromProperty("response", responseSchema, false);
+
+            if (ModelUtils.isFreeFormObject(responseSchema, openAPI)) {
+                cr.isFreeFormObject = true;
+            } else {
+                cr.isModel = true;
+            }
+            cr.simpleType = false;
+            cr.containerType = cp.containerType;
+            cr.containerTypeMapped = cp.containerTypeMapped;
+            addVarsRequiredVarsAdditionalProps(responseSchema, cr);
+        }
+
+        return cr;
+    }
+
     /**
      * Post-processes CodegenModel objects to apply protobuf-specific transformations.
      * 
@@ -709,9 +741,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
             }
 
-            if(cm.oneOf != null && !cm.oneOf.isEmpty()){
+            if(hasOneOf(cm)){
                 cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getOneOf());
-            } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+            } else if (hasAnyOf(cm)) {
                 cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getAnyOf());
             }
             int index = 1;
@@ -1028,7 +1060,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         // Phase 1: Bottom-up property propagation
         // Each child copies its properties to all ancestors in the chain
         for (CodegenModel model : allModels.values()) {
-            if (!model.allOf.isEmpty() && model.getParentModel() != null) {
+            if (hasAllOf(model) && model.getParentModel() != null) {
                 // Walk up the entire parent chain
                 CodegenModel currentAncestor = model.getParentModel();
                 

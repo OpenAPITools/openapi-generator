@@ -107,3 +107,4 @@ class _$NumberOnlySerializer implements PrimitiveSerializer<NumberOnly> {
   }
 }
 
+

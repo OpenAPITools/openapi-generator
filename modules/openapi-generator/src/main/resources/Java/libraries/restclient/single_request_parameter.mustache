@@ -56,6 +56,25 @@
             return Objects.hash({{#allParams}}{{#vendorExtensions.x-is-jackson-optional-nullable}}hashCodeNullable({{paramName}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{^isByteArray}}{{paramName}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{paramName}}){{/isByteArray}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}}, {{/-last}}{{/allParams}});
         {{/useReflectionEqualsHashCode}}
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {\n");
+            {{#allParams}}
+            sb.append("    {{paramName}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{paramName}}){{/isPassword}}).append("\n");
+            {{/allParams}}
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private{{#jsonb}} static{{/jsonb}} String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
+        }
     }
     {{/staticRequest}}
 

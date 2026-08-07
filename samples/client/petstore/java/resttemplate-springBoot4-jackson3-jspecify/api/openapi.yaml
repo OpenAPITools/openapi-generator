@@ -33,6 +33,14 @@ paths:
           format: date-time
           type: string
         style: form
+      - explode: true
+        in: query
+        name: color
+        required: false
+        schema:
+          default: red
+          type: string
+        style: form
       responses:
         default:
           content:
@@ -76,21 +84,38 @@ components:
     Foo:
       example:
         dt: 2000-01-23T04:56:07.000+00:00
+        nullableDt: 2000-01-23T04:56:07.000+00:00
         binary: ""
+        nullableBinary: ""
         listOfDt:
         - 2000-01-23T04:56:07.000+00:00
         - 2000-01-23T04:56:07.000+00:00
         listMinIntems:
         - 2000-01-23T04:56:07.000+00:00
         - 2000-01-23T04:56:07.000+00:00
+        nullableListMinIntems:
+        - 2000-01-23T04:56:07.000+00:00
+        - 2000-01-23T04:56:07.000+00:00
         requiredDt: 2000-01-23T04:56:07.000+00:00
         number: 0.8008281904610115
+        nullableNumber: 6.027456183070403
+        color: red
+        requiredColor: red
+        nullableColor: red
       properties:
         dt:
           format: date-time
           type: string
+        nullableDt:
+          format: date-time
+          nullable: true
+          type: string
         binary:
           format: binary
+          type: string
+        nullableBinary:
+          format: binary
+          nullable: true
           type: string
         listOfDt:
           items:
@@ -103,12 +128,33 @@ components:
             type: string
           minItems: 1
           type: array
+        nullableListMinIntems:
+          items:
+            format: date-time
+            type: string
+          minItems: 1
+          nullable: true
+          type: array
         requiredDt:
           format: date-time
           type: string
         number:
           type: number
+        nullableNumber:
+          nullable: true
+          type: number
+        color:
+          default: red
+          type: string
+        requiredColor:
+          default: red
+          type: string
+        nullableColor:
+          default: red
+          nullable: true
+          type: string
       required:
+      - requiredColor
       - requiredDt
     _upload_post_request:
       properties:

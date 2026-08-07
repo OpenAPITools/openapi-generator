@@ -108,3 +108,4 @@ class _$DeprecatedObjectSerializer implements PrimitiveSerializer<DeprecatedObje
   }
 }
 
+

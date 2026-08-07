@@ -76,19 +76,19 @@ function Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRef
         if (!$PathString) {
             throw "Error! The required parameter `PathString` missing when calling tests_path_string_pathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
         }
-        $LocalVarUri = $LocalVarUri.replace('{path_string}', [System.Web.HTTPUtility]::UrlEncode($PathString))
+        $LocalVarUri = $LocalVarUri.replace('{path_string}', [System.Uri]::EscapeDataString([string]$PathString))
         if (!$PathInteger) {
             throw "Error! The required parameter `PathInteger` missing when calling tests_path_string_pathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
         }
-        $LocalVarUri = $LocalVarUri.replace('{path_integer}', [System.Web.HTTPUtility]::UrlEncode($PathInteger))
+        $LocalVarUri = $LocalVarUri.replace('{path_integer}', [System.Uri]::EscapeDataString([string]$PathInteger))
         if (!$EnumNonrefStringPath) {
             throw "Error! The required parameter `EnumNonrefStringPath` missing when calling tests_path_string_pathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
         }
-        $LocalVarUri = $LocalVarUri.replace('{enum_nonref_string_path}', [System.Web.HTTPUtility]::UrlEncode($EnumNonrefStringPath))
+        $LocalVarUri = $LocalVarUri.replace('{enum_nonref_string_path}', [System.Uri]::EscapeDataString([string]$EnumNonrefStringPath))
         if (!$EnumRefStringPath) {
             throw "Error! The required parameter `EnumRefStringPath` missing when calling tests_path_string_pathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
         }
-        $LocalVarUri = $LocalVarUri.replace('{enum_ref_string_path}', [System.Web.HTTPUtility]::UrlEncode($EnumRefStringPath))
+        $LocalVarUri = $LocalVarUri.replace('{enum_ref_string_path}', [System.Uri]::EscapeDataString([string]$EnumRefStringPath))
 
         $LocalVarResult = Invoke-ApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `

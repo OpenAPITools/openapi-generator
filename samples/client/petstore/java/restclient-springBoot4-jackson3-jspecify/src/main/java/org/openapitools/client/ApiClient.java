@@ -134,6 +134,9 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     public static JsonMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
+        if (null == dateFormat) {
+            dateFormat = createDefaultDateFormat();
+        }
         return JsonMapper.builder()
             .defaultDateFormat(dateFormat)
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)

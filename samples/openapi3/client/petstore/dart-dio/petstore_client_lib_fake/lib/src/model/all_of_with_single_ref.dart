@@ -128,3 +128,4 @@ class _$AllOfWithSingleRefSerializer implements PrimitiveSerializer<AllOfWithSin
   }
 }
 
+

@@ -41,6 +41,8 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.CodegenConstants.X_CSHARP_VALUE_TYPE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -1688,12 +1690,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
-            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.remove("Null")) {
+            if (hasOneOf(cm) && cm.oneOf.remove("Null")) {
                 // if oneOf contains "null" type
                 cm.isNullable = true;
             }
 
-            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.remove("Null")) {
+            if (hasAnyOf(cm) && cm.anyOf.remove("Null")) {
                 // if anyOf contains "null" type
                 cm.isNullable = true;
             }

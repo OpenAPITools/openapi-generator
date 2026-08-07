@@ -124,10 +124,11 @@ public class DefaultApi {
      * @param dtParam The dtParam parameter
      * @param dtQuery The dtQuery parameter
      * @param dtCookie The dtCookie parameter
+     * @param color The color parameter
      * @return Foo
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fooDtParamGetRequestCreation(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
+    private ResponseSpec fooDtParamGetRequestCreation(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -140,6 +141,7 @@ public class DefaultApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "dtQuery", dtQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "color", color));
 
         cookieParams.putAll(apiClient.parameterToMultiValueMap(null, "dtCookie", dtCookie));
 
@@ -163,12 +165,13 @@ public class DefaultApi {
      * @param dtParam The dtParam parameter
      * @param dtQuery The dtQuery parameter
      * @param dtCookie The dtCookie parameter
+     * @param color The color parameter
      * @return Foo
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
+    public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws RestClientResponseException {
         ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie).body(localVarReturnType);
+        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie, color).body(localVarReturnType);
     }
 
     /**
@@ -178,12 +181,13 @@ public class DefaultApi {
      * @param dtParam The dtParam parameter
      * @param dtQuery The dtQuery parameter
      * @param dtCookie The dtCookie parameter
+     * @param color The color parameter
      * @return ResponseEntity&lt;Foo&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
+    public ResponseEntity<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws RestClientResponseException {
         ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie).toEntity(localVarReturnType);
+        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie, color).toEntity(localVarReturnType);
     }
 
     /**
@@ -193,11 +197,12 @@ public class DefaultApi {
      * @param dtParam The dtParam parameter
      * @param dtQuery The dtQuery parameter
      * @param dtCookie The dtCookie parameter
+     * @param color The color parameter
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fooDtParamGetWithResponseSpec(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
-        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie);
+    public ResponseSpec fooDtParamGetWithResponseSpec(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws RestClientResponseException {
+        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie, color);
     }
 
     /**

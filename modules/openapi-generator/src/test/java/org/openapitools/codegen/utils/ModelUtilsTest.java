@@ -273,6 +273,27 @@ public class ModelUtilsTest {
         Assert.assertFalse(ModelUtils.isFreeFormObject(null, openAPI));
     }
 
+    @Test(enabled = false)
+    public void testIsFreeFormObjectFromSpec() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        // Create initial "empty" object schema.
+        Schema additionalPropertiesUnset = ModelUtils.getSchema(openAPI, "AdditionalPropertiesUnset");
+        Assert.assertTrue(ModelUtils.isFreeFormObject(additionalPropertiesUnset, openAPI));
+        Assert.assertFalse(ModelUtils.isMapSchema(additionalPropertiesUnset));
+
+        Schema additionalPropertiesTrue = ModelUtils.getSchema(openAPI, "AdditionalPropertiesTrue");
+        Assert.assertTrue(ModelUtils.isFreeFormObject(additionalPropertiesTrue, openAPI));
+        Assert.assertFalse(ModelUtils.isMapSchema(additionalPropertiesTrue));
+
+        Schema additionalPropertiesFalse = ModelUtils.getSchema(openAPI, "AdditionalPropertiesFalse");
+        Assert.assertTrue(ModelUtils.isFreeFormObject(additionalPropertiesFalse, openAPI));
+        Assert.assertFalse(ModelUtils.isMapSchema(additionalPropertiesFalse));
+
+        Schema asdditionalPropertiesSchema = ModelUtils.getSchema(openAPI, "AdditionalPropertiesSchema");
+        Assert.assertFalse(ModelUtils.isFreeFormObject(asdditionalPropertiesSchema, openAPI));
+        Assert.assertTrue(ModelUtils.isMapSchema(asdditionalPropertiesSchema));
+    }
+
     @Test
     public void testIsSetForValidSet() {
         ArraySchema as = new ArraySchema()

@@ -43,6 +43,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -244,9 +246,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
-        supportedLibraries.put("tornado", "tornado-based client (deprecated)");
         supportedLibraries.put("httpx", "httpx-based client");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3, httpx");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, urllib3, httpx");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -449,9 +450,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("async", "true");
             additionalProperties.put("asyncio", "true");
-        } else if ("tornado".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
-            additionalProperties.put("tornado", "true");
         } else if ("httpx".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("httpx/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("async", "true");
@@ -672,7 +670,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         for (ModelsMap modelsMap : objs.values()) {
             for (ModelMap modelMap : modelsMap.getModels()) {
                 CodegenModel model = modelMap.getModel();
-                if (model == null || !model.oneOf.isEmpty() || !model.anyOf.isEmpty()) {
+                if (model == null || hasOneOf(model) || hasAnyOf(model)) {
                     continue;
                 }
                 List<CodegenProperty> generatedProperties = generatedProperties(model);
@@ -997,7 +995,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!model.oneOf.isEmpty() || !model.anyOf.isEmpty()) {
+        if (hasOneOf(model) || hasAnyOf(model)) {
             return;
         }
 

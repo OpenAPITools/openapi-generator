@@ -145,3 +145,4 @@ class _$OuterCompositeSerializer implements PrimitiveSerializer<OuterComposite> 
   }
 }
 
+

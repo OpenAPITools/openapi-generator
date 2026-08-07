@@ -3671,6 +3671,37 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test(description = "Regression test for issue #24588: with useJackson3=true the generated"
+            + " createDefaultMapper must fall back to createDefaultDateFormat() when called with"
+            + " null, like the Jackson 2 branch does. Otherwise date-time fields serialize as"
+            + " epoch numbers instead of RFC 3339.")
+    public void testJackson3DefaultMapperFallsBackToDefaultDateFormat_issue_24588() {
+        for (String library : new String[]{JavaClientCodegen.RESTCLIENT, JavaClientCodegen.WEBCLIENT}) {
+            final Path output = newTempFolder();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(JAVA_GENERATOR)
+                    .setLibrary(library)
+                    .setAdditionalProperties(Map.of(
+                            CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                            JavaClientCodegen.USE_JACKSON_3, true,
+                            JavaClientCodegen.USE_SPRING_BOOT4, true,
+                            JavaClientCodegen.OPENAPI_NULLABLE, false
+                    ))
+                    .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                    .setOutputDir(output.toString().replace("\\", "/"));
+
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            validateJavaSourceFiles(files);
+            assertFileContains(
+                    output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                    "public static JsonMapper createDefaultMapper(@Nullable DateFormat dateFormat) {",
+                    "if (null == dateFormat) {",
+                    "dateFormat = createDefaultDateFormat();"
+            );
+        }
+    }
+
 
     @Test
     public void testRestClientWithUseSingleRequestParameter_issue_19406() {
@@ -4654,7 +4685,9 @@ public class JavaClientCodegenTest {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         "containerDefaultToNull", true,
-                        USE_SPRING_BOOT4, useSpringBoot4
+                        USE_SPRING_BOOT4, useSpringBoot4,
+                        JavaClientCodegen.OPENAPI_NULLABLE, false,
+                        GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true
                 ),
                 codegenConfigurator ->
                         codegenConfigurator
@@ -4683,17 +4716,23 @@ public class JavaClientCodegenTest {
                         "import org.jspecify.annotations.Nullable;",
                         "private java.time.@Nullable Instant dt;",
                         "setDt(java.time.@Nullable Instant dt)",
-                        "dt(java.time.@Nullable Instant dt)",
+                        "Foo dt(java.time.@Nullable Instant dt)",
                         "setBinary(@Nullable File binary)",
                         "public @Nullable File getBinary()",
-                        "List<java.time.@Nullable Instant> getListOfDt()",
-                        "setListOfDt(List<java.time.@Nullable Instant> listOfDt)"
-                );
+                        "@Nullable List<java.time.Instant> getListOfDt()",
+                        "private java.time.@Nullable Instant nullableDt;",
+                        "private @Nullable List<java.time.Instant> listOfDt;",
+                        "setListOfDt(@Nullable List<java.time.Instant> listOfDt)");
+        if (!NATIVE.equals(library)) { // native library does not generate all arg constructors
+            JavaFileAssert.assertThat(files.get("Foo.java"))
+                    .fileContains(
+                        "public Foo(@JsonProperty(JSON_PROPERTY_DT) java.time.@Nullable Instant dt, @JsonProperty(JSON_PROPERTY_NULLABLE_DT) java.time.@Nullable Instant nullableDt, @JsonProperty(JSON_PROPERTY_BINARY) @Nullable File binary, @JsonProperty(JSON_PROPERTY_NULLABLE_BINARY) @Nullable File nullableBinary, @JsonProperty(JSON_PROPERTY_LIST_OF_DT) @Nullable List<java.time.Instant> listOfDt, @JsonProperty(JSON_PROPERTY_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> listMinIntems, @JsonProperty(JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> nullableListMinIntems, @JsonProperty(JSON_PROPERTY_REQUIRED_DT) java.time.Instant requiredDt, @JsonProperty(JSON_PROPERTY_NUMBER) java.math.@Nullable BigDecimal number, @JsonProperty(JSON_PROPERTY_NULLABLE_NUMBER) java.math.@Nullable BigDecimal nullableNumber, @JsonProperty(JSON_PROPERTY_COLOR) @Nullable String color, @JsonProperty(JSON_PROPERTY_REQUIRED_COLOR) String requiredColor, @JsonProperty(JSON_PROPERTY_NULLABLE_COLOR) @Nullable String nullableColor) {");
+        }
         if (!RESTTEMPLATE.equals(library)) {
             JavaFileAssert.assertThat(files.get("DefaultApi.java"))
                     .fileContains(
                             "import org.jspecify.annotations.Nullable;",
-                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie)"
+                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)"
                     );
         }
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
@@ -4702,7 +4741,70 @@ public class JavaClientCodegenTest {
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("client/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
+    }
 
+    @Test(dataProvider = "jspecifyLibraries")
+    public void testJspecify_openapiNullable(String library, boolean useSpringBoot4, boolean hasJspecifyDependency) throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
+                Map.of(USE_JSPECIFY, true,
+                        "containerDefaultToNull", true,
+                        USE_SPRING_BOOT4, useSpringBoot4,
+                        JavaClientCodegen.OPENAPI_NULLABLE, true,
+                        GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true
+                ),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .setValidateSpec(false)
+                                .addTypeMapping("OffsetDateTime", "java.time.Instant")
+                                .addTypeMapping("BigDecimal", "java.math.BigDecimal"));
+
+        if (hasJspecifyDependency) {
+            assertThat(files.get("build.gradle")).content()
+                    .contains("implementation \"org.jspecify:jspecify:1.0.0\"")
+                    .doesNotContain("findbugs");
+            assertThat(files.get("pom.xml")).content()
+                    .contains(
+                            "<groupId>org.jspecify</groupId>",
+                            "<artifactId>jspecify</artifactId>",
+                            "<version>1.0.0</version>")
+                    .doesNotContain("findbugs");
+        } else {
+            assertThat(files.get("build.gradle")).content()
+                    .doesNotContain("org.jspecify");
+            assertThat(files.get("pom.xml")).content()
+                    .doesNotContain("org.jspecify");
+        }
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "private java.time.@Nullable Instant dt;",
+                        "setDt(java.time.@Nullable Instant dt)",
+                        "Foo dt(java.time.@Nullable Instant dt)",
+                        "setBinary(@Nullable File binary)",
+                        "public @Nullable File getBinary()",
+                        "@Nullable List<java.time.Instant> getListOfDt()",
+                        "setListOfDt(@Nullable List<java.time.Instant> listOfDt)",
+                        "JsonNullable<java.time.Instant> nullableDt = JsonNullable.<java.time.Instant>undefined()",
+                        "private JsonNullable<File> nullableBinary = JsonNullable.<File>undefined();");
+        if (!NATIVE.equals(library)) { // native library does not generate all arg constructors
+            JavaFileAssert.assertThat(files.get("Foo.java"))
+                    .fileContains(
+                            "public Foo(@JsonProperty(JSON_PROPERTY_DT) java.time.@Nullable Instant dt, @JsonProperty(JSON_PROPERTY_NULLABLE_DT) java.time.@Nullable Instant nullableDt, @JsonProperty(JSON_PROPERTY_BINARY) @Nullable File binary, @JsonProperty(JSON_PROPERTY_NULLABLE_BINARY) @Nullable File nullableBinary, @JsonProperty(JSON_PROPERTY_LIST_OF_DT) @Nullable List<java.time.Instant> listOfDt, @JsonProperty(JSON_PROPERTY_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> listMinIntems, @JsonProperty(JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> nullableListMinIntems, @JsonProperty(JSON_PROPERTY_REQUIRED_DT) java.time.Instant requiredDt, @JsonProperty(JSON_PROPERTY_NUMBER) java.math.@Nullable BigDecimal number, @JsonProperty(JSON_PROPERTY_NULLABLE_NUMBER) java.math.@Nullable BigDecimal nullableNumber, @JsonProperty(JSON_PROPERTY_COLOR) @Nullable String color, @JsonProperty(JSON_PROPERTY_REQUIRED_COLOR) String requiredColor, @JsonProperty(JSON_PROPERTY_NULLABLE_COLOR) @Nullable String nullableColor) {"
+                    );
+        }
+        if (!RESTTEMPLATE.equals(library)) {
+            JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                    .fileContains(
+                            "import org.jspecify.annotations.Nullable;",
+                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)"
+                    );
+        }
+        JavaFileAssert.assertThat(files.get("api/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("model/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("client/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
     }
 
     @DataProvider(name = "replaceOneOf")

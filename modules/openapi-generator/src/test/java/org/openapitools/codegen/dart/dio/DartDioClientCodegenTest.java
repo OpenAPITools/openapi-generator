@@ -215,6 +215,39 @@ public class DartDioClientCodegenTest {
                 "if (valueDes == null) continue;");
     }
 
+    /**
+     * Regression test for dart-dio built_value anyOf serialization.
+     *
+     * The one_of AnyOf implementation stores selected values by the index of
+     * the matching declared schema. Before the fix, generated serializers built
+     * the FullType parameters from anyOf.valueTypes, which only contains the
+     * selected value's type. A value stored at index 1 therefore tried to read
+     * specifiedType.parameters[1] from a one-element parameter list and threw a
+     * RangeError during serialization.
+     */
+    @Test
+    public void testAnyOfSerializationUsesDeclaredTypeIndexes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/built_value_anyof_primitive.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path fieldValue = output.toPath().resolve("lib/src/model/field_value.dart");
+
+        TestUtils.assertFileContains(fieldValue,
+                "FullType(AnyOf, anyOf.types.map((type) => FullType(type)).toList())");
+        TestUtils.assertFileNotContains(fieldValue,
+                "FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList())");
+    }
+
     @Test
     public void verifyDartDioGeneratorRuns() throws IOException {
         File output = Files.createTempDirectory("test").toFile();

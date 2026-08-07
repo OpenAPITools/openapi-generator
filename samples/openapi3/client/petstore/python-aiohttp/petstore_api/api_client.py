@@ -247,7 +247,6 @@ class ApiClient:
 
         return method, url, header_params, body, post_params
 
-
     async def call_api(
         self,
         method,

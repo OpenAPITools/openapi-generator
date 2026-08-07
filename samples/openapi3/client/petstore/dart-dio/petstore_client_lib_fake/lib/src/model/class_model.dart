@@ -107,3 +107,4 @@ class _$ClassModelSerializer implements PrimitiveSerializer<ClassModel> {
   }
 }
 
+

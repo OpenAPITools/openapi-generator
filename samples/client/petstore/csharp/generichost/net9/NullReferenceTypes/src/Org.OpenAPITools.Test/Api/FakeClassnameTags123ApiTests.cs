@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Test.Api
             ModelClient modelClient = default!;
             var response = await _instance.TestClassnameAsync(modelClient);
             var model = response.Ok();
-            Assert.IsType<ModelClient>(model);
+            Assert.IsType<Org.OpenAPITools.Model.ModelClient>(model);
         }
     }
 }

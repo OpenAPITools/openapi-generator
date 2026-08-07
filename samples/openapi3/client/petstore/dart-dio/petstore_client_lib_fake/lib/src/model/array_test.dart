@@ -147,3 +147,4 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
   }
 }
 
+

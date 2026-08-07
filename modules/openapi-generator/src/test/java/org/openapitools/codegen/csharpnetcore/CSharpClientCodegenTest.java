@@ -17,9 +17,15 @@
 package org.openapitools.codegen.csharpnetcore;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.openapitools.codegen.languages.JavaCXFClientCodegen;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -28,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -505,5 +512,31 @@ public class CSharpClientCodegenTest {
                 "return 1.1d;",
                 "return -1.2d;"
         );
+    }
+
+    @Test
+    public void testMapResponse() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        Operation operation = openAPI.getPaths().get("/store/inventory").getGet();
+        final CodegenOperation co = codegen.fromOperation("getInventory", "GET", operation, null);
+
+        OperationMap operationMap = new OperationMap();
+        operationMap.setOperation(co);
+
+        OperationsMap objs = new OperationsMap();
+        objs.setOperation(operationMap);
+        objs.setImports(Collections.emptyList());
+        codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
+
+        Assert.assertEquals(co.responses.size(), 1);
+        CodegenResponse cr1 = co.responses.get(0);
+        Assert.assertEquals(cr1.code, "200");
+        Assert.assertEquals(cr1.baseType, "Integer");
+        Assert.assertEquals(cr1.dataType, "Map<string, Integer>");
+        Assert.assertFalse(cr1.isArray);
+        Assert.assertFalse(cr1.isModel);
+        Assert.assertTrue(cr1.isMap);
     }
 }

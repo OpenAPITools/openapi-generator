@@ -352,7 +352,6 @@ class ApiClient:
 
         return method, url, header_params, body, post_params
 
-
     def call_api(
         self,
         method,
