@@ -39,6 +39,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -345,11 +346,15 @@ public class JSON {
                     return null;
                 default:
                     String date = in.nextString();
-                    // RFC 3339 section 5.6 permits a space in place of the ISO 8601 'T' separator
-                    if (date.length() > 10 && date.charAt(10) == ' ') {
-                        date = date.substring(0, 10) + 'T' + date.substring(11);
+                    try {
+                        return LocalDateTime.parse(date, formatter);
+                    } catch (DateTimeParseException e) {
+                        if (date.length() > 10 && date.charAt(10) == ' ') {
+                            date = date.substring(0, 10) + 'T' + date.substring(11);
+                            return LocalDateTime.parse(date, formatter);
+                        }
+                        throw e;
                     }
-                    return LocalDateTime.parse(date, formatter);
             }
         }
     }
