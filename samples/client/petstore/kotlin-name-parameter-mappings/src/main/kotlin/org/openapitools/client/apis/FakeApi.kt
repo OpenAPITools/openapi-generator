@@ -127,9 +127,9 @@ open class FakeApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
                 put("http_debug_option", listOf(httpDebugOption.toString()))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
         underscoreType.apply { localVariableHeaders["_type"] = this.toString() }
         typeWithUnderscore.apply { localVariableHeaders["type_"] = this.toString() }
-        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
