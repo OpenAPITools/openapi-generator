@@ -3703,8 +3703,8 @@ public class JavaClientCodegenTest {
     }
 
     @Test(description = "Regression test for issue #24587: restclient with useJackson3=true must call"
-            + " builder.registerDefaults() inside configureMessageConverters so default Spring converters"
-            + " (ByteArray, String, Resource) are not omitted.")
+            + " builder.registerDefaults().withJsonConverter(...) inside configureMessageConverters so default Spring converters"
+            + " (ByteArray, String, Resource) are registered with Jackson as the JSON converter.")
     public void testRestClientJackson3RegistersDefaults_issue_24587() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -3725,8 +3725,7 @@ public class JavaClientCodegenTest {
         assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
                 "Consumer<HttpMessageConverters.ClientBuilder> messageConverters = builder -> {",
-                "builder.registerDefaults();",
-                "builder.addCustomConverter(new JacksonJsonHttpMessageConverter(mapper));"
+                "builder.registerDefaults().withJsonConverter(new JacksonJsonHttpMessageConverter(mapper));"
         );
     }
 
