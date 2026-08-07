@@ -6711,9 +6711,161 @@ public class KotlinSpringServerCodegenTest {
     }
 
     /**
-     * Scenario 4 (openApiNullable=false, default): required=false, nullable=true
-     * Without openApiNullable, falls back to nullable type with null default (same as before this feature).
+     * Issue #24491: the {@code optionalNonNullPropertyJsonSetterNulls=SKIP} option decouples the
+     * SKIP/FAIL choice from {@code openApiNullable}. With {@code openApiNullable=true} the default would
+     * be FAIL, but the option forces the (previously unreachable) SKIP so an explicit null is tolerated.
      */
+    @Test(description = "optionalNonNullPropertyJsonSetterNulls=SKIP overrides the openApiNullable=true FAIL default")
+    public void jsonSetterNulls_option_skipOverridesOpenApiNullableTrue() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "SKIP"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNonNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNonNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.SKIP)"),
+                "optionalNonNullPropertyJsonSetterNulls=SKIP must win over the openApiNullable=true FAIL default");
+        Assert.assertFalse(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
+                "FAIL must not be emitted when the option forces SKIP");
+        // @JsonInclude is still emitted independently
+        Assert.assertTrue(context.contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
+                "@JsonInclude(NON_NULL) must still be emitted independently of the setter-nulls option");
+    }
+
+    /**
+     * Issue #24491: {@code optionalNonNullPropertyJsonSetterNulls=FAIL} keeps FAIL under
+     * {@code openApiNullable=true} (matches the default, but now explicit).
+     */
+    @Test(description = "optionalNonNullPropertyJsonSetterNulls=FAIL with openApiNullable=true")
+    public void jsonSetterNulls_option_failWithOpenApiNullableTrue() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "FAIL"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNonNullable:");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
+                "optionalNonNullPropertyJsonSetterNulls=FAIL must emit FAIL");
+    }
+
+    /**
+     * Issue #24491: {@code optionalNonNullPropertyJsonSetterNulls=FAIL} forces FAIL even with
+     * {@code openApiNullable=false}, where the default would be SKIP.
+     */
+    @Test(description = "optionalNonNullPropertyJsonSetterNulls=FAIL overrides the openApiNullable=false SKIP default")
+    public void jsonSetterNulls_option_failOverridesOpenApiNullableFalse() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "FAIL"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNonNullable:");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
+                "optionalNonNullPropertyJsonSetterNulls=FAIL must win over the openApiNullable=false SKIP default");
+        Assert.assertFalse(context.contains("@field:JsonSetter(nulls = Nulls.SKIP)"),
+                "SKIP must not be emitted when the option forces FAIL");
+    }
+
+    /**
+     * Issue #24491: an invalid {@code optionalNonNullPropertyJsonSetterNulls} value must fail fast with
+     * an actionable error message.
+     */
+    @Test(description = "invalid optionalNonNullPropertyJsonSetterNulls value fails fast")
+    public void jsonSetterNulls_option_invalidValueFailsFast() {
+        try {
+            generateFromContract(
+                    "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                    Map.of(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                            CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "BOGUS"));
+            Assert.fail("expected an IllegalArgumentException for an invalid optionalNonNullPropertyJsonSetterNulls value");
+        } catch (Exception e) {
+            Throwable root = e;
+            while (root.getCause() != null) {
+                root = root.getCause();
+            }
+            Assert.assertTrue(root instanceof IllegalArgumentException,
+                    "expected IllegalArgumentException but was " + root.getClass());
+            Assert.assertTrue(root.getMessage().contains("optionalNonNullPropertyJsonSetterNulls")
+                            && root.getMessage().contains("[SKIP, FAIL]"),
+                    "error message must name the option and allowed values, but was: " + root.getMessage());
+        }
+    }
+
+    /**
+     * Issue #24491: the per-property {@code x-jackson-json-setter-nulls} vendor extension precisely
+     * overrides the mode per field, winning over the option/openApiNullable default — including a NONE
+     * that emits no annotation, and a forced value on a required property.
+     */
+    @Test(description = "x-jackson-json-setter-nulls vendor extension overrides precisely per property")
+    public void jsonSetterNulls_perPropertyExtension() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/json-setter-nulls-override.yaml",
+                // openApiNullable=true (default FAIL) + option SKIP: per-property extension must still win
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "SKIP"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+
+        assertPropertyHasSetterNulls(content, "manualSkip", "SKIP");
+        assertPropertyHasSetterNulls(content, "manualFail", "FAIL");
+        assertPropertyHasNoSetterNulls(content, "manualNone");
+        assertPropertyHasSetterNulls(content, "requiredForcedFail", "FAIL");
+        // plainOptional has no extension: follows the option (SKIP)
+        assertPropertyHasSetterNulls(content, "plainOptional", "SKIP");
+    }
+
+    /**
+     * Issue #24491: an invalid {@code x-jackson-json-setter-nulls} vendor extension value must fail fast.
+     */
+    @Test(description = "invalid x-jackson-json-setter-nulls extension value fails fast")
+    public void jsonSetterNulls_perPropertyExtension_invalidValueFailsFast() {
+        try {
+            generateFromContract(
+                    "src/test/resources/3_0/kotlin/json-setter-nulls-override-invalid.yaml",
+                    Map.of(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+            Assert.fail("expected an IllegalArgumentException for an invalid x-jackson-json-setter-nulls value");
+        } catch (Exception e) {
+            Throwable root = e;
+            while (root.getCause() != null) {
+                root = root.getCause();
+            }
+            Assert.assertTrue(root instanceof IllegalArgumentException,
+                    "expected IllegalArgumentException but was " + root.getClass());
+            Assert.assertTrue(root.getMessage().contains("x-jackson-json-setter-nulls"),
+                    "error message must name the extension, but was: " + root.getMessage());
+        }
+    }
+
+    private static void assertPropertyHasSetterNulls(String content, String property, String mode) {
+        int idx = content.indexOf("val " + property + ":");
+        Assert.assertTrue(idx >= 0, property + " property must exist");
+        String context = content.substring(Math.max(0, idx - 250), idx);
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls." + mode + ")"),
+                property + " must have @field:JsonSetter(nulls = Nulls." + mode + "), context was: " + context);
+    }
+
+    private static void assertPropertyHasNoSetterNulls(String content, String property) {
+        int idx = content.indexOf("val " + property + ":");
+        Assert.assertTrue(idx >= 0, property + " property must exist");
+        String context = content.substring(Math.max(0, idx - 250), idx);
+        Assert.assertFalse(context.contains("@field:JsonSetter(nulls"),
+                property + " must not have any @field:JsonSetter(nulls), context was: " + context);
+    }
     @Test(description = "Scenario 4 – optional+nullable without openApiNullable: nullable type with null default (legacy fallback)")
     public void requiredNullable_scenario4_optionalNullable_withoutOpenApiNullable() throws IOException {
         Map<String, File> files = generateFromContract(

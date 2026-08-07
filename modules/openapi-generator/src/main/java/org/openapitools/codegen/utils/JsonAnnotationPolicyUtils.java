@@ -37,6 +37,14 @@ public final class JsonAnnotationPolicyUtils {
                     + CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS + " is true. "
                     + "NONE emits no annotation, deferring fully to the global ObjectMapper inclusion policy.";
 
+    /** Shared {@code CliOption} description for {@code optionalNonNullPropertyJsonSetterNulls}. */
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS_DESC =
+            "The Jackson @JsonSetter(nulls = ...) mode emitted for optional, non-nullable model properties when "
+                    + CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS + " is true. SKIP ignores an explicit "
+                    + "JSON null (keeping the field's default), FAIL rejects it. When left unset the mode is derived "
+                    + "from openApiNullable (true -> FAIL where supported, false -> SKIP), preserving 7.24.x behavior. "
+                    + "A per-property override set via the `x-jackson-json-setter-nulls` vendor extension always wins.";
+
     /** Shared {@code CliOption} description for {@code generateJsonIncludeAnnotations}. */
     public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS_DESC =
             "Whether to generate policy @JsonInclude annotations on model properties. When true, emits "
@@ -236,12 +244,177 @@ public final class JsonAnnotationPolicyUtils {
      */
     public static JsonSetterNullsMode resolveJsonSetterNullsMode(TriStateBoolean generateJsonSetterNullsAnnotations,
             boolean required, boolean nullable, boolean openApiNullable, boolean failModeSupported) {
+        return resolveJsonSetterNullsMode(generateJsonSetterNullsAnnotations, required, nullable, openApiNullable,
+                failModeSupported, null);
+    }
+
+    /**
+     * Resolve which {@code @JsonSetter(nulls = ...)} annotation, if any, should be emitted for an optional,
+     * non-nullable property, honoring the {@code optionalNonNullPropertyJsonSetterNulls} global override.
+     *
+     * @param generateJsonSetterNullsAnnotations the resolved {@code generateJsonSetterNullsAnnotations} state
+     * @param required          whether the property is required
+     * @param nullable          whether the property is nullable
+     * @param openApiNullable   whether the generator's {@code openApiNullable} option is enabled
+     * @param failModeSupported whether this generator's default path emits {@link JsonSetterNullsMode#FAIL}
+     *                          (kotlin-spring does; spring's default path never does)
+     * @param optionalNonNullOverride the resolved {@code optionalNonNullPropertyJsonSetterNulls} option
+     *                          ({@code null} when unset); when set it wins over the {@code openApiNullable}
+     *                          default and is emitted regardless of {@code failModeSupported}
+     * @return the mode to emit for an optional non-nullable property, or {@link JsonSetterNullsMode#NONE}
+     */
+    public static JsonSetterNullsMode resolveJsonSetterNullsMode(TriStateBoolean generateJsonSetterNullsAnnotations,
+            boolean required, boolean nullable, boolean openApiNullable, boolean failModeSupported,
+            JsonSetterNullsMode optionalNonNullOverride) {
         if (!generateJsonSetterNullsAnnotations.isTrue() || required || nullable) {
             return JsonSetterNullsMode.NONE;
+        }
+        if (optionalNonNullOverride != null) {
+            return optionalNonNullOverride;
         }
         if (openApiNullable) {
             return failModeSupported ? JsonSetterNullsMode.FAIL : JsonSetterNullsMode.NONE;
         }
         return JsonSetterNullsMode.SKIP;
+    }
+
+    /**
+     * Validate and normalize the {@code optionalNonNullPropertyJsonSetterNulls} config option value.
+     *
+     * @param value      the raw config option value
+     * @param optionName the config option name, used in the error message
+     * @return the normalized {@link JsonSetterNullsMode} ({@code SKIP} or {@code FAIL})
+     * @throws IllegalArgumentException when the value is not {@code SKIP} or {@code FAIL}
+     */
+    public static JsonSetterNullsMode normalizeJsonSetterNulls(String value, String optionName) {
+        JsonSetterNullsMode parsed = null;
+        if (value != null) {
+            try {
+                parsed = JsonSetterNullsMode.valueOf(value.trim().toUpperCase(java.util.Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                parsed = null;
+            }
+        }
+        if (parsed != JsonSetterNullsMode.SKIP && parsed != JsonSetterNullsMode.FAIL) {
+            throw new IllegalArgumentException(optionName + " must be one of [SKIP, FAIL] but was: " + value);
+        }
+        return parsed;
+    }
+
+    /**
+     * Read back the {@code optionalNonNullPropertyJsonSetterNulls} config option from
+     * {@code additionalProperties}, validating/normalizing it via {@link #normalizeJsonSetterNulls}. Returns
+     * {@code current} unchanged when the option was not present (i.e. the generator's existing/default value,
+     * typically {@code null} = unset, is kept).
+     *
+     * @param additionalProperties the generator's additional properties map
+     * @param current               the generator's current {@code optionalNonNullPropertyJsonSetterNulls} value
+     * @return the resolved {@link JsonSetterNullsMode} ({@code null} when left unset)
+     */
+    public static JsonSetterNullsMode resolveOptionalNonNullPropertyJsonSetterNulls(Map<String, Object> additionalProperties, JsonSetterNullsMode current) {
+        if (!additionalProperties.containsKey(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS)) {
+            return current;
+        }
+        return normalizeJsonSetterNulls(
+                additionalProperties.get(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS).toString(),
+                CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS);
+    }
+
+    /**
+     * Validate and normalize a manual per-property {@code x-jackson-json-setter-nulls} override.
+     *
+     * @param rawValue      the raw vendor extension value set directly on the property in the spec
+     * @param extensionName the vendor extension key, used in the error message
+     * @return the normalized {@link JsonSetterNullsMode}: {@code SKIP}/{@code FAIL} to emit that annotation, or
+     * {@link JsonSetterNullsMode#NONE} when the override means "emit no annotation" ({@code NONE}/blank)
+     * @throws IllegalArgumentException when the override is not {@code SKIP}, {@code FAIL}, or {@code NONE}
+     */
+    public static JsonSetterNullsMode resolveManualJsonSetterNulls(Object rawValue, String extensionName) {
+        if (rawValue == null) {
+            return JsonSetterNullsMode.NONE;
+        }
+        String trimmed = rawValue.toString().trim();
+        if (trimmed.isEmpty()) {
+            return JsonSetterNullsMode.NONE;
+        }
+        try {
+            return JsonSetterNullsMode.valueOf(trimmed.toUpperCase(java.util.Locale.ROOT));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(extensionName
+                    + " must be one of SKIP, FAIL, or NONE (to emit no annotation), but was: " + rawValue);
+        }
+    }
+
+    /**
+     * Resolve the {@code @JsonSetter(nulls = ...)} annotation for a property into the
+     * {@code x-has-json-setter-nulls-skip}/{@code -fail} vendor extension the templates emit, mutating
+     * {@code property.vendorExtensions} and {@code model.imports} in place. Precedence (mirrors
+     * {@link #resolveJsonIncludePolicy}):
+     * <ol>
+     *   <li>A per-property {@code x-jackson-json-setter-nulls} override in the spec always wins and is honored
+     *       unconditionally (regardless of {@code generateJsonSetterNullsAnnotations}, required/nullable,
+     *       {@code openApiNullable}, or {@code failModeSupported}).</li>
+     *   <li>Otherwise the automatic optional-non-nullable mode from
+     *       {@link #resolveJsonSetterNullsMode(TriStateBoolean, boolean, boolean, boolean, boolean, JsonSetterNullsMode)}.</li>
+     * </ol>
+     *
+     * @param model                              the model owning {@code property}, whose imports may be extended
+     * @param property                           the property to resolve the mode for
+     * @param generateJsonSetterNullsAnnotations the resolved {@code generateJsonSetterNullsAnnotations} state
+     * @param optionalNonNullOverride            the resolved {@code optionalNonNullPropertyJsonSetterNulls} option
+     *                                           ({@code null} when unset)
+     * @param openApiNullable                    whether the generator's {@code openApiNullable} option is enabled
+     * @param failModeSupported                  whether this generator's default path emits {@code FAIL}
+     */
+    public static void resolveJsonSetterNulls(CodegenModel model, CodegenProperty property,
+            TriStateBoolean generateJsonSetterNullsAnnotations, JsonSetterNullsMode optionalNonNullOverride,
+            boolean openApiNullable, boolean failModeSupported) {
+        JsonSetterNullsMode mode;
+        if (property.vendorExtensions.containsKey(VendorExtension.X_JACKSON_JSON_SETTER_NULLS.getName())) {
+            mode = resolveManualJsonSetterNulls(
+                    property.vendorExtensions.get(VendorExtension.X_JACKSON_JSON_SETTER_NULLS.getName()),
+                    VendorExtension.X_JACKSON_JSON_SETTER_NULLS.getName());
+        } else {
+            mode = resolveJsonSetterNullsMode(generateJsonSetterNullsAnnotations, property.required,
+                    property.isNullable, openApiNullable, failModeSupported, optionalNonNullOverride);
+        }
+        applyJsonSetterNullsMode(model, property, mode);
+    }
+
+    /**
+     * Apply a resolved {@link JsonSetterNullsMode} to a property: sets the
+     * {@code x-has-json-setter-nulls-skip}/{@code -fail} vendor extension and adds the required imports.
+     * No-op for {@link JsonSetterNullsMode#NONE}/{@code null}.
+     */
+    public static void applyJsonSetterNullsMode(CodegenModel model, CodegenProperty property, JsonSetterNullsMode mode) {
+        if (mode == null || mode == JsonSetterNullsMode.NONE) {
+            return;
+        }
+        property.vendorExtensions.put(mode == JsonSetterNullsMode.FAIL
+                ? "x-has-json-setter-nulls-fail" : "x-has-json-setter-nulls-skip", true);
+        model.imports.add("JsonSetter");
+        model.imports.add("Nulls");
+    }
+
+    /**
+     * Log a one-time warning when the generator falls back to the (technically risky) "no {@code @JsonSetter}"
+     * default for optional non-nullable properties: {@code generateJsonSetterNullsAnnotations=true},
+     * no {@code optionalNonNullPropertyJsonSetterNulls} override, {@code openApiNullable=true}, and the
+     * generator's default path does not emit {@code FAIL} ({@code failModeSupported=false}, i.e. spring/java).
+     * In that case an explicit JSON null falls back to the global mapper default ({@code Nulls.SET}) and
+     * overwrites field defaults. kotlin-spring passes {@code failModeSupported=true} and stays silent.
+     */
+    public static void warnIfJsonSetterNullsDefaultRisky(Logger logger, TriStateBoolean generateJsonSetterNullsAnnotations,
+            JsonSetterNullsMode optionalNonNullOverride, boolean openApiNullable, boolean failModeSupported) {
+        if (generateJsonSetterNullsAnnotations.isTrue() && optionalNonNullOverride == null && openApiNullable && !failModeSupported) {
+            logger.warn("'{}=true' with 'openApiNullable=true' emits no @JsonSetter(nulls = ...) on optional "
+                    + "non-nullable properties, so deserialization defers to the global ObjectMapper default "
+                    + "(Nulls.SET): an explicit JSON null overwrites the field's default value. Set '{}=SKIP' to "
+                    + "ignore incoming nulls (preserve defaults) or '{}=FAIL' to reject them, or use the "
+                    + "`x-jackson-json-setter-nulls` vendor extension per property, to control this explicitly.",
+                    CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
+                    CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS,
+                    CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS);
+        }
     }
 }

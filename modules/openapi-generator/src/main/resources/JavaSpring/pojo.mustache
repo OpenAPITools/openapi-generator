@@ -68,6 +68,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#vendorExtensions.x-has-json-setter-nulls-skip}}
   @JsonSetter(nulls = Nulls.SKIP)
   {{/vendorExtensions.x-has-json-setter-nulls-skip}}
+  {{#vendorExtensions.x-has-json-setter-nulls-fail}}
+  @JsonSetter(nulls = Nulls.FAIL)
+  {{/vendorExtensions.x-has-json-setter-nulls-fail}}
   {{/jackson}}
   {{#deprecated}}
   @Deprecated

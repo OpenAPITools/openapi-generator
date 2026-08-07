@@ -188,6 +188,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private String valuedEnumClassName = "ValuedEnum";
     @Setter private boolean suspendFunctions = false;
     @Getter @Setter private JsonIncludePolicy optionalNonNullPropertyJsonInclude = JsonIncludePolicy.NON_NULL;
+    @Getter @Setter private JsonAnnotationPolicyUtils.JsonSetterNullsMode optionalNonNullPropertyJsonSetterNulls = null;
     @Getter @Setter private TriStateBoolean generateJsonIncludeAnnotations = TriStateBoolean.UNSET;
     @Getter @Setter private TriStateBoolean generateJsonSetterNullsAnnotations = TriStateBoolean.UNSET;
     @Getter @Setter private boolean openApiNullable = false;
@@ -330,6 +331,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         optionalNonNullPropertyJsonIncludeOpt.setDefault(optionalNonNullPropertyJsonInclude.name());
         cliOptions.add(optionalNonNullPropertyJsonIncludeOpt);
 
+        CliOption optionalNonNullPropertyJsonSetterNullsOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS,
+                JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS_DESC);
+        optionalNonNullPropertyJsonSetterNullsOpt.addEnum(JsonAnnotationPolicyUtils.JsonSetterNullsMode.SKIP.name(),
+                "Emit @JsonSetter(nulls = Nulls.SKIP): silently ignore an explicit JSON null, keeping the field's default.");
+        optionalNonNullPropertyJsonSetterNullsOpt.addEnum(JsonAnnotationPolicyUtils.JsonSetterNullsMode.FAIL.name(),
+                "Emit @JsonSetter(nulls = Nulls.FAIL): reject an explicit JSON null.");
+        cliOptions.add(optionalNonNullPropertyJsonSetterNullsOpt);
         addSwitch(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS,
                 JsonAnnotationPolicyUtils.GENERATE_JSON_INCLUDE_ANNOTATIONS_DESC, false);
         addSwitch(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
@@ -769,7 +777,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.optionalNonNullPropertyJsonInclude = JsonAnnotationPolicyUtils.resolveOptionalNonNullPropertyJsonInclude(
                 additionalProperties, optionalNonNullPropertyJsonInclude);
         writePropertyBack(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, optionalNonNullPropertyJsonInclude.name());
+        this.optionalNonNullPropertyJsonSetterNulls = JsonAnnotationPolicyUtils.resolveOptionalNonNullPropertyJsonSetterNulls(
+                additionalProperties, optionalNonNullPropertyJsonSetterNulls);
+        if (optionalNonNullPropertyJsonSetterNulls != null) {
+            writePropertyBack(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, optionalNonNullPropertyJsonSetterNulls.name());
+        }
         JsonAnnotationPolicyUtils.warnIfUnset(LOGGER, generateJsonIncludeAnnotations, generateJsonSetterNullsAnnotations);
+        JsonAnnotationPolicyUtils.warnIfJsonSetterNullsDefaultRisky(LOGGER, generateJsonSetterNullsAnnotations,
+                optionalNonNullPropertyJsonSetterNulls, openApiNullable, true);
 
         if (additionalProperties.containsKey(BEAN_QUALIFIERS) && library.equals(SPRING_BOOT)) {
             this.setBeanQualifiers(convertPropertyToBoolean(BEAN_QUALIFIERS));
@@ -1318,11 +1333,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             property.example = null;
         }
 
-        // Emit @JsonSetter(nulls = ...) for optional, non-nullable properties when enabled; see
-        // JsonAnnotationPolicyUtils#resolveJsonSetterNullsMode for the full SKIP/FAIL rules. kotlin-spring
-        // supports both SKIP and FAIL (failModeSupported=true), unlike spring (SKIP-only).
-        applyJsonSetterNullsMode(model, property, JsonAnnotationPolicyUtils.resolveJsonSetterNullsMode(
-                generateJsonSetterNullsAnnotations, property.required, property.isNullable, openApiNullable, true));
+        // Emit @JsonSetter(nulls = ...) for optional, non-nullable properties (and honor a per-property
+        // x-jackson-json-setter-nulls override) when enabled; see JsonAnnotationPolicyUtils#resolveJsonSetterNulls
+        // for the full precedence/SKIP/FAIL rules. kotlin-spring's default path supports both SKIP and FAIL
+        // (failModeSupported=true), unlike spring.
+        JsonAnnotationPolicyUtils.resolveJsonSetterNulls(model, property, generateJsonSetterNullsAnnotations,
+                optionalNonNullPropertyJsonSetterNulls, openApiNullable, true);
 
         // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T> = JsonNullable.undefined()
         // so callers can distinguish between a missing key and an explicitly provided null.
@@ -1350,20 +1366,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (model.discriminator != null && additionalProperties.containsKey("jackson")) {
             model.imports.addAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties"));
         }
-    }
-
-    /**
-     * Apply the resolved {@code @JsonSetter(nulls = ...)} mode to a property: sets the
-     * {@code x-has-json-setter-nulls-skip}/{@code -fail} vendor extension and adds the required imports.
-     */
-    private void applyJsonSetterNullsMode(CodegenModel model, CodegenProperty property, JsonAnnotationPolicyUtils.JsonSetterNullsMode mode) {
-        if (mode == JsonAnnotationPolicyUtils.JsonSetterNullsMode.NONE) {
-            return;
-        }
-        property.vendorExtensions.put(mode == JsonAnnotationPolicyUtils.JsonSetterNullsMode.FAIL
-                ? "x-has-json-setter-nulls-fail" : "x-has-json-setter-nulls-skip", true);
-        model.imports.add("JsonSetter");
-        model.imports.add("Nulls");
     }
 
     /**
@@ -1522,10 +1524,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             for (CodegenProperty var : cm.optionalVars) {
-                // Scenario 3: optional + non-nullable → emit @JsonSetter when generateJsonSetterNullsAnnotations is enabled.
-                // openApiNullable=true: Nulls.FAIL (strict). openApiNullable=false: Nulls.SKIP (lenient).
-                applyJsonSetterNullsMode(cm, var, JsonAnnotationPolicyUtils.resolveJsonSetterNullsMode(
-                        generateJsonSetterNullsAnnotations, var.required, var.isNullable, openApiNullable, true));
+                // Scenario 3: optional + non-nullable → emit @JsonSetter when generateJsonSetterNullsAnnotations is enabled,
+                // honoring any per-property x-jackson-json-setter-nulls override and the optionalNonNullPropertyJsonSetterNulls option.
+                JsonAnnotationPolicyUtils.resolveJsonSetterNulls(cm, var, generateJsonSetterNullsAnnotations,
+                        optionalNonNullPropertyJsonSetterNulls, openApiNullable, true);
                 // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T>
                 if (openApiNullable && !var.required && var.isNullable) {
                     var.vendorExtensions.put("x-is-jackson-optional-nullable", true);
@@ -1533,6 +1535,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 resolveJsonIncludePolicy(cm, var);
             }
             for (CodegenProperty var : cm.requiredVars) {
+                // Honor a per-property x-jackson-json-setter-nulls override even on required properties
+                // (the automatic path emits nothing for required vars).
+                JsonAnnotationPolicyUtils.resolveJsonSetterNulls(cm, var, generateJsonSetterNullsAnnotations,
+                        optionalNonNullPropertyJsonSetterNulls, openApiNullable, true);
                 resolveJsonIncludePolicy(cm, var);
             }
         }
@@ -1838,6 +1844,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS);
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
         extensions.add(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY);
+        extensions.add(VendorExtension.X_JACKSON_JSON_SETTER_NULLS);
         return extensions;
     }
 

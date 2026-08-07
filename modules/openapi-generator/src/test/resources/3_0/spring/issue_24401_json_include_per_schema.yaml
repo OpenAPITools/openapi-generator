@@ -97,3 +97,37 @@ components:
           type: string
           nullable: false
           x-jackson-json-include-policy: "  NONE  "
+    # per-property @JsonSetter(nulls) override: SKIP on an optional non-nullable property.
+    SetterNullsManualSkip:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          x-jackson-json-setter-nulls: SKIP
+    # per-property @JsonSetter(nulls) override: FAIL on an optional non-nullable property.
+    SetterNullsManualFail:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          x-jackson-json-setter-nulls: FAIL
+    # per-property @JsonSetter(nulls) override: NONE means emit no annotation (and no import).
+    SetterNullsManualNone:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          x-jackson-json-setter-nulls: NONE
+    # per-property @JsonSetter(nulls) override forced on a required property: honored unconditionally.
+    SetterNullsForcedOnRequired:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+          nullable: false
+          x-jackson-json-setter-nulls: FAIL

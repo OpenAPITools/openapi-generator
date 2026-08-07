@@ -417,6 +417,8 @@ public class CodegenConstants {
 
     public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE = "optionalNonNullPropertyJsonInclude";
 
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS = "optionalNonNullPropertyJsonSetterNulls";
+
     public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS = "generateJsonIncludeAnnotations";
 
     public static final String GENERATE_JSON_SETTER_NULLS_ANNOTATIONS = "generateJsonSetterNullsAnnotations";

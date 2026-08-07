@@ -8397,6 +8397,106 @@ public class SpringCodegenTest {
     }
 
     /**
+     * Issue #24491: {@code optionalNonNullPropertyJsonSetterNulls} decouples the SKIP/FAIL choice from
+     * {@code openApiNullable} on spring. With {@code openApiNullable=true} the default emits no
+     * {@code @JsonSetter}; SKIP and FAIL are now both reachable (FAIL via the new template branch).
+     */
+    @Test
+    void jsonSetterNulls_option_decouplesFromOpenApiNullable() throws IOException {
+        // openApiNullable=true + SKIP (previously unreachable): tolerate an explicit null
+        Map<String, File> skip = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "SKIP"));
+        assertFileContains(skip.get("OptionalNonNullable.java").toPath(), "@JsonSetter(nulls = Nulls.SKIP)");
+        assertFileNotContains(skip.get("OptionalNonNullable.java").toPath(), "@JsonSetter(nulls = Nulls.FAIL)");
+        // @JsonInclude is still emitted independently
+        assertFileContains(skip.get("OptionalNonNullable.java").toPath(), "@JsonInclude(JsonInclude.Include.NON_NULL)");
+
+        // openApiNullable=true + FAIL: reject an explicit null (uses the new -fail template branch)
+        Map<String, File> fail = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "FAIL"));
+        assertFileContains(fail.get("OptionalNonNullable.java").toPath(), "@JsonSetter(nulls = Nulls.FAIL)");
+
+        // openApiNullable=false + FAIL: overrides the SKIP default
+        Map<String, File> failNoNullable = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "false",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "FAIL"));
+        assertFileContains(failNoNullable.get("OptionalNonNullable.java").toPath(), "@JsonSetter(nulls = Nulls.FAIL)");
+        assertFileNotContains(failNoNullable.get("OptionalNonNullable.java").toPath(), "@JsonSetter(nulls = Nulls.SKIP)");
+    }
+
+    /**
+     * Issue #24491: an invalid {@code optionalNonNullPropertyJsonSetterNulls} value fails fast with an
+     * actionable error naming the option and allowed values.
+     */
+    @Test
+    void jsonSetterNulls_option_invalidValueFailsFast() {
+        try {
+            generateFromContract(
+                    "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                    SPRING_BOOT,
+                    Map.of(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                            CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "BOGUS"));
+            org.assertj.core.api.Assertions.fail("expected an IllegalArgumentException for an invalid optionalNonNullPropertyJsonSetterNulls value");
+        } catch (Exception e) {
+            Throwable root = e;
+            while (root.getCause() != null) {
+                root = root.getCause();
+            }
+            assertThat(root).isInstanceOf(IllegalArgumentException.class);
+            assertThat(root.getMessage()).contains("optionalNonNullPropertyJsonSetterNulls").contains("[SKIP, FAIL]");
+        }
+    }
+
+    /**
+     * Issue #24491: the per-property {@code x-jackson-json-setter-nulls} vendor extension overrides the
+     * mode precisely per field (SKIP/FAIL/NONE), winning over the option and unconditionally applying
+     * even to a required property.
+     */
+    @Test
+    void jsonSetterNulls_perPropertyExtension() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                // openApiNullable=true + option SKIP: the extension must still win per property
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "SKIP"));
+
+        assertFileContains(files.get("SetterNullsManualSkip.java").toPath(), "@JsonSetter(nulls = Nulls.SKIP)");
+        assertFileContains(files.get("SetterNullsManualFail.java").toPath(), "@JsonSetter(nulls = Nulls.FAIL)");
+        assertFileNotContains(files.get("SetterNullsManualNone.java").toPath(), "@JsonSetter(");
+        // forced FAIL on a required property is honored unconditionally
+        assertFileContains(files.get("SetterNullsForcedOnRequired.java").toPath(), "@JsonSetter(nulls = Nulls.FAIL)");
+    }
+
+    /**
+     * Issue #24491: the per-property {@code x-jackson-json-setter-nulls} override is honored even when
+     * {@code generateJsonSetterNullsAnnotations} is not enabled (mirrors the JsonInclude manual override).
+     */
+    @Test
+    void jsonSetterNulls_perPropertyExtension_honoredWhenFlagDisabled() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                SPRING_BOOT,
+                Map.of());
+        assertFileContains(files.get("SetterNullsManualFail.java").toPath(), "@JsonSetter(nulls = Nulls.FAIL)");
+        assertFileContains(files.get("SetterNullsManualFail.java").toPath(),
+                "com.fasterxml.jackson.annotation.JsonSetter", "com.fasterxml.jackson.annotation.Nulls");
+    }
+
+    /**
      * Issue #24401: {@code optionalNonNullPropertyJsonInclude} changes the policy emitted for
      * optional non-nullable properties (when {@code generateJsonIncludeAnnotations=true}).
      */
