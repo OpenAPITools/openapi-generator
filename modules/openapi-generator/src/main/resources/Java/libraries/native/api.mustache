@@ -54,13 +54,12 @@ import java.util.Set;
 import java.util.function.UnaryOperator;
 {{/useUnaryInterceptor}}
 import java.util.function.Consumer;
-{{#useGzipFeature}}
 import java.util.function.Supplier;
-{{/useGzipFeature}}
 {{#asyncNative}}
 
 import java.util.concurrent.CompletableFuture;
 {{/asyncNative}}
+import java.util.concurrent.atomic.AtomicReference;
 
 {{>generatedAnnotation}}
 
@@ -384,8 +383,46 @@ public class {{classname}} {
     {{/asyncNative}}
     {{#asyncNative}}
     try {
+      {{#vendorExtensions.x-java-native-response-input-stream}}
+      CompletableFuture<ApiResponse<{{{returnType}}}>> localVarHttpInfoFuture =
+          {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
+      class LocalVarResultFuture extends CompletableFuture<{{{returnType}}}> {
+        @Override
+        public boolean cancel(boolean mayInterruptIfRunning) {
+          boolean localVarCancelled = super.cancel(mayInterruptIfRunning);
+          if (localVarCancelled) {
+            localVarHttpInfoFuture.cancel(mayInterruptIfRunning);
+          }
+          return localVarCancelled;
+        }
+
+        boolean completeResponse({{{returnType}}} localVarResponseBody) {
+          boolean localVarCompleted = super.complete(localVarResponseBody);
+          if (!localVarCompleted && localVarResponseBody != null) {
+            try {
+              localVarResponseBody.close();
+            } catch (IOException ignored) {
+              // The result is already terminal, so cleanup failure has no receiver.
+            }
+          }
+          return localVarCompleted;
+        }
+      }
+      LocalVarResultFuture localVarResult = new LocalVarResultFuture();
+      localVarHttpInfoFuture.whenComplete((localVarApiResponse, localVarThrowable) -> {
+        if (localVarThrowable != null) {
+          localVarResult.completeExceptionally(localVarThrowable);
+        } else {
+          {{{returnType}}} localVarResponseBody = localVarApiResponse.getData();
+          localVarResult.completeResponse(localVarResponseBody);
+        }
+      });
+      return localVarResult;
+      {{/vendorExtensions.x-java-native-response-input-stream}}
+      {{^vendorExtensions.x-java-native-response-input-stream}}
       return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers)
           .thenApply(ApiResponse::getData);
+      {{/vendorExtensions.x-java-native-response-input-stream}}
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -492,6 +529,11 @@ public class {{classname}} {
           );
         }
 
+        {{#vendorExtensions.x-java-native-response-input-stream}}
+        {{{returnType}}} responseValue = localVarResponseBody;
+        localVarResponseBody = null;
+        {{/vendorExtensions.x-java-native-response-input-stream}}
+        {{^vendorExtensions.x-java-native-response-input-stream}}
         {{^isResponseFile}}{{#isResponseBinary}}
         Byte[] responseValue = localVarResponseBody.readAllBytes();
         {{/isResponseBinary}}{{/isResponseFile}}
@@ -503,6 +545,7 @@ public class {{classname}} {
         String responseBody = new String(localVarResponseBody.readAllBytes());
         {{{returnType}}} responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {});
         {{/isResponseFile}}{{/isResponseBinary}}
+        {{/vendorExtensions.x-java-native-response-input-stream}}
 
         return new ApiResponse<{{{returnType}}}>(
             localVarResponse.statusCode(),
@@ -538,9 +581,17 @@ public class {{classname}} {
     {{#asyncNative}}
     try {
       HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
+      {{#vendorExtensions.x-java-native-response-input-stream}}
+      CompletableFuture<HttpResponse<InputStream>> localVarTransportFuture = memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      CompletableFuture<ApiResponse<{{{returnType}}}>> localVarProcessingFuture = localVarTransportFuture.thenComposeAsync(localVarResponse -> {
+      {{/vendorExtensions.x-java-native-response-input-stream}}
+      {{^vendorExtensions.x-java-native-response-input-stream}}
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
+      {{/vendorExtensions.x-java-native-response-input-stream}}
             if (memberVarAsyncResponseInterceptor != null) {
               {{#useUnaryInterceptor}}
               localVarResponse = memberVarAsyncResponseInterceptor.apply(localVarResponse);
@@ -582,6 +633,11 @@ public class {{classname}} {
                       )
                   );
                 }
+                {{#vendorExtensions.x-java-native-response-input-stream}}
+                {{{returnType}}} responseValue = localVarResponseBody;
+                localVarResponseBody = null;
+                {{/vendorExtensions.x-java-native-response-input-stream}}
+                {{^vendorExtensions.x-java-native-response-input-stream}}
                 {{^isResponseFile}}{{#isResponseBinary}}
                 Byte[] responseValue = localVarResponseBody.readAllBytes();
                 {{/isResponseBinary}}{{/isResponseFile}}
@@ -592,6 +648,7 @@ public class {{classname}} {
                 String responseBody = new String(localVarResponseBody.readAllBytes());
                 {{{returnType}}} responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {});
                 {{/isResponseFile}}{{/isResponseBinary}}
+                {{/vendorExtensions.x-java-native-response-input-stream}}
                 return CompletableFuture.completedFuture(
                     new ApiResponse<{{{returnType}}}>(
                         localVarResponse.statusCode(),
@@ -619,6 +676,34 @@ public class {{classname}} {
             }
         }
       );
+      {{#vendorExtensions.x-java-native-response-input-stream}}
+      CompletableFuture<ApiResponse<{{{returnType}}}>> localVarResult =
+          new CompletableFuture<ApiResponse<{{{returnType}}}>>() {
+            @Override
+            public boolean cancel(boolean mayInterruptIfRunning) {
+              boolean localVarCancelled = super.cancel(mayInterruptIfRunning);
+              if (localVarCancelled) {
+                localVarTransportFuture.cancel(mayInterruptIfRunning);
+              }
+              return localVarCancelled;
+            }
+          };
+      localVarProcessingFuture.whenComplete((localVarApiResponse, localVarThrowable) -> {
+        if (localVarThrowable != null) {
+          localVarResult.completeExceptionally(localVarThrowable);
+        } else if (!localVarResult.complete(localVarApiResponse)) {
+          {{{returnType}}} localVarUndeliveredBody = localVarApiResponse.getData();
+          if (localVarUndeliveredBody != null) {
+            try {
+              localVarUndeliveredBody.close();
+            } catch (IOException ignored) {
+              // The result is already terminal, so cleanup failure has no receiver.
+            }
+          }
+        }
+      });
+      return localVarResult;
+      {{/vendorExtensions.x-java-native-response-input-stream}}
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -723,6 +808,21 @@ public class {{classname}} {
     localVarRequestBuilder.header("Accept-Encoding", "gzip");
     {{/useGzipFeature}}
 
+    {{#vendorExtensions.x-java-native-body-input-stream}}
+    {{#bodyParam}}
+    // Caller-provided InputStream bodies are one-shot; repeated sends fail deterministically.
+    AtomicReference<InputStream> localVarRequestBody = new AtomicReference<>({{paramName}});
+    Supplier<InputStream> localVarRequestBodySupplier = () -> localVarRequestBody.getAndSet(null);
+    {{#useGzipFeature}}
+    localVarRequestBuilder.header("Content-Encoding", "gzip");
+    localVarRequestBuilder.method("{{httpMethod}}", ApiClient.gzipRequestBody(localVarRequestBodySupplier));
+    {{/useGzipFeature}}
+    {{^useGzipFeature}}
+    localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofInputStream(localVarRequestBodySupplier));
+    {{/useGzipFeature}}
+    {{/bodyParam}}
+    {{/vendorExtensions.x-java-native-body-input-stream}}
+    {{^vendorExtensions.x-java-native-body-input-stream}}
     {{#bodyParam}}
     {{#isString}}
     {{#useGzipFeature}}
@@ -750,6 +850,7 @@ public class {{classname}} {
     }
     {{/isString}}
     {{/bodyParam}}
+    {{/vendorExtensions.x-java-native-body-input-stream}}
     {{^bodyParam}}
     {{#hasFormParams}}
     {{#isMultipart}}

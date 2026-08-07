@@ -498,7 +498,10 @@ public class ApiClient {
    */
   public static HttpRequest.BodyPublisher gzipRequestBody(Supplier<InputStream> bodySupplier) {
     Objects.requireNonNull(bodySupplier, "bodySupplier must not be null");
-    return HttpRequest.BodyPublishers.ofInputStream(() -> new GzipCompressingInputStream(bodySupplier));
+    return HttpRequest.BodyPublishers.ofInputStream(() -> {
+      InputStream body = bodySupplier.get();
+      return body == null ? null : new GzipCompressingInputStream(() -> body);
+    });
   }
 
   private static final class GzipCompressingInputStream extends InputStream {
@@ -525,15 +528,17 @@ public class ApiClient {
     private boolean fillBuffer() throws IOException {
       while (chunkPosition >= currentChunk.length) {
         buffer.reset();
-        ensureInitialized();
         if (finished) {
           return false;
         }
+        ensureInitialized();
         int bytesRead = source.read(readBuffer);
         if (bytesRead == -1) {
           gzipStream.finish();
           gzipStream.close();
+          gzipStream = null;
           source.close();
+          source = null;
           finished = true;
         } else {
           gzipStream.write(readBuffer, 0, bytesRead);
