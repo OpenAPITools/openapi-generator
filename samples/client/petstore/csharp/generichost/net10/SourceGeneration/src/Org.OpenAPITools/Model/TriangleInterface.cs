@@ -85,8 +85,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TriangleInterface" />
     /// </summary>
-    public class TriangleInterfaceJsonConverter : JsonConverter<TriangleInterface>
+    public partial class TriangleInterfaceJsonConverter : JsonConverter<TriangleInterface>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TriangleInterfaceJsonConverter" /> class.
+        /// </summary>
+        public TriangleInterfaceJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TriangleInterface" />
         /// </summary>

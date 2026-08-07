@@ -2,19 +2,20 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * Model for testing model name starting with number
@@ -22,11 +23,13 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "200_response", description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Model200ResponseDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer name;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String propertyClass;
 
   public Model200ResponseDto name(@Nullable Integer name) {

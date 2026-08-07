@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
@@ -23,13 +24,15 @@ import jakarta.annotation.Generated;
  * A plain list wrapper — has content array but no pagination metadata property
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class UserList implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid User> content = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String description;
 
   public UserList content(List<@Valid User> content) {

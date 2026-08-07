@@ -254,9 +254,9 @@ fn main() {
         Some("TestEnumParameters") => {
             let result = rt.block_on(client.test_enum_parameters(
                   Some(&Vec::new()),
-                  Some(models::TestEnumParametersEnumHeaderStringParameter::Abc),
+                  Some(models::TestEnumParametersRequestEnumFormString::Abc),
                   Some(&Vec::new()),
-                  Some(models::TestEnumParametersEnumHeaderStringParameter::Abc),
+                  Some(models::TestEnumParametersRequestEnumFormString::Abc),
                   Some(models::TestEnumParametersEnumQueryIntegerParameter::Variant1),
                   Some(models::TestEnumParametersEnumQueryDoubleParameter::Variant11),
                   Some(models::TestEnumParametersRequestEnumFormString::Abc)

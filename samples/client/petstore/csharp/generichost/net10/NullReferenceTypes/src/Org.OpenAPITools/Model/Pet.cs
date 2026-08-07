@@ -240,8 +240,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Pet" />
     /// </summary>
-    public class PetJsonConverter : JsonConverter<Pet>
+    public partial class PetJsonConverter : JsonConverter<Pet>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PetJsonConverter" /> class.
+        /// </summary>
+        public PetJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Pet" />
         /// </summary>

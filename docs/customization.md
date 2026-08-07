@@ -644,6 +644,13 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer NORMALIZER_CLASS=org.openapitools.codegen.OpenAPINormalizerTest$RemoveRequiredNormalizer
 ```
 
+- `LOOSE_NULL_DEFINITIONS`: When set to true, allow more schema definitions in OpenAPI 3.0 spec to be the same as `null` in OpenAPI 3.1 spec by setting ModelUtils.looseNullDefinitions to true.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/bugs/issue_anyof_bare_nullable_object.yaml -o /tmp/java-okhttp/ --openapi-normalizer LOOSE_NULL_DEFINITIONS=true
+```
+
 - `REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT`: When set to true, remove the "properties" of a schema with type other than "object".
 
 Example:

@@ -97,5 +97,20 @@ class TestConfiguration(unittest.TestCase):
             c = petstore_api.Configuration()
             self.assertFalse(c.debug)
 
+    def testDeepcopyPreservesDebugValue(self):
+        """Verify deepcopy preserves debug=True without calling the setter."""
+        import copy
+        c1 = petstore_api.Configuration()
+        c1.debug = True
+        c2 = copy.deepcopy(c1)
+        self.assertTrue(c2.debug)
+
+    def testDeepcopyPreservesDebugFalse(self):
+        """Verify deepcopy preserves debug=False (the default)."""
+        import copy
+        c1 = petstore_api.Configuration()
+        c2 = copy.deepcopy(c1)
+        self.assertFalse(c2.debug)
+
 if __name__ == '__main__':
     unittest.main()

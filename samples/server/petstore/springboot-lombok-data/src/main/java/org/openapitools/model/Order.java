@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -27,31 +28,35 @@ import jakarta.annotation.Generated;
 @lombok.AllArgsConstructor
 
 @Schema(name = "Order", description = "An order for a pets from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Order {
 
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
   
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long petId;
 
   
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer quantity;
 
   @Valid 
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime shipDate;
 
@@ -96,6 +101,7 @@ public class Order {
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable StatusEnum status;
 
   
@@ -103,6 +109,7 @@ public class Order {
   @JsonProperty("complete")
 
   @lombok.Builder.Default
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean complete = false;
 
 }

@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: OneOf with Parent Properties Test
+  version: 1.0.0
+paths:
+  /parents:
+    get:
+      operationId: getParent
+      responses:
+        '200':
+          description: A parent object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parent'
+components:
+  schemas:
+    Nested:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+
+    Parent:
+      title: Parent
+      description: "A parent type with shared properties and oneOf children"
+      required:
+        - created_at
+      properties:
+        created_at:
+          description: "The creation timestamp."
+          type: string
+          format: date-time
+      oneOf:
+        - $ref: '#/components/schemas/ChildOne'
+        - $ref: '#/components/schemas/ChildTwo'
+
+    ChildOne:
+      title: ChildOne
+      description: "First child - intentionally has no properties"
+
+    ChildTwo:
+      title: ChildTwo
+      description: "Second child with its own properties"
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: "The status of this child."
+          enum:
+            - active
+            - inactive
+        detail:
+          allOf:
+            - $ref: '#/components/schemas/Nested'
+          description: "Nested detail object"

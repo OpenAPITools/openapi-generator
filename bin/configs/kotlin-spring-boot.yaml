@@ -11,3 +11,5 @@ additionalProperties:
   serializableModel: "true"
   useBeanValidation: "true"
   requestMappingMode: controller
+  useEnumValueInterface: "true"
+  useSpringBoot3: "false"

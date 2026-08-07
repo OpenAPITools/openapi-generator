@@ -53,7 +53,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
  * <p>Mustache templates are located in {@code src/main/resources/typescript-fetch/}.
  */
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptFetchClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptFetchClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -1218,6 +1218,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             existingClassNames.add(className);
             existingRecordClassNames.add(className + "Record");
             im.put("className", className);
+            im.put("classFileName", convertUsingFileNamingConvention(className));
         }
 
         if (this.getSagasAndRecords()) {

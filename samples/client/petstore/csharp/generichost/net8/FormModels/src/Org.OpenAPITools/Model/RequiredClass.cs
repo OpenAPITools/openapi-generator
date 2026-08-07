@@ -627,47 +627,57 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="RequiredClass" />
     /// </summary>
-    public class RequiredClassJsonConverter : JsonConverter<RequiredClass>
+    public partial class RequiredClassJsonConverter : JsonConverter<RequiredClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequiredClassJsonConverter" /> class.
+        /// </summary>
+        public RequiredClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize RequiredNotNullableDateProp
         /// </summary>
-        public static string RequiredNotNullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string RequiredNotNullableDatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize RequiredNotnullableDatetimeProp
         /// </summary>
-        public static string RequiredNotnullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string RequiredNotnullableDatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// The format to use to serialize NotRequiredNotnullableDateProp
         /// </summary>
-        public static string NotRequiredNotnullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string NotRequiredNotnullableDatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize NotRequiredNullableDateProp
         /// </summary>
-        public static string NotRequiredNullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string NotRequiredNullableDatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize NotrequiredNotnullableDatetimeProp
         /// </summary>
-        public static string NotrequiredNotnullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string NotrequiredNotnullableDatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// The format to use to serialize NotrequiredNullableDatetimeProp
         /// </summary>
-        public static string NotrequiredNullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string NotrequiredNullableDatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// The format to use to serialize RequiredNullableDateProp
         /// </summary>
-        public static string RequiredNullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+        public string RequiredNullableDatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize RequiredNullableDatetimeProp
         /// </summary>
-        public static string RequiredNullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string RequiredNullableDatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="RequiredClass" />
@@ -845,23 +855,19 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "notrequired_nullable_enum_integer":
                             string notrequiredNullableEnumIntegerRawValue = utf8JsonReader.GetString();
-                            if (notrequiredNullableEnumIntegerRawValue != null)
-                                notrequiredNullableEnumInteger = new Option<RequiredClassRequiredNullableEnumInteger?>(RequiredClassRequiredNullableEnumIntegerValueConverter.FromStringOrDefault(notrequiredNullableEnumIntegerRawValue));
+                            notrequiredNullableEnumInteger = new Option<RequiredClassRequiredNullableEnumInteger?>(notrequiredNullableEnumIntegerRawValue == null ? null : RequiredClassRequiredNullableEnumIntegerValueConverter.FromStringOrDefault(notrequiredNullableEnumIntegerRawValue));
                             break;
                         case "notrequired_nullable_enum_integer_only":
                             string notrequiredNullableEnumIntegerOnlyRawValue = utf8JsonReader.GetString();
-                            if (notrequiredNullableEnumIntegerOnlyRawValue != null)
-                                notrequiredNullableEnumIntegerOnly = new Option<RequiredClassRequiredNullableEnumIntegerOnly?>(RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.FromStringOrDefault(notrequiredNullableEnumIntegerOnlyRawValue));
+                            notrequiredNullableEnumIntegerOnly = new Option<RequiredClassRequiredNullableEnumIntegerOnly?>(notrequiredNullableEnumIntegerOnlyRawValue == null ? null : RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.FromStringOrDefault(notrequiredNullableEnumIntegerOnlyRawValue));
                             break;
                         case "notrequired_nullable_enum_string":
                             string notrequiredNullableEnumStringRawValue = utf8JsonReader.GetString();
-                            if (notrequiredNullableEnumStringRawValue != null)
-                                notrequiredNullableEnumString = new Option<RequiredClassRequiredNullableEnumString?>(RequiredClassRequiredNullableEnumStringValueConverter.FromStringOrDefault(notrequiredNullableEnumStringRawValue));
+                            notrequiredNullableEnumString = new Option<RequiredClassRequiredNullableEnumString?>(notrequiredNullableEnumStringRawValue == null ? null : RequiredClassRequiredNullableEnumStringValueConverter.FromStringOrDefault(notrequiredNullableEnumStringRawValue));
                             break;
                         case "notrequired_nullable_outerEnumDefaultValue":
                             string notrequiredNullableOuterEnumDefaultValueRawValue = utf8JsonReader.GetString();
-                            if (notrequiredNullableOuterEnumDefaultValueRawValue != null)
-                                notrequiredNullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(OuterEnumDefaultValueValueConverter.FromStringOrDefault(notrequiredNullableOuterEnumDefaultValueRawValue));
+                            notrequiredNullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(notrequiredNullableOuterEnumDefaultValueRawValue == null ? null : OuterEnumDefaultValueValueConverter.FromStringOrDefault(notrequiredNullableOuterEnumDefaultValueRawValue));
                             break;
                         case "notrequired_nullable_string_prop":
                             notrequiredNullableStringProp = new Option<string>(utf8JsonReader.GetString());
@@ -883,26 +889,22 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "required_nullable_enum_integer":
                             string requiredNullableEnumIntegerRawValue = utf8JsonReader.GetString();
-                            if (requiredNullableEnumIntegerRawValue != null)
-                                requiredNullableEnumInteger = new Option<RequiredClassRequiredNullableEnumInteger?>(RequiredClassRequiredNullableEnumIntegerValueConverter.FromStringOrDefault(requiredNullableEnumIntegerRawValue));
+                            requiredNullableEnumInteger = new Option<RequiredClassRequiredNullableEnumInteger?>(requiredNullableEnumIntegerRawValue == null ? null : RequiredClassRequiredNullableEnumIntegerValueConverter.FromStringOrDefault(requiredNullableEnumIntegerRawValue));
                             break;
                         case "required_nullable_enum_integer_only":
                             string requiredNullableEnumIntegerOnlyRawValue = utf8JsonReader.GetString();
-                            if (requiredNullableEnumIntegerOnlyRawValue != null)
-                                requiredNullableEnumIntegerOnly = new Option<RequiredClassRequiredNullableEnumIntegerOnly?>(RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.FromStringOrDefault(requiredNullableEnumIntegerOnlyRawValue));
+                            requiredNullableEnumIntegerOnly = new Option<RequiredClassRequiredNullableEnumIntegerOnly?>(requiredNullableEnumIntegerOnlyRawValue == null ? null : RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.FromStringOrDefault(requiredNullableEnumIntegerOnlyRawValue));
                             break;
                         case "required_nullable_enum_string":
                             string requiredNullableEnumStringRawValue = utf8JsonReader.GetString();
-                            if (requiredNullableEnumStringRawValue != null)
-                                requiredNullableEnumString = new Option<RequiredClassRequiredNullableEnumString?>(RequiredClassRequiredNullableEnumStringValueConverter.FromStringOrDefault(requiredNullableEnumStringRawValue));
+                            requiredNullableEnumString = new Option<RequiredClassRequiredNullableEnumString?>(requiredNullableEnumStringRawValue == null ? null : RequiredClassRequiredNullableEnumStringValueConverter.FromStringOrDefault(requiredNullableEnumStringRawValue));
                             break;
                         case "required_nullable_integer_prop":
                             requiredNullableIntegerProp = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "required_nullable_outerEnumDefaultValue":
                             string requiredNullableOuterEnumDefaultValueRawValue = utf8JsonReader.GetString();
-                            if (requiredNullableOuterEnumDefaultValueRawValue != null)
-                                requiredNullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(OuterEnumDefaultValueValueConverter.FromStringOrDefault(requiredNullableOuterEnumDefaultValueRawValue));
+                            requiredNullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(requiredNullableOuterEnumDefaultValueRawValue == null ? null : OuterEnumDefaultValueValueConverter.FromStringOrDefault(requiredNullableOuterEnumDefaultValueRawValue));
                             break;
                         case "required_nullable_string_prop":
                             requiredNullableStringProp = new Option<string>(utf8JsonReader.GetString());

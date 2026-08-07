@@ -126,11 +126,10 @@ where
         .add_pet(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::AddPetResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -141,6 +140,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::pet::AddPetResponse::Status405_InvalidInput => {
+                let mut response = Response::builder();
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -232,11 +232,10 @@ where
         .delete_pet(&method, &host, &cookies, &header_params, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::DeletePetResponse::Status400_InvalidPetValue => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -297,11 +296,10 @@ where
         .find_pets_by_status(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::FindPetsByStatusResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -312,6 +310,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::pet::FindPetsByStatusResponse::Status400_InvalidStatusValue => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -372,11 +371,10 @@ where
         .find_pets_by_tags(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::FindPetsByTagsResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -387,6 +385,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::pet::FindPetsByTagsResponse::Status400_InvalidTagValue => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -457,11 +456,10 @@ where
         .get_pet_by_id(&method, &host, &cookies, &claims, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::GetPetByIdResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -472,10 +470,12 @@ where
                 response.body(Body::from(body_content))
             }
             apis::pet::GetPetByIdResponse::Status400_InvalidIDSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::pet::GetPetByIdResponse::Status404_PetNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -543,11 +543,10 @@ where
         .update_pet(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::UpdatePetResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -558,14 +557,17 @@ where
                 response.body(Body::from(body_content))
             }
             apis::pet::UpdatePetResponse::Status400_InvalidIDSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::pet::UpdatePetResponse::Status404_PetNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
             apis::pet::UpdatePetResponse::Status405_ValidationException => {
+                let mut response = Response::builder();
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -645,11 +647,10 @@ where
         .update_pet_with_form(&method, &host, &cookies, &path_params, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::UpdatePetWithFormResponse::Status405_InvalidInput => {
+                let mut response = Response::builder();
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -710,11 +711,10 @@ where
         .upload_file(&method, &host, &cookies, &path_params, body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::pet::UploadFileResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -788,15 +788,15 @@ where
         .delete_order(&method, &host, &cookies, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::store::DeleteOrderResponse::Status400_InvalidIDSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::store::DeleteOrderResponse::Status404_OrderNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -862,11 +862,10 @@ where
         .get_inventory(&method, &host, &cookies, &claims)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::store::GetInventoryResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -940,11 +939,10 @@ where
         .get_order_by_id(&method, &host, &cookies, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::store::GetOrderByIdResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -955,10 +953,12 @@ where
                 response.body(Body::from(body_content))
             }
             apis::store::GetOrderByIdResponse::Status400_InvalidIDSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::store::GetOrderByIdResponse::Status404_OrderNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1026,11 +1026,10 @@ where
         .place_order(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::store::PlaceOrderResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1041,6 +1040,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::store::PlaceOrderResponse::Status400_InvalidOrder => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1119,11 +1119,10 @@ where
         .create_user(&method, &host, &cookies, &claims, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::CreateUserResponse::Status0_SuccessfulOperation => {
+                let mut response = Response::builder();
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1203,11 +1202,10 @@ where
         .create_users_with_array_input(&method, &host, &cookies, &claims, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::CreateUsersWithArrayInputResponse::Status0_SuccessfulOperation => {
+                let mut response = Response::builder();
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1287,11 +1285,10 @@ where
         .create_users_with_list_input(&method, &host, &cookies, &claims, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::CreateUsersWithListInputResponse::Status0_SuccessfulOperation => {
+                let mut response = Response::builder();
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1362,15 +1359,15 @@ where
         .delete_user(&method, &host, &cookies, &claims, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::DeleteUserResponse::Status400_InvalidUsernameSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::user::DeleteUserResponse::Status404_UserNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1430,11 +1427,10 @@ where
         .get_user_by_name(&method, &host, &cookies, &path_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::GetUserByNameResponse::Status200_SuccessfulOperation(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1445,10 +1441,12 @@ where
                 response.body(Body::from(body_content))
             }
             apis::user::GetUserByNameResponse::Status400_InvalidUsernameSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::user::GetUserByNameResponse::Status404_UserNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1508,8 +1506,6 @@ where
         .login_user(&method, &host, &cookies, &query_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::LoginUserResponse::Status200_SuccessfulOperation {
@@ -1518,36 +1514,32 @@ where
                 x_rate_limit,
                 x_expires_after,
             } => {
+                let mut response = Response::builder();
                 if let Some(set_cookie) = set_cookie {
                     let set_cookie = match header::IntoHeaderValue(set_cookie).try_into() {
                         Ok(val) => val,
                         Err(e) => {
                             return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling set_cookie header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling set_cookie header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
-                    {
-                        let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static("set-cookie"), set_cookie);
-                    }
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers.insert(HeaderName::from_static("set-cookie"), set_cookie);
                 }
                 if let Some(x_rate_limit) = x_rate_limit {
                     let x_rate_limit = match header::IntoHeaderValue(x_rate_limit).try_into() {
                         Ok(val) => val,
                         Err(e) => {
                             return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling x_rate_limit header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling x_rate_limit header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
-                    {
-                        let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
-                    }
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers.insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
                 }
                 if let Some(x_expires_after) = x_expires_after {
                     let x_expires_after = match header::IntoHeaderValue(x_expires_after).try_into()
@@ -1555,16 +1547,14 @@ where
                         Ok(val) => val,
                         Err(e) => {
                             return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling x_expires_after header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling x_expires_after header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
-                    {
-                        let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("x-expires-after"), x_expires_after);
-                    }
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(HeaderName::from_static("x-expires-after"), x_expires_after);
                 }
                 let mut response = response.status(200);
                 {
@@ -1576,6 +1566,7 @@ where
                 response.body(Body::from(body_content))
             }
             apis::user::LoginUserResponse::Status400_InvalidUsername => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1641,11 +1632,10 @@ where
         .logout_user(&method, &host, &cookies, &claims)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::LogoutUserResponse::Status0_SuccessfulOperation => {
+                let mut response = Response::builder();
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1727,15 +1717,15 @@ where
         .update_user(&method, &host, &cookies, &claims, &path_params, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::user::UpdateUserResponse::Status400_InvalidUserSupplied => {
+                let mut response = Response::builder();
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
             apis::user::UpdateUserResponse::Status404_UserNotFound => {
+                let mut response = Response::builder();
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }

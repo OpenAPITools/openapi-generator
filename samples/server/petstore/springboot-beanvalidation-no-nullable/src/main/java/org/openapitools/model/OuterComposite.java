@@ -2,8 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -19,13 +22,16 @@ import jakarta.annotation.Generated;
  * OuterComposite
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class OuterComposite {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal myNumber;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String myString;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Boolean myBoolean;
 
   public OuterComposite myNumber(@Nullable BigDecimal myNumber) {
@@ -44,6 +50,7 @@ public class OuterComposite {
     return myNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_number")
   public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -65,6 +72,7 @@ public class OuterComposite {
     return myString;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_string")
   public void setMyString(@Nullable String myString) {
     this.myString = myString;
@@ -86,6 +94,7 @@ public class OuterComposite {
     return myBoolean;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_boolean")
   public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;

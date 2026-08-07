@@ -100,8 +100,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="NullTypeDirect" />
     /// </summary>
-    public class NullTypeDirectJsonConverter : JsonConverter<NullTypeDirect>
+    public partial class NullTypeDirectJsonConverter : JsonConverter<NullTypeDirect>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullTypeDirectJsonConverter" /> class.
+        /// </summary>
+        public NullTypeDirectJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="NullTypeDirect" />
         /// </summary>

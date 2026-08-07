@@ -105,11 +105,10 @@ where
         .users_post(&method, &host, &cookies, &header_params)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::UsersPostResponse::Status201_AddedRowToTable(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();

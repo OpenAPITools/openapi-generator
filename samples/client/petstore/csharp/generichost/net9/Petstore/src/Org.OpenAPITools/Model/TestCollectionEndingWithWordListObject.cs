@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestCollectionEndingWithWordListObject" />
     /// </summary>
-    public class TestCollectionEndingWithWordListObjectJsonConverter : JsonConverter<TestCollectionEndingWithWordListObject>
+    public partial class TestCollectionEndingWithWordListObjectJsonConverter : JsonConverter<TestCollectionEndingWithWordListObject>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordListObjectJsonConverter" /> class.
+        /// </summary>
+        public TestCollectionEndingWithWordListObjectJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestCollectionEndingWithWordListObject" />
         /// </summary>

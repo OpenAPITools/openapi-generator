@@ -246,7 +246,7 @@ where
 {{/vendorExtensions}}
 
 {{#basicAnalytic}}let mut event = apis::event::Event::default();{{/basicAnalytic}}
-let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+  let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
       {{#basicAnalytic}}&mut event,{{/basicAnalytic}}
       {{^ownedRequest}}&{{/ownedRequest}}method,
       {{^ownedRequest}}&{{/ownedRequest}}host,
@@ -284,8 +284,6 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
       {{/vendorExtensions}}
   ).await;
 
-  let mut response = Response::builder();
-
   let resp = match result {
                                             Ok(rsp) => match rsp {
 {{#responses}}
@@ -317,31 +315,53 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
 {{/headers}}
 {{/dataType}}
                                                 => {
-{{#headers}}
-  {{^required}}
-                                                    if let Some({{{name}}}) = {{{name}}} {
-  {{/required}}
-                                                    let {{{name}}} = match header::IntoHeaderValue({{{name}}}).try_into() {
-                                                        Ok(val) => val,
-                                                        Err(e) => {
-                                                            return Response::builder()
-                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling {{name}} header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
-                                                        }
-                                                    };
+{{#vendorExtensions}}
+{{#x-produces-sse}}
+                use axum::response::IntoResponse;
 
+                let (mut parts, body) = axum::response::Sse::new(body).into_response().into_parts();
+                parts.status = {{{code}}}.try_into().unwrap_or_default();
 
-                                                    {
-                                                      let mut response_headers = response.headers_mut().unwrap();
-                                                      response_headers.insert(
-                                                          HeaderName::from_static("{{{nameInLowerCase}}}"),
-                                                          {{name}}
-                                                      );
-                                                    }
-  {{^required}}
-                                                    }
-  {{/required}}
-{{/headers}}
+                {{#headers}}
+                {{^required}}if let Some({{{name}}}) = {{{name}}}{{/required}} {
+                                let {{{name}}} = match header::IntoHeaderValue({{{name}}}).try_into() {
+                                     Ok(val) => val,
+                                     Err(e) => {
+                                         return Response::builder()
+                                                 .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                 .body(Body::from(format!("An internal server error occurred handling {{name}} header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                     }
+                                };
+
+                                parts.headers.insert(
+                                       HeaderName::from_static("{{{nameInLowerCase}}}"),
+                                       {{name}}
+                                );
+                }
+                {{/headers}}
+
+                Ok::<_, http::Error>((parts, body).into_response())
+{{/x-produces-sse}}
+{{^x-produces-sse}}
+                                                let mut response = Response::builder();
+                {{#headers}}
+                    {{^required}}if let Some({{{name}}}) = {{{name}}}{{/required}} {
+                        let {{{name}}} = match header::IntoHeaderValue({{{name}}}).try_into() {
+                            Ok(val) => val,
+                            Err(e) => {
+                                return Response::builder()
+                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                        .body(Body::from(format!("An internal server error occurred handling {{name}} header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                            }
+                        };
+
+                        let mut response_headers = response.headers_mut().unwrap();
+                        response_headers.insert(
+                              HeaderName::from_static("{{{nameInLowerCase}}}"),
+                              {{name}}
+                        );
+                    }
+                {{/headers}}
 {{#range}}
                                                   response.status::<u16>(body.code.parse().unwrap());  // {{{code}}}
 {{/range}}
@@ -351,7 +371,6 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
 {{#produces}}
 {{#-first}}
 {{#dataType}}
-{{#vendorExtensions}}
                                                   {
                                                     let mut response_headers = response.headers_mut().unwrap();
                                                     response_headers.insert(
@@ -359,12 +378,10 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
                                                         HeaderValue::from_static("{{{x-mime-type}}}"));
                                                   }
 
-{{/vendorExtensions}}
 {{/dataType}}
 {{/-first}}
 {{/produces}}
 {{#dataType}}
-{{#vendorExtensions}}
 {{#x-produces-json}}
   {{^allowBlockingResponseSerialize}}
                                                   let body_content =  tokio::task::spawn_blocking(move ||
@@ -395,12 +412,13 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
 {{#x-produces-plain-text}}
                                                   let body_content = body;
 {{/x-produces-plain-text}}
-{{/vendorExtensions}}
                                                   response.body(Body::from(body_content))
 {{/dataType}}
 {{^dataType}}
                                                   response.body(Body::empty())
 {{/dataType}}
+{{/x-produces-sse}}
+{{/vendorExtensions}}
                                                 },
 {{/responses}}
                                             },

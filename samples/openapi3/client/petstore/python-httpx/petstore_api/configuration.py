@@ -432,9 +432,9 @@ conf = petstore_api.Configuration(
                 setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
         result.logger = copy.copy(self.logger)
-        # use setters to configure loggers
+        # use setter to re-create the file handler (excluded from __dict__ copy)
         result.logger_file = self.logger_file
-        result.debug = self.debug
+
         return result
 
     def __setattr__(self, name: str, value: Any) -> None:

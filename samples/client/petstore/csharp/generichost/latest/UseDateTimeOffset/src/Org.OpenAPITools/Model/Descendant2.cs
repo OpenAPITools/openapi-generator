@@ -68,8 +68,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Descendant2" />
     /// </summary>
-    public class Descendant2JsonConverter : JsonConverter<Descendant2>
+    public partial class Descendant2JsonConverter : JsonConverter<Descendant2>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Descendant2JsonConverter" /> class.
+        /// </summary>
+        public Descendant2JsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Descendant2" />
         /// </summary>

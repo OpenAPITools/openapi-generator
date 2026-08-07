@@ -160,8 +160,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestDescendants" />
     /// </summary>
-    public class TestDescendantsJsonConverter : JsonConverter<TestDescendants>
+    public partial class TestDescendantsJsonConverter : JsonConverter<TestDescendants>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestDescendantsJsonConverter" /> class.
+        /// </summary>
+        public TestDescendantsJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestDescendants" />
         /// </summary>

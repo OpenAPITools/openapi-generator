@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: API with Style Recommendations
+  version: 1.0.0
+  description: Valid spec syntax, but contains an isolated component model that triggers an unused schema warning.
+paths:
+  /users:
+    get:
+      summary: Get active users
+      operationId: getUsers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+components:
+  schemas:
+    UnusedModel:
+      type: object
+      properties:
+        legacyField:
+          type: integer
+          description: This model is declared but never referenced anywhere in any operation or path parameter.

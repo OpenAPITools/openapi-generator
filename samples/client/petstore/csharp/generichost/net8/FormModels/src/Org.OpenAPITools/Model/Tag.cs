@@ -105,8 +105,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Tag" />
     /// </summary>
-    public class TagJsonConverter : JsonConverter<Tag>
+    public partial class TagJsonConverter : JsonConverter<Tag>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagJsonConverter" /> class.
+        /// </summary>
+        public TagJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Tag" />
         /// </summary>

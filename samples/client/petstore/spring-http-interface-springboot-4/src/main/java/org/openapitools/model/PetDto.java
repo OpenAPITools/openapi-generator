@@ -2,10 +2,13 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -29,17 +32,20 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class PetDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable CategoryDto category;
 
   private String name;
 
   private Set<String> photoUrls = new LinkedHashSet<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
@@ -79,6 +85,7 @@ public class PetDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private @Nullable StatusEnum status;
 
@@ -101,6 +108,7 @@ public class PetDto {
     return id;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
@@ -121,6 +129,7 @@ public class PetDto {
     return category;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("category")
   public void setCategory(@Nullable CategoryDto category) {
     this.category = category;
@@ -198,6 +207,7 @@ public class PetDto {
     return tags;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("tags")
   public void setTags(List<@Valid TagDto> tags) {
     this.tags = tags;
@@ -223,6 +233,7 @@ public class PetDto {
   /**
    * @deprecated
    */
+  @JsonSetter(nulls = Nulls.SKIP)
   @Deprecated
   @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {

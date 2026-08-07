@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter (
 
+    @param:JsonProperty("values")
     @get:JsonProperty("values")
     val propertyValues: kotlin.collections.List<kotlin.String>? = null
 

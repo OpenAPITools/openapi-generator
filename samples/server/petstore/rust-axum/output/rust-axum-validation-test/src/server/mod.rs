@@ -52,11 +52,10 @@ where
         .mail_put(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::MailPutResponse::Status204_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }

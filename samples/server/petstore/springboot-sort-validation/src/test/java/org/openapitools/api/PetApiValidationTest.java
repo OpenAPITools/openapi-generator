@@ -104,6 +104,54 @@ class PetApiValidationTest {
                 .andExpect(status().isOk());
     }
 
+    // ── @ValidPageable — maxSize resolved from allOf $ref ────────────────────
+    // Endpoint: GET /pet/findWithSizeConstraintFromAllOfRef  maxSize = 75 (resolved from allOf)
+
+    @Test
+    void validPageable_allOfMaxSize_sizeBelowMaximumReturns200() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_SIZE_CONSTRAINT_FROM_ALL_OF_REF)
+                        .param("size", "50"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void validPageable_allOfMaxSize_sizeAtMaximumReturns200() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_SIZE_CONSTRAINT_FROM_ALL_OF_REF)
+                        .param("size", "75"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void validPageable_allOfMaxSize_sizeExceedsMaximumReturns400() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_SIZE_CONSTRAINT_FROM_ALL_OF_REF)
+                        .param("size", "76"))
+                .andExpect(status().isBadRequest());
+    }
+
+    // ── @ValidPageable — minSize resolved from allOf $ref ────────────────────
+    // Endpoint: GET /pet/findWithMinSizeConstraintFromAllOfRef  minSize = 5 (resolved from allOf)
+
+    @Test
+    void validPageable_allOfMinSize_sizeAboveMinimumReturns200() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_MIN_SIZE_CONSTRAINT_FROM_ALL_OF_REF)
+                        .param("size", "10"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void validPageable_allOfMinSize_sizeAtMinimumReturns200() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_MIN_SIZE_CONSTRAINT_FROM_ALL_OF_REF)
+                        .param("size", "5"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void validPageable_allOfMinSize_sizeBelowMinimumReturns400() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_MIN_SIZE_CONSTRAINT_FROM_ALL_OF_REF)
+                        .param("size", "4"))
+                .andExpect(status().isBadRequest());
+    }
+
     // ── @ValidPageable — size and page constraints combined ───────────────────
     // Endpoint: GET /pet/findWithPageAndSizeConstraint  maxSize = 50, maxPage = 999
 

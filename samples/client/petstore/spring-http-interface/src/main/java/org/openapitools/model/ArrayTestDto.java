@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -23,13 +24,16 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ArrayTest")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ArrayTestDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> arrayOfString = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<List<ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {

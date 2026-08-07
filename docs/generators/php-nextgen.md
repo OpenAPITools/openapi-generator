@@ -241,7 +241,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
 |Composite|✓|OAS2,OAS3
-|Polymorphism|✗|OAS2,OAS3
+|Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
 |allOf|✗|OAS2,OAS3
 |anyOf|✗|OAS3

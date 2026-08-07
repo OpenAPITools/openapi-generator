@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -26,17 +27,21 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ObjectWithDeprecatedFields")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ObjectWithDeprecatedFieldsDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String uuid;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private @Nullable BigDecimal id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private @Nullable DeprecatedObjectDto deprecatedRef;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private List<String> bars = new ArrayList<>();
 

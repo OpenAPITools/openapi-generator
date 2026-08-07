@@ -1,4 +1,5 @@
 {{#models}}{{#model}}# {{classname}}
+{{#oneOf.isEmpty}}
 
 ## Properties
 
@@ -6,5 +7,23 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 {{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} |{{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}}{{#defaultValue}} [default to {{{.}}}]{{/defaultValue}}
 {{/vars}}
+{{/oneOf.isEmpty}}
+{{^oneOf.isEmpty}}
+
+This model is a `oneOf` wrapper: a value is exactly one of the member types listed below.
+It is never instantiated directly — use one of the concrete types.
+
+## oneOf
+
+{{#composedSchemas}}
+{{#oneOf}}
+- {{#complexType}}[**{{{dataType}}}**]({{complexType}}.md){{/complexType}}{{^complexType}}**{{{dataType}}}**{{/complexType}}
+{{/oneOf}}
+{{/composedSchemas}}
+{{#discriminator}}
+
+The concrete type is selected by the `{{propertyName}}` discriminator property.
+{{/discriminator}}
+{{/oneOf.isEmpty}}
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md){{/model}}{{/models}}

@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="IconsDefaultResponse" />
     /// </summary>
-    public class IconsDefaultResponseJsonConverter : JsonConverter<IconsDefaultResponse>
+    public partial class IconsDefaultResponseJsonConverter : JsonConverter<IconsDefaultResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IconsDefaultResponseJsonConverter" /> class.
+        /// </summary>
+        public IconsDefaultResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="IconsDefaultResponse" />
         /// </summary>

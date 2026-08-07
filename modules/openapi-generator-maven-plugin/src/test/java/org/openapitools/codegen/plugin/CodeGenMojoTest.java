@@ -83,6 +83,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertEquals("remote.org.openapitools.client.api", getVariableValueFromObject(mojo, "apiPackage"));
         assertEquals("remote.org.openapitools.client.model", getVariableValueFromObject(mojo, "modelPackage"));
         assertEquals("remote.org.openapitools.client", getVariableValueFromObject(mojo, "invokerPackage"));
+        assertEquals(Boolean.TRUE, getVariableValueFromObject(mojo, "quiet"));
 
         Map<String, Object> configOptions = (Map<String, Object>) getVariableValueFromObject(mojo, "configOptions");
         assertNotNull(configOptions);

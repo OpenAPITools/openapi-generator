@@ -688,8 +688,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="EnumTest" />
     /// </summary>
-    public class EnumTestJsonConverter : JsonConverter<EnumTest>
+    public partial class EnumTestJsonConverter : JsonConverter<EnumTest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumTestJsonConverter" /> class.
+        /// </summary>
+        public EnumTestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="EnumTest" />
         /// </summary>
@@ -753,8 +763,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "outerEnum":
                             string? outerEnumRawValue = utf8JsonReader.GetString();
-                            if (outerEnumRawValue != null)
-                                outerEnum = new Option<OuterEnum?>(OuterEnumValueConverter.FromStringOrDefault(outerEnumRawValue));
+                            outerEnum = new Option<OuterEnum?>(outerEnumRawValue == null ? null : OuterEnumValueConverter.FromStringOrDefault(outerEnumRawValue));
                             break;
                         case "outerEnumDefaultValue":
                             string? outerEnumDefaultValueRawValue = utf8JsonReader.GetString();

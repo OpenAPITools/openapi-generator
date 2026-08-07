@@ -2,6 +2,7 @@ package org.openapitools.virtualan.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -23,7 +24,7 @@ import jakarta.annotation.Generated;
  * EnumArrays
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class EnumArrays {
 
   /**
@@ -61,6 +62,7 @@ public class EnumArrays {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable JustSymbolEnum justSymbol;
 
   /**
@@ -98,6 +100,7 @@ public class EnumArrays {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(@Nullable JustSymbolEnum justSymbol) {

@@ -37,7 +37,6 @@ from petstore_api.models.pet import Pet
 from petstore_api.models.tag import Tag
 from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
 from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker
-from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
 from petstore_api.models.user import User
 
 from petstore_api.api_client import ApiClient
@@ -5241,7 +5240,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def upload_file_with_additional_properties(self, file : Annotated[Union[StrictBytes, StrictStr], Field(..., description="file to upload")], object : Optional[UploadFileWithAdditionalPropertiesRequestObject] = None, count : Annotated[Optional[StrictInt], Field(description="Integer count")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def upload_file_with_additional_properties(self, file : Annotated[Union[StrictBytes, StrictStr], Field(..., description="file to upload")], object : Optional[TestObjectForMultipartRequestsRequestMarker] = None, count : Annotated[Optional[StrictInt], Field(description="Integer count")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """uploads a file and additional properties using multipart/form-data  # noqa: E501
 
           # noqa: E501
@@ -5254,7 +5253,7 @@ class FakeApi:
         :param file: file to upload (required)
         :type file: bytearray
         :param object:
-        :type object: UploadFileWithAdditionalPropertiesRequestObject
+        :type object: TestObjectForMultipartRequestsRequestMarker
         :param count: Integer count
         :type count: int
         :param async_req: Whether to execute the request asynchronously.
@@ -5275,7 +5274,7 @@ class FakeApi:
         return self.upload_file_with_additional_properties_with_http_info(file, object, count, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def upload_file_with_additional_properties_with_http_info(self, file : Annotated[Union[StrictBytes, StrictStr], Field(..., description="file to upload")], object : Optional[UploadFileWithAdditionalPropertiesRequestObject] = None, count : Annotated[Optional[StrictInt], Field(description="Integer count")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def upload_file_with_additional_properties_with_http_info(self, file : Annotated[Union[StrictBytes, StrictStr], Field(..., description="file to upload")], object : Optional[TestObjectForMultipartRequestsRequestMarker] = None, count : Annotated[Optional[StrictInt], Field(description="Integer count")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """uploads a file and additional properties using multipart/form-data  # noqa: E501
 
           # noqa: E501
@@ -5288,7 +5287,7 @@ class FakeApi:
         :param file: file to upload (required)
         :type file: bytearray
         :param object:
-        :type object: UploadFileWithAdditionalPropertiesRequestObject
+        :type object: TestObjectForMultipartRequestsRequestMarker
         :param count: Integer count
         :type count: int
         :param async_req: Whether to execute the request asynchronously.

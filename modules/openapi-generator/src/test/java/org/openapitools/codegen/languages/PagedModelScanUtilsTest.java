@@ -353,4 +353,57 @@ public class PagedModelScanUtilsTest {
     public void extractSchemaNameFromRef_returnsNullForNull() {
         assertThat(PagedModelScanUtils.extractSchemaNameFromRef(null)).isNull();
     }
+
+    // -------------------------------------------------------------------------
+    // scanPagedModels(OpenAPI, UnaryOperator<String>) — transform overload
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void scanPagedModels_withTransform_appliesTransformToKeySchemaNameAndMetaSchemaName() {
+        // Build a minimal paged schema so the scan detects one entry.
+        ArraySchema contentSchema = new ArraySchema();
+        contentSchema.setItems(new Schema<>().$ref(ref("User")));
+
+        ObjectSchema userPageSchema = new ObjectSchema();
+        Map<String, Schema> props = new LinkedHashMap<>();
+        props.put("content", contentSchema);
+        props.put("page",    new Schema<>().$ref(ref("PageMetadata")));
+        userPageSchema.setProperties(props);
+
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("PageMetadata", pageMetadataSchema());
+        schemas.put("User",         new ObjectSchema());
+        schemas.put("UserPage",     userPageSchema);
+
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        // Simulate a generator that appends "Dto" to every model name.
+        Map<String, PagedModelScanUtils.DetectedPagedModel> result =
+                PagedModelScanUtils.scanPagedModels(openAPI, name -> name + "Dto");
+
+        // Key, schemaName, and metaSchemaName must all have the suffix applied.
+        assertThat(result).containsKey("UserPageDto");
+        assertThat(result).doesNotContainKey("UserPage");
+
+        PagedModelScanUtils.DetectedPagedModel detected = result.get("UserPageDto");
+        assertThat(detected.schemaName).isEqualTo("UserPageDto");
+        assertThat(detected.metaSchemaName).isEqualTo("PageMetadataDto");
+        // itemSchemaName is intentionally left raw (transform is applied at call site).
+        assertThat(detected.itemSchemaName).isEqualTo("User");
+        // Raw names must be preserved for objs.remove() in postProcessAllModels.
+        assertThat(detected.rawSchemaName).isEqualTo("UserPage");
+        assertThat(detected.rawMetaSchemaName).isEqualTo("PageMetadata");
+    }
+
+    @Test
+    public void scanPagedModels_withTransform_returnsEmptyWhenNoSchemasDetected() {
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setComponents(new Components());
+
+        Map<String, PagedModelScanUtils.DetectedPagedModel> result =
+                PagedModelScanUtils.scanPagedModels(openAPI, name -> name + "Dto");
+
+        assertThat(result).isEmpty();
+    }
 }
+

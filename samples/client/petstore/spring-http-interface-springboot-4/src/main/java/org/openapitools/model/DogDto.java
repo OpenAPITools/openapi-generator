@@ -3,11 +3,14 @@ package org.openapitools.model;
 import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.openapitools.model.AnimalDto;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -25,9 +28,10 @@ import jakarta.annotation.Generated;
 
 
 @JsonTypeName("Dog")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class DogDto extends AnimalDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String breed;
 
   public DogDto() {
@@ -49,6 +53,7 @@ public class DogDto extends AnimalDto {
     return breed;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("breed")
   public void setBreed(@Nullable String breed) {
     this.breed = breed;

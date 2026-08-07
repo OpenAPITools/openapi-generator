@@ -483,7 +483,7 @@ void (empty response body)
 
 <a id="testenumparameters"></a>
 # **TestEnumParameters**
-> void TestEnumParameters (TestEnumParametersRequestEnumFormString enumFormString = null, List<TestEnumParametersRequestEnumFormStringArrayInner> enumFormStringArray = null, TestEnumParametersEnumHeaderStringParameter enumHeaderString = null, List<TestEnumParametersRequestEnumFormStringArrayInner> enumHeaderStringArray = null, TestEnumParametersEnumQueryDoubleParameter enumQueryDouble = null, TestEnumParametersEnumQueryIntegerParameter enumQueryInteger = null, TestEnumParametersEnumHeaderStringParameter enumQueryString = null, List<TestEnumParametersRequestEnumFormStringArrayInner> enumQueryStringArray = null)
+> void TestEnumParameters (TestEnumParametersRequestEnumFormString enumFormString = null, List<TestEnumParametersRequestEnumFormStringArrayInner> enumFormStringArray = null, TestEnumParametersRequestEnumFormString enumHeaderString = null, List<TestEnumParametersRequestEnumFormStringArrayInner> enumHeaderStringArray = null, TestEnumParametersEnumQueryDoubleParameter enumQueryDouble = null, TestEnumParametersEnumQueryIntegerParameter enumQueryInteger = null, TestEnumParametersRequestEnumFormString enumQueryString = null, List<TestEnumParametersRequestEnumFormStringArrayInner> enumQueryStringArray = null)
 
 To test enum parameters
 
@@ -496,11 +496,11 @@ To test enum parameters
 |------|------|-------------|-------|
 | **enumFormString** | **TestEnumParametersRequestEnumFormString** |  | [optional]  |
 | **enumFormStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Form parameter enum test (string array) | [optional]  |
-| **enumHeaderString** | **TestEnumParametersEnumHeaderStringParameter** | Header parameter enum test (string) | [optional]  |
+| **enumHeaderString** | **TestEnumParametersRequestEnumFormString** | Header parameter enum test (string) | [optional]  |
 | **enumHeaderStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Header parameter enum test (string array) | [optional]  |
 | **enumQueryDouble** | **TestEnumParametersEnumQueryDoubleParameter** | Query parameter enum test (double) | [optional]  |
 | **enumQueryInteger** | **TestEnumParametersEnumQueryIntegerParameter** | Query parameter enum test (double) | [optional]  |
-| **enumQueryString** | **TestEnumParametersEnumHeaderStringParameter** | Query parameter enum test (string) | [optional]  |
+| **enumQueryString** | **TestEnumParametersRequestEnumFormString** | Query parameter enum test (string) | [optional]  |
 | **enumQueryStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Query parameter enum test (string array) | [optional]  |
 
 ### Return type

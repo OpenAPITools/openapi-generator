@@ -32,7 +32,6 @@ from petstore_api.models.pet import Pet
 from petstore_api.models.tag import Tag
 from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
 from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker
-from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
 from petstore_api.models.user import User
 
 from petstore_api.api_client import ApiClient, RequestSerialized
@@ -9820,7 +9819,7 @@ class FakeApi:
     def upload_file_with_additional_properties(
         self,
         file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
-        object: Optional[UploadFileWithAdditionalPropertiesRequestObject] = None,
+        object: Optional[TestObjectForMultipartRequestsRequestMarker] = None,
         count: Annotated[Optional[StrictInt], Field(description="Integer count")] = None,
         _request_timeout: Union[
             None,
@@ -9842,7 +9841,7 @@ class FakeApi:
         :param file: file to upload (required)
         :type file: bytes
         :param object:
-        :type object: UploadFileWithAdditionalPropertiesRequestObject
+        :type object: TestObjectForMultipartRequestsRequestMarker
         :param count: Integer count
         :type count: int
         :param _request_timeout: timeout setting for this request. If one
@@ -9895,7 +9894,7 @@ class FakeApi:
     def upload_file_with_additional_properties_with_http_info(
         self,
         file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
-        object: Optional[UploadFileWithAdditionalPropertiesRequestObject] = None,
+        object: Optional[TestObjectForMultipartRequestsRequestMarker] = None,
         count: Annotated[Optional[StrictInt], Field(description="Integer count")] = None,
         _request_timeout: Union[
             None,
@@ -9917,7 +9916,7 @@ class FakeApi:
         :param file: file to upload (required)
         :type file: bytes
         :param object:
-        :type object: UploadFileWithAdditionalPropertiesRequestObject
+        :type object: TestObjectForMultipartRequestsRequestMarker
         :param count: Integer count
         :type count: int
         :param _request_timeout: timeout setting for this request. If one
@@ -9970,7 +9969,7 @@ class FakeApi:
     def upload_file_with_additional_properties_without_preload_content(
         self,
         file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
-        object: Optional[UploadFileWithAdditionalPropertiesRequestObject] = None,
+        object: Optional[TestObjectForMultipartRequestsRequestMarker] = None,
         count: Annotated[Optional[StrictInt], Field(description="Integer count")] = None,
         _request_timeout: Union[
             None,
@@ -9992,7 +9991,7 @@ class FakeApi:
         :param file: file to upload (required)
         :type file: bytes
         :param object:
-        :type object: UploadFileWithAdditionalPropertiesRequestObject
+        :type object: TestObjectForMultipartRequestsRequestMarker
         :param count: Integer count
         :type count: int
         :param _request_timeout: timeout setting for this request. If one

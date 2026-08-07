@@ -14,6 +14,8 @@
     clippy::too_many_arguments
 )]
 
+extern crate futures_util;
+
 pub const BASE_PATH: &str = "/v71";
 pub const API_VERSION: &str = "1.0.0";
 

@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
@@ -25,25 +26,32 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Pet {
 
   private String atType = "Pet";
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer age = 4;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean happy = true;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal price = new BigDecimal("32000000000");
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime lastFeed = OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private LocalTime feedingTime = LocalTime.parse("10:15:30");
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private LocalDateTime adoptionDate = LocalDateTime.parse("2007-12-03T10:15:30");
 
   public Pet() {

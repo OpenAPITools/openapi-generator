@@ -9,6 +9,7 @@ src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/configuration/ValidPageable.java
 src/main/java/org/openapitools/configuration/ValidSort.java
+src/main/java/org/openapitools/configuration/ValuedEnum.java
 src/main/java/org/openapitools/model/NullableModel.java
 src/main/java/org/openapitools/model/Pet.java
 src/main/java/org/openapitools/model/PetSort.java

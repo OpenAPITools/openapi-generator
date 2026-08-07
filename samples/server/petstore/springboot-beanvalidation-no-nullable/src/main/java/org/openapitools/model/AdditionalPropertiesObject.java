@@ -2,8 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.util.Map;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -23,9 +26,10 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesObject
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class AdditionalPropertiesObject {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String name;
 
   public AdditionalPropertiesObject name(@Nullable String name) {
@@ -44,6 +48,7 @@ public class AdditionalPropertiesObject {
     return name;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;

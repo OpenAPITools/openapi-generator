@@ -64,7 +64,7 @@ import tools.jackson.databind.deser.std.StdDeserializer;
 import tools.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 @JsonDeserialize(using = Mammal.MammalDeserializer.class)
 @JsonSerialize(using = Mammal.MammalSerializer.class)
 public class Mammal extends AbstractOpenApiSchema {

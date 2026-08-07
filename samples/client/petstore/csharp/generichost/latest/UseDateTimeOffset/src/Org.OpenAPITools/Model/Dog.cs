@@ -75,8 +75,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Dog" />
     /// </summary>
-    public class DogJsonConverter : JsonConverter<Dog>
+    public partial class DogJsonConverter : JsonConverter<Dog>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DogJsonConverter" /> class.
+        /// </summary>
+        public DogJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Dog" />
         /// </summary>

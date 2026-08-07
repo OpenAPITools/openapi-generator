@@ -74,11 +74,10 @@ where
 
     let result = api_impl.as_ref().all_of_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::AllOfGetResponse::Status200_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -143,11 +142,10 @@ where
 
     let result = api_impl.as_ref().dummy_get(&method, &host, &cookies).await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::DummyGetResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -215,11 +213,10 @@ where
         .dummy_put(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::DummyPutResponse::Status200_Success => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -274,11 +271,10 @@ where
         .file_response_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::FileResponseGetResponse::Status200_Success(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -347,11 +343,10 @@ where
         .get_structured_yaml(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::GetStructuredYamlResponse::Status200_OK(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -421,11 +416,10 @@ where
         .html_post(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::HtmlPostResponse::Status200_Success(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -494,11 +488,10 @@ where
         .post_yaml(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::PostYamlResponse::Status204_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }
@@ -553,11 +546,10 @@ where
         .raw_json_get(&method, &host, &cookies)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::RawJsonGetResponse::Status200_Success(body) => {
+                let mut response = Response::builder();
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -637,11 +629,10 @@ where
         .solo_object_post(&method, &host, &cookies, &body)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::SoloObjectPostResponse::Status204_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }

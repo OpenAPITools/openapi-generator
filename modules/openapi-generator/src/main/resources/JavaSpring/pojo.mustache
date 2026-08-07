@@ -61,6 +61,13 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
+  {{#jackson}}
+  {{^required}}
+  {{^isNullable}}
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  {{/isNullable}}
+  {{/required}}
+  {{/jackson}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
@@ -242,6 +249,11 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
+  {{#jackson}}
+  {{#vendorExtensions.x-has-json-setter-nulls-skip}}
+  @JsonSetter(nulls = Nulls.SKIP)
+  {{/vendorExtensions.x-has-json-setter-nulls-skip}}
+  {{/jackson}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}

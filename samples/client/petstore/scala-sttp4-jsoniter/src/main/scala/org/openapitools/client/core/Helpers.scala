@@ -14,10 +14,12 @@ package org.openapitools.client.core
 import scala.deriving.*
 import scala.compiletime.*
 import java.io.File
+import java.util.UUID
+import java.time.{LocalDate, OffsetDateTime}
+import java.time.format.DateTimeFormatter
 import com.github.plokhotnyuk.jsoniter_scala.core.{JsonValueCodec, writeToString}
 
-type Primitive = String | Short | Int | Long | Float | Double | BigDecimal |
-  Boolean
+type Primitive = String | Short | Int | Long | Float | Double | BigDecimal | Boolean | UUID | LocalDate | OffsetDateTime
 
 enum Authorization:
   case NoAuthorization
@@ -55,6 +57,12 @@ private inline def checkFields[T <: Tuple]: Unit =
         case _ => error("Cannot derive structure, structure must consist only of primitive fields")
   }
 
+extension (p: Primitive)
+  def asString: String = p match
+    case v: OffsetDateTime => DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(v)
+    case v: LocalDate      => DateTimeFormatter.ISO_LOCAL_DATE.format(v)
+    case _                 => p.toString
+   
 private val flattenKeyVals: Primitive | Option[Primitive] => Option[Primitive] = {
   case p: Primitive => Some(p)
   case opt: Option[Primitive] => opt
@@ -91,7 +99,7 @@ object FormSerializable:
             optArray.map(serializeArray(name, _, format, explode))
               .getOrElse(Seq.empty[(String, String)])
           case freeObj: Map[String, Primitive] =>
-            freeObj.map((key, value) => (key, value.toString)).toSeq
+            freeObj.map((key, value) => (key, value.asString)).toSeq
           case optObj: Option[t] =>
             inline summonInline[Mirror.Of[t]] match
               case mirror: Mirror.ProductOf[t] =>
@@ -125,7 +133,7 @@ object FormSerializable:
   ): Seq[(String, String)] = {
     inline format match
       case FormStyleFormat.FORM =>
-        Seq(paramName -> value.toString) // for primitve values explode does not change anything
+        Seq(paramName -> value.asString) // for primitve values explode does not change anything
       case FormStyleFormat.SPACEDELIMITED =>
         error("FormStyleFormat.SpaceDelimited does not support primitive values")
       case FormStyleFormat.PIPEDELIMITED =>
@@ -142,14 +150,14 @@ object FormSerializable:
   ): Seq[(String, String)] = {
     inline format match
       case FormStyleFormat.FORM =>
-        inline if explode then values.map(s => (paramName, s.toString))
-        else Seq(paramName -> values.mkString(","))
+        inline if explode then values.map(s => (paramName, s.asString))
+        else Seq(paramName -> values.map(_.asString).mkString(","))
       case FormStyleFormat.SPACEDELIMITED =>
-        inline if explode then values.map(s => (paramName, s.toString))
-        else Seq(paramName -> values.mkString(" ")) // Sttp will encode space as +, from https://swagger.io/docs/specification/v3_0/serialization/#query-parameters it is not clear if it should be + or %20
+        inline if explode then values.map(s => (paramName, s.asString))
+        else Seq(paramName -> values.map(_.asString).mkString(" ")) // Sttp will encode space as +, from https://swagger.io/docs/specification/v3_0/serialization/#query-parameters it is not clear if it should be + or %20
       case FormStyleFormat.PIPEDELIMITED =>
-        inline if explode then values.map(s => (paramName, s.toString))
-        else Seq(paramName -> values.mkString("|"))
+        inline if explode then values.map(s => (paramName, s.asString))
+        else Seq(paramName -> values.map(_.asString).mkString("|"))
       case FormStyleFormat.DEEPOBJECT =>
         error("FormStyleFormat.DeepObject does not support arrays")
   }
@@ -161,14 +169,14 @@ object FormSerializable:
   ): Seq[(String, String)] = {
     inline format match
       case FormStyleFormat.FORM =>
-        inline if explode then keyValPairs.map((key, value) => (key, value.toString))
-        else Seq(paramName -> keyValPairs.flatMap((key, value) => Seq(key, value.toString)).mkString(","))
+        inline if explode then keyValPairs.map((key, value) => (key, value.asString))
+        else Seq(paramName -> keyValPairs.flatMap((key, value) => Seq(key, value.asString)).mkString(","))
       case FormStyleFormat.SPACEDELIMITED =>
         error("FormStyleFormat.SpaceDelimited does not support objects")
       case FormStyleFormat.PIPEDELIMITED =>
         error("FormStyleFormat.PipeDelimited does not support objects")
       case FormStyleFormat.DEEPOBJECT =>
-        inline if explode then keyValPairs.map((key, value) => (s"$paramName[$key]", value.toString))
+        inline if explode then keyValPairs.map((key, value) => (s"$paramName[$key]", value.asString))
         else error("FormStyleFormat.DeepObject does not support explode=false")
   }
 end FormSerializable
@@ -189,11 +197,11 @@ object HeaderSerializable:
     summonFrom {
       case t: HeaderSerializable[T] => t.serialize(name, obj, explode)
       case _ => inline obj match
-        case primitive: Primitive => Map(name -> primitive.toString)
-        case optPrimitive: Option[Primitive] => optPrimitive.map(v => Map(name -> v.toString)).getOrElse(Map.empty[String, String])
-        case seqPrimitive: Seq[Primitive] => Map(name -> seqPrimitive.map(_.toString).mkString(","))
-        case optSeqPrimitive: Option[Seq[Primitive]] => optSeqPrimitive.map(v => Map(name -> v.map(_.toString).mkString(","))).getOrElse(Map.empty[String, String])
-        case mapPrimitive: Map[String, Primitive] => mapPrimitive.map((k, v) => (k, v.toString))
+        case primitive: Primitive => Map(name -> primitive.asString)
+        case optPrimitive: Option[Primitive] => optPrimitive.map(v => Map(name -> v.asString)).getOrElse(Map.empty[String, String])
+        case seqPrimitive: Seq[Primitive] => Map(name -> seqPrimitive.map(_.asString).mkString(","))
+        case optSeqPrimitive: Option[Seq[Primitive]] => optSeqPrimitive.map(v => Map(name -> v.map(_.asString).mkString(","))).getOrElse(Map.empty[String, String])
+        case mapPrimitive: Map[String, Primitive] => mapPrimitive.map((k, v) => (k, v.asString))
         case optObj: Option[t] =>
           inline summonInline[Mirror.Of[t]] match
             case mirror: Mirror.ProductOf[t] =>
@@ -202,7 +210,7 @@ object HeaderSerializable:
               optObj.map { obj =>
                   val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive | Option[Primitive]]].map(flattenKeyVals))
                     .filter((_, v) => v.isDefined)
-                    .map((k, v) => (k, v.get.toString))
+                    .map((k, v) => (k, v.get.asString))
                   inline if explode then
                     Map(name ->keyVals.map((k, v) => s"$k=$v").mkString(","))
                   else
@@ -216,7 +224,7 @@ object HeaderSerializable:
               val labels = allLabels[mirror.MirroredElemLabels]
               val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive | Option[Primitive]]].map(flattenKeyVals))
                 .filter((_, v) => v.isDefined)
-                .map((k, v) => (k, v.get.toString))
+                .map((k, v) => (k, v.get.asString))
               inline if explode then
                 Map(name ->keyVals.map((k, v) => s"$k=$v").mkString(","))
               else
@@ -245,7 +253,7 @@ object PathSerializable:
             optArray.map(serializeArray(name, _, style, explode))
               .getOrElse("")
           case freeObj: Map[String, Primitive] =>
-            serializeModel(name, freeObj.map((key, value) => (key, value.toString)).toSeq, style, explode)
+            serializeModel(name, freeObj.map((key, value) => (key, value.asString)).toSeq, style, explode)
           case optObj: Option[t] =>
             inline summonInline[Mirror.Of[t]] match
               case mirror: Mirror.ProductOf[t] =>
@@ -277,9 +285,9 @@ object PathSerializable:
       inline format: PathStyleFormat,
       inline explode: Boolean
   ): String = inline format match
-    case PathStyleFormat.SIMPLE => value.toString
-    case PathStyleFormat.LABEL => s".${value.toString}"
-    case PathStyleFormat.MATRIX => s";$paramName=${value.toString}"
+    case PathStyleFormat.SIMPLE => value.asString
+    case PathStyleFormat.LABEL => s".${value.asString}"
+    case PathStyleFormat.MATRIX => s";$paramName=${value.asString}"
 
   private inline def serializeArray(
       paramName: String,
@@ -287,9 +295,9 @@ object PathSerializable:
       inline format: PathStyleFormat,
       inline explode: Boolean
   ): String = inline format match
-    case PathStyleFormat.SIMPLE => values.map(_.toString).mkString(",")
-    case PathStyleFormat.LABEL => inline if explode then values.map(_.toString).mkString(".", ".", "") else values.map(_.toString).mkString(".", ",", "")
-    case PathStyleFormat.MATRIX => inline if explode then values.map(v => s";$paramName=${v.toString}").mkString else s";$paramName=" + values.map(_.toString).mkString(",")
+    case PathStyleFormat.SIMPLE => values.map(_.asString).mkString(",")
+    case PathStyleFormat.LABEL => inline if explode then values.map(_.asString).mkString(".", ".", "") else values.map(_.asString).mkString(".", ",", "")
+    case PathStyleFormat.MATRIX => inline if explode then values.map(v => s";$paramName=${v.asString}").mkString else s";$paramName=" + values.map(_.asString).mkString(",")
 
   private inline def serializeModel(
       paramName: String,
@@ -298,14 +306,14 @@ object PathSerializable:
       inline explode: Boolean
   ): String = inline format match
     case PathStyleFormat.SIMPLE =>
-      inline if explode then keyValPairs.map((k, v) => s"$k=${v.toString}").mkString(",")
-      else keyValPairs.map((k, v) => s"$k,${v.toString}").mkString(",")
+      inline if explode then keyValPairs.map((k, v) => s"$k=${v.asString}").mkString(",")
+      else keyValPairs.map((k, v) => s"$k,${v.asString}").mkString(",")
     case PathStyleFormat.LABEL =>
-      inline if explode then keyValPairs.map((k, v) => s"$k=${v.toString}").mkString(".", ".", "")
-      else keyValPairs.map((k, v) => s"$k,${v.toString}").mkString(".", ",", "")
+      inline if explode then keyValPairs.map((k, v) => s"$k=${v.asString}").mkString(".", ".", "")
+      else keyValPairs.map((k, v) => s"$k,${v.asString}").mkString(".", ",", "")
     case PathStyleFormat.MATRIX =>
-      inline if explode then keyValPairs.map((k, v) => s";$k=${v.toString}").mkString
-      else keyValPairs.map((k, v) => s"$k,${v.toString}").mkString(s";$paramName=", ",", "")
+      inline if explode then keyValPairs.map((k, v) => s";$k=${v.asString}").mkString
+      else keyValPairs.map((k, v) => s"$k,${v.asString}").mkString(s";$paramName=", ",", "")
 end PathSerializable
 
 trait CookieSerializable[T]:
@@ -336,7 +344,7 @@ object CookieSerializable:
             optArray.map(serializeArray(name, _, explode))
               .getOrElse(Seq.empty[(String, String)])
           case freeObj: Map[String, Primitive] =>
-            serializeModel(name, freeObj.map((key, value) => (key, value.toString)).toSeq, explode)
+            serializeModel(name, freeObj.map((key, value) => (key, value.asString)).toSeq, explode)
           case optObj: Option[t] =>
             inline summonInline[Mirror.Of[t]] match
               case mirror: Mirror.ProductOf[t] =>
@@ -366,7 +374,7 @@ object CookieSerializable:
       paramName: String,
       value: Primitive,
       inline explode: Boolean
-  ): Seq[(String, String)] =  Seq(paramName -> value.toString)
+  ): Seq[(String, String)] =  Seq(paramName -> value.asString)
 
   private inline def serializeArray(
       paramName: String,
@@ -374,7 +382,7 @@ object CookieSerializable:
       inline explode: Boolean
   ): Seq[(String, String)] =
     inline if explode then error("Not supported")
-    else Seq(paramName -> values.map(_.toString).mkString(","))
+    else Seq(paramName -> values.map(_.asString).mkString(","))
 
   private inline def serializeModel(
       paramName: String,
@@ -382,7 +390,7 @@ object CookieSerializable:
       inline explode: Boolean
   ): Seq[(String, String)] =
     inline if explode then error("Not supported")
-    else Seq(paramName -> keyValPairs.map((k, v) => s"$k,$v").mkString(","))
+    else Seq(paramName -> keyValPairs.map((k, v) => s"$k,${v.asString}").mkString(","))
 end CookieSerializable
 
 object Helpers:

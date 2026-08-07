@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -29,20 +30,24 @@ import jakarta.annotation.Generated;
  * ObjectWithUniqueItems
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
   private JsonNullable<Set<String>> nullSet = JsonNullable.<Set<String>>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Set<String> notNullSet = new LinkedHashSet<>();
 
   private JsonNullable<List<String>> nullList = JsonNullable.<List<String>>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> notNullList = new ArrayList<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime notNullDateField;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime nullDateField;
 
