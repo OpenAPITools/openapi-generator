@@ -79,3 +79,9 @@ components:
         createdAt:
           type: string
           format: date-time
+    Venue:
+      description: Has no date of any kind, so it must not import the date helpers.
+      type: object
+      properties:
+        name:
+          type: string

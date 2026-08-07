@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * A tag for a pet
  * @export

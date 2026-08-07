@@ -362,9 +362,13 @@ export function serializeDateTime(value: Date): string {
 
 {{#isDateLibraryDate}}
 export function serializeDate(value: Date): string {
-    const year = String(value.getFullYear()).padStart(4, '0');
-    const month = String(value.getMonth() + 1).padStart(2, '0');
-    const day = String(value.getDate()).padStart(2, '0');
+    if (isNaN(value.getTime())) {
+        throw new RangeError('Invalid time value');
+    }
+    // Not padStart: the generated client may target ES6, where it does not exist.
+    const year = ('000' + value.getFullYear()).slice(-4);
+    const month = ('0' + (value.getMonth() + 1)).slice(-2);
+    const day = ('0' + value.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
 }
 
@@ -374,10 +378,22 @@ export function parseDate(value: any): Date {
         return value;
     }
     // `new Date("2026-08-05")` would parse as UTC midnight: a different day west of UTC.
-    // `new Date(2026, 7, 5)` builds local midnight, which is the stated day everywhere.
+    // Local midnight is the stated day everywhere. setFullYear avoids the 1900 offset the
+    // multi-argument constructor applies to years 0-99.
     const fullDate = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value));
     if (fullDate) {
-        return new Date(Number(fullDate[1]), Number(fullDate[2]) - 1, Number(fullDate[3]));
+        const year = Number(fullDate[1]);
+        const month = Number(fullDate[2]) - 1;
+        const day = Number(fullDate[3]);
+        const date = new Date(0);
+        date.setFullYear(year, month, day);
+        date.setHours(0, 0, 0, 0);
+        // Out-of-range components (or a day the local zone skipped) silently roll over,
+        // which would hand back a date the server never sent.
+        if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) {
+            return new Date(NaN);
+        }
+        return date;
     }
     return new Date(value);
 }

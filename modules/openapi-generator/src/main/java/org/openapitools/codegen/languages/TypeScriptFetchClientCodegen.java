@@ -105,6 +105,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_OPERATION_RETURN_PASSTHROUGH = "x-operationReturnPassthrough";
     private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
     private static final String X_TYPESCRIPT_FETCH_API_EXAMPLE = "x-typescriptFetchApiExample";
+    private static final String X_HAS_DATE_VARS = "x-hasDateVars";
     private static final String BLOB_API_EXAMPLE = "new Blob(['example file content'], { type: 'application/octet-stream' })";
 
     protected boolean sagasAndRecords = false;
@@ -454,6 +455,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             ExtendedCodegenModel cm = (ExtendedCodegenModel) mo.getModel();
             cm.imports = new TreeSet<>(cm.imports);
             this.processCodeGenModel(cm);
+            // Mirrors the branches in modelGeneric.mustache that call the date helpers, so a
+            // model without dates does not import them.
+            cm.vendorExtensions.put(X_HAS_DATE_VARS, cm.vars.stream()
+                    .filter(ExtendedCodegenProperty.class::isInstance)
+                    .map(ExtendedCodegenProperty.class::cast)
+                    .anyMatch(v -> v.isPrimitiveType && !v.isArray && (v.isDateType() || v.isDateTimeType())));
         }
 
         // Add supporting file only if we plan to generate files in /models

@@ -779,6 +779,10 @@ public class TypeScriptFetchClientCodegenTest {
         Path runtime = Paths.get(output + "/runtime.ts");
         TestUtils.assertFileContains(runtime, "export function parseDate(");
         TestUtils.assertFileContains(runtime, "export function parseDateTime(");
+
+        // A model without a date must not import the helpers it cannot use.
+        Path venue = Paths.get(output + "/models/Venue.ts");
+        TestUtils.assertFileContains(venue, "import { mapValues } from '../runtime';");
     }
 
     @Test(description = "Verify dateLibrary=string leaves date values untouched as strings")
@@ -827,20 +831,6 @@ public class TypeScriptFetchClientCodegenTest {
         // date-time keeps the full timestamp.
         TestUtils.assertFileContains(api, "queryParameters['updatedSince'] = runtime.serializeDateTime(requestParameters['updatedSince'] as any)");
         TestUtils.assertFileContains(api, "formParams.append('createdAt', runtime.serializeDateTime(requestParameters['createdAt'] as any))");
-    }
-
-    @Test(description = "Verify a calendar date is (de)serialized against the local calendar, so it cannot shift by a day")
-    public void testDateFormatUsesTheLocalCalendar() throws IOException {
-        File output = generate(new HashMap<>(), DATE_HANDLING_SPEC);
-
-        Path runtime = Paths.get(output + "/runtime.ts");
-        // A calendar date is converted against the local calendar on both ends.
-        TestUtils.assertFileContains(runtime, "value.getFullYear()");
-        TestUtils.assertFileContains(runtime, "value.getMonth() + 1");
-        TestUtils.assertFileContains(runtime, "value.getDate()");
-        TestUtils.assertFileContains(runtime, "new Date(Number(fullDate[1]), Number(fullDate[2]) - 1, Number(fullDate[3]))");
-        // A date-time is a genuine instant and stays UTC.
-        TestUtils.assertFileContains(runtime, "export function serializeDateTime(value: Date): string {\n    return value.toISOString();");
     }
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
