@@ -120,13 +120,18 @@ public class CodegenConfigLoader {
     }
 
     /**
-     * Whether an iterator-advancement error is a non-advancing resource-location failure (the
-     * provider-configuration resources couldn't be located/read) rather than a single-entry failure
-     * the cursor has already moved past. The former recurs on every retry, so enumeration must stop;
-     * the latter can be skipped to keep discovering the remaining valid providers.
+     * Whether an iterator-advancement error is a non-advancing resource-location failure rather than
+     * a single-entry failure the cursor has already moved past. Only the JDK's "Error locating
+     * configuration files" case (getResources itself failing) leaves the cursor un-advanced and recurs
+     * on every retry, so enumeration must stop; every other failure - including "Error reading
+     * configuration file", which has already consumed a resource - can be skipped to keep discovering
+     * the remaining valid providers.
      */
     private static boolean isNonAdvancingResourceError(Throwable e) {
-        return e instanceof ServiceConfigurationError && e.getCause() instanceof IOException;
+        return e instanceof ServiceConfigurationError
+                && e.getCause() instanceof IOException
+                && e.getMessage() != null
+                && e.getMessage().contains("Error locating configuration files");
     }
 
     private static ClassLoader getConfigClassLoader() {
