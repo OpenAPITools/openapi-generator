@@ -85,3 +85,13 @@ components:
       properties:
         name:
           type: string
+    Holidays:
+      description: A oneOf whose branch is picked by testing the value against the date helper.
+      oneOf:
+        - type: array
+          items:
+            type: string
+            format: date
+        - type: array
+          items:
+            type: number

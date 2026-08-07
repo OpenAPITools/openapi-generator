@@ -682,7 +682,7 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(exampleModelPath, "(instanceOfMyNumericValue(json))");
         TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'number' && (json === 10 || json === 20 || json === 30))");
         TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'string' && (json === 'fixed-value-a' || json === 'fixed-value-b' || json === 'fixed-value-c'))");
-        TestUtils.assertFileContains(exampleModelPath, "(isNaN(new Date(json).getTime())");
+        TestUtils.assertFileContains(exampleModelPath, "(isNaN(parseDate(json).getTime())");
         TestUtils.assertFileContains(exampleModelPath, "(json.every(item => typeof item === 'number'))");
         TestUtils.assertFileContains(exampleModelPath, "(json.every(item => typeof item === 'string' && (item === 'oneof-array-enum-a' || item === 'oneof-array-enum-b' || item === 'oneof-array-enum-c')))");
         //ToJSON

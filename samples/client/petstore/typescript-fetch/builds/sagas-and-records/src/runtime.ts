@@ -374,7 +374,6 @@ export function serializeDate(value: Date): string {
     if (isNaN(value.getTime())) {
         throw new RangeError('Invalid time value');
     }
-    // Not padStart: the generated client may target ES6, where it does not exist.
     const year = ('000' + value.getFullYear()).slice(-4);
     const month = ('0' + (value.getMonth() + 1)).slice(-2);
     const day = ('0' + value.getDate()).slice(-2);
