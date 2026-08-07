@@ -1163,6 +1163,12 @@ public class CodeGenMojo extends AbstractMojo {
         final OpenAPI spec = new OpenAPIParser()
                 .readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), authorizationValues, parseOptions)
                 .getOpenAPI();
+
+        // If the specification is not parsable, a unique string is returned so the subsequent steps are not skipped.
+        // It is up to them to parse it again and deal with the error.
+        if (spec == null)
+            return "INVALID-HASH-" + System.currentTimeMillis();
+
         final ObjectMapper mapper = spec.getSpecVersion() == SpecVersion.V30 ? Json.mapper() : Json31.mapper();
 
         try {
