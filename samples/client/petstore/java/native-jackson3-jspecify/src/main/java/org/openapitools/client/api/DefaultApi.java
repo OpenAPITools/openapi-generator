@@ -282,11 +282,12 @@ public class DefaultApi {
    * @param dtParam  (optional)
    * @param dtQuery  (optional)
    * @param dtCookie  (optional)
+   * @param color  (optional, default to red)
    * @return Foo
    * @throws ApiException if fails to make API call
    */
-  public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws ApiException {
-    return fooDtParamGet(dtParam, dtQuery, dtCookie, null);
+  public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws ApiException {
+    return fooDtParamGet(dtParam, dtQuery, dtCookie, color, null);
   }
 
   /**
@@ -295,12 +296,13 @@ public class DefaultApi {
    * @param dtParam  (optional)
    * @param dtQuery  (optional)
    * @param dtCookie  (optional)
+   * @param color  (optional, default to red)
    * @param headers Optional headers to include in the request
    * @return Foo
    * @throws ApiException if fails to make API call
    */
-  public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, Map<String, String> headers) throws ApiException {
-    ApiResponse<Foo> localVarResponse = fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, headers);
+  public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color, Map<String, String> headers) throws ApiException {
+    ApiResponse<Foo> localVarResponse = fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, color, headers);
     return localVarResponse.getData();
   }
 
@@ -310,11 +312,12 @@ public class DefaultApi {
    * @param dtParam  (optional)
    * @param dtQuery  (optional)
    * @param dtCookie  (optional)
+   * @param color  (optional, default to red)
    * @return ApiResponse&lt;Foo&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws ApiException {
-    return fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, null);
+  public ApiResponse<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws ApiException {
+    return fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, color, null);
   }
 
   /**
@@ -323,12 +326,13 @@ public class DefaultApi {
    * @param dtParam  (optional)
    * @param dtQuery  (optional)
    * @param dtCookie  (optional)
+   * @param color  (optional, default to red)
    * @param headers Optional headers to include in the request
    * @return ApiResponse&lt;Foo&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, Map<String, String> headers) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = fooDtParamGetRequestBuilder(dtParam, dtQuery, dtCookie, headers);
+  public ApiResponse<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = fooDtParamGetRequestBuilder(dtParam, dtQuery, dtCookie, color, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -375,7 +379,7 @@ public class DefaultApi {
     }
   }
 
-  private HttpRequest.Builder fooDtParamGetRequestBuilder(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder fooDtParamGetRequestBuilder(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -387,6 +391,8 @@ public class DefaultApi {
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "dtQuery";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("dtQuery", dtQuery));
+    localVarQueryParameterBaseName = "color";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("color", color));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

@@ -162,7 +162,7 @@ impl std::str::FromStr for Goodbye {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Goodbye".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -181,7 +181,7 @@ impl std::str::FromStr for Goodbye {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Goodbye".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -307,7 +307,7 @@ impl std::str::FromStr for GoodbyeD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GoodbyeD".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -321,7 +321,7 @@ impl std::str::FromStr for GoodbyeD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GoodbyeD".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -465,7 +465,7 @@ impl std::str::FromStr for Greeting {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Greeting".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -484,7 +484,7 @@ impl std::str::FromStr for Greeting {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Greeting".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -610,7 +610,7 @@ impl std::str::FromStr for GreetingD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GreetingD".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -624,7 +624,7 @@ impl std::str::FromStr for GreetingD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GreetingD".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -770,7 +770,7 @@ impl std::str::FromStr for Hello {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Hello".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -789,7 +789,7 @@ impl std::str::FromStr for Hello {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Hello".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -913,7 +913,7 @@ impl std::str::FromStr for HelloD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing HelloD".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -927,7 +927,7 @@ impl std::str::FromStr for HelloD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing HelloD".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1190,7 +1190,7 @@ impl std::str::FromStr for YoMessage {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing YoMessage".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1209,7 +1209,7 @@ impl std::str::FromStr for YoMessage {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing YoMessage".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1335,7 +1335,7 @@ impl std::str::FromStr for YoMessageD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing YoMessageD".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1349,7 +1349,7 @@ impl std::str::FromStr for YoMessageD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing YoMessageD".to_string(),
-                        );
+                        )
                     }
                 }
             }

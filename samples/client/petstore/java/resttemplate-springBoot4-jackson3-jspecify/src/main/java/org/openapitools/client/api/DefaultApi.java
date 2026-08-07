@@ -93,11 +93,12 @@ public class DefaultApi extends BaseApi {
      * @param dtParam  (optional)
      * @param dtQuery  (optional)
      * @param dtCookie  (optional)
+     * @param color  (optional, default to red)
      * @return Foo
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Foo fooDtParamGet(java.time.Instant dtParam, java.time.Instant dtQuery, java.time.Instant dtCookie) throws RestClientException {
-        return fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie).getBody();
+    public Foo fooDtParamGet(java.time.Instant dtParam, java.time.Instant dtQuery, java.time.Instant dtCookie, String color) throws RestClientException {
+        return fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, color).getBody();
     }
 
     /**
@@ -107,10 +108,11 @@ public class DefaultApi extends BaseApi {
      * @param dtParam  (optional)
      * @param dtQuery  (optional)
      * @param dtCookie  (optional)
+     * @param color  (optional, default to red)
      * @return ResponseEntity&lt;Foo&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Foo> fooDtParamGetWithHttpInfo(java.time.Instant dtParam, java.time.Instant dtQuery, java.time.Instant dtCookie) throws RestClientException {
+    public ResponseEntity<Foo> fooDtParamGetWithHttpInfo(java.time.Instant dtParam, java.time.Instant dtQuery, java.time.Instant dtCookie, String color) throws RestClientException {
         Object localVarPostBody = null;
         
         // create path and map variables
@@ -123,6 +125,7 @@ public class DefaultApi extends BaseApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "dtQuery", dtQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "color", color));
         
 
         if (dtCookie != null)
