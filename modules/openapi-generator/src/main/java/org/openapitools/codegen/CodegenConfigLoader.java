@@ -86,18 +86,29 @@ public class CodegenConfigLoader {
         for (ClassLoader classLoader : getConfigClassLoaders()) {
             ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, classLoader);
             Iterator<ServiceLoader.Provider<CodegenConfig>> providers = loader.stream().iterator();
-            // The lazy ServiceLoader iterator advances past a malformed/broken provider entry before
-            // surfacing the error, so catching per-iteration and looping does not risk an infinite loop.
             while (true) {
+                ServiceLoader.Provider<CodegenConfig> provider;
+                // Advancing the lazy ServiceLoader iterator can fail with a non-recoverable, persistent
+                // error (e.g. an IOException opening a META-INF/services resource) that never advances
+                // the cursor. Such errors must break the loop, otherwise retrying hasNext()/next()
+                // would spin forever. Only per-provider processing failures below can be safely skipped.
                 try {
                     if (!providers.hasNext()) {
                         break;
                     }
-                    ServiceLoader.Provider<CodegenConfig> provider = providers.next();
+                    provider = providers.next();
+                } catch (ServiceConfigurationError | LinkageError e) {
+                    LOGGER.warn("Unable to enumerate codegen config providers from {}", classLoader, e);
+                    break;
+                }
+                // At this point the cursor has advanced past this provider, so a failure to load or
+                // instantiate it can be skipped without risk of a non-terminating loop.
+                try {
                     String configClassName = provider.type().getName();
                     if (!configClasses.contains(configClassName)) {
-                        output.add(provider.get());
+                        CodegenConfig config = provider.get();
                         configClasses.add(configClassName);
+                        output.add(config);
                     }
                 } catch (ServiceConfigurationError | LinkageError e) {
                     LOGGER.warn("Unable to load codegen config provider from {}", classLoader, e);
