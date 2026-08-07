@@ -316,7 +316,7 @@ public final class JsonAnnotationPolicyUtils {
             return current;
         }
         return normalizeJsonSetterNulls(
-                additionalProperties.get(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS).toString(),
+                java.util.Objects.toString(additionalProperties.get(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS), null),
                 CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS);
     }
 

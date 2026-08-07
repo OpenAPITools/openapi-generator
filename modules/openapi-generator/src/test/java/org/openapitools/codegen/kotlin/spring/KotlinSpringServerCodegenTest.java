@@ -6797,6 +6797,7 @@ public class KotlinSpringServerCodegenTest {
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
         int idx = content.indexOf("val optionalNonNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNonNullable property must exist");
         String context = content.substring(Math.max(0, idx - 200), idx);
         Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
                 "optionalNonNullPropertyJsonSetterNulls=FAIL must emit FAIL");
@@ -6816,6 +6817,7 @@ public class KotlinSpringServerCodegenTest {
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
         int idx = content.indexOf("val optionalNonNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNonNullable property must exist");
         String context = content.substring(Math.max(0, idx - 200), idx);
         Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
                 "optionalNonNullPropertyJsonSetterNulls=FAIL must win over the openApiNullable=false SKIP default");
