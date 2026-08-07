@@ -17,11 +17,16 @@
 
 package org.openapitools.codegen.plugin;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Json31;
 import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.parser.OpenAPIResolver;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
@@ -1155,10 +1160,16 @@ public class CodeGenMojo extends AbstractMojo {
         final URL remoteUrl = inputSpecRemoteUrl();
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
 
-        return Hashing.sha256().hashBytes(
-                new OpenAPIParser().readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), authorizationValues, parseOptions)
-                        .getOpenAPI().toString().getBytes(StandardCharsets.UTF_8)
-        ).toString();
+        final OpenAPI spec = new OpenAPIParser()
+                .readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), authorizationValues, parseOptions)
+                .getOpenAPI();
+        final ObjectMapper mapper = spec.getSpecVersion() == SpecVersion.V30 ? Json.mapper() : Json31.mapper();
+
+        try {
+            return Hashing.sha256().hashBytes(mapper.writeValueAsBytes(spec)).toString();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
