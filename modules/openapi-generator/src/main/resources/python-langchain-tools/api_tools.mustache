@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+from typing import List
+from langchain.tools import StructuredTool
+from {{packageName}}.api_client import ApiClient
+from {{packageName}}.api.{{classFilename}} import {{classname}}
+
+def get_{{classVarName}}_tools(api_client: ApiClient) -> List[StructuredTool]:
+    """A factory function to create and return tools for the {{classname}} API."""
+
+    api_instance = {{classname}}(api_client)
+    tools = []
+    {{#operations}}
+    {{#operation}}
+
+    {{operationId}}_tool = StructuredTool.from_function(
+        func=api_instance.{{nickname}},
+        name="{{operationId}}",
+        description="{{{summary}}}"
+    )
+    tools.append({{operationId}}_tool)
+    {{/operation}}
+    {{/operations}}
+
+    return tools
