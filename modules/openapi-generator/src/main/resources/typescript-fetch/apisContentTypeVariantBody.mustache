@@ -13,7 +13,8 @@
                 }
 {{/required}}
 {{/formParams}}
-{{#lambda.indented_8_skip_blank}}{{>apisFormParams}}{{/lambda.indented_8_skip_blank}}
+{{! the lambda leaves the first line alone, so the literal spaces below are what indent it }}
+        {{#lambda.indented_8_skip_blank}}{{>apisFormParams}}{{/lambda.indented_8_skip_blank}}
                 {{! a multipart body sets no Content-Type: fetch adds it with the boundary it generates }}
                 body = formParams;
 {{/hasFormParams}}
