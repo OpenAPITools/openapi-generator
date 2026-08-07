@@ -18,7 +18,6 @@
 package org.openapitools.codegen;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -33,8 +32,9 @@ import org.slf4j.LoggerFactory;
 
 public class CodegenConfigLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigLoader.class);
-    private static final Map<ClassLoader, Set<String>> INITIALIZATION_FAILURES =
-            Collections.synchronizedMap(new WeakHashMap<>());
+    // All access to this map (and the Sets it holds) is guarded by explicit synchronization on the
+    // map instance below, so a plain WeakHashMap is sufficient here.
+    private static final Map<ClassLoader, Set<String>> INITIALIZATION_FAILURES = new WeakHashMap<>();
     private static final ThreadLocal<ClassLoader> LOADING_CLASS_LOADER = new ThreadLocal<>();
 
     /**
@@ -86,6 +86,8 @@ public class CodegenConfigLoader {
         for (ClassLoader classLoader : getConfigClassLoaders()) {
             ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, classLoader);
             Iterator<ServiceLoader.Provider<CodegenConfig>> providers = loader.stream().iterator();
+            // The lazy ServiceLoader iterator advances past a malformed/broken provider entry before
+            // surfacing the error, so catching per-iteration and looping does not risk an infinite loop.
             while (true) {
                 try {
                     if (!providers.hasNext()) {
@@ -94,10 +96,8 @@ public class CodegenConfigLoader {
                     ServiceLoader.Provider<CodegenConfig> provider = providers.next();
                     String configClassName = provider.type().getName();
                     if (!configClasses.contains(configClassName)) {
-                        CodegenConfig config = provider.get();
-                        if (configClasses.add(configClassName)) {
-                            output.add(config);
-                        }
+                        output.add(provider.get());
+                        configClasses.add(configClassName);
                     }
                 } catch (ServiceConfigurationError | LinkageError e) {
                     LOGGER.warn("Unable to load codegen config provider from {}", classLoader, e);
