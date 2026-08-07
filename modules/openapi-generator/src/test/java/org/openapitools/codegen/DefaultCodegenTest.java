@@ -58,6 +58,7 @@ import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_VARNAMES;
@@ -5280,5 +5281,53 @@ public class DefaultCodegenTest {
         // so the operation is left untouched - the generator derives the return type from 200 only.
         Operation getB = openAPI.getPaths().get("/b").getGet();
         assertThat(codegen.divideOperationsByContentType(openAPI, "/b", "get", getB)).containsExactly(getB);
+    }
+
+    @Test
+    public void splitOperationsByContentTypeTagsEveryVariant() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-split-by-content-type.yaml");
+
+        Operation post = openAPI.getPaths().get("/reports").getPost();
+        List<Operation> variants = codegen.divideOperationsByContentType(openAPI, "/reports", "post", post);
+
+        assertThat(variants).allSatisfy(variant -> assertThat(variant.getExtensions())
+                .containsEntry(CodegenConstants.X_CONTENT_TYPE_VARIANT_GROUP, "createReport"));
+
+        // each variant records the content-type it was narrowed to on each axis and its rank there. Rank 0 is
+        // the content-type the spec declares first, which is the default one, so a generator merging the
+        // variants back together never has to rely on the order it happens to receive them in.
+        assertThat(variants).extracting(
+                        v -> v.getExtensions().get(CodegenConstants.X_CONTENT_TYPE_VARIANT_REQUEST),
+                        v -> v.getExtensions().get(CodegenConstants.X_CONTENT_TYPE_VARIANT_REQUEST_INDEX),
+                        v -> v.getExtensions().get(CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE),
+                        v -> v.getExtensions().get(CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE_INDEX))
+                .containsExactlyInAnyOrder(
+                        tuple("application/json", 0, "application/json", 0),
+                        tuple("application/json", 0, "application/pdf", 1),
+                        tuple("application/xml", 1, "application/json", 0),
+                        tuple("application/xml", 1, "application/pdf", 1));
+    }
+
+    @Test
+    public void splitOperationsByContentTypeIsAGlobalOption() {
+        // the behaviour is language-neutral, so the option is global rather than declared - and documented -
+        // by every single generator
+        assertThat(new DefaultCodegen().cliOptions()).extracting(CliOption::getOpt)
+                .doesNotContain(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE);
+
+        try {
+            GlobalSettings.setProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true");
+            DefaultCodegen codegen = new DefaultCodegen();
+            codegen.processOpts();
+            assertThat(codegen.splitOperationsByContentType).isTrue();
+        } finally {
+            GlobalSettings.clearProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE);
+        }
+
+        DefaultCodegen off = new DefaultCodegen();
+        off.processOpts();
+        assertThat(off.splitOperationsByContentType).isFalse();
     }
 }

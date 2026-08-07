@@ -419,7 +419,11 @@ public class DefaultCodegen implements CodegenConfig {
         convertPropertyToBooleanAndWriteBack(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, this::setPrependFormOrBodyParameters);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.ENSURE_UNIQUE_PARAMS, this::setEnsureUniqueParams);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, this::setAllowUnicodeIdentifiers);
-        convertPropertyToBooleanAndWriteBack(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, this::setSplitOperationsByContentType);
+        // splitOperationsByContentType is a global option rather than a generator one: the behaviour is
+        // language-neutral and applies to every generator alike, so it is read from the global properties
+        // (--global-property) and is deliberately absent from cliOptions.
+        setSplitOperationsByContentType(Boolean.parseBoolean(
+                GlobalSettings.getProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "false")));
         convertPropertyToStringAndWriteBack(CodegenConstants.API_NAME_PREFIX, this::setApiNamePrefix);
         convertPropertyToStringAndWriteBack(CodegenConstants.API_NAME_SUFFIX, this::setApiNameSuffix);
         convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_NAME_PREFIX, this::setModelNamePrefix);
@@ -1073,6 +1077,10 @@ public class DefaultCodegen implements CodegenConfig {
      * {@code fromOperation} and is typed natively by the target generator. This keeps the feature
      * language-neutral: no per-language type re-derivation here. Returns the operation as a singleton when
      * the option is off or no division applies.
+     * <p>
+     * Every variant carries the {@code x-content-type-variant-*} extensions describing its place in the
+     * matrix, so a generator able to express the whole matrix in a single construct — TypeScript overloads,
+     * for instance — can merge the variants back together while keeping each one's natively resolved types.
      */
     @Override
     public List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, String httpMethod, Operation operation) {
@@ -1080,110 +1088,177 @@ public class DefaultCodegen implements CodegenConfig {
             return Collections.singletonList(operation);
         }
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
-        List<String> requestAxis = axisOf(requestBody == null ? null : requestBody.getContent());
+        List<Axis> requestAxis = axisOf(requestBody == null ? null : requestBody.getContent());
 
         // Only the response the generator derives the return type from (the method response) is split, so the
         // variants' return types and Accept headers stay consistent (see findMethodResponse).
         String methodResponseCode = operation.getResponses() == null ? null : findMethodResponseCode(operation.getResponses());
         ApiResponse methodResponse = methodResponseCode == null ? null
                 : ModelUtils.getReferencedApiResponse(openAPI, operation.getResponses().get(methodResponseCode));
-        List<String> responseAxis = axisOf(methodResponse == null ? null : methodResponse.getContent());
+        List<Axis> responseAxis = axisOf(methodResponse == null ? null : methodResponse.getContent());
 
-        boolean requestSplit = requestAxis.size() > 1;
-        boolean responseSplit = responseAxis.size() > 1;
-        if (!requestSplit && !responseSplit) {
+        if (requestAxis.size() == 1 && responseAxis.size() == 1) {
             return Collections.singletonList(operation); // single content-type on both axes: nothing to divide
         }
 
+        // Both axes are in declaration order, so rank 0 is the default content-type, consistently with the
+        // rest of the generator: addConsumesInfo keeps that order and templates read consumes.0.
         String baseId = getOrGenerateOperationId(operation, path, httpMethod);
         List<Operation> variants = new ArrayList<>(requestAxis.size() * responseAxis.size());
-        for (String requestMediaType : requestAxis) {
-            for (String responseMediaType : responseAxis) {
-                variants.add(buildOperationVariant(openAPI, operation, baseId,
-                        requestSplit ? requestMediaType : null,
-                        responseSplit ? responseMediaType : null,
-                        methodResponseCode, methodResponse));
+        for (Axis request : requestAxis) {
+            for (Axis response : responseAxis) {
+                Operation variant = buildOperationVariant(openAPI, operation, baseId, request, response,
+                        methodResponseCode, methodResponse);
+                tagContentTypeVariant(variant, baseId, request, response);
+                variants.add(variant);
             }
         }
         return variants;
     }
 
     /**
-     * The media-types of {@code content} deduplicated by resolved schema (so two media-types mapping to
-     * the same schema collapse), JSON-first for determinism. Returns a singleton {@code [null]} when there
-     * are fewer than two distinct schemas, meaning "do not split this axis".
+     * One position on a content-type axis. {@link Axis#NOT_SPLIT} is the single position of an axis that
+     * stays as it is; the others carry the media-type the variant is narrowed to, the token its operationId
+     * is built from, and the rank the spec declares that media-type at.
      */
-    private List<String> axisOf(Content content) {
+    private static final class Axis {
+        private static final Axis NOT_SPLIT = new Axis(null, null, 0);
+
+        private final String mediaType;
+        private final String token;
+        private final int rank;
+
+        private Axis(String mediaType, String token, int rank) {
+            this.mediaType = mediaType;
+            this.token = token;
+            this.rank = rank;
+        }
+    }
+
+    /**
+     * The media-types of {@code content} deduplicated by resolved schema (two media-types sharing a schema
+     * collapse into the first one declared), kept in declaration order: that is the order the rest of the
+     * generator already treats as authoritative, so rank 0 is the content-type a caller gets by default.
+     * Returns a singleton {@link Axis#NOT_SPLIT} when fewer than two distinct schemas remain.
+     */
+    private List<Axis> axisOf(Content content) {
         if (content == null || content.size() < 2) {
-            return Collections.singletonList(null);
+            return Collections.singletonList(Axis.NOT_SPLIT);
         }
-        List<String> kept = new ArrayList<>();
-        Set<String> seenSchemas = new LinkedHashSet<>();
+        List<String> mediaTypes = new ArrayList<>();
+        Set<String> seenSchemas = new HashSet<>();
         for (Map.Entry<String, MediaType> entry : content.entrySet()) {
-            String key = schemaKey(entry.getValue() == null ? null : entry.getValue().getSchema());
-            if (seenSchemas.add(key)) {
-                kept.add(entry.getKey());
+            if (seenSchemas.add(schemaKey(entry.getValue() == null ? null : entry.getValue().getSchema()))) {
+                mediaTypes.add(entry.getKey());
             }
         }
-        if (kept.size() < 2) {
-            return Collections.singletonList(null);
+        if (mediaTypes.size() < 2) {
+            return Collections.singletonList(Axis.NOT_SPLIT);
         }
-        String preferred = kept.stream().filter(mt -> isJsonMimeType(mt)).findFirst().orElse(kept.get(0));
-        List<String> ordered = new ArrayList<>(kept.size());
-        ordered.add(preferred);
-        for (String mediaType : kept) {
-            if (!mediaType.equals(preferred)) {
-                ordered.add(mediaType);
-            }
+        // the subtype alone identifies most media-types, but not all: text/csv and application/csv would
+        // both be Csv and give two variants the same operationId, so those fall back to the whole type
+        Map<String, Long> bySubtype = mediaTypes.stream()
+                .collect(Collectors.groupingBy(DefaultCodegen::subtypeToken, Collectors.counting()));
+        List<Axis> axis = new ArrayList<>(mediaTypes.size());
+        for (int rank = 0; rank < mediaTypes.size(); rank++) {
+            String mediaType = mediaTypes.get(rank);
+            String subtype = subtypeToken(mediaType);
+            axis.add(new Axis(mediaType, bySubtype.get(subtype) > 1 ? sanitizeToken(mediaType) : subtype, rank));
         }
-        return ordered;
+        return axis;
+    }
+
+    /**
+     * Records where a variant sits in the content-type matrix so that a generator able to express the whole
+     * matrix in a single construct can merge the variants back together: the group they belong to, the
+     * media-type they were narrowed to on each axis (absent when that axis was not split) and its rank in
+     * that axis. See {@link CodegenConstants#X_CONTENT_TYPE_VARIANT_REQUEST_INDEX}.
+     */
+    private static void tagContentTypeVariant(Operation variant, String group, Axis request, Axis response) {
+        Map<String, Object> extensions = variant.getExtensions();
+        extensions.put(CodegenConstants.X_CONTENT_TYPE_VARIANT_GROUP, group);
+        if (request.mediaType != null) {
+            extensions.put(CodegenConstants.X_CONTENT_TYPE_VARIANT_REQUEST, request.mediaType);
+        }
+        if (response.mediaType != null) {
+            extensions.put(CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE, response.mediaType);
+        }
+        // the rank travels with the variant: the operations are reordered before they reach a generator,
+        // so their position in the list is no longer the order declared in the spec
+        extensions.put(CodegenConstants.X_CONTENT_TYPE_VARIANT_REQUEST_INDEX, request.rank);
+        extensions.put(CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE_INDEX, response.rank);
     }
 
     /**
      * Builds one operation variant narrowed to a single request and/or response media-type (a {@code null}
      * media-type leaves that axis untouched), with a typed, collision-free operationId.
      */
-    private Operation buildOperationVariant(OpenAPI openAPI, Operation original, String baseId, String requestMediaType,
-                                            String responseMediaType, String targetResponseCode, ApiResponse targetResponse) {
-        boolean openapi31 = specVersionGreaterThanOrEqualTo310(openAPI);
-        Operation variant = ModelUtils.cloneOperation(original, openapi31);
-        // generators (e.g. SpringCodegen) read the extensions map without null-guards
-        if (variant.getExtensions() == null) {
-            variant.setExtensions(new LinkedHashMap<>());
-        }
+    private Operation buildOperationVariant(OpenAPI openAPI, Operation original, String baseId,
+                                            Axis request, Axis response,
+                                            String targetResponseCode, ApiResponse targetResponse) {
+        Operation variant = shallowCopyOperation(original);
 
         // typed, collision-free operationId: request -> "With<Subtype>", response -> "As<Subtype>"
         StringBuilder operationId = new StringBuilder(baseId);
-        if (requestMediaType != null) {
-            operationId.append("With").append(camelize(subtypeToken(requestMediaType)));
+        if (request.mediaType != null) {
+            operationId.append("With").append(camelize(request.token));
         }
-        if (responseMediaType != null) {
-            operationId.append("As").append(camelize(subtypeToken(responseMediaType)));
+        if (response.mediaType != null) {
+            operationId.append("As").append(camelize(response.token));
         }
         variant.setOperationId(operationId.toString());
 
-        if (requestMediaType != null) {
+        if (request.mediaType != null) {
             RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, original.getRequestBody());
-            variant.setRequestBody(narrowRequestBody(requestBody, requestMediaType, openapi31));
+            variant.setRequestBody(narrowRequestBody(requestBody, request.mediaType));
         }
-        if (responseMediaType != null) {
-            variant.setResponses(narrowResponses(original.getResponses(), targetResponseCode, targetResponse, responseMediaType, openapi31));
+        if (response.mediaType != null) {
+            variant.setResponses(narrowResponses(original.getResponses(), targetResponseCode, targetResponse, response.mediaType));
         }
         return variant;
     }
 
-    private RequestBody narrowRequestBody(RequestBody source, String mediaType, boolean openapi31) {
-        RequestBody copy = ModelUtils.cloneRequestBody(source, openapi31);
+    /**
+     * Copies an {@link Operation} one level deep: the copy gets its own parameter and extension lists,
+     * which the split writes to, and shares everything below — schemas above all, which it only reads.
+     * A deep copy would have to round-trip through the mapper, which drops any schema whose type is not
+     * a standard OpenAPI < 3.1 one.
+     */
+    private Operation shallowCopyOperation(Operation source) {
+        Operation copy = new Operation();
+        copy.setTags(source.getTags());
+        copy.setSummary(source.getSummary());
+        copy.setDescription(source.getDescription());
+        copy.setExternalDocs(source.getExternalDocs());
+        copy.setOperationId(source.getOperationId());
+        copy.setParameters(source.getParameters() == null ? null : new ArrayList<>(source.getParameters()));
+        copy.setRequestBody(source.getRequestBody());
+        copy.setResponses(source.getResponses());
+        copy.setCallbacks(source.getCallbacks());
+        copy.setDeprecated(source.getDeprecated());
+        copy.setSecurity(source.getSecurity() == null ? null : new ArrayList<>(source.getSecurity()));
+        copy.setServers(source.getServers());
+        // a non-null extensions map: the split writes the variant's place in the matrix into it, and
+        // generators (SpringCodegen for one) read it without null-guards
+        copy.setExtensions(source.getExtensions() == null ? new LinkedHashMap<>() : new LinkedHashMap<>(source.getExtensions()));
+        return copy;
+    }
+
+    private RequestBody narrowRequestBody(RequestBody source, String mediaType) {
+        RequestBody copy = new RequestBody();
+        copy.setDescription(source.getDescription());
+        copy.setRequired(source.getRequired());
+        copy.setExtensions(source.getExtensions());
         copy.setContent(singleContent(source.getContent(), mediaType));
         return copy;
     }
 
-    private ApiResponses narrowResponses(ApiResponses responses, String targetCode, ApiResponse targetResponse, String mediaType, boolean openapi31) {
+    private ApiResponses narrowResponses(ApiResponses responses, String targetCode, ApiResponse targetResponse, String mediaType) {
         ApiResponses copy = new ApiResponses();
         copy.setExtensions(responses.getExtensions());
         for (Map.Entry<String, ApiResponse> entry : responses.entrySet()) {
             if (entry.getKey().equals(targetCode)) {
-                copy.addApiResponse(entry.getKey(), narrowApiResponse(targetResponse, mediaType, openapi31));
+                copy.addApiResponse(entry.getKey(), narrowApiResponse(targetResponse, mediaType));
             } else {
                 copy.addApiResponse(entry.getKey(), entry.getValue());
             }
@@ -1191,8 +1266,12 @@ public class DefaultCodegen implements CodegenConfig {
         return copy;
     }
 
-    private ApiResponse narrowApiResponse(ApiResponse source, String mediaType, boolean openapi31) {
-        ApiResponse copy = ModelUtils.cloneApiResponse(source, openapi31);
+    private ApiResponse narrowApiResponse(ApiResponse source, String mediaType) {
+        ApiResponse copy = new ApiResponse();
+        copy.setDescription(source.getDescription());
+        copy.setHeaders(source.getHeaders());
+        copy.setLinks(source.getLinks());
+        copy.setExtensions(source.getExtensions());
         copy.setContent(singleContent(source.getContent(), mediaType));
         return copy;
     }
@@ -1217,7 +1296,20 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.getItems() != null) {
             key.append("|items=").append(schemaKey(schema.getItems()));
         }
+        // the property names too: without them two different inline object schemas share a key, and the
+        // media-type of the second one is dropped from the generated client with nothing said
+        if (schema.getProperties() != null) {
+            key.append("|props=").append(new TreeSet<>(schema.getProperties().keySet()));
+        }
+        if (schema.getAdditionalProperties() instanceof Schema) {
+            key.append("|addProps=").append(schemaKey((Schema) schema.getAdditionalProperties()));
+        }
         return key.toString();
+    }
+
+    /** Whole media-type reduced to an identifier, e.g. {@code text_csv} from {@code text/csv}. */
+    private static String sanitizeToken(String mediaType) {
+        return mediaType.replaceAll("\\+.*$", "").replaceAll("[^a-zA-Z0-9]+", "_");
     }
 
     /** Token derived from a media-type subtype, e.g. {@code Directlog} from {@code application/directlog}. */
@@ -2002,10 +2094,6 @@ public class DefaultCodegen implements CodegenConfig {
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
                 CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC).defaultValue(Boolean.FALSE.toString()));
-        // option to split operations that expose several request/response content-types with different schemas
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE,
-                CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE_DESC).defaultValue(Boolean.FALSE.toString()));
-
         // option to change how we process + set the data in the discriminator mapping
         CliOption legacyDiscriminatorBehaviorOpt = CliOption.newBoolean(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR_DESC).defaultValue(Boolean.TRUE.toString());
         Map<String, String> legacyDiscriminatorBehaviorOpts = new HashMap<>();
