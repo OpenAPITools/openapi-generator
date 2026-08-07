@@ -143,7 +143,7 @@ No authorization required
 
 ## fooDtParamGet
 
-> Foo fooDtParamGet(dtParam, dtQuery, dtCookie)
+> Foo fooDtParamGet(dtParam, dtQuery, dtCookie, color)
 
 
 
@@ -166,8 +166,9 @@ public class Example {
         java.time.Instant dtParam = new java.time.Instant(); // java.time.Instant | 
         java.time.Instant dtQuery = new java.time.Instant(); // java.time.Instant | 
         java.time.Instant dtCookie = new java.time.Instant(); // java.time.Instant | 
+        String color = "red"; // String | 
         try {
-            Foo result = apiInstance.fooDtParamGet(dtParam, dtQuery, dtCookie);
+            Foo result = apiInstance.fooDtParamGet(dtParam, dtQuery, dtCookie, color);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#fooDtParamGet");
@@ -188,6 +189,7 @@ public class Example {
 | **dtParam** | **java.time.Instant**|  | [optional] |
 | **dtQuery** | **java.time.Instant**|  | [optional] |
 | **dtCookie** | **java.time.Instant**|  | [optional] |
+| **color** | **String**|  | [optional] [default to red] |
 
 ### Return type
 
@@ -210,7 +212,7 @@ No authorization required
 
 ## fooDtParamGetWithHttpInfo
 
-> ApiResponse<Foo> fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie)
+> ApiResponse<Foo> fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, color)
 
 
 
@@ -234,8 +236,9 @@ public class Example {
         java.time.Instant dtParam = new java.time.Instant(); // java.time.Instant | 
         java.time.Instant dtQuery = new java.time.Instant(); // java.time.Instant | 
         java.time.Instant dtCookie = new java.time.Instant(); // java.time.Instant | 
+        String color = "red"; // String | 
         try {
-            ApiResponse<Foo> response = apiInstance.fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie);
+            ApiResponse<Foo> response = apiInstance.fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, color);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -258,6 +261,7 @@ public class Example {
 | **dtParam** | **java.time.Instant**|  | [optional] |
 | **dtQuery** | **java.time.Instant**|  | [optional] |
 | **dtCookie** | **java.time.Instant**|  | [optional] |
+| **color** | **String**|  | [optional] [default to red] |
 
 ### Return type
 

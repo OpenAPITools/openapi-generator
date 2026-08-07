@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * A category for a pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Category {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -103,7 +103,7 @@ public class Category {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }

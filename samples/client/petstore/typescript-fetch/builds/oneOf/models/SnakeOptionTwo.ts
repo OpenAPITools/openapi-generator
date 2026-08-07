@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface SnakeOptionTwo {
     /**
      * 
-     * @type {SnakeOptionTwoDiscriminatorFieldEnum}
-     * @memberof SnakeOptionTwo
      */
     discriminatorField: SnakeOptionTwoDiscriminatorFieldEnum;
     /**
      * 
-     * @type {string}
-     * @memberof SnakeOptionTwo
      */
     someProperty: string;
 }

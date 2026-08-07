@@ -111,15 +111,14 @@ class _$ObjectWithInlineEnumDefaultValueSerializer implements PrimitiveSerialize
   }
 }
 
+
+/// Object one attribute enum with default value
 class ObjectWithInlineEnumDefaultValueAttributeEnum extends EnumClass {
 
-  /// Object one attribute enum with default value
   @BuiltValueEnumConst(wireName: r'value_one')
   static const ObjectWithInlineEnumDefaultValueAttributeEnum valueOne = _$objectWithInlineEnumDefaultValueAttributeEnum_valueOne;
-  /// Object one attribute enum with default value
   @BuiltValueEnumConst(wireName: r'value_two')
   static const ObjectWithInlineEnumDefaultValueAttributeEnum valueTwo = _$objectWithInlineEnumDefaultValueAttributeEnum_valueTwo;
-  /// Object one attribute enum with default value
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
   static const ObjectWithInlineEnumDefaultValueAttributeEnum unknownDefaultOpenApi = _$objectWithInlineEnumDefaultValueAttributeEnum_unknownDefaultOpenApi;
 

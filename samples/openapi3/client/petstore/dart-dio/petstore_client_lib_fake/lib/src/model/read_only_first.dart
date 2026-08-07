@@ -126,3 +126,4 @@ class _$ReadOnlyFirstSerializer implements PrimitiveSerializer<ReadOnlyFirst> {
   }
 }
 
+

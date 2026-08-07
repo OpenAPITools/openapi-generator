@@ -1,0 +1,20 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Common Components",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "SharedModel": {
+        "type": "object",
+        "properties": {
+          "sharedField": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

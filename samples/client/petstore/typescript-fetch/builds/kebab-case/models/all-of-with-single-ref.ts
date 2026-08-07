@@ -29,14 +29,10 @@ import {
 export interface AllOfWithSingleRef {
     /**
      * 
-     * @type {string}
-     * @memberof AllOfWithSingleRef
      */
     username?: string;
     /**
      * 
-     * @type {SingleRefType}
-     * @memberof AllOfWithSingleRef
      */
     singleRefType?: SingleRefType;
 }

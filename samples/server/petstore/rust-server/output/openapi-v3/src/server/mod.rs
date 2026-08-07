@@ -36,6 +36,7 @@ use crate::{Api,
      MergePatchJsonGetResponse,
      MultigetGetResponse,
      MultipleAuthSchemeGetResponse,
+     MultipleResponseContentTypesResponse,
      OneOfGetResponse,
      OverrideServerGetResponse,
      ParamgetGetResponse,
@@ -81,6 +82,7 @@ mod paths {
             r"^/merge-patch-json$",
             r"^/multiget$",
             r"^/multiple-path-params-with-very-long-path-to-test-formatting/(?P<path_param_a>[^/?#]*)/(?P<path_param_b>[^/?#]*)$",
+            r"^/multiple-response-content-types$",
             r"^/multiple_auth_scheme$",
             r"^/one-of$",
             r"^/operation-two-first-letter-headers$",
@@ -127,31 +129,32 @@ mod paths {
             regex::Regex::new(r"^/multiple-path-params-with-very-long-path-to-test-formatting/(?P<path_param_a>[^/?#]*)/(?P<path_param_b>[^/?#]*)$")
                 .expect("Unable to create regex for MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B");
     }
-    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 12;
-    pub(crate) static ID_ONE_OF: usize = 13;
-    pub(crate) static ID_OPERATION_TWO_FIRST_LETTER_HEADERS: usize = 14;
-    pub(crate) static ID_OVERRIDE_SERVER: usize = 15;
-    pub(crate) static ID_PARAMGET: usize = 16;
-    pub(crate) static ID_QUERY_EXAMPLE: usize = 17;
-    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 18;
-    pub(crate) static ID_REGISTER_CALLBACK: usize = 19;
-    pub(crate) static ID_REPOS: usize = 20;
-    pub(crate) static ID_REPOS_REPOID: usize = 21;
+    pub(crate) static ID_MULTIPLE_RESPONSE_CONTENT_TYPES: usize = 12;
+    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 13;
+    pub(crate) static ID_ONE_OF: usize = 14;
+    pub(crate) static ID_OPERATION_TWO_FIRST_LETTER_HEADERS: usize = 15;
+    pub(crate) static ID_OVERRIDE_SERVER: usize = 16;
+    pub(crate) static ID_PARAMGET: usize = 17;
+    pub(crate) static ID_QUERY_EXAMPLE: usize = 18;
+    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 19;
+    pub(crate) static ID_REGISTER_CALLBACK: usize = 20;
+    pub(crate) static ID_REPOS: usize = 21;
+    pub(crate) static ID_REPOS_REPOID: usize = 22;
     lazy_static! {
         pub static ref REGEX_REPOS_REPOID: regex::Regex =
             #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
                 .expect("Unable to create regex for REPOS_REPOID");
     }
-    pub(crate) static ID_REQUIRED_BINARY_STREAM: usize = 22;
-    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 23;
-    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 24;
-    pub(crate) static ID_RFC7807: usize = 25;
-    pub(crate) static ID_UNTYPED_PROPERTY: usize = 26;
-    pub(crate) static ID_UUID: usize = 27;
-    pub(crate) static ID_XML: usize = 28;
-    pub(crate) static ID_XML_EXTRA: usize = 29;
-    pub(crate) static ID_XML_OTHER: usize = 30;
+    pub(crate) static ID_REQUIRED_BINARY_STREAM: usize = 23;
+    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 24;
+    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 25;
+    pub(crate) static ID_RFC7807: usize = 26;
+    pub(crate) static ID_UNTYPED_PROPERTY: usize = 27;
+    pub(crate) static ID_UUID: usize = 28;
+    pub(crate) static ID_XML: usize = 29;
+    pub(crate) static ID_XML_EXTRA: usize = 30;
+    pub(crate) static ID_XML_OTHER: usize = 31;
 }
 
 
@@ -384,6 +387,11 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                 handle_multiple_auth_scheme_get(api_impl, uri, headers, body, context, validation).await
             },
 
+            // MultipleResponseContentTypes - POST /multiple-response-content-types
+            hyper::Method::POST if path.matched(paths::ID_MULTIPLE_RESPONSE_CONTENT_TYPES) => {
+                handle_multiple_response_content_types(api_impl, uri, headers, body, context, validation).await
+            },
+
             // OneOfGet - GET /one-of
             hyper::Method::GET if path.matched(paths::ID_ONE_OF) => {
                 handle_one_of_get(api_impl, uri, headers, body, context, validation).await
@@ -506,6 +514,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
             _ if path.matched(paths::ID_MERGE_PATCH_JSON) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIGET) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIPLE_PATH_PARAMS_WITH_VERY_LONG_PATH_TO_TEST_FORMATTING_PATH_PARAM_A_PATH_PARAM_B) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIPLE_RESPONSE_CONTENT_TYPES) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => method_not_allowed(),
             _ if path.matched(paths::ID_ONE_OF) => method_not_allowed(),
             _ if path.matched(paths::ID_OPERATION_TWO_FIRST_LETTER_HEADERS) => method_not_allowed(),
@@ -843,7 +852,6 @@ where
                                     Vec::new();
                                 let param_enum_field =
                                     models::FormTestRequestEnumField::OneEnum;
-
 
                                 let result = api_impl.form_test(
                                             param_required_array.as_ref(),
@@ -1333,6 +1341,126 @@ where
 }
 
 #[allow(unused_variables)]
+async fn handle_multiple_response_content_types<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                // Handle body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                let result = http_body_util::BodyExt::collect(body).await.map(|f| f.to_bytes().to_vec());
+                match result {
+                     Ok(body) => {
+                                let mut unused_elements : Vec<String> = vec![];
+                                let param_object_param: Option<models::ObjectParam> = if !body.is_empty() {
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {path}");
+                                            unused_elements.push(path.to_string());
+                                    }) {
+                                        Ok(param_object_param) => param_object_param,
+                                        Err(e) => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter ObjectParam - doesn't match schema: {e}")))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter ObjectParam due to schema")),
+                                    }
+
+                                } else {
+                                    None
+                                };
+                                let param_object_param = match param_object_param {
+                                    Some(param_object_param) => param_object_param,
+                                    None => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(BoxBody::new("Missing required body parameter ObjectParam".to_string()))
+                                                        .expect("Unable to create Bad Request response for missing body parameter ObjectParam")),
+                                };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_object_param, "ObjectParam", validation);
+
+                                let result = api_impl.multiple_response_content_types(
+                                            param_object_param,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        if !unused_elements.is_empty() {
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
+                                                    .expect("Unable to create Warning header value"));
+                                        }
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                MultipleResponseContentTypesResponse::Created
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+
+                                                },
+                                                MultipleResponseContentTypesResponse::Forbidden
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(403).expect("Unable to turn 403 into a StatusCode");
+    match body {
+        swagger::OneOf2::<String, models::AnyOfObject>::A(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("text/plain"));
+                                                    // Plain text Body
+                                                    *response.body_mut() = body_from_string(body);
+        },
+        swagger::OneOf2::<String, models::AnyOfObject>::B(body) => {
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = body_from_string(body);
+        },
+    };
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+                            },
+                            Err(e) => Ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(body_from_string(format!("Unable to read body: {}", e.into())))
+                                                .expect("Unable to create Bad Request response due to unable to read body")),
+                        }
+}
+
+#[allow(unused_variables)]
 async fn handle_one_of_get<T, C, ReqBody>(
     mut api_impl: T,
     uri: hyper::Uri,
@@ -1816,7 +1944,6 @@ where
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
 
-
                                 let result = api_impl.required_binary_stream_put(
                                             param_body,
                                         &context
@@ -1886,7 +2013,6 @@ where
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
-
 
                                 let result = api_impl.required_octet_stream_put(
                                             param_body,
@@ -2266,7 +2392,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_object_untyped_props, "ObjectUntypedProps", validation);
 
-
                                 let result = api_impl.untyped_property_get(
                                             param_object_untyped_props,
                                         &context
@@ -2395,7 +2520,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_duplicate_xml_object, "DuplicateXmlObject", validation);
 
-
                                 let result = api_impl.xml_extra_post(
                                             param_duplicate_xml_object,
                                         &context
@@ -2477,7 +2601,6 @@ where
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_another_xml_object, "AnotherXmlObject", validation);
-
 
                                 let result = api_impl.xml_other_post(
                                             param_another_xml_object,
@@ -2571,7 +2694,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_another_xml_array, "AnotherXmlArray", validation);
 
-
                                 let result = api_impl.xml_other_put(
                                             param_another_xml_array,
                                         &context
@@ -2654,7 +2776,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_xml_array, "XmlArray", validation);
 
-
                                 let result = api_impl.xml_post(
                                             param_xml_array,
                                         &context
@@ -2736,7 +2857,6 @@ where
                                 };
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_xml_object, "XmlObject", validation);
-
 
                                 let result = api_impl.xml_put(
                                             param_xml_object,
@@ -2984,7 +3104,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_object_param, "ObjectParam", validation);
 
-
                                 let result = api_impl.create_repo(
                                             param_object_param,
                                         &context
@@ -3129,6 +3248,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             hyper::Method::GET if path.matched(paths::ID_MULTIGET) => Some("MultigetGet"),
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
             hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Some("MultipleAuthSchemeGet"),
+            // MultipleResponseContentTypes - POST /multiple-response-content-types
+            hyper::Method::POST if path.matched(paths::ID_MULTIPLE_RESPONSE_CONTENT_TYPES) => Some("MultipleResponseContentTypes"),
             // OneOfGet - GET /one-of
             hyper::Method::GET if path.matched(paths::ID_ONE_OF) => Some("OneOfGet"),
             // OverrideServerGet - GET /override-server

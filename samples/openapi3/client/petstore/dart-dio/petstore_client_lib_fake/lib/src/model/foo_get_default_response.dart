@@ -108,3 +108,4 @@ class _$FooGetDefaultResponseSerializer implements PrimitiveSerializer<FooGetDef
   }
 }
 
+

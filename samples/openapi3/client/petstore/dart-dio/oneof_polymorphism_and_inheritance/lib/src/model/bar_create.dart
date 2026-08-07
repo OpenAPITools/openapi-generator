@@ -224,3 +224,4 @@ class _$BarCreateSerializer implements PrimitiveSerializer<BarCreate> {
   }
 }
 
+

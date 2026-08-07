@@ -47,6 +47,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
+
 /**
  * An Apache CXF-based JAX-RS server with extended capabilities.
  *
@@ -656,20 +660,19 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     private boolean appendRandomEnum(StringBuilder buffer, CodegenOperation op, CodegenVariable var) {
         if (var != null && var.allowableValues != null) {
-            List<?> values = (List<?>) var.allowableValues.get("values");
+            List<?> values = getEnumValues(var.allowableValues);
             int i = (int) (values.size() * Math.random());
             Object randomEnum = values.get(i);
             boolean usingEnumLiteral = false;
             String definingClass = (String) var.varVendorExtensions.get("x-defining-class");
             if (definingClass != null) {
-                @SuppressWarnings("unchecked")
-                List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
+                List<Map<String, Object>> enumVars = getEnumVars(var.allowableValues);
                 if (enumVars != null) {
                     if (!loadTestDataFromFile) {
                         Map<String, Object> randomEnumVar = enumVars.get(i);
                         // NOTE: to disambiguate identically named inner enums, qualify enum name with defining class.
                         buffer.append(definingClass).append('.').append(var.enumName).append('.')
-                                .append(randomEnumVar.get("name"));
+                                .append(randomEnumVar.get(ENUM_NAME));
                         op.imports.add(definingClass);
                     }
                     usingEnumLiteral = true;

@@ -31,16 +31,16 @@ object Order {
   import io.circe.syntax._
   import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[Order] = deriveEncoder
+  implicit val encoder: Encoder[Order] = deriveEncoder[Order].mapJson(_.dropNullValues)
   implicit val decoder: Decoder[Order] = deriveDecoder
 }
 object OrderEnums {
 
   sealed trait Status
   object Status {
-    case object Placed extends Status
-    case object Approved extends Status
-    case object Delivered extends Status
+    case object Placed extends Status { override def toString: String = "placed" }
+    case object Approved extends Status { override def toString: String = "approved" }
+    case object Delivered extends Status { override def toString: String = "delivered" }
 
     import io.circe.{Encoder, Decoder}
 

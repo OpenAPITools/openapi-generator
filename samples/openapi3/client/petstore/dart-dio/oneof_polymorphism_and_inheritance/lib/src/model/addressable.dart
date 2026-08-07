@@ -74,6 +74,7 @@ class _$AddressableSerializer implements PrimitiveSerializer<Addressable> {
   }
 }
 
+
 /// a concrete implementation of [Addressable], since [Addressable] is not instantiable
 @BuiltValue(instantiable: true)
 abstract class $Addressable implements Addressable, Built<$Addressable, $AddressableBuilder> {

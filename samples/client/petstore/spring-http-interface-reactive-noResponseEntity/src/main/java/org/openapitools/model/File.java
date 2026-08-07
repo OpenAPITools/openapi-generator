@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  * Must be named &#x60;File&#x60; for test.
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class File {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

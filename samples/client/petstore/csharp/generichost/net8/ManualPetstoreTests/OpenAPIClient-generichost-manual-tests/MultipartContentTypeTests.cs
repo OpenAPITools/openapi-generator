@@ -55,7 +55,7 @@ namespace OpenAPIClient_generichost_manual_tests
             _capturingHandler = new CapturingHandler();
 
             IHostBuilder hostBuilder = Host.CreateDefaultBuilder(Array.Empty<string>())
-                .ConfigureApi((context, services, options) =>
+                .ConfigureApi((context, options) =>
                 {
                     options.AddTokens(new ApiKeyToken("test-key", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1)));
                     options.AddTokens(new BearerToken("test-bearer", timeout: TimeSpan.FromSeconds(1)));

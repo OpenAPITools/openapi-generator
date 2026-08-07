@@ -135,6 +135,7 @@ class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
   }
 }
 
+
 /// a concrete implementation of [Pizza], since [Pizza] is not instantiable
 @BuiltValue(instantiable: true)
 abstract class $Pizza implements Pizza, Built<$Pizza, $PizzaBuilder> {

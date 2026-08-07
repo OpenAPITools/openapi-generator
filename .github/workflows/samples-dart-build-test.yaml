@@ -9,6 +9,7 @@ on:
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
       - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
       - samples/openapi3/client/petstore/dart-dio/oneof/**
+      - samples/openapi3/client/petstore/dart-dio/anyof/**
       - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
       - samples/openapi3/client/petstore/dart-dio/binary_response/**
       - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
@@ -19,6 +20,7 @@ on:
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
       - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
       - samples/openapi3/client/petstore/dart-dio/oneof/**
+      - samples/openapi3/client/petstore/dart-dio/anyof/**
       - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
       - samples/openapi3/client/petstore/dart-dio/binary_response/**
       - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
@@ -36,13 +38,14 @@ jobs:
           #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
           - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/
           - samples/openapi3/client/petstore/dart-dio/oneof/
+          - samples/openapi3/client/petstore/dart-dio/anyof/
           - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/
           - samples/openapi3/client/petstore/dart-dio/binary_response/
           - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/
     steps:
       - uses: actions/checkout@v7
 
-      - uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@v1.8.0
         with:
           sdk: ${{ matrix.sdk }}
 

@@ -58,7 +58,6 @@ class ObjectWithInlineEnum {
 
 }
 
-
 enum ObjectWithInlineEnumAttributeEnum {
 @JsonValue(r'value_one')
 valueOne(r'value_one'),

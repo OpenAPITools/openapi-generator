@@ -651,6 +651,48 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void toDefaultValueForObjectWithEnumPropertyDefaultTest() {
+        // An object default that contains an enum property must render the enum constant
+        // (e.g. `OutputFormat.OrderEnum.SIMILARITY`) rather than a raw quoted string, which
+        // would not compile (see #24298).
+        ObjectSchema outputFormat = new ObjectSchema();
+        outputFormat.addProperty("order", new StringSchema()._enum(java.util.Arrays.asList("IMPORTANCE", "SIMILARITY")));
+        outputFormat.addProperty("limit", new IntegerSchema());
+        Map<String, Object> defaultValue = new LinkedHashMap<>();
+        defaultValue.put("order", "SIMILARITY");
+        defaultValue.put("limit", 10);
+        outputFormat.setDefault(defaultValue);
+
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("OutputFormat", outputFormat)));
+
+        CodegenProperty cp = codegen.fromProperty("format", new Schema<>().$ref("#/components/schemas/OutputFormat"));
+        String rendered = codegen.toDefaultValue(cp, outputFormat);
+
+        Assert.assertEquals(rendered, "new " + cp.datatypeWithEnum + "().order("
+                + cp.datatypeWithEnum + ".OrderEnum.SIMILARITY).limit(10)");
+    }
+
+    @Test
+    public void toDefaultValueForComposedEnumWithDefaultTest() {
+        // A `$ref` to an enum schema combined with a sibling `default` is parsed as a composed (allOf)
+        // schema that wraps a non-object, so getComposedSchemaProperties resolves no properties. The raw
+        // enum default must still be preserved (for later enum var-name conversion, e.g. `CurrencyCode.EUR`)
+        // rather than dropped to null, which regressed the standard `allOf` + sibling-`default` idiom (see #24384).
+        codegen.setDateLibrary("java8");
+        codegen.setOpenAPI(new OpenAPI().components(new Components()
+                .addSchemas("CurrencyCode", new StringSchema()._enum(Arrays.asList("EUR", "USD")))));
+
+        Schema<?> composed = new ComposedSchema()
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/CurrencyCode"));
+        composed.setDefault("EUR");
+
+        CodegenProperty cp = codegen.fromProperty("currency", composed);
+        String rendered = codegen.toDefaultValue(cp, composed);
+
+        Assert.assertEquals(rendered, "EUR");
+    }
+
+    @Test
     public void dateDefaultValueIsIsoDate() {
         final OpenAPI openAPI = FLATTENED_SPEC.get("3_0/spring/date-time-parameter-types-for-testing");
         codegen.setOpenAPI(openAPI);

@@ -15,6 +15,7 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /merge-patch-json | 
 ****](default_api.md#) | **GET** /multiget | Get some stuff.
 ****](default_api.md#) | **GET** /multiple_auth_scheme | 
+**MultipleResponseContentTypes**](default_api.md#MultipleResponseContentTypes) | **POST** /multiple-response-content-types | Test multiple content types in a single response
 ****](default_api.md#) | **GET** /one-of | 
 ****](default_api.md#) | **GET** /override-server | 
 ****](default_api.md#) | **GET** /paramget | Get some stuff with parameters.
@@ -310,7 +311,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/octet-stream, application/xml, text/plain
+ - **Accept**: application/json, application/xml, application/octet-stream, text/plain
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -333,6 +334,31 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **MultipleResponseContentTypes**
+> models::AnyOfObject MultipleResponseContentTypes(object_param)
+Test multiple content types in a single response
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **object_param** | [**ObjectParam**](ObjectParam.md)|  | 
+
+### Return type
+
+[**models::AnyOfObject**](AnyOfObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, text/plain
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

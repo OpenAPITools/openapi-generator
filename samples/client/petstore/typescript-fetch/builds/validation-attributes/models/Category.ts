@@ -21,19 +21,17 @@ import { mapValues } from '../runtime';
 export interface Category {
     /**
      * 
-     * @type {number}
-     * @memberof Category
      */
     id?: number;
     /**
      * 
-     * @type {string}
-     * @memberof Category
      */
     name?: string;
 }
 export const CategoryPropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,
@@ -48,6 +46,7 @@ export const CategoryPropertyValidationAttributesMap: {
     }
 } = {
     name: {
+        dataType: "string",
         pattern: '/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/',
     },
 }

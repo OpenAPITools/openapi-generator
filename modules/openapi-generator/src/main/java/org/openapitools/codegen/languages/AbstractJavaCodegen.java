@@ -74,9 +74,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
-import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.*;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -1555,7 +1555,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 if (!propertySchemas.isEmpty()) {
                     return toObjectDefaultValue(cp, schema.getDefault(), propertySchemas);
                 }
-                return null;
+                // No object properties resolved: the composition wraps a non-object, e.g. an `allOf`
+                // to an enum or scalar (`allOf: [{$ref: '#/.../CurrencyCode'}]` + sibling `default`).
+                // There is nothing to build via toObjectDefaultValue, so defer to the base behavior,
+                // which emits the raw default for later enum var-name / scalar conversion. Returning
+                // null here dropped the default and regressed enum defaults (see #24384).
+                return super.toDefaultValue(schema);
             }
             return null;
         }
@@ -1598,7 +1603,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     }
 
                     String defaultPropertyExpression = null;
-                    if(ModelUtils.isLongSchema(propertySchema)) {
+                    if(ModelUtils.isEnumSchema(ModelUtils.getReferencedSchema(this.openAPI, propertySchema))) {
+                        // Enum-typed property: render the enum constant (e.g. `OutputFormat.OrderEnum.SIMILARITY`)
+                        // rather than a raw quoted string, which would not compile (see #24298).
+                        CodegenProperty enumProperty = fromProperty(key, propertySchema);
+                        String enumType = enumProperty.isEnum
+                                // an inline enum is generated as a nested class of the containing object type
+                                ? cp.datatypeWithEnum + "." + enumProperty.datatypeWithEnum
+                                // a `$ref` to a named enum is a top-level type
+                                : enumProperty.datatypeWithEnum;
+                        defaultPropertyExpression = enumType + "." + toEnumVarName(value.asText(), enumProperty.dataType);
+                    } else if(ModelUtils.isLongSchema(propertySchema)) {
                         defaultPropertyExpression = value.asText()+"l";
                     } else if(ModelUtils.isIntegerSchema(propertySchema)) {
                         defaultPropertyExpression = value.asText();
@@ -1827,7 +1842,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         boolean hasAllowableValues = p.allowableValues != null && !p.allowableValues.isEmpty();
         if (hasAllowableValues) {
             //support examples for inline enums
-            final List<Object> values = (List<Object>) p.allowableValues.get("values");
+            final List<Object> values = getEnumValues(p.allowableValues);
             example = String.valueOf(values.get(0));
         } else if (p.defaultValue == null) {
             example = p.example;
@@ -2890,7 +2905,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Mustache.Lambda jSpecifyDatatypeLambda = (fragment, writer) -> {
             String dataType = fragment.execute();
             if (jSpecifyNullableLambda.isSetAndClear()) {
-                int idx = dataType.lastIndexOf('.');
+                int idx = getLastIndex(dataType);
                 if (idx > 0) {
                     // generate declaration like java.time.@Nullable Timestamp
                     writer.write(dataType.substring(0, idx + 1));
@@ -2908,6 +2923,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
                 .put("jSpecifyNullable", jSpecifyNullableLambda);
 
+    }
+
+    private int getLastIndex(String dataType) {
+        int index = dataType.indexOf('<');
+        if (index >= 0) {
+            dataType = dataType.substring(0, index);
+        }
+        return dataType.lastIndexOf('.');
     }
 
     /**

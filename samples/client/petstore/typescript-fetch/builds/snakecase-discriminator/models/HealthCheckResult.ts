@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface HealthCheckResult {
     /**
      * 
-     * @type {string}
-     * @memberof HealthCheckResult
      */
     nullableMessage?: string | null;
 }

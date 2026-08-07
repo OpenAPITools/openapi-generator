@@ -20,7 +20,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
  **/
 @ApiModel(description = "An order for a pets from the pet store")
 @JsonTypeName("Order")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Order  implements Serializable {
   private Long id;
   private Long petId;

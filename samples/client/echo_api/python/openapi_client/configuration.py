@@ -16,6 +16,7 @@ import http.client as httplib
 import logging
 from logging import FileHandler
 import multiprocessing
+import ssl
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 from urllib.parse import urlparse
@@ -175,6 +176,7 @@ class Configuration:
     :param proxy: Proxy URL.
     :param no_proxy: Comma-separated hosts that bypass the proxy.
     :param proxy_headers: Proxy headers.
+    :param proxy_ssl_context: SSL context used only for the TLS handshake with the proxy itself, independent of the destination TLS settings.
     :param safe_chars_for_path_param: Safe characters for path parameter encoding.
     :param client_side_validation: Enable client-side validation. Default True.
     :param socket_options: Options to pass down to the underlying urllib3 socket.
@@ -227,6 +229,7 @@ conf = openapi_client.Configuration(
         proxy: Optional[str]=None,
         no_proxy: Optional[str]=None,
         proxy_headers: Optional[Any]=None,
+        proxy_ssl_context: Optional[ssl.SSLContext]=None,
         safe_chars_for_path_param: str='',
         client_side_validation: bool=True,
         socket_options: Optional[Any]=None,
@@ -350,6 +353,11 @@ conf = openapi_client.Configuration(
         self.proxy_headers = proxy_headers
         """Proxy headers
         """
+        self.proxy_ssl_context = proxy_ssl_context
+        """SSL context used only for the TLS handshake with the proxy itself
+        (e.g. an HTTPS CONNECT tunnel), independent of the destination TLS
+        settings above.
+        """
         self.safe_chars_for_path_param = safe_chars_for_path_param
         """Safe chars for path_param
         """
@@ -376,6 +384,10 @@ conf = openapi_client.Configuration(
         result = cls.__new__(cls)
         memo[id(self)] = result
         for k, v in self.__dict__.items():
+            if k == 'proxy_ssl_context':
+                # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
+                setattr(result, k, v)
+                continue
             if k not in ('logger', 'logger_file_handler'):
                 setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
@@ -519,7 +531,8 @@ conf = openapi_client.Configuration(
             self.refresh_api_key_hook(self)
         key = self.api_key.get(identifier, self.api_key.get(alias) if alias is not None else None)
         if key:
-            prefix = self.api_key_prefix.get(identifier)
+            prefix = self.api_key_prefix.get(
+                identifier, self.api_key_prefix.get(alias) if alias is not None else None)
             if prefix:
                 return "%s %s" % (prefix, key)
             else:

@@ -58,7 +58,6 @@ class ObjectWithDuplicateInlineEnum {
 
 }
 
-
 enum ObjectWithDuplicateInlineEnumAttributeEnum {
 @JsonValue(r'value_one')
 valueOne(r'value_one'),

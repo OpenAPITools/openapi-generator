@@ -41,7 +41,7 @@ import java.util.StringJoiner;
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   @javax.annotation.Nullable

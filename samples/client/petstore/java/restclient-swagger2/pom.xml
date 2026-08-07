@@ -270,11 +270,11 @@
         <swagger-annotations-version>2.2.43</swagger-annotations-version>
 
         <spring-web-version>6.2.16</spring-web-version>
-        <jackson-version>2.21.1</jackson-version>
+        <jackson-version>2.21.5</jackson-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
 
         <jackson-annotations-version>2.21</jackson-annotations-version>
-        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.11</jackson-databind-nullable-version>
         <beanvalidation-version>3.1.1</beanvalidation-version>
         <junit-version>5.10.2</junit-version>
     </properties>

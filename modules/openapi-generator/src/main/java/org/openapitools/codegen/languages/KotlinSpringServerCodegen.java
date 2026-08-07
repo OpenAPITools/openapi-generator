@@ -87,6 +87,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SKIP_DEFAULT_API_INTERFACE = "skipDefaultApiInterface";
     public static final String SKIP_DEFAULT_DELEGATE_INTERFACE = "skipDefaultDelegateInterface";
     public static final String REACTIVE = "reactive";
+    private static final String REACTIVE_MULTIPART = "reactiveMultipart";
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
     public static final String USE_FEIGN_CLIENT = "useFeignClient";
@@ -732,6 +733,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
         }
         writePropertyBack(REACTIVE, reactive);
+        writePropertyBack(REACTIVE_MULTIPART, reactive && SPRING_BOOT.equals(library));
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
         writePropertyBack(USE_FLOW_FOR_ARRAY_RETURN_TYPE, useFlowForArrayReturnType);
 
@@ -1663,6 +1665,19 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         operation.returnContainer = returnContainer;
                     }
                 });
+
+                // Flow<String> is broken — StringDecoder intercepts String and returns the entire
+                // JSON array as a single blob instead of using Jackson. Fix by switching
+                // array-of-string operations to List<String> (with suspend).
+                // See https://github.com/spring-projects/spring-framework/issues/22662
+                // Note: check operation.returnType (set by doDataTypeAssignment) which holds the
+                // unwrapped inner type, e.g. "kotlin.String" for List<kotlin.String> arrays.
+                // The declarative-http-interface library forces useFlowForArrayReturnType=false,
+                // so this condition only fires for the spring-boot coroutines path.
+                if (reactive && useFlowForArrayReturnType
+                        && operation.isArray && "kotlin.String".equals(operation.returnType)) {
+                    operation.vendorExtensions.put("x-reactive-array-string-return", true);
+                }
 
                 // Generate sealed response interface metadata if enabled
                 if (useSealedResponseInterfaces && responses != null && !responses.isEmpty()) {

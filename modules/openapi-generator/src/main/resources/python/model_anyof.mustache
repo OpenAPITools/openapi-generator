@@ -12,6 +12,13 @@ import re  # noqa: F401
 from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal, Self
 from pydantic import Field
+{{#compatibleWithPythonLegacy}}
+from pydantic_core import to_jsonable_python
+
+
+{{>_legacy_model_dict_helpers}}
+
+{{/compatibleWithPythonLegacy}}
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ANY_OF_SCHEMAS = [{{#anyOf}}"{{.}}"{{^-last}}, {{/-last}}{{/anyOf}}]
 
@@ -156,9 +163,36 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
             return self.actual_instance.to_json()
+{{#compatibleWithPythonLegacy}}
+        return json.dumps(
+            to_jsonable_python(
+                _to_openapi_value(self.actual_instance)
+            )
+        )
+{{/compatibleWithPythonLegacy}}
+{{^compatibleWithPythonLegacy}}
         else:
             return json.dumps(self.actual_instance)
+{{/compatibleWithPythonLegacy}}
 
+{{#compatibleWithPythonLegacy}}
+    def to_dict(self, serialize: bool = False) -> Any:
+        """Returns the public or wire representation of the actual instance"""
+        if self.actual_instance is None:
+            return None
+
+        return _to_legacy_value(self.actual_instance, serialize)
+
+    def __openapi_generator_modern_projection(self) -> Any:
+        """Returns the wire representation of the actual instance"""
+        if self.actual_instance is None:
+            return None
+
+        return _to_openapi_value(self.actual_instance)
+
+{{>_legacy_model_dict_registration}}
+{{/compatibleWithPythonLegacy}}
+{{^compatibleWithPythonLegacy}}
     def to_dict(self) -> Optional[Union[Dict[str, Any], {{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}}]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
@@ -168,6 +202,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             return self.actual_instance.to_dict()
         else:
             return self.actual_instance
+{{/compatibleWithPythonLegacy}}
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""

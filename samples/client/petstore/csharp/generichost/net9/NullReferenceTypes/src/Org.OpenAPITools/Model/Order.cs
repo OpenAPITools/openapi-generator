@@ -328,7 +328,12 @@ namespace Org.OpenAPITools.Model
                         case "status":
                             string? statusRawValue = utf8JsonReader.GetString();
                             if (statusRawValue != null)
-                                status = new Option<Order.StatusEnum?>(Order.StatusEnumFromStringOrDefault(statusRawValue));
+                            {
+                                Order.StatusEnum? statusValue = Order.StatusEnumFromStringOrDefault(statusRawValue);
+                                if (statusValue == null)
+                                    throw new JsonException();
+                                status = new Option<Order.StatusEnum?>(statusValue);
+                            }
                             break;
                         default:
                             break;

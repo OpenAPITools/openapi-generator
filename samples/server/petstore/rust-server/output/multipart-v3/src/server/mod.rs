@@ -388,7 +388,6 @@ where
                                         .expect("Unable to create Bad Request response for missing multipart/related parameter required_binary_field due to schema"))
                                 };
 
-
                                 let result = api_impl.multipart_related_request_post(
                                             param_required_binary_field,
                                             param_object_field,
@@ -596,7 +595,6 @@ where
                                     }
                                 };
 
-
                                 let result = api_impl.multipart_request_post(
                                             param_string_field,
                                             param_binary_field,
@@ -712,7 +710,6 @@ where
                                 }
 
                                 // Check that the required multipart chunks are present.
-
 
                                 let result = api_impl.multiple_identical_mime_types_post(
                                             param_binary1,

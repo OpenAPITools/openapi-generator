@@ -169,3 +169,4 @@ class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<Obje
   }
 }
 
+

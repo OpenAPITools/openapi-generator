@@ -72,4 +72,122 @@ public class CSharpFunctionsServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get("operationModifier"), "virtual");
         Assert.assertEquals(codegen.additionalProperties().get("generateBody"), Boolean.TRUE);
     }
+
+    @Test
+    public void isolatedWorkerSelectsIsolatedLibraryAndNet10() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("azureFunctionsVersion", "v4-isolated");
+
+        codegen.processOpts();
+
+        // the isolated template overrides are selected via the "isolated" library
+        Assert.assertEquals(codegen.getLibrary(), "isolated");
+        Assert.assertEquals(codegen.additionalProperties().get("isolatedWorker"), Boolean.TRUE);
+        // the isolated worker only supports the net10.0 LTS target for now
+        Assert.assertEquals(codegen.additionalProperties().get("targetFramework"), "net10.0");
+        Assert.assertEquals(codegen.additionalProperties().get("netCoreVersion"), "10.0");
+        // the "-isolated" suffix is stripped so the csproj emits <AzureFunctionsVersion>v4</...>
+        Assert.assertEquals(codegen.additionalProperties().get("azureFunctionsVersion"), "v4");
+        // System.Text.Json is used on the isolated path, not Newtonsoft
+        Assert.assertEquals(codegen.additionalProperties().get("useNewtonsoft"), Boolean.FALSE);
+        // a Program.cs host entry point is generated for the isolated worker
+        Assert.assertTrue(codegen.supportingFiles().stream()
+                .anyMatch(f -> "Program.cs".equals(f.getDestinationFilename())));
+    }
+
+    @Test
+    public void isolatedWorkerOverridesUnsupportedNetVersion() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("azureFunctionsVersion", "v4-isolated");
+        codegen.additionalProperties().put("netCoreVersion", "6.0");
+
+        codegen.processOpts();
+
+        // an unsupported netCoreVersion is forced back to net10.0
+        Assert.assertEquals(codegen.additionalProperties().get("targetFramework"), "net10.0");
+        Assert.assertEquals(codegen.additionalProperties().get("netCoreVersion"), "10.0");
+    }
+
+    @Test
+    public void isolatedWorkerDefaultsToSystemTextJson() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("azureFunctionsVersion", "v4-isolated");
+
+        codegen.processOpts();
+
+        // with no explicit choice, the isolated worker serializes with System.Text.Json
+        Assert.assertEquals(codegen.additionalProperties().get("useNewtonsoft"), Boolean.FALSE);
+    }
+
+    @Test
+    public void isolatedWorkerHonorsExplicitNewtonsoft() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("azureFunctionsVersion", "v4-isolated");
+        codegen.additionalProperties().put("useNewtonsoft", true);
+
+        codegen.processOpts();
+
+        // an explicit useNewtonsoft=true is honored on the isolated path
+        Assert.assertEquals(codegen.additionalProperties().get("useNewtonsoft"), Boolean.TRUE);
+        // it still selects the isolated library and net10.0 target
+        Assert.assertEquals(codegen.getLibrary(), "isolated");
+        Assert.assertEquals(codegen.additionalProperties().get("targetFramework"), "net10.0");
+    }
+
+    @Test
+    public void isolatedWorkerDefaultsToAspNetCoreIntegration() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("azureFunctionsVersion", "v4-isolated");
+
+        codegen.processOpts();
+
+        // the isolated worker uses ASP.NET Core integration (HttpRequest/IActionResult) by default
+        Assert.assertEquals(codegen.additionalProperties().get("aspNetCoreIntegration"), Boolean.TRUE);
+    }
+
+    @Test
+    public void isolatedWorkerBuiltInModelWhenOptedOut() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("azureFunctionsVersion", "v4-isolated");
+        codegen.additionalProperties().put("aspNetCoreIntegration", false);
+
+        codegen.processOpts();
+
+        // opting out selects the built-in model (HttpRequestData/HttpResponseData)
+        Assert.assertEquals(codegen.additionalProperties().get("aspNetCoreIntegration"), Boolean.FALSE);
+    }
+
+    @Test
+    public void isolatedWorkerOpenApiAttributesAreOptIn() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("azureFunctionsVersion", "v4-isolated");
+
+        codegen.processOpts();
+
+        // OpenAPI attributes are off by default
+        Assert.assertEquals(codegen.additionalProperties().get("generateOpenApiAttributes"), Boolean.FALSE);
+    }
+
+    @Test
+    public void isolatedWorkerEmitsOpenApiAttributesWhenEnabled() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("azureFunctionsVersion", "v4-isolated");
+        codegen.additionalProperties().put("generateOpenApiAttributes", true);
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("generateOpenApiAttributes"), Boolean.TRUE);
+    }
+
+    @Test
+    public void inProcessModelStaysOnDefaultLibrary() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+
+        codegen.processOpts();
+
+        // default (in-process) generation does not select the isolated library
+        Assert.assertNull(codegen.getLibrary());
+        Assert.assertFalse(codegen.supportingFiles().stream()
+                .anyMatch(f -> "Program.cs".equals(f.getDestinationFilename())));
+    }
 }

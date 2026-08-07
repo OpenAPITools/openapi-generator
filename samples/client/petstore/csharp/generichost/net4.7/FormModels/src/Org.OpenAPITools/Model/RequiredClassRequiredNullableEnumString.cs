@@ -232,6 +232,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override RequiredClassRequiredNullableEnumString? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             RequiredClassRequiredNullableEnumString? result = rawValue == null
@@ -252,7 +255,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, RequiredClassRequiredNullableEnumString? requiredClassRequiredNullableEnumString, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(requiredClassRequiredNullableEnumString.HasValue ? RequiredClassRequiredNullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNullableEnumString.Value).ToString() : "null");
+            if (requiredClassRequiredNullableEnumString.HasValue)
+                writer.WriteStringValue(RequiredClassRequiredNullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNullableEnumString.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

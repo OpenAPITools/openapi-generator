@@ -109,3 +109,4 @@ class _$TestInlineFreeformAdditionalPropertiesRequestSerializer implements Primi
   }
 }
 
+

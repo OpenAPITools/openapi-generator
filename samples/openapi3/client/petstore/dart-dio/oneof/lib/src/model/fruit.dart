@@ -124,3 +124,4 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
   }
 }
 
+

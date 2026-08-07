@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
 
 @Deprecated
 @Schema(name = "Order", description = "An order for a pets from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Order {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

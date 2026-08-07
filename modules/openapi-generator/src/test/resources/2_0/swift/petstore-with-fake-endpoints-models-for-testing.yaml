@@ -98,6 +98,10 @@ paths:
               - available
               - pending
               - sold
+            x-enum-descriptions:
+              - Label for available status
+              - Other label for pending status
+              - Another label for sold status
             default: available
           collectionFormat: csv
       responses:

@@ -5,7 +5,6 @@
 // ignore_for_file: unused_element
 import 'package:json_annotation/json_annotation.dart';
 
-
 enum OuterEnum {
       @JsonValue(r'placed')
       placed(r'placed'),

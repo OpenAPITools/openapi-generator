@@ -48,6 +48,8 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -488,8 +490,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                 property.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, true);
             } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
-                if (property.allowableValues.containsKey("values")) {
-                    final List<?> allowableValues = (List<?>) property.allowableValues.get("values");
+                if (hasEnumValues(property.allowableValues)) {
+                    final List<?> allowableValues = getEnumValues(property.allowableValues);
                     boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
                     property.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, isZeroBased);
                 }
@@ -587,12 +589,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                     cm.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, true);
                 } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
-                    if (cm.allowableValues.containsKey("values")) {
-                        final List<?> allowableValues = (List<?>) cm.allowableValues.get("values");
+                    if (hasEnumValues(cm.allowableValues)) {
+                        final List<?> allowableValues = getEnumValues(cm.allowableValues);
                         boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
                         cm.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, isZeroBased);
                     }
                 }
+            }
+
+            // C# maps an unformatted number schema to decimal, but CodegenModel does not set isDecimal.
+            if (cm.isEnum && cm.isNumeric && !cm.isInteger && !cm.isLong && !cm.isFloat && !cm.isDouble) {
+                cm.isDecimal = true;
             }
         }
         // process enum in models
@@ -853,6 +860,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
             // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
             property.isPrimitiveType = true;
+
+            // Propagate numeric type flags from the referenced enum model so templates
+            // can branch on isNumeric/isInteger/isLong/isFloat/isDouble/isDecimal.
+            property.isNumeric = refModel.isNumeric;
+            property.isInteger = refModel.isInteger;
+            property.isLong = refModel.isLong;
+            property.isFloat = refModel.isFloat;
+            property.isDouble = refModel.isDouble;
+            property.isDecimal = refModel.isDecimal;
         }
 
         this.patchPropertyIsInherited(model, property);
@@ -878,7 +894,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         // this is inline with C# enums with string values
         if ("string?".equals(dataType)) {
             enumVars.forEach((enumVar) -> {
-                enumVar.put("isString", true);
+                enumVar.put(ENUM_IS_STRING, true);
             });
         }
 
@@ -891,7 +907,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     }
 
     /**
-     * Update codegen property's enum by adding "enumVars" (with name and value)
+     * Update codegen property's enum by adding {@value CodegenConstants#ENUM_VARS} (with name and value)
      *
      * @param var list of CodegenProperty
      */
@@ -1898,7 +1914,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         boolean hasAllowableValues = p.allowableValues != null && !p.allowableValues.isEmpty();
         if (hasAllowableValues) {
             //support examples for inline enums
-            final List<?> values = (List<?>) p.allowableValues.get("values");
+            final List<?> values = getEnumValues(p.allowableValues);
             example = String.valueOf(values.get(0));
         } else if (p.defaultValue == null) {
             example = p.example;

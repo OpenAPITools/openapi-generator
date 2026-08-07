@@ -19,9 +19,11 @@ package org.openapitools.generator.gradle.plugin.tasks
 import org.gradle.api.Action
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.logging.Logging
 import org.gradle.api.provider.ListProperty
@@ -80,6 +82,9 @@ interface OpenApiWorkParameters : WorkParameters {
     val enablePostProcessFile: Property<Boolean>
     val skipValidateSpec: Property<Boolean>
     val generateAliasAsModel: Property<Boolean>
+    val strictSpec: Property<Boolean>
+    val minimalUpdate: Property<Boolean>
+    val generateRecursiveDependentModels: Property<Boolean>
     val engine: Property<String>
     val dryRun: Property<Boolean>
 
@@ -156,6 +161,7 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
             params.generateModelDocumentation.orNull?.let { GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, it.toString()) }
             params.generateModelTests.orNull?.let { GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, it.toString()) }
             params.generateApiTests.orNull?.let { GlobalSettings.setProperty(CodegenConstants.API_TESTS, it.toString()) }
+            params.generateRecursiveDependentModels.orNull?.let { GlobalSettings.setProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, it.toString()) }
 
             // Apply Configurator Settings
             params.resolvedInputSpec.orNull?.let { configurator.setInputSpec(it) }
@@ -195,6 +201,8 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
             params.logToStderr.orNull?.let { configurator.setLogToStderr(it) }
             params.enablePostProcessFile.orNull?.let { configurator.setEnablePostProcessFile(it) }
             params.skipValidateSpec.orNull?.let { configurator.setValidateSpec(!it) }
+            params.strictSpec.orNull?.let { configurator.setStrictSpecBehavior(it) }
+            params.minimalUpdate.orNull?.let { configurator.setEnableMinimalUpdate(it) }
             params.generateAliasAsModel.orNull?.let { configurator.setGenerateAliasAsModel(it) }
 
             params.engine.orNull?.let {
@@ -342,8 +350,11 @@ abstract class GenerateTask : DefaultTask() {
     abstract val generatorName: Property<String>
 
     /**
-     * This is the configuration for reference paths where schemas for openapi generation are stored
-     * The directory which contains the additional schema files
+     * Optional directory containing additional schema files referenced via `$ref` in the input specification.
+     *
+     * Declaring this directory tells Gradle to track all files inside it for up-to-date checks.
+     * Without it, changes to `$ref`-referenced schemas will not trigger re-generation because
+     * Gradle only watches [inputSpec] by default.
      */
     @get:Optional
     @get:InputDirectory
@@ -393,18 +404,70 @@ abstract class GenerateTask : DefaultTask() {
     abstract val inputSpecRootDirectory: DirectoryProperty
 
     /**
-     * Skip bundling all spec files into a merged spec file, if true.
+     * An explicit collection of spec files to merge, in the order they are declared.
+     *
+     * When set, the generator merges exactly these files rather than scanning a directory.
+     * Use with [mergeMode] and [mergeConflictStrategy]. The merged output is written to
+     * [mergedFileOutputDir].
+     *
+     * Takes precedence over [inputSpecRootDirectory] if both are set.
+     */
+    @get:InputFiles
+    @get:Optional
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val inputSpecFiles: ConfigurableFileCollection = project.objects.fileCollection()
+
+    /**
+     * The declared order of [inputSpecFiles], tracked as an explicit task input.
+     *
+     * [inputSpecFiles] is an [InputFiles] collection, whose up-to-date checks are order-insensitive.
+     * Because the merge honors a first-wins/conflict contract that depends on file ordering,
+     * this derived ordered list is exposed as an [Input] so that reordering the declared files
+     * invalidates the task and forces a fresh merge instead of reusing a stale merged spec.
+     */
+    @get:Input
+    @get:Optional
+    val inputSpecFilesOrder: List<String>
+        get() = inputSpecFiles.files.map { it.name }
+
+    /**
+     * Directory where the merged spec file is written when [inputSpecFiles] is used.
+     * Must be set when [inputSpecFiles] is non-empty.
+     */
+    @get:OutputDirectory
+    @get:Optional
+    abstract val mergedFileOutputDir: DirectoryProperty
+
+    /**
+     * Skip bundling all spec files into a merged spec file, if true. Defaults to `false`.
      */
     @get:Input
     @get:Optional
     abstract val inputSpecRootDirectorySkipMerge: Property<Boolean>
 
     /**
-     * Name of the file that will contain all merged specs
+     * Name of the file that will contain all merged specs. Defaults to `"merged"`.
      */
     @get:Input
     @get:Optional
     abstract val mergedFileName: Property<String>
+
+    /**
+     * How multiple spec files are merged. Accepted values: "REF" (default, original $ref-based
+     * shallow merge, backward-compatible) or "DEEP" (full inline merge with component
+     * deduplication and conflict detection).
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergeMode: Property<String>
+
+    /**
+     * Strategy when two specs define the same component name or path+method with conflicting
+     * definitions. Accepted values: "WARN" (default) or "FAIL". Only applies when mergeMode is "DEEP".
+     */
+    @get:Input
+    @get:Optional
+    abstract val mergeConflictStrategy: Property<String>
 
     /**
      * The remote Open API 2.0/3.x specification URL location.
@@ -422,7 +485,10 @@ abstract class GenerateTask : DefaultTask() {
     abstract val templateDir: DirectoryProperty
 
     /**
-     * Resource path containing template files.
+     * A classpath resource path (or file-system directory path) holding custom Mustache templates.
+     *
+     * Takes precedence over [templateDir] when both are configured. Use this when templates are
+     * packaged inside a JAR on the classpath rather than as loose files on disk.
      */
     @get:Optional
     @get:Input
@@ -575,7 +641,11 @@ abstract class GenerateTask : DefaultTask() {
     abstract val inlineSchemaNameMappings: MapProperty<String, String>
 
     /**
-     * Specifies options for inline schemas
+     * Key/value options controlling how inline schemas are handled during generation.
+     *
+     * Common keys: `RESOLVE_INLINE_ENUMS` (promote inline enums to top-level models),
+     * `ARRAY_ITEMS_SUFFIX`, `MAP_ITEMS_SUFFIX`. Run `config-help -g {generatorName}` for the
+     * full list of supported options.
      */
     @get:Optional
     @get:Input
@@ -617,7 +687,12 @@ abstract class GenerateTask : DefaultTask() {
     abstract val operationIdNameMappings: MapProperty<String, String>
 
     /**
-     * Specifies mappings (rules) in OpenAPI normalizer
+     * Key/value rules passed to the OpenAPI normalizer, which pre-processes the parsed spec
+     * before code generation begins.
+     *
+     * Example rules: `REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true`,
+     * `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true`. See the OpenAPI Generator docs for
+     * the full list of normalizer rules.
      */
     @get:Optional
     @get:Input
@@ -716,7 +791,7 @@ abstract class GenerateTask : DefaultTask() {
     abstract val removeOperationIdPrefix: Property<Boolean>
 
     /**
-     * Remove examples defined in the operation
+     * Skip examples defined in the operation
      */
     @get:Optional
     @get:Input
@@ -809,7 +884,7 @@ abstract class GenerateTask : DefaultTask() {
     abstract val generateApiDocumentation: Property<Boolean>
 
     /**
-     * To write all log messages (not just errors) to STDOUT
+     * To write all log messages (not just errors) to STDERR
      */
     @get:Optional
     @get:Input
@@ -870,9 +945,86 @@ abstract class GenerateTask : DefaultTask() {
     @get:Input
     abstract val dryRun: Property<Boolean>
 
+    /**
+     * When `true`, applies strict validation against the OpenAPI specification, failing on any deviation.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     */
+    @get:Optional
+    @get:Input
+    abstract val strictSpec: Property<Boolean>
+
+    /**
+     * When `true`, only writes output files that have changed relative to an existing generated output.
+     * Reduces unnecessary file churn in version control.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     */
+    @get:Optional
+    @get:Input
+    abstract val minimalUpdate: Property<Boolean>
+
+    /**
+     * When `true`, recursively generates all models that the selected models depend on,
+     * even if those dependent models were not explicitly listed for generation.
+     * Only relevant when [modelFilesConstrainedTo] is configured.
+     * When not set, any value from [configFile] is used; the generator's own default is `false`.
+     */
+    @get:Optional
+    @get:Input
+    abstract val generateRecursiveDependentModels: Property<Boolean>
+
+    /**
+     * Title placed in the `info.title` field of the merged spec. Defaults to `"merged spec"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    @get:Internal
+    abstract val mergedFileInfoName: Property<String>
+
+    /**
+     * Description placed in the `info.description` field of the merged spec. Defaults to `"merged spec"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    @get:Internal
+    abstract val mergedFileInfoDescription: Property<String>
+
+    /**
+     * Version placed in the `info.version` field of the merged spec. Defaults to `"1.0.0"`.
+     * Only used when [inputSpecRootDirectory] is set.
+     */
+    @get:Internal
+    abstract val mergedFileInfoVersion: Property<String>
+
+    /**
+     * Combines [mergedFileInfoName], [mergedFileInfoDescription], and [mergedFileInfoVersion] into a
+     * single fingerprint value that is only visible to Gradle's up-to-date/caching logic when merge
+     * mode is actually active (i.e. [inputSpecRootDirectory] is set and [inputSpecRootDirectorySkipMerge]
+     * is false). Returns `null` — and is therefore skipped by `@Optional` — when merge is inactive,
+     * preventing unnecessary cache invalidation for tasks that never use the merge feature.
+     */
+    @get:Input
+    @get:Optional
+    val effectiveMergedSpecInfo: String?
+        get() {
+            if (!inputSpecRootDirectory.isPresent) return null
+            if (inputSpecRootDirectorySkipMerge.getOrElse(false)) return null
+            // Encode each value as "<len>:<value>" (or "-" for null). The length prefix keeps the
+            // "|" separator unambiguous when a value contains "|"; the "-" sentinel distinguishes a
+            // null from the literal string "null" (which encodes as "4:null").
+            return listOf(mergedFileInfoName.orNull, mergedFileInfoDescription.orNull, mergedFileInfoVersion.orNull)
+                .joinToString("|") { value -> value?.let { "${it.length}:$it" } ?: "-" }
+        }
+
     init {
         inputSpecRootDirectorySkipMerge.convention(false)
         mergedFileName.convention("merged")
+        mergedFileInfoName.convention("merged spec")
+        mergedFileInfoDescription.convention("merged spec")
+        mergedFileInfoVersion.convention("1.0.0")
+        mergeMode.convention("REF")
+        mergeConflictStrategy.convention("WARN")
+        // No convention for strictSpec/minimalUpdate/generateRecursiveDependentModels:
+        // the worker uses orNull?.let to skip calling the configurator when these are unset,
+        // allowing config-file values to win. A convention(false) would make orNull always
+        // return false and unconditionally override any config-file setting.
     }
 
     @Suppress("unused")
@@ -891,22 +1043,91 @@ abstract class GenerateTask : DefaultTask() {
             logger.warn("Using remoteInputSpec may result in stale build caches if the remote content changes.")
         }
 
-        inputSpecRootDirectory.orNull?.let { inputDir ->
-            if (!inputSpecRootDirectorySkipMerge.get()) {
-                finalResolvedInputSpec = MergedSpecBuilder(
-                    inputDir.asFile.absolutePath,
-                    mergedFileName.get()
-                ).buildMergedSpec()
-                logger.info("Merge input spec used: {}", finalResolvedInputSpec)
-            }
-        }
-
+        // Clean up the output directory BEFORE merging. When mergedFileOutputDir overlaps outputDir,
+        // running cleanup after the merge would delete the freshly written merged spec before the
+        // worker can read it. Doing it here preserves the merged input spec.
         cleanupOutput.orNull?.let { cleanup ->
             if (cleanup && outputDir.isPresent) {
                 fs.delete { delete(outputDir) }
                 logger.lifecycle("Cleaned up output directory ${outputDir.get().asFile.path} before code generation.")
             }
         }
+
+        inputSpecRootDirectory.orNull?.let { inputDir ->
+            // Explicit inputSpecFiles takes precedence over the root directory. When both are set,
+            // skip the directory merge entirely so a bad/conflicting root directory cannot abort the
+            // build before the declared file list is used, and so its (unwanted) merged output is not
+            // written.
+            if (!inputSpecFiles.isEmpty) {
+                logger.info(
+                    "Both inputSpecRootDirectory and inputSpecFiles are set; ignoring inputSpecRootDirectory " +
+                            "and merging the explicit inputSpecFiles list instead."
+                )
+            } else if (!inputSpecRootDirectorySkipMerge.get()) {
+                val resolvedMergeMode = try {
+                    MergedSpecBuilder.MergeMode.valueOf(mergeMode.get().uppercase())
+                } catch (e: IllegalArgumentException) {
+                    throw GradleException("Invalid mergeMode value '${mergeMode.get()}'. Valid values are: REF, DEEP")
+                }
+
+                val builder = MergedSpecBuilder(
+                    inputDir.asFile.absolutePath,
+                    mergedFileName.get(),
+                    mergedFileInfoName.get(),
+                    mergedFileInfoDescription.get(),
+                    mergedFileInfoVersion.get(),
+                    null
+                ).withMergeMode(resolvedMergeMode)
+
+                if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                    try {
+                        builder.withConflictStrategy(
+                            MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.get().uppercase())
+                        )
+                    } catch (e: IllegalArgumentException) {
+                        throw GradleException("Invalid mergeConflictStrategy value '${mergeConflictStrategy.get()}'. Valid values are: WARN, FAIL")
+                    }
+                }
+
+                finalResolvedInputSpec = builder.buildMergedSpec()
+                logger.info("Merge input spec used: {}", finalResolvedInputSpec)
+            }
+        }
+
+        inputSpecFiles.takeIf { !it.isEmpty }?.let { files ->
+            val outputDirForMerge = mergedFileOutputDir.orNull?.asFile
+                ?: throw GradleException("mergedFileOutputDir must be set when using inputSpecFiles")
+
+            val resolvedMergeMode = try {
+                MergedSpecBuilder.MergeMode.valueOf(mergeMode.get().uppercase())
+            } catch (e: IllegalArgumentException) {
+                throw GradleException("Invalid mergeMode value '${mergeMode.get()}'. Valid values are: REF, DEEP")
+            }
+
+            val builder = MergedSpecBuilder(
+                files.map { it.absolutePath },
+                outputDirForMerge.absolutePath,
+                mergedFileName.get(),
+                mergedFileInfoName.get(),
+                mergedFileInfoDescription.get(),
+                mergedFileInfoVersion.get(),
+                null
+            ).withMergeMode(resolvedMergeMode)
+
+            if (resolvedMergeMode == MergedSpecBuilder.MergeMode.DEEP) {
+                try {
+                    builder.withConflictStrategy(
+                        MergedSpecBuilder.MergeConflictStrategy.valueOf(mergeConflictStrategy.get().uppercase())
+                    )
+                } catch (e: IllegalArgumentException) {
+                    throw GradleException("Invalid mergeConflictStrategy value '${mergeConflictStrategy.get()}'. Valid values are: WARN, FAIL")
+                }
+            }
+
+            finalResolvedInputSpec = builder.buildMergedSpec()
+            logger.info("Merged spec from explicit file list: {}", finalResolvedInputSpec)
+        }
+
 
 // Submit generation work using the configured isolation mode.
 // "classloader" (default): worker runs inside the Gradle daemon JVM with a separate ClassLoader; no startup
@@ -915,25 +1136,30 @@ abstract class GenerateTask : DefaultTask() {
 //   exits, and Gradle reuses the same worker daemon across tasks that share the same classpath,
 //   so startup cost is amortized — typically paid only once per parallel slot.
         val isolation = workerIsolation.getOrElse("classloader").lowercase()
+        val quietMode = quiet.getOrElse(false)
         val workQueue = when (isolation) {
             "process" -> {
-                val heapMsg = maxWorkerHeapSize.orNull?.let { " (maxHeapSize=$it)" } ?: ""
-                logger.lifecycle(
-                    "[openApiGenerate] Worker isolation: process$heapMsg " +
-                            "(isolated JVM per task, no Metaspace leak - " +
-                            "use workerIsolation = \"classloader\" to skip per-task JVM startup cost at the cost of increased Metaspace usage)"
-                )
+                if (!quietMode) {
+                    val heapMsg = maxWorkerHeapSize.orNull?.let { " (maxHeapSize=$it)" } ?: ""
+                    logger.lifecycle(
+                        "[openApiGenerate] Worker isolation: process$heapMsg " +
+                                "(isolated JVM per task, no Metaspace leak - " +
+                                "use workerIsolation = \"classloader\" to skip per-task JVM startup cost at the cost of increased Metaspace usage)"
+                    )
+                }
                 workerExecutor.processIsolation {
                     maxWorkerHeapSize.orNull?.let { forkOptions.maxHeapSize = it }
                 }
             }
 
             "classloader" -> {
-                logger.lifecycle(
-                    "[openApiGenerate] Worker isolation: classloader " +
-                            "(fast startup, but generator classes accumulate in Gradle daemon Metaspace - " +
-                            "consider workerIsolation = \"process\" if you hit metaspace pressure)"
-                )
+                if (!quietMode) {
+                    logger.lifecycle(
+                        "[openApiGenerate] Worker isolation: classloader " +
+                                "(fast startup, but generator classes accumulate in Gradle daemon Metaspace - " +
+                                "consider workerIsolation = \"process\" if you hit metaspace pressure)"
+                    )
+                }
                 workerExecutor.classLoaderIsolation()
             }
 
@@ -976,6 +1202,9 @@ abstract class GenerateTask : DefaultTask() {
                 parameters.enablePostProcessFile.set(enablePostProcessFile)
                 parameters.skipValidateSpec.set(skipValidateSpec)
                 parameters.generateAliasAsModel.set(generateAliasAsModel)
+                parameters.strictSpec.set(strictSpec)
+                parameters.minimalUpdate.set(minimalUpdate)
+                parameters.generateRecursiveDependentModels.set(generateRecursiveDependentModels)
                 parameters.engine.set(engine)
                 parameters.dryRun.set(dryRun)
 
@@ -1065,7 +1294,7 @@ abstract class GenerateTask : DefaultTask() {
     fun setInputSpecAsString(path: String) {
         if (path.isRemoteUri()) {
             remoteInputSpec.set(path)
-            inputSpec.set(null as File?)  // Clear local file to prevent conflicts
+            inputSpec.set(null as RegularFile?)  // Clear local file to prevent conflicts
         } else {
             inputSpec.set(layout.projectDirectory.file(path))
             remoteInputSpec.set(null as String?)  // Clear remote URL to prevent conflicts

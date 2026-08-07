@@ -17,6 +17,7 @@ use openapi_v3::{
     MergePatchJsonGetResponse,
     MultigetGetResponse,
     MultipleAuthSchemeGetResponse,
+    MultipleResponseContentTypesResponse,
     OneOfGetResponse,
     OverrideServerGetResponse,
     ParamgetGetResponse,
@@ -136,6 +137,11 @@ enum Operation {
     MultigetGet {
     },
     MultipleAuthSchemeGet {
+    },
+    /// Test multiple content types in a single response
+    MultipleResponseContentTypes {
+        #[clap(value_parser = parse_json::<models::ObjectParam>)]
+        object_param: models::ObjectParam,
     },
     OneOfGet {
     },
@@ -511,6 +517,29 @@ async fn main() -> Result<()> {
                 MultipleAuthSchemeGetResponse::CheckThatLimitingToMultipleRequiredAuthSchemesWorks
                 => "CheckThatLimitingToMultipleRequiredAuthSchemesWorks\n".to_string()
                     ,
+            }
+        }
+        Operation::MultipleResponseContentTypes {
+            object_param,
+        } => {
+            info!("Performing a MultipleResponseContentTypes request");
+
+            let result = client.multiple_response_content_types(
+                object_param,
+            ).await?;
+            debug!("Result: {:?}", result);
+
+            match result {
+                MultipleResponseContentTypesResponse::Created
+                (body)
+                => "Created\n".to_string()
+                   +
+                    &serde_json::to_string_pretty(&body)?,
+                MultipleResponseContentTypesResponse::Forbidden
+                (body)
+                => "Forbidden\n".to_string()
+                   +
+                    &serde_json::to_string_pretty(&body)?,
             }
         }
         Operation::OneOfGet {

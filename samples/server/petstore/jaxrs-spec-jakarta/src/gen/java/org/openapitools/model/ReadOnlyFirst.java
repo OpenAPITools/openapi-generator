@@ -17,7 +17,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @JsonTypeName("ReadOnlyFirst")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ReadOnlyFirst  implements Serializable {
   private String bar;
   private String baz;

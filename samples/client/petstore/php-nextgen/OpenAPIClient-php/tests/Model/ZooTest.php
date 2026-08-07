@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * ZooTest Class Doc Comment
  *
- * @description A model that uses oneOf schemas as property types.
+ * @description A model that uses oneOf and anyOf schemas as property types.
  * @package     OpenAPI\Client
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
@@ -108,6 +108,24 @@ class ZooTest extends TestCase
      * Test attribute "mammals"
      */
     public function testPropertyMammals()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "favorite_reptile"
+     */
+    public function testPropertyFavoriteReptile()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "drink"
+     */
+    public function testPropertyDrink()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

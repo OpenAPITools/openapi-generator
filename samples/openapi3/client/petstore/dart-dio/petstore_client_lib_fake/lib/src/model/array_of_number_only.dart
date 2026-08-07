@@ -108,3 +108,4 @@ class _$ArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayOfNumber
   }
 }
 
+

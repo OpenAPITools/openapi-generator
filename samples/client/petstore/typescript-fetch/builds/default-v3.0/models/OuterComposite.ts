@@ -21,20 +21,14 @@ import { mapValues } from '../runtime';
 export interface OuterComposite {
     /**
      * 
-     * @type {number}
-     * @memberof OuterComposite
      */
     myNumber?: number;
     /**
      * 
-     * @type {string}
-     * @memberof OuterComposite
      */
     myString?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof OuterComposite
      */
     myBoolean?: boolean;
 }

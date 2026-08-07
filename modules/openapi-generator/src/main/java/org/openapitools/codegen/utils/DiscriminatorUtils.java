@@ -3,12 +3,15 @@ package org.openapitools.codegen.utils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
+import org.jspecify.annotations.Nullable;
 import org.openapitools.codegen.CodegenProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 
 import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.X_DISCRIMINATOR_VALUE;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class DiscriminatorUtils {
@@ -17,11 +20,14 @@ public class DiscriminatorUtils {
 
     private static final String CONFLICTING_DISCRIMINATOR_NAMES =
             "The alternative schemas have conflicting discriminator property names. The schemas must have the same property name, but found {}";
+    private static final String CONFLICTING_DISCRIMINATOR_TYPES =
+            "The alternative schemas have conflicting discriminator property types ({})";
     private static final String DEFINES_DISCRIMINATOR_BUT_REFERENCE_ALTERNATIVE_IS_MISSING =
             "'{}' defines discriminator '{}', but the referenced schema '{}' is missing {}";
     private static final String DEFINES_DISCRIMINATOR_BUT_ALTERNATIVE_HAS_OTHER_DEFINITION =
             "'{}' defines discriminator '{}', but the schema '{}' has a different {} definition than the prior schema's. Make sure the {} type and required values are the same";
-
+    private static final String DEFINES_DISCRIMINATOR_BUT_REFERENCE_IS_INCORRECT =
+            "'{}' defines discriminator '{}', but the referenced schema '{}' is incorrect. {}";
     /**
      * Recursively look in Schema sc for the discriminator discPropName
      * and return a CodegenProperty with the dataType and required params set
@@ -124,15 +130,19 @@ public class DiscriminatorUtils {
      * @param sc                          The Schema that may contain the discriminator
      * @param visitedSchemas              an array list of visited schemas
      */
-    public static Discriminator recursiveGetDiscriminator(
+    public static DiscriminatorData recursiveGetDiscriminator(
             OpenAPI openAPI,
             boolean legacyDiscriminatorBehavior,
             Schema sc,
             ArrayList<Schema> visitedSchemas) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
-        Discriminator foundDisc = refSchema.getDiscriminator();
-        if (foundDisc != null) {
-            return foundDisc;
+        DiscriminatorData foundDisc = new DiscriminatorData(refSchema.getDiscriminator(), null);
+        if (foundDisc.getDiscriminator() != null) {
+            String discriminatorPropertyName = foundDisc.getDiscriminator().getPropertyName();
+            return new DiscriminatorData(
+                    foundDisc.getDiscriminator(),
+                    DiscriminatorUtils.getDiscriminatorSchema(refSchema, discriminatorPropertyName)
+            );
         }
 
         if (legacyDiscriminatorBehavior) {
@@ -156,7 +166,7 @@ public class DiscriminatorUtils {
                     if (foundDisc != null) {
                         disc.setPropertyName(foundDisc.getPropertyName());
                         disc.setMapping(foundDisc.getMapping());
-                        return disc;
+                        return new DiscriminatorData(disc, foundDisc.getDiscriminatorSchema());
                     }
                 }
             }
@@ -174,11 +184,44 @@ public class DiscriminatorUtils {
     }
 
     /**
+     * Get the value of the vendor extension {@code x-discriminator-value} from the schema, if present.
+     * @param schema the schema to check for the vendor extension
+     * @return the value of the vendor extension, or an empty optional if not present
+     */
+    public static Optional<String> discriminatorVendorExtensionValue(Schema schema) {
+        return Optional.ofNullable(schema)
+                .map(Schema::getExtensions)
+                .map(vendorExtensions -> vendorExtensions.get(X_DISCRIMINATOR_VALUE))
+                .map(discriminatorValue -> (String) discriminatorValue);
+    }
+
+    public static String getDiscriminatorSchemaError(CodegenProperty codegenProperty, String discPropName,
+                                                     String modelName, String composedSchemaName) {
+        String msgSuffix = "";
+        if (codegenProperty == null) {
+            msgSuffix += discPropName + " is missing from the schema, define it as required and type string";
+        } else {
+            if (!codegenProperty.isString) {
+                msgSuffix += "invalid type for " + discPropName + ", set it to string";
+            }
+            if (!codegenProperty.required) {
+                String spacer = "";
+                if (!msgSuffix.isEmpty()) {
+                    spacer = ". ";
+                }
+                msgSuffix += spacer + "invalid optional definition of " + discPropName + ", include it in required";
+            }
+        }
+        return MessageFormatter.arrayFormat(DEFINES_DISCRIMINATOR_BUT_REFERENCE_IS_INCORRECT,
+                new Object[]{composedSchemaName, discPropName, modelName, msgSuffix}).getMessage();
+    }
+
+    /**
      * Get the Schema for the discriminator type. Requires special handling due to siblings from OAS 3.1.
      * An example of a sibling is an enum-ref that has its own description. This will lead to the enum being
      * referenced as an allOf that in turn has a ref, rather than a regular ref directly to the enum.
      *
-     * @param schema            The input OAS schema.
+     * @param schema            The input OAS schema that has the discriminator as a property.
      * @param discriminatorName The name of the discriminator property.
      */
     private static Schema getDiscriminatorSchema(Schema schema, String discriminatorName) {
@@ -201,16 +244,17 @@ public class DiscriminatorUtils {
      * @param visitedSchemas              an array list of visited schemas
      * @return the discriminator if the alternatives correctly shares one, otherwise null
      */
-    private static Discriminator getDiscriminatorFromAlternatives(
+    private static DiscriminatorData getDiscriminatorFromAlternatives(
             OpenAPI openAPI,
             boolean legacyDiscriminatorBehavior,
             List<Schema> alternativeSchemas,
             ArrayList<Schema> visitedSchemas) {
         Discriminator discriminator = new Discriminator();
-        Discriminator foundDisc = null;
+        DiscriminatorData foundDisc = null;
         Integer hasDiscriminatorCnt = 0;
         Integer hasNullTypeCnt = 0;
         Set<String> discriminatorsPropNames = new HashSet<>();
+        Set<Schema> discriminatorTypes = new HashSet<>();
         for (Object alternative : alternativeSchemas) {
             if (ModelUtils.isNullType((Schema) alternative)) {
                 // The null type does not have a discriminator. Skip.
@@ -221,16 +265,23 @@ public class DiscriminatorUtils {
             if (foundDisc != null) {
                 discriminatorsPropNames.add(foundDisc.getPropertyName());
                 hasDiscriminatorCnt++;
+                if (foundDisc.getDiscriminatorSchema() != null) {
+                    discriminatorTypes.add(foundDisc.getDiscriminatorSchema());
+                }
             }
         }
         if (discriminatorsPropNames.size() > 1) {
             once(LOGGER).warn(CONFLICTING_DISCRIMINATOR_NAMES, String.join(", ", discriminatorsPropNames));
         }
+        if (discriminatorTypes.size() > 1) {
+            once(LOGGER).warn(CONFLICTING_DISCRIMINATOR_TYPES, String.join(", ", discriminatorTypes.toString()));
+        }
         boolean allAlternativesHaveADiscriminator = hasDiscriminatorCnt + hasNullTypeCnt == alternativeSchemas.size();
         if (foundDisc != null && allAlternativesHaveADiscriminator && discriminatorsPropNames.size() == 1) {
             discriminator.setPropertyName(foundDisc.getPropertyName());
             discriminator.setMapping(foundDisc.getMapping());
-            return discriminator;
+            Schema uniqueDiscriminatorType = discriminatorTypes.size() == 1 ? discriminatorTypes.iterator().next() : null;
+            return new DiscriminatorData(discriminator, uniqueDiscriminatorType);
         }
         // If the scenario when composite schema has two children and one of them is the 'null' type,
         // there is no need for a discriminator.
@@ -269,6 +320,38 @@ public class DiscriminatorUtils {
                     composedSchemaName, discPropName, modelName, discPropName, discPropName);
         }
         return null;
+    }
+
+    public static class DiscriminatorData {
+        private final Discriminator discriminator;
+
+        @Nullable
+        private final Schema discriminatorSchema;
+
+        public DiscriminatorData(Discriminator discriminator, @Nullable Schema discriminatorSchema) {
+            this.discriminator = discriminator;
+            this.discriminatorSchema = discriminatorSchema;
+        }
+
+        public Discriminator getDiscriminator() {
+            return discriminator;
+        }
+
+        public @Nullable Schema getDiscriminatorSchema() {
+            return discriminatorSchema;
+        }
+
+        public String getPropertyName() {
+            return discriminator.getPropertyName();
+        }
+
+        public Map<String, String> getMapping() {
+            return discriminator.getMapping();
+        }
+
+        public Map<String, Object> getExtensions() {
+            return discriminator.getExtensions();
+        }
     }
 
 }
