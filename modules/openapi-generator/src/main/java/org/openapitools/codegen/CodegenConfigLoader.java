@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -88,9 +87,11 @@ public class CodegenConfigLoader {
             Iterator<ServiceLoader.Provider<CodegenConfig>> providers = loader.stream().iterator();
             while (true) {
                 ServiceLoader.Provider<CodegenConfig> provider;
-                // Per-entry failures (missing/invalid provider class, LinkageError) happen after the
-                // cursor advances, so skip them and keep discovering. A resource-location failure
-                // (getResources IOException) doesn't advance and would loop forever: terminate instead.
+                // Per-provider failures (missing/invalid class, LinkageError) surface while advancing
+                // the iterator; stop enumerating this classloader on any such error to guarantee
+                // termination (a resource-location IOException would otherwise never advance and spin
+                // forever). Providers already yielded are kept, and the fallback classloader plus the
+                // direct forName() load below still cover anything not enumerated here.
                 try {
                     if (!providers.hasNext()) {
                         break;
@@ -98,10 +99,7 @@ public class CodegenConfigLoader {
                     provider = providers.next();
                 } catch (ServiceConfigurationError | LinkageError e) {
                     LOGGER.warn("Unable to enumerate codegen config provider from {}", classLoader, e);
-                    if (isNonAdvancingResourceError(e)) {
-                        break;
-                    }
-                    continue;
+                    break;
                 }
                 // Cursor has advanced past this provider, so loading/instantiation failures are safe to skip.
                 try {
@@ -117,21 +115,6 @@ public class CodegenConfigLoader {
             }
         }
         return output;
-    }
-
-    /**
-     * Whether an iterator-advancement error is a non-advancing resource-location failure rather than
-     * a single-entry failure the cursor has already moved past. Only the JDK's "Error locating
-     * configuration files" case (getResources itself failing) leaves the cursor un-advanced and recurs
-     * on every retry, so enumeration must stop; every other failure - including "Error reading
-     * configuration file", which has already consumed a resource - can be skipped to keep discovering
-     * the remaining valid providers.
-     */
-    private static boolean isNonAdvancingResourceError(Throwable e) {
-        return e instanceof ServiceConfigurationError
-                && e.getCause() instanceof IOException
-                && e.getMessage() != null
-                && e.getMessage().contains("Error locating configuration files");
     }
 
     private static ClassLoader getConfigClassLoader() {

@@ -28,6 +28,7 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.testng.Assert.*;
@@ -210,6 +211,47 @@ public class CodegenConfigLoaderTest {
                 CodegenConfig config = CodegenConfigLoader.forName(DefaultCodegen.class.getName());
 
                 assertEquals(config.getClass(), DefaultCodegen.class);
+            } finally {
+                Thread.currentThread().setContextClassLoader(originalTccl);
+            }
+        } finally {
+            deleteRecursively(classesDir);
+        }
+    }
+
+    @Test
+    public void testEnumerationStopsAtMalformedEntryAndSkipsLaterEntriesInSameServiceFile() throws Exception {
+        // Documents the deliberate behavior of getAll(): a failure while *advancing* the ServiceLoader
+        // iterator (here a non-existent provider class named on the first line of a service file) stops
+        // enumeration of that classloader, so a valid provider listed *after* the malformed entry in the
+        // same file is not discovered. This keeps enumeration guaranteed-terminating without depending on
+        // any JDK-internal error message. Overall discovery still degrades gracefully: providers from the
+        // defining classloader (the real generators) are still returned.
+        Path classesDir = Files.createTempDirectory("codegen-config-break-on-advancement-test");
+        try {
+            String afterClassName = "org.openapitools.codegen.testfixture.AfterMalformedEntryCodegen";
+            String afterGeneratorName = "after-malformed-entry-codegen";
+            compileCodegenFixture(classesDir, afterClassName, true, afterGeneratorName);
+
+            Path serviceFile = classesDir.resolve("META-INF/services/" + CodegenConfig.class.getName());
+            Files.createDirectories(serviceFile.getParent());
+            // First line is unresolvable (advancement error -> break); the valid second line is never reached.
+            Files.writeString(serviceFile,
+                    "org.openapitools.codegen.testfixture.DoesNotExist\n" + afterClassName + "\n");
+
+            ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
+            try (URLClassLoader isolatedLoader = new URLClassLoader(
+                    new URL[]{classesDir.toUri().toURL()}, originalTccl)) {
+                Thread.currentThread().setContextClassLoader(isolatedLoader);
+
+                List<CodegenConfig> all = CodegenConfigLoader.getAll();
+
+                // The valid provider after the malformed entry is skipped because enumeration broke.
+                assertFalse(all.stream().anyMatch(candidate -> afterGeneratorName.equals(candidate.getName())),
+                        "Provider listed after a malformed entry in the same service file must not be discovered");
+                // Overall discovery still returns the real generators from the defining classloader.
+                assertTrue(all.stream().anyMatch(candidate -> "java".equals(candidate.getName())),
+                        "Real generators from the defining classloader must still be discovered");
             } finally {
                 Thread.currentThread().setContextClassLoader(originalTccl);
             }
