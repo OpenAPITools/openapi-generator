@@ -7156,7 +7156,7 @@ public class KotlinSpringServerCodegenTest {
 
     private String generateExtraImports(Consumer<KotlinSpringServerCodegen> configure, boolean apisOnly) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
+        FileUtils.forceDeleteOnExit(output);
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
@@ -7277,5 +7277,36 @@ public class KotlinSpringServerCodegenTest {
         // The delegate and controller wrapper do not render the annotation and must not carry the import.
         assertFileNotContains(controller, "import com.example.security.Audited");
         assertFileNotContains(delegate, "import com.example.security.Audited");
+    }
+
+    @Test(description = "x-extra-imports: parameter imports on implicit header params are not lost")
+    public void extraImportsImplicitHeaderParams() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(INTERFACE_ONLY, true);
+            codegen.additionalProperties().put(USE_TAGS, true);
+            codegen.additionalProperties().put(KotlinSpringServerCodegen.IMPLICIT_HEADERS, true);
+        }, true);
+
+        Path audit = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AuditApi.kt");
+
+        // With implicitHeaders=true the header param is moved out of allParams into
+        // implicitHeadersParams, but its declared import must still be emitted.
+        assertFileContains(audit, "import com.example.security.TraceHeader");
+    }
+
+    @Test(description = "x-extra-imports: an import already generated from a type is not duplicated")
+    public void extraImportsDedupAgainstGeneratedImports() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(INTERFACE_ONLY, true);
+            codegen.additionalProperties().put(USE_TAGS, true);
+        }, true);
+
+        Path widgets = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/WidgetsApi.kt");
+
+        // getWidget both returns Widget (generating an import) and declares the same value via
+        // x-extra-imports, so the file must keep the once-per-file deduplication.
+        assertFileContains(widgets, "import org.openapitools.model.Widget", "@WidgetChecked");
+        Assert.assertEquals(countOccurrences(widgets, "import org.openapitools.model.Widget"), 1L,
+                "Extra import duplicating a generated type import must be emitted only once");
     }
 }

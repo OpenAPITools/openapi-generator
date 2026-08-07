@@ -1392,7 +1392,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 continue;
             }
             collectExtraImports(cm.vendorExtensions, extraImports);
-            Stream.of(cm.vars, cm.allVars, cm.requiredVars, cm.optionalVars)
+            // allVars is the complete property set (own + inherited); vars is included for safety.
+            // The LinkedHashSet collapses any overlap between the two lists.
+            Stream.of(cm.vars, cm.allVars)
                     .filter(Objects::nonNull)
                     .flatMap(List::stream)
                     .forEach(p -> collectExtraImports(p.vendorExtensions, extraImports));
@@ -1773,7 +1775,19 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 if (operation.allParams != null) {
                     operation.allParams.forEach(param -> collectExtraImports(param.vendorExtensions, operationExtraImports));
                 }
+                // Implicit header params are moved out of allParams by handleImplicitHeaders above,
+                // so scan them separately to avoid dropping their declared imports.
+                if (operation.implicitHeadersParams != null) {
+                    operation.implicitHeadersParams.forEach(param -> collectExtraImports(param.vendorExtensions, operationExtraImports));
+                }
             }
+            // Drop any import already present in the shared imports list (e.g. produced from an
+            // operation's types) so the file keeps the documented once-per-file deduplication.
+            Set<String> existingImports = objs.getImports().stream()
+                    .map(m -> m.get("import"))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toCollection(HashSet::new));
+            operationExtraImports.removeAll(existingImports);
             if (!operationExtraImports.isEmpty()) {
                 List<Map<String, String>> extraImportList = new ArrayList<>();
                 for (String imp : operationExtraImports) {

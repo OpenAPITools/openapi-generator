@@ -43,6 +43,37 @@ paths:
         "200":
           description: OK
 
+  /audit/list:
+    get:
+      tags: [Audit]
+      operationId: listAudit
+      parameters:
+        - name: X-Trace-Id
+          in: header
+          required: false
+          schema:
+            type: string
+          x-extra-imports: com.example.security.TraceHeader
+          x-field-extra-annotation: "@TraceHeader"
+      responses:
+        "200":
+          description: OK
+
+  /widgets/get:
+    get:
+      tags: [Widgets]
+      operationId: getWidget
+      x-extra-imports:
+        - org.openapitools.model.Widget
+      x-operation-extra-annotation: "@WidgetChecked"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Widget'
+
 components:
   schemas:
     Widget:
