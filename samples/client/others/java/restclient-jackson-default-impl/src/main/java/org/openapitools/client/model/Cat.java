@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Cat implements Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   @jakarta.annotation.Nullable

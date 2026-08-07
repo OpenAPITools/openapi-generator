@@ -32,7 +32,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = Water.class, name = "WATER")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public interface Beverage {
     public String getBeverageType();
 }

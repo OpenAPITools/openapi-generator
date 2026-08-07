@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   Apple.JSON_PROPERTY_FRUIT_TYPE,
   Apple.JSON_PROPERTY_SEEDS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Apple implements Fruit {
   public static final String JSON_PROPERTY_FRUIT_TYPE = "fruitType";
   @jakarta.annotation.Nonnull

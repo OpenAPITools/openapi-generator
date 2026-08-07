@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @JsonPropertyOrder({
   Dog.JSON_PROPERTY_BARK
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Dog implements Animal {
   public static final String JSON_PROPERTY_BARK = "bark";
   @jakarta.annotation.Nullable

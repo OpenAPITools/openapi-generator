@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * Water
  */
 
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Water implements Beverage {
 
   private String beverageType;

@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   Soda.JSON_PROPERTY_BEVERAGE_TYPE,
   Soda.JSON_PROPERTY_SUGAR_GRAMS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Soda implements Beverage {
   public static final String JSON_PROPERTY_BEVERAGE_TYPE = "beverageType";
   @jakarta.annotation.Nonnull

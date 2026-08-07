@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  * Dog
  */
 
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Dog implements Animal {
 
   private Boolean bark;

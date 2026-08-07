@@ -4,7 +4,7 @@ Jackson defaultImpl oneOf sample
 
 - API version: 0.0.1
 
-- Generator version: 7.24.0-SNAPSHOT
+- Generator version: 7.25.0-SNAPSHOT
 
 Sample spec exercising Jackson @JsonTypeInfo(defaultImpl = ...) on oneOf interfaces, driven by the x-jackson-default-impl vendor extension (spec-based) and the typeInfoDefaultImpls generator option (config-based).
 
