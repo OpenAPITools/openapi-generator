@@ -1,0 +1,64 @@
+openapi: "3.0.1"
+info:
+  title: kotlin-spring x-extra-imports test
+  version: "1.0"
+
+paths:
+  /accounts/list:
+    get:
+      tags: [Accounts]
+      operationId: listAccounts
+      x-extra-imports: com.example.security.Audited
+      x-operation-extra-annotation: "@Audited"
+      parameters:
+        - name: tenant
+          in: query
+          required: false
+          schema:
+            type: string
+          x-extra-imports: com.example.security.TenantId
+          x-field-extra-annotation: "@TenantId"
+      responses:
+        "200":
+          description: OK
+
+  /orders/list:
+    get:
+      tags: [Orders]
+      operationId: listOrders
+      x-extra-imports:
+        - com.example.security.RateLimited
+      x-operation-extra-annotation: "@RateLimited"
+      responses:
+        "200":
+          description: OK
+
+  /shared/ping:
+    get:
+      tags: [Accounts, Orders]
+      operationId: sharedPing
+      x-extra-imports: com.example.shared.Traced
+      x-operation-extra-annotation: "@Traced"
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    Widget:
+      type: object
+      x-extra-imports:
+        - com.example.model.MyClassAnn
+        - com.example.model.Dup
+      x-class-extra-annotation: "@MyClassAnn"
+      properties:
+        name:
+          type: string
+          x-extra-imports: com.example.model.MyFieldAnn
+          x-field-extra-annotation: "@MyFieldAnn"
+        tag:
+          type: string
+          x-extra-imports: com.example.model.Dup
+        alias:
+          type: string
+          x-extra-imports: "com.example.other.Foo as Bar"
