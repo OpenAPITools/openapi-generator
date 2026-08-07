@@ -193,7 +193,7 @@ impl std::str::FromStr for IntegerTypes {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing IntegerTypes".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -223,7 +223,7 @@ impl std::str::FromStr for IntegerTypes {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing IntegerTypes".to_string(),
-                        );
+                        )
                     }
                 }
             }
