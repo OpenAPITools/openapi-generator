@@ -216,6 +216,20 @@ public class JSONTest {
     }
 
     @Test
+    public void testLocalDateTimeTypeAdapterWithCustomFormat() {
+        final String str = "\"2016-09-09 08:02:03\"";
+        final LocalDateTime date = LocalDateTime.of(2016, 9, 9, 8, 2, 3);
+
+        JSON.setLocalDateTimeFormat(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        try {
+            assertEquals(str, json.serialize(date));
+            assertEquals(json.deserialize(str, LocalDateTime.class), date);
+        } finally {
+            JSON.setLocalDateTimeFormat(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        }
+    }
+
+    @Test
     public void testDefaultDate() throws Exception {
         final DateTimeFormatter datetimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         final String dateStr = "2015-11-07T14:11:05.267Z";
