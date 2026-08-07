@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -193,6 +194,25 @@ public class JSONTest {
 
         assertEquals(str, json.serialize(date));
         assertEquals(json.deserialize(str, LocalDate.class), date);
+    }
+
+    @Test
+    public void testLocalDateTimeTypeAdapter() {
+        final String str = "\"2016-09-09T08:02:03\"";
+        final LocalDateTime date = LocalDateTime.of(2016, 9, 9, 8, 2, 3);
+
+        assertEquals(str, json.serialize(date));
+        assertEquals(json.deserialize(str, LocalDateTime.class), date);
+        assertNull(json.deserialize("null", LocalDateTime.class));
+    }
+
+    @Test
+    public void testLocalDateTimeTypeAdapterWithSpaceSeparator() {
+        // RFC 3339 section 5.6 permits a space in place of the ISO 8601 'T' separator
+        final LocalDateTime date = LocalDateTime.of(2016, 9, 9, 8, 2, 3);
+
+        assertEquals(json.deserialize("\"2016-09-09 08:02:03\"", LocalDateTime.class), date);
+        assertEquals("\"2016-09-09T08:02:03\"", json.serialize(date));
     }
 
     @Test
