@@ -344,11 +344,23 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public Org.OpenAPITools.Model.IconsDefaultResponse? Default()
             {
-                // This logic may be modified with the AsModel.mustache template
+                bool suppressDefault = false;
+                Org.OpenAPITools.Model.IconsDefaultResponse? result = null;
+                OnDefault(ref suppressDefault, ref result);
+                if (!suppressDefault)
+                    result = DefaultDefault();
+                return result;
+            }
+
+            private Org.OpenAPITools.Model.IconsDefaultResponse? DefaultDefault()
+            {
+                // NOTICE: Consider this AsModel template deprecated. Implement the appropriate partial method instead
                 return IsDefault
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.IconsDefaultResponse>(RawContent, _jsonSerializerOptions)
                     : null;
             }
+
+            partial void OnDefault(ref bool suppressDefault, ref Org.OpenAPITools.Model.IconsDefaultResponse? result);
 
             /// <summary>
             /// Returns true if the response is 0 Default and the deserialized response is not null
