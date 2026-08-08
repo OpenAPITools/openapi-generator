@@ -84,20 +84,20 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.model.*;
-import org.openapitools.client.api.DefaultApi;
+import org.openapitools.client.api.FileApi;
 
-public class DefaultApiExample {
+public class FileApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = new ApiClient();
         defaultClient.setBasePath("http://localhost");
         
-        DefaultApi apiInstance = new DefaultApi(defaultClient);
+        FileApi apiInstance = new FileApi(defaultClient);
         String id = "id_example"; // String | 
         try {
             apiInstance.fileIdGet(id);
         } catch (HttpStatusCodeException e) {
-            System.err.println("Exception when calling DefaultApi#fileIdGet");
+            System.err.println("Exception when calling FileApi#fileIdGet");
             System.err.println("Status code: " + e.getStatusCode().value());
             System.err.println("Reason: " + e.getResponseBodyAsString());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -114,9 +114,9 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**fileIdGet**](docs/DefaultApi.md#fileIdGet) | **GET** /file/{id} | 
-*DefaultApi* | [**fooDtParamGet**](docs/DefaultApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
-*DefaultApi* | [**uploadPost**](docs/DefaultApi.md#uploadPost) | **POST** /upload | 
+*FileApi* | [**fileIdGet**](docs/FileApi.md#fileIdGet) | **GET** /file/{id} | 
+*FooApi* | [**fooDtParamGet**](docs/FooApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
+*UploadApi* | [**uploadPost**](docs/UploadApi.md#uploadPost) | **POST** /upload | 
 
 
 ## Documentation for Models

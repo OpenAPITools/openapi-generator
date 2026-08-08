@@ -117,6 +117,44 @@ public class DefaultApi {
         return fileIdGetRequestCreation(id);
     }
 
+    public record FooDtParamGetRequest( java.time.Instant dtParam,  java.time.Instant dtQuery,  java.time.Instant dtCookie,  String color){}
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - response
+     * @param requestParameters The fooDtParamGet request parameters as object
+     * @return Foo
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Foo fooDtParamGet(FooDtParamGetRequest requestParameters) throws RestClientResponseException {
+        return this.fooDtParamGet(requestParameters.dtParam(), requestParameters.dtQuery(), requestParameters.dtCookie(), requestParameters.color());
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - response
+     * @param requestParameters The fooDtParamGet request parameters as object
+     * @return ResponseEntity&lt;Foo&gt;
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Foo> fooDtParamGetWithHttpInfo(FooDtParamGetRequest requestParameters) throws RestClientResponseException {
+        return this.fooDtParamGetWithHttpInfo(requestParameters.dtParam(), requestParameters.dtQuery(), requestParameters.dtCookie(), requestParameters.color());
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - response
+     * @param requestParameters The fooDtParamGet request parameters as object
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec fooDtParamGetWithResponseSpec(FooDtParamGetRequest requestParameters) throws RestClientResponseException {
+        return this.fooDtParamGetWithResponseSpec(requestParameters.dtParam(), requestParameters.dtQuery(), requestParameters.dtCookie(), requestParameters.color());
+    }
+
     /**
      * 
      * 

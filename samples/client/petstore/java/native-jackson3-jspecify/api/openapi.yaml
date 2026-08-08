@@ -5,6 +5,13 @@ info:
   version: 1.0.0
 servers:
 - url: /
+tags:
+- description: foo
+  name: foo
+- description: upload
+  name: upload
+- description: file
+  name: file
 paths:
   /foo/{dtParam}:
     get:
@@ -48,6 +55,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/Foo"
           description: response
+      tags:
+      - foo
       x-accepts:
       - application/json
   /upload:
@@ -61,6 +70,8 @@ paths:
       responses:
         default:
           description: ok
+      tags:
+      - upload
       x-content-type: multipart/form-data
       x-accepts:
       - application/json
@@ -77,6 +88,8 @@ paths:
       responses:
         "200":
           description: ok
+      tags:
+      - file
       x-accepts:
       - application/json
 components:

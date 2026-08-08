@@ -3,9 +3,18 @@ info:
   description: test fully qualified name and jspecify
   title: jspecify
   version: 1.0.0
+tags:
+  - name: foo
+    description: foo
+  - name: upload
+    description: upload
+  - name: file
+    description: file
 paths:
   /foo/{dtParam}:
     get:
+      tags:
+        - foo
       parameters:
         - in: path
           name: dtParam
@@ -38,6 +47,8 @@ paths:
                 $ref: '#/components/schemas/Foo'
   /upload:
     post:
+      tags:
+        - upload
       requestBody:
         description: file
         content:
@@ -54,6 +65,8 @@ paths:
 
   /file/{id}:
     get:
+      tags:
+        - file
       parameters:
         - in: path
           name: id

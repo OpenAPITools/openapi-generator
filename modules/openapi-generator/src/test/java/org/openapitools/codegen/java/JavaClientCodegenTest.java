@@ -4724,7 +4724,9 @@ public class JavaClientCodegenTest {
                         "private java.time.@Nullable Instant nullableDt;",
                         "private @Nullable List<java.time.Instant> listOfDt;",
                         "setListOfDt(@Nullable List<java.time.Instant> listOfDt)",
-                        "String toIndentedString(@Nullable Object o)");
+                        "Foo.Builder dt(java.time.@Nullable Instant dt)",
+                        "Foo.Builder requiredDt(java.time.Instant requiredDt)",
+                        "Foo.Builder nullableNumber(java.math.@Nullable BigDecimal nullableNumber) ");
         if (!NATIVE.equals(library)) { // native library does not generate all arg constructors
             JavaFileAssert.assertThat(files.get("Foo.java"))
                     .fileContains(
@@ -4788,8 +4790,7 @@ public class JavaClientCodegenTest {
                         "@Nullable List<java.time.Instant> getListOfDt()",
                         "setListOfDt(@Nullable List<java.time.Instant> listOfDt)",
                         "JsonNullable<java.time.Instant> nullableDt = JsonNullable.<java.time.Instant>undefined()",
-                        "private JsonNullable<File> nullableBinary = JsonNullable.<File>undefined();",
-                        "String toIndentedString(@Nullable Object o)");
+                        "private JsonNullable<File> nullableBinary = JsonNullable.<File>undefined();");
         if (!NATIVE.equals(library)) { // native library does not generate all arg constructors
             JavaFileAssert.assertThat(files.get("Foo.java"))
                     .fileContains(

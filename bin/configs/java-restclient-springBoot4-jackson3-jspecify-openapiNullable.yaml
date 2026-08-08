@@ -14,6 +14,8 @@ additionalProperties:
   useJspecify: true
   generateBuilders: true
   generateConstructorWithAllArgs: true
+  useSingleRequestParameter: true
+  useTags: true
 typeMappings:
   OffsetDateTime: java.time.Instant
   BigDecimal: java.math.BigDecimal
