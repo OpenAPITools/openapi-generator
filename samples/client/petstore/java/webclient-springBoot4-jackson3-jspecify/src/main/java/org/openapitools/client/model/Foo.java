@@ -104,6 +104,25 @@ public class Foo {
   public Foo() {
   }
 
+  /**
+   * Constructor with all args parameters
+   */
+  public Foo(@JsonProperty(JSON_PROPERTY_DT) java.time.@Nullable Instant dt, @JsonProperty(JSON_PROPERTY_NULLABLE_DT) java.time.@Nullable Instant nullableDt, @JsonProperty(JSON_PROPERTY_BINARY) @Nullable File binary, @JsonProperty(JSON_PROPERTY_NULLABLE_BINARY) @Nullable File nullableBinary, @JsonProperty(JSON_PROPERTY_LIST_OF_DT) @Nullable List<java.time.Instant> listOfDt, @JsonProperty(JSON_PROPERTY_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> listMinIntems, @JsonProperty(JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> nullableListMinIntems, @JsonProperty(JSON_PROPERTY_REQUIRED_DT) java.time.Instant requiredDt, @JsonProperty(JSON_PROPERTY_NUMBER) java.math.@Nullable BigDecimal number, @JsonProperty(JSON_PROPERTY_NULLABLE_NUMBER) java.math.@Nullable BigDecimal nullableNumber, @JsonProperty(JSON_PROPERTY_COLOR) @Nullable String color, @JsonProperty(JSON_PROPERTY_REQUIRED_COLOR) String requiredColor, @JsonProperty(JSON_PROPERTY_NULLABLE_COLOR) @Nullable String nullableColor) {
+    this.dt = dt;
+    this.nullableDt = nullableDt;
+    this.binary = binary;
+    this.nullableBinary = nullableBinary;
+    this.listOfDt = listOfDt;
+    this.listMinIntems = listMinIntems;
+    this.nullableListMinIntems = nullableListMinIntems;
+    this.requiredDt = requiredDt;
+    this.number = number;
+    this.nullableNumber = nullableNumber;
+    this.color = color;
+    this.requiredColor = requiredColor;
+    this.nullableColor = nullableColor;
+  }
+
   public Foo dt(java.time.@Nullable Instant dt) {
     
     this.dt = dt;
