@@ -77,6 +77,7 @@ public class CodegenConfigurator {
     private Map<String, String> modelNameMappings = new HashMap<>();
     private Map<String, String> enumNameMappings = new HashMap<>();
     private Map<String, String> operationIdNameMappings = new HashMap<>();
+    private Map<String, String> injectModelVendorExtensions = new HashMap<>();
     private Map<String, String> openapiNormalizer = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Set<String> openapiGeneratorIgnoreList = new HashSet<>();
@@ -148,6 +149,9 @@ public class CodegenConfigurator {
             }
             if (generatorSettings.getOperationIdNameMappings() != null) {
                 configurator.operationIdNameMappings.putAll(generatorSettings.getOperationIdNameMappings());
+            }
+            if (generatorSettings.getInjectModelVendorExtensions() != null) {
+                configurator.injectModelVendorExtensions.putAll(generatorSettings.getInjectModelVendorExtensions());
             }
             if (generatorSettings.getOpenapiNormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenapiNormalizer());
@@ -292,6 +296,18 @@ public class CodegenConfigurator {
     public CodegenConfigurator addOperationIdNameMapping(String key, String value) {
         this.operationIdNameMappings.put(key, value);
         generatorSettingsBuilder.withOperationIdNameMapping(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addInjectModelVendorExtension(String key, String value) {
+        this.injectModelVendorExtensions.put(key, value);
+        generatorSettingsBuilder.withInjectModelVendorExtension(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator setInjectModelVendorExtensions(Map<String, String> extensions) {
+        this.injectModelVendorExtensions = extensions;
+        generatorSettingsBuilder.withInjectModelVendorExtensions(extensions);
         return this;
     }
 
@@ -815,6 +831,7 @@ public class CodegenConfigurator {
         config.modelNameMapping().putAll(generatorSettings.getModelNameMappings());
         config.enumNameMapping().putAll(generatorSettings.getEnumNameMappings());
         config.operationIdNameMapping().putAll(generatorSettings.getOperationIdNameMappings());
+        config.injectModelVendorExtensions().putAll(generatorSettings.getInjectModelVendorExtensions());
         config.openapiNormalizer().putAll(generatorSettings.getOpenapiNormalizer());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.openapiGeneratorIgnoreList().addAll(generatorSettings.getOpenapiGeneratorIgnoreList());
