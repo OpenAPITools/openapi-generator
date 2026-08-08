@@ -32,7 +32,7 @@ part '{{classFilename}}.g.dart';
   disallowUnrecognizedKeys: false,
   explicitToJson: true,
 )
-class {{{classname}}} {
+class {{{classname}}}{{#parent}} extends {{{parent}}}{{/parent}} {
 {{>serialization/json_serializable/dart_constructor}}
 
 
@@ -89,14 +89,14 @@ class {{{classname}}} {
       runtimeType == other.runtimeType &&
       equals(
         [
-          {{#vars}}
+          {{#allVars}}
             {{{name}}},
-          {{/vars}}
+          {{/allVars}}
         ],
         [
-          {{#vars}}
+          {{#allVars}}
             other.{{{name}}},
-          {{/vars}}
+          {{/allVars}}
         ]
       );
     }
@@ -105,25 +105,26 @@ class {{{classname}}} {
   {{^useEquatable}}
     @override
     bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
-    {{#vars}}
+    runtimeType == other.runtimeType &&
+    {{#allVars}}
       other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
-    {{/vars}}
+    {{/allVars}}
   {{/useEquatable}}
 
   {{#useEquatable}}
     @override
     int get hashCode => runtimeType.hashCode ^ mapPropsToHashCode([
-    {{#vars}}
+    {{#allVars}}
         {{{name}}},
-    {{/vars}}
+    {{/allVars}}
     ],);
   {{/useEquatable}}
   {{^useEquatable}}
     @override
     int get hashCode =>
-    {{#vars}}
+    {{#allVars}}
         {{#isNullable}}({{{name}}} == null ? 0 : {{{name}}}.hashCode){{/isNullable}}{{^isNullable}}{{{name}}}.hashCode{{/isNullable}}{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
-    {{/vars}}
+    {{/allVars}}
   {{/useEquatable}}
 
   factory {{{classname}}}.fromJson(Map<String, dynamic> json) => _${{{classname}}}FromJson(json);

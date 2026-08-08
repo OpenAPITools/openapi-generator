@@ -16,10 +16,9 @@ part 'test_inline_freeform_additional_properties_request.g.dart';
   disallowUnrecognizedKeys: false,
   explicitToJson: true,
 )
-class TestInlineFreeformAdditionalPropertiesRequest {
-  /// Returns a new [TestInlineFreeformAdditionalPropertiesRequest] instance.
+class TestInlineFreeformAdditionalPropertiesRequest extends Object {
+/// Returns a new [TestInlineFreeformAdditionalPropertiesRequest] instance.
   TestInlineFreeformAdditionalPropertiesRequest({
-
      this.someProperty,
   });
 
@@ -39,6 +38,7 @@ class TestInlineFreeformAdditionalPropertiesRequest {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is TestInlineFreeformAdditionalPropertiesRequest &&
+    runtimeType == other.runtimeType &&
       other.someProperty == someProperty;
 
     @override
