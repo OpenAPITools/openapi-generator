@@ -123,6 +123,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         // Enable proper oneOf/anyOf discriminator handling for polymorphism
         legacyDiscriminatorBehavior = false;
 
+        // Generate sealed interfaces for oneOf schemas (mirrors KotlinSpringServerCodegen)
+        useOneOfInterfaces = true;
+
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
@@ -617,6 +620,12 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                             owner.getRequiredVars().add(parentDiscriminatorProp);
                             owner.getAllVars().add(parentDiscriminatorProp);
 
+                            // Children are retyped to kotlin.String and marked inherited below, so they can
+                            // override an abstract declaration on the oneOf interface. Only then may the
+                            // interface declare the discriminator - see oneof_interface.mustache.
+                            owner.getVendorExtensions().put("x-one-of-interface-declares-discriminator", true);
+                            owner.getDiscriminator().getVendorExtensions().put("x-one-of-interface-declares-discriminator", true);
+
                             // Parent now has properties (just the discriminator)
                             hasParentProperties = true;
 
@@ -698,9 +707,11 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                                         childModel.getAllVars().add(discriminatorProp);
                                     }
 
-                                    // Set parent constructor args for the discriminator property
-                                    childModel.getVendorExtensions().put("x-parent-ctor-args",
-                                            discriminatorVarName + " = " + discriminatorVarName);
+                                    // Set parent constructor args only when parent is a sealed class (not interface)
+                                    if (!useOneOfInterfaces) {
+                                        childModel.getVendorExtensions().put("x-parent-ctor-args",
+                                                discriminatorVarName + " = " + discriminatorVarName);
+                                    }
                                 }
                             }
                         }
