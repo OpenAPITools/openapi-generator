@@ -65,13 +65,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets VarReturn
         /// </summary>
-        [DataMember(Name = "return", EmitDefaultValue = false)]
+        [DataMember(Name = "return", EmitDefaultValue = true)]
         public int VarReturn { get; set; }
 
         /// <summary>
         /// Gets or Sets Lock
         /// </summary>
-        [DataMember(Name = "lock", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "lock", IsRequired = true, EmitDefaultValue = false)]
         public string Lock { get; set; }
 
         /// <summary>
