@@ -69,9 +69,9 @@ public interface FooApi {
         produces = { "application/json" }
     )
     default ResponseEntity<Foo> fooDtParamGet(
-        @Parameter(name = "dtParam", description = "", in = ParameterIn.PATH) @PathVariable("dtParam") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @Nullable OffsetDateTime dtParam,
-        @Parameter(name = "dtQuery", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "dtQuery", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @Nullable OffsetDateTime dtQuery,
-        @Parameter(name = "dtCookie", description = "", in = ParameterIn.COOKIE) @CookieValue(name = "dtCookie", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @Nullable OffsetDateTime dtCookie,
+        @Parameter(name = "dtParam", description = "", in = ParameterIn.PATH) @PathVariable("dtParam") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) java.time.@Nullable Instant dtParam,
+        @Parameter(name = "dtQuery", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "dtQuery", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) java.time.@Nullable Instant dtQuery,
+        @Parameter(name = "dtCookie", description = "", in = ParameterIn.COOKIE) @CookieValue(name = "dtCookie", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) java.time.@Nullable Instant dtCookie,
         @Parameter(name = "color", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "color", required = false, defaultValue = "red") String color
     ) {
         getRequest().ifPresent(request -> {
