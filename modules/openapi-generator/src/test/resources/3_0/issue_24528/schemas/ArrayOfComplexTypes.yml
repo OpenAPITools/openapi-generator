@@ -1,0 +1,6 @@
+type: object
+properties:
+  complexArray:
+    type: array
+    items:
+      $ref: '../swagger.yml#/components/schemas/ComplexType'
