@@ -7026,19 +7026,19 @@ public class SpringCodegenTest {
     @DataProvider(name = "jspecifyLibraries")
     public Object[][] jspecifyLibraries() {
         return new Object[][]{
-                {SPRING_BOOT, 2, "FooApi.java"},
-                {SPRING_BOOT, 3, "FooApi.java"},
-                {SPRING_BOOT, 4, "FooApi.java"},
-                {SPRING_CLOUD_LIBRARY, 2, "FooApi.java"},
-                {SPRING_CLOUD_LIBRARY, 3, "FooApi.java"},
-                {SPRING_CLOUD_LIBRARY, 4, "FooApi.java"},
-                {SPRING_HTTP_INTERFACE, 3, "DefaultApi.java"},
-                {SPRING_HTTP_INTERFACE, 4, "DefaultApi.java"}
+                {SPRING_BOOT, 2},
+                {SPRING_BOOT, 3},
+                {SPRING_BOOT, 4},
+                {SPRING_CLOUD_LIBRARY, 2},
+                {SPRING_CLOUD_LIBRARY, 3},
+                {SPRING_CLOUD_LIBRARY, 4},
+                {SPRING_HTTP_INTERFACE, 3},
+                {SPRING_HTTP_INTERFACE, 4}
         };
     }
 
     @Test(dataProvider = "jspecifyLibraries")
-    public void testJspecify(String library, int springBootVersion, String fooApiFilename) throws IOException {
+    public void testJspecify(String library, int springBootVersion) throws IOException {
         String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
@@ -7083,7 +7083,7 @@ public class SpringCodegenTest {
                         "Foo.Builder requiredDt(java.time.Instant requiredDt)",
                         "Foo.Builder nullableNumber(@Nullable BigDecimal nullableNumber)"
                 );
-        JavaFileAssert.assertThat(files.get(fooApiFilename))
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "java.time.@Nullable Instant dtParam",
@@ -7106,7 +7106,7 @@ public class SpringCodegenTest {
     }
 
     @Test(dataProvider = "jspecifyLibraries")
-    public void testJspecify_openapiNullable(String library, int springBootVersion, String fooApiFilename) throws IOException {
+    public void testJspecify_openapiNullable(String library, int springBootVersion) throws IOException {
         String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
@@ -7150,7 +7150,7 @@ public class SpringCodegenTest {
                         "Foo.Builder nullableNumber(@Nullable BigDecimal nullableNumber)",
                         "Foo.Builder nullableNumber(JsonNullable<BigDecimal> nullableNumber)"
                 );
-        JavaFileAssert.assertThat(files.get(fooApiFilename))
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "java.time.@Nullable Instant dtParam",
@@ -7174,16 +7174,16 @@ public class SpringCodegenTest {
     @DataProvider(name = "jspecifyLibrariesUseOptional")
     public Object[][] jspecifyLibrariesUseOptional() {
         return new Object[][]{
-                {SPRING_BOOT, 4, "FooApi.java", false},
-                {SPRING_BOOT, 4, "FooApi.java", true},
-                {SPRING_CLOUD_LIBRARY, 3, "FooApi.java", false},
-                {SPRING_CLOUD_LIBRARY, 3, "FooApi.java", true},
-                {SPRING_HTTP_INTERFACE, 4, "DefaultApi.java", false},
-                {SPRING_HTTP_INTERFACE, 4, "DefaultApi.java", true}
+                {SPRING_BOOT, 4, false},
+                {SPRING_BOOT, 4, true},
+                {SPRING_CLOUD_LIBRARY, 3, false},
+                {SPRING_CLOUD_LIBRARY, 3, true},
+                {SPRING_HTTP_INTERFACE, 4, false},
+                {SPRING_HTTP_INTERFACE, 4, true}
         };
     }
     @Test(dataProvider = "jspecifyLibrariesUseOptional")
-    public void testJspecify_useOptional(String library, int springBootVersion, String fooApiFilename, boolean optionalAcceptNullable) throws IOException {
+    public void testJspecify_useOptional(String library, int springBootVersion, boolean optionalAcceptNullable) throws IOException {
         String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
@@ -7232,7 +7232,7 @@ public class SpringCodegenTest {
                     "Foo dt(java.time.Instant dt) {\n    this.dt = Optional.of(dt);",
                     "Foo.Builder dt(java.time.Instant dt) {");
         }
-        JavaFileAssert.assertThat(files.get(fooApiFilename))
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "Optional<java.time.Instant> dtParam",
