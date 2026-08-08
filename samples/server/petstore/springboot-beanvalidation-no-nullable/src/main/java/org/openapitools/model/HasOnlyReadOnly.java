@@ -27,9 +27,11 @@ import jakarta.annotation.Generated;
 public class HasOnlyReadOnly {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String bar;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String foo;
 
   public HasOnlyReadOnly bar(@Nullable String bar) {
@@ -48,7 +50,6 @@ public class HasOnlyReadOnly {
     return bar;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("bar")
   public void setBar(@Nullable String bar) {
     this.bar = bar;
@@ -70,7 +71,6 @@ public class HasOnlyReadOnly {
     return foo;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("foo")
   public void setFoo(@Nullable String foo) {
     this.foo = foo;

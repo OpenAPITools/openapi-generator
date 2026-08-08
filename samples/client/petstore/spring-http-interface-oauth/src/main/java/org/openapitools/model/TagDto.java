@@ -25,9 +25,11 @@ import jakarta.annotation.Generated;
 public class TagDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Long id;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String name;
 
   public TagDto id(@Nullable Long id) {
@@ -45,7 +47,6 @@ public class TagDto {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
@@ -66,7 +67,6 @@ public class TagDto {
     return name;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;

@@ -31,6 +31,7 @@ import jakarta.annotation.Generated;
 public class ArrayOfNumberOnlyDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnlyDto arrayNumber(List<BigDecimal> arrayNumber) {
@@ -56,7 +57,6 @@ public class ArrayOfNumberOnlyDto {
     return arrayNumber;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("ArrayNumber")
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;

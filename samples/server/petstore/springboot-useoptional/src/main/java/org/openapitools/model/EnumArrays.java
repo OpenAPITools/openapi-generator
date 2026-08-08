@@ -62,7 +62,7 @@ public class EnumArrays {
     }
   }
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<JustSymbolEnum> justSymbol = Optional.empty();
 
   /**
@@ -100,7 +100,7 @@ public class EnumArrays {
     }
   }
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {

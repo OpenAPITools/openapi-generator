@@ -415,6 +415,14 @@ public class CodegenConstants {
     public static final String USE_VERTX_5 = "useVertx5";
     public static final String USE_VERTX_5_DESC = "Setting this property to true will generate Vert.x 5 specific callbacks using Callables.";
 
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE = "optionalNonNullPropertyJsonInclude";
+
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS = "optionalNonNullPropertyJsonSetterNulls";
+
+    public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS = "generateJsonIncludeAnnotations";
+
+    public static final String GENERATE_JSON_SETTER_NULLS_ANNOTATIONS = "generateJsonSetterNullsAnnotations";
+
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
             "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +

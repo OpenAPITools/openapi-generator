@@ -40,39 +40,29 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class NullableClassDto {
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<BigDecimal> numberProp = JsonNullable.<BigDecimal>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Boolean> booleanProp = JsonNullable.<Boolean>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> stringProp = JsonNullable.<String>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private JsonNullable<LocalDate> dateProp = JsonNullable.<LocalDate>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private JsonNullable<OffsetDateTime> datetimeProp = JsonNullable.<OffsetDateTime>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<Object>> arrayNullableProp = JsonNullable.<List<Object>>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Object> arrayItemsNullable = new ArrayList<>();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Map<String, Object>> objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

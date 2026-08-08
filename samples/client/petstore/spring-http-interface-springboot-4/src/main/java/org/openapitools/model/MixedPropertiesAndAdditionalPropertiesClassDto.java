@@ -33,13 +33,16 @@ import jakarta.annotation.Generated;
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable UUID uuid;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dateTime;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, AnimalDto> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(@Nullable UUID uuid) {
@@ -57,7 +60,6 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return uuid;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("uuid")
   public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
@@ -78,7 +80,6 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return dateTime;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("dateTime")
   public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
@@ -107,7 +108,6 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return map;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("map")
   public void setMap(Map<String, AnimalDto> map) {
     this.map = map;

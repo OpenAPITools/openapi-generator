@@ -23,6 +23,7 @@ import jakarta.validation.Valid
  */
 data class Pet(
 
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("name")
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
