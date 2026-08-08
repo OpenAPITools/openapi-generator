@@ -13,7 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
-import { type ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON, ChildWithNullableToJSONTyped } from './ChildWithNullable';
+import { type ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON, ChildWithNullableToJSONTyped } from './child-with-nullable';
 /**
  * 
  * @export

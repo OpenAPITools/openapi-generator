@@ -1,22 +1,24 @@
 {{#hasImports}}
-{{#oneOfArrays}}
-import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
+{{#tsImports}}
+import type { {{{classname}}} } from './{{filename}}{{importFileExtension}}';
 import {
-    instanceOf{{{.}}},
-    {{{.}}}FromJSON,
-    {{{.}}}FromJSONTyped,
-    {{{.}}}ToJSON,
-} from './{{.}}{{importFileExtension}}';
-{{/oneOfArrays}}
-{{#oneOfModels}}
-import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
+    instanceOf{{{classname}}},
+    {{{classname}}}FromJSON,
+    {{{classname}}}FromJSONTyped,
+    {{{classname}}}ToJSON,
+} from './{{filename}}{{importFileExtension}}';
+{{/tsImports}}
+{{#discriminator}}
+{{#discriminator.mappedModels}}
+import type { {{{modelName}}} } from './{{model.classFilename}}{{importFileExtension}}';
 import {
-    instanceOf{{{.}}},
-    {{{.}}}FromJSON,
-    {{{.}}}FromJSONTyped,
-    {{{.}}}ToJSON,
-} from './{{.}}{{importFileExtension}}';
-{{/oneOfModels}}
+    instanceOf{{{modelName}}},
+    {{{modelName}}}FromJSON,
+    {{{modelName}}}FromJSONTyped,
+    {{{modelName}}}ToJSON,
+} from './{{model.classFilename}}{{importFileExtension}}';
+{{/discriminator.mappedModels}}
+{{/discriminator}}
 
 {{/hasImports}}
 {{>modelOneOfInterfaces}}
