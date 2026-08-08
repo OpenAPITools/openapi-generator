@@ -135,7 +135,7 @@ open class PetApi : ApiClient {
         pending("pending"),
         
         @SerialName(value = "sold")
-        sold("sold")
+        sold("sold");
         
     }
 
