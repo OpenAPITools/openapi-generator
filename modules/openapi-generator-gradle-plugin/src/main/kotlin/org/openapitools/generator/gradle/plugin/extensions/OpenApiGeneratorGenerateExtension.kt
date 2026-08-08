@@ -296,6 +296,11 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      * Example rules: `REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true`,
      * `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true`. See the OpenAPI Generator docs for
      * the full list of normalizer rules.
+     *
+     * For the `NORMALIZER_CLASS` rule (a custom class extending `OpenAPINormalizer`), the class
+     * must be added to the [generatorClasspath] (or the `openApiGeneratorExtra` dependency
+     * configuration) so it is resolvable by the code generation worker in both `workerIsolation`
+     * modes; otherwise it will fail to load with a `ClassNotFoundException`.
      */
     val openapiNormalizer = project.objects.mapProperty<String, String>()
 
@@ -535,6 +540,33 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      * Only set this if you hit OutOfMemoryError during generation of unusually large specs.
      */
     val maxWorkerHeapSize = project.objects.property<String>()
+
+    /**
+     * Additional classpath entries (jars, class directories, project outputs) made visible to the
+     * code generation worker in *both* [workerIsolation] modes (`process` and `classloader`).
+     *
+     * This is the mechanism by which custom classes referenced by name in generator options -
+     * most notably a custom `NORMALIZER_CLASS` in [openapiNormalizer] - are resolved: such classes
+     * are not on the plugin's own runtime classpath, so without contributing them here the worker
+     * (particularly under `process` isolation, which runs in an isolated JVM) cannot load them.
+     *
+     * For the common case of depending on a published artifact or another project's output, prefer
+     * adding a dependency to the `openApiGeneratorExtra` configuration created by this plugin, e.g.:
+     * ```kotlin
+     * dependencies {
+     *     openApiGeneratorExtra("com.acme:my-normalizer:1.0.0")
+     *     openApiGeneratorExtra(project(":my-normalizer-module"))
+     * }
+     * ```
+     * Entries resolved from `openApiGeneratorExtra` are always included automatically; this
+     * property is an additional, lower-level escape hatch for ad hoc files or directories, e.g.:
+     * ```kotlin
+     * openApiGenerate {
+     *     generatorClasspath.from(files("libs/my-normalizer.jar"))
+     * }
+     * ```
+     */
+    val generatorClasspath: ConfigurableFileCollection = project.objects.fileCollection()
 
     init {
         applyDefaults()
