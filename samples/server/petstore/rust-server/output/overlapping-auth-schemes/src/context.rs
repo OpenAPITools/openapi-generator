@@ -102,9 +102,6 @@ impl<T, A, B, C, ReqBody> Service<Request<ReqBody>> for AddContext<T, A>
         let context = A::default().push(XSpanIdString::get_or_generate(&request));
         let headers = request.headers();
 
-        {{#authMethods}}
-        {{#isBasic}}
-        {{#isBasicBasic}}
         {
             if let Some(auth @ AuthData::Basic(..)) = swagger::auth::from_headers(headers) {
                 let context = context.push(Some(auth));
@@ -112,55 +109,23 @@ impl<T, A, B, C, ReqBody> Service<Request<ReqBody>> for AddContext<T, A>
                 return self.inner.call((request, context))
             }
         }
-        {{/isBasicBasic}}
-        {{#isBasicBearer}}
-        {
-            if let Some(bearer @ AuthData::Bearer(..)) = swagger::auth::from_headers(headers) {
-                let context = context.push(Some(bearer));
-
-                return self.inner.call((request, context))
-            }
-        }
-        {{/isBasicBearer}}
-        {{/isBasic}}
-        {{#isOAuth}}
-        {
-            if let Some(bearer @ AuthData::Bearer(..)) = swagger::auth::from_headers(headers) {
-                let context = context.push(Some(bearer));
-
-                return self.inner.call((request, context))
-            }
-        }
-        {{/isOAuth}}
-        {{#isApiKey}}
-        {{#isKeyInHeader}}
         {
             use swagger::auth::api_key_from_header;
 
-            if let Some(header) = api_key_from_header(headers, "{{#lambda.lowercase}}{{{keyParamName}}}{{/lambda.lowercase}}") {
+            if let Some(header) = api_key_from_header(headers, "x-api-key") {
                 let auth_data = AuthData::ApiKey(header);
                 let context = context.push(Some(auth_data));
 
                 return self.inner.call((request, context))
             }
         }
-        {{/isKeyInHeader}}
-        {{#isKeyInQuery}}
         {
-            let key = form_urlencoded::parse(request.uri().query().unwrap_or_default().as_bytes())
-                .filter(|e| e.0 == "{{{keyParamName}}}")
-                .map(|e| e.1.clone().into_owned())
-                .next();
-            if let Some(key) = key {
-                let auth_data = AuthData::ApiKey(key);
+            if let Some(bearer @ AuthData::Bearer(..)) = swagger::auth::from_headers(headers) {
+                let context = context.push(Some(bearer));
 
-                let context = context.push(Some(auth_data));
                 return self.inner.call((request, context))
             }
         }
-        {{/isKeyInQuery}}
-        {{/isApiKey}}
-        {{/authMethods}}
 
         let context = context.push(None::<AuthData>);
 

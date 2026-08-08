@@ -492,6 +492,21 @@ impl<S, C, B> Api<C> for Client<S, C> where
             // scheme `AuthData` can represent, and the workspace denies warnings.
             #[allow(unreachable_patterns, clippy::single_match, clippy::match_single_binding)]
             match auth_data {
+                AuthData::Basic(ref basic_user, ref basic_password) => {
+                    let auth = headers::Authorization::basic(basic_user.as_str(), basic_password.as_str());
+                    request.headers_mut().insert(
+                        hyper::header::AUTHORIZATION,
+                        auth.0.encode());
+                },
+                AuthData::ApiKey(ref api_key) => {
+                    let header = match HeaderValue::from_str(api_key.as_str()) {
+                        Ok(h) => h,
+                        Err(e) => return Err(ApiError(format!("Unable to create header: {e}")))
+                    };
+                    request.headers_mut().insert(
+                        HeaderName::from_static("x-api-key"),
+                        header);
+                },
                 AuthData::Bearer(ref bearer_header) => {
                     let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
