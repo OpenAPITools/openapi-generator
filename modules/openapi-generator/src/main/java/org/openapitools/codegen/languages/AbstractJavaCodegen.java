@@ -2916,9 +2916,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             keptNullable = null;
             String value = fragment.execute();
             if (useJspecify) {
-                if (value.startsWith(nullableAnnotation)) {
+                // extract @Nullable annotation (starting with @ and ending with space)
+                String patternToFind = nullableAnnotation + " ";
+                if (value.startsWith(patternToFind)) {
                     keptNullable = value;
-                    int idx = nullableAnnotation.length();
+                    int idx = patternToFind.length();
                     // trim left
                     while (idx < value.length() && value.charAt(idx) == ' ') {
                         idx ++;

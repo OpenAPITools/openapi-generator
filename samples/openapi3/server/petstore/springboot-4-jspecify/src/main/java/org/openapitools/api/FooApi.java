@@ -38,7 +38,7 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
-@Tag(name = "foo", description = "the foo API")
+@Tag(name = "foo", description = "foo")
 public interface FooApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -57,6 +57,7 @@ public interface FooApi {
      */
     @Operation(
         operationId = "fooDtParamGet",
+        tags = { "foo" },
         responses = {
             @ApiResponse(responseCode = "default", description = "response", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Foo.class))
