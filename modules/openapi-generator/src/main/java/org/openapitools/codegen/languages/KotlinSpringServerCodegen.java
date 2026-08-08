@@ -1337,6 +1337,79 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
     }
 
+    /**
+     * Reads the {@code x-extra-imports} vendor extension from the given vendor-extension map and
+     * appends its values to {@code target}. The extension accepts either a single string or a list
+     * of strings; parsing is delegated to {@link #getObjectAsStringList(Object)} for consistency with
+     * how the sibling {@code x-*-extra-annotation} extensions are handled. Values are preserved
+     * verbatim (Kotlin alias imports are supported); no validation, trimming, or conflict detection is
+     * performed. Exact-duplicate handling is left to the caller's collection (typically a
+     * {@link LinkedHashSet} to keep insertion order while removing duplicates).
+     *
+     * @param vendorExtensions vendor extensions of a model, property, operation, or parameter (may be {@code null})
+     * @param target           collection to which extracted import directives are added
+     */
+    private void collectExtraImports(Map<String, Object> vendorExtensions, Collection<String> target) {
+        if (vendorExtensions == null) {
+            return;
+        }
+        target.addAll(getObjectAsStringList(vendorExtensions.get(VendorExtension.X_EXTRA_IMPORTS.getName())));
+    }
+
+    /**
+     * Appends the given import directives to an {@code imports}-style list (a list of maps each
+     * holding a single {@code "import"} entry, as rendered by the {@code {{#imports}}} template
+     * blocks), skipping directives whose exact text already appears in the list.
+     *
+     * @param imports      existing import list to extend (must be mutable)
+     * @param extraImports import directives to add, in insertion order
+     */
+    private void appendExtraImports(List<Map<String, String>> imports, Collection<String> extraImports) {
+        Set<String> existing = imports.stream()
+                .map(m -> m.get("import"))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(HashSet::new));
+        for (String imp : extraImports) {
+            if (existing.add(imp)) {
+                Map<String, String> item = new HashMap<>();
+                item.put("import", imp);
+                imports.add(item);
+            }
+        }
+    }
+
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        objs = super.postProcessModels(objs);
+
+        // Collect x-extra-imports declared on each model and its properties, and add them to the
+        // model file's import list so custom class/field annotations can be referenced by short name.
+        // Each ModelsMap corresponds to a single generated model file, so this stays file-scoped.
+        Set<String> extraImports = new LinkedHashSet<>();
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (cm == null) {
+                continue;
+            }
+            collectExtraImports(cm.vendorExtensions, extraImports);
+            // allVars is the complete property set (own + inherited); vars is included for safety.
+            // The LinkedHashSet collapses any overlap between the two lists.
+            Stream.of(cm.vars, cm.allVars)
+                    .filter(Objects::nonNull)
+                    .flatMap(List::stream)
+                    .forEach(p -> collectExtraImports(p.vendorExtensions, extraImports));
+        }
+        if (!extraImports.isEmpty()) {
+            List<Map<String, String>> imports = objs.getImports();
+            if (imports == null) {
+                imports = new ArrayList<>();
+                objs.setImports(imports);
+            }
+            appendExtraImports(imports, extraImports);
+        }
+        return objs;
+    }
+
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
@@ -1689,6 +1762,43 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         handleImplicitHeaders(objs);
 
+        // Collect x-extra-imports declared on operations and their parameters for this API group.
+        // Grouping (by tag or by path segment, per useTags) is already reflected in this OperationsMap,
+        // so the imports are scoped to exactly the API file(s) that render these operations. They are
+        // exposed under a dedicated key (not the shared "imports" list) so that only templates which
+        // render the related annotations (api.mustache / apiInterface.mustache) emit them, while
+        // delegate, controller-wrapper, service and test templates do not.
+        if (operations != null) {
+            Set<String> operationExtraImports = new LinkedHashSet<>();
+            for (CodegenOperation operation : operations.getOperation()) {
+                collectExtraImports(operation.vendorExtensions, operationExtraImports);
+                if (operation.allParams != null) {
+                    operation.allParams.forEach(param -> collectExtraImports(param.vendorExtensions, operationExtraImports));
+                }
+                // Implicit header params are moved out of allParams by handleImplicitHeaders above,
+                // so scan them separately to avoid dropping their declared imports.
+                if (operation.implicitHeadersParams != null) {
+                    operation.implicitHeadersParams.forEach(param -> collectExtraImports(param.vendorExtensions, operationExtraImports));
+                }
+            }
+            // Drop any import already present in the shared imports list (e.g. produced from an
+            // operation's types) so the file keeps the documented once-per-file deduplication.
+            Set<String> existingImports = objs.getImports().stream()
+                    .map(m -> m.get("import"))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toCollection(HashSet::new));
+            operationExtraImports.removeAll(existingImports);
+            if (!operationExtraImports.isEmpty()) {
+                List<Map<String, String>> extraImportList = new ArrayList<>();
+                for (String imp : operationExtraImports) {
+                    Map<String, String> item = new HashMap<>();
+                    item.put("import", imp);
+                    extraImportList.add(item);
+                }
+                objs.put("operationExtraImports", extraImportList);
+            }
+        }
+
         return objs;
     }
 
@@ -1777,6 +1887,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_EXTRA_IMPORTS);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         extensions.add(VendorExtension.X_SIZE_MESSAGE);
         extensions.add(VendorExtension.X_MINIMUM_MESSAGE);

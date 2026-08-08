@@ -7201,4 +7201,162 @@ public class KotlinSpringServerCodegenTest {
                 "nestedNullable ($ref to nullable schema) must not have @JsonSetter(nulls = Nulls.FAIL)"
         );
     }
+
+    private static final String EXTRA_IMPORTS_SPEC = "src/test/resources/3_0/kotlin/kotlin-spring-extra-imports.yaml";
+
+    private String generateExtraImports(Consumer<KotlinSpringServerCodegen> configure, boolean apisOnly) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        FileUtils.forceDeleteOnExit(output);
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        configure.accept(codegen);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec(EXTRA_IMPORTS_SPEC))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, apisOnly ? "false" : "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, apisOnly ? "true" : "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        return outputPath;
+    }
+
+    private static long countOccurrences(Path path, String needle) throws IOException {
+        String content = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+        long count = 0;
+        int idx = 0;
+        while ((idx = content.indexOf(needle, idx)) != -1) {
+            count++;
+            idx += needle.length();
+        }
+        return count;
+    }
+
+    @Test(description = "x-extra-imports: model and property imports are added to the model file")
+    public void extraImportsOnModels() throws IOException {
+        String outputPath = generateExtraImports(codegen -> { }, false);
+        Path widget = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Widget.kt");
+
+        assertFileContains(widget,
+                "import com.example.model.MyClassAnn",
+                "import com.example.model.MyFieldAnn",
+                "import com.example.model.Dup",
+                "import com.example.other.Foo as Bar",
+                "@MyClassAnn",
+                "@MyFieldAnn");
+
+        // com.example.model.Dup is declared on the class and on a property but must be imported only once.
+        Assert.assertEquals(countOccurrences(widget, "import com.example.model.Dup"), 1L,
+                "Duplicate x-extra-imports directive must be emitted only once");
+    }
+
+    @Test(description = "x-extra-imports: operation/parameter imports are scoped per tag when useTags=true")
+    public void extraImportsOnApiWithTags() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(INTERFACE_ONLY, true);
+            codegen.additionalProperties().put(USE_TAGS, true);
+        }, true);
+
+        Path accounts = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AccountsApi.kt");
+        Path orders = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/OrdersApi.kt");
+
+        // Accounts file: its own operation import, its parameter import, and the multi-tag operation import.
+        assertFileContains(accounts,
+                "import com.example.security.Audited",
+                "import com.example.security.TenantId",
+                "import com.example.shared.Traced");
+        // No leakage from the Orders group.
+        assertFileNotContains(accounts, "import com.example.security.RateLimited");
+
+        // Orders file: its own operation import plus the multi-tag operation import.
+        assertFileContains(orders,
+                "import com.example.security.RateLimited",
+                "import com.example.shared.Traced");
+        assertFileNotContains(orders,
+                "import com.example.security.Audited",
+                "import com.example.security.TenantId");
+    }
+
+    @Test(description = "x-extra-imports: operation imports follow first-path-segment groups when useTags=false")
+    public void extraImportsOnApiWithoutTags() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(INTERFACE_ONLY, true);
+            codegen.additionalProperties().put(USE_TAGS, false);
+        }, true);
+
+        Path accounts = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AccountsApi.kt");
+        Path orders = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/OrdersApi.kt");
+        Path shared = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/SharedApi.kt");
+
+        // With path-segment grouping the shared operation is its own group, so Traced does not
+        // leak into the Accounts/Orders files.
+        assertFileContains(accounts,
+                "import com.example.security.Audited",
+                "import com.example.security.TenantId");
+        assertFileNotContains(accounts,
+                "import com.example.security.RateLimited",
+                "import com.example.shared.Traced");
+
+        assertFileContains(orders, "import com.example.security.RateLimited");
+        assertFileNotContains(orders, "import com.example.shared.Traced");
+
+        assertFileContains(shared, "import com.example.shared.Traced");
+    }
+
+    @Test(description = "x-extra-imports: only annotation-rendering files get imports (delegate/controller are excluded)")
+    public void extraImportsDelegateIsolation() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(DELEGATE_PATTERN, true);
+            codegen.additionalProperties().put(USE_TAGS, true);
+        }, true);
+
+        Path apiInterface = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AccountsApi.kt");
+        Path controller = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AccountsApiController.kt");
+        Path delegate = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AccountsApiDelegate.kt");
+
+        // The interface renders the operation annotation, so it must carry the import.
+        assertFileContains(apiInterface, "import com.example.security.Audited");
+        // The delegate and controller wrapper do not render the annotation and must not carry the import.
+        assertFileNotContains(controller, "import com.example.security.Audited");
+        assertFileNotContains(delegate, "import com.example.security.Audited");
+    }
+
+    @Test(description = "x-extra-imports: parameter imports on implicit header params are not lost")
+    public void extraImportsImplicitHeaderParams() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(INTERFACE_ONLY, true);
+            codegen.additionalProperties().put(USE_TAGS, true);
+            codegen.additionalProperties().put(KotlinSpringServerCodegen.IMPLICIT_HEADERS, true);
+        }, true);
+
+        Path audit = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AuditApi.kt");
+
+        // With implicitHeaders=true the header param is moved out of allParams into
+        // implicitHeadersParams, but its declared import must still be emitted.
+        assertFileContains(audit, "import com.example.security.TraceHeader");
+    }
+
+    @Test(description = "x-extra-imports: an import already generated from a type is not duplicated")
+    public void extraImportsDedupAgainstGeneratedImports() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(INTERFACE_ONLY, true);
+            codegen.additionalProperties().put(USE_TAGS, true);
+        }, true);
+
+        Path widgets = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/WidgetsApi.kt");
+
+        // getWidget both returns Widget (generating an import) and declares the same value via
+        // x-extra-imports, so the file must keep the once-per-file deduplication.
+        assertFileContains(widgets, "import org.openapitools.model.Widget", "@WidgetChecked");
+        Assert.assertEquals(countOccurrences(widgets, "import org.openapitools.model.Widget"), 1L,
+                "Extra import duplicating a generated type import must be emitted only once");
+    }
 }

@@ -7,6 +7,11 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
+{{#operationExtraImports}}import {{{import}}}
+{{/operationExtraImports}}
+{{! Dedicated key (not the shared imports list) so these x-extra-imports render only in files that
+    emit x-operation-extra-annotation. The OperationsMap imports list is shared with apiDelegate,
+    service, api_test, etc., which don't; keeping them here avoids leaking unused imports there. }}
 {{#swagger2AnnotationLibrary}}
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
