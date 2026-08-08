@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.EnumUtils.ANY_OF;
 import static org.openapitools.codegen.utils.EnumUtils.ONE_OF;
+import static org.openapitools.codegen.utils.ModelUtils.isOneOfOfConsts;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -1705,18 +1706,24 @@ public class OpenAPINormalizer {
             }
 
             schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
-            if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
-                if (schema.getSpecVersion().equals(SpecVersion.V30)) {
-                    schema.setOneOf(null);
-                } //else {
-                    // TODO convert oneOf const/deprecated to enum
-               // }
-            }
+            clearOneOf(schema);
         }
 
         return schema;
     }
 
+    /**
+     * Removes the {@code oneOf} from the schema if it is considered to not contain information that the generator can
+     * currently act upon. The schema is left untouched if all the {@code oneOf} branches contain an OAS 3.1 {@code const}.
+     * This since that structure can potentially be used for enum interpretation.
+     */
+    private void clearOneOf(Schema schema) {
+        if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
+            if (!isOneOfOfConsts(schema)) {
+                schema.setOneOf(null);
+            }
+        }
+    }
 
     /**
      * Ensure inheritance is correctly defined for OneOf and Discriminators.
