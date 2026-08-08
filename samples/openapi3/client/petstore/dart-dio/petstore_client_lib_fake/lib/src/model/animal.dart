@@ -118,6 +118,7 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
   }
 }
 
+
 /// a concrete implementation of [Animal], since [Animal] is not instantiable
 @BuiltValue(instantiable: true)
 abstract class $Animal implements Animal, Built<$Animal, $AnimalBuilder> {

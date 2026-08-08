@@ -207,6 +207,7 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
   }
 }
 
+
 /// Order Status
 class OrderStatusEnum extends EnumClass {
 

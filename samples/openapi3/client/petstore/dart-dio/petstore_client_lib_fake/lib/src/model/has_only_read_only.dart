@@ -126,3 +126,4 @@ class _$HasOnlyReadOnlySerializer implements PrimitiveSerializer<HasOnlyReadOnly
   }
 }
 
+

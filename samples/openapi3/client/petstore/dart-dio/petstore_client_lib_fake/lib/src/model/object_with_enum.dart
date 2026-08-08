@@ -110,3 +110,4 @@ class _$ObjectWithEnumSerializer implements PrimitiveSerializer<ObjectWithEnum> 
   }
 }
 
+

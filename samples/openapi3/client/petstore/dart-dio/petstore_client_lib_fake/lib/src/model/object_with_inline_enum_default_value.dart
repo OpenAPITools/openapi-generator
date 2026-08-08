@@ -111,6 +111,7 @@ class _$ObjectWithInlineEnumDefaultValueSerializer implements PrimitiveSerialize
   }
 }
 
+
 /// Object one attribute enum with default value
 class ObjectWithInlineEnumDefaultValueAttributeEnum extends EnumClass {
 
