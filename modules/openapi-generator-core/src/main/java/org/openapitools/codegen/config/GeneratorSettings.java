@@ -59,6 +59,7 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, String> modelNameMappings;
     private final Map<String, String> enumNameMappings;
     private final Map<String, String> operationIdNameMappings;
+    private final Map<String, String> injectModelVendorExtensions;
     private final Map<String, String> openapiNormalizer;
     private final Set<String> languageSpecificPrimitives;
     private final Set<String> openapiGeneratorIgnoreList;
@@ -328,6 +329,15 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
+     * Gets inject model vendor extensions.
+     *
+     * @return a map of ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name to extension value
+     */
+    public Map<String, String> getInjectModelVendorExtensions() {
+        return injectModelVendorExtensions;
+    }
+
+    /**
      * Gets OpenAPI normalizer rules
      *
      * @return a map of rules
@@ -469,6 +479,7 @@ public final class GeneratorSettings implements Serializable {
         modelNameMappings = Collections.unmodifiableMap(builder.modelNameMappings);
         enumNameMappings = Collections.unmodifiableMap(builder.enumNameMappings);
         operationIdNameMappings = Collections.unmodifiableMap(builder.operationIdNameMappings);
+        injectModelVendorExtensions = Collections.unmodifiableMap(builder.injectModelVendorExtensions);
         openapiNormalizer = Collections.unmodifiableMap(builder.openapiNormalizer);
         languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
         openapiGeneratorIgnoreList = Collections.unmodifiableSet(builder.openapiGeneratorIgnoreList);
@@ -550,6 +561,7 @@ public final class GeneratorSettings implements Serializable {
         modelNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         enumNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         operationIdNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        injectModelVendorExtensions = Collections.unmodifiableMap(new HashMap<>(0));
         openapiNormalizer = Collections.unmodifiableMap(new HashMap<>(0));
         languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
         openapiGeneratorIgnoreList = Collections.unmodifiableSet(new HashSet<>(0));
@@ -630,6 +642,9 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getOperationIdNameMappings() != null) {
             builder.operationIdNameMappings.putAll(copy.getOperationIdNameMappings());
         }
+        if (copy.getInjectModelVendorExtensions() != null) {
+            builder.injectModelVendorExtensions.putAll(copy.getInjectModelVendorExtensions());
+        }
         if (copy.getOpenapiNormalizer() != null) {
             builder.openapiNormalizer.putAll(copy.getOpenapiNormalizer());
         }
@@ -684,6 +699,7 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> modelNameMappings;
         private Map<String, String> enumNameMappings;
         private Map<String, String> operationIdNameMappings;
+        private Map<String, String> injectModelVendorExtensions;
         private Map<String, String> openapiNormalizer;
         private Set<String> languageSpecificPrimitives;
         private Set<String> openapiGeneratorIgnoreList;
@@ -712,6 +728,7 @@ public final class GeneratorSettings implements Serializable {
             modelNameMappings = new HashMap<>();
             enumNameMappings = new HashMap<>();
             operationIdNameMappings = new HashMap<>();
+            injectModelVendorExtensions = new HashMap<>();
             openapiNormalizer = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
             openapiGeneratorIgnoreList = new HashSet<>();
@@ -1190,6 +1207,32 @@ public final class GeneratorSettings implements Serializable {
                 this.operationIdNameMappings = new HashMap<>();
             }
             this.operationIdNameMappings.put(key, value);
+            return this;
+        }
+
+        /**
+         * Sets the {@code injectModelExtensions} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param injectModelExtensions the {@code injectModelExtensions} to set
+         * @return a reference to this Builder
+         */
+        public Builder withInjectModelVendorExtensions(Map<String, String> injectModelVendorExtensions) {
+            this.injectModelVendorExtensions = injectModelVendorExtensions;
+            return this;
+        }
+
+        /**
+         * Sets a single {@code injectModelVendorExtension} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key in the format ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name
+         * @param value The extension value
+         * @return a reference to this Builder
+         */
+        public Builder withInjectModelVendorExtension(String key, String value) {
+            if (this.injectModelVendorExtensions == null) {
+                this.injectModelVendorExtensions = new HashMap<>();
+            }
+            this.injectModelVendorExtensions.put(key, value);
             return this;
         }
 
