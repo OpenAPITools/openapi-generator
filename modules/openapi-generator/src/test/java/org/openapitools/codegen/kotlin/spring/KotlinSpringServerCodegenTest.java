@@ -3788,6 +3788,56 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void testExclusiveMinimumAndMaximum_decimal() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/exclusive-min-max-validation.yaml");
+        KotlinFileAssert.assertThat(files.get("BoundsApiController.kt"))
+                .assertClass("BoundsApiController")
+                .assertMethod("checkBounds")
+                .assertParameter("exclusiveValue")
+                .assertParameterAnnotation("DecimalMin")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"0.0\"",
+                        "inclusive", "false"
+                ))
+                .toParameter()
+                .assertParameterAnnotation("DecimalMax")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"100.0\"",
+                        "inclusive", "false"
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("inclusiveValue")
+                .assertParameterAnnotation("DecimalMin")
+                .hasNotAttributes(List.of("inclusive"))
+                .toParameter()
+                .assertParameterAnnotation("DecimalMax")
+                .hasNotAttributes(List.of("inclusive"));
+        KotlinFileAssert.assertThat(files.get("Bounds.kt"))
+                .assertClass("Bounds")
+                .assertPrimaryConstructorParameter("exclusiveValue")
+                .assertParameterAnnotation("DecimalMin", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"0.0\"",
+                        "inclusive", "false"
+                ))
+                .toPrimaryConstructorParameter()
+                .assertParameterAnnotation("DecimalMax", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"100.0\"",
+                        "inclusive", "false"
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("inclusiveValue")
+                .assertParameterAnnotation("DecimalMin", "get")
+                .hasNotAttributes(List.of("inclusive"))
+                .toPrimaryConstructorParameter()
+                .assertParameterAnnotation("DecimalMax", "get")
+                .hasNotAttributes(List.of("inclusive"));
+    }
+
+    @Test
     public void testXMinimumMessageAndXMaximumMessage_integer() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
         KotlinFileAssert.assertThat(files.get("TestApiController.kt"))
