@@ -14,7 +14,6 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import java.io.File;
 import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
@@ -29,30 +28,13 @@ import java.util.Set;
 
 
 /**
- * API tests for DefaultApi
+ * API tests for FooApi
  */
 @Disabled
-public class DefaultApiTest {
+public class FooApiTest {
 
-    private final DefaultApi api = new DefaultApi();
+    private final FooApi api = new FooApi();
 
-    
-    /**
-     * 
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void fileIdGetTest() throws ApiException {
-        String id = null;
-        
-        api.fileIdGet(id);
-        
-        // TODO: test validations
-    }
     
     /**
      * 
@@ -70,23 +52,6 @@ public class DefaultApiTest {
         String color = null;
         Foo response = 
         api.fooDtParamGet(dtParam, dtQuery, dtCookie, color);
-        
-        // TODO: test validations
-    }
-    
-    /**
-     * 
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void uploadPostTest() throws ApiException {
-        File _file = null;
-        
-        api.uploadPost(_file);
         
         // TODO: test validations
     }

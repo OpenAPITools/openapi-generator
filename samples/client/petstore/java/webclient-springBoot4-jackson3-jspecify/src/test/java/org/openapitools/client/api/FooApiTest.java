@@ -13,10 +13,10 @@
 
 package org.openapitools.client.api;
 
-import java.io.File;
 import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -27,26 +27,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * API tests for DefaultApi
+ * API tests for FooApi
  */
 @Disabled
-public class DefaultApiTest {
+public class FooApiTest {
 
-    private final DefaultApi api = new DefaultApi();
+    private final FooApi api = new FooApi();
 
-    
-    /**
-     * 
-     *
-     * 
-     */
-    @Test
-    public void fileIdGetTest()  {
-        String id = null;
-        api.fileIdGet(id);
-
-        // TODO: test validations
-    }
     
     /**
      * 
@@ -55,24 +42,12 @@ public class DefaultApiTest {
      */
     @Test
     public void fooDtParamGetTest()  {
-        java.time.Instant dtParam = null;
-        java.time.Instant dtQuery = null;
-        java.time.Instant dtCookie = null;
-        String color = null;
-        Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie, color);
-
-        // TODO: test validations
-    }
-    
-    /**
-     * 
-     *
-     * 
-     */
-    @Test
-    public void uploadPostTest()  {
-        File _file = null;
-        api.uploadPost(_file);
+        // uncomment below to test the function
+        //java.time.Instant dtParam = null;
+        //java.time.Instant dtQuery = null;
+        //java.time.Instant dtCookie = null;
+        //String color = null;
+        //Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie, color).block();
 
         // TODO: test validations
     }

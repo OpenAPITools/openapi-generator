@@ -14,9 +14,7 @@
 package org.openapitools.client.api;
 
 import java.io.File;
-import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
-import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -28,44 +26,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * API tests for DefaultApi
+ * API tests for UploadApi
  */
 @Disabled
-public class DefaultApiTest {
+public class UploadApiTest {
 
-    private final DefaultApi api = new DefaultApi();
+    private final UploadApi api = new UploadApi();
 
-    
-    /**
-     * 
-     *
-     * 
-     */
-    @Test
-    public void fileIdGetTest()  {
-        // uncomment below to test the function
-        //String id = null;
-        //api.fileIdGet(id).block();
-
-        // TODO: test validations
-    }
-    
-    /**
-     * 
-     *
-     * 
-     */
-    @Test
-    public void fooDtParamGetTest()  {
-        // uncomment below to test the function
-        //java.time.Instant dtParam = null;
-        //java.time.Instant dtQuery = null;
-        //java.time.Instant dtCookie = null;
-        //String color = null;
-        //Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie, color).block();
-
-        // TODO: test validations
-    }
     
     /**
      * 

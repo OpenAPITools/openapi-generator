@@ -2,7 +2,6 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
-import java.io.File;
 import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
@@ -28,14 +27,14 @@ import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
-public class DefaultApi {
+public class FooApi {
     private ApiClient apiClient;
 
-    public DefaultApi() {
+    public FooApi() {
         this(new ApiClient());
     }
 
-    public DefaultApi(ApiClient apiClient) {
+    public FooApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
@@ -45,76 +44,6 @@ public class DefaultApi {
 
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
-    }
-
-    /**
-     * 
-     * 
-     * <p><b>200</b> - ok
-     * @param id The id parameter
-     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     */
-    private ResponseSpec fileIdGetRequestCreation(String id) throws RestClientResponseException {
-        Object postBody = null;
-        // verify the required parameter 'id' is set
-        if (id == null) {
-            throw new RestClientResponseException("Missing the required parameter 'id' when calling fileIdGet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
-        }
-        // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<>();
-
-        pathParams.put("id", id);
-
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
-
-        final String[] localVarAccepts = { };
-        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[] {  };
-
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/file/{id}", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    }
-
-    /**
-     * 
-     * 
-     * <p><b>200</b> - ok
-     * @param id The id parameter
-     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     */
-    public void fileIdGet(String id) throws RestClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        fileIdGetRequestCreation(id).body(localVarReturnType);
-    }
-
-    /**
-     * 
-     * 
-     * <p><b>200</b> - ok
-     * @param id The id parameter
-     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     */
-    public ResponseEntity<Void> fileIdGetWithHttpInfo(String id) throws RestClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return fileIdGetRequestCreation(id).toEntity(localVarReturnType);
-    }
-
-    /**
-     * 
-     * 
-     * <p><b>200</b> - ok
-     * @param id The id parameter
-     * @return ResponseSpec
-     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     */
-    public ResponseSpec fileIdGetWithResponseSpec(String id) throws RestClientResponseException {
-        return fileIdGetRequestCreation(id);
     }
 
     public record FooDtParamGetRequest( java.time.Instant dtParam,  java.time.Instant dtQuery,  java.time.Instant dtCookie,  String color){}
@@ -241,74 +170,5 @@ public class DefaultApi {
      */
     public ResponseSpec fooDtParamGetWithResponseSpec(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws RestClientResponseException {
         return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie, color);
-    }
-
-    /**
-     * 
-     * 
-     * <p><b>0</b> - ok
-     * @param _file The _file parameter
-     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     */
-    private ResponseSpec uploadPostRequestCreation(@Nullable File _file) throws RestClientResponseException {
-        Object postBody = null;
-        // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<>();
-
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
-
-        if (_file != null)
-            formParams.add("file", new FileSystemResource(_file));
-
-        final String[] localVarAccepts = { };
-        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { 
-            "multipart/form-data"
-        };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[] {  };
-
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return apiClient.invokeAPI("/upload", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    }
-
-    /**
-     * 
-     * 
-     * <p><b>0</b> - ok
-     * @param _file The _file parameter
-     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     */
-    public void uploadPost(@Nullable File _file) throws RestClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        uploadPostRequestCreation(_file).body(localVarReturnType);
-    }
-
-    /**
-     * 
-     * 
-     * <p><b>0</b> - ok
-     * @param _file The _file parameter
-     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     */
-    public ResponseEntity<Void> uploadPostWithHttpInfo(@Nullable File _file) throws RestClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return uploadPostRequestCreation(_file).toEntity(localVarReturnType);
-    }
-
-    /**
-     * 
-     * 
-     * <p><b>0</b> - ok
-     * @param _file The _file parameter
-     * @return ResponseSpec
-     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     */
-    public ResponseSpec uploadPostWithResponseSpec(@Nullable File _file) throws RestClientResponseException {
-        return uploadPostRequestCreation(_file);
     }
 }

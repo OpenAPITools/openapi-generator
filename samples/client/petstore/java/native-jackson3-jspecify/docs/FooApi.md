@@ -1,76 +1,12 @@
-# DefaultApi
+# FooApi
 
 All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**fileIdGet**](DefaultApi.md#fileIdGet) | **GET** /file/{id} |  |
-| [**fooDtParamGet**](DefaultApi.md#fooDtParamGet) | **GET** /foo/{dtParam} |  |
-| [**uploadPost**](DefaultApi.md#uploadPost) | **POST** /upload |  |
+| [**fooDtParamGet**](FooApi.md#fooDtParamGet) | **GET** /foo/{dtParam} |  |
+| [**fooDtParamGetWithHttpInfo**](FooApi.md#fooDtParamGetWithHttpInfo) | **GET** /foo/{dtParam} |  |
 
-
-
-## fileIdGet
-
-> fileIdGet(id)
-
-
-
-### Example
-
-```java
-// Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.DefaultApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost");
-
-        DefaultApi apiInstance = new DefaultApi(defaultClient);
-        String id = "id_example"; // String | 
-        try {
-            apiInstance.fileIdGet(id);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#fileIdGet");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **id** | **String**|  | |
-
-### Return type
-
-null (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | ok |  -  |
 
 
 ## fooDtParamGet
@@ -87,14 +23,14 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.models.*;
-import org.openapitools.client.api.DefaultApi;
+import org.openapitools.client.api.FooApi;
 
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
 
-        DefaultApi apiInstance = new DefaultApi(defaultClient);
+        FooApi apiInstance = new FooApi(defaultClient);
         java.time.Instant dtParam = new java.time.Instant(); // java.time.Instant | 
         java.time.Instant dtQuery = new java.time.Instant(); // java.time.Instant | 
         java.time.Instant dtCookie = new java.time.Instant(); // java.time.Instant | 
@@ -103,7 +39,7 @@ public class Example {
             Foo result = apiInstance.fooDtParamGet(dtParam, dtQuery, dtCookie, color);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#fooDtParamGet");
+            System.err.println("Exception when calling FooApi#fooDtParamGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -127,6 +63,7 @@ public class Example {
 
 [**Foo**](Foo.md)
 
+
 ### Authorization
 
 No authorization required
@@ -136,16 +73,14 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: application/json
 
-
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **0** | response |  -  |
 
+## fooDtParamGetWithHttpInfo
 
-## uploadPost
-
-> uploadPost(_file)
+> ApiResponse<Foo> fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, color)
 
 
 
@@ -155,24 +90,31 @@ No authorization required
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.models.*;
-import org.openapitools.client.api.DefaultApi;
+import org.openapitools.client.api.FooApi;
 
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
 
-        DefaultApi apiInstance = new DefaultApi(defaultClient);
-        File _file = new File("/path/to/file"); // File | 
+        FooApi apiInstance = new FooApi(defaultClient);
+        java.time.Instant dtParam = new java.time.Instant(); // java.time.Instant | 
+        java.time.Instant dtQuery = new java.time.Instant(); // java.time.Instant | 
+        java.time.Instant dtCookie = new java.time.Instant(); // java.time.Instant | 
+        String color = "red"; // String | 
         try {
-            apiInstance.uploadPost(_file);
+            ApiResponse<Foo> response = apiInstance.fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, color);
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#uploadPost");
+            System.err.println("Exception when calling FooApi#fooDtParamGet");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -184,11 +126,15 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **_file** | **File**|  | [optional] |
+| **dtParam** | **java.time.Instant**|  | [optional] |
+| **dtQuery** | **java.time.Instant**|  | [optional] |
+| **dtCookie** | **java.time.Instant**|  | [optional] |
+| **color** | **String**|  | [optional] [default to red] |
 
 ### Return type
 
-null (empty response body)
+ApiResponse<[**Foo**](Foo.md)>
+
 
 ### Authorization
 
@@ -196,12 +142,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: multipart/form-data
-- **Accept**: Not defined
-
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **0** | ok |  -  |
+| **0** | response |  -  |
 

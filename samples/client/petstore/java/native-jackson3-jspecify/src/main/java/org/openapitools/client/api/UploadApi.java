@@ -19,9 +19,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import java.io.File;
-import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
-import java.time.OffsetDateTime;
 
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
@@ -56,7 +54,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
-public class DefaultApi {
+public class UploadApi {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
    */
@@ -85,11 +83,11 @@ public class DefaultApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
-  public DefaultApi() {
+  public UploadApi() {
     this(Configuration.getDefaultApiClient());
   }
 
-  public DefaultApi(ApiClient apiClient) {
+  public UploadApi(ApiClient apiClient) {
     memberVarHttpClient = apiClient.getHttpClient();
     memberVarObjectMapper = apiClient.getObjectMapper();
     memberVarBaseUri = apiClient.getBaseUri();
@@ -170,253 +168,6 @@ public class DefaultApi {
       file.deleteOnExit(); // best effort cleanup
     }
     return file;
-  }
-
-  /**
-   * 
-   * 
-   * @param id  (required)
-   * @throws ApiException if fails to make API call
-   */
-  public void fileIdGet(String id) throws ApiException {
-    fileIdGet(id, null);
-  }
-
-  /**
-   * 
-   * 
-   * @param id  (required)
-   * @param headers Optional headers to include in the request
-   * @throws ApiException if fails to make API call
-   */
-  public void fileIdGet(String id, Map<String, String> headers) throws ApiException {
-    fileIdGetWithHttpInfo(id, headers);
-  }
-
-  /**
-   * 
-   * 
-   * @param id  (required)
-   * @return ApiResponse&lt;Void&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<Void> fileIdGetWithHttpInfo(String id) throws ApiException {
-    return fileIdGetWithHttpInfo(id, null);
-  }
-
-  /**
-   * 
-   * 
-   * @param id  (required)
-   * @param headers Optional headers to include in the request
-   * @return ApiResponse&lt;Void&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<Void> fileIdGetWithHttpInfo(String id, Map<String, String> headers) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = fileIdGetRequestBuilder(id, headers);
-    try {
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }
-      InputStream localVarResponseBody = null;
-      try {
-        if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("fileIdGet", localVarResponse);
-        }
-        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
-        if (localVarResponseBody != null) {
-          localVarResponseBody.readAllBytes();
-        }
-        return new ApiResponse<>(
-            localVarResponse.statusCode(),
-            localVarResponse.headers().map(),
-            null
-        );
-      } finally {
-        if (localVarResponseBody != null) {
-          localVarResponseBody.close();
-        }
-      }
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
-    }
-  }
-
-  private HttpRequest.Builder fileIdGetRequestBuilder(String id, Map<String, String> headers) throws ApiException {
-    // verify the required parameter 'id' is set
-    if (id == null) {
-      throw new ApiException(400, "Missing the required parameter 'id' when calling fileIdGet");
-    }
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/file/{id}"
-        .replace("{id}", ApiClient.urlEncode(id.toString()));
-
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-
-    localVarRequestBuilder.header("Accept", "application/json");
-
-    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
-    if (memberVarReadTimeout != null) {
-      localVarRequestBuilder.timeout(memberVarReadTimeout);
-    }
-    // Add custom headers if provided
-    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
-    if (memberVarInterceptor != null) {
-      memberVarInterceptor.accept(localVarRequestBuilder);
-    }
-    return localVarRequestBuilder;
-  }
-
-  /**
-   * 
-   * 
-   * @param dtParam  (optional)
-   * @param dtQuery  (optional)
-   * @param dtCookie  (optional)
-   * @param color  (optional, default to red)
-   * @return Foo
-   * @throws ApiException if fails to make API call
-   */
-  public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws ApiException {
-    return fooDtParamGet(dtParam, dtQuery, dtCookie, color, null);
-  }
-
-  /**
-   * 
-   * 
-   * @param dtParam  (optional)
-   * @param dtQuery  (optional)
-   * @param dtCookie  (optional)
-   * @param color  (optional, default to red)
-   * @param headers Optional headers to include in the request
-   * @return Foo
-   * @throws ApiException if fails to make API call
-   */
-  public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color, Map<String, String> headers) throws ApiException {
-    ApiResponse<Foo> localVarResponse = fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, color, headers);
-    return localVarResponse.getData();
-  }
-
-  /**
-   * 
-   * 
-   * @param dtParam  (optional)
-   * @param dtQuery  (optional)
-   * @param dtCookie  (optional)
-   * @param color  (optional, default to red)
-   * @return ApiResponse&lt;Foo&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws ApiException {
-    return fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, color, null);
-  }
-
-  /**
-   * 
-   * 
-   * @param dtParam  (optional)
-   * @param dtQuery  (optional)
-   * @param dtCookie  (optional)
-   * @param color  (optional, default to red)
-   * @param headers Optional headers to include in the request
-   * @return ApiResponse&lt;Foo&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color, Map<String, String> headers) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = fooDtParamGetRequestBuilder(dtParam, dtQuery, dtCookie, color, headers);
-    try {
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }
-      InputStream localVarResponseBody = null;
-      try {
-        if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("fooDtParamGet", localVarResponse);
-        }
-        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
-        if (localVarResponseBody == null) {
-          return new ApiResponse<Foo>(
-              localVarResponse.statusCode(),
-              localVarResponse.headers().map(),
-              null
-          );
-        }
-
-        
-        
-        String responseBody = new String(localVarResponseBody.readAllBytes());
-        Foo responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Foo>() {});
-        
-
-        return new ApiResponse<Foo>(
-            localVarResponse.statusCode(),
-            localVarResponse.headers().map(),
-            responseValue
-        );
-      } finally {
-        if (localVarResponseBody != null) {
-          localVarResponseBody.close();
-        }
-      }
-    } catch (IOException | JacksonException e) {
-      throw new ApiException(e);
-    }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
-    }
-  }
-
-  private HttpRequest.Builder fooDtParamGetRequestBuilder(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color, Map<String, String> headers) throws ApiException {
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/foo/{dtParam}"
-        .replace("{dtParam}", ApiClient.urlEncode(dtParam.toString()));
-
-    List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "dtQuery";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("dtQuery", dtQuery));
-    localVarQueryParameterBaseName = "color";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("color", color));
-
-    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
-      StringJoiner queryJoiner = new StringJoiner("&");
-      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryStringJoiner.toString());
-      }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
-
-    localVarRequestBuilder.header("Accept", "application/json");
-
-    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
-    if (memberVarReadTimeout != null) {
-      localVarRequestBuilder.timeout(memberVarReadTimeout);
-    }
-    // Add custom headers if provided
-    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
-    if (memberVarInterceptor != null) {
-      memberVarInterceptor.accept(localVarRequestBuilder);
-    }
-    return localVarRequestBuilder;
   }
 
   /**
