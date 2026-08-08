@@ -52,8 +52,8 @@ export function TestSnakeCaseDiscriminatorResponseFromJSONTyped(json: any, ignor
     }
 }
 
-export function TestSnakeCaseDiscriminatorResponseToJSON(json: any): any {
-    return TestSnakeCaseDiscriminatorResponseToJSONTyped(json, false);
+export function TestSnakeCaseDiscriminatorResponseToJSON(value?: TestSnakeCaseDiscriminatorResponse | null): any {
+    return TestSnakeCaseDiscriminatorResponseToJSONTyped(value, false);
 }
 
 export function TestSnakeCaseDiscriminatorResponseToJSONTyped(value?: TestSnakeCaseDiscriminatorResponse | null, ignoreDiscriminator: boolean = false): any {

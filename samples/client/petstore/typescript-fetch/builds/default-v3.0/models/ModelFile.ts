@@ -46,8 +46,8 @@ export function ModelFileFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function ModelFileToJSON(json: any): ModelFile {
-    return ModelFileToJSONTyped(json, false);
+export function ModelFileToJSON(value?: ModelFile | null): any {
+    return ModelFileToJSONTyped(value, false);
 }
 
 export function ModelFileToJSONTyped(value?: ModelFile | null, ignoreDiscriminator: boolean = false): any {

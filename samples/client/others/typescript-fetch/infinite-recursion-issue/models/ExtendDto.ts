@@ -63,8 +63,8 @@ export function ExtendDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function ExtendDtoToJSON(json: any): ExtendDto {
-    return ExtendDtoToJSONTyped(json, false);
+export function ExtendDtoToJSON(value?: ExtendDto | null): any {
+    return ExtendDtoToJSONTyped(value, false);
 }
 
 export function ExtendDtoToJSONTyped(value?: ExtendDto | null, ignoreDiscriminator: boolean = false): any {
