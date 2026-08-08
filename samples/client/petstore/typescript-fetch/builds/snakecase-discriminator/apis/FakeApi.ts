@@ -959,11 +959,11 @@ export class FakeApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['date'] != null) {
-            formParams.append('date', requestParameters['date'] as any);
+            formParams.append('date', runtime.serializeDate(requestParameters['date'] as any));
         }
 
         if (requestParameters['dateTime'] != null) {
-            formParams.append('dateTime', (requestParameters['dateTime'] as any).toISOString());
+            formParams.append('dateTime', runtime.serializeDateTime(requestParameters['dateTime'] as any));
         }
 
         if (requestParameters['password'] != null) {
