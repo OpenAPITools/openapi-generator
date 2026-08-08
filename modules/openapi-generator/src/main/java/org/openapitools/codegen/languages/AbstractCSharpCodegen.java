@@ -883,6 +883,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         if (property.datatypeWithEnum.equals("decimal")) {
             property.isDecimal = true;
         }
+
+        // Normalize x-setter-visibility:
+        //   "public" -> remove extension, set isReadOnly=false (public setter = default, no modifier needed)
+        //   any other value -> set isReadOnly=true (template emits "{{.}} set;" using the extension value)
+        Object setterVisibilityObj = property.vendorExtensions.get("x-setter-visibility");
+        if (setterVisibilityObj instanceof String) {
+            if ("public".equals(setterVisibilityObj)) {
+                property.vendorExtensions.remove("x-setter-visibility");
+                property.isReadOnly = false;
+            } else {
+                property.isReadOnly = true;
+            }
+        }
     }
 
     @Override
