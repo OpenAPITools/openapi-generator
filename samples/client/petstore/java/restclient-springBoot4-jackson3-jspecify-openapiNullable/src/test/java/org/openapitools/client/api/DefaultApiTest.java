@@ -58,7 +58,8 @@ public class DefaultApiTest {
         java.time.Instant dtParam = null;
         java.time.Instant dtQuery = null;
         java.time.Instant dtCookie = null;
-        Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie);
+        String color = null;
+        Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie, color);
 
         // TODO: test validations
     }
