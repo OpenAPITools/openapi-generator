@@ -2808,6 +2808,55 @@ public class ModelUtils {
     }
 
     /**
+     * Copies metadata plus the validation and format keywords that copyMetadata does not cover.
+     * Used when an allOf part only constrains an inherited property (see issue #4128), so no
+     * declared keyword is lost while the type is kept.
+     *
+     * @param from schema to copy from
+     * @param to   schema to copy to
+     */
+    public static void copyConstraints(Schema from, Schema to) {
+        Map<String, Object> targetExtensions = to.getExtensions() == null ? null : new HashMap<>(to.getExtensions());
+        copyMetadata(from, to);
+        // merge extensions per key instead of replacing, the source wins on conflicts
+        if (targetExtensions != null && from.getExtensions() != null) {
+            Map<String, Object> mergedExtensions = new HashMap<>(targetExtensions);
+            mergedExtensions.putAll(from.getExtensions());
+            to.setExtensions(mergedExtensions);
+        }
+        if (from.getFormat() != null) {
+            to.setFormat(from.getFormat());
+        }
+        if (from.getPattern() != null) {
+            to.setPattern(from.getPattern());
+        }
+        if (from.getExclusiveMaximum() != null) {
+            to.setExclusiveMaximum(from.getExclusiveMaximum());
+        }
+        if (from.getExclusiveMinimum() != null) {
+            to.setExclusiveMinimum(from.getExclusiveMinimum());
+        }
+        if (from.getExclusiveMaximumValue() != null) {
+            to.setExclusiveMaximumValue(from.getExclusiveMaximumValue());
+        }
+        if (from.getExclusiveMinimumValue() != null) {
+            to.setExclusiveMinimumValue(from.getExclusiveMinimumValue());
+        }
+        if (from.getMultipleOf() != null) {
+            to.setMultipleOf(from.getMultipleOf());
+        }
+        if (from.getUniqueItems() != null) {
+            to.setUniqueItems(from.getUniqueItems());
+        }
+        if (from.getMaxProperties() != null) {
+            to.setMaxProperties(from.getMaxProperties());
+        }
+        if (from.getMinProperties() != null) {
+            to.setMinProperties(from.getMinProperties());
+        }
+    }
+
+    /**
      * Returns true if a schema is only metadata and not an actual type.
      * For example, a schema that only has a `description` without any `properties` or `$ref` defined.
      *
