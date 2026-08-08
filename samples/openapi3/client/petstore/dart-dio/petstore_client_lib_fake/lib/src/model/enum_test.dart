@@ -250,6 +250,7 @@ class _$EnumTestSerializer implements PrimitiveSerializer<EnumTest> {
   }
 }
 
+
 class EnumTestEnumStringEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'UPPER')

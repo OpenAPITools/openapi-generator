@@ -108,3 +108,4 @@ class _$FooSerializer implements PrimitiveSerializer<Foo> {
   }
 }
 
+

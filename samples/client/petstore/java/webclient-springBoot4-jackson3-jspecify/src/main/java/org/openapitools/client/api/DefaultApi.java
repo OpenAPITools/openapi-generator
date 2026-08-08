@@ -126,10 +126,11 @@ public class DefaultApi {
      * @param dtParam The dtParam parameter
      * @param dtQuery The dtQuery parameter
      * @param dtCookie The dtCookie parameter
+     * @param color The color parameter
      * @return Foo
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fooDtParamGetRequestCreation(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
+    private ResponseSpec fooDtParamGetRequestCreation(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws WebClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -142,6 +143,7 @@ public class DefaultApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "dtQuery", dtQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "color", color));
 
         cookieParams.putAll(apiClient.parameterToMultiValueMap(null, "dtCookie", dtCookie));
 
@@ -165,12 +167,13 @@ public class DefaultApi {
      * @param dtParam The dtParam parameter
      * @param dtQuery The dtQuery parameter
      * @param dtCookie The dtCookie parameter
+     * @param color The color parameter
      * @return Foo
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Foo> fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
+    public Mono<Foo> fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws WebClientResponseException {
         ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<Foo>() {};
-        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie).bodyToMono(localVarReturnType);
+        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie, color).bodyToMono(localVarReturnType);
     }
 
     /**
@@ -180,12 +183,13 @@ public class DefaultApi {
      * @param dtParam The dtParam parameter
      * @param dtQuery The dtQuery parameter
      * @param dtCookie The dtCookie parameter
+     * @param color The color parameter
      * @return ResponseEntity&lt;Foo&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Foo>> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
+    public Mono<ResponseEntity<Foo>> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws WebClientResponseException {
         ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<Foo>() {};
-        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie).toEntity(localVarReturnType);
+        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie, color).toEntity(localVarReturnType);
     }
 
     /**
@@ -195,11 +199,12 @@ public class DefaultApi {
      * @param dtParam The dtParam parameter
      * @param dtQuery The dtQuery parameter
      * @param dtCookie The dtCookie parameter
+     * @param color The color parameter
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fooDtParamGetWithResponseSpec(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
-        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie);
+    public ResponseSpec fooDtParamGetWithResponseSpec(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws WebClientResponseException {
+        return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie, color);
     }
 
     /**

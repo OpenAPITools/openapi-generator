@@ -34,6 +34,9 @@ extension {{projectName}}API {
         {{^enumUnknownDefaultCase}}
         {{#allowableValues}}
         {{#enumVars}}
+        {{#enumDescription}}
+        /** {{.}} */
+        {{/enumDescription}}
         case {{name}} = {{{value}}}
         {{/enumVars}}
         {{/allowableValues}}
