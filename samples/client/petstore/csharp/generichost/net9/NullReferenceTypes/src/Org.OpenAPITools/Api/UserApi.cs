@@ -1653,11 +1653,23 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public Org.OpenAPITools.Model.User? Ok()
             {
-                // This logic may be modified with the AsModel.mustache template
+                bool suppressDefault = false;
+                Org.OpenAPITools.Model.User? result = null;
+                OnOk(ref suppressDefault, ref result);
+                if (!suppressDefault)
+                    result = DefaultOk();
+                return result;
+            }
+
+            private Org.OpenAPITools.Model.User? DefaultOk()
+            {
+                // NOTICE: Consider this AsModel template deprecated. Implement the appropriate partial method instead
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.User>(RawContent, _jsonSerializerOptions)
                     : null;
             }
+
+            partial void OnOk(ref bool suppressDefault, ref Org.OpenAPITools.Model.User? result);
 
             /// <summary>
             /// Returns true if the response is 200 Ok and the deserialized response is not null
@@ -1709,11 +1721,23 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public Org.OpenAPITools.Model.User? CustomHttpStatusCode599()
             {
-                // This logic may be modified with the AsModel.mustache template
+                bool suppressDefault = false;
+                Org.OpenAPITools.Model.User? result = null;
+                OnCustomHttpStatusCode599(ref suppressDefault, ref result);
+                if (!suppressDefault)
+                    result = DefaultCustomHttpStatusCode599();
+                return result;
+            }
+
+            private Org.OpenAPITools.Model.User? DefaultCustomHttpStatusCode599()
+            {
+                // NOTICE: Consider this AsModel template deprecated. Implement the appropriate partial method instead
                 return IsCustomHttpStatusCode599
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.User>(RawContent, _jsonSerializerOptions)
                     : null;
             }
+
+            partial void OnCustomHttpStatusCode599(ref bool suppressDefault, ref Org.OpenAPITools.Model.User? result);
 
             /// <summary>
             /// Returns true if the response is 599 CustomHttpStatusCode599 and the deserialized response is not null
@@ -1994,11 +2018,23 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public string? Ok()
             {
-                // This logic may be modified with the AsModel.mustache template
+                bool suppressDefault = false;
+                string? result = null;
+                OnOk(ref suppressDefault, ref result);
+                if (!suppressDefault)
+                    result = DefaultOk();
+                return result;
+            }
+
+            private string? DefaultOk()
+            {
+                // NOTICE: Consider this AsModel template deprecated. Implement the appropriate partial method instead
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<string>(RawContent, _jsonSerializerOptions)
                     : null;
             }
+
+            partial void OnOk(ref bool suppressDefault, ref string? result);
 
             /// <summary>
             /// Returns true if the response is 200 Ok and the deserialized response is not null
