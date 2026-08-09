@@ -46,7 +46,7 @@ public class FooApi {
         this.apiClient = apiClient;
     }
 
-    public record FooDtParamGetRequest( java.time.Instant dtParam,  java.time.Instant dtQuery,  java.time.Instant dtCookie,  String color){}
+    public record FooDtParamGetRequest(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color){}
 
     /**
      * 

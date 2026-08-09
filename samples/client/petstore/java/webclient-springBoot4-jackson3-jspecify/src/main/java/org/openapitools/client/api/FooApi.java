@@ -48,6 +48,131 @@ public class FooApi {
         this.apiClient = apiClient;
     }
 
+    public class FooDtParamGetRequest {
+        private java.time.@Nullable Instant dtParam;
+        private java.time.@Nullable Instant dtQuery;
+        private java.time.@Nullable Instant dtCookie;
+        private @Nullable String color;
+
+        public FooDtParamGetRequest() {}
+
+        public FooDtParamGetRequest(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) {
+            this.dtParam = dtParam;
+            this.dtQuery = dtQuery;
+            this.dtCookie = dtCookie;
+            this.color = color;
+        }
+
+        public java.time.@Nullable Instant dtParam() {
+            return this.dtParam;
+        }
+        public FooDtParamGetRequest dtParam(java.time.@Nullable Instant dtParam) {
+            this.dtParam = dtParam;
+            return this;
+        }
+
+        public java.time.@Nullable Instant dtQuery() {
+            return this.dtQuery;
+        }
+        public FooDtParamGetRequest dtQuery(java.time.@Nullable Instant dtQuery) {
+            this.dtQuery = dtQuery;
+            return this;
+        }
+
+        public java.time.@Nullable Instant dtCookie() {
+            return this.dtCookie;
+        }
+        public FooDtParamGetRequest dtCookie(java.time.@Nullable Instant dtCookie) {
+            this.dtCookie = dtCookie;
+            return this;
+        }
+
+        public @Nullable String color() {
+            return this.color;
+        }
+        public FooDtParamGetRequest color(@Nullable String color) {
+            this.color = color;
+            return this;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            FooDtParamGetRequest request = (FooDtParamGetRequest) o;
+            return Objects.equals(this.dtParam, request.dtParam()) &&
+                Objects.equals(this.dtQuery, request.dtQuery()) &&
+                Objects.equals(this.dtCookie, request.dtCookie()) &&
+                Objects.equals(this.color, request.color());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(dtParam, dtQuery, dtCookie, color);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class FooDtParamGetRequest {\n");
+            sb.append("    dtParam: ").append(toIndentedString(dtParam)).append("\n");
+            sb.append("    dtQuery: ").append(toIndentedString(dtQuery)).append("\n");
+            sb.append("    dtCookie: ").append(toIndentedString(dtCookie)).append("\n");
+            sb.append("    color: ").append(toIndentedString(color)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
+        }
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - response
+     * @param requestParameters The fooDtParamGet request parameters as object
+     * @return Foo
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Foo> fooDtParamGet(FooDtParamGetRequest requestParameters) throws WebClientResponseException {
+        return this.fooDtParamGet(requestParameters.dtParam(), requestParameters.dtQuery(), requestParameters.dtCookie(), requestParameters.color());
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - response
+     * @param requestParameters The fooDtParamGet request parameters as object
+     * @return ResponseEntity&lt;Foo&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Foo>> fooDtParamGetWithHttpInfo(FooDtParamGetRequest requestParameters) throws WebClientResponseException {
+        return this.fooDtParamGetWithHttpInfo(requestParameters.dtParam(), requestParameters.dtQuery(), requestParameters.dtCookie(), requestParameters.color());
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - response
+     * @param requestParameters The fooDtParamGet request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec fooDtParamGetWithResponseSpec(FooDtParamGetRequest requestParameters) throws WebClientResponseException {
+        return this.fooDtParamGetWithResponseSpec(requestParameters.dtParam(), requestParameters.dtQuery(), requestParameters.dtCookie(), requestParameters.color());
+    }
+
+
     /**
      * 
      * 
