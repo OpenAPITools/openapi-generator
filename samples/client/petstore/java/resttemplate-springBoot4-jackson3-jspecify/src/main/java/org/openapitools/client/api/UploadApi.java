@@ -45,7 +45,7 @@ public class UploadApi extends BaseApi {
      * @param _file  (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void uploadPost(File _file) throws RestClientException {
+    public void uploadPost(@Nullable File _file) throws RestClientException {
         uploadPostWithHttpInfo(_file);
     }
 
@@ -57,7 +57,7 @@ public class UploadApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> uploadPostWithHttpInfo(File _file) throws RestClientException {
+    public ResponseEntity<Void> uploadPostWithHttpInfo(@Nullable File _file) throws RestClientException {
         Object localVarPostBody = null;
         
 
