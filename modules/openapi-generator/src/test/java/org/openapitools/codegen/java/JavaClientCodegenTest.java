@@ -4727,6 +4727,7 @@ public class JavaClientCodegenTest {
                         "Foo.Builder dt(java.time.@Nullable Instant dt)",
                         "Foo.Builder requiredDt(java.time.Instant requiredDt)",
                         "Foo.Builder nullableNumber(java.math.@Nullable BigDecimal nullableNumber) ");
+
         if (!NATIVE.equals(library)) { // native library does not generate all arg constructors
             JavaFileAssert.assertThat(files.get("Foo.java"))
                     .fileContains(
