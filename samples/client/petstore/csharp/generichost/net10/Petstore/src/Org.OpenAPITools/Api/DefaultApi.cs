@@ -618,11 +618,23 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public Org.OpenAPITools.Model.FooGetDefaultResponse Default()
             {
-                // This logic may be modified with the AsModel.mustache template
+                bool suppressDefault = false;
+                Org.OpenAPITools.Model.FooGetDefaultResponse result = null;
+                OnDefault(ref suppressDefault, ref result);
+                if (!suppressDefault)
+                    result = DefaultDefault();
+                return result;
+            }
+
+            private Org.OpenAPITools.Model.FooGetDefaultResponse DefaultDefault()
+            {
+                // NOTICE: Consider this AsModel template deprecated. Implement the appropriate partial method instead
                 return IsDefault
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.FooGetDefaultResponse>(RawContent, _jsonSerializerOptions)
                     : null;
             }
+
+            partial void OnDefault(ref bool suppressDefault, ref Org.OpenAPITools.Model.FooGetDefaultResponse result);
 
             /// <summary>
             /// Returns true if the response is 0 Default and the deserialized response is not null
@@ -1045,11 +1057,23 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public List<Guid> Ok()
             {
-                // This logic may be modified with the AsModel.mustache template
+                bool suppressDefault = false;
+                List<Guid> result = null;
+                OnOk(ref suppressDefault, ref result);
+                if (!suppressDefault)
+                    result = DefaultOk();
+                return result;
+            }
+
+            private List<Guid> DefaultOk()
+            {
+                // NOTICE: Consider this AsModel template deprecated. Implement the appropriate partial method instead
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<List<Guid>>(RawContent, _jsonSerializerOptions)
                     : null;
             }
+
+            partial void OnOk(ref bool suppressDefault, ref List<Guid> result);
 
             /// <summary>
             /// Returns true if the response is 200 Ok and the deserialized response is not null
@@ -1268,11 +1292,23 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public string Default()
             {
-                // This logic may be modified with the AsModel.mustache template
+                bool suppressDefault = false;
+                string result = null;
+                OnDefault(ref suppressDefault, ref result);
+                if (!suppressDefault)
+                    result = DefaultDefault();
+                return result;
+            }
+
+            private string DefaultDefault()
+            {
+                // NOTICE: Consider this AsModel template deprecated. Implement the appropriate partial method instead
                 return IsDefault
                     ? System.Text.Json.JsonSerializer.Deserialize<string>(RawContent, _jsonSerializerOptions)
                     : null;
             }
+
+            partial void OnDefault(ref bool suppressDefault, ref string result);
 
             /// <summary>
             /// Returns true if the response is 0 Default and the deserialized response is not null
@@ -1485,11 +1521,23 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public List<List<RolesReportsHash>> Ok()
             {
-                // This logic may be modified with the AsModel.mustache template
+                bool suppressDefault = false;
+                List<List<RolesReportsHash>> result = null;
+                OnOk(ref suppressDefault, ref result);
+                if (!suppressDefault)
+                    result = DefaultOk();
+                return result;
+            }
+
+            private List<List<RolesReportsHash>> DefaultOk()
+            {
+                // NOTICE: Consider this AsModel template deprecated. Implement the appropriate partial method instead
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<List<List<RolesReportsHash>>>(RawContent, _jsonSerializerOptions)
                     : null;
             }
+
+            partial void OnOk(ref bool suppressDefault, ref List<List<RolesReportsHash>> result);
 
             /// <summary>
             /// Returns true if the response is 200 Ok and the deserialized response is not null
@@ -1702,11 +1750,23 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload Ok()
             {
-                // This logic may be modified with the AsModel.mustache template
+                bool suppressDefault = false;
+                Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload result = null;
+                OnOk(ref suppressDefault, ref result);
+                if (!suppressDefault)
+                    result = DefaultOk();
+                return result;
+            }
+
+            private Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload DefaultOk()
+            {
+                // NOTICE: Consider this AsModel template deprecated. Implement the appropriate partial method instead
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload>(RawContent, _jsonSerializerOptions)
                     : null;
             }
+
+            partial void OnOk(ref bool suppressDefault, ref Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload result);
 
             /// <summary>
             /// Returns true if the response is 200 Ok and the deserialized response is not null
