@@ -78,8 +78,10 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     publishing {
         publications {
@@ -91,7 +93,7 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
 }

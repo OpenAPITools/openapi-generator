@@ -84,14 +84,16 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
+    java {
     {{#useJakartaEe}}
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     {{/useJakartaEe}}
     {{^useJakartaEe}}
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     {{/useJakartaEe}}
+    }
 
     publishing {
         publications {
