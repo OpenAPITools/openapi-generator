@@ -1782,6 +1782,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+            // FIX for #23607: Assign all named examples to the parameter so Mustache templates can access them
+            codegenParameter.examples = mediaType.getExamples();
+
             Example example = mediaType.getExamples().values().iterator().next();
             if (example.getValue() != null) {
                 if (isModel) {

@@ -8690,4 +8690,38 @@ public class SpringCodegenTest {
                 "Mono<Set<String>> getUserIdSet"
         );
     }
+
+    @Test
+    public void shouldExposeRequestBodyNamedExamplesToTemplateContext_issue23607() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser().readLocation(
+                "src/test/resources/3_0/spring/requestbody_named_examples.yaml",
+                null,
+                new ParseOptions()
+        ).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        // Verify via codegen operation inspection after initialization
+        Operation operation = openAPI.getPaths().get("/users").getPost();
+        CodegenOperation codegenOperation = codegen.fromOperation("/users", "POST", operation, null);
+
+        assertNotNull(codegenOperation.bodyParam);
+        assertNotNull(codegenOperation.bodyParam.examples);
+        assertTrue(codegenOperation.bodyParam.examples.containsKey("Jessica"));
+        assertTrue(codegenOperation.bodyParam.examples.containsKey("Ron"));
+    }
 }

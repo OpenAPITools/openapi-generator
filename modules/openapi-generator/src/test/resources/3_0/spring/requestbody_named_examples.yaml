@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: Example API
+  version: 1.0.0
+paths:
+  /users:
+    post:
+      summary: Adds a new user
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+            examples:
+              Jessica:
+                value:
+                  id: 10
+                  name: Jessica Smith
+              Ron:
+                value:
+                  id: 11
+                  name: Ron Stewart
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
