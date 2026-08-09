@@ -54,6 +54,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'PotentiallyOverriddenPropertyAccessor'
+        /// </summary>
+        [Fact]
+        public void PotentiallyOverriddenPropertyAccessorTest()
+        {
+            // TODO unit test for the property 'PotentiallyOverriddenPropertyAccessor'
+        }
+
+        /// <summary>
         /// Test the property 'PotentiallyOverriddenPropertyToInternal'
         /// </summary>
         [Fact]
@@ -87,6 +96,15 @@ namespace Org.OpenAPITools.Test.Model
         public void UnalteredPropertyTest()
         {
             // TODO unit test for the property 'UnalteredProperty'
+        }
+
+        /// <summary>
+        /// Test the property 'UnalteredPropertyAccessor'
+        /// </summary>
+        [Fact]
+        public void UnalteredPropertyAccessorTest()
+        {
+            // TODO unit test for the property 'UnalteredPropertyAccessor'
         }
     }
 }
