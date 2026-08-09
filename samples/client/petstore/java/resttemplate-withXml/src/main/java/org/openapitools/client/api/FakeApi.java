@@ -138,7 +138,7 @@ public class FakeApi extends BaseApi {
      * @param header1 header parameter (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void fakeHttpSignatureTest(@javax.annotation.Nonnull Pet pet, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1) throws RestClientException {
+    public void fakeHttpSignatureTest(Pet pet, String query1, String header1) throws RestClientException {
         fakeHttpSignatureTestWithHttpInfo(pet, query1, header1);
     }
 
@@ -152,7 +152,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> fakeHttpSignatureTestWithHttpInfo(@javax.annotation.Nonnull Pet pet, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1) throws RestClientException {
+    public ResponseEntity<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, String query1, String header1) throws RestClientException {
         Object localVarPostBody = pet;
         
         // verify the required parameter 'pet' is set
@@ -192,7 +192,7 @@ public class FakeApi extends BaseApi {
      * @return Boolean
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Boolean fakeOuterBooleanSerialize(@javax.annotation.Nullable Boolean body) throws RestClientException {
+    public Boolean fakeOuterBooleanSerialize(Boolean body) throws RestClientException {
         return fakeOuterBooleanSerializeWithHttpInfo(body).getBody();
     }
 
@@ -204,7 +204,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Boolean&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Boolean> fakeOuterBooleanSerializeWithHttpInfo(@javax.annotation.Nullable Boolean body) throws RestClientException {
+    public ResponseEntity<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws RestClientException {
         Object localVarPostBody = body;
         
 
@@ -235,7 +235,7 @@ public class FakeApi extends BaseApi {
      * @return OuterComposite
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public OuterComposite fakeOuterCompositeSerialize(@javax.annotation.Nullable OuterComposite outerComposite) throws RestClientException {
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws RestClientException {
         return fakeOuterCompositeSerializeWithHttpInfo(outerComposite).getBody();
     }
 
@@ -247,7 +247,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;OuterComposite&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(@javax.annotation.Nullable OuterComposite outerComposite) throws RestClientException {
+    public ResponseEntity<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws RestClientException {
         Object localVarPostBody = outerComposite;
         
 
@@ -278,7 +278,7 @@ public class FakeApi extends BaseApi {
      * @return BigDecimal
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public BigDecimal fakeOuterNumberSerialize(@javax.annotation.Nullable BigDecimal body) throws RestClientException {
+    public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws RestClientException {
         return fakeOuterNumberSerializeWithHttpInfo(body).getBody();
     }
 
@@ -290,7 +290,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;BigDecimal&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(@javax.annotation.Nullable BigDecimal body) throws RestClientException {
+    public ResponseEntity<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws RestClientException {
         Object localVarPostBody = body;
         
 
@@ -321,7 +321,7 @@ public class FakeApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws RestClientException {
+    public String fakeOuterStringSerialize(String body) throws RestClientException {
         return fakeOuterStringSerializeWithHttpInfo(body).getBody();
     }
 
@@ -333,7 +333,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body) throws RestClientException {
+    public ResponseEntity<String> fakeOuterStringSerializeWithHttpInfo(String body) throws RestClientException {
         Object localVarPostBody = body;
         
 
@@ -364,7 +364,7 @@ public class FakeApi extends BaseApi {
      * @return OuterObjectWithEnumProperty
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@javax.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientException {
+    public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientException {
         return fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty).getBody();
     }
 
@@ -376,7 +376,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;OuterObjectWithEnumProperty&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeWithHttpInfo(@javax.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientException {
+    public ResponseEntity<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientException {
         Object localVarPostBody = outerObjectWithEnumProperty;
         
         // verify the required parameter 'outerObjectWithEnumProperty' is set
@@ -411,7 +411,7 @@ public class FakeApi extends BaseApi {
      * @param requestBody request body (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testAdditionalPropertiesReference(@javax.annotation.Nonnull Map<String, Object> requestBody) throws RestClientException {
+    public void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws RestClientException {
         testAdditionalPropertiesReferenceWithHttpInfo(requestBody);
     }
 
@@ -423,7 +423,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testAdditionalPropertiesReferenceWithHttpInfo(@javax.annotation.Nonnull Map<String, Object> requestBody) throws RestClientException {
+    public ResponseEntity<Void> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody) throws RestClientException {
         Object localVarPostBody = requestBody;
         
         // verify the required parameter 'requestBody' is set
@@ -456,7 +456,7 @@ public class FakeApi extends BaseApi {
      * @param body image to upload (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testBodyWithBinary(@javax.annotation.Nullable File body) throws RestClientException {
+    public void testBodyWithBinary(File body) throws RestClientException {
         testBodyWithBinaryWithHttpInfo(body);
     }
 
@@ -468,7 +468,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testBodyWithBinaryWithHttpInfo(@javax.annotation.Nullable File body) throws RestClientException {
+    public ResponseEntity<Void> testBodyWithBinaryWithHttpInfo(File body) throws RestClientException {
         Object localVarPostBody = body;
         
         // verify the required parameter 'body' is set
@@ -501,7 +501,7 @@ public class FakeApi extends BaseApi {
      * @param fileSchemaTestClass  (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testBodyWithFileSchema(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws RestClientException {
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws RestClientException {
         testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
     }
 
@@ -513,7 +513,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testBodyWithFileSchemaWithHttpInfo(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws RestClientException {
+    public ResponseEntity<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) throws RestClientException {
         Object localVarPostBody = fileSchemaTestClass;
         
         // verify the required parameter 'fileSchemaTestClass' is set
@@ -547,7 +547,7 @@ public class FakeApi extends BaseApi {
      * @param user  (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testBodyWithQueryParams(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user) throws RestClientException {
+    public void testBodyWithQueryParams(String query, User user) throws RestClientException {
         testBodyWithQueryParamsWithHttpInfo(query, user);
     }
 
@@ -560,7 +560,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testBodyWithQueryParamsWithHttpInfo(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user) throws RestClientException {
+    public ResponseEntity<Void> testBodyWithQueryParamsWithHttpInfo(String query, User user) throws RestClientException {
         Object localVarPostBody = user;
         
         // verify the required parameter 'query' is set
@@ -602,7 +602,7 @@ public class FakeApi extends BaseApi {
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Client testClientModel(@javax.annotation.Nonnull Client client) throws RestClientException {
+    public Client testClientModel(Client client) throws RestClientException {
         return testClientModelWithHttpInfo(client).getBody();
     }
 
@@ -614,7 +614,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Client&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Client> testClientModelWithHttpInfo(@javax.annotation.Nonnull Client client) throws RestClientException {
+    public ResponseEntity<Client> testClientModelWithHttpInfo(Client client) throws RestClientException {
         Object localVarPostBody = client;
         
         // verify the required parameter 'client' is set
@@ -663,7 +663,7 @@ public class FakeApi extends BaseApi {
      * @param paramCallback None (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testEndpointParameters(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws RestClientException {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
         testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
@@ -689,7 +689,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws RestClientException {
+    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'number' is set
@@ -775,7 +775,7 @@ public class FakeApi extends BaseApi {
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testEnumParameters(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<EnumClass> enumQueryModelArray, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws RestClientException {
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws RestClientException {
         testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
     }
 
@@ -796,7 +796,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testEnumParametersWithHttpInfo(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<EnumClass> enumQueryModelArray, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws RestClientException {
+    public ResponseEntity<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -846,7 +846,7 @@ public class FakeApi extends BaseApi {
      * @param int64Group Integer in group parameters (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testGroupParameters(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws RestClientException {
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientException {
         testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
 
@@ -863,7 +863,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testGroupParametersWithHttpInfo(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws RestClientException {
+    public ResponseEntity<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'requiredStringGroup' is set
@@ -915,7 +915,7 @@ public class FakeApi extends BaseApi {
      * @param requestBody request body (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testInlineAdditionalProperties(@javax.annotation.Nonnull Map<String, String> requestBody) throws RestClientException {
+    public void testInlineAdditionalProperties(Map<String, String> requestBody) throws RestClientException {
         testInlineAdditionalPropertiesWithHttpInfo(requestBody);
     }
 
@@ -927,7 +927,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testInlineAdditionalPropertiesWithHttpInfo(@javax.annotation.Nonnull Map<String, String> requestBody) throws RestClientException {
+    public ResponseEntity<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) throws RestClientException {
         Object localVarPostBody = requestBody;
         
         // verify the required parameter 'requestBody' is set
@@ -960,7 +960,7 @@ public class FakeApi extends BaseApi {
      * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testInlineFreeformAdditionalProperties(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientException {
+    public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientException {
         testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest);
     }
 
@@ -972,7 +972,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientException {
+    public ResponseEntity<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientException {
         Object localVarPostBody = testInlineFreeformAdditionalPropertiesRequest;
         
         // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
@@ -1006,7 +1006,7 @@ public class FakeApi extends BaseApi {
      * @param param2 field2 (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testJsonFormData(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws RestClientException {
+    public void testJsonFormData(String param, String param2) throws RestClientException {
         testJsonFormDataWithHttpInfo(param, param2);
     }
 
@@ -1019,7 +1019,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testJsonFormDataWithHttpInfo(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws RestClientException {
+    public ResponseEntity<Void> testJsonFormDataWithHttpInfo(String param, String param2) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'param' is set
@@ -1062,7 +1062,7 @@ public class FakeApi extends BaseApi {
      * @param childWithNullable request body (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testNullable(@javax.annotation.Nonnull ChildWithNullable childWithNullable) throws RestClientException {
+    public void testNullable(ChildWithNullable childWithNullable) throws RestClientException {
         testNullableWithHttpInfo(childWithNullable);
     }
 
@@ -1074,7 +1074,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testNullableWithHttpInfo(@javax.annotation.Nonnull ChildWithNullable childWithNullable) throws RestClientException {
+    public ResponseEntity<Void> testNullableWithHttpInfo(ChildWithNullable childWithNullable) throws RestClientException {
         Object localVarPostBody = childWithNullable;
         
         // verify the required parameter 'childWithNullable' is set
@@ -1113,7 +1113,7 @@ public class FakeApi extends BaseApi {
      * @param language  (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testQueryParameterCollectionFormat(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable Map<String, String> language) throws RestClientException {
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws RestClientException {
         testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language);
     }
 
@@ -1131,7 +1131,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testQueryParameterCollectionFormatWithHttpInfo(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable Map<String, String> language) throws RestClientException {
+    public ResponseEntity<Void> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'pipe' is set
@@ -1196,7 +1196,7 @@ public class FakeApi extends BaseApi {
      * @param requestBody request body (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testStringMapReference(@javax.annotation.Nonnull Map<String, String> requestBody) throws RestClientException {
+    public void testStringMapReference(Map<String, String> requestBody) throws RestClientException {
         testStringMapReferenceWithHttpInfo(requestBody);
     }
 
@@ -1208,7 +1208,7 @@ public class FakeApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testStringMapReferenceWithHttpInfo(@javax.annotation.Nonnull Map<String, String> requestBody) throws RestClientException {
+    public ResponseEntity<Void> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody) throws RestClientException {
         Object localVarPostBody = requestBody;
         
         // verify the required parameter 'requestBody' is set

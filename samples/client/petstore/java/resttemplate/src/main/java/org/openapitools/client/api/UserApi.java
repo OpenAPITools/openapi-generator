@@ -45,7 +45,7 @@ public class UserApi extends BaseApi {
      * @param user Created user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUser(@javax.annotation.Nonnull User user) throws RestClientException {
+    public void createUser(User user) throws RestClientException {
         createUserWithHttpInfo(user);
     }
 
@@ -57,7 +57,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUserWithHttpInfo(@javax.annotation.Nonnull User user) throws RestClientException {
+    public ResponseEntity<Void> createUserWithHttpInfo(User user) throws RestClientException {
         Object localVarPostBody = user;
         
         // verify the required parameter 'user' is set
@@ -90,7 +90,7 @@ public class UserApi extends BaseApi {
      * @param user List of user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user) throws RestClientException {
+    public void createUsersWithArrayInput(List<User> user) throws RestClientException {
         createUsersWithArrayInputWithHttpInfo(user);
     }
 
@@ -102,7 +102,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUsersWithArrayInputWithHttpInfo(@javax.annotation.Nonnull List<User> user) throws RestClientException {
+    public ResponseEntity<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws RestClientException {
         Object localVarPostBody = user;
         
         // verify the required parameter 'user' is set
@@ -135,7 +135,7 @@ public class UserApi extends BaseApi {
      * @param user List of user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithListInput(@javax.annotation.Nonnull List<User> user) throws RestClientException {
+    public void createUsersWithListInput(List<User> user) throws RestClientException {
         createUsersWithListInputWithHttpInfo(user);
     }
 
@@ -147,7 +147,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUsersWithListInputWithHttpInfo(@javax.annotation.Nonnull List<User> user) throws RestClientException {
+    public ResponseEntity<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws RestClientException {
         Object localVarPostBody = user;
         
         // verify the required parameter 'user' is set
@@ -181,7 +181,7 @@ public class UserApi extends BaseApi {
      * @param username The name that needs to be deleted (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void deleteUser(@javax.annotation.Nonnull String username) throws RestClientException {
+    public void deleteUser(String username) throws RestClientException {
         deleteUserWithHttpInfo(username);
     }
 
@@ -194,7 +194,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> deleteUserWithHttpInfo(@javax.annotation.Nonnull String username) throws RestClientException {
+    public ResponseEntity<Void> deleteUserWithHttpInfo(String username) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'username' is set
@@ -231,7 +231,7 @@ public class UserApi extends BaseApi {
      * @return User
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public User getUserByName(@javax.annotation.Nonnull String username) throws RestClientException {
+    public User getUserByName(String username) throws RestClientException {
         return getUserByNameWithHttpInfo(username).getBody();
     }
 
@@ -245,7 +245,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;User&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<User> getUserByNameWithHttpInfo(@javax.annotation.Nonnull String username) throws RestClientException {
+    public ResponseEntity<User> getUserByNameWithHttpInfo(String username) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'username' is set
@@ -284,7 +284,7 @@ public class UserApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws RestClientException {
+    public String loginUser(String username, String password) throws RestClientException {
         return loginUserWithHttpInfo(username, password).getBody();
     }
 
@@ -298,7 +298,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> loginUserWithHttpInfo(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws RestClientException {
+    public ResponseEntity<String> loginUserWithHttpInfo(String username, String password) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'username' is set
@@ -378,7 +378,7 @@ public class UserApi extends BaseApi {
      * @param user Updated user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws RestClientException {
+    public void updateUser(String username, User user) throws RestClientException {
         updateUserWithHttpInfo(username, user);
     }
 
@@ -392,7 +392,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updateUserWithHttpInfo(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws RestClientException {
+    public ResponseEntity<Void> updateUserWithHttpInfo(String username, User user) throws RestClientException {
         Object localVarPostBody = user;
         
         // verify the required parameter 'username' is set

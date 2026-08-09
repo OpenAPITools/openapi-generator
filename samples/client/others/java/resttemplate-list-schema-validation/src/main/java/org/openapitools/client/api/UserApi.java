@@ -48,7 +48,7 @@ public class UserApi extends BaseApi {
      * @return User
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public User userGet(@javax.annotation.Nonnull List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> username) throws RestClientException {
+    public User userGet(List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> username) throws RestClientException {
         return userGetWithHttpInfo(username).getBody();
     }
 
@@ -60,7 +60,7 @@ public class UserApi extends BaseApi {
      * @return ResponseEntity&lt;User&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<User> userGetWithHttpInfo(@javax.annotation.Nonnull List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> username) throws RestClientException {
+    public ResponseEntity<User> userGetWithHttpInfo(List<@Pattern(regexp = "^[a-zA-Z0-9]$")String> username) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'username' is set

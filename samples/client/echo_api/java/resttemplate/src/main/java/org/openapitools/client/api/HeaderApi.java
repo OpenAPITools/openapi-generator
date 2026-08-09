@@ -49,7 +49,7 @@ public class HeaderApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testHeaderIntegerBooleanStringEnums(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws RestClientException {
+    public String testHeaderIntegerBooleanStringEnums(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws RestClientException {
         return testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader).getBody();
     }
 
@@ -65,7 +65,7 @@ public class HeaderApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws RestClientException {
+    public ResponseEntity<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws RestClientException {
         Object localVarPostBody = null;
         
 

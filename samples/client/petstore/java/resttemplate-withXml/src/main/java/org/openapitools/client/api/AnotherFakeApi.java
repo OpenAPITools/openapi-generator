@@ -45,7 +45,7 @@ public class AnotherFakeApi extends BaseApi {
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Client call123testSpecialTags(@javax.annotation.Nonnull Client client) throws RestClientException {
+    public Client call123testSpecialTags(Client client) throws RestClientException {
         return call123testSpecialTagsWithHttpInfo(client).getBody();
     }
 
@@ -57,7 +57,7 @@ public class AnotherFakeApi extends BaseApi {
      * @return ResponseEntity&lt;Client&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws RestClientException {
+    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(Client client) throws RestClientException {
         Object localVarPostBody = client;
         
         // verify the required parameter 'client' is set

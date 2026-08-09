@@ -4732,13 +4732,12 @@ public class JavaClientCodegenTest {
                     .fileContains(
                         "public Foo(@JsonProperty(JSON_PROPERTY_DT) java.time.@Nullable Instant dt, @JsonProperty(JSON_PROPERTY_NULLABLE_DT) java.time.@Nullable Instant nullableDt, @JsonProperty(JSON_PROPERTY_BINARY) @Nullable File binary, @JsonProperty(JSON_PROPERTY_NULLABLE_BINARY) @Nullable File nullableBinary, @JsonProperty(JSON_PROPERTY_LIST_OF_DT) @Nullable List<java.time.Instant> listOfDt, @JsonProperty(JSON_PROPERTY_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> listMinIntems, @JsonProperty(JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> nullableListMinIntems, @JsonProperty(JSON_PROPERTY_REQUIRED_DT) java.time.Instant requiredDt, @JsonProperty(JSON_PROPERTY_NUMBER) java.math.@Nullable BigDecimal number, @JsonProperty(JSON_PROPERTY_NULLABLE_NUMBER) java.math.@Nullable BigDecimal nullableNumber, @JsonProperty(JSON_PROPERTY_COLOR) @Nullable String color, @JsonProperty(JSON_PROPERTY_REQUIRED_COLOR) String requiredColor, @JsonProperty(JSON_PROPERTY_NULLABLE_COLOR) @Nullable String nullableColor) {");
         }
-        JavaFileAssert.assertThat(files.get("FooApi.java"))
-                .fileContains(
-                        "import org.jspecify.annotations.Nullable;",
-                        "fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)");
         if (!RESTTEMPLATE.equals(library)) {
             JavaFileAssert.assertThat(files.get("FooApi.java"))
+                    .fileContains("fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)");
+            JavaFileAssert.assertThat(files.get("FooApi.java"))
                     .fileContains(
+                            "import org.jspecify.annotations.Nullable;",
                             "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)"
                     );
         }
@@ -4800,13 +4799,12 @@ public class JavaClientCodegenTest {
                             "public Foo(@JsonProperty(JSON_PROPERTY_DT) java.time.@Nullable Instant dt, @JsonProperty(JSON_PROPERTY_NULLABLE_DT) java.time.@Nullable Instant nullableDt, @JsonProperty(JSON_PROPERTY_BINARY) @Nullable File binary, @JsonProperty(JSON_PROPERTY_NULLABLE_BINARY) @Nullable File nullableBinary, @JsonProperty(JSON_PROPERTY_LIST_OF_DT) @Nullable List<java.time.Instant> listOfDt, @JsonProperty(JSON_PROPERTY_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> listMinIntems, @JsonProperty(JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> nullableListMinIntems, @JsonProperty(JSON_PROPERTY_REQUIRED_DT) java.time.Instant requiredDt, @JsonProperty(JSON_PROPERTY_NUMBER) java.math.@Nullable BigDecimal number, @JsonProperty(JSON_PROPERTY_NULLABLE_NUMBER) java.math.@Nullable BigDecimal nullableNumber, @JsonProperty(JSON_PROPERTY_COLOR) @Nullable String color, @JsonProperty(JSON_PROPERTY_REQUIRED_COLOR) String requiredColor, @JsonProperty(JSON_PROPERTY_NULLABLE_COLOR) @Nullable String nullableColor) {"
                     );
         }
-        JavaFileAssert.assertThat(files.get("FooApi.java"))
-                .fileContains(
-                        "import org.jspecify.annotations.Nullable;",
-                        "fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)");
         if (!RESTTEMPLATE.equals(library)) {
             JavaFileAssert.assertThat(files.get("FooApi.java"))
+                    .fileContains("fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)");
+            JavaFileAssert.assertThat(files.get("FooApi.java"))
                     .fileContains(
+                            "import org.jspecify.annotations.Nullable;",
                             "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)"
                     );
         }

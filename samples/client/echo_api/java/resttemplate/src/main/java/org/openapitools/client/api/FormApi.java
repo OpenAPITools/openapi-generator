@@ -47,7 +47,7 @@ public class FormApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws RestClientException {
+    public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm) throws RestClientException {
         return testFormIntegerBooleanStringWithHttpInfo(integerForm, booleanForm, stringForm).getBody();
     }
 
@@ -61,7 +61,7 @@ public class FormApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testFormIntegerBooleanStringWithHttpInfo(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws RestClientException {
+    public ResponseEntity<String> testFormIntegerBooleanStringWithHttpInfo(Integer integerForm, Boolean booleanForm, String stringForm) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -99,7 +99,7 @@ public class FormApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws RestClientException {
+    public String testFormObjectMultipart(TestFormObjectMultipartRequestMarker marker) throws RestClientException {
         return testFormObjectMultipartWithHttpInfo(marker).getBody();
     }
 
@@ -111,7 +111,7 @@ public class FormApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testFormObjectMultipartWithHttpInfo(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws RestClientException {
+    public ResponseEntity<String> testFormObjectMultipartWithHttpInfo(TestFormObjectMultipartRequestMarker marker) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'marker' is set
@@ -155,7 +155,7 @@ public class FormApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws RestClientException {
+    public String testFormOneof(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws RestClientException {
         return testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name).getBody();
     }
 
@@ -172,7 +172,7 @@ public class FormApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testFormOneofWithHttpInfo(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws RestClientException {
+    public ResponseEntity<String> testFormOneofWithHttpInfo(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws RestClientException {
         Object localVarPostBody = null;
         
 

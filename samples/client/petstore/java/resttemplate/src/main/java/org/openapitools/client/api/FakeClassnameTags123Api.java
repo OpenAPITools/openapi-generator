@@ -45,7 +45,7 @@ public class FakeClassnameTags123Api extends BaseApi {
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Client testClassname(@javax.annotation.Nonnull Client client) throws RestClientException {
+    public Client testClassname(Client client) throws RestClientException {
         return testClassnameWithHttpInfo(client).getBody();
     }
 
@@ -57,7 +57,7 @@ public class FakeClassnameTags123Api extends BaseApi {
      * @return ResponseEntity&lt;Client&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Client> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client client) throws RestClientException {
+    public ResponseEntity<Client> testClassnameWithHttpInfo(Client client) throws RestClientException {
         Object localVarPostBody = client;
         
         // verify the required parameter 'client' is set

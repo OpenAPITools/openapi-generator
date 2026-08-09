@@ -87,7 +87,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testBodyApplicationOctetstreamBinary(@javax.annotation.Nullable File body) throws RestClientException {
+    public String testBodyApplicationOctetstreamBinary(File body) throws RestClientException {
         return testBodyApplicationOctetstreamBinaryWithHttpInfo(body).getBody();
     }
 
@@ -99,7 +99,7 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(@javax.annotation.Nullable File body) throws RestClientException {
+    public ResponseEntity<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(File body) throws RestClientException {
         Object localVarPostBody = body;
         
 
@@ -130,7 +130,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testBodyMultipartFormdataArrayOfBinary(@javax.annotation.Nonnull List<File> files) throws RestClientException {
+    public String testBodyMultipartFormdataArrayOfBinary(List<File> files) throws RestClientException {
         return testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files).getBody();
     }
 
@@ -142,7 +142,7 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(@javax.annotation.Nonnull List<File> files) throws RestClientException {
+    public ResponseEntity<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(List<File> files) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'files' is set
@@ -181,7 +181,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testBodyMultipartFormdataSingleBinary(@javax.annotation.Nullable File myFile) throws RestClientException {
+    public String testBodyMultipartFormdataSingleBinary(File myFile) throws RestClientException {
         return testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile).getBody();
     }
 
@@ -193,7 +193,7 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(@javax.annotation.Nullable File myFile) throws RestClientException {
+    public ResponseEntity<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(File myFile) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -227,7 +227,7 @@ public class BodyApi extends BaseApi {
      * @return Pet
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Pet testEchoBodyAllOfPet(@javax.annotation.Nullable Pet pet) throws RestClientException {
+    public Pet testEchoBodyAllOfPet(Pet pet) throws RestClientException {
         return testEchoBodyAllOfPetWithHttpInfo(pet).getBody();
     }
 
@@ -239,7 +239,7 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> testEchoBodyAllOfPetWithHttpInfo(@javax.annotation.Nullable Pet pet) throws RestClientException {
+    public ResponseEntity<Pet> testEchoBodyAllOfPetWithHttpInfo(Pet pet) throws RestClientException {
         Object localVarPostBody = pet;
         
 
@@ -270,7 +270,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testEchoBodyFreeFormObjectResponseString(@javax.annotation.Nullable Object body) throws RestClientException {
+    public String testEchoBodyFreeFormObjectResponseString(Object body) throws RestClientException {
         return testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body).getBody();
     }
 
@@ -282,7 +282,7 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(@javax.annotation.Nullable Object body) throws RestClientException {
+    public ResponseEntity<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(Object body) throws RestClientException {
         Object localVarPostBody = body;
         
 
@@ -313,7 +313,7 @@ public class BodyApi extends BaseApi {
      * @return Pet
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Pet testEchoBodyPet(@javax.annotation.Nullable Pet pet) throws RestClientException {
+    public Pet testEchoBodyPet(Pet pet) throws RestClientException {
         return testEchoBodyPetWithHttpInfo(pet).getBody();
     }
 
@@ -325,7 +325,7 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> testEchoBodyPetWithHttpInfo(@javax.annotation.Nullable Pet pet) throws RestClientException {
+    public ResponseEntity<Pet> testEchoBodyPetWithHttpInfo(Pet pet) throws RestClientException {
         Object localVarPostBody = pet;
         
 
@@ -356,7 +356,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testEchoBodyPetResponseString(@javax.annotation.Nullable Pet pet) throws RestClientException {
+    public String testEchoBodyPetResponseString(Pet pet) throws RestClientException {
         return testEchoBodyPetResponseStringWithHttpInfo(pet).getBody();
     }
 
@@ -368,7 +368,7 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEchoBodyPetResponseStringWithHttpInfo(@javax.annotation.Nullable Pet pet) throws RestClientException {
+    public ResponseEntity<String> testEchoBodyPetResponseStringWithHttpInfo(Pet pet) throws RestClientException {
         Object localVarPostBody = pet;
         
 
@@ -399,7 +399,7 @@ public class BodyApi extends BaseApi {
      * @return StringEnumRef
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body) throws RestClientException {
+    public StringEnumRef testEchoBodyStringEnum(String body) throws RestClientException {
         return testEchoBodyStringEnumWithHttpInfo(body).getBody();
     }
 
@@ -411,7 +411,7 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;StringEnumRef&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable String body) throws RestClientException {
+    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(String body) throws RestClientException {
         Object localVarPostBody = body;
         
 
@@ -442,7 +442,7 @@ public class BodyApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testEchoBodyTagResponseString(@javax.annotation.Nullable Tag tag) throws RestClientException {
+    public String testEchoBodyTagResponseString(Tag tag) throws RestClientException {
         return testEchoBodyTagResponseStringWithHttpInfo(tag).getBody();
     }
 
@@ -454,7 +454,7 @@ public class BodyApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEchoBodyTagResponseStringWithHttpInfo(@javax.annotation.Nullable Tag tag) throws RestClientException {
+    public ResponseEntity<String> testEchoBodyTagResponseStringWithHttpInfo(Tag tag) throws RestClientException {
         Object localVarPostBody = tag;
         
 
