@@ -481,6 +481,7 @@ public class CodegenConstants {
     public static final String ENUM_DESCRIPTION = "enumDescription";
 
     // Vendor extensions
+    public static final String X_EXAMPLE = "x-example";
     public static final String X_INTERNAL = "x-internal";
     public static final String X_PARENT = "x-parent";
     public static final String X_COMPOSED_DATA_TYPE = "x-composed-data-type";
