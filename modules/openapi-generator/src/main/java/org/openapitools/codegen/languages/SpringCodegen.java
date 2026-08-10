@@ -54,8 +54,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
-import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -72,7 +71,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SERVER_PORT = "serverPort";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
-    public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
     public static final String USE_FEIGN_CLIENT = "useFeignClient";
     public static final String USE_FEIGN_CLIENT_CONTEXT_ID = "useFeignClientContextId";
@@ -254,8 +252,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .defaultValue(this.getConfigPackage()));
         cliOptions.add(new CliOption(BASE_PACKAGE, "base package (invokerPackage) for generated code")
                 .defaultValue(this.getBasePackage()));
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY,
-                "Whether to generate only API interface stubs without the server files.", interfaceOnly));
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, INTERFACE_ONLY_DESC, interfaceOnly));
         cliOptions.add(CliOption.newBoolean(USE_FEIGN_CLIENT_URL,
                 "Whether to generate Feign client with url parameter.", useFeignClientUrl));
         cliOptions.add(CliOption.newBoolean(USE_FEIGN_CLIENT_CONTEXT_ID,

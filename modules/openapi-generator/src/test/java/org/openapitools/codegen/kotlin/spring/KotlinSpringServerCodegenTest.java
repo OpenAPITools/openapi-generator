@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.CodegenConstants.USE_ENUM_VALUE_INTERFACE;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
@@ -650,7 +651,7 @@ public class KotlinSpringServerCodegenTest {
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
@@ -672,7 +673,7 @@ public class KotlinSpringServerCodegenTest {
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
@@ -799,7 +800,7 @@ public class KotlinSpringServerCodegenTest {
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY,
+        codegen.additionalProperties().put(INTERFACE_ONLY,
                 isInterfaceOnly);
 
         new DefaultGenerator().opts(new ClientOptInput()
@@ -917,7 +918,7 @@ public class KotlinSpringServerCodegenTest {
                 .readLocation("src/test/resources/bugs/issue_13932.yml", null, new ParseOptions()).getOpenAPI();
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
@@ -1806,7 +1807,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1840,7 +1841,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1874,7 +1875,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1908,7 +1909,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1940,7 +1941,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1974,7 +1975,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2008,7 +2009,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2042,7 +2043,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2074,7 +2075,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2108,7 +2109,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2142,7 +2143,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2176,7 +2177,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2208,7 +2209,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2242,7 +2243,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2276,7 +2277,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2310,7 +2311,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2351,7 +2352,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2392,7 +2393,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2424,7 +2425,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2463,7 +2464,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2502,7 +2503,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2541,7 +2542,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2578,7 +2579,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2617,7 +2618,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2656,7 +2657,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2695,7 +2696,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2732,7 +2733,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2771,7 +2772,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2810,7 +2811,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2849,7 +2850,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2886,7 +2887,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2925,7 +2926,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2964,7 +2965,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -3003,7 +3004,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -3039,7 +3040,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -3077,7 +3078,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -3123,7 +3124,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -3165,7 +3166,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -3212,7 +3213,7 @@ public class KotlinSpringServerCodegenTest {
         Path root = generateApiSources(Map.of(
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -4388,7 +4389,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
 
         List<File> files = new DefaultGenerator()
                 .opts(new ClientOptInput()
@@ -5559,7 +5560,7 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/support-deprecated-api.yaml"))
@@ -5930,7 +5931,7 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
         codegen.additionalProperties().put(AbstractKotlinCodegen.IMPLICIT_HEADERS, "true");
@@ -7015,7 +7016,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.SUSPEND_FUNCTIONS, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -7069,7 +7070,7 @@ public class KotlinSpringServerCodegenTest {
         Path root = generateApiSources(Map.of(
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
