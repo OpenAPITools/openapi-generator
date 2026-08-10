@@ -4,14 +4,17 @@ on:
   push:
     paths:
       - 'samples/server/petstore/java-vertx-web/**'
+      - 'samples/server/petstore/java-vertx-web-interface-only/**'
       - 'samples/server/petstore/java-inflector/**'
       - 'samples/server/petstore/java-pkmst/**'
       # test in circleci instead
-      - 'samples/server/petstore/java-undertow/**'
+      #- 'samples/server/petstore/java-undertow/**'
       - 'samples/server/petstore/java-microprofile/**'
   pull_request:
     paths:
       - 'samples/server/petstore/java-vertx-web/**'
+      - 'samples/server/petstore/java-vertx-web-interface-only/**'
+      - 'samples/server/petstore/java-inflector/**'
       - 'samples/server/petstore/java-inflector/**'
       - 'samples/server/petstore/java-pkmst/**'
       #- 'samples/server/petstore/java-undertow/**'
@@ -26,6 +29,7 @@ jobs:
         sample:
           # servers
           - samples/server/petstore/java-vertx-web/
+          - samples/server/petstore/java-vertx-web-interface-only/
           - samples/server/petstore/java-inflector/
           - samples/server/petstore/java-pkmst/
           #- samples/server/petstore/java-undertow/
