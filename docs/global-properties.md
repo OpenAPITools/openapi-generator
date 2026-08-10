@@ -21,6 +21,62 @@ title: Global Properties
 | modelDocs                                         | Allows the user to define if model docs will be generated. Prefer using the more robust `.openapi-generator-ignore`.          | `true` or `false`                                    |
 | apiTests                                          | Allows the user to define if api tests will be generated. Prefer using the more robust `.openapi-generator-ignore`.           | `true` or `false`                                    |
 | modelTests                                        | Allows the user to define if model tests will be generated. Prefer using the more robust `.openapi-generator-ignore`.         | `true` or `false`                                    |
+| splitOperationsByContentType                      | Generates one operation per request/response content-type when an operation exposes several with different schemas            | `true` or `false`                                    |
+
+
+## Note on splitOperationsByContentType
+
+An operation may declare several request or response content-types backed by *different* schemas. Only the
+first one is normally kept, which leaves the others unreachable. With `splitOperationsByContentType=true`
+such an operation is generated once per content-type instead — the cartesian product of the request and
+response axes, deduplicated by schema — each with a typed, collision-free operation id built from the base
+one: `With<Subtype>` for the request axis, `As<Subtype>` for the response axis, as in
+`createReportWithMergePatchAsPdf`.
+
+The content-type declared first on each axis is the default one, consistently with the rest of the
+generator. The option is opt-in and off by default, because it changes the shape of the generated API.
+
+Each generated operation carries `x-content-type-variant-*` extensions recording the group it was split
+from, the content-type it was narrowed to on each axis and the rank of that content-type in its axis. A
+generator whose language can express the whole matrix in a single construct uses them to merge the variants
+back together while keeping each one's natively resolved types. `typescript-fetch` does exactly that: it
+emits one method whose request type is a union discriminated by `contentType` and whose return type is
+selected by overloads on `accept`.
+
+```ts
+export type CreateReportRequest = runtime.ExclusiveUnion<
+    | { contentType?: 'application/json'; report?: Report; }
+    | { contentType: 'application/merge-patch+json'; reportPatch?: ReportPatch; }
+>;
+
+async createReport(requestParameters: CreateReportRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Receipt>;
+async createReport(requestParameters: CreateReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob>;
+```
+
+`ExclusiveUnion` makes the members mutually exclusive, by declaring on each of them the keys it does not
+have as `never`. Without it nothing stops a caller from handing a patch body to the JSON member and having it
+sent under the wrong content-type: excess property checking, which would normally reject the surplus property, treats a
+key present in *any* member of a union as known, so it never fires here — for an object literal no more than
+for a variable. What rejects most shapes is unrelated: weak type detection when every property of a member
+is optional, a missing required property otherwise. A member with a required parameter and an optional body
+has neither. The helper is emitted into `runtime.ts` only when this option is on.
+
+A form or multipart content-type is merged like any other: its parameters stay individual rather than
+gathered in a single body, so the union member carries them as they are and the body is assembled inside
+that content-type's branch of the switch. `Content-Type` is set in each branch rather than once up front,
+because a multipart body must not set it at all — `fetch` adds it with the boundary it generates.
+
+The option decides *which* content-types get their own operation; it does not change how a body is
+serialised. Each variant is handed to the generator's existing encoders, so a media type the generator has
+no encoder for is still sent the way it always was — `typescript-fetch`, for one, has no XML serialiser, and
+an `application/xml` body backed by an object schema is JSON-encoded under an XML `Content-Type` exactly as
+it is without this option. Splitting makes such a content-type reachable; teaching the generator to encode
+it is a separate matter.
+
+One case is left split rather than merged, with a warning: every operation when `useSingleRequestParameter`
+is off, since the parameters are then spread over the signature and there is no request object to carry the
+discriminant. The separate, individually typed methods the split produced are then generated as they are,
+which is what a statically-typed generator emits anyway.
 
 
 ## Note on Global Property declaration
