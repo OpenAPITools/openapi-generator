@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+
 public class JavaVertXWebServerCodegenTest {
 
     private JavaVertXWebServerCodegen underTest;
@@ -36,7 +38,7 @@ public class JavaVertXWebServerCodegenTest {
 
     @Test
     public void itShouldNotSetApiImplMustacheKeyWhenInterfaceOnlyIsTrue() {
-        underTest.additionalProperties().put(JavaVertXWebServerCodegen.INTERFACE_ONLY, "true");
+        underTest.additionalProperties().put(INTERFACE_ONLY, "true");
         underTest.processOpts();
 
         Assert.assertFalse(underTest.apiTemplateFiles().containsKey("apiImpl.mustache"));

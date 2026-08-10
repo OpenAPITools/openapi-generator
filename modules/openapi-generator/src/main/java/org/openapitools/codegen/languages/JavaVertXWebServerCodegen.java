@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY_DESC;
+
 /**
  * <p>Mustache templates are located in {@code src/main/resources/JavaVertXWebServer/}.
  */
@@ -38,8 +41,6 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
     protected String resourceFolder = "src/main/resources";
     protected String apiVersion = "1.0.0-SNAPSHOT";
-
-    public static final String INTERFACE_ONLY = "interfaceOnly";
     protected boolean interfaceOnly = false;
     
     public JavaVertXWebServerCodegen() {
@@ -72,7 +73,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         updateOption(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         updateOption(DATE_LIBRARY, this.getDateLibrary());
         
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files."));
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, INTERFACE_ONLY_DESC));
 
         // Override type mapping
         typeMapping.put("file", "FileUpload");
