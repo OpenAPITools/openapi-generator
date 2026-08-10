@@ -110,6 +110,8 @@ Class | Method | HTTP request | Description
 *FileApi* | [**fileIdGetWithHttpInfo**](docs/FileApi.md#fileIdGetWithHttpInfo) | **GET** /file/{id} | 
 *FooApi* | [**fooDtParamGet**](docs/FooApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
 *FooApi* | [**fooDtParamGetWithHttpInfo**](docs/FooApi.md#fooDtParamGetWithHttpInfo) | **GET** /foo/{dtParam} | 
+*UploadApi* | [**uploadFilesPost**](docs/UploadApi.md#uploadFilesPost) | **POST** /uploadFiles | 
+*UploadApi* | [**uploadFilesPostWithHttpInfo**](docs/UploadApi.md#uploadFilesPostWithHttpInfo) | **POST** /uploadFiles | 
 *UploadApi* | [**uploadPost**](docs/UploadApi.md#uploadPost) | **POST** /upload | 
 *UploadApi* | [**uploadPostWithHttpInfo**](docs/UploadApi.md#uploadPostWithHttpInfo) | **POST** /upload | 
 

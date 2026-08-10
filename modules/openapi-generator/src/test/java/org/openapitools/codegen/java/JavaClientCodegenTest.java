@@ -4715,7 +4715,8 @@ public class JavaClientCodegenTest {
                         USE_SPRING_BOOT4, useSpringBoot4,
                         JavaClientCodegen.OPENAPI_NULLABLE, false,
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
-                        GENERATE_BUILDERS, true
+                        GENERATE_BUILDERS, true,
+                        USE_ABSTRACTION_FOR_FILES, true
                 ),
                 codegenConfigurator ->
                         codegenConfigurator

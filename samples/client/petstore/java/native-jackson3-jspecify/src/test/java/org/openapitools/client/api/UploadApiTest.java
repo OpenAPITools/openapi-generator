@@ -44,6 +44,23 @@ public class UploadApiTest {
      *          if the Api call fails
      */
     @Test
+    public void uploadFilesPostTest() throws ApiException {
+        List<File> _file = null;
+        
+        api.uploadFilesPost(_file);
+        
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
     public void uploadPostTest() throws ApiException {
         File _file = null;
         

@@ -45,6 +45,49 @@ public class UploadApi extends BaseApi {
      * @param _file  (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
+    public void uploadFilesPost(List<File> _file) throws RestClientException {
+        uploadFilesPostWithHttpInfo(_file);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - ok
+     * @param _file  (optional)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> uploadFilesPostWithHttpInfo(List<File> _file) throws RestClientException {
+        Object localVarPostBody = null;
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        if (_file != null)
+            localVarFormParams.addAll("file", _file.stream().map(FileSystemResource::new).collect(Collectors.toList()));
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "multipart/form-data"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/uploadFiles", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * 
+     * 
+     * <p><b>0</b> - ok
+     * @param _file  (optional)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
     public void uploadPost(File _file) throws RestClientException {
         uploadPostWithHttpInfo(_file);
     }

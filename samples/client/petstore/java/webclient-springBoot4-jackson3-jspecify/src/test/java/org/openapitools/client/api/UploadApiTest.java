@@ -40,9 +40,23 @@ public class UploadApiTest {
      * 
      */
     @Test
+    public void uploadFilesPostTest()  {
+        // uncomment below to test the function
+        //java.util.Collection<org.springframework.core.io.Resource> _file = null;
+        //api.uploadFilesPost(_file).block();
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * 
+     */
+    @Test
     public void uploadPostTest()  {
         // uncomment below to test the function
-        //File _file = null;
+        //org.springframework.core.io.Resource _file = null;
         //api.uploadPost(_file).block();
 
         // TODO: test validations

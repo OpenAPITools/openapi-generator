@@ -52,6 +52,75 @@ public class UploadApi {
      * @param _file The _file parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
+    private ResponseSpec uploadFilesPostRequestCreation(@Nullable List<File> _file) throws RestClientResponseException {
+        Object postBody = null;
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<>();
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
+
+        if (_file != null)
+            formParams.addAll("file", _file.stream().map(FileSystemResource::new).collect(Collectors.toList()));
+
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "multipart/form-data"
+        };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/uploadFiles", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - ok
+     * @param _file The _file parameter
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public void uploadFilesPost(@Nullable List<File> _file) throws RestClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        uploadFilesPostRequestCreation(_file).body(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - ok
+     * @param _file The _file parameter
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> uploadFilesPostWithHttpInfo(@Nullable List<File> _file) throws RestClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return uploadFilesPostRequestCreation(_file).toEntity(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - ok
+     * @param _file The _file parameter
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec uploadFilesPostWithResponseSpec(@Nullable List<File> _file) throws RestClientResponseException {
+        return uploadFilesPostRequestCreation(_file);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - ok
+     * @param _file The _file parameter
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     private ResponseSpec uploadPostRequestCreation(@Nullable File _file) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables

@@ -116,6 +116,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *FileApi* | [**fileIdGet**](docs/FileApi.md#fileIdGet) | **GET** /file/{id} | 
 *FooApi* | [**fooDtParamGet**](docs/FooApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
+*UploadApi* | [**uploadFilesPost**](docs/UploadApi.md#uploadFilesPost) | **POST** /uploadFiles | 
 *UploadApi* | [**uploadPost**](docs/UploadApi.md#uploadPost) | **POST** /upload | 
 
 

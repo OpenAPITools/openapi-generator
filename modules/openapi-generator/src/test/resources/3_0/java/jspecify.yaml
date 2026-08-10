@@ -62,7 +62,25 @@ paths:
       responses:
         default:
           description: ok
-
+  /uploadFiles:
+    post:
+      tags:
+        - upload
+      requestBody:
+        description: file
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        default:
+          description: ok
   /file/{id}:
     get:
       tags:

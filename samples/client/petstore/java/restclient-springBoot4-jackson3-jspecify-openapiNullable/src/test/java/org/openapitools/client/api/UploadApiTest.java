@@ -39,8 +39,21 @@ public class UploadApiTest {
      * 
      */
     @Test
+    public void uploadFilesPostTest()  {
+        List<File> _file = null;
+        api.uploadFilesPost(_file);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * 
+     */
+    @Test
     public void uploadPostTest()  {
-         _file = null;
+        File _file = null;
         api.uploadPost(_file);
 
         // TODO: test validations
