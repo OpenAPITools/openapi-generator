@@ -248,7 +248,10 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
             DefaultGenerator(isDryRun).opts(clientOptInput).generate()
 
             params.outputDir.orNull?.let { dir ->
-                logger.lifecycle("Successfully generated code to ${dir.asFile.absolutePath}")
+                val quietMode = params.quiet.getOrElse(false)
+                if (!quietMode) {
+                    logger.lifecycle("Successfully generated code to ${dir.asFile.absolutePath}")
+                }
             }
 
         } catch (e: Exception) {
@@ -1065,7 +1068,10 @@ abstract class GenerateTask : DefaultTask() {
         cleanupOutput.orNull?.let { cleanup ->
             if (cleanup && outputDir.isPresent) {
                 fs.delete { delete(outputDir) }
-                logger.lifecycle("Cleaned up output directory ${outputDir.get().asFile.path} before code generation.")
+                val quietMode = quiet.getOrElse(false)
+                if (!quietMode) {
+                    logger.lifecycle("Cleaned up output directory ${outputDir.get().asFile.path} before code generation.")
+                }
             }
         }
 
