@@ -1338,6 +1338,10 @@ components:
         potentiallyOverriddenPropertyToPublic:
           readOnly: true
           type: string
+        unalteredPropertyAccessor:
+          type: string
+        potentiallyOverriddenPropertyAccessor:
+          type: string
       type: object
     RolesReportsHash:
       description: Role report Hash

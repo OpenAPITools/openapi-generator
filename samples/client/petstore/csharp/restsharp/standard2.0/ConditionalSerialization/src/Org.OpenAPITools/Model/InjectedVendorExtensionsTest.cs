@@ -35,9 +35,20 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="InjectedVendorExtensionsTest" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public InjectedVendorExtensionsTest()
+        /// <param name="unalteredPropertyAccessor">unalteredPropertyAccessor.</param>
+        /// <param name="potentiallyOverriddenPropertyAccessor">potentiallyOverriddenPropertyAccessor.</param>
+        public InjectedVendorExtensionsTest(string unalteredPropertyAccessor = default, string potentiallyOverriddenPropertyAccessor = default)
         {
+            this._UnalteredPropertyAccessor = unalteredPropertyAccessor;
+            if (this.UnalteredPropertyAccessor != null)
+            {
+                this._flagUnalteredPropertyAccessor = true;
+            }
+            this._PotentiallyOverriddenPropertyAccessor = potentiallyOverriddenPropertyAccessor;
+            if (this.PotentiallyOverriddenPropertyAccessor != null)
+            {
+                this._flagPotentiallyOverriddenPropertyAccessor = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -98,6 +109,54 @@ namespace Org.OpenAPITools.Model
             return false;
         }
         /// <summary>
+        /// Gets or Sets UnalteredPropertyAccessor
+        /// </summary>
+        [DataMember(Name = "unalteredPropertyAccessor", EmitDefaultValue = false)]
+        public string UnalteredPropertyAccessor
+        {
+            get{ return _UnalteredPropertyAccessor;}
+            set
+            {
+                _UnalteredPropertyAccessor = value;
+                _flagUnalteredPropertyAccessor = true;
+            }
+        }
+        private string _UnalteredPropertyAccessor;
+        private bool _flagUnalteredPropertyAccessor;
+
+        /// <summary>
+        /// Returns false as UnalteredPropertyAccessor should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeUnalteredPropertyAccessor()
+        {
+            return _flagUnalteredPropertyAccessor;
+        }
+        /// <summary>
+        /// Gets or Sets PotentiallyOverriddenPropertyAccessor
+        /// </summary>
+        [DataMember(Name = "potentiallyOverriddenPropertyAccessor", EmitDefaultValue = false)]
+        public string PotentiallyOverriddenPropertyAccessor
+        {
+            get{ return _PotentiallyOverriddenPropertyAccessor;}
+            set
+            {
+                _PotentiallyOverriddenPropertyAccessor = value;
+                _flagPotentiallyOverriddenPropertyAccessor = true;
+            }
+        }
+        private string _PotentiallyOverriddenPropertyAccessor;
+        private bool _flagPotentiallyOverriddenPropertyAccessor;
+
+        /// <summary>
+        /// Returns false as PotentiallyOverriddenPropertyAccessor should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializePotentiallyOverriddenPropertyAccessor()
+        {
+            return _flagPotentiallyOverriddenPropertyAccessor;
+        }
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -115,6 +174,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  PotentiallyOverriddenPropertyToPrivate: ").Append(PotentiallyOverriddenPropertyToPrivate).Append("\n");
             sb.Append("  PotentiallyOverriddenPropertyToInternal: ").Append(PotentiallyOverriddenPropertyToInternal).Append("\n");
             sb.Append("  PotentiallyOverriddenPropertyToPublic: ").Append(PotentiallyOverriddenPropertyToPublic).Append("\n");
+            sb.Append("  UnalteredPropertyAccessor: ").Append(UnalteredPropertyAccessor).Append("\n");
+            sb.Append("  PotentiallyOverriddenPropertyAccessor: ").Append(PotentiallyOverriddenPropertyAccessor).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -173,6 +234,14 @@ namespace Org.OpenAPITools.Model
                 if (this.PotentiallyOverriddenPropertyToPublic != null)
                 {
                     hashCode = (hashCode * 59) + this.PotentiallyOverriddenPropertyToPublic.GetHashCode();
+                }
+                if (this.UnalteredPropertyAccessor != null)
+                {
+                    hashCode = (hashCode * 59) + this.UnalteredPropertyAccessor.GetHashCode();
+                }
+                if (this.PotentiallyOverriddenPropertyAccessor != null)
+                {
+                    hashCode = (hashCode * 59) + this.PotentiallyOverriddenPropertyAccessor.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

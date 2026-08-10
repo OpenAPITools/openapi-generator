@@ -1092,7 +1092,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
@@ -1926,7 +1926,7 @@ public class SpringCodegenTest {
     private void testConfigFileCommon(String documentationProvider, String destinationFile, String templateFileName) {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, documentationProvider);
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, false);
+        codegen.additionalProperties().put(INTERFACE_ONLY, false);
         codegen.additionalProperties().put(SpringCodegen.SPRING_CLOUD_LIBRARY, "spring-cloud");
         codegen.additionalProperties().put(SpringCodegen.REACTIVE, false);
         codegen.additionalProperties().put(SpringCodegen.API_FIRST, false);
@@ -2541,7 +2541,7 @@ public class SpringCodegenTest {
     public void testResponseWithArray_issue11897() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
-        additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         additionalProperties.put(SpringCodegen.SPRING_CONTROLLER, "true");
@@ -2566,7 +2566,7 @@ public class SpringCodegenTest {
     public void shouldGenerateMethodsWithoutUsingResponseEntityAndWithoutDelegation_issue11537() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
-        additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         additionalProperties.put(SpringCodegen.SPRING_CONTROLLER, "true");
@@ -2652,7 +2652,7 @@ public class SpringCodegenTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
-        additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put("useSpringBoot3", false);
 
@@ -2683,7 +2683,7 @@ public class SpringCodegenTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
-        additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put(USE_SPRING_BOOT3, "true");
 
@@ -2775,7 +2775,7 @@ public class SpringCodegenTest {
     public void shouldSetDefaultValueForMultipleArrayItems() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
-        additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         additionalProperties.put(SpringCodegen.SPRING_CONTROLLER, "true");
@@ -2902,7 +2902,7 @@ public class SpringCodegenTest {
 
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
         codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
@@ -2931,7 +2931,7 @@ public class SpringCodegenTest {
 
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -2960,7 +2960,7 @@ public class SpringCodegenTest {
 
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
@@ -3001,7 +3001,7 @@ public class SpringCodegenTest {
 
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
         codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
@@ -3032,7 +3032,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
@@ -3067,7 +3067,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
@@ -3098,7 +3098,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
@@ -3129,7 +3129,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
@@ -3165,7 +3165,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
@@ -7260,7 +7260,7 @@ public class SpringCodegenTest {
     @Test
     public void autoXSpringPaginatedDetectsAllThreeParams() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
@@ -7277,7 +7277,7 @@ public class SpringCodegenTest {
     @Test
     public void autoXSpringPaginatedManualFalseTakesPrecedence() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
@@ -7294,7 +7294,7 @@ public class SpringCodegenTest {
     @Test
     public void autoXSpringPaginatedCaseSensitiveMatching() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
@@ -7311,7 +7311,7 @@ public class SpringCodegenTest {
     @Test
     public void autoXSpringPaginatedNoDetectionWhenMissingPage() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
@@ -7328,7 +7328,7 @@ public class SpringCodegenTest {
     @Test
     public void autoXSpringPaginatedNoDetectionWhenMissingSize() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
@@ -7345,7 +7345,7 @@ public class SpringCodegenTest {
     @Test
     public void autoXSpringPaginatedNoDetectionWhenMissingSort() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
@@ -7382,7 +7382,7 @@ public class SpringCodegenTest {
         // the extension must be stripped so the template does not emit "@ParameterObject Pageable pageable".
         // Instead, individual page/size/sort @RequestParam args from the spec should remain.
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.DOCUMENTATION_PROVIDER, "springdoc");
 
         Map<String, File> files = generateFromContract(
@@ -7407,7 +7407,7 @@ public class SpringCodegenTest {
     @Test
     public void autoXSpringPaginatedDisabledByDefault() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         // NOT setting AUTO_X_SPRING_PAGINATED (defaults to false)
@@ -7424,7 +7424,7 @@ public class SpringCodegenTest {
     @Test
     public void autoXSpringPaginatedWorksWithManualTrue() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
@@ -7441,7 +7441,7 @@ public class SpringCodegenTest {
     @Test
     public void autoXSpringPaginatedNoParamsDoesNotDetect() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
@@ -7462,7 +7462,7 @@ public class SpringCodegenTest {
     @Test
     public void generateSortValidationAddsAnnotationAndGeneratesFile() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7486,7 +7486,7 @@ public class SpringCodegenTest {
     @Test
     public void generateSortValidationUsesJavaArraySyntax() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7503,7 +7503,7 @@ public class SpringCodegenTest {
     @Test
     public void generateSortValidationWithAutoDetect() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7523,7 +7523,7 @@ public class SpringCodegenTest {
     @Test
     public void generateSortValidationNotAppliedWhenNoSortEnum() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7543,7 +7543,7 @@ public class SpringCodegenTest {
     @Test
     public void generateSortValidationWorksForArraySortEnum() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7570,7 +7570,7 @@ public class SpringCodegenTest {
     @Test
     public void generateSortValidationWorksForArraySortRefEnum() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7596,7 +7596,7 @@ public class SpringCodegenTest {
     @Test
     public void generateSortValidationWorksForExternalParamRefArraySort() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7623,7 +7623,7 @@ public class SpringCodegenTest {
     @Test
     public void generateSortValidationWorksForNonExplodedExternalParamRefArraySort() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7654,7 +7654,7 @@ public class SpringCodegenTest {
     @Test
     public void generatePageableConstraintValidationAddsAnnotationAndGeneratesFile() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7677,7 +7677,7 @@ public class SpringCodegenTest {
     @Test
     public void generatePageableConstraintValidationWithBothConstraints() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7697,7 +7697,7 @@ public class SpringCodegenTest {
     @Test
     public void generatePageableConstraintValidationResolvesMaximumFromAllOfRef() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7717,7 +7717,7 @@ public class SpringCodegenTest {
     @Test
     public void generatePageableConstraintValidationResolvesMinimumFromAllOfRef() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7741,7 +7741,7 @@ public class SpringCodegenTest {
     @Test
     public void pageableDefaultAnnotationApplied() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7760,7 +7760,7 @@ public class SpringCodegenTest {
     @Test
     public void sortDefaultAnnotationApplied() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7776,7 +7776,7 @@ public class SpringCodegenTest {
     @Test
     public void sortDefaultAndPageableDefaultBothApplied() throws IOException {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7799,7 +7799,7 @@ public class SpringCodegenTest {
     public void substituteGenericPagedModel_isDisabledByDefault() throws IOException {
         // Without the option the paged schemas are generated as-is
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
@@ -7920,7 +7920,7 @@ public class SpringCodegenTest {
     /** Common properties shared by all substituteGenericPagedModel tests. */
     private Map<String, Object> commonPagedModelProps() {
         Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");

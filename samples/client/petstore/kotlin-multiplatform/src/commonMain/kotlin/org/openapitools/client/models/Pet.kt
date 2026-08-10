@@ -69,6 +69,7 @@ data class Pet (
         @SerialName(value = "available") available("available"),
         @SerialName(value = "pending") pending("pending"),
         @SerialName(value = "sold") sold("sold");
+        override fun toString(): kotlin.String = value
     }
 
 }

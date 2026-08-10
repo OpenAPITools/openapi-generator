@@ -2115,8 +2115,8 @@ public class DefaultCodegen implements CodegenConfig {
         // set the example value
         // if not specified in x-example, generate a default value
         // TODO need to revise how to obtain the example value
-        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey(X_EXAMPLE)) {
+            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get(X_EXAMPLE));
         } else if (codegenParameter.isBoolean) {
             codegenParameter.example = "true";
         } else if (codegenParameter.isLong) {
@@ -2201,23 +2201,11 @@ public class DefaultCodegen implements CodegenConfig {
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         Content content = requestBody.getContent();
 
-        if (content.size() > 1) {
-            // @see ModelUtils.getSchemaFromContent()
-            once(LOGGER).debug("Multiple MediaTypes found, using only the first one");
-        }
+        Optional<Object> contentExample = ExamplesUtils.getContentExample(content);
 
-        MediaType mediaType = content.values().iterator().next();
-        if (mediaType.getExample() != null) {
-            codegenParameter.example = mediaType.getExample().toString();
+        if (contentExample.isPresent()) {
+            codegenParameter.example = contentExample.get().toString();
             return;
-        }
-
-        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
-            Example example = mediaType.getExamples().values().iterator().next();
-            if (example.getValue() != null) {
-                codegenParameter.example = example.getValue().toString();
-                return;
-            }
         }
 
         setParameterExampleValue(codegenParameter);

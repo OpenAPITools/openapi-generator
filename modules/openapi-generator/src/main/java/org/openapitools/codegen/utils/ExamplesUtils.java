@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,36 @@ public class ExamplesUtils {
         } else {
             return getExamplesFromContent(result.getContent());
         }
+    }
+
+    /**
+     * Returns the example object for a request body. Note that the current implementation only fetches the first example
+     * found. If there are an {@code example} defined, then {@code examples} is not considered.
+     * <p>
+     * Only the first media type is considered.
+     * @see ModelUtils#getSchemaFromRequestBody(RequestBody)
+     * @see ModelUtils#getSchemaFromResponse(OpenAPI, ApiResponse)
+     *
+     * @param content The request body content
+     * @return The first example found, or an empty optional if no example is found
+     */
+    public static Optional<Object> getContentExample(Content content) {
+        if (content.size() > 1) {
+            once(LOGGER).debug("Multiple MediaTypes found, using only the first one");
+        }
+
+        MediaType mediaType = content.values().iterator().next();
+        if (mediaType.getExample() != null) {
+            return Optional.of(mediaType.getExample());
+        }
+
+        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+            Example example = mediaType.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                return Optional.of(example.getValue());
+            }
+        }
+        return Optional.empty();
     }
 
     private static Map<String, Example> getExamplesFromContent(Content content) {

@@ -111,7 +111,7 @@ public class StoreApiHandler {
         RequestParameter body = requestParameters.body();
         Order order = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<Order>(){}) : null;
 
-        logger.debug("Parameter order is {}", order);
+        logger.debug("Parameter order is (body omitted)");
 
         api.placeOrder(order)
             .onSuccess(apiResponse -> {

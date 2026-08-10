@@ -277,9 +277,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         {{#useJackson3}}
         Consumer<HttpMessageConverters.ClientBuilder> messageConverters = builder -> {
-            builder.addCustomConverter(new JacksonJsonHttpMessageConverter(mapper));
+            builder.registerDefaults().withJsonConverter(new JacksonJsonHttpMessageConverter(mapper));
             {{#withXml}}
-            builder.addCustomConverter(new JacksonXmlHttpMessageConverter(xmlMapper));
+            builder.withXmlConverter(new JacksonXmlHttpMessageConverter(xmlMapper));
             {{/withXml}}
         };
 

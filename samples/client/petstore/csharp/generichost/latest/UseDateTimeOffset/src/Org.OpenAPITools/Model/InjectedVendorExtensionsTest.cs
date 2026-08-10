@@ -33,21 +33,38 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="InjectedVendorExtensionsTest" /> class.
         /// </summary>
+        /// <param name="potentiallyOverriddenPropertyAccessor">potentiallyOverriddenPropertyAccessor</param>
         /// <param name="potentiallyOverriddenPropertyToInternal">potentiallyOverriddenPropertyToInternal</param>
         /// <param name="potentiallyOverriddenPropertyToPrivate">potentiallyOverriddenPropertyToPrivate</param>
         /// <param name="potentiallyOverriddenPropertyToPublic">potentiallyOverriddenPropertyToPublic</param>
         /// <param name="unalteredProperty">unalteredProperty</param>
+        /// <param name="unalteredPropertyAccessor">unalteredPropertyAccessor</param>
         [JsonConstructor]
-        internal InjectedVendorExtensionsTest(Option<string?> potentiallyOverriddenPropertyToInternal = default, Option<string?> potentiallyOverriddenPropertyToPrivate = default, Option<string?> potentiallyOverriddenPropertyToPublic = default, Option<string?> unalteredProperty = default)
+        public InjectedVendorExtensionsTest(Option<string?> potentiallyOverriddenPropertyAccessor = default, Option<string?> potentiallyOverriddenPropertyToInternal = default, Option<string?> potentiallyOverriddenPropertyToPrivate = default, Option<string?> potentiallyOverriddenPropertyToPublic = default, Option<string?> unalteredProperty = default, Option<string?> unalteredPropertyAccessor = default)
         {
+            PotentiallyOverriddenPropertyAccessorOption = potentiallyOverriddenPropertyAccessor;
             PotentiallyOverriddenPropertyToInternalOption = potentiallyOverriddenPropertyToInternal;
             PotentiallyOverriddenPropertyToPrivateOption = potentiallyOverriddenPropertyToPrivate;
             PotentiallyOverriddenPropertyToPublicOption = potentiallyOverriddenPropertyToPublic;
             UnalteredPropertyOption = unalteredProperty;
+            UnalteredPropertyAccessorOption = unalteredPropertyAccessor;
             OnCreated();
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// Used to track the state of PotentiallyOverriddenPropertyAccessor
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> PotentiallyOverriddenPropertyAccessorOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets PotentiallyOverriddenPropertyAccessor
+        /// </summary>
+        [JsonPropertyName("potentiallyOverriddenPropertyAccessor")]
+        public string? PotentiallyOverriddenPropertyAccessor { get { return this.PotentiallyOverriddenPropertyAccessorOption.Value; } set { this.PotentiallyOverriddenPropertyAccessorOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of PotentiallyOverriddenPropertyToInternal
@@ -102,6 +119,19 @@ namespace Org.OpenAPITools.Model
         public string? UnalteredProperty { get { return this.UnalteredPropertyOption.Value; } }
 
         /// <summary>
+        /// Used to track the state of UnalteredPropertyAccessor
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> UnalteredPropertyAccessorOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets UnalteredPropertyAccessor
+        /// </summary>
+        [JsonPropertyName("unalteredPropertyAccessor")]
+        public string? UnalteredPropertyAccessor { get { return this.UnalteredPropertyAccessorOption.Value; } set { this.UnalteredPropertyAccessorOption = new(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -109,10 +139,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class InjectedVendorExtensionsTest {\n");
+            sb.Append("  PotentiallyOverriddenPropertyAccessor: ").Append(PotentiallyOverriddenPropertyAccessor).Append("\n");
             sb.Append("  PotentiallyOverriddenPropertyToInternal: ").Append(PotentiallyOverriddenPropertyToInternal).Append("\n");
             sb.Append("  PotentiallyOverriddenPropertyToPrivate: ").Append(PotentiallyOverriddenPropertyToPrivate).Append("\n");
             sb.Append("  PotentiallyOverriddenPropertyToPublic: ").Append(PotentiallyOverriddenPropertyToPublic).Append("\n");
             sb.Append("  UnalteredProperty: ").Append(UnalteredProperty).Append("\n");
+            sb.Append("  UnalteredPropertyAccessor: ").Append(UnalteredPropertyAccessor).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -160,10 +192,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            Option<string?> potentiallyOverriddenPropertyAccessor = default;
             Option<string?> potentiallyOverriddenPropertyToInternal = default;
             Option<string?> potentiallyOverriddenPropertyToPrivate = default;
             Option<string?> potentiallyOverriddenPropertyToPublic = default;
             Option<string?> unalteredProperty = default;
+            Option<string?> unalteredPropertyAccessor = default;
 
             while (utf8JsonReader.Read())
             {
@@ -180,6 +214,9 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "potentiallyOverriddenPropertyAccessor":
+                            potentiallyOverriddenPropertyAccessor = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "potentiallyOverriddenPropertyToInternal":
                             potentiallyOverriddenPropertyToInternal = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -192,11 +229,17 @@ namespace Org.OpenAPITools.Model
                         case "unalteredProperty":
                             unalteredProperty = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "unalteredPropertyAccessor":
+                            unalteredPropertyAccessor = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         default:
                             break;
                     }
                 }
             }
+
+            if (potentiallyOverriddenPropertyAccessor.IsSet && potentiallyOverriddenPropertyAccessor.Value == null)
+                throw new ArgumentNullException(nameof(potentiallyOverriddenPropertyAccessor), "Property is not nullable for class InjectedVendorExtensionsTest.");
 
             if (potentiallyOverriddenPropertyToInternal.IsSet && potentiallyOverriddenPropertyToInternal.Value == null)
                 throw new ArgumentNullException(nameof(potentiallyOverriddenPropertyToInternal), "Property is not nullable for class InjectedVendorExtensionsTest.");
@@ -210,7 +253,10 @@ namespace Org.OpenAPITools.Model
             if (unalteredProperty.IsSet && unalteredProperty.Value == null)
                 throw new ArgumentNullException(nameof(unalteredProperty), "Property is not nullable for class InjectedVendorExtensionsTest.");
 
-            return new InjectedVendorExtensionsTest(potentiallyOverriddenPropertyToInternal, potentiallyOverriddenPropertyToPrivate, potentiallyOverriddenPropertyToPublic, unalteredProperty);
+            if (unalteredPropertyAccessor.IsSet && unalteredPropertyAccessor.Value == null)
+                throw new ArgumentNullException(nameof(unalteredPropertyAccessor), "Property is not nullable for class InjectedVendorExtensionsTest.");
+
+            return new InjectedVendorExtensionsTest(potentiallyOverriddenPropertyAccessor, potentiallyOverriddenPropertyToInternal, potentiallyOverriddenPropertyToPrivate, potentiallyOverriddenPropertyToPublic, unalteredProperty, unalteredPropertyAccessor);
         }
 
         /// <summary>
@@ -237,6 +283,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, InjectedVendorExtensionsTest injectedVendorExtensionsTest, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (injectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessorOption.IsSet && injectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessor == null)
+                throw new ArgumentNullException(nameof(injectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessor), "Property is required for class InjectedVendorExtensionsTest.");
+
             if (injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToInternalOption.IsSet && injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToInternal == null)
                 throw new ArgumentNullException(nameof(injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToInternal), "Property is required for class InjectedVendorExtensionsTest.");
 
@@ -249,6 +298,12 @@ namespace Org.OpenAPITools.Model
             if (injectedVendorExtensionsTest.UnalteredPropertyOption.IsSet && injectedVendorExtensionsTest.UnalteredProperty == null)
                 throw new ArgumentNullException(nameof(injectedVendorExtensionsTest.UnalteredProperty), "Property is required for class InjectedVendorExtensionsTest.");
 
+            if (injectedVendorExtensionsTest.UnalteredPropertyAccessorOption.IsSet && injectedVendorExtensionsTest.UnalteredPropertyAccessor == null)
+                throw new ArgumentNullException(nameof(injectedVendorExtensionsTest.UnalteredPropertyAccessor), "Property is required for class InjectedVendorExtensionsTest.");
+
+            if (injectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessorOption.IsSet)
+                writer.WriteString("potentiallyOverriddenPropertyAccessor", injectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessor);
+
             if (injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToInternalOption.IsSet)
                 writer.WriteString("potentiallyOverriddenPropertyToInternal", injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToInternal);
 
@@ -260,6 +315,9 @@ namespace Org.OpenAPITools.Model
 
             if (injectedVendorExtensionsTest.UnalteredPropertyOption.IsSet)
                 writer.WriteString("unalteredProperty", injectedVendorExtensionsTest.UnalteredProperty);
+
+            if (injectedVendorExtensionsTest.UnalteredPropertyAccessorOption.IsSet)
+                writer.WriteString("unalteredPropertyAccessor", injectedVendorExtensionsTest.UnalteredPropertyAccessor);
         }
     }
 }
