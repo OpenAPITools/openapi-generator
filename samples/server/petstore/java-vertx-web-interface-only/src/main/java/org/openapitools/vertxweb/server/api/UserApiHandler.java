@@ -1,8 +1,7 @@
 package org.openapitools.vertxweb.server.api;
 
-import io.vertx.ext.web.FileUpload;
-import org.openapitools.vertxweb.server.model.ModelApiResponse;
-import org.openapitools.vertxweb.server.model.Pet;
+import java.time.OffsetDateTime;
+import org.openapitools.vertxweb.server.model.User;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.json.jackson.DatabindCodec;
@@ -18,44 +17,40 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Map;
 
-public class PetApiHandler {
+public class UserApiHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(PetApiHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserApiHandler.class);
 
-    private final PetApi api;
+    private final UserApi api;
 
-    public PetApiHandler(PetApi api) {
+    public UserApiHandler(UserApi api) {
         this.api = api;
     }
 
-    @Deprecated
-    public PetApiHandler() {
-        this(new PetApiImpl());
-    }
 
     public void mount(RouterBuilder builder) {
-        builder.operation("addPet").handler(this::addPet);
-        builder.operation("deletePet").handler(this::deletePet);
-        builder.operation("findPetsByStatus").handler(this::findPetsByStatus);
-        builder.operation("findPetsByTags").handler(this::findPetsByTags);
-        builder.operation("getPetById").handler(this::getPetById);
-        builder.operation("updatePet").handler(this::updatePet);
-        builder.operation("updatePetWithForm").handler(this::updatePetWithForm);
-        builder.operation("uploadFile").handler(this::uploadFile);
+        builder.operation("createUser").handler(this::createUser);
+        builder.operation("createUsersWithArrayInput").handler(this::createUsersWithArrayInput);
+        builder.operation("createUsersWithListInput").handler(this::createUsersWithListInput);
+        builder.operation("deleteUser").handler(this::deleteUser);
+        builder.operation("getUserByName").handler(this::getUserByName);
+        builder.operation("loginUser").handler(this::loginUser);
+        builder.operation("logoutUser").handler(this::logoutUser);
+        builder.operation("updateUser").handler(this::updateUser);
     }
 
-    private void addPet(RoutingContext routingContext) {
-        logger.info("addPet()");
+    private void createUser(RoutingContext routingContext) {
+        logger.info("createUser()");
 
         // Param extraction
         RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
 
         RequestParameter body = requestParameters.body();
-        Pet pet = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<Pet>(){}) : null;
+        User user = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<User>(){}) : null;
 
-        logger.debug("Parameter pet is (body omitted)");
+        logger.debug("Parameter user is (body omitted)");
 
-        api.addPet(pet)
+        api.createUser(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -67,108 +62,18 @@ public class PetApiHandler {
             .onFailure(routingContext::fail);
     }
 
-    private void deletePet(RoutingContext routingContext) {
-        logger.info("deletePet()");
-
-        // Param extraction
-        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
-
-        Long petId = requestParameters.pathParameter("petId") != null ? requestParameters.pathParameter("petId").getLong() : null;
-        String apiKey = requestParameters.headerParameter("api_key") != null ? requestParameters.headerParameter("api_key").getString() : null;
-
-        logger.debug("Parameter petId is {}", petId);
-        logger.debug("Parameter apiKey is {}", apiKey);
-
-        api.deletePet(petId, apiKey)
-            .onSuccess(apiResponse -> {
-                routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
-            })
-            .onFailure(routingContext::fail);
-    }
-
-    private void findPetsByStatus(RoutingContext routingContext) {
-        logger.info("findPetsByStatus()");
-
-        // Param extraction
-        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
-
-        List<String> status = requestParameters.queryParameter("status") != null ? DatabindCodec.mapper().convertValue(requestParameters.queryParameter("status").get(), new TypeReference<List<String>>(){}) : null;
-
-        logger.debug("Parameter status is {}", status);
-
-        api.findPetsByStatus(status)
-            .onSuccess(apiResponse -> {
-                routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
-            })
-            .onFailure(routingContext::fail);
-    }
-
-    private void findPetsByTags(RoutingContext routingContext) {
-        logger.info("findPetsByTags()");
-
-        // Param extraction
-        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
-
-        List<String> tags = requestParameters.queryParameter("tags") != null ? DatabindCodec.mapper().convertValue(requestParameters.queryParameter("tags").get(), new TypeReference<List<String>>(){}) : null;
-
-        logger.debug("Parameter tags is {}", tags);
-
-        api.findPetsByTags(tags)
-            .onSuccess(apiResponse -> {
-                routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
-            })
-            .onFailure(routingContext::fail);
-    }
-
-    private void getPetById(RoutingContext routingContext) {
-        logger.info("getPetById()");
-
-        // Param extraction
-        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
-
-        Long petId = requestParameters.pathParameter("petId") != null ? requestParameters.pathParameter("petId").getLong() : null;
-
-        logger.debug("Parameter petId is {}", petId);
-
-        api.getPetById(petId)
-            .onSuccess(apiResponse -> {
-                routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
-            })
-            .onFailure(routingContext::fail);
-    }
-
-    private void updatePet(RoutingContext routingContext) {
-        logger.info("updatePet()");
+    private void createUsersWithArrayInput(RoutingContext routingContext) {
+        logger.info("createUsersWithArrayInput()");
 
         // Param extraction
         RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
 
         RequestParameter body = requestParameters.body();
-        Pet pet = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<Pet>(){}) : null;
+        List<User> user = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<List<User>>(){}) : null;
 
-        logger.debug("Parameter pet is (body omitted)");
+        logger.debug("Parameter user is (body omitted)");
 
-        api.updatePet(pet)
+        api.createUsersWithArrayInput(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -180,20 +85,18 @@ public class PetApiHandler {
             .onFailure(routingContext::fail);
     }
 
-    private void updatePetWithForm(RoutingContext routingContext) {
-        logger.info("updatePetWithForm()");
+    private void createUsersWithListInput(RoutingContext routingContext) {
+        logger.info("createUsersWithListInput()");
 
         // Param extraction
         RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
 
-        Long petId = requestParameters.pathParameter("petId") != null ? requestParameters.pathParameter("petId").getLong() : null;
         RequestParameter body = requestParameters.body();
-        JsonObject formBody = body != null ? body.getJsonObject() : null;
+        List<User> user = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<List<User>>(){}) : null;
 
-        logger.debug("Parameter petId is {}", petId);
-        logger.debug("Parameter formBody is {}", formBody);
+        logger.debug("Parameter user is (body omitted)");
 
-        api.updatePetWithForm(petId, formBody)
+        api.createUsersWithListInput(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -205,23 +108,108 @@ public class PetApiHandler {
             .onFailure(routingContext::fail);
     }
 
-    private void uploadFile(RoutingContext routingContext) {
-        logger.info("uploadFile()");
+    private void deleteUser(RoutingContext routingContext) {
+        logger.info("deleteUser()");
 
         // Param extraction
         RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
 
-        Long petId = requestParameters.pathParameter("petId") != null ? requestParameters.pathParameter("petId").getLong() : null;
-        FileUpload _file = null;
-        if (routingContext.fileUploads().isEmpty()) {
-        } else {
-            _file = routingContext.fileUploads().iterator().next();
-        }
+        String username = requestParameters.pathParameter("username") != null ? requestParameters.pathParameter("username").getString() : null;
 
-        logger.debug("Parameter petId is {}", petId);
-        logger.debug("Parameter _file is {}", _file);
+        logger.debug("Parameter username is {}", username);
 
-        api.uploadFile(petId, _file)
+        api.deleteUser(username)
+            .onSuccess(apiResponse -> {
+                routingContext.response().setStatusCode(apiResponse.getStatusCode());
+                if (apiResponse.hasData()) {
+                    routingContext.json(apiResponse.getData());
+                } else {
+                    routingContext.response().end();
+                }
+            })
+            .onFailure(routingContext::fail);
+    }
+
+    private void getUserByName(RoutingContext routingContext) {
+        logger.info("getUserByName()");
+
+        // Param extraction
+        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
+
+        String username = requestParameters.pathParameter("username") != null ? requestParameters.pathParameter("username").getString() : null;
+
+        logger.debug("Parameter username is {}", username);
+
+        api.getUserByName(username)
+            .onSuccess(apiResponse -> {
+                routingContext.response().setStatusCode(apiResponse.getStatusCode());
+                if (apiResponse.hasData()) {
+                    routingContext.json(apiResponse.getData());
+                } else {
+                    routingContext.response().end();
+                }
+            })
+            .onFailure(routingContext::fail);
+    }
+
+    private void loginUser(RoutingContext routingContext) {
+        logger.info("loginUser()");
+
+        // Param extraction
+        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
+
+        String username = requestParameters.queryParameter("username") != null ? requestParameters.queryParameter("username").getString() : null;
+        String password = requestParameters.queryParameter("password") != null ? requestParameters.queryParameter("password").getString() : null;
+
+        logger.debug("Parameter username is {}", username);
+        logger.debug("Parameter password is {}", password);
+
+        api.loginUser(username, password)
+            .onSuccess(apiResponse -> {
+                routingContext.response().setStatusCode(apiResponse.getStatusCode());
+                if (apiResponse.hasData()) {
+                    routingContext.json(apiResponse.getData());
+                } else {
+                    routingContext.response().end();
+                }
+            })
+            .onFailure(routingContext::fail);
+    }
+
+    private void logoutUser(RoutingContext routingContext) {
+        logger.info("logoutUser()");
+
+        // Param extraction
+        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
+
+
+
+        api.logoutUser()
+            .onSuccess(apiResponse -> {
+                routingContext.response().setStatusCode(apiResponse.getStatusCode());
+                if (apiResponse.hasData()) {
+                    routingContext.json(apiResponse.getData());
+                } else {
+                    routingContext.response().end();
+                }
+            })
+            .onFailure(routingContext::fail);
+    }
+
+    private void updateUser(RoutingContext routingContext) {
+        logger.info("updateUser()");
+
+        // Param extraction
+        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
+
+        String username = requestParameters.pathParameter("username") != null ? requestParameters.pathParameter("username").getString() : null;
+        RequestParameter body = requestParameters.body();
+        User user = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<User>(){}) : null;
+
+        logger.debug("Parameter username is {}", username);
+        logger.debug("Parameter user is (body omitted)");
+
+        api.updateUser(username, user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
