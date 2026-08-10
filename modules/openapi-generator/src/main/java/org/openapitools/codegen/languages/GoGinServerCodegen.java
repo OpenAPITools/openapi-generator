@@ -119,7 +119,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         cliOptions.add(new CliOption("apiPath", "Name of the folder that contains the Go source code")
                 .defaultValue(apiPath));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY,
-                INTERFACE_ONLY_DESC, interfaceOnly));
+                "Whether to generate only API interface stubs instead of the API implementation files.", interfaceOnly));
 
         CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
