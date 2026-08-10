@@ -38,7 +38,7 @@ public class FileApiTest {
      */
     @Test
     public void fileIdGetTest()  {
-         id = null;
+        String id = null;
         api.fileIdGet(id);
 
         // TODO: test validations

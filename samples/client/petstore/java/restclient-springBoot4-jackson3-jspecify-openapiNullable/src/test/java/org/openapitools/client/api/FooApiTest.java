@@ -41,10 +41,10 @@ public class FooApiTest {
      */
     @Test
     public void fooDtParamGetTest()  {
-         dtParam = null;
-         dtQuery = null;
-         dtCookie = null;
-         color = null;
+        java.time.Instant dtParam = null;
+        java.time.Instant dtQuery = null;
+        java.time.Instant dtCookie = null;
+        String color = null;
         Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie, color);
 
         // TODO: test validations
