@@ -1581,11 +1581,11 @@ public class JavaClientCodegenTest {
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 // mixed
-                "multipartMixed(@javax.annotation.Nonnull MultipartMixedStatus status, org.springframework.core.io.Resource _file, @javax.annotation.Nullable MultipartMixedRequestMarker marker, @javax.annotation.Nullable List<MultipartMixedStatus> statusArray)",
+                "multipartMixed(@javax.annotation.Nonnull MultipartMixedStatus status, @javax.annotation.Nonnull org.springframework.core.io.Resource _file, @javax.annotation.Nullable MultipartMixedRequestMarker marker, @javax.annotation.Nullable List<MultipartMixedStatus> statusArray)",
                 "formParams.add(\"file\", _file);",
 
                 // single file
-                "multipartSingle(org.springframework.core.io.Resource _file)",
+                "multipartSingle(@javax.annotation.Nullable org.springframework.core.io.Resource _file)",
                 "formParams.add(\"file\", _file);"
        );
     }
@@ -2996,11 +2996,11 @@ public class JavaClientCodegenTest {
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 // mixed
-                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, org.springframework.core.io.Resource _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
+                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, @jakarta.annotation.Nonnull org.springframework.core.io.Resource _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
                 "formParams.add(\"file\", _file);",
 
                 // single file
-                "multipartSingle(org.springframework.core.io.Resource _file)",
+                "multipartSingle(@jakarta.annotation.Nullable org.springframework.core.io.Resource _file)",
                 "formParams.add(\"file\", _file);"
         );
     }
