@@ -1577,7 +1577,7 @@ public class JavaClientCodegenTest {
         assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
                 // multiple files
-                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
+                "multipartArray(@javax.annotation.Nullable java.util.Collection<org.springframework.core.io.Resource> files)",
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 // mixed
@@ -2992,7 +2992,7 @@ public class JavaClientCodegenTest {
         assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
                 // multiple files
-                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
+                "multipartArray(@jakarta.annotation.Nullable java.util.Collection<org.springframework.core.io.Resource> files)",
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 // mixed
