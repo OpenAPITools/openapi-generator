@@ -157,7 +157,6 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
         typeMapping.put("uuid", "UUID");
         typeMapping.put("byte", "byte[]");
         typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("binary", "byte[]");
         typeMapping.put("password", "String");
 
         languageSpecificPrimitives.clear();
@@ -273,13 +272,6 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
             }
         }
 
-        return outputFolder;
-    }
-
-    public String getIgnoreFileOutputPath() {
-        if (isOutputFolderPointingToSourceDirectory()) {
-            return outputFolder + File.separator + ".." + File.separator + ".." + File.separator + "..";
-        }
         return outputFolder;
     }
 
@@ -405,7 +397,6 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
             if (isUserTitle) {
                 String titleName = (String) additionalProperties.get(TITLE);
                 mainClassName = (camelize(titleName.trim(), CamelizeOption.UPPERCASE_FIRST_CHAR) + "Application").replaceAll("\\s+", "");
-                ;
             } else {
                 mainClassName = "OpenApiGeneratorApplication";
             }
@@ -466,7 +457,7 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
                 return major > 3 || (major == 3 && minor >= 3);
             }
         } catch (NumberFormatException e) {
-            LOGGER.warn("Unable to parse Dubbo version: " + version);
+            LOGGER.warn("Unable to parse Dubbo version: {}", version);
         }
 
         return false;
@@ -608,17 +599,6 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
         return baseFolder;
     }
 
-    public String getPackageForTemplate(String templateName) {
-        if ("api.mustache".equals(templateName)) {
-            return apiPackage() + ".interfaces";
-        } else if ("apiController.mustache".equals(templateName)) {
-            return apiPackage() + ".consumer";
-        } else if ("apiDubbo.mustache".equals(templateName)) {
-            return apiPackage() + ".provider";
-        }
-        return apiPackage();
-    }
-
     @Override
     public String modelFileFolder() {
         if (isOutputFolderPointingToSourceDirectory()) {
@@ -656,7 +636,7 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "DefaultService";
         }
         name = sanitizeName(name);
@@ -681,7 +661,7 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
                 basePath = basePath.substring(0, pos);
             }
 
-            if (basePath.length() == 0) {
+            if (basePath.isEmpty()) {
                 basePath = "default";
             } else {
                 String subPath = resourcePath;
@@ -693,7 +673,6 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
                 }
                 co.vendorExtensions.put("x-sub-path", subPath);
                 co.subresourceOperation = !subPath.equals("/");
-
                 co.vendorExtensions.put("x-base-path", "/" + basePath);
 
                 if ("a".equals(basePath)) {
@@ -711,18 +690,13 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public boolean isDataTypeString(String dataType) {
-        return "String".equals(dataType);
-    }
-
-    @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            Schema inner = ModelUtils.getSchemaItems(p);
+            Schema<?> inner = ModelUtils.getSchemaItems(p);
             String innerType = getTypeDeclaration(inner);
             return "List<" + innerType + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema<?> inner = ModelUtils.getAdditionalProperties(p);
             String innerType = getTypeDeclaration(inner);
             return "Map<String, " + innerType + ">";
         }
