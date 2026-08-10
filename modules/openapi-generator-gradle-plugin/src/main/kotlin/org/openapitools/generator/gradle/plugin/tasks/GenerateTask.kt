@@ -322,6 +322,17 @@ abstract class GenerateTask : DefaultTask() {
     abstract val maxWorkerHeapSize: Property<String>
 
     /**
+     * Additional classpath entries forwarded to the code generation worker in both `process` and
+     * `classloader` [workerIsolation] modes. Populated by default from the `openApiGeneratorExtra`
+     * configuration, plus any files/directories added via the `openApiGenerate` extension's
+     * `generatorClasspath` property. Required for custom classes referenced by name in generator
+     * options (e.g. a custom `NORMALIZER_CLASS`) to be resolvable by the worker.
+     */
+    @get:Optional
+    @get:Classpath
+    abstract val generatorClasspath: ConfigurableFileCollection
+
+    /**
      * The verbosity of generation
      */
     @get:Optional
@@ -693,6 +704,11 @@ abstract class GenerateTask : DefaultTask() {
      * Example rules: `REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true`,
      * `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true`. See the OpenAPI Generator docs for
      * the full list of normalizer rules.
+     *
+     * For the `NORMALIZER_CLASS` rule (a custom class extending `OpenAPINormalizer`), the class
+     * must be added to [generatorClasspath] (or the `openApiGeneratorExtra` dependency
+     * configuration) so it is resolvable by the code generation worker in both `workerIsolation`
+     * modes; otherwise it will fail to load with a `ClassNotFoundException`.
      */
     @get:Optional
     @get:Input
@@ -1148,6 +1164,7 @@ abstract class GenerateTask : DefaultTask() {
                     )
                 }
                 workerExecutor.processIsolation {
+                    classpath.from(generatorClasspath)
                     maxWorkerHeapSize.orNull?.let { forkOptions.maxHeapSize = it }
                 }
             }
@@ -1160,7 +1177,9 @@ abstract class GenerateTask : DefaultTask() {
                                 "consider workerIsolation = \"process\" if you hit metaspace pressure)"
                     )
                 }
-                workerExecutor.classLoaderIsolation()
+                workerExecutor.classLoaderIsolation {
+                    classpath.from(generatorClasspath)
+                }
             }
 
             else -> throw GradleException("Invalid workerIsolation mode: $isolation. Supported values are 'process' and 'classloader'.")

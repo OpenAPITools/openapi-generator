@@ -480,7 +480,55 @@ warning].
 |Gradle default (~512 MiB)
 |Maximum heap size for the forked worker JVM when `workerIsolation` is `process` (e.g. `"512m"`, `"1g"`).
 Has no effect when `workerIsolation` is `classloader`.
+
+|generatorClasspath
+|ConfigurableFileCollection
+|(empty)
+a|Additional classpath entries (jars, class directories, project outputs) forwarded to the code generation worker
+in *both* `workerIsolation` modes (`process` and `classloader`). Required for any custom class referenced by name
+in generator options - most notably a custom `NORMALIZER_CLASS` (see `openapiNormalizer`) or custom generator
+selected by `generatorName`/FQCN - to be resolvable by the worker, since such classes are not on the plugin's own
+runtime classpath.
+
+For dependencies from a repository or another project, prefer adding them to the `openApiGeneratorExtra`
+configuration created by this plugin (see below); `generatorClasspath` is a lower-level escape hatch for ad hoc
+files/directories:
+
+[source,groovy]
+----
+openApiGenerate {
+    generatorClasspath.from(files("libs/my-normalizer.jar", "libs/my-custom-generator.jar"))
+}
+----
 |===
+
+[NOTE]
+====
+The plugin creates an `openApiGeneratorExtra` dependency configuration (resolvable, not published) whose entries
+are automatically forwarded into `generatorClasspath` for both `workerIsolation` modes. Use it to declare a
+custom `NORMALIZER_CLASS`, custom generator selected by `generatorName`/FQCN, or any other class referenced by name
+in generator options as a normal Gradle dependency - a published artifact, a local jar, or another project in the
+same build:
+
+[source,groovy]
+----
+dependencies {
+    openApiGeneratorExtra("com.acme:my-normalizer:1.0.0")           // custom NORMALIZER_CLASS
+    openApiGeneratorExtra("com.acme:my-custom-generator:1.0.0")    // custom generator
+    openApiGeneratorExtra(project(":my-generator-module"))          // project dependency; built automatically
+    openApiGeneratorExtra(files("libs/my-normalizer.jar"))          // local normalizer jar/class directory
+    openApiGeneratorExtra(files("libs/my-custom-generator.jar"))    // local generator jar/class directory
+}
+
+openApiGenerate {
+    generatorName = "com.acme.MyGenerator"
+    openapiNormalizer = ["NORMALIZER_CLASS": "com.acme.MyNormalizer"]
+}
+----
+
+Without a corresponding entry in `openApiGeneratorExtra` or `generatorClasspath`, a custom `NORMALIZER_CLASS` or
+custom generator selected by name/FQCN will fail to load with a clear error, regardless of `workerIsolation` mode.
+====
 
 [NOTE]
 ====
