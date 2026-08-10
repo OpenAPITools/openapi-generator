@@ -40,7 +40,7 @@ public class UploadApiTest {
      */
     @Test
     public void uploadPostTest()  {
-        File _file = null;
+        org.springframework.core.io.Resource _file = null;
         api.uploadPost(_file);
 
         // TODO: test validations

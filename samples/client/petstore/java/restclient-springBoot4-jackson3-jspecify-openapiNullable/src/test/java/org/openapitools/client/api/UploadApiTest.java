@@ -40,7 +40,7 @@ public class UploadApiTest {
      */
     @Test
     public void uploadPostTest()  {
-        File _file = null;
+         _file = null;
         api.uploadPost(_file);
 
         // TODO: test validations
