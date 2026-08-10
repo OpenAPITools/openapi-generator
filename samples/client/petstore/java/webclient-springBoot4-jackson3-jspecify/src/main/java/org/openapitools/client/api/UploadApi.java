@@ -54,7 +54,7 @@ public class UploadApi {
      * @param _file The _file parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadPostRequestCreation(@Nullable File _file) throws WebClientResponseException {
+    private ResponseSpec uploadPostRequestCreation(org.springframework.core.io.@Nullable Resource _file) throws WebClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -65,7 +65,7 @@ public class UploadApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
         if (_file != null)
-            formParams.add("file", new FileSystemResource(_file));
+            formParams.add("file", _file);
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -87,7 +87,7 @@ public class UploadApi {
      * @param _file The _file parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> uploadPost(@Nullable File _file) throws WebClientResponseException {
+    public Mono<Void> uploadPost(org.springframework.core.io.@Nullable Resource _file) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return uploadPostRequestCreation(_file).bodyToMono(localVarReturnType);
     }
@@ -99,7 +99,7 @@ public class UploadApi {
      * @param _file The _file parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> uploadPostWithHttpInfo(@Nullable File _file) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> uploadPostWithHttpInfo(org.springframework.core.io.@Nullable Resource _file) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return uploadPostRequestCreation(_file).toEntity(localVarReturnType);
     }
@@ -112,7 +112,7 @@ public class UploadApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec uploadPostWithResponseSpec(@Nullable File _file) throws WebClientResponseException {
+    public ResponseSpec uploadPostWithResponseSpec(org.springframework.core.io.@Nullable Resource _file) throws WebClientResponseException {
         return uploadPostRequestCreation(_file);
     }
 }

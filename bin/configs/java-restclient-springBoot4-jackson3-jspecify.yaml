@@ -15,6 +15,7 @@ additionalProperties:
   generateBuilders: true
   generateConstructorWithAllArgs: true
   useSingleRequestParameter: true
+  useAbstractionForFiles: true
   useTags: true
 typeMappings:
   OffsetDateTime: java.time.Instant
