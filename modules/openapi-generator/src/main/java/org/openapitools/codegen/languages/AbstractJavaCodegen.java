@@ -30,7 +30,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -1760,45 +1759,37 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @param codegenParameter Codegen parameter
      * @param requestBody      Request body
      */
-    @Override
+   @Override
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
-        boolean isModel = (codegenParameter.isModel || (codegenParameter.isContainer && codegenParameter.getItems().isModel));
+        if (requestBody.getContent() != null && !requestBody.getContent().isEmpty()) {
+            boolean isModel = (codegenParameter.isModel || (codegenParameter.isContainer && codegenParameter.getItems().isModel));
 
-        Content content = requestBody.getContent();
-
-        if (content.size() > 1) {
-            // @see ModelUtils.getSchemaFromContent()
-            LOGGER.debug("Multiple MediaTypes found, using only the first one");
-        }
-
-        MediaType mediaType = content.values().iterator().next();
-        if (mediaType.getExample() != null) {
+            MediaType mediaType = requestBody.getContent().values().iterator().next();
+            boolean hasExample = mediaType.getExample() != null || (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty());
             if (isModel) {
-                once(LOGGER).warn("Ignoring complex example on request body");
-            } else {
-                codegenParameter.example = mediaType.getExample().toString();
-                return;
-            }
-        }
-
-        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
-            // FIX for #23607: Assign all named examples to the parameter so Mustache templates can access them
-            codegenParameter.examples = mediaType.getExamples();
-
-            Example example = mediaType.getExamples().values().iterator().next();
-            if (example.getValue() != null) {
-                if (isModel) {
+                if (hasExample) {
                     once(LOGGER).warn("Ignoring complex example on request body");
-                } else {
-                    codegenParameter.example = example.getValue().toString();
-                    return;
                 }
             }
+
+            // FIX for #23607: Assign all named examples to the parameter so Mustache templates can access them
+            if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+                codegenParameter.examples = mediaType.getExamples();
+
+                if (!isModel) {
+                    Example example = mediaType.getExamples().values().iterator().next();
+                    if (example.getValue() != null) {
+                        codegenParameter.example = example.getValue().toString();
+                        return;
+                    }
+                }
+            }
+            setParameterExampleValue(codegenParameter);
+        } else {
+            super.setParameterExampleValue(codegenParameter, requestBody);
         }
-
-        setParameterExampleValue(codegenParameter);
     }
-
+          
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
         String example;

@@ -48,6 +48,9 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY_DESC;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -88,7 +91,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SKIP_DEFAULT_DELEGATE_INTERFACE = "skipDefaultDelegateInterface";
     public static final String REACTIVE = "reactive";
     private static final String REACTIVE_MULTIPART = "reactiveMultipart";
-    public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
     public static final String USE_FEIGN_CLIENT = "useFeignClient";
     public static final String DELEGATE_PATTERN = "delegatePattern";
@@ -127,17 +129,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
     }
 
-
+    @Getter
     public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
         none("Do not add a class level @RequestMapping annotation.");
 
-        public String getDescription() {
-            return description;
-        }
-
-        private String description;
+        private final String description;
 
         RequestMappingMode(String description) {
             this.description = description;
@@ -194,13 +192,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     protected boolean useSpringBoot4 = false;
     @Getter @Setter
     protected boolean useSpringBuiltInValidation = false;
+    @Setter
+    @Getter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
     private DocumentationProvider documentationProvider;
     private AnnotationLibrary annotationLibrary;
 
     // Map to track which models implement which sealed response interfaces
-    private Map<String, List<String>> modelToSealedInterfaces = new HashMap<>();
-    private Map<String, String> sealedInterfaceToOperationId = new HashMap<>();
+    private final Map<String, List<String>> modelToSealedInterfaces = new HashMap<>();
+    private final Map<String, String> sealedInterfaceToOperationId = new HashMap<>();
     private boolean sealedInterfacesFileWritten = false;
 
     // Map from schema name to detected paged-model info (populated when substituteGenericPagedModel=true)
@@ -281,7 +281,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
         addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces (Api interfaces or Delegate interfaces depending on the delegatePattern option)", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
-        addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
+        addSwitch(INTERFACE_ONLY, INTERFACE_ONLY_DESC, interfaceOnly);
         addSwitch(USE_FEIGN_CLIENT_URL, "Whether to generate Feign client with url parameter.", useFeignClientUrl);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
         addSwitch(USE_TAGS, "Whether to use tags for creating interface and controller class names", useTags);
@@ -1126,8 +1126,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 // Run through toModelName so that schemaMappings (e.g. User → com.example.MyUser)
                 // are honored: the mapped name is used both in the type arg and for import resolution.
                 String itemType = toModelName(detected.itemSchemaName);
-                String newBaseType = pagedModelClassName + "<" + itemType + ">";
-                codegenOperation.returnType = newBaseType;
+                codegenOperation.returnType = pagedModelClassName + "<" + itemType + ">";
                 codegenOperation.returnBaseType = pagedModelClassName;
                 // Clear any container flag — PagedModel is not itself a List/array
                 codegenOperation.returnContainer = null;
@@ -1868,14 +1867,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     protected boolean needToImport(String type) {
         // provides extra protection against improperly trying to import language primitives and java types
         return !type.startsWith("org.springframework.") && super.needToImport(type);
-    }
-
-    public RequestMappingMode getRequestMappingMode() {
-        return requestMappingMode;
-    }
-
-    public void setRequestMappingMode(RequestMappingMode requestMappingMode) {
-        this.requestMappingMode = requestMappingMode;
     }
 
     @Override

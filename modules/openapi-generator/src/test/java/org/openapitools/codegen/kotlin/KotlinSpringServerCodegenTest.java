@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.testng.Assert.assertTrue;
 
 public class KotlinSpringServerCodegenTest {
@@ -117,7 +118,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setUseSpringBoot3(true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BUILT_IN_VALIDATION, true);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
 
         new DefaultGenerator().opts(
                 new ClientOptInput()
@@ -166,7 +167,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setUseSpringBoot3(true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BUILT_IN_VALIDATION, false);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
 
         new DefaultGenerator().opts(
                 new ClientOptInput()
@@ -187,7 +188,7 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen() ;
         codegen.setOutputDir(output.getAbsolutePath());
 
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
 
         codegen.setUseSpringBoot3(true);
 

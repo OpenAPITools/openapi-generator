@@ -144,12 +144,12 @@ open class HeaderApi(basePath: kotlin.String = defaultBasePath, client: Call.Fac
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "text/plain"
         integerHeader?.apply { localVariableHeaders["integer_header"] = this.toString() }
         booleanHeader?.apply { localVariableHeaders["boolean_header"] = this.toString() }
         stringHeader?.apply { localVariableHeaders["string_header"] = this.toString() }
         enumNonrefStringHeader?.apply { localVariableHeaders["enum_nonref_string_header"] = this.toString() }
         enumRefStringHeader?.apply { localVariableHeaders["enum_ref_string_header"] = this.toString() }
-        localVariableHeaders["Accept"] = "text/plain"
 
         return RequestConfig(
             method = RequestMethod.GET,

@@ -54,8 +54,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
-import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -72,7 +71,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SERVER_PORT = "serverPort";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
-    public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
     public static final String USE_FEIGN_CLIENT = "useFeignClient";
     public static final String USE_FEIGN_CLIENT_CONTEXT_ID = "useFeignClientContextId";
@@ -130,7 +128,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
         none("Do not add a class level @RequestMapping annotation.");
 
-        private String description;
+        private final String description;
 
         RequestMappingMode(String description) {
             this.description = description;
@@ -254,8 +252,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .defaultValue(this.getConfigPackage()));
         cliOptions.add(new CliOption(BASE_PACKAGE, "base package (invokerPackage) for generated code")
                 .defaultValue(this.getBasePackage()));
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY,
-                "Whether to generate only API interface stubs without the server files.", interfaceOnly));
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, INTERFACE_ONLY_DESC, interfaceOnly));
         cliOptions.add(CliOption.newBoolean(USE_FEIGN_CLIENT_URL,
                 "Whether to generate Feign client with url parameter.", useFeignClientUrl));
         cliOptions.add(CliOption.newBoolean(USE_FEIGN_CLIENT_CONTEXT_ID,
@@ -952,7 +949,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (openAPI.getPaths() != null) {
             for (final Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
-                final String pathname = openAPIGetPathsEntry.getKey();
                 final PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (final Operation operation : path.readOperations()) {
@@ -963,9 +959,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                                 value.put("tag", escapeText(tag));
                                 tags.add(value);
                             }
-                            if (operation.getTags().size() > 0) {
+                            if (!operation.getTags().isEmpty()) {
                                 final String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
+                                operation.setTags(Collections.singletonList(tag));
                             }
                             operation.addExtension("x-tags", tags);
                         }
@@ -1068,29 +1064,28 @@ public class SpringCodegen extends AbstractJavaCodegen
      *                         fields in the model.
      */
     private void doDataTypeAssignment(String returnType, DataTypeAssigner dataTypeAssigner) {
-        final String rt = returnType;
-        if (rt == null) {
+        if (returnType == null) {
             dataTypeAssigner.setReturnType("Void");
             dataTypeAssigner.setIsVoid(true);
-        } else if (rt.startsWith("List") || rt.startsWith("java.util.List")) {
-            final int start = rt.indexOf("<");
-            final int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("List") || returnType.startsWith("java.util.List")) {
+            final int start = returnType.indexOf("<");
+            final int end = returnType.lastIndexOf(">");
             if (start > 0 && end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring(start + 1, end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
-        } else if (rt.startsWith("Map") || rt.startsWith("java.util.Map")) {
-            final int start = rt.indexOf("<");
-            final int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("Map") || returnType.startsWith("java.util.Map")) {
+            final int start = returnType.indexOf("<");
+            final int end = returnType.lastIndexOf(">");
             if (start > 0 && end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).split(",", 2)[1].trim());
+                dataTypeAssigner.setReturnType(returnType.substring(start + 1, end).split(",", 2)[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
-        } else if (rt.startsWith("Set") || rt.startsWith("java.util.Set")) {
-            final int start = rt.indexOf("<");
-            final int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("Set") || returnType.startsWith("java.util.Set")) {
+            final int start = returnType.indexOf("<");
+            final int end = returnType.lastIndexOf(">");
             if (start > 0 && end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring(start + 1, end).trim());
                 dataTypeAssigner.setReturnContainer("Set");
             }
         }
@@ -1143,7 +1138,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "DefaultApi";
         }
         name = sanitizeName(name);
@@ -1191,10 +1186,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         // Add imports for Jackson
-        if (!Boolean.TRUE.equals(model.isEnum)) {
+        if (!model.isEnum) {
             model.imports.add("JsonProperty");
 
-            if (Boolean.TRUE.equals(model.hasEnums)) {
+            if (model.hasEnums) {
                 model.imports.add("JsonValue");
             }
         } else { // enum class
@@ -1246,7 +1241,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         // Only add Nullable import for non-enum models that may have nullable fields
-        if (!Boolean.TRUE.equals(codegenModel.isEnum)) {
+        if (!codegenModel.isEnum) {
             addSpringNullableImport(codegenModel.imports);
         }
 
@@ -1355,7 +1350,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (schemaTypes.containsKey("array")) {
                 // we have a match with SSE pattern
                 // double check potential conflicting, multiple specs
-                if (schemaTypes.keySet().size() > 1) {
+                if (schemaTypes.size() > 1) {
                     throw new RuntimeException("only 1 response media type supported, when SSE is detected");
                 }
                 // double check schema format
@@ -1387,8 +1382,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 // Run through toModelName so that schemaMappings (e.g. User → com.example.MyUser)
                 // are honored: the mapped name is used both in the type arg and for import resolution.
                 String itemType = toModelName(detected.itemSchemaName);
-                String newBaseType = pagedModelClassName + "<" + itemType + ">";
-                codegenOperation.returnType = newBaseType;
+                codegenOperation.returnType = pagedModelClassName + "<" + itemType + ">";
                 codegenOperation.returnBaseType = pagedModelClassName;
                 // Clear any container flag — PagedModel is not itself a List/array
                 codegenOperation.returnContainer = null;
@@ -1435,7 +1429,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             }
                         }
                         String newArg = String.join(" ", newArgs);
-                        LOGGER.trace("new arg {} {}", newArg);
+                        LOGGER.trace("new arg {}", newArg);
                         formattedArgs.add(newArg);
                     }
                 }

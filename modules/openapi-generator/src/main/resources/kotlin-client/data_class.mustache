@@ -176,6 +176,9 @@ import {{packageName}}.infrastructure.ITransformForStorage
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}
+    {{#multiplatform}}
+        override fun toString(): kotlin.String = value{{^isString}}.toString(){{/isString}}
+    {{/multiplatform}}
     }
     {{#kotlinx_serialization}}
     {{#enumUnknownDefaultCase}}

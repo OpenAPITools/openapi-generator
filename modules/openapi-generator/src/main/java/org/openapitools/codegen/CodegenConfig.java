@@ -33,6 +33,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.model.WebhooksMap;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -129,6 +130,24 @@ public interface CodegenConfig {
     CodegenModel fromModel(String name, Schema schema);
 
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers);
+
+    /**
+     * Divides an operation into one operation per content-type when it exposes several request/response
+     * content-types with different schemas (opt-in, see {@code splitOperationsByContentType}). Each
+     * returned operation is self-contained and re-enters {@link #fromOperation}. When the option is off or
+     * no division applies, the operation is returned unchanged (as a singleton). {@code DefaultCodegen}
+     * implements the division; the default here keeps the operation whole so that an implementation not
+     * deriving from {@code DefaultCodegen} keeps compiling and simply opts out of the feature.
+     *
+     * @param openAPI    the OpenAPI document
+     * @param path       the resource path
+     * @param httpMethod the HTTP method
+     * @param operation  the operation to (maybe) divide
+     * @return the operations to generate for {@code operation} (the operation itself when not divided)
+     */
+    default List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, String httpMethod, Operation operation) {
+        return Collections.singletonList(operation);
+    }
 
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 

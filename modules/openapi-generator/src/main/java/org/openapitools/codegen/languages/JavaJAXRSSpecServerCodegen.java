@@ -37,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY_DESC;
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 
 /**
@@ -47,7 +49,6 @@ import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_
  */
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
-    public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String RETURN_RESPONSE = "returnResponse";
     public static final String RETURN_JBOSS_RESPONSE = "returnJBossResponse";
     public static final String GENERATE_POM = "generatePom";
@@ -154,7 +155,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         cliOptions.add(library);
         cliOptions.add(CliOption.newBoolean(GENERATE_POM, "Whether to generate pom.xml if the file does not already exist.").defaultValue(String.valueOf(generatePom)));
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, INTERFACE_ONLY_DESC).defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
         cliOptions.add(CliOption.newBoolean(RETURN_JBOSS_RESPONSE, "Whether generate API interface should return `org.jboss.resteasy.reactive.RestResponse` instead of a deserialized entity. This flag cannot be combined with `returnResponse` flag. It requires the flag `interfaceOnly` and `useJakartaEE` set to true, because `org.jboss.resteasy.reactive.RestResponse` was introduced in Quarkus 2.x").defaultValue(String.valueOf(returnJbossResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));

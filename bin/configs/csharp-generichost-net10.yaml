@@ -18,3 +18,4 @@ injectModelVendorExtensions:
   InjectedVendorExtensionsTest.potentiallyOverriddenPropertyToPrivate.x-setter-visibility: private
   InjectedVendorExtensionsTest.potentiallyOverriddenPropertyToInternal.x-setter-visibility: internal
   InjectedVendorExtensionsTest.potentiallyOverriddenPropertyToPublic.x-setter-visibility: public
+  InjectedVendorExtensionsTest.potentiallyOverriddenPropertyAccessor.x-property-visibility: internal
