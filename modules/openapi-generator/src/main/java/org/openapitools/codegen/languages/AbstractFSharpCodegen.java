@@ -39,6 +39,7 @@ import java.util.*;
 
 import static org.openapitools.codegen.CodegenConstants.ENUM_VARS;
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_BYTE;
+import static org.openapitools.codegen.CodegenConstants.X_EXAMPLE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumVarsAsString;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -1006,8 +1007,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         // set the example value
         // if not specified in x-example, generate a default value
         // TODO need to revise how to obtain the example value
-        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey(X_EXAMPLE)) {
+            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get(X_EXAMPLE));
         } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
             codegenParameter.example = "true";
         } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {

@@ -48,6 +48,9 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY_DESC;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -88,7 +91,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SKIP_DEFAULT_DELEGATE_INTERFACE = "skipDefaultDelegateInterface";
     public static final String REACTIVE = "reactive";
     private static final String REACTIVE_MULTIPART = "reactiveMultipart";
-    public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
     public static final String USE_FEIGN_CLIENT = "useFeignClient";
     public static final String DELEGATE_PATTERN = "delegatePattern";
@@ -281,7 +283,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
         addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces (Api interfaces or Delegate interfaces depending on the delegatePattern option)", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
-        addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
+        addSwitch(INTERFACE_ONLY, INTERFACE_ONLY_DESC, interfaceOnly);
         addSwitch(USE_FEIGN_CLIENT_URL, "Whether to generate Feign client with url parameter.", useFeignClientUrl);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
         addSwitch(USE_TAGS, "Whether to use tags for creating interface and controller class names", useTags);

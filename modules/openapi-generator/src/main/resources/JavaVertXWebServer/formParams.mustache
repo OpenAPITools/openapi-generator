@@ -4,6 +4,14 @@
         JsonObject {{paramName}} = body != null ? body.getJsonObject() : null;
 {{/isFile}}
 {{#isFile}}
-        {{{dataType}}} {{paramName}} = routingContext.fileUploads().iterator().next();
+        {{{dataType}}} {{paramName}} = null;
+        if (routingContext.fileUploads().isEmpty()) {
+{{#required}}
+            routingContext.fail(400);
+            return;
+{{/required}}
+        } else {
+            {{paramName}} = routingContext.fileUploads().iterator().next();
+        }
 {{/isFile}}
 {{/isFormParam}}

@@ -30,14 +30,14 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+
 /**
  * <p>Mustache templates are located in {@code src/main/resources/go-gin-server/}.
  */
 public class GoGinServerCodegen extends AbstractGoCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoGinServerCodegen.class);
-
-    public static final String INTERFACE_ONLY = "interfaceOnly";
 
     @Setter protected boolean interfaceOnly = false;
 
@@ -118,7 +118,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         cliOptions.add(new CliOption("apiPath", "Name of the folder that contains the Go source code")
                 .defaultValue(apiPath));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY,
-                "Whether to generate only API interface stubs without the implementation files.", interfaceOnly));
+                "Whether to generate only API interface stubs instead of the API implementation files.", interfaceOnly));
 
         CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
@@ -136,7 +136,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             if (op.path != null) {
-                op.path = op.path.replaceAll("\\{(.*?)\\}", ":$1");
+                op.path = op.path.replaceAll("\\{(.*?)}", ":$1");
+                LOGGER.debug("Updated operation path: {}", op.path);
             }
         }
         return objs;

@@ -35,9 +35,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="InjectedVendorExtensionsTest" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public InjectedVendorExtensionsTest()
+        /// <param name="unalteredPropertyAccessor">unalteredPropertyAccessor.</param>
+        /// <param name="potentiallyOverriddenPropertyAccessor">potentiallyOverriddenPropertyAccessor.</param>
+        public InjectedVendorExtensionsTest(string unalteredPropertyAccessor = default, string potentiallyOverriddenPropertyAccessor = default)
         {
+            this.UnalteredPropertyAccessor = unalteredPropertyAccessor;
+            this.PotentiallyOverriddenPropertyAccessor = potentiallyOverriddenPropertyAccessor;
         }
 
         /// <summary>
@@ -97,6 +100,18 @@ namespace Org.OpenAPITools.Model
             return false;
         }
         /// <summary>
+        /// Gets or Sets UnalteredPropertyAccessor
+        /// </summary>
+        [DataMember(Name = "unalteredPropertyAccessor", EmitDefaultValue = false)]
+        public string UnalteredPropertyAccessor { get; set; }
+
+        /// <summary>
+        /// Gets or Sets PotentiallyOverriddenPropertyAccessor
+        /// </summary>
+        [DataMember(Name = "potentiallyOverriddenPropertyAccessor", EmitDefaultValue = false)]
+        public string PotentiallyOverriddenPropertyAccessor { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -108,6 +123,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  PotentiallyOverriddenPropertyToPrivate: ").Append(PotentiallyOverriddenPropertyToPrivate).Append("\n");
             sb.Append("  PotentiallyOverriddenPropertyToInternal: ").Append(PotentiallyOverriddenPropertyToInternal).Append("\n");
             sb.Append("  PotentiallyOverriddenPropertyToPublic: ").Append(PotentiallyOverriddenPropertyToPublic).Append("\n");
+            sb.Append("  UnalteredPropertyAccessor: ").Append(UnalteredPropertyAccessor).Append("\n");
+            sb.Append("  PotentiallyOverriddenPropertyAccessor: ").Append(PotentiallyOverriddenPropertyAccessor).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -165,6 +182,14 @@ namespace Org.OpenAPITools.Model
                 if (this.PotentiallyOverriddenPropertyToPublic != null)
                 {
                     hashCode = (hashCode * 59) + this.PotentiallyOverriddenPropertyToPublic.GetHashCode();
+                }
+                if (this.UnalteredPropertyAccessor != null)
+                {
+                    hashCode = (hashCode * 59) + this.UnalteredPropertyAccessor.GetHashCode();
+                }
+                if (this.PotentiallyOverriddenPropertyAccessor != null)
+                {
+                    hashCode = (hashCode * 59) + this.PotentiallyOverriddenPropertyAccessor.GetHashCode();
                 }
                 return hashCode;
             }

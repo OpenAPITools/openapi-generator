@@ -211,6 +211,9 @@ public class CodegenConstants {
     public static final String INTERFACE_PREFIX = "interfacePrefix";
     public static final String INTERFACE_PREFIX_DESC = "Prefix interfaces with a community standard or widely accepted prefix.";
 
+    public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String INTERFACE_ONLY_DESC = "Whether to generate only API interface stubs without the server files.";
+
     public static final String RETURN_ICOLLECTION = "returnICollection";
     public static final String RETURN_ICOLLECTION_DESC = "Return ICollection<T> instead of the concrete type.";
 
@@ -481,6 +484,7 @@ public class CodegenConstants {
     public static final String ENUM_DESCRIPTION = "enumDescription";
 
     // Vendor extensions
+    public static final String X_EXAMPLE = "x-example";
     public static final String X_INTERNAL = "x-internal";
     public static final String X_PARENT = "x-parent";
     public static final String X_COMPOSED_DATA_TYPE = "x-composed-data-type";

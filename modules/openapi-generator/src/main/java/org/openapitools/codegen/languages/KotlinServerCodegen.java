@@ -55,6 +55,7 @@ import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
@@ -178,7 +179,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.COMPRESSION, Constants.COMPRESSION_DESC, getCompressionFeatureEnabled());
         addSwitch(Constants.RESOURCES, Constants.RESOURCES_DESC, getResourcesFeatureEnabled());
         addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
-        addSwitch(Constants.INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
+        addSwitch(INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
         addSwitch(USE_BEANVALIDATION, Constants.USE_BEANVALIDATION_DESC, useBeanValidation);
         addSwitch(USE_TAGS, Constants.USE_TAGS_DESC, useTags);
         addSwitch(Constants.USE_COROUTINES, Constants.USE_COROUTINES_DESC, useCoroutines);
@@ -221,10 +222,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
-        if (additionalProperties.containsKey(Constants.INTERFACE_ONLY)) {
-            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(Constants.INTERFACE_ONLY).toString());
+        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
+            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
             if (!interfaceOnly) {
-                additionalProperties.remove(Constants.INTERFACE_ONLY);
+                additionalProperties.remove(INTERFACE_ONLY);
             }
         }
 
@@ -421,7 +422,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public final static String RESOURCES_DESC = "Generates routes in a typed way, for both: constructing URLs and reading the parameters.";
         public final static String METRICS = "featureMetrics";
         public final static String METRICS_DESC = "Enables metrics feature.";
-        public static final String INTERFACE_ONLY = "interfaceOnly";
         public static final String INTERFACE_ONLY_DESC = "Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.";
         public static final String USE_BEANVALIDATION_DESC = "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.";
         public static final String USE_COROUTINES = "useCoroutines";

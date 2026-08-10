@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
@@ -658,7 +659,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     public void generateDeepObjectArrayWithPattern() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/deepobject-array-with-pattern.yaml", null, new ParseOptions()).getOpenAPI();
@@ -1948,7 +1948,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         // convertPropertyToBooleanAndWriteBack was never called, so the value was never
         // written back as a boolean — the key holds the raw Object we put in, not false
-        Assert.assertNotEquals(false, codegen.additionalProperties().get(USE_JAKARTA_SECURITY_ANNOTATIONS));
+        Assert.assertNotEquals(codegen.additionalProperties().get(USE_JAKARTA_SECURITY_ANNOTATIONS), false);
     }
 
     /**

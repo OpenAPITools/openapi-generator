@@ -1064,6 +1064,39 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(apiKt, "ONE(\"1\");");
     }
 
+    @Test
+    public void testMultiplatformEnumWithCustomVariableNamesOverridesToString() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setLibrary("multiplatform")
+                .setAdditionalProperties(new HashMap<>() {{
+                    put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                    put(CodegenConstants.MODEL_PACKAGE, "model");
+                    put("dateLibrary", "kotlinx-datetime");
+                }})
+                .setInputSpec("src/test/resources/3_0/kotlin/multiplatform-inline-query-enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.opts(clientOptInput).generate();
+
+        final Path definedEnumKt = Paths.get(output + "/src/commonMain/kotlin/model/ApiError.kt");
+        final Path inlineEnumKt = Paths.get(output + "/src/commonMain/kotlin/model/AllowFoo.kt");
+        final Path headerEnumKt = Paths.get(output + "/src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt");
+
+        TestUtils.assertFileContains(definedEnumKt, "override fun toString(): kotlin.String = value.toString()");
+        TestUtils.assertFileContains(definedEnumKt, "@SerialName(value = \"100\") ERROR(100);");
+        TestUtils.assertFileContains(inlineEnumKt, "override fun toString(): kotlin.String = value");
+        TestUtils.assertFileContains(inlineEnumKt, "ALLOW(\"1\");");
+        TestUtils.assertFileContains(headerEnumKt, "override fun toString(): kotlin.String = value");
+        TestUtils.assertFileContains(headerEnumKt, "ALLOW(\"1\");");
+    }
+
     @Test(description = "convert an empty model to object")
     public void emptyModelKotlinxSerializationTest() throws IOException {
         final Schema<?> schema = new ObjectSchema()
