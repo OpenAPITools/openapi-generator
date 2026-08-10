@@ -31,7 +31,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
-import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY_DESC;
 
 /**
  * <p>Mustache templates are located in {@code src/main/resources/go-gin-server/}.
@@ -137,7 +136,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             if (op.path != null) {
-                op.path = op.path.replaceAll("\\{(.*?)\\}", ":$1");
+                op.path = op.path.replaceAll("\\{(.*?)}", ":$1");
+                LOGGER.debug("Updated operation path: {}", op.path);
             }
         }
         return objs;
