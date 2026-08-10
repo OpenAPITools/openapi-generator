@@ -129,17 +129,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
     }
 
-
+    @Getter
     public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
         none("Do not add a class level @RequestMapping annotation.");
 
-        public String getDescription() {
-            return description;
-        }
-
-        private String description;
+        private final String description;
 
         RequestMappingMode(String description) {
             this.description = description;
@@ -196,13 +192,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     protected boolean useSpringBoot4 = false;
     @Getter @Setter
     protected boolean useSpringBuiltInValidation = false;
+    @Setter
+    @Getter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
     private DocumentationProvider documentationProvider;
     private AnnotationLibrary annotationLibrary;
 
     // Map to track which models implement which sealed response interfaces
-    private Map<String, List<String>> modelToSealedInterfaces = new HashMap<>();
-    private Map<String, String> sealedInterfaceToOperationId = new HashMap<>();
+    private final Map<String, List<String>> modelToSealedInterfaces = new HashMap<>();
+    private final Map<String, String> sealedInterfaceToOperationId = new HashMap<>();
     private boolean sealedInterfacesFileWritten = false;
 
     // Map from schema name to detected paged-model info (populated when substituteGenericPagedModel=true)
@@ -1128,8 +1126,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 // Run through toModelName so that schemaMappings (e.g. User → com.example.MyUser)
                 // are honored: the mapped name is used both in the type arg and for import resolution.
                 String itemType = toModelName(detected.itemSchemaName);
-                String newBaseType = pagedModelClassName + "<" + itemType + ">";
-                codegenOperation.returnType = newBaseType;
+                codegenOperation.returnType = pagedModelClassName + "<" + itemType + ">";
                 codegenOperation.returnBaseType = pagedModelClassName;
                 // Clear any container flag — PagedModel is not itself a List/array
                 codegenOperation.returnContainer = null;
@@ -1870,14 +1867,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     protected boolean needToImport(String type) {
         // provides extra protection against improperly trying to import language primitives and java types
         return !type.startsWith("org.springframework.") && super.needToImport(type);
-    }
-
-    public RequestMappingMode getRequestMappingMode() {
-        return requestMappingMode;
-    }
-
-    public void setRequestMappingMode(RequestMappingMode requestMappingMode) {
-        this.requestMappingMode = requestMappingMode;
     }
 
     @Override
