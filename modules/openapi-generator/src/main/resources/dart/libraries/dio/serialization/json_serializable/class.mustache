@@ -66,9 +66,11 @@ class {{{classname}}} {
   {{/items.isEnumOrRef}}
   {{/isArray}}
   {{^isArray}}
+  {{^isMap}}
   {{#isEnumOrRef}}
   unknownEnumValue: {{{datatypeWithEnum}}}.unknownDefaultOpenApi,
   {{/isEnumOrRef}}
+  {{/isMap}}
   {{/isArray}}
   {{/enumUnknownDefaultCase}}
   )
