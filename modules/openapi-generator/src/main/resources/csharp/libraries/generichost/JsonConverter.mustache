@@ -376,7 +376,39 @@
 
             {{/children}}
             {{/discriminator}}
+            {{^model.discriminator}}
+            {{#composedSchemas}}
+            {{#oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            {{#isPrimitiveType}}
+            if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} != null)
+            {
+                JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}, jsonSerializerOptions);
+                return;
+            }
+
+            {{/isPrimitiveType}}
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/oneOf}}
+            {{/composedSchemas}}
+            {{/model.discriminator}}
             writer.WriteStartObject();
+            {{^model.discriminator}}
+            {{#composedSchemas}}
+            {{#oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            {{^isPrimitiveType}}
+            if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} != null)
+            {
+                {{baseType}}JsonConverter {{#lambda.camelcase_sanitize_param}}{{baseType}}JsonConverter{{/lambda.camelcase_sanitize_param}} = ({{baseType}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}.GetType()));
+                {{#lambda.camelcase_sanitize_param}}{{baseType}}JsonConverter{{/lambda.camelcase_sanitize_param}}.WriteProperties(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}, jsonSerializerOptions);
+            }
+
+            {{/isPrimitiveType}}
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/oneOf}}
+            {{/composedSchemas}}
+            {{/model.discriminator}}
 
             {{#model.discriminator}}
             {{#model.hasDiscriminatorWithNonEmptyMapping}}
