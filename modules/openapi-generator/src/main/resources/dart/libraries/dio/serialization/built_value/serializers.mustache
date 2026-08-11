@@ -30,7 +30,7 @@ Serializers serializers = (_$serializers.toBuilder(){{#builtValueSerializers}}
 {{^fullTypeArgs}}
 {{#isArray}}
         const FullType(Built{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType{{#isNullable}}.nullable{{/isNullable}}({{dataType}})]),
-        () => {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}Builder<{{dataType}}>(),
+        () => {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}Builder<{{dataType}}{{#isNullable}}?{{/isNullable}}>(),
 {{/isArray}}
 {{#isMap}}
         const FullType(BuiltMap, [FullType(String), FullType{{#isNullable}}.nullable{{/isNullable}}({{dataType}})]),
