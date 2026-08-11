@@ -24,7 +24,7 @@ jobs:
           distribution: 'temurin'
           java-version: 17
       - name: Setup sbt launcher
-        uses: sbt/setup-sbt@v1.5.6
+        uses: sbt/setup-sbt@v1.5.7
       - name: Cache maven dependencies
         uses: actions/cache@v6
         env:
