@@ -42,16 +42,20 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 /**
  * 
  *
  */
 @Serializable(with = StringOrLongSerializer::class)
-sealed interface StringOrLong {
+sealed interface StringOrLong : Parcelable {
+    @Parcelize
     @JvmInline
     value class StringValue(val value: kotlin.String) : StringOrLong
 
+    @Parcelize
     @JvmInline
     value class LongValue(val value: kotlin.Long) : StringOrLong
 

@@ -10,3 +10,4 @@ additionalProperties:
   enumUnknownDefaultCase: true
   serializationLibrary: kotlinx_serialization
   generateOneOfAnyOfWrappers: true
+  parcelizeModels: true
