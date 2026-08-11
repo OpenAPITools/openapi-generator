@@ -239,19 +239,19 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
             if (fruit.Apple != null)
             {
-                AppleJsonConverter appleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Apple.GetType()));
+                AppleJsonConverter appleJsonConverter = new AppleJsonConverter();
                 appleJsonConverter.WriteProperties(writer, fruit.Apple, jsonSerializerOptions);
             }
 
             if (fruit.Banana != null)
             {
-                BananaJsonConverter bananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Banana.GetType()));
+                BananaJsonConverter bananaJsonConverter = new BananaJsonConverter();
                 bananaJsonConverter.WriteProperties(writer, fruit.Banana, jsonSerializerOptions);
             }
 
             if (fruit.Orange != null)
             {
-                OrangeJsonConverter orangeJsonConverter = (OrangeJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Orange.GetType()));
+                OrangeJsonConverter orangeJsonConverter = new OrangeJsonConverter();
                 orangeJsonConverter.WriteProperties(writer, fruit.Orange, jsonSerializerOptions);
             }
 

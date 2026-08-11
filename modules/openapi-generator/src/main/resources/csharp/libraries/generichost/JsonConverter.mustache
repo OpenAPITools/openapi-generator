@@ -397,14 +397,16 @@
             {{#composedSchemas}}
             {{#oneOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
-            {{^isPrimitiveType}}
+            {{#isModel}}
+            {{^isContainer}}
             if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} != null)
             {
-                {{baseType}}JsonConverter {{#lambda.camelcase_sanitize_param}}{{baseType}}JsonConverter{{/lambda.camelcase_sanitize_param}} = ({{baseType}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}.GetType()));
+                {{baseType}}JsonConverter {{#lambda.camelcase_sanitize_param}}{{baseType}}JsonConverter{{/lambda.camelcase_sanitize_param}} = new {{baseType}}JsonConverter();
                 {{#lambda.camelcase_sanitize_param}}{{baseType}}JsonConverter{{/lambda.camelcase_sanitize_param}}.WriteProperties(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}, jsonSerializerOptions);
             }
 
-            {{/isPrimitiveType}}
+            {{/isContainer}}
+            {{/isModel}}
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/oneOf}}
             {{/composedSchemas}}
