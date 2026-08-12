@@ -410,4 +410,37 @@ public class Sttp4CodegenTest {
         Path petPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Pet.scala");
         assertFileContains(petPath, "implicit val encoder: Encoder[Pet] = deriveEncoder[Pet].mapJson(_.dropNullValues)");
     }
+
+    @Test
+    public void verifyModelNamedRequestDoesNotShadowSttpRequest() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/scala/sttp4-request-model-name.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        ScalaSttp4ClientCodegen codegen = new ScalaSttp4ClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        // A model named Request is imported explicitly, which outranks the
+        // `import sttp.client4._` wildcard, so the return type must be qualified.
+        Path apiPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/api/DefaultApi.scala");
+        assertFileContains(apiPath, "import org.openapitools.client.model.Request");
+        assertFileContains(apiPath, "): sttp.client4.Request[Either[ResponseException[String], Response]] =");
+    }
 }
