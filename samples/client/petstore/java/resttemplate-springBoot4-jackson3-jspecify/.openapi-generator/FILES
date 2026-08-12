@@ -5,8 +5,10 @@ README.md
 api/openapi.yaml
 build.gradle
 build.sbt
-docs/DefaultApi.md
+docs/FileApi.md
 docs/Foo.md
+docs/FooApi.md
+docs/UploadApi.md
 git_push.sh
 gradle.properties
 gradle/wrapper/gradle-wrapper.jar
@@ -24,7 +26,9 @@ src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java
 src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
-src/main/java/org/openapitools/client/api/DefaultApi.java
+src/main/java/org/openapitools/client/api/FileApi.java
+src/main/java/org/openapitools/client/api/FooApi.java
+src/main/java/org/openapitools/client/api/UploadApi.java
 src/main/java/org/openapitools/client/api/package-info.java
 src/main/java/org/openapitools/client/auth/ApiKeyAuth.java
 src/main/java/org/openapitools/client/auth/Authentication.java
