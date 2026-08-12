@@ -42,20 +42,16 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 
 /**
  * 
  *
  */
 @Serializable(with = BooleanOrLongSerializer::class)
-sealed interface BooleanOrLong : Parcelable {
-    @Parcelize
+sealed interface BooleanOrLong {
     @JvmInline
     value class BooleanValue(val value: kotlin.Boolean) : BooleanOrLong
 
-    @Parcelize
     @JvmInline
     value class LongValue(val value: kotlin.Long) : BooleanOrLong
 

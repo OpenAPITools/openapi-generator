@@ -44,24 +44,19 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 
 /**
  * 
  *
  */
 @Serializable(with = UserOrPetOrArrayStringSerializer::class)
-sealed interface UserOrPetOrArrayString : Parcelable {
-    @Parcelize
+sealed interface UserOrPetOrArrayString {
     @JvmInline
     value class UserValue(val value: User) : UserOrPetOrArrayString
 
-    @Parcelize
     @JvmInline
     value class PetValue(val value: Pet) : UserOrPetOrArrayString
 
-    @Parcelize
     @JvmInline
     value class ListStringValue(val value: kotlin.collections.List<kotlin.String>) : UserOrPetOrArrayString
 

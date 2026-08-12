@@ -32,8 +32,6 @@ import kotlinx.serialization.Serializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 
 /**
  * 
@@ -41,7 +39,6 @@ import kotlinx.parcelize.Parcelize
  * @param id 
  * @param name 
  */
-@Parcelize
 @Serializable
 
 data class Pet (
@@ -52,7 +49,7 @@ data class Pet (
     @SerialName(value = "name")
     val name: kotlin.String
 
-) : Parcelable {
+) {
 
 
 }
