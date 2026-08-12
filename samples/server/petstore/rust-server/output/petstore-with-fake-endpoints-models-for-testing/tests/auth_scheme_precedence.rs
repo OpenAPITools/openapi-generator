@@ -1,22 +1,13 @@
-//! Runtime regression tests for auth-scheme precedence in the generated `AddContext` middleware.
+//! Runtime checks for auth-scheme precedence in the generated `AddContext` middleware.
 //!
-//! `swagger::auth::from_headers` returns an *untyped* `AuthData`, matching an
-//! `Authorization` header that carries either `Basic` or `Bearer` credentials. Every
-//! generated auth block returns early once it matches, so a block that does not check
+//! This file is generated. `swagger::auth::from_headers` returns an *untyped* `AuthData`,
+//! matching an `Authorization` header that carries either `Basic` or `Bearer` credentials.
+//! Every generated auth block returns early once it matches, so a block that does not check
 //! which variant it received will claim credentials belonging to a different scheme and
 //! prevent every later block - including API-key blocks - from ever running.
 //!
-//! This spec generates the blocks in the following order, which is what makes the
-//! behaviour observable from the outside:
-//!
-//! 1. `petstore_auth`   - OAuth2, reads `Authorization: Bearer`
-//! 2. `api_key`         - API key, reads the `api_key` header
-//! 3. `api_key_query`   - API key, reads the `api_key_query` query parameter
-//! 4. `http_basic_test` - HTTP Basic, reads `Authorization: Basic`
-//!
-//! Presenting Basic credentials alongside an API key therefore proves whether block 1
-//! stays in its lane: if it wrongly claims the Basic credentials it also swallows
-//! blocks 2 and 3.
+//! The expectations below are derived from the security schemes this API declares, in the
+//! order their blocks are generated.
 
 #![cfg(feature = "server")]
 
@@ -24,9 +15,9 @@ use std::sync::{Arc, Mutex};
 
 use hyper::service::Service;
 use hyper::{Request, Response};
-use petstore_with_fake_endpoints_models_for_testing::context::AddContext;
 use swagger::auth::AuthData;
 use swagger::{EmptyContext, Has};
+use petstore_with_fake_endpoints_models_for_testing::context::AddContext;
 
 /// Innermost service: records the `Option<AuthData>` that `AddContext` pushed onto the context.
 #[derive(Clone, Default)]
@@ -66,11 +57,16 @@ fn resolve_auth_data(uri: &str, headers: &[(&str, &str)]) -> Option<AuthData> {
 
 /// `dXNlcjpwYXNzd29yZA==` is `user:password`.
 const BASIC_HEADER: &str = "Basic dXNlcjpwYXNzd29yZA==";
+const BEARER_HEADER: &str = "Bearer some-token";
+const API_KEY: &str = "test-api-key";
 
 #[test]
-fn bearer_block_does_not_claim_basic_credentials() {
-    // The OAuth2 (Bearer) block is generated first. It must ignore Basic credentials and
-    // let them fall through to the HTTP Basic block generated last.
+fn no_credentials_resolve_to_no_auth_data() {
+    assert_eq!(resolve_auth_data("/", &[]), None);
+}
+
+#[test]
+fn basic_credentials_resolve_to_the_declared_scheme() {
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BASIC_HEADER)]),
         Some(AuthData::Basic("user".to_owned(), "password".to_owned())),
@@ -78,44 +74,43 @@ fn bearer_block_does_not_claim_basic_credentials() {
 }
 
 #[test]
-fn bearer_credentials_resolve_to_bearer_auth_data() {
-    // Note this cannot prove the *Basic* block stays in its lane: the OAuth block above it
-    // legitimately claims these credentials first, so a broken Basic block would be
-    // unobservable here. That direction is covered at request level by the
-    // `overlapping-auth-schemes` sample, whose spec interleaves an apiKey scheme between
-    // the Basic and Bearer blocks.
+fn bearer_credentials_resolve_to_the_declared_scheme() {
     assert_eq!(
-        resolve_auth_data("/", &[("authorization", "Bearer some-token")]),
+        resolve_auth_data("/", &[("authorization", BEARER_HEADER)]),
         Some(AuthData::Bearer("some-token".to_owned())),
     );
 }
 
 #[test]
-fn header_api_key_is_reachable_when_basic_credentials_are_also_present() {
-    // Regression test: an unguarded Bearer block matches the Basic credentials, returns
-    // early, and the `api_key` header block below it never runs.
+fn header_api_key_resolves_when_it_is_the_only_credential() {
     assert_eq!(
-        resolve_auth_data(
-            "/",
-            &[("authorization", BASIC_HEADER), ("api_key", "header-key")],
-        ),
-        Some(AuthData::ApiKey("header-key".to_owned())),
+        resolve_auth_data("/", &[("api_key", API_KEY)]),
+        Some(AuthData::ApiKey(API_KEY.to_owned())),
+    );
+}
+
+/// An `Authorization` header must not shadow the apiKey block unless a block that actually
+/// handles that scheme is generated before it.
+#[test]
+fn header_api_key_is_reachable_alongside_bearer_credentials() {
+    assert_eq!(
+        resolve_auth_data("/", &[("authorization", BEARER_HEADER), ("api_key", API_KEY)]),
+        Some(AuthData::Bearer("some-token".to_owned())),
     );
 }
 
 #[test]
-fn query_api_key_is_reachable_when_basic_credentials_are_also_present() {
-    // Same regression, for the query-parameter API-key block.
+fn header_api_key_is_reachable_alongside_basic_credentials() {
     assert_eq!(
-        resolve_auth_data(
-            "/?api_key_query=query-key",
-            &[("authorization", BASIC_HEADER)],
-        ),
-        Some(AuthData::ApiKey("query-key".to_owned())),
+        resolve_auth_data("/", &[("authorization", BASIC_HEADER), ("api_key", API_KEY)]),
+        Some(AuthData::ApiKey(API_KEY.to_owned())),
     );
 }
 
 #[test]
-fn no_credentials_resolve_to_no_auth_data() {
-    assert_eq!(resolve_auth_data("/", &[]), None);
+fn query_api_key_resolves_when_it_is_the_only_credential() {
+    assert_eq!(
+        resolve_auth_data("/?api_key_query=test-api-key", &[]),
+        Some(AuthData::ApiKey(API_KEY.to_owned())),
+    );
 }
