@@ -271,6 +271,11 @@ class ObjectSerializer
             return ["{$paramName}" => $value->format(self::$dateTimeFormat)];
         }
 
+        // A model is typed with its class name rather than "object", but serializes as one.
+        if ($value instanceof ModelInterface) {
+            $openApiType = 'object';
+        }
+
         $query = [];
         if ($openApiType === 'object' && is_object($value)) {
             // Read the model's values through its getters; a plain (array) cast
