@@ -43,7 +43,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd><dt>**spring-declarative-http-interface**</dt><dd>Spring Declarative Interface client</dd></dl>|spring-boot|
 |modelMutable|Create mutable models| |false|
 |modelPackage|model package for generated code| |org.openapitools.model|
-|openApiNullable|Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for optional + nullable properties (required: false, nullable: true). When enabled, such properties use JsonNullable&lt;T&gt; = JsonNullable.undefined() so callers can distinguish between a missing key and an explicitly provided null. Requires jackson-databind-nullable &gt;= 0.2.10 when used with useJackson3.| |false|
+|openApiNullable|Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for strict null handling. Controls how optional + non-nullable properties (required: false, nullable: false) handle explicit JSON null: when false (default), @JsonSetter(nulls = Nulls.SKIP) is used &mdash; explicit null is silently ignored (lenient, protects any default value from being overridden); when true, @JsonSetter(nulls = Nulls.FAIL) is used &mdash; explicit null causes deserialization to fail (strict, enforces the non-nullable contract, useful for PATCH semantics). Additionally, when true, optional + nullable properties (required: false, nullable: true) use JsonNullable&lt;T&gt; = JsonNullable.undefined() to distinguish between a missing key and an explicit null. Requires jackson-databind-nullable &gt;= 0.2.10 when used with useJackson3.| |false|
 |packageName|Generated artifact package name.| |org.openapitools|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |reactive|use coroutines for reactive behavior| |false|
@@ -71,6 +71,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSealedResponseInterfaces|Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)| |false|
 |useSpringBoot3|Generate code and provide dependencies for use with Spring Boot &ge; 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x. Enabling this option will also enable `useJakartaEe`.| |false|
+|useSpringBuiltInValidation|Disable `@Validated` at the class level when using built-in validation.| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|Whether to use tags for creating interface and controller class names| |false|
 |xKotlinImplementsFieldsSkip|A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema. Example: yaml `xKotlinImplementsFieldsSkip: Pet: [photoUrls]` skips `override` for `photoUrls` in schema `Pet`| |empty map|
@@ -81,11 +82,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Extension name | Description | Applicable for | Default value |
 | -------------- | ----------- | -------------- | ------------- |
 |x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
-|x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
+|x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
-|x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
-|x-operation-extra-annotation|List of custom annotations to be added to operation|OPERATION|null
+|x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
+|x-operation-extra-annotation|Custom annotation(s) to be added to operation; accepts a string or list of strings|OPERATION|null
+|x-extra-imports|Custom import(s) to add to the generated file that declares the annotated model, property, operation, or parameter (e.g. so custom annotations can be referenced by their short name); accepts a string or list of strings. Values are emitted verbatim (Kotlin alias imports supported) and only exact duplicates are removed|MODEL, FIELD, OPERATION, OPERATION_PARAMETER|null
 |x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
 |x-size-message|Add this property whenever you need to customize the invalidation error message for the size or length of a variable|FIELD, OPERATION_PARAMETER|null
 |x-minimum-message|Add this property whenever you need to customize the invalidation error message for the minimum value of a variable|FIELD, OPERATION_PARAMETER|null

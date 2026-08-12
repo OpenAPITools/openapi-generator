@@ -94,6 +94,12 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
+    public static void applyForcedGenerateSchemasKvpList(List<String> schemas, CodegenConfigurator configurator) {
+        for (String schema : schemas) {
+            configurator.addForcedGenerateSchema(schema.trim());
+        }
+    }
+
     public static void applyInlineSchemaNameMappingsKvpList(List<String> inlineSchemaNameMappings, CodegenConfigurator configurator) {
         for (String propString : inlineSchemaNameMappings) {
             applyInlineSchemaNameMappingsKvp(propString, configurator);
@@ -195,6 +201,19 @@ public final class CodegenConfiguratorUtils {
         final Map<String, String> map = createMapFromKeyValuePairs(openapiNormalizer);
         for (Map.Entry<String, String> entry : map.entrySet()) {
             configurator.addOpenapiNormalizer(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyInjectModelVendorExtensionsKvpList(List<String> injectModelVendorExtensions, CodegenConfigurator configurator) {
+        for (String propString : injectModelVendorExtensions) {
+            applyInjectModelVendorExtensionsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyInjectModelVendorExtensionsKvp(String injectModelVendorExtensions, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(injectModelVendorExtensions);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addInjectModelVendorExtension(entry.getKey().trim(), entry.getValue().trim());
         }
     }
 

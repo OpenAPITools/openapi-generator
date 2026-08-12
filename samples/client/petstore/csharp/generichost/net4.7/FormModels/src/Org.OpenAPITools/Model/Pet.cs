@@ -156,8 +156,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Pet" />
     /// </summary>
-    public class PetJsonConverter : JsonConverter<Pet>
+    public partial class PetJsonConverter : JsonConverter<Pet>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PetJsonConverter" /> class.
+        /// </summary>
+        public PetJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Pet" />
         /// </summary>
@@ -210,9 +220,7 @@ namespace Org.OpenAPITools.Model
                             id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
                             break;
                         case "status":
-                            string statusRawValue = utf8JsonReader.GetString();
-                            if (statusRawValue != null)
-                                status = new Option<PetStatus?>(PetStatusValueConverter.FromStringOrDefault(statusRawValue));
+                            status = new Option<PetStatus?>(JsonSerializer.Deserialize<PetStatus?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "tags":
                             tags = new Option<List<Tag>>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions));

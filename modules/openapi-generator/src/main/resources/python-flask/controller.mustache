@@ -1,4 +1,4 @@
-import connexion
+import flask
 from typing import Dict
 from typing import Tuple
 from typing import Union
@@ -73,8 +73,8 @@ def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{
             {{^isPrimitiveType}}
                 {{^isFile}}
                     {{^isUuid}}
-    if connexion.request.is_json:
-        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}} {{.}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+    if flask.request.is_json:
+        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}} {{.}}{{/dataType}}{{/baseType}}.from_dict(flask.request.get_json())  # noqa: E501
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
@@ -82,32 +82,32 @@ def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{
         {{#isArray}}
             {{#items}}
                 {{#isDate}}
-    if connexion.request.is_json:
-        {{paramName}} = [util.deserialize_date(s) for s in connexion.request.get_json()]  # noqa: E501
+    if flask.request.is_json:
+        {{paramName}} = [util.deserialize_date(s) for s in flask.request.get_json()]  # noqa: E501
                 {{/isDate}}
                 {{#isDateTime}}
-    if connexion.request.is_json:
-        {{paramName}} = [util.deserialize_datetime(s) for s in connexion.request.get_json()]  # noqa: E501
+    if flask.request.is_json:
+        {{paramName}} = [util.deserialize_datetime(s) for s in flask.request.get_json()]  # noqa: E501
                 {{/isDateTime}}
                 {{#complexType}}
-    if connexion.request.is_json:
-        {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
+    if flask.request.is_json:
+        {{paramName}} = [{{complexType}}.from_dict(d) for d in flask.request.get_json()]  # noqa: E501
                 {{/complexType}}
             {{/items}}
         {{/isArray}}
         {{#isMap}}
             {{#items}}
                 {{#isDate}}
-    if connexion.request.is_json:
-        {{paramName}} = {k: util.deserialize_date(v) for k, v in connexion.request.get_json().items()}  # noqa: E501
+    if flask.request.is_json:
+        {{paramName}} = {k: util.deserialize_date(v) for k, v in flask.request.get_json().items()}  # noqa: E501
                 {{/isDate}}
                 {{#isDateTime}}
-    if connexion.request.is_json:
-        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in connexion.request.get_json().items()}  # noqa: E501
+    if flask.request.is_json:
+        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in flask.request.get_json().items()}  # noqa: E501
                 {{/isDateTime}}
                 {{#complexType}}
-    if connexion.request.is_json:
-        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in connexion.request.get_json().items()}  # noqa: E501
+    if flask.request.is_json:
+        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in flask.request.get_json().items()}  # noqa: E501
                 {{/complexType}}
             {{/items}}
         {{/isMap}}

@@ -47,7 +47,7 @@ function delete_pet_read(handler)
         openapi_params = Dict{String,Any}()
         path_params = HTTP.getparams(req)
         openapi_params["petId"] = OpenAPI.Servers.to_param(Int64, path_params, "petId", required=true, )
-        headers = Dict{String,String}(HTTP.headers(req))
+        headers = Dict{String,String}(req.headers)
         openapi_params["api_key"] = OpenAPI.Servers.to_param(String, headers, "api_key", )
         req.context[:openapi_params] = openapi_params
 

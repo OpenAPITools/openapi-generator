@@ -31,20 +31,14 @@ import { type RemoteAuthenticatedUserDto, RemoteAuthenticatedUserDtoFromJSONType
 export interface AbstractUserDto {
     /**
      * 
-     * @type {string}
-     * @memberof AbstractUserDto
      */
     username?: string;
     /**
      * 
-     * @type {BranchDto}
-     * @memberof AbstractUserDto
      */
     branch?: BranchDto;
     /**
      * 
-     * @type {string}
-     * @memberof AbstractUserDto
      */
     type?: string;
 }

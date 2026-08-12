@@ -5,14 +5,10 @@ on:
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
       - samples/server/petstore/php-flight/**
-      - samples/server/petstore/php-laravel/**
-      - samples/server/petstore/php-laravel-issue-21334/**
   pull_request:
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
       - samples/server/petstore/php-flight/**
-      - samples/server/petstore/php-laravel/**
-      - samples/server/petstore/php-laravel-issue-21334/**
 jobs:
   build:
     name: Build PHP projects
@@ -29,10 +25,8 @@ jobs:
           # servers
           - samples/server/petstore/php-symfony/SymfonyBundle-php/
           - samples/server/petstore/php-flight/
-          - samples/server/petstore/php-laravel/
-          - samples/server/petstore/php-laravel-issue-21334/
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Setup PHP with tools
         uses: shivammathur/setup-php@v2
         with:

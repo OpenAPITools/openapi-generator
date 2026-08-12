@@ -515,4 +515,51 @@ public class GoClientCodegenTest {
         // Verify that quotes are properly escaped in email parameter examples
         TestUtils.assertFileContains(docPath, "emailWithQuotes := \"test\\\"user@example.com\"");
     }
+
+    @Test(description = "generateUnmarshalJSON=false must also suppress the oneOf UnmarshalJSON so the generated code does not reference the validator import that is no longer added (#24053)")
+    public void testOneOfUnmarshalJSONHonorsGenerateUnmarshalJSONFlag() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.GENERATE_UNMARSHAL_JSON, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/go/spec-with-oneof-anyof-required.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // With the flag disabled the validator import is not added, so the oneOf model must not
+        // emit UnmarshalJSON (which would reference the missing validator package and fail to compile).
+        Path oneOfModel = Paths.get(output + "/model_object.go");
+        TestUtils.assertFileNotContains(oneOfModel, "func (dst *Object) UnmarshalJSON");
+        TestUtils.assertFileNotContains(oneOfModel, "validator.Validate");
+        TestUtils.assertFileNotContains(oneOfModel, "gopkg.in/validator.v2");
+    }
+
+    @Test(description = "with the default generateUnmarshalJSON=true the oneOf UnmarshalJSON and the validator import are still generated")
+    public void testOneOfUnmarshalJSONGeneratedByDefault() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/spec-with-oneof-anyof-required.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path oneOfModel = Paths.get(output + "/model_object.go");
+        TestUtils.assertFileContains(oneOfModel,
+                "func (dst *Object) UnmarshalJSON",
+                "validator.Validate",
+                "gopkg.in/validator.v2");
+    }
 }

@@ -2,13 +2,13 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
-    gradleVersion = '8.14.3'
+    gradleVersion = '8.14.5'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '2.2.20'
-    ext.vertx_version = "5.0.4"
+    ext.kotlin_version = '2.4.0'
+    ext.vertx_version = "5.1.5"
     ext.spotless_version = "7.2.1"
 
     repositories {

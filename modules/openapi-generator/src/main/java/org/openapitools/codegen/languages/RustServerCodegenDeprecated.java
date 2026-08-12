@@ -49,6 +49,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.X_ONE_OF_NAME;
+import static org.openapitools.codegen.CodegenConstants.X_EXAMPLE;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -1025,8 +1028,8 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
 
             // This is a model, so should only have an example if explicitly
             // defined.
-            if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-                codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+            if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey(X_EXAMPLE)) {
+                codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get(X_EXAMPLE));
             } else if (!codegenParameter.required) {
                 //mandatory parameter use the example in the yaml. if no example, it is also null.
                 codegenParameter.example = null;
@@ -1563,8 +1566,8 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
             else {
             param.vendorExtensions.put("x-format-string", "{:?}");
             // Check if this is a model-type enum (allowableValues with values list)
-            if (param.allowableValues != null && param.allowableValues.containsKey("values")) {
-                List<?> values = (List<?>) param.allowableValues.get("values");
+            if (hasEnumValues(param.allowableValues)) {
+                List<?> values = getEnumValues(param.allowableValues);
                 if (!values.isEmpty()) {
                     // Use the first enum value as the example.
                     String firstEnumValue = values.get(0).toString();
@@ -1580,23 +1583,23 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
 
         if (param.required) {
             if (example != null) {
-                param.vendorExtensions.put("x-example", example);
+                param.vendorExtensions.put(X_EXAMPLE, example);
             } else if (param.isArray) {
                 // Use the empty list if we don't have an example
-                param.vendorExtensions.put("x-example", "&Vec::new()");
+                param.vendorExtensions.put(X_EXAMPLE, "&Vec::new()");
             } else {
                 // If we don't have an example that we can provide, we need to disable the client example, as it won't build.
-                param.vendorExtensions.put("x-example", "???");
+                param.vendorExtensions.put(X_EXAMPLE, "???");
                 op.vendorExtensions.put("x-no-client-example", Boolean.TRUE);
             }
         } else if ((param.dataFormat != null) && (("date-time".equals(param.dataFormat)) || ("date".equals(param.dataFormat)))) {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            param.vendorExtensions.put("x-example", "None");
+            param.vendorExtensions.put(X_EXAMPLE, "None");
         } else {
             // Not required, so override the format string and example
             param.vendorExtensions.put("x-format-string", "{:?}");
             String exampleString = (example != null) ? "Some(" + example + ")" : "None";
-            param.vendorExtensions.put("x-example", exampleString);
+            param.vendorExtensions.put(X_EXAMPLE, exampleString);
         }
     }
 

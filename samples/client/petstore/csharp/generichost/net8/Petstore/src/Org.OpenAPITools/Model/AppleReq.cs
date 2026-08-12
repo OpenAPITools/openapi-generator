@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="AppleReq" />
     /// </summary>
-    public class AppleReqJsonConverter : JsonConverter<AppleReq>
+    public partial class AppleReqJsonConverter : JsonConverter<AppleReq>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppleReqJsonConverter" /> class.
+        /// </summary>
+        public AppleReqJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="AppleReq" />
         /// </summary>

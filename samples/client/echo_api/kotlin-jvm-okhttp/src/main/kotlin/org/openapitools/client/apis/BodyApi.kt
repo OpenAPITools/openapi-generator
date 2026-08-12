@@ -113,6 +113,7 @@ open class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/binary/gif",

@@ -1,0 +1,64 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "repro-23340", "version": "1.0.0" },
+  "paths": {
+    "/home": {
+      "get": {
+        "operationId": "getHome",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data"],
+                  "properties": { "data": { "$ref": "#/components/schemas/HomePage" } }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "operationId": "search",
+        "parameters": [
+          {
+            "name": "content_type",
+            "in": "query",
+            "required": false,
+            "schema": { "oneOf": [ { "type": "null" }, { "$ref": "#/components/schemas/ContentType" } ] }
+          }
+        ],
+        "responses": { "200": { "description": "ok" } }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ContentType": { "type": "string", "enum": ["movie"] },
+      "TitleGroupLite": {
+        "type": "object",
+        "required": ["content_type"],
+        "properties": { "content_type": { "$ref": "#/components/schemas/ContentType" } }
+      },
+      "HomePage": {
+        "type": "object",
+        "required": ["latest_uploads"],
+        "properties": {
+          "latest_uploads": { "type": "array", "items": { "$ref": "#/components/schemas/TitleGroupLite" } }
+        }
+      },
+      "TitleGroupHierarchyLite": {
+        "type": "object",
+        "required": ["id", "content_type"],
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "content_type": { "$ref": "#/components/schemas/ContentType" }
+        }
+      }
+    }
+  }
+}

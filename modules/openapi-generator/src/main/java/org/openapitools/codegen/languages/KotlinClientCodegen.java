@@ -39,8 +39,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -60,6 +58,9 @@ import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.CodegenConstants.ENUM_NAME;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumVars;
 
 /**
  * <p>Mustache templates are located in
@@ -1146,7 +1147,24 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             }
         }
         objs.put("isResponseFile", isResponseFile);
+        removeEnumUnknownDefaultCaseFromOperationParameters(objs);
         return objs;
+    }
+
+    /**
+     * Removes any injected unknown default enum value that stem from {@link DefaultCodegen#enumUnknownDefaultCase}
+     * from an operation's enum parameters.
+     * Applies to the {@value KotlinClientCodegen#MULTIPLATFORM} library since it generates enums locally within the api,
+     * and there we have no need for a defined fallback, since it is values that we only send.
+     * 
+     * @param objs the map containing all the defined operations
+     */
+    private void removeEnumUnknownDefaultCaseFromOperationParameters(OperationsMap objs) {
+        if (enumUnknownDefaultCase && library.equals(MULTIPLATFORM)) {
+            for (CodegenOperation operation : objs.getOperations().getOperation()) {
+                removeEnumUnknownDefaultCase(operation);
+            }
+        }
     }
 
     private static boolean isMultipartType(List<Map<String, String>> consumes) {
@@ -1227,14 +1245,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+            System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

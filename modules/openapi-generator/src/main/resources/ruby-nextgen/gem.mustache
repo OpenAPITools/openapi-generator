@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+{{> api_info}}
+
+require 'erb'
+require 'forwardable'
+require 'json'
+require 'time'
+
+require 'faraday'
+require 'faraday/multipart'
+require 'zeitwerk'
+
+{{#moduleNameNested}}
+{{#moduleNameParents}}
+module {{.}}; end
+{{/moduleNameParents}}
+{{/moduleNameNested}}
+module {{moduleName}}
+  class << self
+    attr_reader :loader
+  end
+
+{{#moduleNameNested}}
+  # Nested moduleName: for_gem can't target a nested namespace, so drive Zeitwerk
+  # explicitly. The parent module(s) above are pre-defined so `module {{moduleName}}`
+  # (here and in every generated file) reopens rather than raising NameError.
+  @loader = Zeitwerk::Loader.new
+  @loader.push_dir("#{__dir__}/{{gemName}}", namespace: self)
+  # version.rb defines VERSION (not a `Version` class). for_gem's GemInflector special-cases
+  # this; a plain Loader doesn't, so ignore it for autoloading and require it directly to keep
+  # {{moduleName}}::VERSION available.
+  @loader.ignore("#{__dir__}/{{gemName}}/version.rb")
+  require_relative "{{gemName}}/version"
+{{/moduleNameNested}}
+{{^moduleNameNested}}
+  @loader = Zeitwerk::Loader.for_gem
+{{/moduleNameNested}}
+{{#zeitwerkInflections.0}}
+  # Model names keep their acronym casing (e.g. HTTPConfig), but Zeitwerk's default
+  # inflector would expect HttpConfig from the file name. Register the exceptions so
+  # autoloading resolves the real constant.
+  @loader.inflector.inflect(
+{{#zeitwerkInflections}}
+    "{{key}}" => "{{{value}}}",
+{{/zeitwerkInflections}}
+  )
+{{/zeitwerkInflections.0}}
+  # The `api/` directory on disk is fixed regardless of the `apiNamespace` CliOption,
+  # but api.mustache only nests classes under an `Api` module when the wrapper is
+  # enabled ({{apiNamespacePresent}}). When it's disabled, tell Zeitwerk to collapse
+  # that directory so it doesn't expect a `{{moduleName}}::Api` namespace that the
+  # generated classes never actually define.
+{{^apiNamespacePresent}}
+  @loader.collapse("#{__dir__}/{{gemName}}/api")
+{{/apiNamespacePresent}}
+  @loader.setup
+
+  def self.eager_load!
+    @loader.eager_load
+  end
+end

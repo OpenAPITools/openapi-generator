@@ -8848,6 +8848,133 @@ impl TestEnumParametersEnumHeaderStringArrayParameterInner {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
 #[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
+pub enum TestEnumParametersEnumHeaderStringParameter {
+    #[serde(rename = "_abc")]
+    Abc,
+    #[serde(rename = "-efg")]
+    Efg,
+    #[serde(rename = "(xyz)")]
+    LeftParenthesisXyzRightParenthesis,
+}
+
+impl std::fmt::Display for TestEnumParametersEnumHeaderStringParameter {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match *self {
+            TestEnumParametersEnumHeaderStringParameter::Abc => write!(f, "_abc"),
+            TestEnumParametersEnumHeaderStringParameter::Efg => write!(f, "-efg"),
+            TestEnumParametersEnumHeaderStringParameter::LeftParenthesisXyzRightParenthesis => write!(f, "(xyz)"),
+        }
+    }
+}
+
+impl std::str::FromStr for TestEnumParametersEnumHeaderStringParameter {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match s {
+            "_abc" => std::result::Result::Ok(TestEnumParametersEnumHeaderStringParameter::Abc),
+            "-efg" => std::result::Result::Ok(TestEnumParametersEnumHeaderStringParameter::Efg),
+            "(xyz)" => std::result::Result::Ok(TestEnumParametersEnumHeaderStringParameter::LeftParenthesisXyzRightParenthesis),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<TestEnumParametersEnumHeaderStringParameter> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<TestEnumParametersEnumHeaderStringParameter>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<TestEnumParametersEnumHeaderStringParameter>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for TestEnumParametersEnumHeaderStringParameter - value: {hdr_value} is invalid {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<TestEnumParametersEnumHeaderStringParameter> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <TestEnumParametersEnumHeaderStringParameter as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{value}' into TestEnumParametersEnumHeaderStringParameter - {err}"))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringParameter>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringParameter>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringParameter>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<TestEnumParametersEnumHeaderStringParameter> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <TestEnumParametersEnumHeaderStringParameter as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{hdr_value}' into TestEnumParametersEnumHeaderStringParameter - {err}"))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
+        }
+    }
+}
+
+impl TestEnumParametersEnumHeaderStringParameter {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+/// Enumeration of values.
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
+/// which helps with FFI.
+#[allow(non_camel_case_types)]
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryDoubleParameter {
     #[serde(rename = "1.1")]
     Variant11,

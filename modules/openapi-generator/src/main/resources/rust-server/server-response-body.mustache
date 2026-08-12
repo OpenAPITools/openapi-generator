@@ -1,0 +1,14 @@
+{{#vendorExtensions.x-response-content-types}}
+  {{#-first}}
+    match body {
+  {{/-first}}
+        {{{variantName}}}(body) => {
+{{>server-response-body-instance}}
+        },
+  {{#-last}}
+    };
+  {{/-last}}
+{{/vendorExtensions.x-response-content-types}}
+{{^vendorExtensions.x-response-content-types}}
+{{>server-response-body-instance}}
+{{/vendorExtensions.x-response-content-types}}

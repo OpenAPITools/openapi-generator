@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import java.util.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -246,6 +245,68 @@ public class ExampleGeneratorTest {
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
         assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"example_schema_property_composed\" : \"example schema property value composed\",%n  \"example_schema_property\" : \"example schema property value\"%n}")), mapper.readTree(examples.get(0).get("example")));
+        assertEquals("200", examples.get(0).get("statusCode"));
+    }
+
+    @Test
+    public void generateFromResponseSchemaWithAllOfCircularSchema() throws Exception{
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
+
+        new InlineModelResolver().flatten(openAPI);
+
+        ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+        Set<String> mediaTypeKeys = new TreeSet<>();
+        mediaTypeKeys.add("application/json");
+        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+                "200",
+                openAPI
+                        .getPaths()
+                        .get("/generate_from_response_schema_with_allOf_circular_model")
+                        .getGet()
+                        .getResponses()
+                        .get("200")
+                        .getContent()
+                        .get("application/json")
+                        .getSchema(),
+                mediaTypeKeys
+        );
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        assertEquals(1, examples.size());
+        assertEquals("application/json", examples.get(0).get("contentType"));
+        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n  \"example_schema_property_alloff_circular\" : \"example schema property allOff circular\"%n}")), mapper.readTree(examples.get(0).get("example")));
+        assertEquals("200", examples.get(0).get("statusCode"));
+    }
+
+    @Test
+    public void generateFromResponseSchemaWithAllOfSiblingSchema() throws Exception{
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
+
+        new InlineModelResolver().flatten(openAPI);
+
+        ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+        Set<String> mediaTypeKeys = new TreeSet<>();
+        mediaTypeKeys.add("application/json");
+        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+                "200",
+                openAPI
+                        .getPaths()
+                        .get("/generate_from_response_schema_with_allOf_sibling_model")
+                        .getGet()
+                        .getResponses()
+                        .get("200")
+                        .getContent()
+                        .get("application/json")
+                        .getSchema(),
+                mediaTypeKeys
+        );
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        assertEquals(1, examples.size());
+        assertEquals("application/json", examples.get(0).get("contentType"));
+        assertEquals(mapper.readTree(String.format(Locale.ROOT, "{%n \"base\":{\"example_schema_property\":\"example schema property value\",\"example_schema_property_composed\":\"example schema property value composed\"}, \"sibling\":{\"example_schema_property\":\"example schema property value\",\"example_schema_property_composed\":\"example schema property value composed\"} %n}")), mapper.readTree(examples.get(0).get("example")));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 

@@ -170,12 +170,22 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Order" />
     /// </summary>
-    public class OrderJsonConverter : JsonConverter<Order>
+    public partial class OrderJsonConverter : JsonConverter<Order>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrderJsonConverter" /> class.
+        /// </summary>
+        public OrderJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize ShipDate
         /// </summary>
-        public static string ShipDateFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string ShipDateFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="Order" />
@@ -232,9 +242,7 @@ namespace Org.OpenAPITools.Model
                             shipDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "status":
-                            string statusRawValue = utf8JsonReader.GetString();
-                            if (statusRawValue != null)
-                                status = new Option<OrderStatus?>(OrderStatusValueConverter.FromStringOrDefault(statusRawValue));
+                            status = new Option<OrderStatus?>(JsonSerializer.Deserialize<OrderStatus?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

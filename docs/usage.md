@@ -312,8 +312,8 @@ SYNOPSIS
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
                 [(-o <output directory> | --output <output directory>)] [(-p <additional properties> | --additional-properties <additional properties>)...]
-                [--package-name <package name>] [--release-note <release note>]
-                [--remove-operation-id-prefix]
+                [--package-name <package name>] [(-q | --quiet)]
+                [--release-note <release note>] [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
                 [(-s | --skip-overwrite)] [--server-variables <server variables>...]
                 [--skip-operation-example] [--skip-validate-spec]
@@ -463,6 +463,9 @@ OPTIONS
 
         --package-name <package name>
             package for generated classes (where supported)
+
+        -q, --quiet
+            quiet mode
 
         --release-note <release note>
             Release note, default to 'Minor update'.

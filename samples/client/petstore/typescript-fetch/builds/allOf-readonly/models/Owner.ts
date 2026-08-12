@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface Owner {
     /**
      * 
-     * @type {string}
-     * @memberof Owner
      */
     name?: string;
 }

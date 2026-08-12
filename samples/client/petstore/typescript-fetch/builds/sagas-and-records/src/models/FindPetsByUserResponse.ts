@@ -36,14 +36,10 @@ import {
 export interface FindPetsByUserResponse {
     /**
      * 
-     * @type {ResponseMeta}
-     * @memberof FindPetsByUserResponse
      */
     meta: ResponseMeta;
     /**
      * 
-     * @type {Array<User>}
-     * @memberof FindPetsByUserResponse
      */
     data?: Array<User>;
 }

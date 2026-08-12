@@ -48,6 +48,9 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY_DESC;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -87,7 +90,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SKIP_DEFAULT_API_INTERFACE = "skipDefaultApiInterface";
     public static final String SKIP_DEFAULT_DELEGATE_INTERFACE = "skipDefaultDelegateInterface";
     public static final String REACTIVE = "reactive";
-    public static final String INTERFACE_ONLY = "interfaceOnly";
+    private static final String REACTIVE_MULTIPART = "reactiveMultipart";
     public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
     public static final String USE_FEIGN_CLIENT = "useFeignClient";
     public static final String DELEGATE_PATTERN = "delegatePattern";
@@ -98,6 +101,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
+    public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
     public static final String INCLUDE_HTTP_REQUEST_CONTEXT = "includeHttpRequestContext";
     public static final String USE_FLOW_FOR_ARRAY_RETURN_TYPE = "useFlowForArrayReturnType";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
@@ -125,17 +129,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
     }
 
-
+    @Getter
     public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
         none("Do not add a class level @RequestMapping annotation.");
 
-        public String getDescription() {
-            return description;
-        }
-
-        private String description;
+        private final String description;
 
         RequestMappingMode(String description) {
             this.description = description;
@@ -190,13 +190,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     protected boolean useSpringBoot3 = false;
     @Getter @Setter
     protected boolean useSpringBoot4 = false;
+    @Getter @Setter
+    protected boolean useSpringBuiltInValidation = false;
+    @Setter
+    @Getter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
     private DocumentationProvider documentationProvider;
     private AnnotationLibrary annotationLibrary;
 
     // Map to track which models implement which sealed response interfaces
-    private Map<String, List<String>> modelToSealedInterfaces = new HashMap<>();
-    private Map<String, String> sealedInterfaceToOperationId = new HashMap<>();
+    private final Map<String, List<String>> modelToSealedInterfaces = new HashMap<>();
+    private final Map<String, String> sealedInterfaceToOperationId = new HashMap<>();
     private boolean sealedInterfacesFileWritten = false;
 
     // Map from schema name to detected paged-model info (populated when substituteGenericPagedModel=true)
@@ -277,7 +281,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
         addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces (Api interfaces or Delegate interfaces depending on the delegatePattern option)", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
-        addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
+        addSwitch(INTERFACE_ONLY, INTERFACE_ONLY_DESC, interfaceOnly);
         addSwitch(USE_FEIGN_CLIENT_URL, "Whether to generate Feign client with url parameter.", useFeignClientUrl);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
         addSwitch(USE_TAGS, "Whether to use tags for creating interface and controller class names", useTags);
@@ -286,6 +290,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         addSwitch(USE_SPRING_BOOT4, "Generate code and provide dependencies for use with Spring Boot 4.x. Enabling this option will also enable `useJakartaEe`.", useSpringBoot4);
+        addSwitch(USE_SPRING_BUILT_IN_VALIDATION, "Disable `@Validated` at the class level when using built-in validation.", useSpringBuiltInValidation);
         addSwitch(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Only available with `useSpringBoot4`. Defaults to true when `useSpringBoot4` is enabled.", useJackson3);
         addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
         addSwitch(INCLUDE_HTTP_REQUEST_CONTEXT, "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.", includeHttpRequestContext);
@@ -313,10 +318,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
         addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
-                "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for optional + nullable "
-                + "properties (required: false, nullable: true). When enabled, such properties use "
-                + "JsonNullable<T> = JsonNullable.undefined() so callers can distinguish between a missing key "
-                + "and an explicitly provided null. Requires jackson-databind-nullable >= 0.2.10 when used with useJackson3.",
+                "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for strict null handling. "
+                + "Controls how optional + non-nullable properties (required: false, nullable: false) handle explicit JSON null: "
+                + "when false (default), @JsonSetter(nulls = Nulls.SKIP) is used — explicit null is silently ignored "
+                + "(lenient, protects any default value from being overridden); "
+                + "when true, @JsonSetter(nulls = Nulls.FAIL) is used — explicit null causes deserialization to fail "
+                + "(strict, enforces the non-nullable contract, useful for PATCH semantics). "
+                + "Additionally, when true, optional + nullable properties (required: false, nullable: true) use "
+                + "JsonNullable<T> = JsonNullable.undefined() to distinguish between a missing key and an explicit null. "
+                + "Requires jackson-databind-nullable >= 0.2.10 when used with useJackson3.",
                 openApiNullable);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -521,6 +531,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(USE_SPRING_BOOT4)) {
             this.setUseSpringBoot4(convertPropertyToBoolean(USE_SPRING_BOOT4));
         }
+        if (additionalProperties.containsKey(USE_SPRING_BUILT_IN_VALIDATION)) {
+            this.setUseSpringBuiltInValidation(convertPropertyToBoolean(USE_SPRING_BUILT_IN_VALIDATION));
+            writePropertyBack(USE_SPRING_BUILT_IN_VALIDATION, useSpringBuiltInValidation);
+        }
         if (additionalProperties.containsKey(INCLUDE_HTTP_REQUEST_CONTEXT)) {
             this.setIncludeHttpRequestContext(convertPropertyToBoolean(INCLUDE_HTTP_REQUEST_CONTEXT));
         }
@@ -551,6 +565,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // Only jackson-databind moved to tools.jackson.databind in Jackson 3.x.
         importMapping.put("JsonSetter", "com.fasterxml.jackson.annotation.JsonSetter");
         importMapping.put("Nulls", "com.fasterxml.jackson.annotation.Nulls");
+        importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
         // jackson-databind-nullable >= 0.2.10 supports both Jackson 2 and 3.
         importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
         // JsonDeserialize lives in jackson-databind which moved packages in Jackson 3.x.
@@ -711,6 +726,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
         }
         writePropertyBack(REACTIVE, reactive);
+        writePropertyBack(REACTIVE_MULTIPART, reactive && SPRING_BOOT.equals(library));
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
         writePropertyBack(USE_FLOW_FOR_ARRAY_RETURN_TYPE, useFlowForArrayReturnType);
 
@@ -1110,8 +1126,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 // Run through toModelName so that schemaMappings (e.g. User → com.example.MyUser)
                 // are honored: the mapped name is used both in the type arg and for import resolution.
                 String itemType = toModelName(detected.itemSchemaName);
-                String newBaseType = pagedModelClassName + "<" + itemType + ">";
-                codegenOperation.returnType = newBaseType;
+                codegenOperation.returnType = pagedModelClassName + "<" + itemType + ">";
                 codegenOperation.returnBaseType = pagedModelClassName;
                 // Clear any container flag — PagedModel is not itself a List/array
                 codegenOperation.returnContainer = null;
@@ -1266,12 +1281,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             property.example = null;
         }
 
-        // Scenario 3: optional + non-nullable → block explicit JSON nulls via @JsonSetter(nulls = Nulls.FAIL).
-        // Missing keys still succeed (default = null is used), but explicit {"field": null} fails deserialization.
+        // Scenario 3: optional + non-nullable → always emit @JsonSetter to handle explicit JSON nulls.
+        // When openApiNullable=true: Nulls.FAIL → reject explicit null (strict PATCH semantics).
+        // When openApiNullable=false: Nulls.SKIP → silently ignore explicit null (lenient, protects defaults).
+        // Always emit @JsonInclude(NON_NULL) so null fields are omitted from serialized output regardless
+        // of who is deserializing on the other end — closer to spec, avoids round-trip failures.
         if (!property.required && !property.isNullable) {
-            property.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
+            if (openApiNullable) {
+                property.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
+            } else {
+                property.vendorExtensions.put("x-has-json-setter-nulls-skip", true);
+            }
             model.imports.add("JsonSetter");
             model.imports.add("Nulls");
+            model.imports.add("JsonInclude");
         }
 
         // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T> = JsonNullable.undefined()
@@ -1311,6 +1334,79 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
             }
         }
+    }
+
+    /**
+     * Reads the {@code x-extra-imports} vendor extension from the given vendor-extension map and
+     * appends its values to {@code target}. The extension accepts either a single string or a list
+     * of strings; parsing is delegated to {@link #getObjectAsStringList(Object)} for consistency with
+     * how the sibling {@code x-*-extra-annotation} extensions are handled. Values are preserved
+     * verbatim (Kotlin alias imports are supported); no validation, trimming, or conflict detection is
+     * performed. Exact-duplicate handling is left to the caller's collection (typically a
+     * {@link LinkedHashSet} to keep insertion order while removing duplicates).
+     *
+     * @param vendorExtensions vendor extensions of a model, property, operation, or parameter (may be {@code null})
+     * @param target           collection to which extracted import directives are added
+     */
+    private void collectExtraImports(Map<String, Object> vendorExtensions, Collection<String> target) {
+        if (vendorExtensions == null) {
+            return;
+        }
+        target.addAll(getObjectAsStringList(vendorExtensions.get(VendorExtension.X_EXTRA_IMPORTS.getName())));
+    }
+
+    /**
+     * Appends the given import directives to an {@code imports}-style list (a list of maps each
+     * holding a single {@code "import"} entry, as rendered by the {@code {{#imports}}} template
+     * blocks), skipping directives whose exact text already appears in the list.
+     *
+     * @param imports      existing import list to extend (must be mutable)
+     * @param extraImports import directives to add, in insertion order
+     */
+    private void appendExtraImports(List<Map<String, String>> imports, Collection<String> extraImports) {
+        Set<String> existing = imports.stream()
+                .map(m -> m.get("import"))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(HashSet::new));
+        for (String imp : extraImports) {
+            if (existing.add(imp)) {
+                Map<String, String> item = new HashMap<>();
+                item.put("import", imp);
+                imports.add(item);
+            }
+        }
+    }
+
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        objs = super.postProcessModels(objs);
+
+        // Collect x-extra-imports declared on each model and its properties, and add them to the
+        // model file's import list so custom class/field annotations can be referenced by short name.
+        // Each ModelsMap corresponds to a single generated model file, so this stays file-scoped.
+        Set<String> extraImports = new LinkedHashSet<>();
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (cm == null) {
+                continue;
+            }
+            collectExtraImports(cm.vendorExtensions, extraImports);
+            // allVars is the complete property set (own + inherited); vars is included for safety.
+            // The LinkedHashSet collapses any overlap between the two lists.
+            Stream.of(cm.vars, cm.allVars)
+                    .filter(Objects::nonNull)
+                    .flatMap(List::stream)
+                    .forEach(p -> collectExtraImports(p.vendorExtensions, extraImports));
+        }
+        if (!extraImports.isEmpty()) {
+            List<Map<String, String>> imports = objs.getImports();
+            if (imports == null) {
+                imports = new ArrayList<>();
+                objs.setImports(imports);
+            }
+            appendExtraImports(imports, extraImports);
+        }
+        return objs;
     }
 
     @Override
@@ -1444,9 +1540,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             for (CodegenProperty var : cm.optionalVars) {
-                // Scenario 3: optional + non-nullable → block explicit JSON nulls via @JsonSetter(nulls = Nulls.FAIL)
+                // Scenario 3: optional + non-nullable → always emit @JsonSetter and @JsonInclude(NON_NULL).
+                // openApiNullable=true: Nulls.FAIL (strict). openApiNullable=false: Nulls.SKIP (lenient).
                 if (!var.required && !var.isNullable) {
-                    var.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
+                    if (openApiNullable) {
+                        var.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
+                    } else {
+                        var.vendorExtensions.put("x-has-json-setter-nulls-skip", true);
+                    }
                 }
                 // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T>
                 if (openApiNullable && !var.required && var.isNullable) {
@@ -1595,6 +1696,19 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     }
                 });
 
+                // Flow<String> is broken — StringDecoder intercepts String and returns the entire
+                // JSON array as a single blob instead of using Jackson. Fix by switching
+                // array-of-string operations to List<String> (with suspend).
+                // See https://github.com/spring-projects/spring-framework/issues/22662
+                // Note: check operation.returnType (set by doDataTypeAssignment) which holds the
+                // unwrapped inner type, e.g. "kotlin.String" for List<kotlin.String> arrays.
+                // The declarative-http-interface library forces useFlowForArrayReturnType=false,
+                // so this condition only fires for the spring-boot coroutines path.
+                if (reactive && useFlowForArrayReturnType
+                        && operation.isArray && "kotlin.String".equals(operation.returnType)) {
+                    operation.vendorExtensions.put("x-reactive-array-string-return", true);
+                }
+
                 // Generate sealed response interface metadata if enabled
                 if (useSealedResponseInterfaces && responses != null && !responses.isEmpty()) {
                     // Generate sealed interface name from operation ID
@@ -1646,6 +1760,43 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         handleImplicitHeaders(objs);
+
+        // Collect x-extra-imports declared on operations and their parameters for this API group.
+        // Grouping (by tag or by path segment, per useTags) is already reflected in this OperationsMap,
+        // so the imports are scoped to exactly the API file(s) that render these operations. They are
+        // exposed under a dedicated key (not the shared "imports" list) so that only templates which
+        // render the related annotations (api.mustache / apiInterface.mustache) emit them, while
+        // delegate, controller-wrapper, service and test templates do not.
+        if (operations != null) {
+            Set<String> operationExtraImports = new LinkedHashSet<>();
+            for (CodegenOperation operation : operations.getOperation()) {
+                collectExtraImports(operation.vendorExtensions, operationExtraImports);
+                if (operation.allParams != null) {
+                    operation.allParams.forEach(param -> collectExtraImports(param.vendorExtensions, operationExtraImports));
+                }
+                // Implicit header params are moved out of allParams by handleImplicitHeaders above,
+                // so scan them separately to avoid dropping their declared imports.
+                if (operation.implicitHeadersParams != null) {
+                    operation.implicitHeadersParams.forEach(param -> collectExtraImports(param.vendorExtensions, operationExtraImports));
+                }
+            }
+            // Drop any import already present in the shared imports list (e.g. produced from an
+            // operation's types) so the file keeps the documented once-per-file deduplication.
+            Set<String> existingImports = objs.getImports().stream()
+                    .map(m -> m.get("import"))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toCollection(HashSet::new));
+            operationExtraImports.removeAll(existingImports);
+            if (!operationExtraImports.isEmpty()) {
+                List<Map<String, String>> extraImportList = new ArrayList<>();
+                for (String imp : operationExtraImports) {
+                    Map<String, String> item = new HashMap<>();
+                    item.put("import", imp);
+                    extraImportList.add(item);
+                }
+                objs.put("operationExtraImports", extraImportList);
+            }
+        }
 
         return objs;
     }
@@ -1718,14 +1869,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return !type.startsWith("org.springframework.") && super.needToImport(type);
     }
 
-    public RequestMappingMode getRequestMappingMode() {
-        return requestMappingMode;
-    }
-
-    public void setRequestMappingMode(RequestMappingMode requestMappingMode) {
-        this.requestMappingMode = requestMappingMode;
-    }
-
     @Override
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
@@ -1735,6 +1878,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_EXTRA_IMPORTS);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         extensions.add(VendorExtension.X_SIZE_MESSAGE);
         extensions.add(VendorExtension.X_MINIMUM_MESSAGE);

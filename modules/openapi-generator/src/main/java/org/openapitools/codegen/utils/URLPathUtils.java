@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,14 +38,21 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 public class URLPathUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(URLPathUtils.class);
+    private static final String SERVER_NOT_SPECIFIED =
+            "'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [{}] for server URL [{}]";
+    private static final String SCHEME_NOT_DEFINED = "'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]";
+    private static final String NO_SERVER_INFO = "Server information not defined in the spec. Default to {}.";
+    private static final String INVALID_URL = "Not a valid URL: {}. Default to {}.";
     public static final String LOCAL_HOST = "http://localhost";
     public static final Pattern VARIABLE_PATTERN = Pattern.compile("(?<!\\$)\\{([^\\}]+)\\}");
+    public static final Pattern URL_WITH_SCHEME = Pattern.compile("[a-zA-Z][0-9a-zA-Z.+\\-]+://.+");
 
     // TODO: This should probably be moved into generator/workflow type rather than a static like this.
     public static URL getServerURL(OpenAPI openAPI, Map<String, String> userDefinedVariables) {
         final List<Server> servers = openAPI.getServers();
         if (servers == null || servers.isEmpty()) {
-            once(LOGGER).warn("Server information seems not defined in the spec. Default to {}.", LOCAL_HOST);
+            String message = MessageFormatter.format(NO_SERVER_INFO, LOCAL_HOST).getMessage();
+            once(LOGGER).warn(message);
             return getDefaultUrl();
         }
         // TODO need a way to obtain all server URLs
@@ -67,7 +75,8 @@ public class URLPathUtils {
             try {
                 return new URL(url);
             } catch (MalformedURLException e) {
-                once(LOGGER).warn("Not valid URL: {}. Default to {}.", server.getUrl(), LOCAL_HOST);
+                String malformedUrl = MessageFormatter.format(INVALID_URL, server.getUrl(), LOCAL_HOST).getMessage();
+                once(LOGGER).warn(malformedUrl);
             }
         }
         return getDefaultUrl();
@@ -206,19 +215,22 @@ public class URLPathUtils {
         if (url != null) {
             if (url.startsWith("//")) {
                 url = "http:" + url;
-                once(LOGGER).warn("'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]", url);
+                String missingScheme = MessageFormatter.format(SCHEME_NOT_DEFINED, url).getMessage();
+                once(LOGGER).warn(missingScheme);
             } else if (url.startsWith("/")) {
                 url = LOCAL_HOST + url;
-                once(LOGGER).info("'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [{}] for server URL [{}]", LOCAL_HOST, url);
-            } else if (!url.matches("[a-zA-Z][0-9a-zA-Z.+\\-]+://.+")) {
+                String serverDefaultToLocalhost = MessageFormatter.format(SERVER_NOT_SPECIFIED, LOCAL_HOST, url).getMessage();
+                once(LOGGER).info(serverDefaultToLocalhost);
+            } else if (!URL_WITH_SCHEME.matcher(url).matches()) {
                 // Add http scheme for urls without a scheme.
                 // 2.0 spec is restricted to the following schemes: "http", "https", "ws", "wss"
                 // 3.0 spec does not have an enumerated list of schemes
                 // This regex attempts to capture all schemes in IANA example schemes which
-                // can have alpha-numeric characters and [.+-]. Examples are here:
+                // can have alphanumeric characters and [.+-]. Examples are here:
                 // https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml
                 url = "http://" + url;
-                once(LOGGER).warn("'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]", url);
+                String missingScheme = MessageFormatter.format(SCHEME_NOT_DEFINED, url).getMessage();
+                once(LOGGER).warn(missingScheme);
             }
         }
         return url;

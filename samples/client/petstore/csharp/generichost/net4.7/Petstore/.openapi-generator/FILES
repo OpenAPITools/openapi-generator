@@ -53,6 +53,7 @@ docs/models/GmFruit.md
 docs/models/GrandparentAnimal.md
 docs/models/HasOnlyReadOnly.md
 docs/models/HealthCheckResult.md
+docs/models/InjectedVendorExtensionsTest.md
 docs/models/IsoscelesTriangle.md
 docs/models/List.md
 docs/models/LiteralStringClass.md
@@ -152,6 +153,7 @@ src/Org.OpenAPITools/Client/TokenProvider`1.cs
 src/Org.OpenAPITools/Extensions/IHostBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IHttpClientBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IServiceCollectionExtensions.cs
+src/Org.OpenAPITools/Logging/RestLogEvents.cs
 src/Org.OpenAPITools/Model/Activity.cs
 src/Org.OpenAPITools/Model/ActivityOutputElementRepresentation.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
@@ -195,6 +197,7 @@ src/Org.OpenAPITools/Model/GmFruit.cs
 src/Org.OpenAPITools/Model/GrandparentAnimal.cs
 src/Org.OpenAPITools/Model/HasOnlyReadOnly.cs
 src/Org.OpenAPITools/Model/HealthCheckResult.cs
+src/Org.OpenAPITools/Model/InjectedVendorExtensionsTest.cs
 src/Org.OpenAPITools/Model/IsoscelesTriangle.cs
 src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/LiteralStringClass.cs

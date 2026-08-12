@@ -3,7 +3,9 @@ package org.openapitools.codegen.online.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openapitools.codegen.online.model.Generated;
 import org.openapitools.codegen.online.model.ResponseCode;
+import org.openapitools.codegen.online.service.GenApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpHeaders;
@@ -12,9 +14,17 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.Assert;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -29,6 +39,7 @@ public class GenApiControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
     public void clientLanguages() throws Exception {
         getLanguages("clients", "java");
@@ -38,7 +49,6 @@ public class GenApiControllerTest {
     public void serverFrameworks() throws Exception {
         getLanguages("servers", "spring");
     }
-
 
     public void getLanguages(String type, String expected) throws Exception {
         mockMvc.perform(get("/api/gen/" + type))
@@ -153,13 +163,31 @@ public class GenApiControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(withoutOpenAPINormalizer))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-
         String codeOfNotNormalized = new ObjectMapper().readValue(responseOfNotNormalized, ResponseCode.class).getCode();
         Long lengthOfNotNormalized = Long.parseLong(mockMvc.perform(get("http://test.com:1234/api/gen/download/" + codeOfNotNormalized))
                 .andExpect(content().contentType("application/zip"))
                 .andExpect(status().isOk()).andReturn().getResponse().getHeader("Content-Length"));
 
         Assert.isTrue(lengthOfNormalized <= lengthOfNotNormalized, "Using the normalizer should result in a smaller or equal file size");
-
     }
+
+    // Fix #3: Content-Length header is present and non-zero on download response
+    @Test
+    public void downloadHasContentLengthHeader() throws Exception {
+        String result = mockMvc.perform(post("http://test.com:1234/api/gen/clients/java")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"openAPIUrl\": \"" + OPENAPI_URL + "\"}"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        String code = new ObjectMapper().readValue(result, ResponseCode.class).getCode();
+
+        String contentLength = mockMvc.perform(get("http://test.com:1234/api/gen/download/" + code))
+                .andExpect(status().isOk())
+                .andExpect(header().exists(HttpHeaders.CONTENT_LENGTH))
+                .andReturn().getResponse().getHeader(HttpHeaders.CONTENT_LENGTH);
+
+        assertTrue(Long.parseLong(contentLength) > 0, "Content-Length should be greater than 0");
+    }
+
 }

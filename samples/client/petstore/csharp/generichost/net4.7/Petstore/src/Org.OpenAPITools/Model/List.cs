@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="List" />
     /// </summary>
-    public class ListJsonConverter : JsonConverter<List>
+    public partial class ListJsonConverter : JsonConverter<List>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListJsonConverter" /> class.
+        /// </summary>
+        public ListJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="List" />
         /// </summary>

@@ -133,8 +133,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MixedOneOfContent" />
     /// </summary>
-    public class MixedOneOfContentJsonConverter : JsonConverter<MixedOneOfContent>
+    public partial class MixedOneOfContentJsonConverter : JsonConverter<MixedOneOfContent>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixedOneOfContentJsonConverter" /> class.
+        /// </summary>
+        public MixedOneOfContentJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="MixedOneOfContent" />
         /// </summary>

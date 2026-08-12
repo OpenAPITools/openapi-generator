@@ -285,7 +285,6 @@ where
         #[cfg(not(feature = "validate"))]
                                 run_validation!(param_op_get_request, "OpGetRequest", validation);
 
-
                                 let result = api_impl.op_get(
                                             param_op_get_request,
                                         &context

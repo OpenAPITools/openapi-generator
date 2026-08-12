@@ -294,6 +294,21 @@ export const COLLECTION_FORMATS = {
 
 export type FetchAPI = WindowOrWorkerGlobalScope['fetch'];
 
+{{#splitOperationsByContentType}}
+type AllKeys<T> = T extends unknown ? keyof T : never;
+/**
+ * Makes the members of a union mutually exclusive, by declaring on each of them the keys it does not have
+ * as `never`. Without it a member is satisfied by a value carrying another member's keys: assignability is
+ * structural and tolerates surplus properties, and excess property checking never fires against a union
+ * since a key present in any member counts as known.
+ *
+ * `U` distributes while `T` stays the whole union, which is what lets each member see the others' keys.
+ */
+export type ExclusiveUnion<T, U = T> = U extends unknown
+    ? U & Partial<Record<Exclude<AllKeys<T>, keyof U>, never>>
+    : never;
+
+{{/splitOperationsByContentType}}
 export type Json = any;
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
 export type HTTPHeaders = { [key: string]: string };
@@ -356,6 +371,11 @@ export function mapValues(data: any, fn: (item: any) => any) {
         result[key] = fn(data[key]);
     }
     return result;
+}
+
+// Pass-through serializer for `any`-typed properties in form data. See #1877.
+export function anyToJSON(value: any): any {
+    return value;
 }
 {{/withoutRuntimeChecks}}
 

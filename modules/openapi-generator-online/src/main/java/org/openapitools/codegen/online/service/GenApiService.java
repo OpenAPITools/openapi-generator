@@ -27,12 +27,16 @@ import org.openapitools.codegen.online.api.GenApiDelegate;
 import org.openapitools.codegen.online.model.Generated;
 import org.openapitools.codegen.online.model.GeneratorInput;
 import org.openapitools.codegen.online.model.ResponseCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.server.ResponseStatusException;
@@ -45,14 +49,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
+@EnableScheduling
 public class GenApiService implements GenApiDelegate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenApiService.class);
+    private static final long FILE_TTL_MS = 24 * 60 * 60 * 1000L; // 24 hours
 
     private static List<String> clients = new ArrayList<>();
     private static List<String> servers = new ArrayList<>();
-    private static Map<String, Generated> fileMap = new HashMap<>();
+    private static final Map<String, Generated> fileMap = new ConcurrentHashMap<>();
 
     static {
         List<CodegenConfig> extensions = CodegenConfigLoader.getAll();
@@ -80,8 +90,11 @@ public class GenApiService implements GenApiDelegate {
     @Override
     public ResponseEntity<Resource> downloadFile(String fileId) {
         Generated g = fileMap.get(fileId);
-        System.out.println("looking for fileId " + fileId);
-        System.out.println("got filename " + g.getFilename());
+        LOGGER.debug("looking for fileId {}", fileId);
+        if (g == null || g.getCreatedAt().plusMillis(FILE_TTL_MS).isBefore(Instant.now())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found or has expired");
+        }
+        LOGGER.debug("got filename {}", g.getFilename());
 
         File file = new File(g.getFilename());
         Path path = Paths.get(file.getAbsolutePath());
@@ -96,15 +109,15 @@ public class GenApiService implements GenApiDelegate {
         try {
             FileUtils.deleteDirectory(file.getParentFile());
         } catch (IOException e) {
-            System.out.println("failed to delete file " + file.getAbsolutePath());
+            LOGGER.error("failed to delete file {}", file.getAbsolutePath());
         }
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.valueOf("application/zip"))
+                .contentLength(resource.contentLength())
                 .header("Content-Disposition",
                         "attachment; filename=\"" + g.getFriendlyName() + "-generated.zip\"")
                 .header("Accept-Range", "bytes")
-                //.header("Content-Length", bytes.length)
                 .body(resource);
     }
 
@@ -152,7 +165,7 @@ public class GenApiService implements GenApiDelegate {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Framework is required");
         }
         String filename = Generator.generateServer(framework, generatorInput);
-        System.out.println("generated name: " + filename);
+        LOGGER.debug("generated name: {}", filename);
 
         return getResponse(filename, framework + "-server");
     }
@@ -173,12 +186,49 @@ public class GenApiService implements GenApiDelegate {
             g.setFilename(filename);
             g.setFriendlyName(friendlyName);
             fileMap.put(code, g);
-            System.out.println(code + ", " + filename);
+            LOGGER.debug("{}, {}", code, filename);
             String link = uriBuilder.path("/api/gen/download/").path(code).toUriString();
             return ResponseEntity.ok().body(new ResponseCode(code, link));
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    /** @VisibleForTesting */
+    Generated getFileEntry(String code) {
+        return fileMap.get(code);
+    }
+
+    /** @VisibleForTesting */
+    void putFileEntry(String code, Generated entry) {
+        fileMap.put(code, entry);
+    }
+
+    /** @VisibleForTesting */
+    void removeFileEntry(String code) {
+        fileMap.remove(code);
+    }
+
+    @Scheduled(fixedDelay = 3_600_000) // run every hour
+    public void cleanExpiredFiles() {
+        Instant cutoff = Instant.now().minusMillis(FILE_TTL_MS);
+        fileMap.entrySet().removeIf(entry -> {
+            Generated g = entry.getValue();
+            if (g.getCreatedAt().isBefore(cutoff)) {
+                File dir = new File(g.getFilename()).getParentFile();
+                if (dir.exists()) {
+                    try {
+                        FileUtils.deleteDirectory(dir);
+                    } catch (IOException | IllegalArgumentException e) {
+                        LOGGER.warn("failed to delete expired file {}, will retry on next run", g.getFilename());
+                        return false;
+                    }
+                }
+                LOGGER.debug("evicted expired file entry {}", entry.getKey());
+                return true;
+            }
+            return false;
+        });
     }
 
 }

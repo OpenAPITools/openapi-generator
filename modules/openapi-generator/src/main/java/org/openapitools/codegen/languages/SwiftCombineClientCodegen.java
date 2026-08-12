@@ -783,10 +783,12 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# swift combine generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# swift combine generator is contributed by @dydus0x14 and @ptiz.          #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

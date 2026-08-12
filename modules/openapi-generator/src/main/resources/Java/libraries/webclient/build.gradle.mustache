@@ -84,14 +84,16 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
+    java {
     {{#java17}}
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     {{/java17}}
     {{^java17}}
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     {{/java17}}
+    }
 
     publishing {
         publications {
@@ -150,10 +152,10 @@ ext {
     reactor_netty_version = "1.2.8"
     {{/useJakartaEe}}
     {{#useJackson3}}
-    jackson_version = "3.1.0"
+    jackson_version = "3.1.5"
     {{/useJackson3}}
     {{^useJackson3}}
-    jackson_version = "2.21.1"
+    jackson_version = "2.21.5"
     {{/useJackson3}}
     {{^useSpringBoot4}}
     {{#useJspecify}}
@@ -162,7 +164,7 @@ ext {
     {{/useSpringBoot4}}
     jackson_annotations_version = "2.21"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.10"
+    jackson_databind_nullable_version = "0.2.11"
     {{/openApiNullable}}
     {{#joda}}
     jodatime_version = "2.14.0"

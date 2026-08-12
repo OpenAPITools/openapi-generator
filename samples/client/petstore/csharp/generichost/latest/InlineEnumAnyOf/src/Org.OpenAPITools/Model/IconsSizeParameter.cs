@@ -94,8 +94,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="IconsSizeParameter" />
     /// </summary>
-    public class IconsSizeParameterJsonConverter : JsonConverter<IconsSizeParameter>
+    public partial class IconsSizeParameterJsonConverter : JsonConverter<IconsSizeParameter>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IconsSizeParameterJsonConverter" /> class.
+        /// </summary>
+        public IconsSizeParameterJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="IconsSizeParameter" />
         /// </summary>

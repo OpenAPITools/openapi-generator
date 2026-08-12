@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: oneOf interface
+  description: >
+    A oneOf interface whose subtypes inherit shared properties from a base schema
+    (acyclic pattern). The discriminator property is declared on the oneOf container
+    and on the shared base the subtypes inherit via allOf, so the interface getter
+    type resolves to the enum from the container's own properties.
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    PetType:
+      type: string
+      enum:
+        - CAT
+        - DOG
+      description: Discriminator value identifying the type of pet
+
+    PetRequest:
+      type: object
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetType'
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatRequest'
+          DOG: '#/components/schemas/DogRequest'
+
+    PetBase:
+      type: object
+      required:
+        - petType
+        - name
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetType'
+        name:
+          type: string
+
+    CatRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          required:
+            - indoor
+          properties:
+            indoor:
+              type: boolean
+
+    DogRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          required:
+            - trained
+          properties:
+            trained:
+              type: boolean

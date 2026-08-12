@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="BananaReq" />
     /// </summary>
-    public class BananaReqJsonConverter : JsonConverter<BananaReq>
+    public partial class BananaReqJsonConverter : JsonConverter<BananaReq>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BananaReqJsonConverter" /> class.
+        /// </summary>
+        public BananaReqJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="BananaReq" />
         /// </summary>

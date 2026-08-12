@@ -1,0 +1,88 @@
+openapi: 3.1.0
+info:
+  title: Nullable Enum Query Parameter Test
+  description: >-
+    Test spec for enum query parameters whose schema is not a bare $ref, as
+    emitted by FastAPI and other 3.1 producers. The same operation is defined
+    with and without a path parameter, because the two used to be generated
+    differently.
+  version: 1.0.0
+paths:
+  /widgets/summary:
+    get:
+      operationId: getWidgetSummary
+      summary: Get a widget summary
+      parameters:
+        - name: kind
+          in: query
+          description: Kind filter, expressed as an anyOf with null
+          required: false
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/WidgetKind'
+              - type: 'null'
+            title: Kind
+        - name: sort
+          in: query
+          description: Sort order, expressed as a $ref with sibling keywords
+          required: false
+          schema:
+            $ref: '#/components/schemas/SortDirection'
+            title: Sort
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetSummary'
+  /widgets/{widget_id}/summary:
+    get:
+      operationId: getWidgetSummaryById
+      summary: Get a widget summary for a single widget
+      parameters:
+        - name: widget_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: kind
+          in: query
+          description: Kind filter, expressed as an anyOf with null
+          required: false
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/WidgetKind'
+              - type: 'null'
+            title: Kind
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetSummary'
+components:
+  schemas:
+    WidgetKind:
+      type: string
+      description: Widget kind
+      enum:
+        - basic
+        - premium
+    SortDirection:
+      type: string
+      description: Sort direction options
+      enum:
+        - asc
+        - desc
+    WidgetSummary:
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/WidgetKind'
+        total:
+          type: integer
+      required:
+        - kind
+        - total

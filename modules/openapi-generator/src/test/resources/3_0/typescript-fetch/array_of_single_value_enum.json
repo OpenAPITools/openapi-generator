@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Array of Single-Value Enum Test",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "TestSchema": {
+        "required": ["types"],
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["boatbooker_activities"]
+            }
+          }
+        }
+      }
+    }
+  }
+}

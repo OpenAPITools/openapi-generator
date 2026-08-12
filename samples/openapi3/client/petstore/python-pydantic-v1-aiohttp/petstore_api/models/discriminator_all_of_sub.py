@@ -26,7 +26,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
     """
     DiscriminatorAllOfSub
     """
-    __properties = ["elementType"]
+    __properties = ["element'\"\\Type"]
 
     class Config:
         """Pydantic configuration"""
@@ -64,7 +64,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
             return DiscriminatorAllOfSub.parse_obj(obj)
 
         _obj = DiscriminatorAllOfSub.parse_obj({
-            "element_type": obj.get("elementType")
+            "element_type": obj.get("element'\"\\Type")
         })
         return _obj
 

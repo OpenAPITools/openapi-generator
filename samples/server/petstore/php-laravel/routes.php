@@ -91,6 +91,20 @@ Route::POST('/v2/fake/outer/string', [\OpenAPI\Server\Http\Controllers\FakeContr
 Route::POST('/v2/fake/property/enum-int', [\OpenAPI\Server\Http\Controllers\FakeController::class, 'fakePropertyEnumIntegerSerialize'])->name('fake.fake.property.enum.integer.serialize');
 
 /**
+ * GET getParameterNameMapping
+ * Summary: test query parameter name sanitization
+ * Notes: Query params whose spec names require PHP identifier sanitization (snake_case) must be read/validated under the wire name.
+ */
+Route::GET('/v2/fake/parameter-name-mapping', [\OpenAPI\Server\Http\Controllers\FakeController::class, 'getParameterNameMapping'])->name('fake.get.parameter.name.mapping');
+
+/**
+ * POST postParameterNameMapping
+ * Summary: test form parameter name sanitization
+ * Notes: Form param whose spec name requires PHP identifier sanitization (snake_case) must be read/validated under the wire name.
+ */
+Route::POST('/v2/fake/parameter-name-mapping', [\OpenAPI\Server\Http\Controllers\FakeController::class, 'postParameterNameMapping'])->name('fake.post.parameter.name.mapping');
+
+/**
  * POST testAdditionalPropertiesReference
  * Summary: test referenced additionalProperties
  * Notes: 
@@ -131,13 +145,6 @@ Route::PATCH('/v2/fake', [\OpenAPI\Server\Http\Controllers\FakeController::class
  * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
  */
 Route::POST('/v2/fake', [\OpenAPI\Server\Http\Controllers\FakeController::class, 'testEndpointParameters'])->name('fake.test.endpoint.parameters');
-
-/**
- * GET testEnumParameters
- * Summary: To test enum parameters
- * Notes: To test enum parameters
- */
-Route::GET('/v2/fake', [\OpenAPI\Server\Http\Controllers\FakeController::class, 'testEnumParameters'])->name('fake.test.enum.parameters');
 
 /**
  * DELETE testGroupParameters

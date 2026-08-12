@@ -235,7 +235,9 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         Assertions.assertThat(actualBody)
                 .withFailMessage(
                         "File should contain lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
-                        Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
+                        Arrays.stream(lines)
+                                .filter(line -> !actualBody.contains(line))
+                                .collect(Collectors.joining(System.lineSeparator())), actualBody
                 )
                 .contains(lines);
 
@@ -249,7 +251,9 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         Assertions.assertThat(actualBody)
                 .withFailMessage(
                         "File should not contain lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
-                        Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
+                        Arrays.stream(lines)
+                                .filter(line -> actualBody.contains(line))
+                                .collect(Collectors.joining(System.lineSeparator())), actualBody
                 )
                 .doesNotContain(lines);
 

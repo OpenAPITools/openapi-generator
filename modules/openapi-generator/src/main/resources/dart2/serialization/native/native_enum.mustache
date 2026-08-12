@@ -1,33 +1,30 @@
 {{#description}}/// {{{.}}}{{/description}}
-class {{{classname}}} {
-  /// Instantiate a new enum with the provided [value].
-  const {{{classname}}}._(this.value);
+enum {{{classname}}} {
+  {{#allowableValues}}
+    {{#enumVars}}
+  {{{name}}}._({{#isString}}r{{/isString}}{{{value}}}),
+    {{/enumVars}}
+  {{/allowableValues}}
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const {{{classname}}}._(this._value);
 
   /// The underlying value of this enum member.
-  final {{#vendorExtensions.x-unwrapped-datatype}}{{{vendorExtensions.x-unwrapped-datatype}}}{{/vendorExtensions.x-unwrapped-datatype}}{{^vendorExtensions.x-unwrapped-datatype}}{{{dataType}}}{{/vendorExtensions.x-unwrapped-datatype}} value;
+  final {{#vendorExtensions.x-unwrapped-datatype}}{{{vendorExtensions.x-unwrapped-datatype}}}{{/vendorExtensions.x-unwrapped-datatype}}{{^vendorExtensions.x-unwrapped-datatype}}{{{dataType}}}{{/vendorExtensions.x-unwrapped-datatype}} _value;
 
   @override
-  String toString() => {{#isString}}value{{/isString}}{{^isString}}value.toString(){{/isString}};
+  String toString() => {{#isString}}_value{{/isString}}{{^isString}}_value.toString(){{/isString}};
 
-  {{#vendorExtensions.x-unwrapped-datatype}}{{{vendorExtensions.x-unwrapped-datatype}}}{{/vendorExtensions.x-unwrapped-datatype}}{{^vendorExtensions.x-unwrapped-datatype}}{{{dataType}}}{{/vendorExtensions.x-unwrapped-datatype}} toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  {{#vendorExtensions.x-unwrapped-datatype}}{{{vendorExtensions.x-unwrapped-datatype}}}{{/vendorExtensions.x-unwrapped-datatype}}{{^vendorExtensions.x-unwrapped-datatype}}{{{dataType}}}{{/vendorExtensions.x-unwrapped-datatype}} toJson() => _value;
 
-  {{#allowableValues}}
-    {{#enumVars}}
-  static const {{{name}}} = {{{classname}}}._({{#isString}}r{{/isString}}{{{value}}});
-    {{/enumVars}}
-  {{/allowableValues}}
-
-  /// List of all possible values in this [enum][{{{classname}}}].
-  static const values = <{{{classname}}}>[
-  {{#allowableValues}}
-    {{#enumVars}}
-    {{{name}}},
-    {{/enumVars}}
-  {{/allowableValues}}
-  ];
-
+  /// Returns the instance of [{{{classname}}}] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static {{{classname}}}? fromJson(dynamic value) => {{{classname}}}TypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [{{{classname}}}]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<{{{classname}}}> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <{{{classname}}}>[];
     if (json is List && json.isNotEmpty) {
@@ -49,9 +46,11 @@ class {{{classname}}}TypeTransformer {
 
   const {{{classname}}}TypeTransformer._();
 
-  {{#vendorExtensions.x-unwrapped-datatype}}{{{vendorExtensions.x-unwrapped-datatype}}}{{/vendorExtensions.x-unwrapped-datatype}}{{^vendorExtensions.x-unwrapped-datatype}}{{{dataType}}}{{/vendorExtensions.x-unwrapped-datatype}} encode({{{classname}}} data) => data.value;
+  /// Encodes this enum as a value suitable for JSON.
+  {{#vendorExtensions.x-unwrapped-datatype}}{{{vendorExtensions.x-unwrapped-datatype}}}{{/vendorExtensions.x-unwrapped-datatype}}{{^vendorExtensions.x-unwrapped-datatype}}{{{dataType}}}{{/vendorExtensions.x-unwrapped-datatype}} encode({{{classname}}} data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a {{{classname}}}.
+  /// Returns the instance of [{{{classname}}}] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -60,6 +59,9 @@ class {{{classname}}}TypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   {{{classname}}}? decode(dynamic data, {bool allowNull = true}) {
+    if (data is {{{classname}}}) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         {{#allowableValues}}
@@ -76,6 +78,6 @@ class {{{classname}}}TypeTransformer {
     return null;
   }
 
-  /// Singleton [{{{classname}}}TypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static {{{classname}}}TypeTransformer? _instance;
 }

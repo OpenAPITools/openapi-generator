@@ -18,14 +18,23 @@ import type {
 } from '../models/index';
 
 export interface DeleteOrderRequest {
+    /**
+     * ID of the order that needs to be deleted
+     */
     orderId: string;
 }
 
 export interface GetOrderByIdRequest {
+    /**
+     * ID of pet that needs to be fetched
+     */
     orderId: number;
 }
 
 export interface PlaceOrderRequest {
+    /**
+     * 
+     */
     body: Order;
 }
 

@@ -19,3 +19,6 @@ additionalProperties:
   generateBuilders: true
   openApiNullable: false
   useJspecify: true
+typeMappings:
+  OffsetDateTime: java.time.Instant
+  BigDecimal: java.math.BigDecimal

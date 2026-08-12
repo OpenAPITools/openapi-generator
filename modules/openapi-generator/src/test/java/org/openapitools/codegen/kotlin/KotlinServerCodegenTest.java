@@ -28,12 +28,12 @@ import org.testng.annotations.Test;
 
 import static org.openapitools.codegen.CodegenConstants.API_PACKAGE;
 import static org.openapitools.codegen.CodegenConstants.LIBRARY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE;
 import static org.openapitools.codegen.CodegenConstants.PACKAGE_NAME;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN5;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN6;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
@@ -168,12 +168,12 @@ public class KotlinServerCodegenTest {
 
         Path petModel = Paths.get(outputPath + "/models/Pet.kt");
         assertFileNotContains(
-                petApi,
+                petModel,
                 "import jakarta.validation.Valid",
                 "import jakarta.validation.Valid"
         );
         assertFileContains(
-                petApi,
+                petModel,
                 "import javax.validation.constraints.*",
                 "import javax.validation.Valid"
         );
@@ -318,8 +318,8 @@ public class KotlinServerCodegenTest {
         ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
         KotlinTestUtils.CustomKotlinParseListener customKotlinParseListener = new KotlinTestUtils.CustomKotlinParseListener();
         parseTreeWalker.walk(customKotlinParseListener, parseTree);
-        Assert.assertTrue(syntaxErrorListener.getSyntaxErrorCount() == 0);
-        Assert.assertTrue(customKotlinParseListener.getStringReferenceCount() == 0);
+        Assert.assertEquals(syntaxErrorListener.getSyntaxErrorCount(), 0);
+        Assert.assertEquals(customKotlinParseListener.getStringReferenceCount(), 0);
     }
 
     // ==================== Polymorphism and Discriminator Tests ====================
@@ -706,6 +706,48 @@ public class KotlinServerCodegenTest {
         assertFileContains(
                 apiPath,
                 "val status = call.request.queryParameters[\"status\"]?.let { runCatching { TestEnumStatusParameter.fromValue(it) }.getOrElse { throw BadParameterException(message = \"Invalid enum value for parameter status: $it\", parameterName = \"status\") } }"
+        );
+    }
+
+    @Test
+    public void delegatePattern_headerParamPrimitiveConversion() throws IOException {
+        // Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24214
+        // Header params were converted with `it.to<fully.qualified.DataType>()`
+        // (e.g. `it.tokotlin.Boolean()`, `it.tojava.math.BigDecimal()`), which is not valid Kotlin.
+        // The correct String extension is `it.to<SimpleName>()`.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+        codegen.additionalProperties().put(DELEGATE_PATTERN, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue24214-ktor-header-param-conversion.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = Paths.get(output.getAbsolutePath()
+                + "/src/main/kotlin/org/openapitools/server/apis/DefaultApi.kt");
+
+        assertFileContains(
+                apiPath,
+                "val boolHeader = call.request.headers[\"bool-header\"]?.let { runCatching { it.toBoolean() }",
+                "val intHeader = call.request.headers[\"int-header\"]?.let { runCatching { it.toInt() }",
+                "val longHeader = call.request.headers[\"long-header\"]?.let { runCatching { it.toLong() }",
+                "val doubleHeader = call.request.headers[\"double-header\"]?.let { runCatching { it.toDouble() }",
+                "val numberHeader = call.request.headers[\"number-header\"]?.let { runCatching { it.toBigDecimal() }"
+        );
+
+        // The old, uncompilable fully-qualified conversions must be gone.
+        assertFileNotContains(
+                apiPath,
+                "it.tokotlin.Boolean()",
+                "it.tokotlin.Int()",
+                "it.tokotlin.Long()",
+                "it.tokotlin.Double()",
+                "it.tojava.math.BigDecimal()"
         );
     }
 

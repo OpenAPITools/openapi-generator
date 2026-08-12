@@ -1,0 +1,49 @@
+    class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
+      include {{moduleName}}::Serializable
+      include {{moduleName}}::Validations
+
+{{#vendorExtensions.x-rb-additional-properties}}
+      # Unknown JSON keys (permitted by additionalProperties) are stashed here so they
+      # round-trip through from_hash/to_hash instead of being silently dropped.
+      attr_accessor :additional_properties
+
+{{/vendorExtensions.x-rb-additional-properties}}
+{{#vars}}
+      attribute :{{name}},
+        type: '{{{dataType}}}',
+        json_key: '{{{baseName}}}',
+        required: {{#required}}true{{/required}}{{^required}}false{{/required}}{{#vendorExtensions.x-rb-validated}}{{#isEnum}},
+        enum: [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]{{/isEnum}}{{#maxLength}},
+        max_length: {{maxLength}}{{/maxLength}}{{#minLength}},
+        min_length: {{minLength}}{{/minLength}}{{#maximum}},
+        maximum: {{maximum}}{{/maximum}}{{#minimum}},
+        minimum: {{minimum}}{{/minimum}}{{#maxItems}},
+        max_items: {{maxItems}}{{/maxItems}}{{#minItems}},
+        min_items: {{minItems}}{{/minItems}}{{#pattern}},
+        pattern: {{{pattern}}}{{/pattern}}{{/vendorExtensions.x-rb-validated}}
+
+{{/vars}}
+      def initialize(**attrs)
+{{#vendorExtensions.x-rb-additional-properties}}
+        attrs.each do |k, v|
+          if respond_to?("#{k}=")
+            public_send("#{k}=", v)
+          else
+            # additionalProperties is permitted: stash unknown keys rather than raise.
+            (@additional_properties ||= {})[k.to_s] = v
+          end
+        end
+{{/vendorExtensions.x-rb-additional-properties}}
+{{^vendorExtensions.x-rb-additional-properties}}
+        attrs.each do |k, v|
+          raise ArgumentError, "unknown attribute: #{k}" unless respond_to?("#{k}=")
+
+          public_send("#{k}=", v)
+        end
+{{/vendorExtensions.x-rb-additional-properties}}
+{{#vendorExtensions.x-rb-additional-properties}}
+        @additional_properties ||= {}
+{{/vendorExtensions.x-rb-additional-properties}}
+        raise ArgumentError, list_invalid_properties.join(', ') unless valid?
+      end
+    end

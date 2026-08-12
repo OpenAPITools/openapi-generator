@@ -181,8 +181,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Zebra" />
     /// </summary>
-    public class ZebraJsonConverter : JsonConverter<Zebra>
+    public partial class ZebraJsonConverter : JsonConverter<Zebra>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZebraJsonConverter" /> class.
+        /// </summary>
+        public ZebraJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Zebra" />
         /// </summary>
@@ -224,7 +234,12 @@ namespace Org.OpenAPITools.Model
                         case "type":
                             string? typeRawValue = utf8JsonReader.GetString();
                             if (typeRawValue != null)
-                                type = new Option<Zebra.TypeEnum?>(Zebra.TypeEnumFromStringOrDefault(typeRawValue));
+                            {
+                                Zebra.TypeEnum? typeValue = Zebra.TypeEnumFromStringOrDefault(typeRawValue);
+                                if (typeValue == null)
+                                    throw new JsonException();
+                                type = new Option<Zebra.TypeEnum?>(typeValue);
+                            }
                             break;
                         default:
                             break;

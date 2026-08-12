@@ -36,38 +36,26 @@ import {
 export interface Pet {
     /**
      * 
-     * @type {number}
-     * @memberof Pet
      */
     id?: number;
     /**
      * 
-     * @type {Category}
-     * @memberof Pet
      */
     category?: Category;
     /**
      * 
-     * @type {string}
-     * @memberof Pet
      */
     name: string;
     /**
      * 
-     * @type {Set<string>}
-     * @memberof Pet
      */
     photoUrls: Set<string>;
     /**
      * 
-     * @type {Array<Tag>}
-     * @memberof Pet
      */
     tags?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {PetStatusEnum}
-     * @memberof Pet
      * @deprecated
      */
     status?: PetStatusEnum;
@@ -86,6 +74,8 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 export const PetPropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,
@@ -100,6 +90,8 @@ export const PetPropertyValidationAttributesMap: {
     }
 } = {
     photoUrls: {
+        dataType: "Set<string>",
+        required: true,
         maxItems: 8,
         minItems: 1,
         uniqueItems: true,

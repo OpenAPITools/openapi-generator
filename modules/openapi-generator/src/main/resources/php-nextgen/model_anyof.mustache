@@ -1,0 +1,46 @@
+class {{classname}} implements AnyOfInterface
+{
+    /**
+     * The original name of the model.
+     *
+     * @var string
+     */
+    public const MODEL_NAME = '{{name}}';
+
+    /**
+     * The discriminator property name, or null when the schema has no discriminator.
+     *
+     * @var string|null
+     */
+    public const DISCRIMINATOR = {{#discriminator}}'{{propertyBaseName}}'{{/discriminator}}{{^discriminator}}null{{/discriminator}};
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getAnyOfTypes(): array
+    {
+        return [
+            {{#composedSchemas}}{{#anyOf}}'{{{dataType}}}'{{^-last}},
+            {{/-last}}{{/anyOf}}{{/composedSchemas}}
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getAnyOfDiscriminator(): ?string
+    {
+        return self::DISCRIMINATOR;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getAnyOfDiscriminatorMappings(): array
+    {
+        return [
+            {{#discriminator}}{{#mappedModels}}'{{mappingName}}' => '\{{modelPackage}}\{{modelName}}'{{^-last}},
+            {{/-last}}{{/mappedModels}}{{/discriminator}}
+        ];
+    }
+}

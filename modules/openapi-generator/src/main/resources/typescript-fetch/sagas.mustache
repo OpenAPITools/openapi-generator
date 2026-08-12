@@ -11,11 +11,11 @@ import { Action } from "redux-ts-simple";
 {{#imports}}
 import {
     {{className}},
-} from '../models/{{className}}{{importFileExtension}}';
+} from '../models/{{classFileName}}{{importFileExtension}}';
 import {
     {{className}}Record,
     {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils,
-} from '../models/{{className}}Record{{importFileExtension}}';
+} from '../models/{{classFileName}}Record{{importFileExtension}}';
 {{/imports}}
 {{#passthroughImports}}
 import {

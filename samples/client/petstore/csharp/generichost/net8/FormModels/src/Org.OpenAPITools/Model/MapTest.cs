@@ -137,8 +137,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MapTest" />
     /// </summary>
-    public class MapTestJsonConverter : JsonConverter<MapTest>
+    public partial class MapTestJsonConverter : JsonConverter<MapTest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapTestJsonConverter" /> class.
+        /// </summary>
+        public MapTestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="MapTest" />
         /// </summary>

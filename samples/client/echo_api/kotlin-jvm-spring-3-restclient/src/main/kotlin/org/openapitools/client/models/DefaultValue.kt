@@ -27,6 +27,7 @@ import org.openapitools.client.models.StringEnumRef
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * to test the default value of properties
@@ -44,27 +45,35 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class DefaultValue (
 
+    @param:JsonProperty("array_string_enum_ref_default")
     @get:JsonProperty("array_string_enum_ref_default")
     val arrayStringEnumRefDefault: kotlin.collections.List<StringEnumRef>? = null,
 
+    @param:JsonProperty("array_string_enum_default")
     @get:JsonProperty("array_string_enum_default")
     val arrayStringEnumDefault: kotlin.collections.List<DefaultValue.ArrayStringEnumDefault>? = null,
 
+    @param:JsonProperty("array_string_default")
     @get:JsonProperty("array_string_default")
     val arrayStringDefault: kotlin.collections.List<kotlin.String>? = arrayListOf("failure","skipped"),
 
+    @param:JsonProperty("array_integer_default")
     @get:JsonProperty("array_integer_default")
     val arrayIntegerDefault: kotlin.collections.List<kotlin.Int>? = arrayListOf(1,3),
 
+    @param:JsonProperty("array_string")
     @get:JsonProperty("array_string")
     val arrayString: kotlin.collections.List<kotlin.String>? = null,
 
+    @param:JsonProperty("array_string_nullable")
     @get:JsonProperty("array_string_nullable")
     val arrayStringNullable: kotlin.collections.List<kotlin.String>? = null,
 
+    @param:JsonProperty("array_string_extension_nullable")
     @get:JsonProperty("array_string_extension_nullable")
     val arrayStringExtensionNullable: kotlin.collections.List<kotlin.String>? = null,
 
+    @param:JsonProperty("string_nullable")
     @get:JsonProperty("string_nullable")
     val stringNullable: kotlin.String? = null
 
@@ -75,7 +84,7 @@ data class DefaultValue (
      *
      * Values: success,failure,unclassified,unknown_default_open_api
      */
-    enum class ArrayStringEnumDefault(val value: kotlin.String) {
+    enum class ArrayStringEnumDefault(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "success") success("success"),
         @JsonProperty(value = "failure") failure("failure"),
         @JsonProperty(value = "unclassified") unclassified("unclassified"),

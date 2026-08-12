@@ -27,9 +27,9 @@ class DanishPig(BaseModel):
     """
     DanishPig
     """ # noqa: E501
-    class_name: StrictStr = Field(alias="className")
+    class_name: StrictStr = Field(alias="class'\"\\Name")
     size: StrictInt
-    __properties: ClassVar[List[str]] = ["className", "size"]
+    __properties: ClassVar[List[str]] = ["class'\"\\Name", "size"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -82,7 +82,7 @@ class DanishPig(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "className": obj.get("className"),
+            "class'\"\\Name": obj.get("class'\"\\Name"),
             "size": obj.get("size")
         })
         return _obj

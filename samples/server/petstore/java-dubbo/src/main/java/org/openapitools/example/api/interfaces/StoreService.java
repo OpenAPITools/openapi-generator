@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import javax.annotation.Generated;
 
 
-@Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 
 public interface StoreService {
 

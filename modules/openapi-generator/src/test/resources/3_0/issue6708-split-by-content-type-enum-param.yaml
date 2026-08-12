@@ -1,0 +1,34 @@
+openapi: 3.0.1
+info:
+  title: enum parameter on a multi content-type operation (issue 6708)
+  version: 1.0.0
+paths:
+  /orders:
+    get:
+      operationId: getOrders
+      tags: [order]
+      parameters:
+        # inline enum: its generated type is named after the operation, which the merge renames
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+            enum: [date, amount]
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        reference:
+          type: string

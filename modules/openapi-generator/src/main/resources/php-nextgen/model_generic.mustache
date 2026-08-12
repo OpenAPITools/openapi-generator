@@ -176,17 +176,17 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     public const {{#lambda.uppercase}}{{discriminator.propertyName}}_{{#lambda.snakecase}}{{mappingName}}{{/lambda.snakecase}}{{/lambda.uppercase}} = '{{mappingName}}';
 {{/discriminator.mappedModels}}
 {{/discriminator}}
-{{^discriminator}}
     {{#vars}}
     {{#isEnum}}
+    {{^isDiscriminator}}
     {{#allowableValues}}
     {{#enumVars}}
     public const {{enumName}}_{{{name}}} = {{{value}}};
     {{/enumVars}}
     {{/allowableValues}}
+    {{/isDiscriminator}}
     {{/isEnum}}
     {{/vars}}
-{{/discriminator}}
 
     {{#vars}}
     {{#isEnum}}
@@ -198,15 +198,15 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     public static function {{getter}}AllowableValues()
     {
         return [
-{{#discriminator}}
+{{#isDiscriminator}}
 {{#discriminator.mappedModels}}
             self::{{#lambda.uppercase}}{{discriminator.propertyName}}_{{#lambda.snakecase}}{{mappingName}}{{/lambda.snakecase}}{{/lambda.uppercase}},{{^-last}}
 {{/-last}}{{/discriminator.mappedModels}}
-{{/discriminator}}
-{{^discriminator}}
+{{/isDiscriminator}}
+{{^isDiscriminator}}
             {{#allowableValues}}{{#enumVars}}self::{{enumName}}_{{{name}}},{{^-last}}
             {{/-last}}{{/enumVars}}{{/allowableValues}}
-{{/discriminator}}
+{{/isDiscriminator}}
         ];
     }
 
@@ -292,6 +292,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
+{{#isString}}
         {{#maxLength}}
         if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}(mb_strlen($this->container['{{name}}']) > {{maxLength}})) {
             $invalidProperties[] = "invalid value for '{{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
@@ -304,6 +305,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         }
 
         {{/minLength}}
+{{/isString}}
         {{#maximum}}
         if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}($this->container['{{name}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
             $invalidProperties[] = "invalid value for '{{name}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.";
@@ -421,6 +423,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
+{{#isString}}
         {{#maxLength}}
         if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}(mb_strlen(${{name}}) > {{maxLength}})) {
             throw new InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
@@ -430,6 +433,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
             throw new InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
         }
         {{/minLength}}
+{{/isString}}
         {{#maximum}}
         if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}(${{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
             throw new InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');

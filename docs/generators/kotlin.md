@@ -61,8 +61,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Extension name | Description | Applicable for | Default value |
 | -------------- | ----------- | -------------- | ------------- |
-|x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
-|x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
+|x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
+|x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
 
 
 ## IMPORT MAPPING

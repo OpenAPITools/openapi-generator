@@ -1,7 +1,7 @@
 {{#isPathParam}}{{!
 
     }}@Schema(description= "{{{description}}}"{{!
-        }}{{#required}}, required = true{{/required}}{{!
+        }}{{#required}}, requiredMode = Schema.RequiredMode.REQUIRED{{/required}}{{!
         }}{{#allowableValues}}, {{> allowableValues}}{{/allowableValues}}{{!
         }}{{#defaultValue}}, defaultValue = "{{{.}}}"{{/defaultValue}}{{!
     }}){{!

@@ -74,8 +74,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="CopyActivity" />
     /// </summary>
-    public class CopyActivityJsonConverter : JsonConverter<CopyActivity>
+    public partial class CopyActivityJsonConverter : JsonConverter<CopyActivity>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CopyActivityJsonConverter" /> class.
+        /// </summary>
+        public CopyActivityJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="CopyActivity" />
         /// </summary>
@@ -115,9 +125,7 @@ namespace Org.OpenAPITools.Model
                             copyActivitytt = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "$schema":
-                            string schemaRawValue = utf8JsonReader.GetString();
-                            if (schemaRawValue != null)
-                                schema = new Option<CopyActivityAllOfSchema?>(CopyActivityAllOfSchemaValueConverter.FromStringOrDefault(schemaRawValue));
+                            schema = new Option<CopyActivityAllOfSchema?>(JsonSerializer.Deserialize<CopyActivityAllOfSchema?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

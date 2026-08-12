@@ -118,8 +118,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Result" />
     /// </summary>
-    public class ResultJsonConverter : JsonConverter<Result>
+    public partial class ResultJsonConverter : JsonConverter<Result>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResultJsonConverter" /> class.
+        /// </summary>
+        public ResultJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Result" />
         /// </summary>

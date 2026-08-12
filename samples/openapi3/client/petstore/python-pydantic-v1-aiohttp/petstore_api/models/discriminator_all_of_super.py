@@ -30,8 +30,8 @@ class DiscriminatorAllOfSuper(BaseModel):
     """
     DiscriminatorAllOfSuper
     """
-    element_type: StrictStr = Field(default=..., alias="elementType")
-    __properties = ["elementType"]
+    element_type: StrictStr = Field(default=..., alias="element'\"\\Type")
+    __properties = ["element'\"\\Type"]
 
     class Config:
         """Pydantic configuration"""
@@ -39,11 +39,11 @@ class DiscriminatorAllOfSuper(BaseModel):
         validate_assignment = True
 
     # JSON field name that stores the object type
-    __discriminator_property_name = 'elementType'
+    __discriminator_property_name = 'element\'"\\Type'
 
     # discriminator mappings
     __discriminator_value_class_map = {
-        'DiscriminatorAllOfSub': 'DiscriminatorAllOfSub'
+        'sub\'"\\kind\nvalue': 'DiscriminatorAllOfSub'
     }
 
     @classmethod

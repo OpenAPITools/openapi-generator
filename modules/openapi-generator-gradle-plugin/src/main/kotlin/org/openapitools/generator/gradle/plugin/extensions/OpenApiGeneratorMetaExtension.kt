@@ -29,6 +29,7 @@ import org.gradle.kotlin.dsl.property
 open class OpenApiGeneratorMetaExtension(private val project: Project) {
     /**
      * The human-readable generator name of the newly created template generator.
+     * Defaults to `"default"`.
      */
     val generatorName: Property<String> = project.objects.property()
 
