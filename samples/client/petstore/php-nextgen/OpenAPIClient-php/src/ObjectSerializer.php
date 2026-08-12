@@ -207,6 +207,31 @@ class ObjectSerializer
     }
 
     /**
+     * Convert objects into arrays, recursively.
+     *
+     * sanitizeForSerialization() returns an object per model, but query parameters
+     * are flattened from arrays.
+     *
+     * @param mixed $data
+     *
+     * @return mixed the data with every object converted to an array
+     */
+    private static function toArrayRecursive(mixed $data): mixed
+    {
+        if (is_array($data) || is_object($data)) {
+            $result = [];
+
+            foreach ($data as $key => $value) {
+                $result[$key] = self::toArrayRecursive($value);
+            }
+
+            return $result;
+        }
+
+        return $data;
+    }
+
+    /**
      * Take query parameter properties and turn it into an array suitable for
      * native http_build_query or GuzzleHttp\Psr7\Query::build.
      *
@@ -245,8 +270,19 @@ class ObjectSerializer
             return ["{$paramName}" => $value->format(self::$dateTimeFormat)];
         }
 
+        // A model is typed with its class name rather than "object", but serializes as one.
+        if ($value instanceof ModelInterface) {
+            $openApiType = 'object';
+        }
+
         $query = [];
-        $value = (in_array($openApiType, ['object', 'array'], true)) ? (array)$value : $value;
+        if ($openApiType === 'object' && is_object($value)) {
+            // Read the model's values through its getters; a plain (array) cast
+            // would expose only the protected $container holding them.
+            $value = self::toArrayRecursive(self::sanitizeForSerialization($value));
+        } elseif (in_array($openApiType, ['object', 'array'], true)) {
+            $value = (array) $value;
+        }
 
         // since \GuzzleHttp\Psr7\Query::build fails with nested arrays
         // need to flatten array first
