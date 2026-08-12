@@ -16,6 +16,87 @@ use PHPUnit\Framework\TestCase;
 class ObjectSerializerTest extends TestCase
 {
     /**
+     * @covers ObjectSerializer::toQueryValue
+     * @dataProvider provideQueryParams
+     */
+    public function testToQueryValue(
+        mixed $data,
+        string $paramName,
+        string $openApiType,
+        string $style,
+        bool $explode,
+        bool $required,
+        mixed $expected
+    ): void {
+        $value = ObjectSerializer::toQueryValue($data, $paramName, $openApiType, $style, $explode, $required);
+        $query = ObjectSerializer::buildQuery($value);
+
+        $this->assertEquals($expected, $query);
+    }
+
+    /**
+     * Query params provider
+     *
+     * Values that are not model instances, whose serialization is unchanged.
+     *
+     * @return array[]
+     */
+    public static function provideQueryParams(): array
+    {
+        $statuses = ['available', 'pending', 'sold'];
+        $filter = ['name' => 'Rex', 'status' => 'available'];
+
+        $stdClass = new \stdClass();
+        $stdClass->name = 'Rex';
+        $stdClass->category = ['name' => 'Dogs'];
+
+        return [
+            // style form
+            // status=available&status=pending&status=sold
+            'form array, explode on, required true' => [
+                $statuses, 'status', 'array', 'form', true, true, 'status=available&status=pending&status=sold',
+            ],
+            // status=available,pending,sold
+            'form array, explode off, required true' => [
+                $statuses, 'status', 'array', 'form', false, true, 'status=available%2Cpending%2Csold',
+            ],
+            // name=Rex&status=available
+            'form object, explode on, required true' => [
+                $filter, 'filter', 'object', 'form', true, true, 'name=Rex&status=available',
+            ],
+            // filter=name,Rex,status,available
+            'form object, explode off, required true' => [
+                $filter, 'filter', 'object', 'form', false, true, 'filter=name%2CRex%2Cstatus%2Cavailable',
+            ],
+            // status=available
+            'form string, explode on, required true' => [
+                'available', 'status', 'string', 'form', true, true, 'status=available',
+            ],
+            // quantity=0
+            'form 0 integer, explode on, required false' => [
+                0, 'quantity', 'integer', 'form', true, false, 'quantity=0',
+            ],
+
+            // DEEP OBJECT
+            // status[0]=available&status[1]=pending&status[2]=sold
+            'deepObject array, explode on, required true' => [
+                $statuses, 'status', 'array', 'deepObject', true, true,
+                'status%5B0%5D=available&status%5B1%5D=pending&status%5B2%5D=sold',
+            ],
+            // filter[name]=Rex&filter[status]=available
+            'deepObject object, explode on, required true' => [
+                $filter, 'filter', 'object', 'deepObject', true, true,
+                'filter%5Bname%5D=Rex&filter%5Bstatus%5D=available',
+            ],
+            // filter[name]=Rex&filter[category][name]=Dogs
+            'deepObject stdClass, explode on, required true' => [
+                $stdClass, 'filter', 'object', 'deepObject', true, true,
+                'filter%5Bname%5D=Rex&filter%5Bcategory%5D%5Bname%5D=Dogs',
+            ],
+        ];
+    }
+
+    /**
      * An object-typed query parameter given as a model must serialize to the model's
      * values, read through its getters and keyed by its attributeMap - note photoUrls.
      *
