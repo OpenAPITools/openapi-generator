@@ -1090,9 +1090,9 @@ public class TypeScriptFetchClientCodegenTest {
         Path event = Paths.get(output + "/models/Event.ts");
         TestUtils.assertFileContains(event, "startsOn: Date;");
         TestUtils.assertFileContains(event, "createdAt?: Date;");
-        TestUtils.assertFileContains(event, "'startsOn': (parseDate(json['startsOn']))");
+        TestUtils.assertFileContains(event, "'startsOn': (json['startsOn'] == null ? json['startsOn'] : parseDate(json['startsOn']))");
         TestUtils.assertFileContains(event, "'createdAt': json['createdAt'] == null ? undefined : (parseDateTime(json['createdAt']))");
-        TestUtils.assertFileContains(event, "'startsOn': serializeDate(value['startsOn'])");
+        TestUtils.assertFileContains(event, "'startsOn': value['startsOn'] == null ? value['startsOn'] : serializeDate(value['startsOn'])");
 
         Path runtime = Paths.get(output + "/runtime.ts");
         TestUtils.assertFileContains(runtime, "export function parseDate(");

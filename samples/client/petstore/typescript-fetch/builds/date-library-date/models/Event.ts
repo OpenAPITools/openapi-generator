@@ -51,7 +51,7 @@ export function EventFromJSONTyped(json: any, ignoreDiscriminator: boolean): Eve
     }
     return {
         
-        'startsOn': (parseDate(json['startsOn'])),
+        'startsOn': (json['startsOn'] == null ? json['startsOn'] : parseDate(json['startsOn'])),
         'endsOn': json['endsOn'] === undefined ? undefined : json['endsOn'] === null ? null : (parseDate(json['endsOn'])),
         'createdAt': json['createdAt'] == null ? undefined : (parseDateTime(json['createdAt'])),
     };
@@ -68,7 +68,7 @@ export function EventToJSONTyped(value?: Event | null, ignoreDiscriminator: bool
 
     return {
         
-        'startsOn': serializeDate(value['startsOn']),
+        'startsOn': value['startsOn'] == null ? value['startsOn'] : serializeDate(value['startsOn']),
         'endsOn': value['endsOn'] == null ? value['endsOn'] : serializeDate(value['endsOn']),
         'createdAt': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
     };
