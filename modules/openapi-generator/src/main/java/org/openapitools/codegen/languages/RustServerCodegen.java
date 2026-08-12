@@ -1396,15 +1396,17 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
      * and make every later block unreachable (see issue #24095).
      *
      * Whether that is observable depends on block order, so the only thing the template cannot work
-     * out for itself is whether a block handling a given HTTP scheme precedes the first apiKey
-     * block. Everything else - which requests to send, which credentials to use - lives in the
-     * template.
+     * out for itself is whether a block handling a given HTTP scheme precedes the apiKey block it
+     * could shadow. Everything else - which requests to send, which credentials to use - lives in
+     * the template.
      */
     private void addAuthSchemeTestsToBundle(List<CodegenSecurity> authMethods, Map<String, Object> bundle) {
         boolean hasBasic = false;
         boolean hasBearer = false;
-        boolean basicPrecedesApiKey = false;
-        boolean bearerPrecedesApiKey = false;
+        boolean basicPrecedesHeaderApiKey = false;
+        boolean bearerPrecedesHeaderApiKey = false;
+        boolean basicPrecedesQueryApiKey = false;
+        boolean bearerPrecedesQueryApiKey = false;
         String apiKeyHeaderName = null;
         String apiKeyQueryName = null;
 
@@ -1420,10 +1422,16 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
                 hasBasic |= isBasic;
                 hasBearer |= isBearer;
-                // Only blocks generated before the first apiKey block can shadow it.
-                if (apiKeyHeaderName == null && apiKeyQueryName == null) {
-                    basicPrecedesApiKey |= isBasic;
-                    bearerPrecedesApiKey |= isBearer;
+                // Only blocks generated before an apiKey block can shadow it, and the header and
+                // query blocks are shadowed independently: each matches a different part of the
+                // request, so a block that fails to match one may still precede and claim the other.
+                if (apiKeyHeaderName == null) {
+                    basicPrecedesHeaderApiKey |= isBasic;
+                    bearerPrecedesHeaderApiKey |= isBearer;
+                }
+                if (apiKeyQueryName == null) {
+                    basicPrecedesQueryApiKey |= isBasic;
+                    bearerPrecedesQueryApiKey |= isBearer;
                 }
                 if (isApiKeyHeader && apiKeyHeaderName == null) {
                     apiKeyHeaderName = authMethod.keyParamName.toLowerCase(Locale.ROOT);
@@ -1436,8 +1444,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         bundle.put("authTestHasBasic", hasBasic);
         bundle.put("authTestHasBearer", hasBearer);
-        bundle.put("authTestBasicPrecedesApiKey", basicPrecedesApiKey);
-        bundle.put("authTestBearerPrecedesApiKey", bearerPrecedesApiKey);
+        bundle.put("authTestBasicPrecedesHeaderApiKey", basicPrecedesHeaderApiKey);
+        bundle.put("authTestBearerPrecedesHeaderApiKey", bearerPrecedesHeaderApiKey);
+        bundle.put("authTestBasicPrecedesQueryApiKey", basicPrecedesQueryApiKey);
+        bundle.put("authTestBearerPrecedesQueryApiKey", bearerPrecedesQueryApiKey);
         bundle.put("authTestApiKeyHeader", apiKeyHeaderName);
         bundle.put("authTestApiKeyQuery", apiKeyQueryName);
         bundle.put("authTestHasApiKey", apiKeyHeaderName != null || apiKeyQueryName != null);

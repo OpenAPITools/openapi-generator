@@ -66,7 +66,7 @@ fn no_credentials_resolve_to_no_auth_data() {
 }
 
 #[test]
-fn basic_credentials_resolve_to_the_declared_scheme() {
+fn basic_credentials_resolve_to_the_declared_basic_scheme() {
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BASIC_HEADER)]),
         Some(AuthData::Basic("user".to_owned(), "password".to_owned())),
@@ -74,7 +74,7 @@ fn basic_credentials_resolve_to_the_declared_scheme() {
 }
 
 #[test]
-fn bearer_credentials_resolve_to_the_declared_scheme() {
+fn bearer_credentials_resolve_to_the_declared_bearer_scheme() {
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BEARER_HEADER)]),
         Some(AuthData::Bearer("some-token".to_owned())),
@@ -111,6 +111,25 @@ fn header_api_key_is_reachable_alongside_basic_credentials() {
 fn query_api_key_resolves_when_it_is_the_only_credential() {
     assert_eq!(
         resolve_auth_data("/?api_key_query=test-api-key", &[]),
+        Some(AuthData::ApiKey(API_KEY.to_owned())),
+    );
+}
+
+/// The query apiKey block is shadowed independently of the header one: an `Authorization`
+/// header must not claim a request whose credentials are in the query string unless a block
+/// that actually handles that scheme is generated before the query block.
+#[test]
+fn query_api_key_is_reachable_alongside_bearer_credentials() {
+    assert_eq!(
+        resolve_auth_data("/?api_key_query=test-api-key", &[("authorization", BEARER_HEADER)]),
+        Some(AuthData::Bearer("some-token".to_owned())),
+    );
+}
+
+#[test]
+fn query_api_key_is_reachable_alongside_basic_credentials() {
+    assert_eq!(
+        resolve_auth_data("/?api_key_query=test-api-key", &[("authorization", BASIC_HEADER)]),
         Some(AuthData::ApiKey(API_KEY.to_owned())),
     );
 }

@@ -66,7 +66,7 @@ fn no_credentials_resolve_to_no_auth_data() {
 }
 
 #[test]
-fn basic_credentials_resolve_to_the_declared_scheme() {
+fn basic_credentials_resolve_to_the_declared_basic_scheme() {
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BASIC_HEADER)]),
         Some(AuthData::Basic("user".to_owned(), "password".to_owned())),
@@ -74,7 +74,7 @@ fn basic_credentials_resolve_to_the_declared_scheme() {
 }
 
 #[test]
-fn bearer_credentials_resolve_to_the_declared_scheme() {
+fn bearer_credentials_resolve_to_the_declared_bearer_scheme() {
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BEARER_HEADER)]),
         Some(AuthData::Bearer("some-token".to_owned())),

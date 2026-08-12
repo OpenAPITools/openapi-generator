@@ -68,7 +68,12 @@ fn no_credentials_resolve_to_no_auth_data() {
 }
 
 #[test]
-fn basic_credentials_resolve_to_the_declared_scheme() {
+{{#authTestHasBasic}}
+fn basic_credentials_resolve_to_the_declared_basic_scheme() {
+{{/authTestHasBasic}}
+{{^authTestHasBasic}}
+fn basic_credentials_resolve_to_none_when_no_basic_scheme_is_declared() {
+{{/authTestHasBasic}}
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BASIC_HEADER)]),
         {{#authTestHasBasic}}Some(AuthData::Basic("user".to_owned(), "password".to_owned())){{/authTestHasBasic}}{{^authTestHasBasic}}None{{/authTestHasBasic}},
@@ -76,7 +81,12 @@ fn basic_credentials_resolve_to_the_declared_scheme() {
 }
 
 #[test]
-fn bearer_credentials_resolve_to_the_declared_scheme() {
+{{#authTestHasBearer}}
+fn bearer_credentials_resolve_to_the_declared_bearer_scheme() {
+{{/authTestHasBearer}}
+{{^authTestHasBearer}}
+fn bearer_credentials_resolve_to_none_when_no_bearer_scheme_is_declared() {
+{{/authTestHasBearer}}
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BEARER_HEADER)]),
         {{#authTestHasBearer}}Some(AuthData::Bearer("some-token".to_owned())){{/authTestHasBearer}}{{^authTestHasBearer}}None{{/authTestHasBearer}},
@@ -98,7 +108,7 @@ fn header_api_key_resolves_when_it_is_the_only_credential() {
 fn header_api_key_is_reachable_alongside_bearer_credentials() {
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BEARER_HEADER), ("{{{.}}}", API_KEY)]),
-        {{#authTestBearerPrecedesApiKey}}Some(AuthData::Bearer("some-token".to_owned())){{/authTestBearerPrecedesApiKey}}{{^authTestBearerPrecedesApiKey}}Some(AuthData::ApiKey(API_KEY.to_owned())){{/authTestBearerPrecedesApiKey}},
+        {{#authTestBearerPrecedesHeaderApiKey}}Some(AuthData::Bearer("some-token".to_owned())){{/authTestBearerPrecedesHeaderApiKey}}{{^authTestBearerPrecedesHeaderApiKey}}Some(AuthData::ApiKey(API_KEY.to_owned())){{/authTestBearerPrecedesHeaderApiKey}},
     );
 }
 
@@ -106,7 +116,7 @@ fn header_api_key_is_reachable_alongside_bearer_credentials() {
 fn header_api_key_is_reachable_alongside_basic_credentials() {
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BASIC_HEADER), ("{{{.}}}", API_KEY)]),
-        {{#authTestBasicPrecedesApiKey}}Some(AuthData::Basic("user".to_owned(), "password".to_owned())){{/authTestBasicPrecedesApiKey}}{{^authTestBasicPrecedesApiKey}}Some(AuthData::ApiKey(API_KEY.to_owned())){{/authTestBasicPrecedesApiKey}},
+        {{#authTestBasicPrecedesHeaderApiKey}}Some(AuthData::Basic("user".to_owned(), "password".to_owned())){{/authTestBasicPrecedesHeaderApiKey}}{{^authTestBasicPrecedesHeaderApiKey}}Some(AuthData::ApiKey(API_KEY.to_owned())){{/authTestBasicPrecedesHeaderApiKey}},
     );
 }
 {{/authTestApiKeyHeader}}
@@ -117,6 +127,25 @@ fn query_api_key_resolves_when_it_is_the_only_credential() {
     assert_eq!(
         resolve_auth_data("/?{{{.}}}=test-api-key", &[]),
         Some(AuthData::ApiKey(API_KEY.to_owned())),
+    );
+}
+
+/// The query apiKey block is shadowed independently of the header one: an `Authorization`
+/// header must not claim a request whose credentials are in the query string unless a block
+/// that actually handles that scheme is generated before the query block.
+#[test]
+fn query_api_key_is_reachable_alongside_bearer_credentials() {
+    assert_eq!(
+        resolve_auth_data("/?{{{.}}}=test-api-key", &[("authorization", BEARER_HEADER)]),
+        {{#authTestBearerPrecedesQueryApiKey}}Some(AuthData::Bearer("some-token".to_owned())){{/authTestBearerPrecedesQueryApiKey}}{{^authTestBearerPrecedesQueryApiKey}}Some(AuthData::ApiKey(API_KEY.to_owned())){{/authTestBearerPrecedesQueryApiKey}},
+    );
+}
+
+#[test]
+fn query_api_key_is_reachable_alongside_basic_credentials() {
+    assert_eq!(
+        resolve_auth_data("/?{{{.}}}=test-api-key", &[("authorization", BASIC_HEADER)]),
+        {{#authTestBasicPrecedesQueryApiKey}}Some(AuthData::Basic("user".to_owned(), "password".to_owned())){{/authTestBasicPrecedesQueryApiKey}}{{^authTestBasicPrecedesQueryApiKey}}Some(AuthData::ApiKey(API_KEY.to_owned())){{/authTestBasicPrecedesQueryApiKey}},
     );
 }
 {{/authTestApiKeyQuery}}
