@@ -387,7 +387,7 @@ export function serializeDate(value: Date): string {
 }
 
 
-export function parseDate(value: any): Date {
+export function parseDate(value: Date | string): Date {
     if (value instanceof Date) {
         return value;
     }
