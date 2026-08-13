@@ -2480,12 +2480,8 @@ public class DefaultCodegen implements CodegenConfig {
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         Content content = requestBody.getContent();
 
-        if (content != null && !content.isEmpty()) {
-            MediaType mediaType = content.values().iterator().next();
-            if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
-                codegenParameter.examples = mediaType.getExamples();
-            }
-        }
+        // Reuse the helper method to correctly catch examples across all media types
+        setParameterExamples(codegenParameter, requestBody);
 
         Optional<Object> contentExample = ExamplesUtils.getContentExample(content);
 
