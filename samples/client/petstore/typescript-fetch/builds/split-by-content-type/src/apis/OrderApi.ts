@@ -84,7 +84,7 @@ export class OrderApi extends runtime.BaseAPI {
  * @export
  */
 export const GetOrdersOrderByEnum = {
-    Date: 'date'
-    Amount: 'amount'
+    Date: 'date',
+    Amount: 'amount',
 } as const;
 export type GetOrdersOrderByEnum = typeof GetOrdersOrderByEnum[keyof typeof GetOrdersOrderByEnum];
