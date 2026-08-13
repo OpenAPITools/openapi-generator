@@ -8310,6 +8310,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.vendorExtensions.putAll(body.getExtensions());
         }
 
+        // Ensure request body named examples are populated globally for ALL generators
+        setParameterExamples(codegenParameter, body);
+
         String name = null;
         LOGGER.debug("Request body = {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
@@ -8437,11 +8440,6 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getMinimum() != null) {
                 codegenParameter.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
             }
-            /* comment out below as we don't store `title` in the codegen parametera the moment
-            if (original.getTitle() != null) {
-                codegenParameter.setTitle(original.getTitle());
-            }
-             */
         }
 
         return codegenParameter;
