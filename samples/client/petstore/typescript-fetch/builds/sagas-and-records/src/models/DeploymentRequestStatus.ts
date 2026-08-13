@@ -29,7 +29,7 @@ export const DeploymentRequestStatus = {
     Ready: 'Ready',
     Packaged: 'Packaged',
     Pairing: 'Pairing',
-    Paired: 'Paired'
+    Paired: 'Paired',
 } as const;
 export type DeploymentRequestStatus = typeof DeploymentRequestStatus[keyof typeof DeploymentRequestStatus];
 

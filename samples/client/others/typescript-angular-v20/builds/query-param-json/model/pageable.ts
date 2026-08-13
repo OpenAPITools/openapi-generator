@@ -33,7 +33,7 @@ export interface Pageable {
 export namespace Pageable {
     export const SortDirectionEnum = {
         Asc: 'ASC',
-        Desc: 'DESC'
+        Desc: 'DESC',
     } as const;
     export type SortDirectionEnum = typeof SortDirectionEnum[keyof typeof SortDirectionEnum];
 }

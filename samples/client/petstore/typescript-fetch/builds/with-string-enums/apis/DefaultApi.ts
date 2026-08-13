@@ -278,7 +278,7 @@ export class DefaultApi extends runtime.BaseAPI {
 export enum FakeEnumRequestGetInlineStringEnumEnum {
     One = 'one',
     Two = 'two',
-    Three = 'three'
+    Three = 'three',
 }
 /**
   * @export
@@ -287,7 +287,7 @@ export enum FakeEnumRequestGetInlineStringEnumEnum {
 export enum FakeEnumRequestGetInlineNullableStringEnumEnum {
     One = 'one',
     Two = 'two',
-    Three = 'three'
+    Three = 'three',
 }
 /**
   * @export
@@ -296,7 +296,7 @@ export enum FakeEnumRequestGetInlineNullableStringEnumEnum {
 export enum FakeEnumRequestGetInlineNumberEnumEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
-    NUMBER_3 = 3
+    NUMBER_3 = 3,
 }
 /**
   * @export
@@ -305,5 +305,5 @@ export enum FakeEnumRequestGetInlineNumberEnumEnum {
 export enum FakeEnumRequestGetInlineNullableNumberEnumEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
-    NUMBER_3 = 3
+    NUMBER_3 = 3,
 }
