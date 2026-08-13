@@ -44,7 +44,6 @@ export interface GetMatchingPartsResponse {
     data?: MatchingParts;
 }
 
-
 /**
  * Check if a given object implements the GetMatchingPartsResponse interface.
  */

@@ -25,7 +25,6 @@ export interface NumberOnly {
     justNumber?: number;
 }
 
-
 /**
  * Check if a given object implements the NumberOnly interface.
  */

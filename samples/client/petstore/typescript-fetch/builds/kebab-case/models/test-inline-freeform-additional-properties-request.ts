@@ -26,7 +26,6 @@ export interface TestInlineFreeformAdditionalPropertiesRequest {
     someProperty?: string;
 }
 
-
 /**
  * Check if a given object implements the TestInlineFreeformAdditionalPropertiesRequest interface.
  */

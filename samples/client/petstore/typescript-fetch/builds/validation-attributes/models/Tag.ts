@@ -48,7 +48,6 @@ export const TagPropertyValidationAttributesMap: {
 }
 
 
-
 /**
  * Check if a given object implements the Tag interface.
  */

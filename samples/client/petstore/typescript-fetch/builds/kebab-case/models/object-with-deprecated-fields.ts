@@ -48,7 +48,6 @@ export interface ObjectWithDeprecatedFields {
     bars?: Array<string>;
 }
 
-
 /**
  * Check if a given object implements the ObjectWithDeprecatedFields interface.
  */

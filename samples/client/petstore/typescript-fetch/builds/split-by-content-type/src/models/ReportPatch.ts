@@ -25,7 +25,6 @@ export interface ReportPatch {
     name?: string;
 }
 
-
 /**
  * Check if a given object implements the ReportPatch interface.
  */

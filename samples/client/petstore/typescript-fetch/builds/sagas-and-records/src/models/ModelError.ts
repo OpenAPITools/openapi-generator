@@ -45,7 +45,6 @@ export interface ModelError {
     exception?: string;
 }
 
-
 /**
  * Check if a given object implements the ModelError interface.
  */

@@ -79,7 +79,6 @@ export const FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum = {
 export type FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum = typeof FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum[keyof typeof FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum];
 
 
-
 /**
  * Check if a given object implements the FakeEnumRequestGetInline200Response interface.
  */

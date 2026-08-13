@@ -99,7 +99,6 @@ export const PetPropertyValidationAttributesMap: {
 }
 
 
-
 /**
  * Check if a given object implements the Pet interface.
  */

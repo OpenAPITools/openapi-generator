@@ -33,7 +33,6 @@ export interface Cat extends Animal {
     declawed?: boolean;
 }
 
-
 /**
  * Check if a given object implements the Cat interface.
  */

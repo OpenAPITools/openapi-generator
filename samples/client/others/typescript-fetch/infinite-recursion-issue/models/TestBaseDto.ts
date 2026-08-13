@@ -40,7 +40,6 @@ export interface TestBaseDto {
 
 
 
-
 /**
  * Check if a given object implements the TestBaseDto interface.
  */

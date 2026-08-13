@@ -25,7 +25,6 @@ export interface Owner {
     name?: string;
 }
 
-
 /**
  * Check if a given object implements the Owner interface.
  */

@@ -82,7 +82,6 @@ export const OrderAdditionalPropertiesValidationAttributes: { maxProperties?: nu
 }
 
 
-
 /**
  * Check if a given object implements the Order interface.
  */

@@ -37,7 +37,6 @@ export interface PetRegionsResponse {
     data?: Array<Array<number | null>>;
 }
 
-
 /**
  * Check if a given object implements the PetRegionsResponse interface.
  */

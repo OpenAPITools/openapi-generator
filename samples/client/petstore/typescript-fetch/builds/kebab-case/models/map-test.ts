@@ -48,7 +48,6 @@ export const MapTestMapOfEnumStringEnum = {
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
 
 
-
 /**
  * Check if a given object implements the MapTest interface.
  */

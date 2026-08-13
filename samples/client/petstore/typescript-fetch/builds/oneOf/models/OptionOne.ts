@@ -35,7 +35,6 @@ export const OptionOneDiscriminatorFieldEnum = {
 export type OptionOneDiscriminatorFieldEnum = typeof OptionOneDiscriminatorFieldEnum[keyof typeof OptionOneDiscriminatorFieldEnum];
 
 
-
 /**
  * Check if a given object implements the OptionOne interface.
  */

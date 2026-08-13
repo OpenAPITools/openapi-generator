@@ -35,7 +35,6 @@ export const OptionTwoDiscriminatorFieldEnum = {
 export type OptionTwoDiscriminatorFieldEnum = typeof OptionTwoDiscriminatorFieldEnum[keyof typeof OptionTwoDiscriminatorFieldEnum];
 
 
-
 /**
  * Check if a given object implements the OptionTwo interface.
  */

@@ -85,7 +85,6 @@ export const ResponseMetaCodeEnum = {
 export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof ResponseMetaCodeEnum];
 
 
-
 /**
  * Check if a given object implements the ResponseMeta interface.
  */

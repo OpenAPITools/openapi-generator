@@ -25,7 +25,6 @@ export interface List {
     _123list?: string;
 }
 
-
 /**
  * Check if a given object implements the List interface.
  */

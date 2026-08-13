@@ -25,7 +25,6 @@ export interface StructuredType {
     someString?: string;
 }
 
-
 /**
  * Check if a given object implements the StructuredType interface.
  */

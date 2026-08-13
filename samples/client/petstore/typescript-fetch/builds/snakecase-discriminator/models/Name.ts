@@ -37,7 +37,6 @@ export interface Name {
     readonly _123number?: number;
 }
 
-
 /**
  * Check if a given object implements the Name interface.
  */

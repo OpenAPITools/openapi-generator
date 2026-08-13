@@ -72,7 +72,6 @@ export const PetStatusEnum = {
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 
-
 /**
  * Check if a given object implements the Pet interface.
  */

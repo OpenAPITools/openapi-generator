@@ -33,7 +33,6 @@ export interface Club {
     owner?: Owner | null;
 }
 
-
 /**
  * Check if a given object implements the Club interface.
  */

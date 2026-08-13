@@ -39,7 +39,6 @@ export const SnakeOptionOneDiscriminatorFieldEnum = {
 export type SnakeOptionOneDiscriminatorFieldEnum = typeof SnakeOptionOneDiscriminatorFieldEnum[keyof typeof SnakeOptionOneDiscriminatorFieldEnum];
 
 
-
 /**
  * Check if a given object implements the SnakeOptionOne interface.
  */

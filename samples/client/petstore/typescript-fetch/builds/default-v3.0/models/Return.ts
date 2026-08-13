@@ -25,7 +25,6 @@ export interface Return {
     _return?: number;
 }
 
-
 /**
  * Check if a given object implements the Return interface.
  */

@@ -35,7 +35,6 @@ export const NumericSingletonEnumModelKindEnum = {
 export type NumericSingletonEnumModelKindEnum = typeof NumericSingletonEnumModelKindEnum[keyof typeof NumericSingletonEnumModelKindEnum];
 
 
-
 /**
  * Check if a given object implements the NumericSingletonEnumModel interface.
  */

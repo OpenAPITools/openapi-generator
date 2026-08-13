@@ -25,7 +25,6 @@ export interface BranchDto {
     name?: string;
 }
 
-
 /**
  * Check if a given object implements the BranchDto interface.
  */

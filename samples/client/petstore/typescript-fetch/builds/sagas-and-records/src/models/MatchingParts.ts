@@ -37,7 +37,6 @@ export interface MatchingParts {
     related: Array<Part>;
 }
 
-
 /**
  * Check if a given object implements the MatchingParts interface.
  */

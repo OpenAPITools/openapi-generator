@@ -36,7 +36,6 @@ import {
 export interface RemoteAuthenticatedUserDto extends AbstractUserDto {
 }
 
-
 /**
  * Check if a given object implements the RemoteAuthenticatedUserDto interface.
  */

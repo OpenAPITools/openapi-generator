@@ -40,7 +40,6 @@ export const ParentWithNullableTypeEnum = {
 export type ParentWithNullableTypeEnum = typeof ParentWithNullableTypeEnum[keyof typeof ParentWithNullableTypeEnum];
 
 
-
 /**
  * Check if a given object implements the ParentWithNullable interface.
  */

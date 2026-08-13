@@ -41,7 +41,6 @@ export interface ArrayTest {
     arrayArrayOfModel?: Array<Array<ReadOnlyFirst>>;
 }
 
-
 /**
  * Check if a given object implements the ArrayTest interface.
  */

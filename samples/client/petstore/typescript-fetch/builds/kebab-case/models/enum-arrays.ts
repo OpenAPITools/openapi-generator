@@ -49,7 +49,6 @@ export const EnumArraysArrayEnumEnum = {
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
 
 
-
 /**
  * Check if a given object implements the EnumArrays interface.
  */

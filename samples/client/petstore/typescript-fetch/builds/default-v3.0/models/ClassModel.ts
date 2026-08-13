@@ -25,7 +25,6 @@ export interface ClassModel {
     _class?: string;
 }
 
-
 /**
  * Check if a given object implements the ClassModel interface.
  */

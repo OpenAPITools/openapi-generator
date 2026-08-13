@@ -25,7 +25,6 @@ export interface Order {
     reference?: string;
 }
 
-
 /**
  * Check if a given object implements the Order interface.
  */

@@ -122,7 +122,6 @@ export const EnumTestEnumNumberEnum = {
 export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
 
 
-
 /**
  * Check if a given object implements the EnumTest interface.
  */

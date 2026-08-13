@@ -29,7 +29,6 @@ export interface Tag {
     name?: string;
 }
 
-
 /**
  * Check if a given object implements the Tag interface.
  */

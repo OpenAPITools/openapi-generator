@@ -39,7 +39,6 @@ export const DashedOptionOneDiscriminatorFieldEnum = {
 export type DashedOptionOneDiscriminatorFieldEnum = typeof DashedOptionOneDiscriminatorFieldEnum[keyof typeof DashedOptionOneDiscriminatorFieldEnum];
 
 
-
 /**
  * Check if a given object implements the DashedOptionOne interface.
  */

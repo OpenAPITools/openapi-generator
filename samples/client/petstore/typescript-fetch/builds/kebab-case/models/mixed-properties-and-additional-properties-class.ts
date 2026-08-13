@@ -41,7 +41,6 @@ export interface MixedPropertiesAndAdditionalPropertiesClass {
     map?: { [key: string]: Animal; };
 }
 
-
 /**
  * Check if a given object implements the MixedPropertiesAndAdditionalPropertiesClass interface.
  */

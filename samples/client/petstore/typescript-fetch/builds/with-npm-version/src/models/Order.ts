@@ -57,7 +57,6 @@ export const OrderStatusEnum = {
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
 
-
 /**
  * Check if a given object implements the Order interface.
  */

@@ -25,7 +25,6 @@ export interface Receipt {
     number?: string;
 }
 
-
 /**
  * Check if a given object implements the Receipt interface.
  */
