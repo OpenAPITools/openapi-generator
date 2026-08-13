@@ -8702,8 +8702,9 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(INTERFACE_ONLY, "true");
 
-        // Preprocess OpenAPI to initialize extensions and internal structures required by SpringCodegen
+        // Preprocess and set OpenAPI to mirror DefaultGenerator behavior
         codegen.preprocessOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
 
         // Verify via codegen operation inspection after initialization
         Operation operation = openAPI.getPaths().get("/users").getPost();
