@@ -8693,9 +8693,6 @@ public class SpringCodegenTest {
 
     @Test
     public void shouldExposeRequestBodyNamedExamplesToTemplateContext_issue23607() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
         OpenAPI openAPI = new OpenAPIParser().readLocation(
                 "src/test/resources/3_0/spring/requestbody_named_examples.yaml",
                 null,
@@ -8703,17 +8700,10 @@ public class SpringCodegenTest {
         ).getOpenAPI();
 
         SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(INTERFACE_ONLY, "true");
 
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGenerateMetadata(false);
-        generator.opts(input).generate();
+        // Preprocess OpenAPI to initialize extensions and internal structures required by SpringCodegen
+        codegen.preprocessOpenAPI(openAPI);
 
         // Verify via codegen operation inspection after initialization
         Operation operation = openAPI.getPaths().get("/users").getPost();
