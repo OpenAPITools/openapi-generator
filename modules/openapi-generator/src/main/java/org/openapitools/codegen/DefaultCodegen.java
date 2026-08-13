@@ -2455,6 +2455,23 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the examples of the request body parameter.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param requestBody      Request body
+     */
+    public void setParameterExamples(CodegenParameter codegenParameter, RequestBody requestBody) {
+        if (requestBody.getContent() != null && !requestBody.getContent().isEmpty()) {
+            for (MediaType mediaType : requestBody.getContent().values()) {
+                if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+                    codegenParameter.examples = mediaType.getExamples();
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
      * Return the example value of the parameter.
      *
      * @param codegenParameter Codegen parameter
@@ -2462,6 +2479,13 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         Content content = requestBody.getContent();
+
+        if (content != null && !content.isEmpty()) {
+            MediaType mediaType = content.values().iterator().next();
+            if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+                codegenParameter.examples = mediaType.getExamples();
+            }
+        }
 
         Optional<Object> contentExample = ExamplesUtils.getContentExample(content);
 

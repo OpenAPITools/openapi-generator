@@ -1751,44 +1751,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         setParameterExampleValue(codegenParameter);
     }
-
-    /**
-     * Return the example value of the parameter. Overrides the parent method in DefaultCodegen
-     * to not set examples on complex models, as they don't compile properly.
-     *
-     * @param codegenParameter Codegen parameter
-     * @param requestBody      Request body
-     */
-   @Override
-    public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
-        if (requestBody.getContent() != null && !requestBody.getContent().isEmpty()) {
-            boolean isModel = (codegenParameter.isModel || (codegenParameter.isContainer && codegenParameter.getItems().isModel));
-
-            MediaType mediaType = requestBody.getContent().values().iterator().next();
-            boolean hasExample = mediaType.getExample() != null || (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty());
-            if (isModel) {
-                if (hasExample) {
-                    once(LOGGER).warn("Ignoring complex example on request body");
-                }
-            }
-
-            // FIX for #23607: Assign all named examples to the parameter so Mustache templates can access them
-            if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
-                codegenParameter.examples = mediaType.getExamples();
-
-                if (!isModel) {
-                    Example example = mediaType.getExamples().values().iterator().next();
-                    if (example.getValue() != null) {
-                        codegenParameter.example = example.getValue().toString();
-                        return;
-                    }
-                }
-            }
-            setParameterExampleValue(codegenParameter);
-        } else {
-            super.setParameterExampleValue(codegenParameter, requestBody);
-        }
-    }
           
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
