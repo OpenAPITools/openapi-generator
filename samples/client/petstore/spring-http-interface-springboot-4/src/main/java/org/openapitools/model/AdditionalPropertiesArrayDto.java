@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 public class AdditionalPropertiesArrayDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String name;
 
   public AdditionalPropertiesArrayDto name(@Nullable String name) {
@@ -49,7 +50,6 @@ public class AdditionalPropertiesArrayDto {
     return name;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;

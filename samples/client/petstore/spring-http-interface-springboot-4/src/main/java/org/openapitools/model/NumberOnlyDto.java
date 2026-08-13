@@ -28,6 +28,7 @@ import jakarta.annotation.Generated;
 public class NumberOnlyDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable BigDecimal justNumber;
 
   public NumberOnlyDto justNumber(@Nullable BigDecimal justNumber) {
@@ -45,7 +46,6 @@ public class NumberOnlyDto {
     return justNumber;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("JustNumber")
   public void setJustNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;

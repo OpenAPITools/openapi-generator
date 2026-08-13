@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 public class AdditionalPropertiesIntegerDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String name;
 
   public AdditionalPropertiesIntegerDto name(@Nullable String name) {
@@ -48,7 +49,6 @@ public class AdditionalPropertiesIntegerDto {
     return name;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;

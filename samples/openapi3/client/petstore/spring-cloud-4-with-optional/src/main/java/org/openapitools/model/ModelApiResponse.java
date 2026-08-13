@@ -26,12 +26,15 @@ import jakarta.annotation.Generated;
 public class ModelApiResponse {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Integer code;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private String type;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private String message;
 
   public ModelApiResponse code(Integer code) {
@@ -49,7 +52,6 @@ public class ModelApiResponse {
     return code;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("code")
   public void setCode(Integer code) {
     this.code = code;
@@ -70,7 +72,6 @@ public class ModelApiResponse {
     return type;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("type")
   public void setType(String type) {
     this.type = type;
@@ -91,7 +92,6 @@ public class ModelApiResponse {
     return message;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("message")
   public void setMessage(String message) {
     this.message = message;

@@ -27,6 +27,7 @@ import jakarta.annotation.Generated;
 public class SpecialModelName {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(@Nullable Long $specialPropertyName) {
@@ -45,7 +46,6 @@ public class SpecialModelName {
     return $specialPropertyName;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("$special[property.name]")
   public void set$SpecialPropertyName(@Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;

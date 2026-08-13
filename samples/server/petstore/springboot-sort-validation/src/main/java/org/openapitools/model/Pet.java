@@ -28,6 +28,7 @@ public class Pet implements Serializable {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

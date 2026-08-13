@@ -30,6 +30,7 @@ import jakarta.annotation.Generated;
 public class Dog extends Animal {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String breed;
 
   public Dog() {
@@ -59,7 +60,6 @@ public class Dog extends Animal {
     return breed;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("breed")
   public void setBreed(@Nullable String breed) {
     this.breed = breed;

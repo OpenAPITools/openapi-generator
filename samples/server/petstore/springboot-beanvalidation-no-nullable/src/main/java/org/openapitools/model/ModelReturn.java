@@ -28,6 +28,7 @@ import jakarta.annotation.Generated;
 public class ModelReturn {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Integer _return;
 
   public ModelReturn _return(@Nullable Integer _return) {
@@ -46,7 +47,6 @@ public class ModelReturn {
     return _return;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("return")
   public void setReturn(@Nullable Integer _return) {
     this._return = _return;
