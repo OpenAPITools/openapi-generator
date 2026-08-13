@@ -17,7 +17,7 @@ use hyper::service::Service;
 use hyper::{Request, Response};
 use swagger::auth::AuthData;
 use swagger::{EmptyContext, Has};
-use overlapping_auth_schemes::context::AddContext;
+use openapi_v3::context::AddContext;
 
 /// Innermost service: records the `Option<AuthData>` that `AddContext` pushed onto the context.
 #[derive(Clone, Default)]
@@ -58,7 +58,6 @@ fn resolve_auth_data(uri: &str, headers: &[(&str, &str)]) -> Option<AuthData> {
 /// `dXNlcjpwYXNzd29yZA==` is `user:password`.
 const BASIC_HEADER: &str = "Basic dXNlcjpwYXNzd29yZA==";
 const BEARER_HEADER: &str = "Bearer some-token";
-const API_KEY: &str = "test-api-key";
 
 #[test]
 fn no_credentials_resolve_to_no_auth_data() {
@@ -66,10 +65,10 @@ fn no_credentials_resolve_to_no_auth_data() {
 }
 
 #[test]
-fn basic_credentials_resolve_to_the_declared_basic_scheme() {
+fn basic_credentials_resolve_to_none_when_no_basic_scheme_is_declared() {
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BASIC_HEADER)]),
-        Some(AuthData::Basic("user".to_owned(), "password".to_owned())),
+        None,
     );
 }
 
@@ -78,31 +77,5 @@ fn bearer_credentials_resolve_to_the_declared_bearer_scheme() {
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BEARER_HEADER)]),
         Some(AuthData::Bearer("some-token".to_owned())),
-    );
-}
-
-#[test]
-fn header_api_key_resolves_when_it_is_the_only_credential() {
-    assert_eq!(
-        resolve_auth_data("/", &[("x-api-key", API_KEY)]),
-        Some(AuthData::ApiKey(API_KEY.to_owned())),
-    );
-}
-
-/// An `Authorization` header must not shadow the apiKey block unless a block that actually
-/// handles that scheme is generated before it.
-#[test]
-fn header_api_key_is_reachable_alongside_bearer_credentials() {
-    assert_eq!(
-        resolve_auth_data("/", &[("authorization", BEARER_HEADER), ("x-api-key", API_KEY)]),
-        Some(AuthData::ApiKey(API_KEY.to_owned())),
-    );
-}
-
-#[test]
-fn header_api_key_is_reachable_alongside_basic_credentials() {
-    assert_eq!(
-        resolve_auth_data("/", &[("authorization", BASIC_HEADER), ("x-api-key", API_KEY)]),
-        Some(AuthData::Basic("user".to_owned(), "password".to_owned())),
     );
 }

@@ -17,7 +17,7 @@ use hyper::service::Service;
 use hyper::{Request, Response};
 use swagger::auth::AuthData;
 use swagger::{EmptyContext, Has};
-use overlapping_auth_schemes::context::AddContext;
+use {{{externCrateName}}}::context::AddContext;
 
 /// Innermost service: records the `Option<AuthData>` that `AddContext` pushed onto the context.
 #[derive(Clone, Default)]
@@ -58,7 +58,9 @@ fn resolve_auth_data(uri: &str, headers: &[(&str, &str)]) -> Option<AuthData> {
 /// `dXNlcjpwYXNzd29yZA==` is `user:password`.
 const BASIC_HEADER: &str = "Basic dXNlcjpwYXNzd29yZA==";
 const BEARER_HEADER: &str = "Bearer some-token";
+{{#authTestHasApiKey}}
 const API_KEY: &str = "test-api-key";
+{{/authTestHasApiKey}}
 
 #[test]
 fn no_credentials_resolve_to_no_auth_data() {
@@ -66,25 +68,36 @@ fn no_credentials_resolve_to_no_auth_data() {
 }
 
 #[test]
+{{#authTestHasBasic}}
 fn basic_credentials_resolve_to_the_declared_basic_scheme() {
+{{/authTestHasBasic}}
+{{^authTestHasBasic}}
+fn basic_credentials_resolve_to_none_when_no_basic_scheme_is_declared() {
+{{/authTestHasBasic}}
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BASIC_HEADER)]),
-        Some(AuthData::Basic("user".to_owned(), "password".to_owned())),
+        {{#authTestHasBasic}}Some(AuthData::Basic("user".to_owned(), "password".to_owned())){{/authTestHasBasic}}{{^authTestHasBasic}}None{{/authTestHasBasic}},
     );
 }
 
 #[test]
+{{#authTestHasBearer}}
 fn bearer_credentials_resolve_to_the_declared_bearer_scheme() {
+{{/authTestHasBearer}}
+{{^authTestHasBearer}}
+fn bearer_credentials_resolve_to_none_when_no_bearer_scheme_is_declared() {
+{{/authTestHasBearer}}
     assert_eq!(
         resolve_auth_data("/", &[("authorization", BEARER_HEADER)]),
-        Some(AuthData::Bearer("some-token".to_owned())),
+        {{#authTestHasBearer}}Some(AuthData::Bearer("some-token".to_owned())){{/authTestHasBearer}}{{^authTestHasBearer}}None{{/authTestHasBearer}},
     );
 }
+{{#authTestApiKeyHeader}}
 
 #[test]
 fn header_api_key_resolves_when_it_is_the_only_credential() {
     assert_eq!(
-        resolve_auth_data("/", &[("x-api-key", API_KEY)]),
+        resolve_auth_data("/", &[("{{{.}}}", API_KEY)]),
         Some(AuthData::ApiKey(API_KEY.to_owned())),
     );
 }
@@ -94,15 +107,45 @@ fn header_api_key_resolves_when_it_is_the_only_credential() {
 #[test]
 fn header_api_key_is_reachable_alongside_bearer_credentials() {
     assert_eq!(
-        resolve_auth_data("/", &[("authorization", BEARER_HEADER), ("x-api-key", API_KEY)]),
-        Some(AuthData::ApiKey(API_KEY.to_owned())),
+        resolve_auth_data("/", &[("authorization", BEARER_HEADER), ("{{{.}}}", API_KEY)]),
+        {{#authTestBearerPrecedesHeaderApiKey}}Some(AuthData::Bearer("some-token".to_owned())){{/authTestBearerPrecedesHeaderApiKey}}{{^authTestBearerPrecedesHeaderApiKey}}Some(AuthData::ApiKey(API_KEY.to_owned())){{/authTestBearerPrecedesHeaderApiKey}},
     );
 }
 
 #[test]
 fn header_api_key_is_reachable_alongside_basic_credentials() {
     assert_eq!(
-        resolve_auth_data("/", &[("authorization", BASIC_HEADER), ("x-api-key", API_KEY)]),
-        Some(AuthData::Basic("user".to_owned(), "password".to_owned())),
+        resolve_auth_data("/", &[("authorization", BASIC_HEADER), ("{{{.}}}", API_KEY)]),
+        {{#authTestBasicPrecedesHeaderApiKey}}Some(AuthData::Basic("user".to_owned(), "password".to_owned())){{/authTestBasicPrecedesHeaderApiKey}}{{^authTestBasicPrecedesHeaderApiKey}}Some(AuthData::ApiKey(API_KEY.to_owned())){{/authTestBasicPrecedesHeaderApiKey}},
     );
 }
+{{/authTestApiKeyHeader}}
+{{#authTestApiKeyQuery}}
+
+#[test]
+fn query_api_key_resolves_when_it_is_the_only_credential() {
+    assert_eq!(
+        resolve_auth_data("/?{{{.}}}=test-api-key", &[]),
+        Some(AuthData::ApiKey(API_KEY.to_owned())),
+    );
+}
+
+/// The query apiKey block is shadowed independently of the header one: an `Authorization`
+/// header must not claim a request whose credentials are in the query string unless a block
+/// that actually handles that scheme is generated before the query block.
+#[test]
+fn query_api_key_is_reachable_alongside_bearer_credentials() {
+    assert_eq!(
+        resolve_auth_data("/?{{{.}}}=test-api-key", &[("authorization", BEARER_HEADER)]),
+        {{#authTestBearerPrecedesQueryApiKey}}Some(AuthData::Bearer("some-token".to_owned())){{/authTestBearerPrecedesQueryApiKey}}{{^authTestBearerPrecedesQueryApiKey}}Some(AuthData::ApiKey(API_KEY.to_owned())){{/authTestBearerPrecedesQueryApiKey}},
+    );
+}
+
+#[test]
+fn query_api_key_is_reachable_alongside_basic_credentials() {
+    assert_eq!(
+        resolve_auth_data("/?{{{.}}}=test-api-key", &[("authorization", BASIC_HEADER)]),
+        {{#authTestBasicPrecedesQueryApiKey}}Some(AuthData::Basic("user".to_owned(), "password".to_owned())){{/authTestBasicPrecedesQueryApiKey}}{{^authTestBasicPrecedesQueryApiKey}}Some(AuthData::ApiKey(API_KEY.to_owned())){{/authTestBasicPrecedesQueryApiKey}},
+    );
+}
+{{/authTestApiKeyQuery}}
