@@ -2,6 +2,8 @@ name: Samples Java Client JDK11
 
 on:
   push:
+    branches:
+      - master
     paths:
       - 'samples/client/petstore/java/**'
       - samples/client/petstore/jaxrs-cxf-client/**
