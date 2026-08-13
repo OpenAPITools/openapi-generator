@@ -687,8 +687,8 @@ export class PetApi extends runtime.BaseAPI {
  * @export
  */
 export const FindPetsByStatusStatusEnum = {
-    Available: 'available',
-    Pending: 'pending',
+    Available: 'available'
+    Pending: 'pending'
     Sold: 'sold'
 } as const;
 export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];
