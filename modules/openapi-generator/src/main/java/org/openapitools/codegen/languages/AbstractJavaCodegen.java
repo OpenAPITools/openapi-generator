@@ -30,7 +30,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -1803,36 +1802,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         boolean isModel = (codegenParameter.isModel || (codegenParameter.isContainer && codegenParameter.getItems().isModel));
 
-        Content content = requestBody.getContent();
-
-        if (content.size() > 1) {
-            // @see ModelUtils.getSchemaFromContent()
-            LOGGER.debug("Multiple MediaTypes found, using only the first one");
-        }
-
-        MediaType mediaType = content.values().iterator().next();
-        if (mediaType.getExample() != null) {
-            if (isModel) {
+        MediaType mediaType = requestBody.getContent().values().iterator().next();
+        boolean hasExample = mediaType.getExample() != null || (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty());
+        if (isModel) {
+            if (hasExample) {
                 once(LOGGER).warn("Ignoring complex example on request body");
-            } else {
-                codegenParameter.example = mediaType.getExample().toString();
-                return;
             }
+            setParameterExampleValue(codegenParameter);
+        } else {
+            super.setParameterExampleValue(codegenParameter, requestBody);
         }
-
-        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
-            Example example = mediaType.getExamples().values().iterator().next();
-            if (example.getValue() != null) {
-                if (isModel) {
-                    once(LOGGER).warn("Ignoring complex example on request body");
-                } else {
-                    codegenParameter.example = example.getValue().toString();
-                    return;
-                }
-            }
-        }
-
-        setParameterExampleValue(codegenParameter);
     }
 
     @Override
@@ -2955,9 +2934,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             keptNullable = null;
             String value = fragment.execute();
             if (useJspecify) {
-                if (value.startsWith(nullableAnnotation)) {
+                // extract @Nullable annotation (starting with @ and ending with space)
+                String patternToFind = nullableAnnotation + " ";
+                if (value.startsWith(patternToFind)) {
                     keptNullable = value;
-                    int idx = nullableAnnotation.length();
+                    int idx = patternToFind.length();
                     // trim left
                     while (idx < value.length() && value.charAt(idx) == ' ') {
                         idx ++;

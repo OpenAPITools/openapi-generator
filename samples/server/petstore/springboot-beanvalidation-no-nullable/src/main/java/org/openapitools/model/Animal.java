@@ -38,9 +38,11 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Animal {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String className;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private String color = "red";
 
   public Animal() {
@@ -91,7 +93,6 @@ public class Animal {
     return color;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("color")
   public void setColor(String color) {
     this.color = color;

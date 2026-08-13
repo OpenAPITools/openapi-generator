@@ -23,16 +23,16 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> normalPropertyName = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> UPPER_CASE_PROPERTY_SNAKE = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> lowerCasePropertyDashes = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> propertyNameWithSpaces = Optional.empty();
 
   public ResponseObjectWithDifferentFieldNames normalPropertyName(String normalPropertyName) {

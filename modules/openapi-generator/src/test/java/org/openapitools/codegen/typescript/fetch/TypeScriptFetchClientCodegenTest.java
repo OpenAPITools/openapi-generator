@@ -68,6 +68,291 @@ public class TypeScriptFetchClientCodegenTest {
     }
 
     @Test
+    public void testMergesContentTypeVariantsIntoOneMethod() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/issue6708-split-by-content-type.yaml")
+                .addGlobalProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output + "/apis/ReportApi.ts");
+
+        // the split emitted four operations for POST /reports (2 request x 2 response content-types);
+        // TypeScript expresses the whole matrix at once, so a single method survives
+        TestUtils.assertFileNotContains(api, "createReportWithJsonAsJson", "createReportWithXmlAsPdf");
+
+        // request axis: a union discriminated by contentType, whose value selects the body's type. The
+        // content-type declared first is the default one, hence optional.
+        TestUtils.assertFileContains(api,
+                "runtime.ExclusiveUnion<",
+                "| { contentType?: 'application/json'; report?: Report; }",
+                "| { contentType: 'application/xml'; reportXml?: ReportXml; }");
+
+        // response axis: one overload per content-type, `accept` selecting the return type
+        TestUtils.assertFileContains(api,
+                "async createReportRaw(requestParameters: CreateReportRequest & { accept?: 'application/json' }",
+                "async createReportRaw(requestParameters: CreateReportRequest & { accept: 'application/pdf' }",
+                "Promise<runtime.ApiResponse<Receipt | Blob>>");
+
+        // Content-Type is set inside the branch that builds the body, Accept defaults to the response
+        // content-type declared first, and deserialisation dispatches on what the server actually returned
+        // rather than on the requested accept
+        TestUtils.assertFileContains(api,
+                "                headerParameters['Content-Type'] = 'application/xml';",
+                "                headerParameters['Content-Type'] = 'application/json';",
+                "headerParameters['Accept'] = requestParameters.accept ?? 'application/json';",
+                "if (responseContentType === 'application/pdf') {");
+    }
+
+    @Test
+    public void testRequestUnionExcludesTheOtherVariantsBodies() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/issue6708-split-by-content-type-required-body.yaml")
+                .addGlobalProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output + "/apis/ReportApi.ts");
+
+        // runtime.ExclusiveUnion makes the members mutually exclusive, without which an XML body handed to
+        // the JSON member is silently sent as JSON. Excess property checking never fires against a union - a
+        // key present in any member counts as known - and the checks that do reject most shapes (weak type
+        // detection, a missing required property) leave out a member with a required parameter and an
+        // optional body, as createDraft has.
+        TestUtils.assertFileContains(api,
+                "export type CreateDraftRequest = runtime.ExclusiveUnion<",
+                "| { contentType?: 'application/json'; projectId: string; report?: Report; }",
+                "| { contentType: 'application/xml'; projectId: string; reportXml?: ReportXml; }");
+
+        // A required body only exists on one member of the union, so it cannot be guarded before the switch:
+        // indexing it there would not type-check, and would narrow the union for everything below.
+        TestUtils.assertFileContains(api,
+                "                if (requestParameters['reportXml'] == null) {",
+                "                if (requestParameters['report'] == null) {");
+
+        String content = Files.readString(api);
+        int requestOpts = content.indexOf("async createProjectReportRequestOpts");
+        int contentTypeSwitch = content.indexOf("switch (requestParameters.contentType)", requestOpts);
+        assertThat(content.substring(requestOpts, contentTypeSwitch))
+                .as("the body must not be indexed before the content-type is known")
+                .doesNotContain("requestParameters['report']");
+    }
+
+    @Test
+    public void testEnumParameterFollowsTheMergedOperationName() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/issue6708-split-by-content-type-enum-param.yaml")
+                .addGlobalProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        // An enum parameter's type is named after its operation, and the enum is declared once. The merge
+        // renames the operation, so both sides have to end up on the merged name - the request union
+        // references every variant's parameters, not just the surviving one's.
+        Path api = Paths.get(output + "/apis/OrderApi.ts");
+        TestUtils.assertFileContains(api,
+                "| { orderBy?: GetOrdersOrderByEnum; }",
+                "export const GetOrdersOrderByEnum = {");
+    }
+
+    @Test
+    public void testMergedOperationKeepsTheOptionalResponseBehaviour() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/issue6708-split-by-content-type-optional-response.yaml")
+                .addGlobalProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        // the operation can answer 204 as well as 200: the unmerged path returns null for the bodyless
+        // status instead of parsing an empty body, and the merged one has to do the same
+        Path api = Paths.get(output + "/apis/ReportApi.ts");
+        TestUtils.assertFileContains(api,
+                "async getReport(requestParameters: GetReportRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Report | null | undefined>;",
+                "async getReport(requestParameters: GetReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob | null | undefined>;",
+                "switch (response.raw.status) {",
+                "            case 204:",
+                "                return null;");
+    }
+
+    @Test
+    public void testRequiredFormParameterIsOnlyEnforcedOnItsOwnContentType() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/issue6708-split-by-content-type-required-form.yaml")
+                .addGlobalProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        // `file` is required by the multipart variant only: guarded inside its branch of the content-type
+        // switch, not before it, where it would throw on a perfectly valid application/json call
+        Path api = Paths.get(output + "/apis/FilesApi.ts");
+        String content = Files.readString(api);
+        int requestOpts = content.indexOf("async convertRequestOpts");
+        int contentTypeSwitch = content.indexOf("switch (requestParameters.contentType)", requestOpts);
+        assertThat(content.substring(requestOpts, contentTypeSwitch))
+                .as("a form parameter must not be enforced before the content-type is known")
+                .doesNotContain("requestParameters['file'] == null");
+
+        // multipart was declared first, so its branch is the switch's default case
+        int defaultCase = content.indexOf("default: {", contentTypeSwitch);
+        TestUtils.assertFileContains(api, "Required parameter \"file\" was null or undefined");
+        assertThat(content.indexOf("requestParameters['file'] == null", defaultCase))
+                .as("the guard belongs inside the multipart branch")
+                .isGreaterThan(defaultCase);
+    }
+
+    @Test
+    public void testEnumOfADroppedVariantIsStillDeclared() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/issue6708-split-by-content-type-variant-enum.yaml")
+                .addGlobalProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        // the `mode` enum only exists on the multipart variant, which the merge drops: the union still
+        // references its type, so the declaration has to be collected from the dropped variant
+        Path api = Paths.get(output + "/apis/FilesApi.ts");
+        TestUtils.assertFileContains(api,
+                "mode?: ConvertModeEnum;",
+                "export const ConvertModeEnum = {");
+
+        // and declared exactly once, even when several variants share the parameter
+        String content = Files.readString(api);
+        String declaration = "export const ConvertModeEnum = {";
+        assertThat(content.indexOf(declaration)).isEqualTo(content.lastIndexOf(declaration));
+    }
+
+    @Test
+    public void testMergedOperationNameIsEscapedAgainstImportedModels() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/issue6708-split-by-content-type-name-collision.yaml")
+                .addGlobalProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        // The spec imports a model named CreateReportRequest into an API whose merged operation is
+        // createReport. escapeOperationIds ran on the variants' suffixed names and saw no clash, so the
+        // merge has to replay its escape on the merged name - the same one the unsplit path would emit.
+        Path api = Paths.get(output + "/apis/ReportApi.ts");
+        TestUtils.assertFileContains(api,
+                "export type CreateReportOperationRequest = runtime.ExclusiveUnion<",
+                "async createReport(requestParameters: CreateReportOperationRequest");
+        TestUtils.assertFileNotContains(api,
+                "export type CreateReportRequest =",
+                "export interface CreateReportRequest");
+    }
+
+    @Test
+    public void testMergesFormAndMultipartVariants() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/issue6708-split-by-content-type-form.yaml")
+                .addGlobalProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output + "/apis/FilesApi.ts");
+
+        // POST /upload has a single, multipart request content-type and two response content-types: only the
+        // response axis is split, and merging it just adds `accept` to the request object.
+        TestUtils.assertFileNotContains(api, "uploadAsJson", "uploadAsPdf");
+
+        // Accept is emitted only where the response axis was divided: elsewhere a caller may have pinned
+        // one on the Configuration, and an operation-level header silently wins over it.
+        TestUtils.assertFileContains(api,
+                "headerParameters['Accept'] = requestParameters.accept ?? 'application/json';");
+        TestUtils.assertFileContains(api,
+                "async upload(requestParameters: UploadRequest & { accept?: 'application/json' }",
+                "async upload(requestParameters: UploadRequest & { accept: 'application/pdf' }");
+
+        // POST /convert accepts both application/json and multipart/form-data. A form body is spread over
+        // individual parameters rather than gathered in one, so the union member carries them as they are
+        // and the body is assembled inside that content-type's branch.
+        TestUtils.assertFileNotContains(api, "convertWithJson", "convertWithFormData");
+        TestUtils.assertFileContains(api,
+                "| { contentType?: 'application/json'; receipt?: Receipt; }",
+                "| { contentType: 'multipart/form-data'; file?: Blob; }",
+                "            case 'multipart/form-data': {",
+                "                body = formParams;");
+
+        // Content-Type is set per branch rather than once up front: a multipart body must not set it at all,
+        // fetch adds it with the boundary it generates.
+        String content = Files.readString(api);
+        int convert = content.indexOf("async convertRequestOpts");
+        int convertEnd = content.indexOf("async convertRaw", convert);
+        String convertOpts = content.substring(convert, convertEnd);
+        assertThat(convertOpts).contains("headerParameters['Content-Type'] = 'application/json';");
+        assertThat(convertOpts)
+                .as("a multipart branch must leave Content-Type to fetch")
+                .doesNotContain("headerParameters['Content-Type'] = 'multipart/form-data';");
+    }
+
+    @Test
+    public void testLeavesOperationsUntouchedWithoutTheGlobalOption() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/issue6708-split-by-content-type.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        // opt-in: without the global property nothing is split, so nothing is merged either
+        Path api = Paths.get(output + "/apis/ReportApi.ts");
+        TestUtils.assertFileContains(api, "export interface CreateReportRequest {");
+        TestUtils.assertFileNotContains(api, "contentType?: 'application/json'", "accept?: 'application/json'");
+    }
+
+    @Test
     public void testModelsWithoutPaths() throws IOException {
         final String specPath = "src/test/resources/3_1/reusable-components-without-paths.yaml";
 
@@ -754,6 +1039,39 @@ public class TypeScriptFetchClientCodegenTest {
         // Ensure Omit uses camelCase names like 'createdAt' and 'updatedAt' instead of snake_case 'created_at' and 'updated_at'
         TestUtils.assertFileContains(modelPath, "export interface FinancingOptionCreateRequest {");
         TestUtils.assertFileContains(modelPath, "    financingOption?: Omit<FinancingOption, 'id'|'createdAt'|'updatedAt'|'foo'|'bar'>;");
+    }
+
+    @Test(description = "Verify required date and date-time properties are null-guarded on serialization and deserialization")
+    public void testRequiredDatesAreNullGuarded() throws Exception {
+        File output = generate(
+                Collections.emptyMap(),
+                "src/test/resources/3_0/typescript-fetch/required-date.yaml"
+        );
+
+        Path modelPath = Paths.get(output + "/models/Event.ts");
+        TestUtils.assertFileExists(modelPath);
+
+        TestUtils.assertFileContains(modelPath,
+                "'requiredDate': (json['requiredDate'] == null ? json['requiredDate'] : new Date(json['requiredDate'])),");
+        TestUtils.assertFileContains(modelPath,
+                "'requiredDateTime': (json['requiredDateTime'] == null ? json['requiredDateTime'] : new Date(json['requiredDateTime'])),");
+        TestUtils.assertFileContains(modelPath,
+                "'requiredNullableDate': (json['requiredNullableDate'] == null ? null : new Date(json['requiredNullableDate'])),");
+        TestUtils.assertFileContains(modelPath,
+                "'requiredNullableDateTime': (json['requiredNullableDateTime'] == null ? null : new Date(json['requiredNullableDateTime'])),");
+        TestUtils.assertFileContains(modelPath,
+                "'optionalDate': json['optionalDate'] == null ? undefined : (new Date(json['optionalDate'])),");
+        TestUtils.assertFileContains(modelPath,
+                "'optionalDateTime': json['optionalDateTime'] == null ? undefined : (new Date(json['optionalDateTime'])),");
+
+        TestUtils.assertFileContains(modelPath,
+                "'requiredDate': value['requiredDate'] == null ? value['requiredDate'] : value['requiredDate'].toISOString().substring(0,10),");
+        TestUtils.assertFileContains(modelPath,
+                "'requiredDateTime': value['requiredDateTime'] == null ? value['requiredDateTime'] : value['requiredDateTime'].toISOString(),");
+        TestUtils.assertFileContains(modelPath,
+                "'requiredNullableDate': value['requiredNullableDate'] == null ? value['requiredNullableDate'] : value['requiredNullableDate'].toISOString().substring(0,10),");
+        TestUtils.assertFileContains(modelPath,
+                "'optionalDateTime': value['optionalDateTime'] == null ? value['optionalDateTime'] : value['optionalDateTime'].toISOString(),");
     }
 
     private static File generate(

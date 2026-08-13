@@ -7,11 +7,11 @@ validateSpec: false
 additionalProperties:
   artifactId: petstore-native-jackson3
   hideGenerationTimestamp: "true"
-  generateBuilders: true
   useReflectionEqualsHashCode: "true"
   useJackson3: "true"
   openApiNullable: "false"
   useJspecify: true
+  generateBuilders: true
 typeMappings:
   OffsetDateTime: java.time.Instant
   BigDecimal: java.math.BigDecimal

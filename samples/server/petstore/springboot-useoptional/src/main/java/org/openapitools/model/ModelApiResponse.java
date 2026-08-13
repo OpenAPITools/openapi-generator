@@ -25,13 +25,13 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ModelApiResponse {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Integer> code = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> type = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> message = Optional.empty();
 
   public ModelApiResponse code(Integer code) {

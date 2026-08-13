@@ -131,6 +131,8 @@ components:
       allOf:
       - $ref: "#/components/schemas/Parent"
       nullable: true
+    StringPatternsWithOneOf:
+      type: string
     ParentWithPluralOneOfProperty_number:
       oneOf:
       - $ref: "#/components/schemas/Number"

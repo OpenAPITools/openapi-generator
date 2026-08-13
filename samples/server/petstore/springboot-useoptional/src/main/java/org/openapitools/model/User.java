@@ -23,28 +23,28 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class User {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Long> id = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> username = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> firstName = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> lastName = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> email = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> password = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> phone = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Integer> userStatus = Optional.empty();
 
   public User id(Long id) {

@@ -25,8 +25,10 @@ import jakarta.annotation.Generated;
 public class Category {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name = "default-name";
 
   public Category() {
@@ -56,7 +58,6 @@ public class Category {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;

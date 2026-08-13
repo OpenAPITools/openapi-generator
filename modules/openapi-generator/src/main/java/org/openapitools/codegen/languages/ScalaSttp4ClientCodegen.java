@@ -350,7 +350,10 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
 
                             // Add discriminator mapping value if present
                             if (cModel.discriminator != null) {
-                                String discriminatorName = cModel.discriminator.getPropertyName();
+                                // baseName, not propertyName: the latter is the escaped Scala
+                                // identifier and never matches a property's baseName
+                                String discriminatorName = cModel.discriminator.getPropertyBaseName();
+                                childModel.getVendorExtensions().put("x-discriminator-property", discriminatorName);
                                 
                                 // Find the mapping value for this child model
                                 String discriminatorValue = null;
@@ -368,7 +371,7 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
                                 }
                                 
                                 // Remove discriminator field from child
-                                // (circe-generic-extras adds it automatically)
+                                // (the sealed trait's encoder writes it)
                                 childModel.vars.removeIf(prop -> prop.baseName.equals(discriminatorName));
                                 childModel.allVars.removeIf(prop -> prop.baseName.equals(discriminatorName));
                                 childModel.requiredVars.removeIf(prop -> prop.baseName.equals(discriminatorName));
@@ -423,7 +426,7 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
                 // Remove discriminator property from models that extend a oneOf parent
                 // (circe-generic-extras adds it automatically)
                 if (cModel.parent != null && cModel.parentModel != null && cModel.parentModel.discriminator != null) {
-                    String discriminatorName = cModel.parentModel.discriminator.getPropertyName();
+                    String discriminatorName = cModel.parentModel.discriminator.getPropertyBaseName();
                     cModel.vars.removeIf(prop -> prop.baseName.equals(discriminatorName));
                     cModel.allVars.removeIf(prop -> prop.baseName.equals(discriminatorName));
                     cModel.requiredVars.removeIf(prop -> prop.baseName.equals(discriminatorName));

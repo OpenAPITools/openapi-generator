@@ -31,9 +31,11 @@ import jakarta.annotation.Generated;
 public class FileSchemaTestClassDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable FileDto file;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<@Valid FileDto> files = new ArrayList<>();
 
   public FileSchemaTestClassDto file(@Nullable FileDto file) {
@@ -51,7 +53,6 @@ public class FileSchemaTestClassDto {
     return file;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("file")
   public void setFile(@Nullable FileDto file) {
     this.file = file;
@@ -80,7 +81,6 @@ public class FileSchemaTestClassDto {
     return files;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("files")
   public void setFiles(List<@Valid FileDto> files) {
     this.files = files;

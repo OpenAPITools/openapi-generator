@@ -68,7 +68,7 @@ public class BigCat extends Cat {
     }
   }
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<KindEnum> kind = Optional.empty();
 
   public BigCat() {

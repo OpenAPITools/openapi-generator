@@ -30,17 +30,16 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Pet {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Category category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -80,7 +79,6 @@ public class Pet {
     }
   }
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private @Nullable StatusEnum status;
 

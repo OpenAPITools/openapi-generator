@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ModelList {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<String> _123list = Optional.empty();
 
   public ModelList _123list(String _123list) {

@@ -34,7 +34,7 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
-@Tag(name = "file", description = "the file API")
+@Tag(name = "file", description = "file")
 public interface FileApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -50,6 +50,7 @@ public interface FileApi {
      */
     @Operation(
         operationId = "fileIdGet",
+        tags = { "file" },
         responses = {
             @ApiResponse(responseCode = "200", description = "ok")
         }

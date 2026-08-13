@@ -32,6 +32,7 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.model.WebhooksMap;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.templating.mustache.CopyLambda.CopyContent;
 import org.openapitools.codegen.templating.mustache.CopyLambda.WhiteSpaceStrategy;
@@ -883,18 +884,31 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         if (property.datatypeWithEnum.equals("decimal")) {
             property.isDecimal = true;
         }
+
+        // Normalize x-setter-visibility:
+        //   "public" -> remove extension, set isReadOnly=false (public setter = default, no modifier needed)
+        //   any other value -> set isReadOnly=true (template emits "{{.}} set;" using the extension value)
+        Object setterVisibilityObj = property.vendorExtensions.get("x-setter-visibility");
+        if (setterVisibilityObj instanceof String) {
+            if ("public".equals(setterVisibilityObj)) {
+                property.vendorExtensions.remove("x-setter-visibility");
+                property.isReadOnly = false;
+            } else {
+                property.isReadOnly = true;
+            }
+        }
     }
 
     @Override
-    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
-        List<Map<String, Object>> enumVars = super.buildEnumVars(values, dataType);
+    protected List<EnumVarMap> buildEnumVars(List<Object> values, String dataType) {
+        List<EnumVarMap> enumVars = super.buildEnumVars(values, dataType);
 
         // this is needed for enumRefs like OuterEnum marked as nullable and also have string values
         // keep isString true so that the index will be used as the enum value instead of a string
         // this is inline with C# enums with string values
         if ("string?".equals(dataType)) {
             enumVars.forEach((enumVar) -> {
-                enumVar.put(ENUM_IS_STRING, true);
+                enumVar.isString(true);
             });
         }
 
@@ -907,7 +921,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     }
 
     /**
-     * Update codegen property's enum by adding {@value CodegenConstants#ENUM_VARS} (with name and value)
+     * Update codegen property's enum by adding {@value EnumVarMap#ENUM_VARS} (with name and value)
      *
      * @param var list of CodegenProperty
      */

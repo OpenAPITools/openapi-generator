@@ -897,12 +897,24 @@ namespace {{packageName}}.{{apiPackage}}
             /// <returns></returns>
             public {{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} {{vendorExtensions.x-http-status}}()
             {
+                bool suppressDefault = false;
+                {{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} result = {{#net60OrLater}}null{{/net60OrLater}}{{^net60OrLater}}default{{/net60OrLater}};
+                On{{vendorExtensions.x-http-status}}(ref suppressDefault, ref result);
+                if (!suppressDefault)
+                    result = Default{{vendorExtensions.x-http-status}}();
+                return result;
+            }
+
+            private {{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} Default{{vendorExtensions.x-http-status}}()
+            {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#lambda.indent4}}
                 {{>AsModel}}{{! prevent indent}}
                 {{/lambda.indent4}}
                 {{/lambda.trimTrailingWithNewLine}}
             }
+
+            partial void On{{vendorExtensions.x-http-status}}(ref bool suppressDefault, ref {{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} result);
 
             /// <summary>
             /// Returns true if the response is {{code}} {{vendorExtensions.x-http-status}} and the deserialized response is not null

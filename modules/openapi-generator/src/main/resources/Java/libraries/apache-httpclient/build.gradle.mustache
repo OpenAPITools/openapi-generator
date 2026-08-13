@@ -78,14 +78,16 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
+    java {
     {{^useJackson3}}
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     {{/useJackson3}}
     {{#useJackson3}}
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     {{/useJackson3}}
+    }
 
     publishing {
         publications {
@@ -98,7 +100,7 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
 

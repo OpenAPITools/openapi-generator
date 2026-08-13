@@ -34,7 +34,7 @@ export interface SnakeOptionOne {
  * @export
  */
 export const SnakeOptionOneDiscriminatorFieldEnum = {
-    SnakeOptionOne: 'snakeOptionOne'
+    SnakeOptionOne: 'snakeOptionOne',
 } as const;
 export type SnakeOptionOneDiscriminatorFieldEnum = typeof SnakeOptionOneDiscriminatorFieldEnum[keyof typeof SnakeOptionOneDiscriminatorFieldEnum];
 
