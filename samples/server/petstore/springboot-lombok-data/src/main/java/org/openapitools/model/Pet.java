@@ -38,20 +38,21 @@ public class Pet {
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private @Nullable Long id;
 
   @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private @Nullable Category category;
 
   @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
   
@@ -59,6 +60,7 @@ public class Pet {
   @JsonProperty("photoUrls")
 
   @lombok.Builder.Default
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
   
@@ -66,7 +68,7 @@ public class Pet {
   @JsonProperty("tags")
 
   @lombok.Builder.Default
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -110,7 +112,7 @@ public class Pet {
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @Deprecated
   private @Nullable StatusEnum status;
 

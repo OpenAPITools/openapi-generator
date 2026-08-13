@@ -27,6 +27,7 @@ import jakarta.annotation.Generated;
 public class ClassModelDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String propertyClass;
 
   public ClassModelDto propertyClass(@Nullable String propertyClass) {
@@ -44,7 +45,6 @@ public class ClassModelDto {
     return propertyClass;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("_class")
   public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;

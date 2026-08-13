@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
@@ -38,44 +37,33 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Foo {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Optional<java.time.Instant> dt = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private JsonNullable<java.time.Instant> nullableDt = JsonNullable.<java.time.Instant>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<org.springframework.core.io.Resource> binary = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<org.springframework.core.io.Resource> nullableBinary = JsonNullable.<org.springframework.core.io.Resource>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<java.time.Instant> listOfDt = new ArrayList<>();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<java.time.Instant> listMinIntems = new ArrayList<>();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<java.time.Instant>> nullableListMinIntems = JsonNullable.<List<java.time.Instant>>undefined();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private java.time.Instant requiredDt;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<java.math.BigDecimal> number = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<java.math.BigDecimal> nullableNumber = JsonNullable.<java.math.BigDecimal>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> color = Optional.of("red");
 
   private String requiredColor = "red";
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> nullableColor = JsonNullable.<String>undefined();
 
   public Foo() {

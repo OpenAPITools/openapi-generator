@@ -31,12 +31,15 @@ import jakarta.annotation.Generated;
 public class ArrayTestDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<String> arrayOfString = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
@@ -62,7 +65,6 @@ public class ArrayTestDto {
     return arrayOfString;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_of_string")
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -91,7 +93,6 @@ public class ArrayTestDto {
     return arrayArrayOfInteger;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_array_of_integer")
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -120,7 +121,6 @@ public class ArrayTestDto {
     return arrayArrayOfModel;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_array_of_model")
   public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;

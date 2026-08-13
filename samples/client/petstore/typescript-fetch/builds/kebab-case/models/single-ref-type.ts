@@ -19,7 +19,7 @@
  */
 export const SingleRefType = {
     Admin: 'admin',
-    User: 'user'
+    User: 'user',
 } as const;
 export type SingleRefType = typeof SingleRefType[keyof typeof SingleRefType];
 

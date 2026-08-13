@@ -58,9 +58,6 @@ import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 
 import static java.util.Collections.sort;
-import static org.openapitools.codegen.CodegenConstants.ENUM_NAME;
-import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
-import static org.openapitools.codegen.utils.EnumUtils.hasEnumVars;
 
 /**
  * <p>Mustache templates are located in

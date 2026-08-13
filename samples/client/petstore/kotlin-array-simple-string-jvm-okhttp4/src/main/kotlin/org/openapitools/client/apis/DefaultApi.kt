@@ -112,6 +112,7 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/{ids}".replace("{"+"ids"+"}", encodeURIComponent(ids.joinToString(","))),

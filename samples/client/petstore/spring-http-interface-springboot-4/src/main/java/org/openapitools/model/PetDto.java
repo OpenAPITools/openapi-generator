@@ -36,16 +36,21 @@ import jakarta.annotation.Generated;
 public class PetDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Long id;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable CategoryDto category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
@@ -86,6 +91,7 @@ public class PetDto {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   @Deprecated
   private @Nullable StatusEnum status;
 
@@ -108,7 +114,6 @@ public class PetDto {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
@@ -129,7 +134,6 @@ public class PetDto {
     return category;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("category")
   public void setCategory(@Nullable CategoryDto category) {
     this.category = category;
@@ -207,7 +211,6 @@ public class PetDto {
     return tags;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("tags")
   public void setTags(List<@Valid TagDto> tags) {
     this.tags = tags;
@@ -233,7 +236,6 @@ public class PetDto {
   /**
    * @deprecated
    */
-  @JsonSetter(nulls = Nulls.SKIP)
   @Deprecated
   @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {

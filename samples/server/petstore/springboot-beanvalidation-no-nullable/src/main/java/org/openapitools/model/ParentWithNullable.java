@@ -71,6 +71,7 @@ public class ParentWithNullable {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable TypeEnum type;
 
   private @Nullable String nullableProperty = null;
@@ -91,7 +92,6 @@ public class ParentWithNullable {
     return type;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("type")
   public void setType(@Nullable TypeEnum type) {
     this.type = type;

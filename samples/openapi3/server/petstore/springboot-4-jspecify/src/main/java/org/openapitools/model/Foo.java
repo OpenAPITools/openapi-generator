@@ -38,6 +38,7 @@ import jakarta.annotation.Generated;
 public class Foo {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private java.time.@Nullable Instant dt;
 
@@ -45,29 +46,36 @@ public class Foo {
   private java.time.@Nullable Instant nullableDt = null;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private org.springframework.core.io.@Nullable Resource binary;
 
   private org.springframework.core.io.@Nullable Resource nullableBinary = null;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable List<java.time.Instant> listOfDt = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable List<java.time.Instant> listMinIntems = new ArrayList<>();
 
   private @Nullable List<java.time.Instant> nullableListMinIntems;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private java.time.Instant requiredDt;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private java.math.@Nullable BigDecimal number;
 
   private java.math.@Nullable BigDecimal nullableNumber = null;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String color = "red";
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String requiredColor = "red";
 
   private @Nullable String nullableColor = null;
@@ -121,7 +129,6 @@ public class Foo {
     return dt;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("dt")
   @JacksonXmlProperty(localName = "dt")
   public void setDt(java.time.@Nullable Instant dt) {
@@ -170,7 +177,6 @@ public class Foo {
     return binary;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("binary")
   @JacksonXmlProperty(localName = "binary")
   public void setBinary(org.springframework.core.io.@Nullable Resource binary) {
@@ -228,7 +234,6 @@ public class Foo {
     return listOfDt;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("listOfDt")
   @JacksonXmlProperty(localName = "listOfDt")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -263,7 +268,6 @@ public class Foo {
     return listMinIntems;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("listMinIntems")
   @JacksonXmlProperty(localName = "listMinIntems")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -347,7 +351,6 @@ public class Foo {
     return number;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("number")
   @JacksonXmlProperty(localName = "number")
   public void setNumber(java.math.@Nullable BigDecimal number) {
@@ -396,7 +399,6 @@ public class Foo {
     return color;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")
   public void setColor(@Nullable String color) {

@@ -24,9 +24,11 @@ import jakarta.annotation.Generated;
 public class Tag {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Long id;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private String name;
 
   public Tag id(Long id) {
@@ -44,7 +46,6 @@ public class Tag {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
@@ -65,7 +66,6 @@ public class Tag {
     return name;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name")
   public void setName(String name) {
     this.name = name;

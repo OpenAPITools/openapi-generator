@@ -40,8 +40,11 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.JsonAnnotationPolicyUtils;
+import org.openapitools.codegen.utils.JsonIncludePolicy;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
+import org.openapitools.codegen.utils.TriStateBoolean;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,7 +131,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
         none("Do not add a class level @RequestMapping annotation.");
 
-        private String description;
+        private final String description;
 
         RequestMappingMode(String description) {
             this.description = description;
@@ -159,6 +162,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean apiFirst = false;
     protected boolean useOptional = false;
     @Setter protected boolean useSealed = false;
+    @Getter @Setter protected JsonIncludePolicy optionalNonNullPropertyJsonInclude = JsonIncludePolicy.NON_NULL;
+    @Getter @Setter protected JsonAnnotationPolicyUtils.JsonSetterNullsMode optionalNonNullPropertyJsonSetterNulls = null;
+    @Getter @Setter protected TriStateBoolean generateJsonIncludeAnnotations = TriStateBoolean.UNSET;
+    @Getter @Setter protected TriStateBoolean generateJsonSetterNullsAnnotations = TriStateBoolean.UNSET;
     @Setter protected boolean virtualService = false;
     @Setter protected boolean hateoas = false;
     @Setter protected boolean returnSuccessCode = false;
@@ -281,6 +288,31 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(USE_SEALED,
                 "Whether to generate sealed model interfaces and classes"));
+
+        CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
+                JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE_DESC);
+        for (JsonIncludePolicy policy : JsonIncludePolicy.OPTIONAL_NON_NULL_POLICIES) {
+            optionalNonNullPropertyJsonIncludeOpt.addEnum(policy.name(), policy.getDescription());
+        }
+        optionalNonNullPropertyJsonIncludeOpt.setDefault(optionalNonNullPropertyJsonInclude.name());
+        cliOptions.add(optionalNonNullPropertyJsonIncludeOpt);
+
+        CliOption optionalNonNullPropertyJsonSetterNullsOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS,
+                JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS_DESC);
+        optionalNonNullPropertyJsonSetterNullsOpt.addEnum(JsonAnnotationPolicyUtils.JsonSetterNullsMode.SKIP.name(),
+                "Emit @JsonSetter(nulls = Nulls.SKIP): silently ignore an explicit JSON null, keeping the field's default.");
+        optionalNonNullPropertyJsonSetterNullsOpt.addEnum(JsonAnnotationPolicyUtils.JsonSetterNullsMode.FAIL.name(),
+                "Emit @JsonSetter(nulls = Nulls.FAIL): reject an explicit JSON null.");
+        cliOptions.add(optionalNonNullPropertyJsonSetterNullsOpt);
+
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS,
+                JsonAnnotationPolicyUtils.GENERATE_JSON_INCLUDE_ANNOTATIONS_DESC, false));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
+                "Whether to generate @JsonSetter(nulls = ...) annotations on optional non-nullable model properties. "
+                        + "When true, emits @JsonSetter so an explicit null in the payload does not overwrite the field. "
+                        + "When false, none are generated and deserialization null-handling defers to the global ObjectMapper. "
+                        + "When left unset it defaults to false (7.23.0-equivalent output) and logs a warning; set it "
+                        + "explicitly to silence the warning.", false));
         cliOptions.add(CliOption.newBoolean(API_FIRST,
                 "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions
@@ -555,6 +587,23 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(RETURN_SUCCESS_CODE, this::setReturnSuccessCode);
         convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI, this::setUseSwaggerUI);
         convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS,
+                value -> this.generateJsonIncludeAnnotations = TriStateBoolean.fromNullableBoolean(value));
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
+                value -> this.generateJsonSetterNullsAnnotations = TriStateBoolean.fromNullableBoolean(value));
+        this.optionalNonNullPropertyJsonInclude = JsonAnnotationPolicyUtils.resolveOptionalNonNullPropertyJsonInclude(
+                additionalProperties, optionalNonNullPropertyJsonInclude);
+        additionalProperties.put(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, optionalNonNullPropertyJsonInclude.name());
+        this.optionalNonNullPropertyJsonSetterNulls = JsonAnnotationPolicyUtils.resolveOptionalNonNullPropertyJsonSetterNulls(
+                additionalProperties, optionalNonNullPropertyJsonSetterNulls);
+        if (optionalNonNullPropertyJsonSetterNulls != null) {
+            additionalProperties.put(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, optionalNonNullPropertyJsonSetterNulls.name());
+        }
+        if (jackson) {
+            JsonAnnotationPolicyUtils.warnIfUnset(LOGGER, generateJsonIncludeAnnotations, generateJsonSetterNullsAnnotations);
+            JsonAnnotationPolicyUtils.warnIfJsonSetterNullsDefaultRisky(LOGGER, generateJsonSetterNullsAnnotations,
+                    optionalNonNullPropertyJsonSetterNulls, openApiNullable, false);
+        }
         if (DocumentationProvider.NONE.equals(getDocumentationProvider())) {
             this.setUseSwaggerUI(false);
         }
@@ -949,7 +998,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (openAPI.getPaths() != null) {
             for (final Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
-                final String pathname = openAPIGetPathsEntry.getKey();
                 final PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (final Operation operation : path.readOperations()) {
@@ -960,9 +1008,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                                 value.put("tag", escapeText(tag));
                                 tags.add(value);
                             }
-                            if (operation.getTags().size() > 0) {
+                            if (!operation.getTags().isEmpty()) {
                                 final String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
+                                operation.setTags(Collections.singletonList(tag));
                             }
                             operation.addExtension("x-tags", tags);
                         }
@@ -1065,29 +1113,28 @@ public class SpringCodegen extends AbstractJavaCodegen
      *                         fields in the model.
      */
     private void doDataTypeAssignment(String returnType, DataTypeAssigner dataTypeAssigner) {
-        final String rt = returnType;
-        if (rt == null) {
+        if (returnType == null) {
             dataTypeAssigner.setReturnType("Void");
             dataTypeAssigner.setIsVoid(true);
-        } else if (rt.startsWith("List") || rt.startsWith("java.util.List")) {
-            final int start = rt.indexOf("<");
-            final int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("List") || returnType.startsWith("java.util.List")) {
+            final int start = returnType.indexOf("<");
+            final int end = returnType.lastIndexOf(">");
             if (start > 0 && end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring(start + 1, end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
-        } else if (rt.startsWith("Map") || rt.startsWith("java.util.Map")) {
-            final int start = rt.indexOf("<");
-            final int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("Map") || returnType.startsWith("java.util.Map")) {
+            final int start = returnType.indexOf("<");
+            final int end = returnType.lastIndexOf(">");
             if (start > 0 && end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).split(",", 2)[1].trim());
+                dataTypeAssigner.setReturnType(returnType.substring(start + 1, end).split(",", 2)[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
-        } else if (rt.startsWith("Set") || rt.startsWith("java.util.Set")) {
-            final int start = rt.indexOf("<");
-            final int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("Set") || returnType.startsWith("java.util.Set")) {
+            final int start = returnType.indexOf("<");
+            final int end = returnType.lastIndexOf(">");
             if (start > 0 && end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring(start + 1, end).trim());
                 dataTypeAssigner.setReturnContainer("Set");
             }
         }
@@ -1140,7 +1187,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "DefaultApi";
         }
         name = sanitizeName(name);
@@ -1188,10 +1235,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         // Add imports for Jackson
-        if (!Boolean.TRUE.equals(model.isEnum)) {
+        if (!model.isEnum) {
             model.imports.add("JsonProperty");
 
-            if (Boolean.TRUE.equals(model.hasEnums)) {
+            if (model.hasEnums) {
                 model.imports.add("JsonValue");
             }
         } else { // enum class
@@ -1210,23 +1257,21 @@ public class SpringCodegen extends AbstractJavaCodegen
             model.imports.add("Arrays");
         }
 
-        // Optional + non-nullable: always emit @JsonInclude(NON_NULL) so null fields are omitted from
-        // serialized output regardless of who deserializes on the other end — closer to spec.
-        // When openApiNullable=false, also add @JsonSetter(nulls = Nulls.SKIP) on the setter.
-        if (!property.required && !property.isNullable) {
-            model.imports.add("JsonInclude");
-            if (!openApiNullable) {
-                property.vendorExtensions.put("x-has-json-setter-nulls-skip", true);
-                model.imports.add("JsonSetter");
-                model.imports.add("Nulls");
-            }
-        }
-        // Optional + nullable with openApiNullable: emit @JsonInclude(NON_ABSENT) so that
-        // JsonNullable.undefined() is excluded from serialized output.
-        if (openApiNullable && !property.required && property.isNullable) {
-            model.imports.add("JsonInclude");
-        }
+        // Optional + non-nullable: emit @JsonSetter(nulls = ...) so an explicit null in the payload does not
+        // silently overwrite the field's default. Also honors a per-property x-jackson-json-setter-nulls override
+        // and the optionalNonNullPropertyJsonSetterNulls option; see JsonAnnotationPolicyUtils#resolveJsonSetterNulls.
+        // spring's default path never emits Nulls.FAIL (failModeSupported=false), but the option/extension can.
+        JsonAnnotationPolicyUtils.resolveJsonSetterNulls(model, property, generateJsonSetterNullsAnnotations,
+                optionalNonNullPropertyJsonSetterNulls, openApiNullable, false);
+
+        // Resolve the @JsonInclude policy into the x-jackson-json-include-policy vendor extension; see
+        // JsonAnnotationPolicyUtils#resolveJsonIncludePolicy for the full precedence/matrix rules. For spring,
+        // required properties resolve to NON_NULL when non-nullable (contract protection) and ALWAYS when
+        // nullable (explicit null is valid and must be serialized).
+        JsonAnnotationPolicyUtils.resolveJsonIncludePolicy(model, property, generateJsonIncludeAnnotations,
+                optionalNonNullPropertyJsonInclude, JsonIncludePolicy.NON_NULL, JsonIncludePolicy.ALWAYS);
     }
+
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
@@ -1243,7 +1288,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         // Only add Nullable import for non-enum models that may have nullable fields
-        if (!Boolean.TRUE.equals(codegenModel.isEnum)) {
+        if (!codegenModel.isEnum) {
             addSpringNullableImport(codegenModel.imports);
         }
 
@@ -1352,7 +1397,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (schemaTypes.containsKey("array")) {
                 // we have a match with SSE pattern
                 // double check potential conflicting, multiple specs
-                if (schemaTypes.keySet().size() > 1) {
+                if (schemaTypes.size() > 1) {
                     throw new RuntimeException("only 1 response media type supported, when SSE is detected");
                 }
                 // double check schema format
@@ -1384,8 +1429,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 // Run through toModelName so that schemaMappings (e.g. User → com.example.MyUser)
                 // are honored: the mapped name is used both in the type arg and for import resolution.
                 String itemType = toModelName(detected.itemSchemaName);
-                String newBaseType = pagedModelClassName + "<" + itemType + ">";
-                codegenOperation.returnType = newBaseType;
+                codegenOperation.returnType = pagedModelClassName + "<" + itemType + ">";
                 codegenOperation.returnBaseType = pagedModelClassName;
                 // Clear any container flag — PagedModel is not itself a List/array
                 codegenOperation.returnContainer = null;
@@ -1432,7 +1476,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             }
                         }
                         String newArg = String.join(" ", newArgs);
-                        LOGGER.trace("new arg {} {}", newArg);
+                        LOGGER.trace("new arg {}", newArg);
                         formattedArgs.add(newArg);
                     }
                 }
@@ -1562,6 +1606,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MINIMUM_MESSAGE);
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
+        extensions.add(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY);
+        extensions.add(VendorExtension.X_JACKSON_JSON_SETTER_NULLS);
         return extensions;
     }
 
