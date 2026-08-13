@@ -25,6 +25,7 @@ export interface DeprecatedObject {
     name?: string;
 }
 
+
 /**
  * Check if a given object implements the DeprecatedObject interface.
  */

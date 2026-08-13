@@ -39,6 +39,7 @@ export interface AllOfWithSingleRef {
 
 
 
+
 /**
  * Check if a given object implements the AllOfWithSingleRef interface.
  */

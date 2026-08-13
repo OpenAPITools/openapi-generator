@@ -33,6 +33,7 @@ export interface FooGetDefaultResponse {
     string?: Foo;
 }
 
+
 /**
  * Check if a given object implements the FooGetDefaultResponse interface.
  */

@@ -29,6 +29,7 @@ export interface ReadOnlyFirst {
     baz?: string;
 }
 
+
 /**
  * Check if a given object implements the ReadOnlyFirst interface.
  */

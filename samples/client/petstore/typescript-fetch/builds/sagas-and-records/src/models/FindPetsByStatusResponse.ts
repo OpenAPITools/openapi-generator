@@ -44,6 +44,7 @@ export interface FindPetsByStatusResponse {
     data?: Array<Pet>;
 }
 
+
 /**
  * Check if a given object implements the FindPetsByStatusResponse interface.
  */

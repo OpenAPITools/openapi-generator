@@ -29,6 +29,7 @@ export interface HasOnlyReadOnly {
     readonly foo?: string;
 }
 
+
 /**
  * Check if a given object implements the HasOnlyReadOnly interface.
  */

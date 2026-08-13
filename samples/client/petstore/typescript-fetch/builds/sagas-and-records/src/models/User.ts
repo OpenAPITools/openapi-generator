@@ -61,6 +61,7 @@ export interface User {
     subUser2: User;
 }
 
+
 /**
  * Check if a given object implements the User interface.
  */

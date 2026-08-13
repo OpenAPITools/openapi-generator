@@ -53,6 +53,7 @@ export interface User {
     userStatus?: number;
 }
 
+
 /**
  * Check if a given object implements the User interface.
  */

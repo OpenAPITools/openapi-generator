@@ -46,6 +46,7 @@ export interface Capitalization {
     aTTNAME?: string;
 }
 
+
 /**
  * Check if a given object implements the Capitalization interface.
  */

@@ -75,6 +75,7 @@ export enum FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum {
 }
 
 
+
 /**
  * Check if a given object implements the FakeEnumRequestGetInline200Response interface.
  */

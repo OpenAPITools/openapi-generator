@@ -52,6 +52,7 @@ export const CategoryPropertyValidationAttributesMap: {
 }
 
 
+
 /**
  * Check if a given object implements the Category interface.
  */

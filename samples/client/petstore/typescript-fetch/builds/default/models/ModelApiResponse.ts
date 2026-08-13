@@ -33,6 +33,7 @@ export interface ModelApiResponse {
     message?: string;
 }
 
+
 /**
  * Check if a given object implements the ModelApiResponse interface.
  */

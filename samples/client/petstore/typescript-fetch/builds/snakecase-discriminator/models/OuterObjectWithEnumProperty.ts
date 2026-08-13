@@ -35,6 +35,7 @@ export interface OuterObjectWithEnumProperty {
 
 
 
+
 /**
  * Check if a given object implements the OuterObjectWithEnumProperty interface.
  */

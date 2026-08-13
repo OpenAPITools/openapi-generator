@@ -29,6 +29,7 @@ export interface ItemId {
     type: string;
 }
 
+
 /**
  * Check if a given object implements the ItemId interface.
  */

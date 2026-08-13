@@ -25,6 +25,7 @@ export interface TestB {
     bar: string;
 }
 
+
 /**
  * Check if a given object implements the TestB interface.
  */

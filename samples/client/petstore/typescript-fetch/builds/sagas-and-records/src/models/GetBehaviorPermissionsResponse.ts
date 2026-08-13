@@ -37,6 +37,7 @@ export interface GetBehaviorPermissionsResponse {
     data?: { [key: string]: boolean; };
 }
 
+
 /**
  * Check if a given object implements the GetBehaviorPermissionsResponse interface.
  */

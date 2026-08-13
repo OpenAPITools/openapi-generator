@@ -85,6 +85,7 @@ export interface FormatTest {
     patternWithDigitsAndDelimiter?: string;
 }
 
+
 /**
  * Check if a given object implements the FormatTest interface.
  */

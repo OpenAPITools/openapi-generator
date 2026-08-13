@@ -42,6 +42,7 @@ export interface ExtendDto extends TestBaseDto {
 
 
 
+
 /**
  * Check if a given object implements the ExtendDto interface.
  */

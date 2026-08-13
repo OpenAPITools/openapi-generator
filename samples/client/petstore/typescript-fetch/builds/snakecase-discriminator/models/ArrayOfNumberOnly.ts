@@ -25,6 +25,7 @@ export interface ArrayOfNumberOnly {
     arrayNumber?: Array<number>;
 }
 
+
 /**
  * Check if a given object implements the ArrayOfNumberOnly interface.
  */

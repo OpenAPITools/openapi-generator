@@ -53,7 +53,7 @@ export interface Order {
 export const OrderStatusEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
@@ -80,6 +80,7 @@ export const OrderAdditionalPropertiesValidationAttributes: { maxProperties?: nu
     maxProperties: 10,
     minProperties: 2,
 }
+
 
 
 /**

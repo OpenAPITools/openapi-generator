@@ -36,6 +36,7 @@ import {
 export interface InternalAuthenticatedUserDto extends AbstractUserDto {
 }
 
+
 /**
  * Check if a given object implements the InternalAuthenticatedUserDto interface.
  */

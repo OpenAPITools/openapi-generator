@@ -35,9 +35,10 @@ export interface ParentWithNullable {
  * @export
  */
 export const ParentWithNullableTypeEnum = {
-    ChildWithNullable: 'ChildWithNullable'
+    ChildWithNullable: 'ChildWithNullable',
 } as const;
 export type ParentWithNullableTypeEnum = typeof ParentWithNullableTypeEnum[keyof typeof ParentWithNullableTypeEnum];
+
 
 
 /**

@@ -25,6 +25,7 @@ export interface SpecialModelName {
     $specialPropertyName?: number;
 }
 
+
 /**
  * Check if a given object implements the SpecialModelName interface.
  */

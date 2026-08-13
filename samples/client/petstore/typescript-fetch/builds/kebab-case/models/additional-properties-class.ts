@@ -29,6 +29,7 @@ export interface AdditionalPropertiesClass {
     mapOfMapProperty?: { [key: string]: { [key: string]: string; }; };
 }
 
+
 /**
  * Check if a given object implements the AdditionalPropertiesClass interface.
  */

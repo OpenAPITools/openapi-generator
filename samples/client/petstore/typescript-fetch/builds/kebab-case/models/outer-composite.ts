@@ -33,6 +33,7 @@ export interface OuterComposite {
     myBoolean?: boolean;
 }
 
+
 /**
  * Check if a given object implements the OuterComposite interface.
  */

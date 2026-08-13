@@ -29,6 +29,7 @@ export interface Model200Response {
     _class?: string;
 }
 
+
 /**
  * Check if a given object implements the Model200Response interface.
  */

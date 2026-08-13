@@ -29,6 +29,7 @@ export interface Category {
     name: string;
 }
 
+
 /**
  * Check if a given object implements the Category interface.
  */

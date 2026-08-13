@@ -30,9 +30,10 @@ export interface OptionOne {
  * @export
  */
 export const OptionOneDiscriminatorFieldEnum = {
-    OptionOne: 'optionOne'
+    OptionOne: 'optionOne',
 } as const;
 export type OptionOneDiscriminatorFieldEnum = typeof OptionOneDiscriminatorFieldEnum[keyof typeof OptionOneDiscriminatorFieldEnum];
+
 
 
 /**

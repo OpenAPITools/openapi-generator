@@ -25,6 +25,7 @@ export interface Client {
     client?: string;
 }
 
+
 /**
  * Check if a given object implements the Client interface.
  */

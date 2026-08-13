@@ -54,6 +54,7 @@ export interface EnumPatternObject {
 
 
 
+
 /**
  * Check if a given object implements the EnumPatternObject interface.
  */

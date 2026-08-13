@@ -29,6 +29,7 @@ export interface FakeBigDecimalMap200Response {
     someMap?: { [key: string]: number; };
 }
 
+
 /**
  * Check if a given object implements the FakeBigDecimalMap200Response interface.
  */

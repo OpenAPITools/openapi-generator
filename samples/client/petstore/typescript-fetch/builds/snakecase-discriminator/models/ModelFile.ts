@@ -25,6 +25,7 @@ export interface ModelFile {
     sourceURI?: string;
 }
 
+
 /**
  * Check if a given object implements the ModelFile interface.
  */

@@ -29,6 +29,7 @@ export interface Report {
     name?: string;
 }
 
+
 /**
  * Check if a given object implements the Report interface.
  */

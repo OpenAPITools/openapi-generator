@@ -20,7 +20,7 @@
 export const EnumClass = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
 

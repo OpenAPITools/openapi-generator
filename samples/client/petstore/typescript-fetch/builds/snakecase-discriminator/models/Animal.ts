@@ -31,6 +31,7 @@ export interface Animal {
     color?: string;
 }
 
+
 /**
  * Check if a given object implements the Animal interface.
  */

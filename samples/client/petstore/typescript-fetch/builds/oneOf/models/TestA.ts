@@ -25,6 +25,7 @@ export interface TestA {
     foo: string;
 }
 
+
 /**
  * Check if a given object implements the TestA interface.
  */

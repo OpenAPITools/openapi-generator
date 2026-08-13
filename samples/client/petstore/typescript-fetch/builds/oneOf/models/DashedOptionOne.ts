@@ -34,9 +34,10 @@ export interface DashedOptionOne {
  * @export
  */
 export const DashedOptionOneDiscriminatorFieldEnum = {
-    DashedOptionOne: 'dashedOptionOne'
+    DashedOptionOne: 'dashedOptionOne',
 } as const;
 export type DashedOptionOneDiscriminatorFieldEnum = typeof DashedOptionOneDiscriminatorFieldEnum[keyof typeof DashedOptionOneDiscriminatorFieldEnum];
+
 
 
 /**

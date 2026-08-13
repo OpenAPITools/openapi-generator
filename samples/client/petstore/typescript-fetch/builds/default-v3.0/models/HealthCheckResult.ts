@@ -25,6 +25,7 @@ export interface HealthCheckResult {
     nullableMessage?: string | null;
 }
 
+
 /**
  * Check if a given object implements the HealthCheckResult interface.
  */

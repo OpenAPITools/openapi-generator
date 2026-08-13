@@ -52,6 +52,7 @@ export const ModelApiResponsePropertyValidationAttributesMap: {
 }
 
 
+
 /**
  * Check if a given object implements the ModelApiResponse interface.
  */

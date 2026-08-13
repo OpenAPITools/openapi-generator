@@ -34,9 +34,10 @@ export interface SnakeOptionTwo {
  * @export
  */
 export const SnakeOptionTwoDiscriminatorFieldEnum = {
-    SnakeOptionTwo: 'snakeOptionTwo'
+    SnakeOptionTwo: 'snakeOptionTwo',
 } as const;
 export type SnakeOptionTwoDiscriminatorFieldEnum = typeof SnakeOptionTwoDiscriminatorFieldEnum[keyof typeof SnakeOptionTwoDiscriminatorFieldEnum];
+
 
 
 /**

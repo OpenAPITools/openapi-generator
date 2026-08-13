@@ -25,6 +25,7 @@ export interface Foo {
     bar?: string;
 }
 
+
 /**
  * Check if a given object implements the Foo interface.
  */

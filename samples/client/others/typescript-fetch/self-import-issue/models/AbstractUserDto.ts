@@ -43,6 +43,7 @@ export interface AbstractUserDto {
     type?: string;
 }
 
+
 /**
  * Check if a given object implements the AbstractUserDto interface.
  */

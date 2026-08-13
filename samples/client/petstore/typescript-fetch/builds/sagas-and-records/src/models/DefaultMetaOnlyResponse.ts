@@ -33,6 +33,7 @@ export interface DefaultMetaOnlyResponse {
     meta: ResponseMeta;
 }
 
+
 /**
  * Check if a given object implements the DefaultMetaOnlyResponse interface.
  */

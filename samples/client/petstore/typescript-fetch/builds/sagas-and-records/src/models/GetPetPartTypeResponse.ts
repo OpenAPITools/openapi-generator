@@ -46,6 +46,7 @@ export interface GetPetPartTypeResponse {
 
 
 
+
 /**
  * Check if a given object implements the GetPetPartTypeResponse interface.
  */

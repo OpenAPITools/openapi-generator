@@ -33,6 +33,7 @@ export interface Dog extends Animal {
     breed?: string;
 }
 
+
 /**
  * Check if a given object implements the Dog interface.
  */

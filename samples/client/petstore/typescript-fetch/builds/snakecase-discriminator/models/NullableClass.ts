@@ -70,6 +70,7 @@ export interface NullableClass {
     objectItemsNullable?: { [key: string]: object | null; };
 }
 
+
 /**
  * Check if a given object implements the NullableClass interface.
  */

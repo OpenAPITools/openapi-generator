@@ -33,6 +33,7 @@ export interface Club {
     readonly owner?: Owner;
 }
 
+
 /**
  * Check if a given object implements the Club interface.
  */
