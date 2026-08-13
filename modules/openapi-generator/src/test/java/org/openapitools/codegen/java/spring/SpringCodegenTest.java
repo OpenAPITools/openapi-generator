@@ -3243,6 +3243,18 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void contractWithDeprecatedEnumGeneratesDeprecatedAnnotation() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("OuterEnumInteger.java"))
+                .fileContains("@Deprecated", "public enum OuterEnumInteger");
+
+        JavaFileAssert.assertThat(output.get("OuterEnum.java"))
+                .fileDoesNotContain("@Deprecated");
+    }
+
+    @Test
     public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
