@@ -2,6 +2,8 @@ name: TypeScript clients type checks
 
 on:
   push:
+    branches:
+      - master
     paths:
       - samples/client/petstore/typescript*/**
       - samples/client/others/typescript*/**
