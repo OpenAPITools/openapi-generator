@@ -63,7 +63,6 @@ import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
-import static org.openapitools.codegen.languages.JavaClientCodegen.USE_JACKSON_3;
 import static org.openapitools.codegen.languages.JavaClientCodegen.USE_SPRING_BOOT4;
 import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
@@ -6212,7 +6211,7 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("Pet.java"))
-                .fileContains("private Map<String, String> requiredonlyRequiredMap = new HashMap<>();");
+                .fileContains("private Map<String, String> requiredNonNullableMap = new HashMap<>();");
     }
 
     @Test
