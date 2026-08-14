@@ -32,6 +32,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class DartClientCodegenTest {
 
@@ -101,6 +102,10 @@ public class DartClientCodegenTest {
     }
 
     private List<File> generateDartNativeFromSpec(String specPath) throws Exception {
+        return generateDartNativeFromSpec(specPath, Map.of());
+    }
+
+    private List<File> generateDartNativeFromSpec(String specPath, Map<String, Object> additionalProperties) throws Exception {
         File output = Files.createTempDirectory("dart-native-test").toFile();
         output.deleteOnExit();
 
@@ -108,6 +113,7 @@ public class DartClientCodegenTest {
                 .setGeneratorName("dart")
                 .setInputSpec(specPath)
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        additionalProperties.forEach(configurator::addAdditionalProperty);
 
         ClientOptInput opts = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -200,6 +206,9 @@ public class DartClientCodegenTest {
                 "e == null ? null : NullableRequiredModel.listFromJson(e)");
     }
 
+    // DateFormat('yyyy-MM-dd') does no timezone conversion, it just formats the y/m/d the
+    // DateTime already carries. So toUtc() only shifts the value across a day boundary and
+    // the date comes out off by one - back a day east of UTC, forward a day west of it.
     @Test(description = "format: date must not be converted to UTC before formatting")
     public void testDateOnlyFieldsAreNotConvertedToUtc() throws Exception {
         List<File> files = generateDartNativeFromSpec(
@@ -210,16 +219,29 @@ public class DartClientCodegenTest {
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("date_only_model.dart not found in generated files"));
 
-        // _dateFormatter is DateFormat('yyyy-MM-dd'), which formats the y/m/d the
-        // DateTime already carries and performs no timezone conversion. Calling
-        // toUtc() first therefore does nothing except roll the clock back past
-        // midnight in UTC+X zones, so the formatter prints the previous day.
-        // This model has no date-time properties, so no toUtc() belongs in it.
-        TestUtils.assertFileNotContains(modelFile.toPath(), ".toUtc()");
-
         TestUtils.assertFileContains(modelFile.toPath(),
                 "json[r'requiredDate'] = _dateFormatter.format(this.requiredDate);");
         TestUtils.assertFileContains(modelFile.toPath(),
                 "json[r'optionalDate'] = _dateFormatter.format(this.optionalDate!);");
+        // A pattern routes it through the _isEpochMarker ternary, non-epoch side formats the same way
+        TestUtils.assertFileContains(modelFile.toPath(),
+                ": _dateFormatter.format(this.patternedDate!);");
+    }
+
+    @Test(description = "format: date must not be converted to UTC in the Optional<T> path either")
+    public void testDateOnlyFieldsAreNotConvertedToUtcWithUseOptional() throws Exception {
+        List<File> files = generateDartNativeFromSpec(
+                "src/test/resources/3_0/dart/dart-native-deserialization-bugs.yaml",
+                Map.of("useOptional", true));
+
+        File modelFile = files.stream()
+                .filter(f -> f.getName().equals("date_only_model.dart"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("date_only_model.dart not found in generated files"));
+
+        TestUtils.assertFileContains(modelFile.toPath(),
+                "json[r'optionalDate'] = value == null ? null : _dateFormatter.format(value);");
+        TestUtils.assertFileContains(modelFile.toPath(),
+                ": _dateFormatter.format(value));");
     }
 }
