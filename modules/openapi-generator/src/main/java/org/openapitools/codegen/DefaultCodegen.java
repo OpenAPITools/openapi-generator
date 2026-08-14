@@ -2457,6 +2457,18 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the examples of the parameter.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param mediaType        Media type
+     */
+    public void setParameterExamples(CodegenParameter codegenParameter, MediaType mediaType) {
+        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+            codegenParameter.examples = mediaType.getExamples();
+        }
+    }
+
+    /**
      * Return the example value of the parameter.
      *
      * @param codegenParameter Codegen parameter
@@ -7442,11 +7454,31 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected String getContentType(RequestBody requestBody) {
-        if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
+        if (!hasMediaType(requestBody)) {
             LOGGER.debug("Cannot determine the content type. Returning null.");
             return null;
         }
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
+    }
+
+    /**
+     *
+     * @param requestBody The request body
+     * @return The first media type of the request body's content, if it exists. Otherwise, returns an empty Optional.
+     */
+    private Optional<MediaType> getFirstContentMediaType(RequestBody requestBody) {
+        if (hasMediaType(requestBody)) {
+            return Optional.of(requestBody.getContent().values().iterator().next());
+        }
+        return Optional.empty();
+    }
+
+    private static boolean hasMediaType(RequestBody requestBody) {
+        return requestBody != null && requestBody.getContent() != null && !requestBody.getContent().isEmpty();
+    }
+
+    private static boolean hasMediaType(ApiResponse apiResponse) {
+        return apiResponse != null && apiResponse.getContent() != null && !apiResponse.getContent().isEmpty();
     }
 
     private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
@@ -7481,7 +7513,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     private void addConsumesInfo(Operation operation, CodegenOperation codegenOperation) {
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
-        if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
+        if (!hasMediaType(requestBody)) {
             return;
         }
 
@@ -7512,7 +7544,7 @@ public class DefaultCodegen implements CodegenConfig {
     public static Set<String> getConsumesInfo(OpenAPI openAPI, Operation operation) {
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
 
-        if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
+        if (!hasMediaType(requestBody)) {
             return Collections.emptySet(); // return empty set
         }
         return requestBody.getContent().keySet();
@@ -7548,7 +7580,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     private void addProducesInfo(ApiResponse inputResponse, CodegenOperation codegenOperation) {
         ApiResponse response = ModelUtils.getReferencedApiResponse(this.openAPI, inputResponse);
-        if (response == null || response.getContent() == null || response.getContent().isEmpty()) {
+        if (!hasMediaType(response)) {
             return;
         }
 
@@ -8375,6 +8407,9 @@ public class DefaultCodegen implements CodegenConfig {
         // set the parameter's example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, body);
+
+        getFirstContentMediaType(body)
+                .ifPresent(mediaType -> setParameterExamples(codegenParameter, mediaType));
 
         // restore original schema with description, extensions etc
         if (original != null) {
