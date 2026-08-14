@@ -55,7 +55,9 @@ public class Pet {
 
   /**
    * pet status in the store
+   * @deprecated deprecated
    */
+  @Deprecated
   public enum StatusEnum implements ValuedEnum<String> {
     AVAILABLE("available"),
     
