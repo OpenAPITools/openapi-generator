@@ -52,6 +52,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atBaseType;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String atType;
 
   public Entity() {

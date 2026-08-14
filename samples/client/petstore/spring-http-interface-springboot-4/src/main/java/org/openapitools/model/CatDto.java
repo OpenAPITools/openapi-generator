@@ -39,6 +39,7 @@ import jakarta.annotation.Generated;
 public class CatDto extends AnimalDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Boolean declawed;
 
   public CatDto() {
@@ -60,7 +61,6 @@ public class CatDto extends AnimalDto {
     return declawed;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("declawed")
   public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;

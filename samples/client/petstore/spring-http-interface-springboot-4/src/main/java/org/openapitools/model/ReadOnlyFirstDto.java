@@ -27,9 +27,11 @@ import jakarta.annotation.Generated;
 public class ReadOnlyFirstDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String bar;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String baz;
 
   public ReadOnlyFirstDto bar(@Nullable String bar) {
@@ -47,7 +49,6 @@ public class ReadOnlyFirstDto {
     return bar;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("bar")
   public void setBar(@Nullable String bar) {
     this.bar = bar;
@@ -68,7 +69,6 @@ public class ReadOnlyFirstDto {
     return baz;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("baz")
   public void setBaz(@Nullable String baz) {
     this.baz = baz;

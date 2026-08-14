@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.DataTypeFeature;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -1138,18 +1139,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
-                for (Map<String, Object> enumVars : getEnumVars(model.getAllowableValues())) {
-                    if ((Boolean) enumVars.get(ENUM_IS_STRING)) {
+                for (EnumVarMap enumVars : getEnumVars(model.getAllowableValues())) {
+                    if (enumVars.isString()) {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "str");
                         // Do not overwrite the variable name if already set through x-enum-varnames
                         if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
-                            enumVars.put(ENUM_NAME, toEnumVariableName((String) enumVars.get(ENUM_VALUE), "str"));
+                            enumVars.setEnumName(toEnumVariableName((String) enumVars.getEnumValue(), "str"));
                         }
                     } else {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "int");
                         // Do not overwrite the variable name if already set through x-enum-varnames
                         if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
-                            enumVars.put(ENUM_NAME, toEnumVariableName((String) enumVars.get(ENUM_VALUE), "int"));
+                            enumVars.setEnumName(toEnumVariableName((String) enumVars.getEnumValue(), "int"));
                         }
                     }
                 }

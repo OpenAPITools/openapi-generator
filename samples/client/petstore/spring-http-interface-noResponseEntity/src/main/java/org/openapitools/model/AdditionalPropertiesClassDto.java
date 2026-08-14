@@ -57,7 +57,6 @@ public class AdditionalPropertiesClassDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Object anytype1;
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

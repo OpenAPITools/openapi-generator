@@ -66,6 +66,7 @@ public class EnumTestDto {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable EnumStringEnum enumString;
 
   /**
@@ -105,6 +106,7 @@ public class EnumTestDto {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -143,6 +145,7 @@ public class EnumTestDto {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable EnumIntegerEnum enumInteger;
 
   /**
@@ -181,9 +184,11 @@ public class EnumTestDto {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable EnumNumberEnum enumNumber;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable OuterEnumDto outerEnum;
 
   public EnumTestDto() {
@@ -205,7 +210,6 @@ public class EnumTestDto {
     return enumString;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("enum_string")
   public void setEnumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -246,7 +250,6 @@ public class EnumTestDto {
     return enumInteger;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("enum_integer")
   public void setEnumInteger(@Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
@@ -267,7 +270,6 @@ public class EnumTestDto {
     return enumNumber;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("enum_number")
   public void setEnumNumber(@Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
@@ -288,7 +290,6 @@ public class EnumTestDto {
     return outerEnum;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("outerEnum")
   public void setOuterEnum(@Nullable OuterEnumDto outerEnum) {
     this.outerEnum = outerEnum;

@@ -26,6 +26,7 @@ import jakarta.annotation.Generated;
 public class File {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String sourceURI;
 
   public File sourceURI(@Nullable String sourceURI) {
@@ -44,7 +45,6 @@ public class File {
     return sourceURI;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("sourceURI")
   public void setSourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;

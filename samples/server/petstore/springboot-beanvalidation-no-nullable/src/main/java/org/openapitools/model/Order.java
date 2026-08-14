@@ -28,15 +28,19 @@ import jakarta.annotation.Generated;
 public class Order {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Long id;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Long petId;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Integer quantity;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime shipDate;
 
@@ -78,9 +82,11 @@ public class Order {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable StatusEnum status;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Boolean complete = false;
 
   public Order id(@Nullable Long id) {
@@ -99,7 +105,6 @@ public class Order {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
@@ -121,7 +126,6 @@ public class Order {
     return petId;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("petId")
   public void setPetId(@Nullable Long petId) {
     this.petId = petId;
@@ -143,7 +147,6 @@ public class Order {
     return quantity;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("quantity")
   public void setQuantity(@Nullable Integer quantity) {
     this.quantity = quantity;
@@ -165,7 +168,6 @@ public class Order {
     return shipDate;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("shipDate")
   public void setShipDate(@Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
@@ -187,7 +189,6 @@ public class Order {
     return status;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
@@ -209,7 +210,6 @@ public class Order {
     return complete;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;

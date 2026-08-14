@@ -33,6 +33,7 @@ import jakarta.annotation.Generated;
 public class ChildWithNullableDto extends ParentWithNullableDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String otherProperty;
 
   public ChildWithNullableDto otherProperty(@Nullable String otherProperty) {
@@ -50,7 +51,6 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
     return otherProperty;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("otherProperty")
   public void setOtherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;

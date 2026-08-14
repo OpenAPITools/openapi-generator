@@ -27,10 +27,12 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -978,14 +980,14 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
             // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
-                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get(ENUM_VARS)) {
-                    if ((Boolean) enumVars.get(ENUM_IS_STRING)) {
+                for (EnumVarMap enumVars : EnumUtils.getEnumVars(model.getAllowableValues())) {
+                    if (enumVars.isString()) {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "str");
                         // update `name`, e.g.
-                        enumVars.put(ENUM_NAME, toEnumVariableName((String) enumVars.get(ENUM_VALUE), "str"));
+                        enumVars.setEnumName(toEnumVariableName((String) enumVars.getEnumValue(), "str"));
                     } else {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "int");
-                        enumVars.put(ENUM_NAME, toEnumVariableName((String) enumVars.get(ENUM_VALUE), "int"));
+                        enumVars.setEnumName(toEnumVariableName((String) enumVars.getEnumValue(), "int"));
                     }
                 }
             }

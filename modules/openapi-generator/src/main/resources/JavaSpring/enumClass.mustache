@@ -1,7 +1,9 @@
   /**
-   * {{^description}}Gets or Sets {{{name}}}{{/description}}{{{description}}}
+   * {{^description}}Gets or Sets {{{name}}}{{/description}}{{{description}}}{{#deprecated}}
+   * @deprecated deprecated{{/deprecated}}
    */
-  {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+  {{>additionalEnumTypeAnnotations}}{{#deprecated}}@Deprecated
+  {{/deprecated}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
     {{#gson}}
         {{#allowableValues}}
             {{#enumVars}}
