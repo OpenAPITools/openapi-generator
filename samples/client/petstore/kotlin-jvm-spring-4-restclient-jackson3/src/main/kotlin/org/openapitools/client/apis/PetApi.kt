@@ -42,6 +42,7 @@ open class PetApi(client: RestClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(RestClient.builder()
         .baseUrl(baseUrl)
+        .registerDefaults()
         .configureMessageConverters { it.withJsonConverter(JacksonJsonHttpMessageConverter(Serializer.jacksonObjectMapper)) }
         .build()
     )
