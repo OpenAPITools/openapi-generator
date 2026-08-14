@@ -161,11 +161,13 @@ public class Pet {
     this.name = name;
   }
 
+  @Deprecated
   public Pet photoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
 
+  @Deprecated
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
     if (this.photoUrls == null) {
       this.photoUrls = new ArrayList<>();

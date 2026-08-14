@@ -219,6 +219,7 @@ public class Pet {
     this.tags = tags;
   }
 
+  @Deprecated
   public Pet status(StatusEnum status) {
     this.status = status;
     return this;

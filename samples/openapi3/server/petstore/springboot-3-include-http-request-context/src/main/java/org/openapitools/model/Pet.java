@@ -262,6 +262,7 @@ public class Pet {
     this.tags = tags;
   }
 
+  @Deprecated
   public Pet status(@Nullable StatusEnum status) {
     this.status = status;
     return this;

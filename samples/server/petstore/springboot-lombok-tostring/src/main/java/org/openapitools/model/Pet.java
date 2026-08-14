@@ -151,6 +151,7 @@ public class Pet {
   }
 
 
+  @Deprecated
   public Pet status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
