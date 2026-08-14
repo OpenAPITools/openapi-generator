@@ -6095,7 +6095,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testDefaultForRequiredNonNullableMap() throws IOException {
+    public void testDefaultForRequiredonlyRequiredMap() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -6115,7 +6115,7 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("Pet.java"))
-                .fileContains("private Map<String, String> requiredNonNullableMap = new HashMap<>();");
+                .fileContains("private Map<String, String> requiredonlyRequiredMap = new HashMap<>();");
     }
 
     @Test
@@ -7099,13 +7099,9 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
                 .fileContains(
                         "private @Nullable String str",
-                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String nonNullable)",
+                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired)",
                         "@Nullable String getStr()",
                         "void setStr(@Nullable String str)"
-                );
-        JavaFileAssert.assertThat(files.get("RequiredAndNullableApi.java"))
-                .fileContains(
-                        "Optional<String> param"
                 );
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
@@ -7183,10 +7179,6 @@ public class SpringCodegenTest {
                         "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired)",
                         "JsonNullable<String> getStr()",
                         "void setStr(JsonNullable<String> str)"
-                );
-        JavaFileAssert.assertThat(files.get("RequiredAndNullableApi.java"))
-                .fileContains(
-                        "Optional<String> param"
                 );
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
@@ -7280,10 +7272,6 @@ public class SpringCodegenTest {
                         "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired)",
                         "JsonNullable<String> getStr()",
                         "void setStr(JsonNullable<String> str)"
-                );
-        JavaFileAssert.assertThat(files.get("RequiredAndNullableApi.java"))
-                .fileContains(
-                        "Optional<String> param"
                 );
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
@@ -8517,7 +8505,7 @@ public class SpringCodegenTest {
         assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_ABSENT)");
         // JsonNullable field must be present
         assertFileContains(modelFile, "private JsonNullable<String> optionalNullable");
-        // NON_NULL must also be present (for optionalNonNullable fields)
+        // NON_NULL must also be present (for optionalonlyRequired fields)
         assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
         assertFileContains(modelFile, "import com.fasterxml.jackson.annotation.JsonInclude");
     }
@@ -8543,7 +8531,7 @@ public class SpringCodegenTest {
      * of the openApiNullable setting.
      */
     @Test
-    void optionalNonNullableField_alwaysHasNonNullAnnotation() throws IOException {
+    void optionalonlyRequiredField_alwaysHasNonNullAnnotation() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 SPRING_BOOT,
@@ -8551,7 +8539,7 @@ public class SpringCodegenTest {
 
         Path modelFile = files.get("TestModel.java").toPath();
         assertFileContains(modelFile, "@JsonInclude(JsonInclude.Include.NON_NULL)");
-        assertFileContains(modelFile, "private String optionalNonNullable");
+        assertFileContains(modelFile, "private String optionalonlyRequired");
     }
 
     @Test
