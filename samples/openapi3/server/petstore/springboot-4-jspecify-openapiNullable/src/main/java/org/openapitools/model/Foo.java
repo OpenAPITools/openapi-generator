@@ -309,7 +309,7 @@ public class Foo {
    * Get requiredDt
    * @return requiredDt
    */
-  @NotNull @Valid 
+  @Valid 
   @Schema(name = "requiredDt", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("requiredDt")
   @JacksonXmlProperty(localName = "requiredDt")
@@ -403,7 +403,7 @@ public class Foo {
    * Get requiredColor
    * @return requiredColor
    */
-  @NotNull 
+  
   @Schema(name = "requiredColor", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("requiredColor")
   @JacksonXmlProperty(localName = "requiredColor")

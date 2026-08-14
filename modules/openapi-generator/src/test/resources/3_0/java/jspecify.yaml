@@ -4,6 +4,8 @@ info:
   title: jspecify
   version: 1.0.0
 tags:
+  - name: requiredAndNullable
+    description: requiredAndNullable
   - name: foo
     description: foo
   - name: upload
@@ -45,6 +47,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Foo'
+  /requiredAndNullable:
+    post:
+      tags:
+        - requiredAndNullable
+      requestBody:
+        required: true
+        description: bodyWithRequiredAndNullableAttributes
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequiredAndNullable'
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequiredAndNullable'
   /upload:
     post:
       tags:
@@ -152,7 +172,25 @@ components:
           type: string
           default: red
           nullable: true
-
-
-
-
+    RequiredAndNullable:
+      type: object
+      required:
+        - str
+        - file
+        - color
+        - onlyRequired
+      properties:
+        str:
+          nullable: true
+          type: string
+        file:
+          nullable: true
+          type: string
+          format: binary
+        color:
+          type: string
+          default: red
+          nullable: true
+        onlyRequired:
+          # NON nullable
+          type: string

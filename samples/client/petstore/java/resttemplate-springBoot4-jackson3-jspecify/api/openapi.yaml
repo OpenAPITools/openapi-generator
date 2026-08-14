@@ -6,6 +6,8 @@ info:
 servers:
 - url: /
 tags:
+- description: requiredAndNullable
+  name: requiredAndNullable
 - description: foo
   name: foo
 - description: upload
@@ -57,6 +59,27 @@ paths:
           description: response
       tags:
       - foo
+      x-accepts:
+      - application/json
+  /requiredAndNullable:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequiredAndNullable"
+        description: bodyWithRequiredAndNullableAttributes
+        required: true
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequiredAndNullable"
+          description: response
+      tags:
+      - requiredAndNullable
+      x-content-type: application/json
       x-accepts:
       - application/json
   /upload:
@@ -185,6 +208,32 @@ components:
       required:
       - requiredColor
       - requiredDt
+    RequiredAndNullable:
+      example:
+        str: str
+        file: ""
+        color: red
+        onlyRequired: onlyRequired
+      properties:
+        str:
+          nullable: true
+          type: string
+        file:
+          format: binary
+          nullable: true
+          type: string
+        color:
+          default: red
+          nullable: true
+          type: string
+        onlyRequired:
+          type: string
+      required:
+      - color
+      - file
+      - onlyRequired
+      - str
+      type: object
     _upload_post_request:
       properties:
         file:
