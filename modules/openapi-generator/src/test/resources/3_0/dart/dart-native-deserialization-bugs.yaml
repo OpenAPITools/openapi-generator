@@ -47,3 +47,14 @@ components:
             nullable: true
             items:
               $ref: '#/components/schemas/NullableRequiredModel'
+    DateOnlyModel:
+      type: object
+      required:
+        - requiredDate
+      properties:
+        requiredDate:
+          type: string
+          format: date
+        optionalDate:
+          type: string
+          format: date

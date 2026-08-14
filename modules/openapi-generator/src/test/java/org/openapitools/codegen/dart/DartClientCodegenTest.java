@@ -199,4 +199,27 @@ public class DartClientCodegenTest {
         TestUtils.assertFileContains(modelFile.toPath(),
                 "e == null ? null : NullableRequiredModel.listFromJson(e)");
     }
+
+    @Test(description = "format: date must not be converted to UTC before formatting")
+    public void testDateOnlyFieldsAreNotConvertedToUtc() throws Exception {
+        List<File> files = generateDartNativeFromSpec(
+                "src/test/resources/3_0/dart/dart-native-deserialization-bugs.yaml");
+
+        File modelFile = files.stream()
+                .filter(f -> f.getName().equals("date_only_model.dart"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("date_only_model.dart not found in generated files"));
+
+        // _dateFormatter is DateFormat('yyyy-MM-dd'), which formats the y/m/d the
+        // DateTime already carries and performs no timezone conversion. Calling
+        // toUtc() first therefore does nothing except roll the clock back past
+        // midnight in UTC+X zones, so the formatter prints the previous day.
+        // This model has no date-time properties, so no toUtc() belongs in it.
+        TestUtils.assertFileNotContains(modelFile.toPath(), ".toUtc()");
+
+        TestUtils.assertFileContains(modelFile.toPath(),
+                "json[r'requiredDate'] = _dateFormatter.format(this.requiredDate);");
+        TestUtils.assertFileContains(modelFile.toPath(),
+                "json[r'optionalDate'] = _dateFormatter.format(this.optionalDate!);");
+    }
 }
