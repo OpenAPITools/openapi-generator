@@ -476,7 +476,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         boolean useSpringBoot4 = additionalProperties.containsKey(USE_SPRING_BOOT4)
                 && convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4);
-        if (useSpringBoot4 && !isUseJackson3()) {
+        if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && useSpringBoot4 && !isUseJackson3()) {
             setUseJackson3(true);
             additionalProperties.put(USE_JACKSON_3, true);
             applyJackson3Package();
