@@ -149,7 +149,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  
+  @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public JsonNullable<String> getName() {

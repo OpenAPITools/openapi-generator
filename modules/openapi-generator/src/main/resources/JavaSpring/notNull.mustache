@@ -1,1 +1,1 @@
-{{#required}}{{^isReadOnly}}{{^isNullable}}@NotNull {{/isNullable}}{{/isReadOnly}}{{/required}}
+{{#required}}{{^isReadOnly}}{{#isNullable}}{{#openApiNullable}}@NotNull {{/openApiNullable}}{{/isNullable}}{{^isNullable}}@NotNull {{/isNullable}}{{/isReadOnly}}{{/required}}
