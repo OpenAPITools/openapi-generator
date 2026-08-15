@@ -350,8 +350,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "Object",
                 "Array",
                 "ReadonlyArray",
-                "Temporal.Instant",
-                "Temporal.PlainDate",
                 "Date",
                 "number",
                 "any",

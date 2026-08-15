@@ -135,6 +135,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         this.addExtraReservedWords();
 
+        languageSpecificPrimitives.addAll(Arrays.asList(
+                "Temporal.Instant",
+                "Temporal.PlainDate"
+        ));
+
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
