@@ -2111,6 +2111,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     public String removeAnnotationsWithExclusion(String dataType, String annotationToKeep) {
         if (dataType != null && dataType.contains("@")) {
+            if (annotationToKeep == null) {
+                return dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            }
             annotationToKeep += " ";
             boolean annotationPresent = annotationToKeep != null && dataType.indexOf(annotationToKeep) >=0;
             if (annotationPresent) {
