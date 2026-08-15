@@ -319,7 +319,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         if (!withoutRuntimeChecks) {
             this.modelTemplateFiles.put("models.mustache", ".ts");
-            if (additionalProperties.containsKey(TEMPORAL)) {
+            if (additionalProperties.containsKey(TEMPORAL) && convertPropertyToBoolean(TEMPORAL)) {
                 typeMapping.put("date", "Temporal.PlainDate");
                 typeMapping.put("DateTime", "Temporal.Instant");
             } else {
