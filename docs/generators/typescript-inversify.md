@@ -92,6 +92,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>ReturnType</li>
 <li>Set</li>
 <li>String</li>
+<li>Temporal.Instant</li>
+<li>Temporal.PlainDate</li>
 <li>ThisParameterType</li>
 <li>ThisType</li>
 <li>Uncapitalize</li>

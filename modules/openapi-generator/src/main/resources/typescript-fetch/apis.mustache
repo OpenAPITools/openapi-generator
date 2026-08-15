@@ -307,16 +307,28 @@ export class {{classname}} extends runtime.BaseAPI {
         let urlPath = `{{{path}}}`;
         {{#pathParams}}
         {{#isDateTimeType}}
+        {{#temporal}}
+        if (requestParameters['{{paramName}}'] instanceof Temporal.Instant) {
+            urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(requestParameters['{{paramName}}'].toString()));
+        {{/temporal}}
+        {{^temporal}}
         if (requestParameters['{{paramName}}'] instanceof Date) {
             urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(requestParameters['{{paramName}}'].toISOString()));
+        {{/temporal}}
         } else {
             urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(String(requestParameters['{{paramName}}'])));
         }
         {{/isDateTimeType}}
         {{^isDateTimeType}}
         {{#isDateType}}
+        {{#temporal}}
+        if (requestParameters['{{paramName}}'] instanceof Temporal.PlainDate) {
+            urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(requestParameters['{{paramName}}'].toString()));
+        {{/temporal}}
+        {{^temporal}}
         if (requestParameters['{{paramName}}'] instanceof Date) {
             urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(requestParameters['{{paramName}}'].toISOString().substring(0,10)));
+        {{/temporal}}
         } else {
             urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(String(requestParameters['{{paramName}}'])));
         }

@@ -37,7 +37,12 @@
         {{^isArray}}
         if (requestParameters['{{paramName}}'] != null) {
             {{#isDateTimeType}}
+            {{#temporal}}
+            formParams.append('{{baseName}}', (requestParameters['{{paramName}}'] as any).toString());
+            {{/temporal}}
+            {{^temporal}}
             formParams.append('{{baseName}}', (requestParameters['{{paramName}}'] as any).toISOString());
+            {{/temporal}}
             {{/isDateTimeType}}
             {{^isDateTimeType}}
             {{#isPrimitiveType}}

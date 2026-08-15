@@ -43,6 +43,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |stringEnums|Generate string enums instead of objects for enum values.| |false|
 |supportsES6|Generate code that conforms to ES6.| |false|
+|temporal|Setting this property to true will use Temporal data types instead of Date.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |true|
 |useSquareBracketsInArrayNames|Setting this property to true will add brackets to array attribute names, e.g. my_values[].| |false|
 |validationAttributes|Setting this property to true will generate the validation attributes of model properties.| |false|
@@ -98,6 +99,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>ReturnType</li>
 <li>Set</li>
 <li>String</li>
+<li>Temporal.Instant</li>
+<li>Temporal.PlainDate</li>
 <li>ThisParameterType</li>
 <li>ThisType</li>
 <li>Uncapitalize</li>

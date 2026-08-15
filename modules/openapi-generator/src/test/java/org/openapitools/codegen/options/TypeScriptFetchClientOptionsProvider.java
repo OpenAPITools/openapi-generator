@@ -54,6 +54,7 @@ public class TypeScriptFetchClientOptionsProvider implements TypeScriptSharedCli
                 .put(TypeScriptFetchClientCodegen.USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.VALIDATION_ATTRIBUTES, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.WITH_REQUEST_OPTS_IN_INTERFACE, Boolean.TRUE.toString())
+                .put(TypeScriptFetchClientCodegen.TEMPORAL, Boolean.FALSE.toString())
                 .build();
     }
 }

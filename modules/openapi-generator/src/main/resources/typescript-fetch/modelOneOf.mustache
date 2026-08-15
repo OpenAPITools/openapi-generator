@@ -69,16 +69,30 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(json)) {
+    {{#temporal}}
+        try {
+            return json.map(value => Temporal.PlainDate.from(value));
+        } catch {}
+    {{/temporal}}
+    {{^temporal}}
         if (json.every(item => !(isNaN(new Date(item).getTime())))) {
             return json.map(value => new Date(value));
         }
+    {{/temporal}}
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(json)) {
+    {{#temporal}}
+        try {
+            return json.map(value => Temporal.Instant.from(value));
+        } catch {}
+    {{/temporal}}
+    {{^temporal}}
         if (json.every(item => !(isNaN(new Date(item).getTime())))) {
             return json.map(value => new Date(value));
         }
+    {{/temporal}}
     }
     {{/isDateTimeType}}
     {{#isNumeric}}
@@ -115,15 +129,29 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{#oneOfPrimitives}}
     {{^isArray}}
     {{#isDateType}}
+    {{#temporal}}
+    try {
+        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}Temporal.PlainDate.from(json));
+    } catch {}
+    {{/temporal}}
+    {{^temporal}}
     if (!(isNaN(new Date(json).getTime()))) {
         return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}new Date(json));
     }
+    {{/temporal}}
     {{/isDateType}}
     {{^isDateType}}
     {{#isDateTimeType}}
+    {{#temporal}}
+    try {
+      return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}Temporal.Instant.from(json));
+    } catch {}
+    {{/temporal}}
+    {{^temporal}}
     if (!(isNaN(new Date(json).getTime()))) {
         return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}new Date(json));
     }
+    {{/temporal}}
     {{/isDateTimeType}}
     {{/isDateType}}
     {{#isNumeric}}
@@ -194,16 +222,30 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(value)) {
+    {{#temporal}}
+        if (value.every(item => item instanceof Temporal.PlainDate)) {
+            return value.map(value => value.toString());
+        }
+    {{/temporal}}
+    {{^temporal}}
         if (value.every(item => item instanceof Date)) {
             return value.map(value => value.toISOString().substring(0,10));
         }
+    {{/temporal}}
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(value)) {
+    {{#temporal}}
+        if (value.every(item => item instanceof Temporal.Instant)) {
+            return value.map(item => item.toString());
+        }
+    {{/temporal}}
+    {{^temporal}}
         if (value.every(item => item instanceof Date)) {
             return value.map(item => item.toISOString());
         }
+    {{/temporal}}
     }
     {{/isDateTimeType}}
     {{#isNumeric}}
@@ -240,14 +282,28 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{#oneOfPrimitives}}
     {{^isArray}}
     {{#isDateType}}
+    {{#temporal}}
+    if (value instanceof Temporal.PlainDate) {
+        return ((value{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toString());
+    }
+    {{/temporal}}
+    {{^temporal}}
     if (value instanceof Date) {
         return ((value{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString().substring(0,10));
     }
+    {{/temporal}}
     {{/isDateType}}
     {{#isDateTimeType}}
+    {{#temporal}}
+    if (value instanceof Temporal.Instant) {
+        return {{^required}}{{#isNullable}}value === null ? null : {{/isNullable}}{{^isNullable}}value == null ? undefined : {{/isNullable}}{{/required}}((value{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toString());
+    }
+    {{/temporal}}
+    {{^temporal}}
     if (value instanceof Date) {
         return {{^required}}{{#isNullable}}value === null ? null : {{/isNullable}}{{^isNullable}}value == null ? undefined : {{/isNullable}}{{/required}}((value{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString());
     }
+    {{/temporal}}
     {{/isDateTimeType}}
     {{#isNumeric}}
     if (typeof value === 'number'{{#isEnum}} && ({{#allowableValues}}{{#values}}value === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
