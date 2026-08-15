@@ -257,7 +257,6 @@ components:
           readOnly: true
           type: string
       required:
-      - description
       - name
       type: object
     _upload_post_request:
