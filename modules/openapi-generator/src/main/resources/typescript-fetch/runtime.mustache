@@ -350,9 +350,19 @@ function querystringSingleKey(key: string, value: string | number | null | undef
         const valueAsArray = Array.from(value);
         return querystringSingleKey(key, valueAsArray, keyPrefix);
     }
+{{#temporal}}
+    if (value instanceof Temporal.Instant) {
+        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toString())}`;
+    }
+    if (value instanceof Temporal.PlainDate) {
+        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toString())}`;
+    }
+{{/temporal}}
+{{^temporal}}
     if (value instanceof Date) {
         return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toISOString())}`;
     }
+{{/temporal}}
     if (value instanceof Object) {
         return querystring(value as HTTPQuery, fullKey);
     }

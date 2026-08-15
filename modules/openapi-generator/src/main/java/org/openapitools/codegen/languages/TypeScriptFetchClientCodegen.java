@@ -74,6 +74,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
     public static final String VALIDATION_ATTRIBUTES = "validationAttributes";
     public static final String WITH_REQUEST_OPTS_IN_INTERFACE = "withRequestOptsInInterface";
+    public static final String TEMPORAL = "temporal";
 
     @Getter @Setter
     protected String npmRepository = null;
@@ -147,6 +148,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(VALIDATION_ATTRIBUTES, "Setting this property to true will generate the validation attributes of model properties.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_REQUEST_OPTS_IN_INTERFACE, "Setting this property to true will include *RequestOpts methods in the API interface declarations. Set to false to keep them only on the class.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
+        this.cliOptions.add(new CliOption(TEMPORAL, "Setting this property to true will use Temporal data types instead of Date.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -317,8 +319,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         if (!withoutRuntimeChecks) {
             this.modelTemplateFiles.put("models.mustache", ".ts");
-            typeMapping.put("date", "Date");
-            typeMapping.put("DateTime", "Date");
+            if (additionalProperties.containsKey(TEMPORAL)) {
+                typeMapping.put("date", "Temporal.PlainDate");
+                typeMapping.put("DateTime", "Temporal.Instant");
+            } else {
+                typeMapping.put("date", "Date");
+                typeMapping.put("DateTime", "Date");
+            }
         }
 
         if (additionalProperties.containsKey(SAGAS_AND_RECORDS)) {
@@ -1484,11 +1491,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         public boolean isDateType() {
-            return isDate && "Date".equals(dataType);
+            return isDate && ("Date".equals(dataType) || "Temporal.PlainDate".equals(dataType));
         }
 
         public boolean isDateTimeType() {
-            return isDateTime && "Date".equals(dataType);
+            return isDateTime && ("Date".equals(dataType) || "Temporal.Instant".equals(dataType));
         }
 
         public ExtendedCodegenParameter(CodegenParameter cp) {
@@ -1635,11 +1642,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         public boolean isDateType() {
-            return isDate && "Date".equals(dataType);
+            return isDate && ("Date".equals(dataType) || "Temporal.PlainDate".equals(dataType));
         }
 
         public boolean isDateTimeType() {
-            return isDateTime && "Date".equals(dataType);
+            return isDateTime && ("Date".equals(dataType) || "Temporal.Instant".equals(dataType));
         }
 
         public ExtendedCodegenProperty(CodegenProperty cp) {
@@ -1924,11 +1931,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return selfReferencingDiscriminatorMapping != null;
         }
         public boolean isDateType() {
-            return isDate && "Date".equals(dataType);
+            return isDate && ("Date".equals(dataType) || "Temporal.PlainDate".equals(dataType));
         }
 
         public boolean isDateTimeType() {
-            return isDateTime && "Date".equals(dataType);
+            return isDateTime && ("Date".equals(dataType) || "Temporal.Instant".equals(dataType));
         }
 
         public ExtendedCodegenModel(CodegenModel cm) {
