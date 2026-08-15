@@ -97,7 +97,7 @@ public class ContainerDefaultValueDto {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull 
+  
   @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {

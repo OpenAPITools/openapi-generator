@@ -87,7 +87,8 @@ public class FileApiExample {
         FileApi apiInstance = new FileApi(defaultClient);
         String id = "id_example"; // String | 
         try {
-            apiInstance.fileIdGet(id);
+            FileContent result = apiInstance.fileIdGet(id);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FileApi#fileIdGet");
             System.err.println("Status code: " + e.getCode());
@@ -120,6 +121,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [FileContent](docs/FileContent.md)
  - [Foo](docs/Foo.md)
  - [RequiredAndNullable](docs/RequiredAndNullable.md)
 

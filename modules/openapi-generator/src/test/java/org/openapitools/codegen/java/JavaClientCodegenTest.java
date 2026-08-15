@@ -4764,6 +4764,11 @@ public class JavaClientCodegenTest {
                 .fileContains(
                         "void setStr(@Nullable String str)",
                         "RequiredAndNullable str(@Nullable String str)");
+        JavaFileAssert.assertThat(files.get("FileContent.java"))
+                .fileContains(
+                        "private @Nullable VirusScanEnum virusScan",
+                        "FileContent.Builder virusScan(@Nullable VirusScanEnum virusScan)"
+                );
         if (!RESTTEMPLATE.equals(library)) {
             JavaFileAssert.assertThat(files.get("FooApi.java"))
                     .fileContains("fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)");

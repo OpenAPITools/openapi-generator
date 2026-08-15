@@ -93,7 +93,7 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull 
+  
   @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("nullable_required_array")
   public List<String> getNullableRequiredArray() {

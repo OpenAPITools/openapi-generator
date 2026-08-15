@@ -258,15 +258,15 @@ public class RequiredAndNullable {
       this.instance = instance;
     }
 
-    public RequiredAndNullable.Builder str(String str) {
+    public RequiredAndNullable.Builder str(@Nullable String str) {
       this.instance.str = str;
       return this;
     }
-    public RequiredAndNullable.Builder _file(File _file) {
+    public RequiredAndNullable.Builder _file(@Nullable File _file) {
       this.instance._file = _file;
       return this;
     }
-    public RequiredAndNullable.Builder color(String color) {
+    public RequiredAndNullable.Builder color(@Nullable String color) {
       this.instance.color = color;
       return this;
     }

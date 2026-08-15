@@ -7181,9 +7181,9 @@ public class SpringCodegenTest {
                         "Foo.Builder requiredDt(java.time.Instant requiredDt)",
                         "Foo.Builder nullableNumber(@Nullable BigDecimal nullableNumber)"
                 ).fileDoesNotContain(
-                        "NotNull",
                         "javax.annotation.Nullable",
-                        "jakarta.annotation.Nullable");
+                        "jakarta.annotation.Nullable")
+                .assertMethod("getRequiredDt").assertMethodAnnotations().containsWithName("NotNull").containsWithName("Valid");
         JavaFileAssert.assertThat(files.get("FooApi.java"))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
@@ -7197,7 +7197,9 @@ public class SpringCodegenTest {
                         "private @Nullable String str",
                         "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired)",
                         "@Nullable String getStr()",
-                        "void setStr(@Nullable String str)"
+                        "void setStr(@Nullable String str)",
+                        "RequiredAndNullable str(@Nullable String str)",
+                        "RequiredAndNullable.Builder str(@Nullable String str)"
                 );
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
@@ -7259,9 +7261,9 @@ public class SpringCodegenTest {
                         "Foo.Builder nullableNumber(@Nullable BigDecimal nullableNumber)",
                         "Foo.Builder nullableNumber(JsonNullable<BigDecimal> nullableNumber)"
                 ).fileDoesNotContain(
-                        "@NotNull",
                         "javax.annotation.Nullable",
-                        "jakarta.annotation.Nullable");
+                        "jakarta.annotation.Nullable")
+                .assertMethod("getRequiredDt").assertMethodAnnotations().containsWithName("NotNull").containsWithName("Valid");
         JavaFileAssert.assertThat(files.get("FooApi.java"))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
@@ -7274,7 +7276,9 @@ public class SpringCodegenTest {
                         "private JsonNullable<String> str = JsonNullable.<String>undefined()",
                         "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired)",
                         "JsonNullable<String> getStr()",
-                        "void setStr(JsonNullable<String> str)"
+                        "void setStr(JsonNullable<String> str)",
+                        "RequiredAndNullable str(@Nullable String str)",
+                        "RequiredAndNullable.Builder str(@Nullable String str)"
                 );
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
@@ -7343,9 +7347,9 @@ public class SpringCodegenTest {
                         "Foo.Builder requiredDt(java.time.Instant requiredDt)",
                         "Foo.Builder nullableNumber(JsonNullable<BigDecimal> nullableNumber)"
                 ).fileDoesNotContain(
-                        "@NotNull",
                         "javax.annotation.Nullable",
-                        "jakarta.annotation.Nullable");
+                        "jakarta.annotation.Nullable")
+                .assertMethod("getRequiredDt").assertMethodAnnotations().containsWithName("NotNull").containsWithName("Valid");
         if (optionalAcceptNullable) {
             fooAssert.fileContains(
                     "Foo dt(java.time.@Nullable Instant dt) {\n    this.dt = Optional.ofNullable(dt);",
@@ -7367,7 +7371,9 @@ public class SpringCodegenTest {
                         "private JsonNullable<String> str = JsonNullable.<String>undefined()",
                         "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired)",
                         "JsonNullable<String> getStr()",
-                        "void setStr(JsonNullable<String> str)"
+                        "void setStr(JsonNullable<String> str)",
+                        "RequiredAndNullable str(@Nullable String str)",
+                        "RequiredAndNullable.Builder str(@Nullable String str)"
                 );
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");

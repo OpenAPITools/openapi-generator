@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
+import org.openapitools.client.model.FileContent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +51,7 @@ public class FileApi {
      * 
      * <p><b>200</b> - ok
      * @param id The id parameter
+     * @return FileContent
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec fileIdGetRequestCreation(String id) throws WebClientResponseException {
@@ -68,14 +70,16 @@ public class FileApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = { };
+        final String[] localVarAccepts = { 
+            "application/json"
+        };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        ParameterizedTypeReference<FileContent> localVarReturnType = new ParameterizedTypeReference<FileContent>() {};
         return apiClient.invokeAPI("/file/{id}", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
@@ -84,10 +88,11 @@ public class FileApi {
      * 
      * <p><b>200</b> - ok
      * @param id The id parameter
+     * @return FileContent
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> fileIdGet(String id) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<FileContent> fileIdGet(String id) throws WebClientResponseException {
+        ParameterizedTypeReference<FileContent> localVarReturnType = new ParameterizedTypeReference<FileContent>() {};
         return fileIdGetRequestCreation(id).bodyToMono(localVarReturnType);
     }
 
@@ -96,10 +101,11 @@ public class FileApi {
      * 
      * <p><b>200</b> - ok
      * @param id The id parameter
+     * @return ResponseEntity&lt;FileContent&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> fileIdGetWithHttpInfo(String id) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+    public Mono<ResponseEntity<FileContent>> fileIdGetWithHttpInfo(String id) throws WebClientResponseException {
+        ParameterizedTypeReference<FileContent> localVarReturnType = new ParameterizedTypeReference<FileContent>() {};
         return fileIdGetRequestCreation(id).toEntity(localVarReturnType);
     }
 

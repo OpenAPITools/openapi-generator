@@ -5,6 +5,7 @@
  */
 package org.openapitools.api;
 
+import org.openapitools.model.FileContent;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -52,16 +53,28 @@ public interface FileApi {
         operationId = "fileIdGet",
         tags = { "file" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "ok")
+            @ApiResponse(responseCode = "200", description = "ok", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = FileContent.class))
+            })
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = FileApi.PATH_FILE_ID_GET
+        value = FileApi.PATH_FILE_ID_GET,
+        produces = { "application/json" }
     )
-    default ResponseEntity<Void> fileIdGet(
+    default ResponseEntity<FileContent> fileIdGet(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
     ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"name\" : \"name\", \"size\" : 0 }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

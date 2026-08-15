@@ -80,7 +80,7 @@ public class NullableModel implements Serializable {
    * Get requiredNullable
    * @return requiredNullable
    */
-  @NotNull 
+  
   @JsonProperty("requiredNullable")
   public JsonNullable<String> getRequiredNullable() {
     return requiredNullable;

@@ -126,6 +126,10 @@ paths:
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileContent"
           description: ok
       tags:
       - file
@@ -233,6 +237,28 @@ components:
       - file
       - onlyRequired
       - str
+      type: object
+    FileContent:
+      example:
+        name: name
+        size: 0
+        virusScan: clean
+      properties:
+        name:
+          readOnly: true
+          type: string
+        size:
+          readOnly: true
+          type: integer
+        virusScan:
+          enum:
+          - clean
+          - detected
+          readOnly: true
+          type: string
+      required:
+      - description
+      - name
       type: object
     _upload_post_request:
       properties:

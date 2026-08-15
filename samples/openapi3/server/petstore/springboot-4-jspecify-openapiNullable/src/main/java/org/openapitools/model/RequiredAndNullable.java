@@ -51,7 +51,7 @@ public class RequiredAndNullable {
     this.onlyRequired = onlyRequired;
   }
 
-  public RequiredAndNullable str(String str) {
+  public RequiredAndNullable str(@Nullable String str) {
     this.str = JsonNullable.of(str);
     return this;
   }
@@ -75,7 +75,7 @@ public class RequiredAndNullable {
     this.str = str;
   }
 
-  public RequiredAndNullable file(org.springframework.core.io.Resource file) {
+  public RequiredAndNullable file(org.springframework.core.io.@Nullable Resource file) {
     this.file = JsonNullable.of(file);
     return this;
   }
@@ -99,7 +99,7 @@ public class RequiredAndNullable {
     this.file = file;
   }
 
-  public RequiredAndNullable color(String color) {
+  public RequiredAndNullable color(@Nullable String color) {
     this.color = JsonNullable.of(color);
     return this;
   }
@@ -132,7 +132,7 @@ public class RequiredAndNullable {
    * Get onlyRequired
    * @return onlyRequired
    */
-  
+  @NotNull 
   @Schema(name = "onlyRequired", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("onlyRequired")
   @JacksonXmlProperty(localName = "onlyRequired")
@@ -207,7 +207,7 @@ public class RequiredAndNullable {
       return this;
     }
 
-    public RequiredAndNullable.Builder str(String str) {
+    public RequiredAndNullable.Builder str(@Nullable String str) {
       this.instance.str(str);
       return this;
     }
@@ -217,7 +217,7 @@ public class RequiredAndNullable {
       return this;
     }
     
-    public RequiredAndNullable.Builder file(org.springframework.core.io.Resource file) {
+    public RequiredAndNullable.Builder file(org.springframework.core.io.@Nullable Resource file) {
       this.instance.file(file);
       return this;
     }
@@ -227,7 +227,7 @@ public class RequiredAndNullable {
       return this;
     }
     
-    public RequiredAndNullable.Builder color(String color) {
+    public RequiredAndNullable.Builder color(@Nullable String color) {
       this.instance.color(color);
       return this;
     }

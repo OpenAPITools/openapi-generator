@@ -114,7 +114,10 @@ paths:
       responses:
         '200':
           description: ok
- 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileContent'
 components:
   schemas:
     Foo:
@@ -194,3 +197,21 @@ components:
         onlyRequired:
           # NON nullable
           type: string
+    FileContent:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+          readOnly: true
+        size:
+          type: integer
+          readOnly: true
+        virusScan:
+          type: string
+          readOnly: true
+          enum:
+            - clean
+            - detected
