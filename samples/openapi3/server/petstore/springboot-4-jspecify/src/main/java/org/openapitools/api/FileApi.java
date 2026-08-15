@@ -69,7 +69,7 @@ public interface FileApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"name\" : \"name\", \"size\" : 0 }";
+                    String exampleString = "{ \"name\" : \"name\", \"size\" : 0, \"virusScan\" : \"clean\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

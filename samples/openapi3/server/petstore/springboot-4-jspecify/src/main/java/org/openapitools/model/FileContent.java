@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.Nulls;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
@@ -38,6 +39,45 @@ public class FileContent {
   @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Integer size;
 
+  /**
+   * Gets or Sets virusScan
+   */
+  public enum VirusScanEnum {
+    CLEAN("clean"),
+    
+    DETECTED("detected");
+
+    private final String value;
+
+    VirusScanEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static VirusScanEnum fromValue(String value) {
+      for (VirusScanEnum b : VirusScanEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
+  private @Nullable VirusScanEnum virusScan;
+
   public FileContent() {
     super();
   }
@@ -52,9 +92,10 @@ public class FileContent {
   /**
    * Constructor with all args parameters
    */
-  public FileContent(String name, @Nullable Integer size) {
+  public FileContent(String name, @Nullable Integer size, @Nullable VirusScanEnum virusScan) {
       this.name = name;
       this.size = size;
+      this.virusScan = virusScan;
   }
 
   public FileContent name(String name) {
@@ -105,6 +146,30 @@ public class FileContent {
     this.size = size;
   }
 
+  public FileContent virusScan(@Nullable VirusScanEnum virusScan) {
+    this.virusScan = virusScan;
+    return this;
+  }
+
+  /**
+   * Get virusScan
+   * @return virusScan
+   */
+  
+  @Schema(name = "virusScan", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("virusScan")
+  @JacksonXmlProperty(localName = "virusScan")
+  @XmlElement(name = "virusScan")
+  public @Nullable VirusScanEnum getVirusScan() {
+    return virusScan;
+  }
+
+  @JsonProperty("virusScan")
+  @JacksonXmlProperty(localName = "virusScan")
+  public void setVirusScan(@Nullable VirusScanEnum virusScan) {
+    this.virusScan = virusScan;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -115,12 +180,13 @@ public class FileContent {
     }
     FileContent fileContent = (FileContent) o;
     return Objects.equals(this.name, fileContent.name) &&
-        Objects.equals(this.size, fileContent.size);
+        Objects.equals(this.size, fileContent.size) &&
+        Objects.equals(this.virusScan, fileContent.virusScan);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, size);
+    return Objects.hash(name, size, virusScan);
   }
 
   @Override
@@ -129,6 +195,7 @@ public class FileContent {
     sb.append("class FileContent {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    size: ").append(toIndentedString(size)).append("\n");
+    sb.append("    virusScan: ").append(toIndentedString(virusScan)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -156,6 +223,7 @@ public class FileContent {
     protected Builder copyOf(FileContent value) { 
       this.instance.setName(value.name);
       this.instance.setSize(value.size);
+      this.instance.setVirusScan(value.virusScan);
       return this;
     }
 
@@ -166,6 +234,11 @@ public class FileContent {
     
     public FileContent.Builder size(@Nullable Integer size) {
       this.instance.size(size);
+      return this;
+    }
+    
+    public FileContent.Builder virusScan(@Nullable VirusScanEnum virusScan) {
+      this.instance.virusScan(virusScan);
       return this;
     }
     
