@@ -7200,7 +7200,8 @@ public class SpringCodegenTest {
                         "void setStr(@Nullable String str)",
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)"
-                );
+                )
+                .assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
@@ -7279,7 +7280,7 @@ public class SpringCodegenTest {
                         "void setStr(JsonNullable<String> str)",
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)"
-                );
+                ).assertMethod("getStr").assertMethodAnnotations().containsWithName("NotNull");
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
@@ -7374,7 +7375,7 @@ public class SpringCodegenTest {
                         "void setStr(JsonNullable<String> str)",
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)"
-                );
+                ).assertMethod("getStr").assertMethodAnnotations().containsWithName("NotNull");
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))

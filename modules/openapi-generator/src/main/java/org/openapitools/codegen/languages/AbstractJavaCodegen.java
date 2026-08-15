@@ -2109,20 +2109,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @param annotationToKeep annotation to keep. For example @Nullable
      * @return the data type string without annotations.
      */
-    public String removeAnnotationsWithExlusion(String dataType, String annotationToKeep) {
+    public String removeAnnotationsWithExclusion(String dataType, String annotationToKeep) {
         if (dataType != null && dataType.contains("@")) {
-            if (annotationToKeep != null) {
-                annotationToKeep += " ";
-                boolean annotationPresent = annotationToKeep != null && dataType.indexOf(annotationToKeep) >=0;
-                if (annotationPresent) {
-                    dataType = dataType.replace( annotationToKeep, "%%");
-                }
-                dataType = dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
-                if (annotationPresent) {
-                    dataType = dataType.replace("%%", annotationToKeep);
-                }
-            } else {
-                dataType = dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            annotationToKeep += " ";
+            boolean annotationPresent = annotationToKeep != null && dataType.indexOf(annotationToKeep) >=0;
+            if (annotationPresent) {
+                dataType = dataType.replace( annotationToKeep, "%%");
+            }
+            dataType = dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            if (annotationPresent) {
+                dataType = dataType.replace("%%", annotationToKeep);
             }
         }
         return dataType;
@@ -2972,7 +2968,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         @Override
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-            writer.write(removeAnnotationsWithExlusion(fragment.execute(), keep));
+            writer.write(removeAnnotationsWithExclusion(fragment.execute(), keep));
         }
 
         public void keepAnnotation(String keep) {
