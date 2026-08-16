@@ -4717,7 +4717,7 @@ public class JavaClientCodegenTest {
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
                         GENERATE_BUILDERS, true,
                         USE_ABSTRACTION_FOR_FILES, true,
-                        "annotationLibrary", "swagger2"
+                        ANNOTATION_LIBRARY, "swagger2"
                         ),
                 codegenConfigurator ->
                         codegenConfigurator

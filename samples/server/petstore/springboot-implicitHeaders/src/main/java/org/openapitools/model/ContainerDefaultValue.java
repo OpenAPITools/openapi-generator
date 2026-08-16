@@ -56,7 +56,7 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableArrayItem(String nullableArrayItem) {
-    if (this.nullableArray == null || !this.nullableArray.isPresent()) {
+    if (this.nullableArray == null || !this.nullableArray.isPresent() || this.nullableArray.get() == null) {
       this.nullableArray = JsonNullable.of(new ArrayList<>());
     }
     this.nullableArray.get().add(nullableArrayItem);
@@ -84,7 +84,7 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableRequiredArrayItem(String nullableRequiredArrayItem) {
-    if (this.nullableRequiredArray == null || !this.nullableRequiredArray.isPresent()) {
+    if (this.nullableRequiredArray == null || !this.nullableRequiredArray.isPresent() || this.nullableRequiredArray.get() == null) {
       this.nullableRequiredArray = JsonNullable.of(new ArrayList<>());
     }
     this.nullableRequiredArray.get().add(nullableRequiredArrayItem);
@@ -142,7 +142,7 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableArrayWithDefaultItem(String nullableArrayWithDefaultItem) {
-    if (this.nullableArrayWithDefault == null || !this.nullableArrayWithDefault.isPresent()) {
+    if (this.nullableArrayWithDefault == null || !this.nullableArrayWithDefault.isPresent() || this.nullableArrayWithDefault.get() == null) {
       this.nullableArrayWithDefault = JsonNullable.of(new ArrayList<>(Arrays.asList("foo", "bar")));
     }
     this.nullableArrayWithDefault.get().add(nullableArrayWithDefaultItem);

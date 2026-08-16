@@ -194,7 +194,7 @@ public class NullableClassDto {
   }
 
   public NullableClassDto addArrayNullablePropItem(Object arrayNullablePropItem) {
-    if (this.arrayNullableProp == null || !this.arrayNullableProp.isPresent()) {
+    if (this.arrayNullableProp == null || !this.arrayNullableProp.isPresent() || this.arrayNullableProp.get() == null) {
       this.arrayNullableProp = JsonNullable.of(new ArrayList<>());
     }
     this.arrayNullableProp.get().add(arrayNullablePropItem);
@@ -222,7 +222,7 @@ public class NullableClassDto {
   }
 
   public NullableClassDto addArrayAndItemsNullablePropItem(Object arrayAndItemsNullablePropItem) {
-    if (this.arrayAndItemsNullableProp == null || !this.arrayAndItemsNullableProp.isPresent()) {
+    if (this.arrayAndItemsNullableProp == null || !this.arrayAndItemsNullableProp.isPresent() || this.arrayAndItemsNullableProp.get() == null) {
       this.arrayAndItemsNullableProp = JsonNullable.of(new ArrayList<>());
     }
     this.arrayAndItemsNullableProp.get().add(arrayAndItemsNullablePropItem);
@@ -279,7 +279,7 @@ public class NullableClassDto {
   }
 
   public NullableClassDto putObjectNullablePropItem(String key, Object objectNullablePropItem) {
-    if (this.objectNullableProp == null || !this.objectNullableProp.isPresent()) {
+    if (this.objectNullableProp == null || !this.objectNullableProp.isPresent() || this.objectNullableProp.get() == null) {
       this.objectNullableProp = JsonNullable.of(new HashMap<>());
     }
     this.objectNullableProp.get().put(key, objectNullablePropItem);
@@ -307,7 +307,7 @@ public class NullableClassDto {
   }
 
   public NullableClassDto putObjectAndItemsNullablePropItem(String key, Object objectAndItemsNullablePropItem) {
-    if (this.objectAndItemsNullableProp == null || !this.objectAndItemsNullableProp.isPresent()) {
+    if (this.objectAndItemsNullableProp == null || !this.objectAndItemsNullableProp.isPresent() || this.objectAndItemsNullableProp.get() == null) {
       this.objectAndItemsNullableProp = JsonNullable.of(new HashMap<>());
     }
     this.objectAndItemsNullableProp.get().put(key, objectAndItemsNullablePropItem);

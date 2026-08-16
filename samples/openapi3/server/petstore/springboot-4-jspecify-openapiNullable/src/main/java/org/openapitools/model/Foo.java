@@ -263,7 +263,7 @@ public class Foo {
   }
 
   public Foo addNullableListMinIntemsItem(java.time.Instant nullableListMinIntemsItem) {
-    if (this.nullableListMinIntems == null || !this.nullableListMinIntems.isPresent()) {
+    if (this.nullableListMinIntems == null || !this.nullableListMinIntems.isPresent() || this.nullableListMinIntems.get() == null) {
       this.nullableListMinIntems = JsonNullable.of(new ArrayList<>());
     }
     this.nullableListMinIntems.get().add(nullableListMinIntemsItem);

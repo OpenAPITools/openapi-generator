@@ -159,7 +159,7 @@ public class RequiredAndNullable {
   }
 
   public RequiredAndNullable addListItem(String _listItem) {
-    if (this._list == null || !this._list.isPresent()) {
+    if (this._list == null || !this._list.isPresent() || this._list.get() == null) {
       this._list = JsonNullable.of(new ArrayList<>());
     }
     this._list.get().add(_listItem);

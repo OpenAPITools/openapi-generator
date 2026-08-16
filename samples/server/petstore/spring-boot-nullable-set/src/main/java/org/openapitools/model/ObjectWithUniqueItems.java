@@ -57,7 +57,7 @@ public class ObjectWithUniqueItems {
   }
 
   public ObjectWithUniqueItems addNullSetItem(String nullSetItem) {
-    if (this.nullSet == null || !this.nullSet.isPresent()) {
+    if (this.nullSet == null || !this.nullSet.isPresent() || this.nullSet.get() == null) {
       this.nullSet = JsonNullable.of(new LinkedHashSet<>());
     }
     this.nullSet.get().add(nullSetItem);
@@ -115,7 +115,7 @@ public class ObjectWithUniqueItems {
   }
 
   public ObjectWithUniqueItems addNullListItem(String nullListItem) {
-    if (this.nullList == null || !this.nullList.isPresent()) {
+    if (this.nullList == null || !this.nullList.isPresent() || this.nullList.get() == null) {
       this.nullList = JsonNullable.of(new ArrayList<>());
     }
     this.nullList.get().add(nullListItem);
