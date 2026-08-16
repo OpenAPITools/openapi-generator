@@ -343,8 +343,7 @@ conf = openapi_client.Configuration(
         if proxy is None or no_proxy is None:
             proxies = getproxies()
             if proxy is None:
-                scheme = urlparse(self.host).scheme
-                proxy = proxies.get(scheme) or proxies.get("all")
+                proxy = self._env_proxy(proxies, self.host)
             if no_proxy is None:
                 no_proxy = proxies.get("no")
         self._proxy = proxy
@@ -661,8 +660,12 @@ conf = openapi_client.Configuration(
         if self._proxy_from_env:
             # the scheme-specific proxy depends on the host, which is
             # commonly assigned after construction
-            proxies = getproxies()
-            self._proxy = proxies.get(urlparse(value).scheme) or proxies.get("all")
+            self._proxy = self._env_proxy(getproxies(), value)
+
+    @staticmethod
+    def _env_proxy(proxies: Dict[str, str], host: str) -> Optional[str]:
+        """Pick the environment proxy that applies to `host`."""
+        return proxies.get(urlparse(host).scheme) or proxies.get("all")
 
     @property
     def proxy(self) -> Optional[str]:
