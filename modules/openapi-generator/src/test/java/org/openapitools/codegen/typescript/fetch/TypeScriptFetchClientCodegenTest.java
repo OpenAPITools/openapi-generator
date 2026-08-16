@@ -442,7 +442,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.processOpts();
         Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
     }
-    
+
     @Test
     public void toVarNameWithAtSign() {
         TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
@@ -862,7 +862,31 @@ public class TypeScriptFetchClientCodegenTest {
         Path modelsIndex = Paths.get(output + "/models/index.ts");
         TestUtils.assertFileExists(modelsIndex);
         TestUtils.assertFileContains(modelsIndex, "PetPropertyValidationAttributesMap");
-        TestUtils.assertFileContains(modelsIndex, "[property: string]:");
+        TestUtils.assertFileContains(modelsIndex, "satisfies Record<string, PropertyValidationAttributes>");
+        TestUtils.assertFileContains(modelsIndex, "import type { PropertyValidationAttributes } from '../runtime';");
+
+        Path runtime = Paths.get(output + "/runtime.ts");
+        TestUtils.assertFileExists(runtime);
+        TestUtils.assertFileContains(runtime, "export interface PropertyValidationAttributes");
+    }
+
+    @Test(description = "Verify validationAttributes not exist with validationAttributes=false")
+    public void testValidationAttributesNotExistWithFalse() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.VALIDATION_ATTRIBUTES, false);
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, true);
+
+        File output = generate(properties, "src/test/resources/3_0/typescript-fetch/validation-attributes.yaml");
+
+        Path modelsIndex = Paths.get(output + "/models/index.ts");
+        TestUtils.assertFileExists(modelsIndex);
+        TestUtils.assertFileNotContains(modelsIndex, "PetPropertyValidationAttributesMap");
+        TestUtils.assertFileNotContains(modelsIndex, "satisfies Record<string, PropertyValidationAttributes>");
+        TestUtils.assertFileNotContains(modelsIndex, "import type { PropertyValidationAttributes } from '../runtime';");
+
+        Path runtime = Paths.get(output + "/runtime.ts");
+        TestUtils.assertFileExists(runtime);
+        TestUtils.assertFileNotContains(runtime, "export interface PropertyValidationAttributes");
     }
 
     @Test(description = "Verify pattern is not HTML-escaped in validationAttributes")

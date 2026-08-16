@@ -13,6 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * A tag for a pet
  * @export
@@ -28,24 +29,8 @@ export interface Tag {
      */
     name?: string;
 }
-export const TagPropertyValidationAttributesMap: {
-    [property: string]: {
-        dataType?: string,
-        required?: boolean,
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-}
+export const TagPropertyValidationAttributesMap = {
+} satisfies Record<string, PropertyValidationAttributes>;
 
 
 /**

@@ -13,6 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PropertyValidationAttributes } from '../runtime';
 /**
  * An order for a pets from the pet store
  * @export
@@ -57,24 +58,8 @@ export const OrderStatusEnum = {
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
-export const OrderPropertyValidationAttributesMap: {
-    [property: string]: {
-        dataType?: string,
-        required?: boolean,
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-}
+export const OrderPropertyValidationAttributesMap = {
+} satisfies Record<string, PropertyValidationAttributes>;
 
 export const OrderAdditionalPropertiesValidationAttributes: { maxProperties?: number, minProperties?: number } = {
     maxProperties: 10,
