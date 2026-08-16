@@ -4697,27 +4697,28 @@ public class JavaClientCodegenTest {
     @DataProvider(name = "jspecifyLibraries")
     public Object[][] jspecifyLibraries() {
         return new Object[][]{
-                {"restclient", false, true},
-                {"restclient", true, false},
-                {"webclient", false, true},
-                {"webclient", true, false},
-                {"resttemplate", false, true},
-                {"resttemplate", true, true},
-                {"native", false, true}
+                {"restclient", 3, true},
+                {"restclient", 4, false},
+                {"webclient", 3, true},
+                {"webclient", 4, false},
+                {"resttemplate", 3, true},
+                {"resttemplate", 4, true},
+                {"native", 3, true}
         };
     }
 
     @Test(dataProvider = "jspecifyLibraries")
-    public void testJspecify(String library, boolean useSpringBoot4, boolean hasJspecifyDependency) throws IOException {
+    public void testJspecify(String library, int springBootVersion, boolean hasJspecifyDependency) throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         "containerDefaultToNull", true,
-                        USE_SPRING_BOOT4, useSpringBoot4,
+                        USE_SPRING_BOOT4, springBootVersion == 4,
                         JavaClientCodegen.OPENAPI_NULLABLE, false,
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
                         GENERATE_BUILDERS, true,
-                        USE_ABSTRACTION_FOR_FILES, true
-                ),
+                        USE_ABSTRACTION_FOR_FILES, true,
+                        "annotationLibrary", "swagger2"
+                        ),
                 codegenConfigurator ->
                         codegenConfigurator
                                 .setValidateSpec(false)
@@ -4763,7 +4764,8 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
                 .fileContains(
                         "void setStr(@Nullable String str)",
-                        "RequiredAndNullable str(@Nullable String str)");
+                        "RequiredAndNullable str(@Nullable String str)",
+                        "@Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = \"\", nullable = true)");
         JavaFileAssert.assertThat(files.get("FileContent.java"))
                 .fileContains(
                         "private @Nullable VirusScanEnum virusScan",
@@ -4787,14 +4789,15 @@ public class JavaClientCodegenTest {
     }
 
     @Test(dataProvider = "jspecifyLibraries")
-    public void testJspecify_openapiNullable(String library, boolean useSpringBoot4, boolean hasJspecifyDependency) throws IOException {
+    public void testJspecify_openapiNullable(String library, int springBootVersion, boolean hasJspecifyDependency) throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         "containerDefaultToNull", true,
-                        USE_SPRING_BOOT4, useSpringBoot4,
+                        USE_SPRING_BOOT4, springBootVersion == 4,
                         JavaClientCodegen.OPENAPI_NULLABLE, true,
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
-                        GENERATE_BUILDERS, true
+                        GENERATE_BUILDERS, true,
+                        ANNOTATION_LIBRARY, "swagger2"
                 ),
                 codegenConfigurator ->
                         codegenConfigurator

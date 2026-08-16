@@ -70,7 +70,7 @@ public interface RequiredAndNullableApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"str\" : \"str\", \"file\" : \"\", \"color\" : \"red\", \"onlyRequired\" : \"onlyRequired\" }";
+                    String exampleString = "{ \"str\" : \"str\", \"file\" : \"\", \"color\" : \"red\", \"onlyRequired\" : \"onlyRequired\", \"list\" : [ \"list\", \"list\" ] }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

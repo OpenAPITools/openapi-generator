@@ -7194,14 +7194,23 @@ public class SpringCodegenTest {
                 );
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
                 .fileContains(
-                        "private @Nullable String str",
-                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired)",
+                        "private @Nullable String str = null;",
+                        "private @Nullable List<String> _list;",
+                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired, @Nullable List<String> _list)",
                         "@Nullable String getStr()",
                         "void setStr(@Nullable String str)",
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)"
                 )
                 .assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
+        if (!library.equals(SPRING_HTTP_INTERFACE)) {
+            // SPRING_HTTP_INTERFACE does not support @Schema generation (yet)
+            JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
+                    .fileContains(
+                            "@Schema(name = \"str\", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)");
+        }
+        JavaFileAssert.assertThat(files.get("FileContent.java"))
+                .fileContains("VirusScanEnum getVirusScan()");
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
@@ -7274,8 +7283,9 @@ public class SpringCodegenTest {
                 );
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
                 .fileContains(
-                        "private JsonNullable<String> str = JsonNullable.<String>undefined()",
-                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired)",
+                        "private JsonNullable<String> str = null;",
+                        "private JsonNullable<List<String>> _list = null;",
+                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired, @Nullable List<String> _list)",
                         "JsonNullable<String> getStr()",
                         "void setStr(JsonNullable<String> str)",
                         "RequiredAndNullable str(@Nullable String str)",
@@ -7369,8 +7379,8 @@ public class SpringCodegenTest {
                 );
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
                 .fileContains(
-                        "private JsonNullable<String> str = JsonNullable.<String>undefined()",
-                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired)",
+                        "private JsonNullable<String> str = null;",
+                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired, @Nullable List<String> _list)",
                         "JsonNullable<String> getStr()",
                         "void setStr(JsonNullable<String> str)",
                         "RequiredAndNullable str(@Nullable String str)",

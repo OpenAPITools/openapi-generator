@@ -11,6 +11,7 @@
 |**_file** | **File** |  |  |
 |**color** | **String** |  |  |
 |**onlyRequired** | **String** |  |  |
+|**_list** | **List&lt;String&gt;** |  |  |
 
 
 

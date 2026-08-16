@@ -5,6 +5,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -41,6 +44,9 @@ public class RequiredAndNullable {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String onlyRequired;
 
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  private @Nullable List<String> _list;
+
   public RequiredAndNullable() {
     super();
   }
@@ -48,11 +54,12 @@ public class RequiredAndNullable {
   /**
    * Constructor with only required parameters and all parameters
    */
-  public RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired) {
+  public RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired, @Nullable List<String> _list) {
     this.str = str;
     this.file = file;
     this.color = color;
     this.onlyRequired = onlyRequired;
+    this._list = _list;
   }
 
   public RequiredAndNullable str(@Nullable String str) {
@@ -65,7 +72,7 @@ public class RequiredAndNullable {
    * @return str
    */
   
-  @Schema(name = "str", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "str", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("str")
   @JacksonXmlProperty(localName = "str")
   @XmlElement(name = "str")
@@ -89,7 +96,7 @@ public class RequiredAndNullable {
    * @return file
    */
   @Valid 
-  @Schema(name = "file", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "file", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("file")
   @JacksonXmlProperty(localName = "file")
   @XmlElement(name = "file")
@@ -113,7 +120,7 @@ public class RequiredAndNullable {
    * @return color
    */
   
-  @Schema(name = "color", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "color", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")
   @XmlElement(name = "color")
@@ -151,6 +158,40 @@ public class RequiredAndNullable {
     this.onlyRequired = onlyRequired;
   }
 
+  public RequiredAndNullable _list(@Nullable List<String> _list) {
+    this._list = _list;
+    return this;
+  }
+
+  public RequiredAndNullable addListItem(String _listItem) {
+    if (this._list == null) {
+      this._list = new ArrayList<>();
+    }
+    this._list.add(_listItem);
+    return this;
+  }
+
+  /**
+   * Get _list
+   * @return _list
+   */
+  
+  @Schema(name = "list", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
+  @JsonProperty("list")
+  @JacksonXmlProperty(localName = "list")
+  @JacksonXmlElementWrapper(useWrapping = false)
+  @XmlElement(name = "list")
+  public @Nullable List<String> getList() {
+    return _list;
+  }
+
+  @JsonProperty("list")
+  @JacksonXmlProperty(localName = "list")
+  @JacksonXmlElementWrapper(useWrapping = false)
+  public void setList(@Nullable List<String> _list) {
+    this._list = _list;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -163,12 +204,13 @@ public class RequiredAndNullable {
     return Objects.equals(this.str, requiredAndNullable.str) &&
         Objects.equals(this.file, requiredAndNullable.file) &&
         Objects.equals(this.color, requiredAndNullable.color) &&
-        Objects.equals(this.onlyRequired, requiredAndNullable.onlyRequired);
+        Objects.equals(this.onlyRequired, requiredAndNullable.onlyRequired) &&
+        Objects.equals(this._list, requiredAndNullable._list);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(str, file, color, onlyRequired);
+    return Objects.hash(str, file, color, onlyRequired, _list);
   }
 
   @Override
@@ -179,6 +221,7 @@ public class RequiredAndNullable {
     sb.append("    file: ").append(toIndentedString(file)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("    onlyRequired: ").append(toIndentedString(onlyRequired)).append("\n");
+    sb.append("    _list: ").append(toIndentedString(_list)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -208,6 +251,7 @@ public class RequiredAndNullable {
       this.instance.setFile(value.file);
       this.instance.setColor(value.color);
       this.instance.setOnlyRequired(value.onlyRequired);
+      this.instance.setList(value._list);
       return this;
     }
 
@@ -228,6 +272,11 @@ public class RequiredAndNullable {
     
     public RequiredAndNullable.Builder onlyRequired(String onlyRequired) {
       this.instance.onlyRequired(onlyRequired);
+      return this;
+    }
+    
+    public RequiredAndNullable.Builder _list(@Nullable List<String> _list) {
+      this.instance._list(_list);
       return this;
     }
     

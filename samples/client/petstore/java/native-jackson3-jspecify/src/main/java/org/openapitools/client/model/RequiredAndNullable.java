@@ -26,7 +26,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.jspecify.annotations.Nullable;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -39,7 +41,8 @@ import org.openapitools.client.ApiClient;
   RequiredAndNullable.JSON_PROPERTY_STR,
   RequiredAndNullable.JSON_PROPERTY_FILE,
   RequiredAndNullable.JSON_PROPERTY_COLOR,
-  RequiredAndNullable.JSON_PROPERTY_ONLY_REQUIRED
+  RequiredAndNullable.JSON_PROPERTY_ONLY_REQUIRED,
+  RequiredAndNullable.JSON_PROPERTY_LIST
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class RequiredAndNullable {
@@ -58,6 +61,10 @@ public class RequiredAndNullable {
   public static final String JSON_PROPERTY_ONLY_REQUIRED = "onlyRequired";
   
   private String onlyRequired;
+
+  public static final String JSON_PROPERTY_LIST = "list";
+  
+  private @Nullable List<String> _list;
 
   public RequiredAndNullable() { 
   }
@@ -158,6 +165,38 @@ public class RequiredAndNullable {
   }
 
 
+  public RequiredAndNullable _list(@Nullable List<String> _list) {
+    this._list = _list;
+    return this;
+  }
+
+  public RequiredAndNullable addListItem(String _listItem) {
+    if (this._list == null) {
+      this._list = new ArrayList<>();
+    }
+    this._list.add(_listItem);
+    return this;
+  }
+
+  /**
+   * Get _list
+   * @return _list
+   */
+  
+  @JsonProperty(value = JSON_PROPERTY_LIST, required = false)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public @Nullable List<String> getList() {
+    return _list;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_LIST, required = false)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setList(@Nullable List<String> _list) {
+    this._list = _list;
+  }
+
+
   /**
    * Return true if this RequiredAndNullable object is equal to o.
    */
@@ -179,6 +218,7 @@ public class RequiredAndNullable {
     sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("    onlyRequired: ").append(toIndentedString(onlyRequired)).append("\n");
+    sb.append("    _list: ").append(toIndentedString(_list)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -243,6 +283,15 @@ public class RequiredAndNullable {
       joiner.add(String.format(java.util.Locale.ROOT, "%sonlyRequired%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOnlyRequired()))));
     }
 
+    // add `list` to the URL query string
+    if (getList() != null) {
+      for (int i = 0; i < getList().size(); i++) {
+        joiner.add(String.format(java.util.Locale.ROOT, "%slist%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+            ApiClient.urlEncode(ApiClient.valueToString(getList().get(i)))));
+      }
+    }
+
     return joiner.toString();
   }
 
@@ -272,6 +321,10 @@ public class RequiredAndNullable {
     }
     public RequiredAndNullable.Builder onlyRequired(String onlyRequired) {
       this.instance.onlyRequired = onlyRequired;
+      return this;
+    }
+    public RequiredAndNullable.Builder _list(@Nullable List<String> _list) {
+      this.instance._list = _list;
       return this;
     }
 
@@ -311,7 +364,8 @@ public class RequiredAndNullable {
       .str(getStr())
       ._file(getFile())
       .color(getColor())
-      .onlyRequired(getOnlyRequired());
+      .onlyRequired(getOnlyRequired())
+      ._list(getList());
   }
 
 }

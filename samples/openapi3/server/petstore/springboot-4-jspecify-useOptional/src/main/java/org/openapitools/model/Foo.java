@@ -131,7 +131,7 @@ public class Foo {
    * @return nullableDt
    */
   @Valid 
-  @Schema(name = "nullableDt", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableDt", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableDt")
   @JacksonXmlProperty(localName = "nullableDt")
   @XmlElement(name = "nullableDt")
@@ -177,7 +177,7 @@ public class Foo {
    * @return nullableBinary
    */
   @Valid 
-  @Schema(name = "nullableBinary", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableBinary", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableBinary")
   @JacksonXmlProperty(localName = "nullableBinary")
   @XmlElement(name = "nullableBinary")
@@ -275,7 +275,7 @@ public class Foo {
    * @return nullableListMinIntems
    */
   @Valid @Size(min = 1) 
-  @Schema(name = "nullableListMinIntems", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableListMinIntems", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableListMinIntems")
   @JacksonXmlProperty(localName = "nullableListMinIntems")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -346,7 +346,7 @@ public class Foo {
    * @return nullableNumber
    */
   @Valid 
-  @Schema(name = "nullableNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableNumber")
   @JacksonXmlProperty(localName = "nullableNumber")
   @XmlElement(name = "nullableNumber")
@@ -416,7 +416,7 @@ public class Foo {
    * @return nullableColor
    */
   
-  @Schema(name = "nullableColor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableColor", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableColor")
   @JacksonXmlProperty(localName = "nullableColor")
   @XmlElement(name = "nullableColor")

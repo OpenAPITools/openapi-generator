@@ -20,6 +20,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.jspecify.annotations.Nullable;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -31,7 +34,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   RequiredAndNullable.JSON_PROPERTY_STR,
   RequiredAndNullable.JSON_PROPERTY_FILE,
   RequiredAndNullable.JSON_PROPERTY_COLOR,
-  RequiredAndNullable.JSON_PROPERTY_ONLY_REQUIRED
+  RequiredAndNullable.JSON_PROPERTY_ONLY_REQUIRED,
+  RequiredAndNullable.JSON_PROPERTY_LIST
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class RequiredAndNullable {
@@ -51,17 +55,22 @@ public class RequiredAndNullable {
   
   private String onlyRequired;
 
+  public static final String JSON_PROPERTY_LIST = "list";
+  
+  private @Nullable List<String> _list;
+
   public RequiredAndNullable() {
   }
 
   /**
    * Constructor with all args parameters
    */
-  public RequiredAndNullable(@JsonProperty(JSON_PROPERTY_STR) @Nullable String str, @JsonProperty(JSON_PROPERTY_FILE) @Nullable File _file, @JsonProperty(JSON_PROPERTY_COLOR) @Nullable String color, @JsonProperty(JSON_PROPERTY_ONLY_REQUIRED) String onlyRequired) {
+  public RequiredAndNullable(@JsonProperty(JSON_PROPERTY_STR) @Nullable String str, @JsonProperty(JSON_PROPERTY_FILE) @Nullable File _file, @JsonProperty(JSON_PROPERTY_COLOR) @Nullable String color, @JsonProperty(JSON_PROPERTY_ONLY_REQUIRED) String onlyRequired, @JsonProperty(JSON_PROPERTY_LIST) @Nullable List<String> _list) {
     this.str = str;
     this._file = _file;
     this.color = color;
     this.onlyRequired = onlyRequired;
+    this._list = _list;
   }
 
   public RequiredAndNullable str(@Nullable String str) {
@@ -164,6 +173,39 @@ public class RequiredAndNullable {
     this.onlyRequired = onlyRequired;
   }
 
+  public RequiredAndNullable _list(@Nullable List<String> _list) {
+    
+    this._list = _list;
+    return this;
+  }
+
+  public RequiredAndNullable addListItem(String _listItem) {
+    if (this._list == null) {
+      this._list = new ArrayList<>();
+    }
+    this._list.add(_listItem);
+    return this;
+  }
+
+  /**
+   * Get _list
+   * @return _list
+   */
+  
+  @JsonProperty(value = JSON_PROPERTY_LIST, required = false)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public @Nullable List<String> getList() {
+    return _list;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_LIST, required = false)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setList(@Nullable List<String> _list) {
+    this._list = _list;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -177,12 +219,13 @@ public class RequiredAndNullable {
     return Objects.equals(this.str, requiredAndNullable.str) &&
         Objects.equals(this._file, requiredAndNullable._file) &&
         Objects.equals(this.color, requiredAndNullable.color) &&
-        Objects.equals(this.onlyRequired, requiredAndNullable.onlyRequired);
+        Objects.equals(this.onlyRequired, requiredAndNullable.onlyRequired) &&
+        Objects.equals(this._list, requiredAndNullable._list);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(str, _file, color, onlyRequired);
+    return Objects.hash(str, _file, color, onlyRequired, _list);
   }
 
   @Override
@@ -193,6 +236,7 @@ public class RequiredAndNullable {
     sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("    onlyRequired: ").append(toIndentedString(onlyRequired)).append("\n");
+    sb.append("    _list: ").append(toIndentedString(_list)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -233,6 +277,10 @@ public class RequiredAndNullable {
       this.instance.onlyRequired = onlyRequired;
       return this;
     }
+    public RequiredAndNullable.Builder _list(@Nullable List<String> _list) {
+      this.instance._list = _list;
+      return this;
+    }
 
 
     /**
@@ -270,7 +318,8 @@ public class RequiredAndNullable {
       .str(getStr())
       ._file(getFile())
       .color(getColor())
-      .onlyRequired(getOnlyRequired());
+      .onlyRequired(getOnlyRequired())
+      ._list(getList());
   }
 
 

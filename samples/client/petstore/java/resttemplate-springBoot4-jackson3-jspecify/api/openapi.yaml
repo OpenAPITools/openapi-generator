@@ -218,6 +218,9 @@ components:
         file: ""
         color: red
         onlyRequired: onlyRequired
+        list:
+        - list
+        - list
       properties:
         str:
           nullable: true
@@ -232,9 +235,15 @@ components:
           type: string
         onlyRequired:
           type: string
+        list:
+          items:
+            type: string
+          nullable: true
+          type: array
       required:
       - color
       - file
+      - list
       - onlyRequired
       - str
       type: object

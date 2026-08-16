@@ -29,7 +29,7 @@ public class ContainerDefaultValue {
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
   @JsonInclude(JsonInclude.Include.ALWAYS)
-  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
+  private JsonNullable<List<String>> nullableRequiredArray = null;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> requiredArray = new ArrayList<>();

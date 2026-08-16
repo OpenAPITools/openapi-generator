@@ -121,7 +121,7 @@ public class NullableClass {
    * @return integerProp
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public Integer getIntegerProp() {
@@ -155,7 +155,7 @@ public class NullableClass {
    * @return numberProp
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public BigDecimal getNumberProp() {
@@ -189,7 +189,7 @@ public class NullableClass {
    * @return booleanProp
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public Boolean getBooleanProp() {
@@ -223,7 +223,7 @@ public class NullableClass {
    * @return stringProp
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public String getStringProp() {
@@ -257,7 +257,7 @@ public class NullableClass {
    * @return dateProp
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public LocalDate getDateProp() {
@@ -291,7 +291,7 @@ public class NullableClass {
    * @return datetimeProp
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public OffsetDateTime getDatetimeProp() {
@@ -337,7 +337,7 @@ public class NullableClass {
    * @return arrayNullableProp
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public List<Object> getArrayNullableProp() {
@@ -383,7 +383,7 @@ public class NullableClass {
    * @return arrayAndItemsNullableProp
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public List<Object> getArrayAndItemsNullableProp() {
@@ -463,7 +463,7 @@ public class NullableClass {
    * @return objectNullableProp
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public Map<String, Object> getObjectNullableProp() {
@@ -509,7 +509,7 @@ public class NullableClass {
    * @return objectAndItemsNullableProp
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public Map<String, Object> getObjectAndItemsNullableProp() {

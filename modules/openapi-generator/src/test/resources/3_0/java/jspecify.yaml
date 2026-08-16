@@ -182,6 +182,7 @@ components:
         - file
         - color
         - onlyRequired
+        - list
       properties:
         str:
           nullable: true
@@ -197,6 +198,11 @@ components:
         onlyRequired:
           # NON nullable
           type: string
+        list:
+          type: array
+          nullable: true
+          items:
+            type: string
     FileContent:
       type: object
       required:
