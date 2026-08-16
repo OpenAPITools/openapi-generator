@@ -7283,14 +7283,14 @@ public class SpringCodegenTest {
                 );
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
                 .fileContains(
-                        "private JsonNullable<String> str = null;",
-                        "private JsonNullable<List<String>> _list = null;",
+                        "private JsonNullable<String> str = JsonNullable.<String>undefined();",
+                        "private JsonNullable<List<String>> _list = JsonNullable.<List<String>>undefined();",
                         "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired, @Nullable List<String> _list)",
                         "JsonNullable<String> getStr()",
                         "void setStr(JsonNullable<String> str)",
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)"
-                ).assertMethod("getStr").assertMethodAnnotations().containsWithName("NotNull");
+                ).assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
@@ -7379,13 +7379,13 @@ public class SpringCodegenTest {
                 );
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
                 .fileContains(
-                        "private JsonNullable<String> str = null;",
+                        "private JsonNullable<String> str = JsonNullable.<String>undefined();",
                         "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired, @Nullable List<String> _list)",
                         "JsonNullable<String> getStr()",
                         "void setStr(JsonNullable<String> str)",
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)"
-                ).assertMethod("getStr").assertMethodAnnotations().containsWithName("NotNull");
+                ).assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))

@@ -31,7 +31,7 @@ public class ContainerDefaultValue {
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
   @JsonInclude(JsonInclude.Include.ALWAYS)
-  private JsonNullable<List<String>> nullableRequiredArray = null;
+  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> requiredArray = new ArrayList<>();
@@ -105,7 +105,7 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull 
+  
   @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {

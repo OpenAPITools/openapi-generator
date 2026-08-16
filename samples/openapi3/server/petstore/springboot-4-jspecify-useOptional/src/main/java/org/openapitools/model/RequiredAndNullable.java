@@ -32,15 +32,15 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class RequiredAndNullable {
 
-  private JsonNullable<String> str = null;
+  private JsonNullable<String> str = JsonNullable.<String>undefined();
 
-  private JsonNullable<org.springframework.core.io.Resource> file = null;
+  private JsonNullable<org.springframework.core.io.Resource> file = JsonNullable.<org.springframework.core.io.Resource>undefined();
 
-  private JsonNullable<String> color = null;
+  private JsonNullable<String> color = JsonNullable.<String>undefined();
 
   private String onlyRequired;
 
-  private JsonNullable<List<String>> _list = null;
+  private JsonNullable<List<String>> _list = JsonNullable.<List<String>>undefined();
 
   public RequiredAndNullable() {
     super();
@@ -66,7 +66,7 @@ public class RequiredAndNullable {
    * Get str
    * @return str
    */
-  @NotNull 
+  
   @Schema(name = "str", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("str")
   @JacksonXmlProperty(localName = "str")
@@ -90,7 +90,7 @@ public class RequiredAndNullable {
    * Get file
    * @return file
    */
-  @NotNull @Valid 
+  @Valid 
   @Schema(name = "file", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("file")
   @JacksonXmlProperty(localName = "file")
@@ -114,7 +114,7 @@ public class RequiredAndNullable {
    * Get color
    * @return color
    */
-  @NotNull 
+  
   @Schema(name = "color", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")
@@ -170,7 +170,7 @@ public class RequiredAndNullable {
    * Get _list
    * @return _list
    */
-  @NotNull 
+  
   @Schema(name = "list", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("list")
   @JacksonXmlProperty(localName = "list")
