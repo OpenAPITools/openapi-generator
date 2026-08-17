@@ -7888,6 +7888,36 @@ public class SpringCodegenTest {
                 .fileContains("@SortDefault.SortDefaults({@SortDefault(sort = {\"name\"}, direction = Sort.Direction.DESC), @SortDefault(sort = {\"id\"}, direction = Sort.Direction.ASC)})");
     }
 
+    @Test
+    public void pageableAnnotationsUseOriginalOperationId_issue24721() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+        props.put(SpringCodegen.GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24721.yaml", SPRING_BOOT, props);
+
+        JavaFileAssert.assertThat(files.get("ItemsApi.java"))
+                .assertMethod("listItems")
+                .assertParameter("pageable")
+                .hasType("Pageable")
+                .assertParameterAnnotations()
+                .containsWithName("ValidPageable")
+                .containsWithName("ValidSort")
+                .containsWithName("PageableDefault");
+
+        JavaFileAssert.assertThat(files.get("ItemsApi.java"))
+                .fileContains("@ValidPageable(maxSize = 100, maxPage = 50)")
+                .fileContains("@ValidSort(allowedValues = {\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"})")
+                .fileContains("@PageableDefault(page = 0, size = 25)")
+                .fileContains("@SortDefault.SortDefaults({@SortDefault(sort = {\"name\"}, direction = Sort.Direction.DESC)})");
+    }
+
     // -------------------------------------------------------------------------
     // substituteGenericPagedModel tests
     // -------------------------------------------------------------------------
