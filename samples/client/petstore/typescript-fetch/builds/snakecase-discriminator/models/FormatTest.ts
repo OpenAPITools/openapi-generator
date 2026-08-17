@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 /**
  * 
  * @export
@@ -116,8 +116,8 @@ export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'string': json['string'] == null ? undefined : json['string'],
         '_byte': json['byte'],
         'binary': json['binary'] == null ? undefined : json['binary'],
-        'date': (json['date'] == null ? json['date'] : new Date(json['date'])),
-        'dateTime': json['dateTime'] == null ? undefined : (new Date(json['dateTime'])),
+        'date': (json['date'] == null ? json['date'] : parseDate(json['date'])),
+        'dateTime': json['dateTime'] == null ? undefined : (parseDateTime(json['dateTime'])),
         'uuid': json['uuid'] == null ? undefined : json['uuid'],
         'password': json['password'],
         'patternWithDigits': json['pattern_with_digits'] == null ? undefined : json['pattern_with_digits'],
@@ -146,8 +146,8 @@ export function FormatTestToJSONTyped(value?: FormatTest | null, ignoreDiscrimin
         'string': value['string'],
         'byte': value['_byte'],
         'binary': value['binary'],
-        'date': value['date'] == null ? value['date'] : value['date'].toISOString().substring(0,10),
-        'dateTime': value['dateTime'] == null ? value['dateTime'] : value['dateTime'].toISOString(),
+        'date': value['date'] == null ? value['date'] : serializeDate(value['date']),
+        'dateTime': value['dateTime'] == null ? value['dateTime'] : serializeDateTime(value['dateTime']),
         'uuid': value['uuid'],
         'password': value['password'],
         'pattern_with_digits': value['patternWithDigits'],
