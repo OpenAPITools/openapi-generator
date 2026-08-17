@@ -66,7 +66,7 @@ public class RequiredAndNullable {
    * Get str
    * @return str
    */
-  
+  /* @Present */ 
   @Schema(name = "str", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("str")
   @JacksonXmlProperty(localName = "str")
@@ -90,7 +90,7 @@ public class RequiredAndNullable {
    * Get file
    * @return file
    */
-  @Valid 
+  /* @Present */ @Valid 
   @Schema(name = "file", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("file")
   @JacksonXmlProperty(localName = "file")
@@ -114,7 +114,7 @@ public class RequiredAndNullable {
    * Get color
    * @return color
    */
-  
+  /* @Present */ 
   @Schema(name = "color", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")
@@ -170,7 +170,7 @@ public class RequiredAndNullable {
    * Get _list
    * @return _list
    */
-  
+  /* @Present */ 
   @Schema(name = "list", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("list")
   @JacksonXmlProperty(localName = "list")

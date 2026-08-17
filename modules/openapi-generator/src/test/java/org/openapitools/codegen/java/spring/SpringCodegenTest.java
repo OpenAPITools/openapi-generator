@@ -7289,7 +7289,8 @@ public class SpringCodegenTest {
                         "JsonNullable<String> getStr()",
                         "void setStr(JsonNullable<String> str)",
                         "RequiredAndNullable str(@Nullable String str)",
-                        "RequiredAndNullable.Builder str(@Nullable String str)"
+                        "RequiredAndNullable.Builder str(@Nullable String str)",
+                        " /* @Present */"
                 ).assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
