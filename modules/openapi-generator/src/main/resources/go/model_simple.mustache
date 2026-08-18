@@ -23,7 +23,7 @@ type {{classname}} struct {
 	{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}}{{{vendorExtensions.x-go-datatag}}}
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
-	AdditionalProperties map[string]interface{}
+	AdditionalProperties map[string]interface{} `json:"-"`
 {{/isAdditionalPropertiesTrue}}
 }
 
