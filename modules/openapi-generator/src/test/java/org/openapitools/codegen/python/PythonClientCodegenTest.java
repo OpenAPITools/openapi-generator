@@ -974,6 +974,8 @@ public class PythonClientCodegenTest {
                 defaultOutputPath + "openapi_client/api/default_api.py");
         final Path defaultApiClient = Paths.get(
                 defaultOutputPath + "openapi_client/api_client.py");
+        final Path defaultLegacyHelpers = Paths.get(
+                defaultOutputPath + "openapi_client/_legacy_model_helpers.py");
 
         assertFileContains(defaultModel,
                 "return json.dumps(to_jsonable_python(self.to_dict()))",
@@ -997,6 +999,7 @@ public class PythonClientCodegenTest {
                 "async_req", "        _preload_content: bool = True",
                 "return self.api_client.pool.apply_async(");
         TestUtils.assertFileNotContains(defaultApiClient, "_OPENAPI_GENERATOR_TO_DICT");
+        Assert.assertFalse(Files.exists(defaultLegacyHelpers));
 
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.additionalProperties().put(
@@ -1010,12 +1013,12 @@ public class PythonClientCodegenTest {
         final Path api = Paths.get(
                 outputPath + "openapi_client/api/default_api.py");
         final Path apiClient = Paths.get(outputPath + "openapi_client/api_client.py");
+        final Path legacyHelpers = Paths.get(
+                outputPath + "openapi_client/_legacy_model_helpers.py");
 
         assertFileContains(model,
-                "def _get_openapi_to_dict(value: Any) -> Any:",
-                "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
-                "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
-                "def _to_openapi_value(value: Any) -> Any:",
+                "from openapi_client._legacy_model_helpers import (",
+                "    _OPENAPI_GENERATOR_TO_DICT,",
                 "def to_dict(self, serialize: bool = False) -> Dict[str, Any]:",
                 "_to_legacy_value(getattr(self, \"renamed\", None), serialize)",
                 "def __openapi_generator_modern_projection(self) -> Dict[str, Any]:",
@@ -1033,6 +1036,10 @@ public class PythonClientCodegenTest {
                 "def __eq__(self, other: object) -> bool:",
                 "def __ne__(self, other: object) -> bool:");
         TestUtils.assertFileNotContains(model,
+                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                "def _to_openapi_value(value: Any) -> Any:",
                 "_legacy_model_to_dict_impl: ClassVar", "def _to_openapi_dict(");
         assertFileContains(nestedModel,
                 "camel_case: Optional[StrictStr]",
@@ -1045,16 +1052,21 @@ public class PythonClientCodegenTest {
         for (String wrapper : Arrays.asList("one_of_model.py", "any_of_model.py")) {
             final Path wrapperModel = Paths.get(outputPath + "openapi_client/models/" + wrapper);
             assertFileContains(wrapperModel,
+                    "from openapi_client._legacy_model_helpers import (",
                     "def to_dict(self, serialize: bool = False) -> Any:",
                     "def __openapi_generator_modern_projection(self) -> Any:",
                     "del __openapi_generator_modern_projection");
             TestUtils.assertFileNotContains(wrapperModel,
+                    "def _get_openapi_to_dict(value: Any) -> Any:",
+                    "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                    "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                    "def _to_openapi_value(value: Any) -> Any:",
                     "_legacy_model_to_dict_impl: ClassVar", "def _to_openapi_dict(",
                     "openapi_types", "attribute_map", "extra=\"forbid\"",
                     "def __repr__", "def __eq__");
         }
         assertFileContains(apiClient,
-                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "from openapi_client._legacy_model_helpers import _get_openapi_to_dict",
                 "to_dict = getattr(obj, 'to_dict', None)",
                 "to_openapi_dict = _get_openapi_to_dict(obj)",
                 "if to_openapi_dict is not None:",
@@ -1071,6 +1083,13 @@ public class PythonClientCodegenTest {
                 "response_types_map: Dict[str, Optional[str]]",
                 "return self._get_pool().apply_async(call)",
                 "response_data.getheaders()");
+        TestUtils.assertFileNotContains(apiClient,
+                "def _get_openapi_to_dict(value: Any) -> Any:");
+        assertFileContains(legacyHelpers,
+                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                "def _to_openapi_value(value: Any) -> Any:");
         assertFileContains(api,
                 "async_req: Optional[bool] = None",
                 "_preload_content: bool = True",
@@ -1169,9 +1188,9 @@ public class PythonClientCodegenTest {
                     "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
                     "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
                     "def _to_openapi_value(value: Any) -> Any:");
-            TestUtils.assertFileNotContains(model, "_legacy_model_dict import");
+            TestUtils.assertFileNotContains(model, "_legacy_model_helpers import");
             Assert.assertFalse(Files.exists(Paths.get(
-                    outputPath + "openapi_client/_legacy_model_dict.py")));
+                    outputPath + "openapi_client/_legacy_model_helpers.py")));
         } finally {
             if (oldModels == null) {
                 GlobalSettings.clearProperty(CodegenConstants.MODELS);
