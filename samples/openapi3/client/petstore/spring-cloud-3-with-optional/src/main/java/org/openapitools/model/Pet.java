@@ -214,6 +214,9 @@ public class Pet {
     this.tags = tags;
   }
 
+  /**
+   * @deprecated
+   */
   @Deprecated
   public Pet status(StatusEnum status) {
     this.status = Optional.ofNullable(status);

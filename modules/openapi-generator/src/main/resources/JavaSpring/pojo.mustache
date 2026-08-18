@@ -155,6 +155,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
 
   {{! begin feature: fluent setter methods }}
   {{#deprecated}}
+  /**
+   * @deprecated
+   */
   @Deprecated
   {{/deprecated}}
   public {{classname}} {{name}}({{>nullableArgument_chainSetter}} {{name}}) {
@@ -169,6 +172,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#isArray}}
 
   {{#deprecated}}
+  /**
+   * @deprecated
+   */
   @Deprecated
   {{/deprecated}}
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
@@ -190,6 +196,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#isMap}}
 
   {{#deprecated}}
+  /**
+   * @deprecated
+   */
   @Deprecated
   {{/deprecated}}
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
@@ -280,6 +289,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{^lombok.Setter}}
   {{! begin feature: fluent setter methods for inherited properties }}
   {{#deprecated}}
+  /**
+   * @deprecated
+   */
   @Deprecated
   {{/deprecated}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
@@ -289,6 +301,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#isArray}}
 
   {{#deprecated}}
+  /**
+   * @deprecated
+   */
   @Deprecated
   {{/deprecated}}
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
@@ -299,6 +314,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#isMap}}
 
   {{#deprecated}}
+  /**
+   * @deprecated
+   */
   @Deprecated
   {{/deprecated}}
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {

@@ -224,6 +224,9 @@ public class Pet {
     this.tags = tags;
   }
 
+  /**
+   * @deprecated
+   */
   @Deprecated
   public Pet status(@Nullable StatusEnum status) {
     this.status = status;

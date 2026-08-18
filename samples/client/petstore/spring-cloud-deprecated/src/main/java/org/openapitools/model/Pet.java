@@ -161,12 +161,18 @@ public class Pet {
     this.name = name;
   }
 
+  /**
+   * @deprecated
+   */
   @Deprecated
   public Pet photoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
 
+  /**
+   * @deprecated
+   */
   @Deprecated
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
     if (this.photoUrls == null) {
