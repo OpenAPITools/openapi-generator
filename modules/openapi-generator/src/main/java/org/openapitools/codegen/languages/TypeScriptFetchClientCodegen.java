@@ -109,6 +109,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_TYPESCRIPT_FETCH_API_EXAMPLE = "x-typescriptFetchApiExample";
     private static final String X_HAS_DATE_VARS = "x-hasDateVars";
     private static final String BLOB_API_EXAMPLE = "new Blob(['example file content'], { type: 'application/octet-stream' })";
+    private static final String DATE_TYPE = "date";
+    private static final String DATE_TIME_TYPE = "DateTime";
+    private static final String TS_DATE_TYPE = "Date";
 
     protected boolean sagasAndRecords = false;
     @Getter @Setter
@@ -355,11 +358,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         if (DATE_LIBRARY_DATE.equals(this.dateLibrary)) {
-            typeMapping.put("date", "Date");
-            typeMapping.put("DateTime", "Date");
+            typeMapping.put(DATE_TYPE, TS_DATE_TYPE);
+            typeMapping.put(DATE_TIME_TYPE, TS_DATE_TYPE);
         } else {
-            typeMapping.put("date", "string");
-            typeMapping.put("DateTime", "string");
+            typeMapping.put(DATE_TYPE, "string");
+            typeMapping.put(DATE_TIME_TYPE, "string");
         }
         additionalProperties.put(DATE_LIBRARY, this.dateLibrary);
         // Mustache cannot compare strings, so expose the selected library as a flag.
@@ -612,7 +615,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
      */
     private Set<String> parseImports(CodegenModel cm) {
         Set<String> newImports = new HashSet<>();
-        if (cm.imports.size() > 0) {
+        if (!cm.imports.isEmpty()) {
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {
                     String[] parts = name.split(" \\| ");
@@ -1534,11 +1537,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         public boolean isDateType() {
-            return isDate && "Date".equals(dataType);
+            return isDate && TypeScriptFetchClientCodegen.isDateType(dataType);
         }
 
         public boolean isDateTimeType() {
-            return isDateTime && "Date".equals(dataType);
+            return isDateTime && TypeScriptFetchClientCodegen.isDateTimeType(dataType);
         }
 
         public ExtendedCodegenParameter(CodegenParameter cp) {
@@ -1685,11 +1688,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         public boolean isDateType() {
-            return isDate && "Date".equals(dataType);
+            return isDate && TypeScriptFetchClientCodegen.isDateType(dataType);
         }
 
         public boolean isDateTimeType() {
-            return isDateTime && "Date".equals(dataType);
+            return isDateTime && TypeScriptFetchClientCodegen.isDateTimeType(dataType);
         }
 
         public ExtendedCodegenProperty(CodegenProperty cp) {
@@ -1973,12 +1976,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public boolean hasSelfReferencingDiscriminatorMapping(){
             return selfReferencingDiscriminatorMapping != null;
         }
+
         public boolean isDateType() {
-            return isDate && "Date".equals(dataType);
+            return isDate && TypeScriptFetchClientCodegen.isDateType(dataType);
         }
 
         public boolean isDateTimeType() {
-            return isDateTime && "Date".equals(dataType);
+            return isDateTime && TypeScriptFetchClientCodegen.isDateTimeType(dataType);
         }
 
         public ExtendedCodegenModel(CodegenModel cm) {
@@ -2118,5 +2122,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     protected String getLicenseNameDefaultValue() {
         return null;
+    }
+
+    private static boolean isDateType(String dataType) {
+        return TS_DATE_TYPE.equals(dataType);
+    }
+
+    private static boolean isDateTimeType(String dataType) {
+        return TS_DATE_TYPE.equals(dataType);
     }
 }
