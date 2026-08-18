@@ -37,9 +37,13 @@
         {{^isArray}}
         if (requestParameters['{{paramName}}'] != null) {
             {{#isDateTimeType}}
-            formParams.append('{{baseName}}', (requestParameters['{{paramName}}'] as any).toISOString());
+            formParams.append('{{baseName}}', runtime.serializeDateTime(requestParameters['{{paramName}}'] as any));
             {{/isDateTimeType}}
             {{^isDateTimeType}}
+            {{#isDateType}}
+            formParams.append('{{baseName}}', runtime.serializeDate(requestParameters['{{paramName}}'] as any));
+            {{/isDateType}}
+            {{^isDateType}}
             {{#isPrimitiveType}}
             formParams.append('{{baseName}}', requestParameters['{{paramName}}'] as any);
             {{/isPrimitiveType}}
@@ -60,6 +64,7 @@
             {{/withoutRuntimeChecks}}
             {{/isEnumRef}}
             {{/isPrimitiveType}}
+            {{/isDateType}}
             {{/isDateTimeType}}
         }
 

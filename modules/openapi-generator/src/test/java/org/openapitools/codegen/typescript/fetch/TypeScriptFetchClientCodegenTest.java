@@ -682,7 +682,7 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(exampleModelPath, "(instanceOfMyNumericValue(json))");
         TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'number' && (json === 10 || json === 20 || json === 30))");
         TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'string' && (json === 'fixed-value-a' || json === 'fixed-value-b' || json === 'fixed-value-c'))");
-        TestUtils.assertFileContains(exampleModelPath, "(isNaN(new Date(json).getTime())");
+        TestUtils.assertFileContains(exampleModelPath, "(isNaN(parseDate(json).getTime())");
         TestUtils.assertFileContains(exampleModelPath, "(json.every(item => typeof item === 'number'))");
         TestUtils.assertFileContains(exampleModelPath, "(json.every(item => typeof item === 'string' && (item === 'oneof-array-enum-a' || item === 'oneof-array-enum-b' || item === 'oneof-array-enum-c')))");
         //ToJSON
@@ -1052,26 +1052,26 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(modelPath);
 
         TestUtils.assertFileContains(modelPath,
-                "'requiredDate': (json['requiredDate'] == null ? json['requiredDate'] : new Date(json['requiredDate'])),");
+                "'requiredDate': (json['requiredDate'] == null ? json['requiredDate'] : parseDate(json['requiredDate'])),");
         TestUtils.assertFileContains(modelPath,
-                "'requiredDateTime': (json['requiredDateTime'] == null ? json['requiredDateTime'] : new Date(json['requiredDateTime'])),");
+                "'requiredDateTime': (json['requiredDateTime'] == null ? json['requiredDateTime'] : parseDateTime(json['requiredDateTime'])),");
         TestUtils.assertFileContains(modelPath,
-                "'requiredNullableDate': (json['requiredNullableDate'] == null ? null : new Date(json['requiredNullableDate'])),");
+                "'requiredNullableDate': (json['requiredNullableDate'] == null ? null : parseDate(json['requiredNullableDate'])),");
         TestUtils.assertFileContains(modelPath,
-                "'requiredNullableDateTime': (json['requiredNullableDateTime'] == null ? null : new Date(json['requiredNullableDateTime'])),");
+                "'requiredNullableDateTime': (json['requiredNullableDateTime'] == null ? null : parseDateTime(json['requiredNullableDateTime'])),");
         TestUtils.assertFileContains(modelPath,
-                "'optionalDate': json['optionalDate'] == null ? undefined : (new Date(json['optionalDate'])),");
+                "'optionalDate': json['optionalDate'] == null ? undefined : (parseDate(json['optionalDate'])),");
         TestUtils.assertFileContains(modelPath,
-                "'optionalDateTime': json['optionalDateTime'] == null ? undefined : (new Date(json['optionalDateTime'])),");
+                "'optionalDateTime': json['optionalDateTime'] == null ? undefined : (parseDateTime(json['optionalDateTime'])),");
 
         TestUtils.assertFileContains(modelPath,
-                "'requiredDate': value['requiredDate'] == null ? value['requiredDate'] : value['requiredDate'].toISOString().substring(0,10),");
+                "'requiredDate': value['requiredDate'] == null ? value['requiredDate'] : serializeDate(value['requiredDate']),");
         TestUtils.assertFileContains(modelPath,
-                "'requiredDateTime': value['requiredDateTime'] == null ? value['requiredDateTime'] : value['requiredDateTime'].toISOString(),");
+                "'requiredDateTime': value['requiredDateTime'] == null ? value['requiredDateTime'] : serializeDateTime(value['requiredDateTime']),");
         TestUtils.assertFileContains(modelPath,
-                "'requiredNullableDate': value['requiredNullableDate'] == null ? value['requiredNullableDate'] : value['requiredNullableDate'].toISOString().substring(0,10),");
+                "'requiredNullableDate': value['requiredNullableDate'] == null ? value['requiredNullableDate'] : serializeDate(value['requiredNullableDate']),");
         TestUtils.assertFileContains(modelPath,
-                "'optionalDateTime': value['optionalDateTime'] == null ? value['optionalDateTime'] : value['optionalDateTime'].toISOString(),");
+                "'optionalDateTime': value['optionalDateTime'] == null ? value['optionalDateTime'] : serializeDateTime(value['optionalDateTime']),");
     }
 
     private static File generate(
@@ -1082,6 +1082,76 @@ public class TypeScriptFetchClientCodegenTest {
             "src/test/resources/3_0/typescript-fetch/example-for-file-naming-option.yaml"
         );
     }
+
+    @Test(description = "Verify dateLibrary=date (the default) maps date and date-time to Date and converts them through the runtime helpers")
+    public void testDateLibraryDateIsTheDefault() throws IOException {
+        File output = generate(new HashMap<>(), DATE_HANDLING_SPEC);
+
+        Path event = Paths.get(output + "/models/Event.ts");
+        TestUtils.assertFileContains(event, "startsOn: Date;");
+        TestUtils.assertFileContains(event, "createdAt?: Date;");
+        TestUtils.assertFileContains(event, "'startsOn': (json['startsOn'] == null ? json['startsOn'] : parseDate(json['startsOn']))");
+        TestUtils.assertFileContains(event, "'createdAt': json['createdAt'] == null ? undefined : (parseDateTime(json['createdAt']))");
+        TestUtils.assertFileContains(event, "'startsOn': value['startsOn'] == null ? value['startsOn'] : serializeDate(value['startsOn'])");
+
+        Path runtime = Paths.get(output + "/runtime.ts");
+        TestUtils.assertFileContains(runtime, "export function parseDate(");
+        TestUtils.assertFileContains(runtime, "export function parseDateTime(");
+
+        // A model without a date must not import the helpers it cannot use.
+        Path venue = Paths.get(output + "/models/Venue.ts");
+        TestUtils.assertFileContains(venue, "import { mapValues } from '../runtime';");
+    }
+
+    @Test(description = "Verify dateLibrary=string leaves date values untouched as strings")
+    public void testDateLibraryString() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.DATE_LIBRARY, TypeScriptFetchClientCodegen.DATE_LIBRARY_STRING);
+
+        File output = generate(properties, DATE_HANDLING_SPEC);
+
+        Path event = Paths.get(output + "/models/Event.ts");
+        TestUtils.assertFileContains(event, "startsOn: string;");
+        TestUtils.assertFileContains(event, "createdAt?: string;");
+        TestUtils.assertFileContains(event, "'startsOn': json['startsOn'],");
+        TestUtils.assertFileNotContains(event, "parseDate");
+        TestUtils.assertFileNotContains(event, "serializeDate");
+
+        // Only the helper querystring needs is emitted.
+        Path runtime = Paths.get(output + "/runtime.ts");
+        TestUtils.assertFileNotContains(runtime, "export function parseDate(");
+        TestUtils.assertFileNotContains(runtime, "export function parseDateTime(");
+        TestUtils.assertFileNotContains(runtime, "export function serializeDate(");
+        TestUtils.assertFileContains(runtime, "export function serializeDateTime(");
+    }
+
+    @Test(description = "Verify withoutRuntimeChecks forces dateLibrary=string, since there is no model code left to convert with")
+    public void testDateLibraryDateFallsBackToStringWithoutRuntimeChecks() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, true);
+        properties.put(TypeScriptFetchClientCodegen.DATE_LIBRARY, TypeScriptFetchClientCodegen.DATE_LIBRARY_DATE);
+
+        File output = generate(properties, DATE_HANDLING_SPEC);
+
+        Path modelsIndex = Paths.get(output + "/models/index.ts");
+        TestUtils.assertFileContains(modelsIndex, "startsOn: string;");
+        TestUtils.assertFileNotContains(modelsIndex, "startsOn: Date;");
+    }
+
+    @Test(description = "Verify format: date is serialized as a calendar date in every parameter location, not as a date-time")
+    public void testDateFormatIsSerializedAsACalendarDate() throws IOException {
+        File output = generate(new HashMap<>(), DATE_HANDLING_SPEC);
+
+        Path api = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api, "urlPath.replace('{onDate}', encodeURIComponent(runtime.serializeDate(requestParameters['onDate'])))");
+        TestUtils.assertFileContains(api, "queryParameters['from'] = runtime.serializeDate(requestParameters['from'] as any)");
+        TestUtils.assertFileContains(api, "formParams.append('startsOn', runtime.serializeDate(requestParameters['startsOn'] as any))");
+        // date-time keeps the full timestamp.
+        TestUtils.assertFileContains(api, "queryParameters['updatedSince'] = runtime.serializeDateTime(requestParameters['updatedSince'] as any)");
+        TestUtils.assertFileContains(api, "formParams.append('createdAt', runtime.serializeDateTime(requestParameters['createdAt'] as any))");
+    }
+
+    private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(
         Map<String, Object> properties,
