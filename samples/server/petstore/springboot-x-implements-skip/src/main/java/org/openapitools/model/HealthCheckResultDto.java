@@ -40,7 +40,7 @@ public class HealthCheckResultDto {
    * @return nullableMessage
    */
   
-  @Schema(name = "NullableMessage", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "NullableMessage", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("NullableMessage")
   public JsonNullable<String> getNullableMessage() {
     return nullableMessage;

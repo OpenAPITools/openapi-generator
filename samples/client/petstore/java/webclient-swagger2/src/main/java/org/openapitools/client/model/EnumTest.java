@@ -342,7 +342,7 @@ public class EnumTest {
    * @return outerEnum
    */
   @javax.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public OuterEnum getOuterEnum() {
