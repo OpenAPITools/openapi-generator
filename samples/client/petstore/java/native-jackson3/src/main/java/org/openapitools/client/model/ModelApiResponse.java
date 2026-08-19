@@ -222,15 +222,15 @@ public class ModelApiResponse {
       this.instance = instance;
     }
 
-    public ModelApiResponse.Builder code(.annotation.Nullable Integer code) {
+    public ModelApiResponse.Builder code(Integer code) {
       this.instance.code = code;
       return this;
     }
-    public ModelApiResponse.Builder type(.annotation.Nullable String type) {
+    public ModelApiResponse.Builder type(String type) {
       this.instance.type = type;
       return this;
     }
-    public ModelApiResponse.Builder message(.annotation.Nullable String message) {
+    public ModelApiResponse.Builder message(String message) {
       this.instance.message = message;
       return this;
     }

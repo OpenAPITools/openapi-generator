@@ -119,7 +119,7 @@ public class ModelList {
       this.instance = instance;
     }
 
-    public ModelList.Builder _123list(.annotation.Nullable String _123list) {
+    public ModelList.Builder _123list(String _123list) {
       this.instance._123list = _123list;
       return this;
     }

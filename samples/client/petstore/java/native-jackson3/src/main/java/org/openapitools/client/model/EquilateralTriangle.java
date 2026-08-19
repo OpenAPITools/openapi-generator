@@ -186,11 +186,11 @@ public class EquilateralTriangle {
       this.instance = instance;
     }
 
-    public EquilateralTriangle.Builder shapeType(.annotation.Nonnull String shapeType) {
+    public EquilateralTriangle.Builder shapeType(String shapeType) {
       this.instance.shapeType = shapeType;
       return this;
     }
-    public EquilateralTriangle.Builder triangleType(.annotation.Nonnull String triangleType) {
+    public EquilateralTriangle.Builder triangleType(String triangleType) {
       this.instance.triangleType = triangleType;
       return this;
     }

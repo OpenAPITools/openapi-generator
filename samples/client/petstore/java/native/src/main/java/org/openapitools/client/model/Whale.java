@@ -222,15 +222,15 @@ public class Whale {
       this.instance = instance;
     }
 
-    public Whale.Builder hasBaleen(.annotation.Nullable Boolean hasBaleen) {
+    public Whale.Builder hasBaleen(Boolean hasBaleen) {
       this.instance.hasBaleen = hasBaleen;
       return this;
     }
-    public Whale.Builder hasTeeth(.annotation.Nullable Boolean hasTeeth) {
+    public Whale.Builder hasTeeth(Boolean hasTeeth) {
       this.instance.hasTeeth = hasTeeth;
       return this;
     }
-    public Whale.Builder className(.annotation.Nonnull String className) {
+    public Whale.Builder className(String className) {
       this.instance.className = className;
       return this;
     }

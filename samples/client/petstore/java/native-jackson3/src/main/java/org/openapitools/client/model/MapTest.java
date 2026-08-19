@@ -341,19 +341,19 @@ public class MapTest {
       this.instance = instance;
     }
 
-    public MapTest.Builder mapMapOfString(.annotation.Nullable Map<String, Map<String, String>> mapMapOfString) {
+    public MapTest.Builder mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
       this.instance.mapMapOfString = mapMapOfString;
       return this;
     }
-    public MapTest.Builder mapOfEnumString(.annotation.Nullable Map<String, InnerEnum> mapOfEnumString) {
+    public MapTest.Builder mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
       this.instance.mapOfEnumString = mapOfEnumString;
       return this;
     }
-    public MapTest.Builder directMap(.annotation.Nullable Map<String, Boolean> directMap) {
+    public MapTest.Builder directMap(Map<String, Boolean> directMap) {
       this.instance.directMap = directMap;
       return this;
     }
-    public MapTest.Builder indirectMap(.annotation.Nullable Map<String, Boolean> indirectMap) {
+    public MapTest.Builder indirectMap(Map<String, Boolean> indirectMap) {
       this.instance.indirectMap = indirectMap;
       return this;
     }

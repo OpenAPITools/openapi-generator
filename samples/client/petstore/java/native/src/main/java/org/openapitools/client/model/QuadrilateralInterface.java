@@ -152,7 +152,7 @@ public class QuadrilateralInterface {
       this.instance = instance;
     }
 
-    public QuadrilateralInterface.Builder quadrilateralType(.annotation.Nonnull String quadrilateralType) {
+    public QuadrilateralInterface.Builder quadrilateralType(String quadrilateralType) {
       this.instance.quadrilateralType = quadrilateralType;
       return this;
     }

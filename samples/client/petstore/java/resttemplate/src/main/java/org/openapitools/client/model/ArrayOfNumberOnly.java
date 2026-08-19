@@ -130,7 +130,7 @@ public class ArrayOfNumberOnly {
       this.instance = instance;
     }
 
-    public ArrayOfNumberOnly.Builder arrayNumber(.annotation.Nullable List<BigDecimal> arrayNumber) {
+    public ArrayOfNumberOnly.Builder arrayNumber(List<BigDecimal> arrayNumber) {
       this.instance.arrayNumber = arrayNumber;
       return this;
     }

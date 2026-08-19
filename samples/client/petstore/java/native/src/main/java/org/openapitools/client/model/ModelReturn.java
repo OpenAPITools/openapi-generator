@@ -152,7 +152,7 @@ public class ModelReturn {
       this.instance = instance;
     }
 
-    public ModelReturn.Builder _return(.annotation.Nullable Integer _return) {
+    public ModelReturn.Builder _return(Integer _return) {
       this.instance._return = _return;
       return this;
     }

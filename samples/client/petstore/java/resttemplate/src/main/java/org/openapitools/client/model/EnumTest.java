@@ -521,23 +521,23 @@ public class EnumTest {
       this.instance = instance;
     }
 
-    public EnumTest.Builder enumString(.annotation.Nullable EnumStringEnum enumString) {
+    public EnumTest.Builder enumString(EnumStringEnum enumString) {
       this.instance.enumString = enumString;
       return this;
     }
-    public EnumTest.Builder enumStringRequired(.annotation.Nonnull EnumStringRequiredEnum enumStringRequired) {
+    public EnumTest.Builder enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
       this.instance.enumStringRequired = enumStringRequired;
       return this;
     }
-    public EnumTest.Builder enumInteger(.annotation.Nullable EnumIntegerEnum enumInteger) {
+    public EnumTest.Builder enumInteger(EnumIntegerEnum enumInteger) {
       this.instance.enumInteger = enumInteger;
       return this;
     }
-    public EnumTest.Builder enumNumber(.annotation.Nullable EnumNumberEnum enumNumber) {
+    public EnumTest.Builder enumNumber(EnumNumberEnum enumNumber) {
       this.instance.enumNumber = enumNumber;
       return this;
     }
-    public EnumTest.Builder outerEnum(.annotation.Nullable OuterEnum outerEnum) {
+    public EnumTest.Builder outerEnum(OuterEnum outerEnum) {
       this.instance.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
       return this;
     }
@@ -545,15 +545,15 @@ public class EnumTest {
       this.instance.outerEnum = outerEnum;
       return this;
     }
-    public EnumTest.Builder outerEnumInteger(.annotation.Nullable OuterEnumInteger outerEnumInteger) {
+    public EnumTest.Builder outerEnumInteger(OuterEnumInteger outerEnumInteger) {
       this.instance.outerEnumInteger = outerEnumInteger;
       return this;
     }
-    public EnumTest.Builder outerEnumDefaultValue(.annotation.Nullable OuterEnumDefaultValue outerEnumDefaultValue) {
+    public EnumTest.Builder outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
       this.instance.outerEnumDefaultValue = outerEnumDefaultValue;
       return this;
     }
-    public EnumTest.Builder outerEnumIntegerDefaultValue(.annotation.Nullable OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+    public EnumTest.Builder outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
       this.instance.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
       return this;
     }

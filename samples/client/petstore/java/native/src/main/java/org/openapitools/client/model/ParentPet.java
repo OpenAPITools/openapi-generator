@@ -152,7 +152,7 @@ static {
     }
 
 
-    public ParentPet.Builder petType(.annotation.Nonnull String petType) { // inherited: true
+    public ParentPet.Builder petType(String petType) { // inherited: true
       super.petType(petType);
       return this;
    }

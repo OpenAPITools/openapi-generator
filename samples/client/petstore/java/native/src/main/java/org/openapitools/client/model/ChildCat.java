@@ -220,11 +220,11 @@ static {
       this.instance = instance;
     }
 
-    public ChildCat.Builder name(.annotation.Nullable String name) {
+    public ChildCat.Builder name(String name) {
       this.instance.name = name;
       return this;
     }
-    public ChildCat.Builder petType(.annotation.Nullable String petType) {
+    public ChildCat.Builder petType(String petType) {
       this.instance.petType = petType;
       return this;
     }

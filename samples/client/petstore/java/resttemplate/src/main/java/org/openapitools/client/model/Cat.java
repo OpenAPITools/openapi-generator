@@ -145,17 +145,17 @@ public class Cat extends Animal {
       this.instance = instance;
     }
 
-    public Cat.Builder declawed(.annotation.Nullable Boolean declawed) {
+    public Cat.Builder declawed(Boolean declawed) {
       this.instance.declawed = declawed;
       return this;
     }
 
-    public Cat.Builder className(.annotation.Nonnull String className) { // inherited: true
+    public Cat.Builder className(String className) { // inherited: true
       super.className(className);
       return this;
    }
 
-    public Cat.Builder color(.annotation.Nullable String color) { // inherited: true
+    public Cat.Builder color(String color) { // inherited: true
       super.color(color);
       return this;
    }

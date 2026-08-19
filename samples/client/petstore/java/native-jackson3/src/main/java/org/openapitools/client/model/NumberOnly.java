@@ -152,7 +152,7 @@ public class NumberOnly {
       this.instance = instance;
     }
 
-    public NumberOnly.Builder justNumber(.annotation.Nullable BigDecimal justNumber) {
+    public NumberOnly.Builder justNumber(BigDecimal justNumber) {
       this.instance.justNumber = justNumber;
       return this;
     }

@@ -187,11 +187,11 @@ public class AppleReq {
       this.instance = instance;
     }
 
-    public AppleReq.Builder cultivar(.annotation.Nonnull String cultivar) {
+    public AppleReq.Builder cultivar(String cultivar) {
       this.instance.cultivar = cultivar;
       return this;
     }
-    public AppleReq.Builder mealy(.annotation.Nullable Boolean mealy) {
+    public AppleReq.Builder mealy(Boolean mealy) {
       this.instance.mealy = mealy;
       return this;
     }

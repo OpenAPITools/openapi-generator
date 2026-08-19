@@ -152,11 +152,11 @@ public class Model200Response {
       this.instance = instance;
     }
 
-    public Model200Response.Builder name(.annotation.Nullable Integer name) {
+    public Model200Response.Builder name(Integer name) {
       this.instance.name = name;
       return this;
     }
-    public Model200Response.Builder propertyClass(.annotation.Nullable String propertyClass) {
+    public Model200Response.Builder propertyClass(String propertyClass) {
       this.instance.propertyClass = propertyClass;
       return this;
     }

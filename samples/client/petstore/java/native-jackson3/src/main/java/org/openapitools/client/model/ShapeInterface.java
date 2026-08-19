@@ -151,7 +151,7 @@ public class ShapeInterface {
       this.instance = instance;
     }
 
-    public ShapeInterface.Builder shapeType(.annotation.Nonnull String shapeType) {
+    public ShapeInterface.Builder shapeType(String shapeType) {
       this.instance.shapeType = shapeType;
       return this;
     }

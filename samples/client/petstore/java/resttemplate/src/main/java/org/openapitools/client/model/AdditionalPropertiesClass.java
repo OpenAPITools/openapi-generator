@@ -169,11 +169,11 @@ public class AdditionalPropertiesClass {
       this.instance = instance;
     }
 
-    public AdditionalPropertiesClass.Builder mapProperty(.annotation.Nullable Map<String, String> mapProperty) {
+    public AdditionalPropertiesClass.Builder mapProperty(Map<String, String> mapProperty) {
       this.instance.mapProperty = mapProperty;
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapOfMapProperty(.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
+    public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
       this.instance.mapOfMapProperty = mapOfMapProperty;
       return this;
     }

@@ -200,7 +200,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
       this.instance = instance;
     }
 
-    public TestInlineFreeformAdditionalPropertiesRequest.Builder someProperty(.annotation.Nullable String someProperty) {
+    public TestInlineFreeformAdditionalPropertiesRequest.Builder someProperty(String someProperty) {
       this.instance.someProperty = someProperty;
       return this;
     }

@@ -193,17 +193,17 @@ static {
       this.instance = instance;
     }
 
-    public Dog.Builder breed(.annotation.Nullable String breed) {
+    public Dog.Builder breed(String breed) {
       this.instance.breed = breed;
       return this;
     }
 
-    public Dog.Builder className(.annotation.Nonnull String className) { // inherited: true
+    public Dog.Builder className(String className) { // inherited: true
       super.className(className);
       return this;
    }
 
-    public Dog.Builder color(.annotation.Nullable String color) { // inherited: true
+    public Dog.Builder color(String color) { // inherited: true
       super.color(color);
       return this;
    }

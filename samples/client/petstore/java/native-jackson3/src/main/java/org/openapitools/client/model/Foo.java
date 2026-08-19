@@ -151,7 +151,7 @@ public class Foo {
       this.instance = instance;
     }
 
-    public Foo.Builder bar(.annotation.Nullable String bar) {
+    public Foo.Builder bar(String bar) {
       this.instance.bar = bar;
       return this;
     }

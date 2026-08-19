@@ -207,19 +207,19 @@ public class Name {
       this.instance = instance;
     }
 
-    public Name.Builder name(.annotation.Nonnull Integer name) {
+    public Name.Builder name(Integer name) {
       this.instance.name = name;
       return this;
     }
-    public Name.Builder snakeCase(.annotation.Nullable Integer snakeCase) {
+    public Name.Builder snakeCase(Integer snakeCase) {
       this.instance.snakeCase = snakeCase;
       return this;
     }
-    public Name.Builder property(.annotation.Nullable String property) {
+    public Name.Builder property(String property) {
       this.instance.property = property;
       return this;
     }
-    public Name.Builder _123number(.annotation.Nullable Integer _123number) {
+    public Name.Builder _123number(Integer _123number) {
       this.instance._123number = _123number;
       return this;
     }

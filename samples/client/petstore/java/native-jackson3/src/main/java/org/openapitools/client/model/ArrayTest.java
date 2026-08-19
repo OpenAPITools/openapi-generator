@@ -262,15 +262,15 @@ public class ArrayTest {
       this.instance = instance;
     }
 
-    public ArrayTest.Builder arrayOfString(.annotation.Nullable List<String> arrayOfString) {
+    public ArrayTest.Builder arrayOfString(List<String> arrayOfString) {
       this.instance.arrayOfString = arrayOfString;
       return this;
     }
-    public ArrayTest.Builder arrayArrayOfInteger(.annotation.Nullable List<List<Long>> arrayArrayOfInteger) {
+    public ArrayTest.Builder arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
       this.instance.arrayArrayOfInteger = arrayArrayOfInteger;
       return this;
     }
-    public ArrayTest.Builder arrayArrayOfModel(.annotation.Nullable List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+    public ArrayTest.Builder arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
       this.instance.arrayArrayOfModel = arrayArrayOfModel;
       return this;
     }

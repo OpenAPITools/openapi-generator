@@ -393,27 +393,27 @@ public class Pet {
       this.instance = instance;
     }
 
-    public Pet.Builder id(.annotation.Nullable Long id) {
+    public Pet.Builder id(Long id) {
       this.instance.id = id;
       return this;
     }
-    public Pet.Builder category(.annotation.Nullable Category category) {
+    public Pet.Builder category(Category category) {
       this.instance.category = category;
       return this;
     }
-    public Pet.Builder name(.annotation.Nonnull String name) {
+    public Pet.Builder name(String name) {
       this.instance.name = name;
       return this;
     }
-    public Pet.Builder photoUrls(.annotation.Nonnull List<String> photoUrls) {
+    public Pet.Builder photoUrls(List<String> photoUrls) {
       this.instance.photoUrls = photoUrls;
       return this;
     }
-    public Pet.Builder tags(.annotation.Nullable List<Tag> tags) {
+    public Pet.Builder tags(List<Tag> tags) {
       this.instance.tags = tags;
       return this;
     }
-    public Pet.Builder status(.annotation.Nullable StatusEnum status) {
+    public Pet.Builder status(StatusEnum status) {
       this.instance.status = status;
       return this;
     }

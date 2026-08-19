@@ -152,7 +152,7 @@ public class TriangleInterface {
       this.instance = instance;
     }
 
-    public TriangleInterface.Builder triangleType(.annotation.Nonnull String triangleType) {
+    public TriangleInterface.Builder triangleType(String triangleType) {
       this.instance.triangleType = triangleType;
       return this;
     }

@@ -271,11 +271,11 @@ public class EnumArrays {
       this.instance = instance;
     }
 
-    public EnumArrays.Builder justSymbol(.annotation.Nullable JustSymbolEnum justSymbol) {
+    public EnumArrays.Builder justSymbol(JustSymbolEnum justSymbol) {
       this.instance.justSymbol = justSymbol;
       return this;
     }
-    public EnumArrays.Builder arrayEnum(.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
+    public EnumArrays.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
       this.instance.arrayEnum = arrayEnum;
       return this;
     }

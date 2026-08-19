@@ -188,11 +188,11 @@ public class BananaReq {
       this.instance = instance;
     }
 
-    public BananaReq.Builder lengthCm(.annotation.Nonnull BigDecimal lengthCm) {
+    public BananaReq.Builder lengthCm(BigDecimal lengthCm) {
       this.instance.lengthCm = lengthCm;
       return this;
     }
-    public BananaReq.Builder sweet(.annotation.Nullable Boolean sweet) {
+    public BananaReq.Builder sweet(Boolean sweet) {
       this.instance.sweet = sweet;
       return this;
     }

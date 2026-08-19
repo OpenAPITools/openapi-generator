@@ -346,15 +346,15 @@ public class Drawing {
       this.instance = instance;
     }
 
-    public Drawing.Builder mainShape(.annotation.Nullable Shape mainShape) {
+    public Drawing.Builder mainShape(Shape mainShape) {
       this.instance.mainShape = mainShape;
       return this;
     }
-    public Drawing.Builder shapeOrNull(.annotation.Nullable ShapeOrNull shapeOrNull) {
+    public Drawing.Builder shapeOrNull(ShapeOrNull shapeOrNull) {
       this.instance.shapeOrNull = shapeOrNull;
       return this;
     }
-    public Drawing.Builder nullableShape(.annotation.Nullable NullableShape nullableShape) {
+    public Drawing.Builder nullableShape(NullableShape nullableShape) {
       this.instance.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
       return this;
     }
@@ -362,7 +362,7 @@ public class Drawing {
       this.instance.nullableShape = nullableShape;
       return this;
     }
-    public Drawing.Builder shapes(.annotation.Nullable List<Shape> shapes) {
+    public Drawing.Builder shapes(List<Shape> shapes) {
       this.instance.shapes = shapes;
       return this;
     }

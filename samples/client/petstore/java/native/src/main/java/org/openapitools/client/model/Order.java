@@ -365,27 +365,27 @@ public class Order {
       this.instance = instance;
     }
 
-    public Order.Builder id(.annotation.Nullable Long id) {
+    public Order.Builder id(Long id) {
       this.instance.id = id;
       return this;
     }
-    public Order.Builder petId(.annotation.Nullable Long petId) {
+    public Order.Builder petId(Long petId) {
       this.instance.petId = petId;
       return this;
     }
-    public Order.Builder quantity(.annotation.Nullable Integer quantity) {
+    public Order.Builder quantity(Integer quantity) {
       this.instance.quantity = quantity;
       return this;
     }
-    public Order.Builder shipDate(.annotation.Nullable OffsetDateTime shipDate) {
+    public Order.Builder shipDate(OffsetDateTime shipDate) {
       this.instance.shipDate = shipDate;
       return this;
     }
-    public Order.Builder status(.annotation.Nullable StatusEnum status) {
+    public Order.Builder status(StatusEnum status) {
       this.instance.status = status;
       return this;
     }
-    public Order.Builder complete(.annotation.Nullable Boolean complete) {
+    public Order.Builder complete(Boolean complete) {
       this.instance.complete = complete;
       return this;
     }

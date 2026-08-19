@@ -163,11 +163,11 @@ public class FakeBigDecimalMap200Response {
       this.instance = instance;
     }
 
-    public FakeBigDecimalMap200Response.Builder someId(.annotation.Nullable BigDecimal someId) {
+    public FakeBigDecimalMap200Response.Builder someId(BigDecimal someId) {
       this.instance.someId = someId;
       return this;
     }
-    public FakeBigDecimalMap200Response.Builder someMap(.annotation.Nullable Map<String, BigDecimal> someMap) {
+    public FakeBigDecimalMap200Response.Builder someMap(Map<String, BigDecimal> someMap) {
       this.instance.someMap = someMap;
       return this;
     }

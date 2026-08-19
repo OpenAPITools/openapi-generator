@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **PotentiallyOverriddenPropertyAccessor** | **string** |  | [optional] 
 **PotentiallyOverriddenPropertyToInternal** | **string** |  | [optional] [readonly] 
 **PotentiallyOverriddenPropertyToPrivate** | **string** |  | [optional] [readonly] 
-**PotentiallyOverriddenPropertyToPublic** | **string** |  | [optional] [readonly] 
+**PotentiallyOverriddenPropertyToPublic** | **string** |  | [optional] 
 **UnalteredProperty** | **string** |  | [optional] [readonly] 
 **UnalteredPropertyAccessor** | **string** |  | [optional] 
 

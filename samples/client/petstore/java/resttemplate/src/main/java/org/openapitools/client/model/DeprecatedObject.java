@@ -120,7 +120,7 @@ public class DeprecatedObject {
       this.instance = instance;
     }
 
-    public DeprecatedObject.Builder name(.annotation.Nullable String name) {
+    public DeprecatedObject.Builder name(String name) {
       this.instance.name = name;
       return this;
     }

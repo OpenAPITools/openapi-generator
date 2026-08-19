@@ -619,31 +619,31 @@ public class Foo {
       this.instance = instance;
     }
 
-    public Foo.Builder dt(java.time.Instant dt) {
+    public Foo.Builder dt(java.time.@Nullable Instant dt) {
       this.instance.dt = dt;
       return this;
     }
-    public Foo.Builder nullableDt(java.time.Instant nullableDt) {
+    public Foo.Builder nullableDt(java.time.@Nullable Instant nullableDt) {
       this.instance.nullableDt = nullableDt;
       return this;
     }
-    public Foo.Builder binary(File binary) {
+    public Foo.Builder binary(@Nullable File binary) {
       this.instance.binary = binary;
       return this;
     }
-    public Foo.Builder nullableBinary(File nullableBinary) {
+    public Foo.Builder nullableBinary(@Nullable File nullableBinary) {
       this.instance.nullableBinary = nullableBinary;
       return this;
     }
-    public Foo.Builder listOfDt(List<java.time.Instant> listOfDt) {
+    public Foo.Builder listOfDt(@Nullable List<java.time.Instant> listOfDt) {
       this.instance.listOfDt = listOfDt;
       return this;
     }
-    public Foo.Builder listMinIntems(List<java.time.Instant> listMinIntems) {
+    public Foo.Builder listMinIntems(@Nullable List<java.time.Instant> listMinIntems) {
       this.instance.listMinIntems = listMinIntems;
       return this;
     }
-    public Foo.Builder nullableListMinIntems(List<java.time.Instant> nullableListMinIntems) {
+    public Foo.Builder nullableListMinIntems(@Nullable List<java.time.Instant> nullableListMinIntems) {
       this.instance.nullableListMinIntems = nullableListMinIntems;
       return this;
     }
@@ -651,15 +651,15 @@ public class Foo {
       this.instance.requiredDt = requiredDt;
       return this;
     }
-    public Foo.Builder number(java.math.BigDecimal number) {
+    public Foo.Builder number(java.math.@Nullable BigDecimal number) {
       this.instance.number = number;
       return this;
     }
-    public Foo.Builder nullableNumber(java.math.BigDecimal nullableNumber) {
+    public Foo.Builder nullableNumber(java.math.@Nullable BigDecimal nullableNumber) {
       this.instance.nullableNumber = nullableNumber;
       return this;
     }
-    public Foo.Builder color(String color) {
+    public Foo.Builder color(@Nullable String color) {
       this.instance.color = color;
       return this;
     }
@@ -667,7 +667,7 @@ public class Foo {
       this.instance.requiredColor = requiredColor;
       return this;
     }
-    public Foo.Builder nullableColor(String nullableColor) {
+    public Foo.Builder nullableColor(@Nullable String nullableColor) {
       this.instance.nullableColor = nullableColor;
       return this;
     }

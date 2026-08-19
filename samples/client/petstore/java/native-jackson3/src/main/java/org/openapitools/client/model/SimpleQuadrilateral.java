@@ -186,11 +186,11 @@ public class SimpleQuadrilateral {
       this.instance = instance;
     }
 
-    public SimpleQuadrilateral.Builder shapeType(.annotation.Nonnull String shapeType) {
+    public SimpleQuadrilateral.Builder shapeType(String shapeType) {
       this.instance.shapeType = shapeType;
       return this;
     }
-    public SimpleQuadrilateral.Builder quadrilateralType(.annotation.Nonnull String quadrilateralType) {
+    public SimpleQuadrilateral.Builder quadrilateralType(String quadrilateralType) {
       this.instance.quadrilateralType = quadrilateralType;
       return this;
     }

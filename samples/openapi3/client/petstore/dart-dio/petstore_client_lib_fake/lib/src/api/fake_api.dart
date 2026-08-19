@@ -304,6 +304,7 @@ class FakeApi {
     final _queryParameters = <String, dynamic>{
       if (query1 != null) r'query_1': encodeQueryParameter(_serializers, query1, const FullType(String)),
     };
+    removeNullQueryParameters(_queryParameters);
 
     dynamic _bodyData;
 
@@ -1042,6 +1043,7 @@ class FakeApi {
     final _queryParameters = <String, dynamic>{
       r'query': encodeQueryParameter(_serializers, query, const FullType(String)),
     };
+    removeNullQueryParameters(_queryParameters);
 
     dynamic _bodyData;
 
@@ -1345,6 +1347,7 @@ class FakeApi {
       if (enumQueryDouble != null) r'enum_query_double': encodeQueryParameter(_serializers, enumQueryDouble, const FullType(double)),
       if (enumQueryModelArray != null) r'enum_query_model_array': encodeCollectionQueryParameter<ModelEnumClass>(_serializers, enumQueryModelArray, const FullType(BuiltList, [FullType(ModelEnumClass)]), format: ListFormat.multi,),
     };
+    removeNullQueryParameters(_queryParameters);
 
     dynamic _bodyData;
 
@@ -1440,6 +1443,7 @@ class FakeApi {
       if (stringGroup != null) r'string_group': encodeQueryParameter(_serializers, stringGroup, const FullType(int)),
       if (int64Group != null) r'int64_group': encodeQueryParameter(_serializers, int64Group, const FullType(int)),
     };
+    removeNullQueryParameters(_queryParameters);
 
     final _response = await _dio.request<Object>(
       _path,
@@ -1782,6 +1786,7 @@ class FakeApi {
       if (language != null) r'language': encodeQueryParameter(_serializers, language, const FullType(BuiltMap, [FullType(String), FullType(String)]), ),
       r'allowEmpty': encodeQueryParameter(_serializers, allowEmpty, const FullType(String)),
     };
+    removeNullQueryParameters(_queryParameters);
 
     final _response = await _dio.request<Object>(
       _path,

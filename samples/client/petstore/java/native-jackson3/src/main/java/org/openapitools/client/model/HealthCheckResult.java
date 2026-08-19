@@ -151,7 +151,7 @@ public class HealthCheckResult {
       this.instance = instance;
     }
 
-    public HealthCheckResult.Builder nullableMessage(.annotation.Nullable String nullableMessage) {
+    public HealthCheckResult.Builder nullableMessage(String nullableMessage) {
       this.instance.nullableMessage = nullableMessage;
       return this;
     }

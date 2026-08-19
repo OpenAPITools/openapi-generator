@@ -240,15 +240,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
       this.instance = instance;
     }
 
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(.annotation.Nullable UUID uuid) {
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(UUID uuid) {
       this.instance.uuid = uuid;
       return this;
     }
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(.annotation.Nullable OffsetDateTime dateTime) {
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(OffsetDateTime dateTime) {
       this.instance.dateTime = dateTime;
       return this;
     }
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(.annotation.Nullable Map<String, Animal> map) {
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Animal> map) {
       this.instance.map = map;
       return this;
     }

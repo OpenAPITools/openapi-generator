@@ -151,7 +151,7 @@ public class AllOfRefToLong {
       this.instance = instance;
     }
 
-    public AllOfRefToLong.Builder id(.annotation.Nullable Long id) {
+    public AllOfRefToLong.Builder id(Long id) {
       this.instance.id = id;
       return this;
     }

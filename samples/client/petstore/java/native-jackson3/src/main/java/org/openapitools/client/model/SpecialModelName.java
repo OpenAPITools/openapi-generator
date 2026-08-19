@@ -187,11 +187,11 @@ public class SpecialModelName {
       this.instance = instance;
     }
 
-    public SpecialModelName.Builder $specialPropertyName(.annotation.Nullable Long $specialPropertyName) {
+    public SpecialModelName.Builder $specialPropertyName(Long $specialPropertyName) {
       this.instance.$specialPropertyName = $specialPropertyName;
       return this;
     }
-    public SpecialModelName.Builder specialModelName(.annotation.Nullable String specialModelName) {
+    public SpecialModelName.Builder specialModelName(String specialModelName) {
       this.instance.specialModelName = specialModelName;
       return this;
     }
