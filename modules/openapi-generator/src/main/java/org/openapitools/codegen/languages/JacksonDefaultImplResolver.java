@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.VendorExtension;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -67,7 +68,7 @@ final class JacksonDefaultImplResolver {
         String rawValue;
         if (configValue != null && !configValue.isBlank()) {
             if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
-                warn.accept(String.format("typeInfoDefaultImpls overrides x-jackson-default-impl on schema '%s': '%s' \u2192 '%s'",
+                warn.accept(String.format(Locale.ROOT, "typeInfoDefaultImpls overrides x-jackson-default-impl on schema '%s': '%s' \u2192 '%s'",
                         cm.schemaName, schemaAnnotation, configValue));
             }
             rawValue = configValue;
@@ -87,7 +88,7 @@ final class JacksonDefaultImplResolver {
         // Not a generated model: this is a valid external or catch-all class. Preserve the name
         // verbatim instead of running it through toModelName (which would mangle a qualified name),
         // and register the import when it is fully qualified so the reference resolves.
-        warn.accept(String.format("x-jackson-default-impl / typeInfoDefaultImpls on schema '%s' refers to '%s' which is not a known model in this spec. "
+        warn.accept(String.format(Locale.ROOT, "x-jackson-default-impl / typeInfoDefaultImpls on schema '%s' refers to '%s' which is not a known model in this spec. "
                 + "This is valid for external or catch-all classes, but may indicate a typo.", cm.schemaName, rawValue));
         int lastDot = rawValue.lastIndexOf('.');
         if (lastDot > 0 && lastDot < rawValue.length() - 1) {
