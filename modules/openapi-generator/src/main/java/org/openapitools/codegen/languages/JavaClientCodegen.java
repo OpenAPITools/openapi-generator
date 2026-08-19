@@ -1154,7 +1154,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonProperty");
                 model.imports.add("JsonValue");
                 model.imports.add("JsonInclude");
-                if (!useJackson3) {
+                // The okhttp pojo template emits @JsonTypeName for Jackson 3 too, so it needs the
+                // import on every model. Routing it through model.imports (a Set) rather than
+                // hardcoding it in the template keeps it from being emitted twice on the models
+                // that AbstractJavaCodegen already imports it for.
+                if (!useJackson3 || isLibrary(OKHTTP)) {
                     model.imports.add("JsonTypeName");
                 }
             }
