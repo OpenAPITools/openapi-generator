@@ -663,51 +663,51 @@ public class NullableClass {
       this.instance = instance;
     }
 
-    public NullableClass.Builder integerProp(Integer integerProp) {
+    public NullableClass.Builder integerProp(.annotation.Nullable Integer integerProp) {
       this.instance.integerProp = integerProp;
       return this;
     }
-    public NullableClass.Builder numberProp(BigDecimal numberProp) {
+    public NullableClass.Builder numberProp(.annotation.Nullable BigDecimal numberProp) {
       this.instance.numberProp = numberProp;
       return this;
     }
-    public NullableClass.Builder booleanProp(Boolean booleanProp) {
+    public NullableClass.Builder booleanProp(.annotation.Nullable Boolean booleanProp) {
       this.instance.booleanProp = booleanProp;
       return this;
     }
-    public NullableClass.Builder stringProp(String stringProp) {
+    public NullableClass.Builder stringProp(.annotation.Nullable String stringProp) {
       this.instance.stringProp = stringProp;
       return this;
     }
-    public NullableClass.Builder dateProp(LocalDate dateProp) {
+    public NullableClass.Builder dateProp(.annotation.Nullable LocalDate dateProp) {
       this.instance.dateProp = dateProp;
       return this;
     }
-    public NullableClass.Builder datetimeProp(OffsetDateTime datetimeProp) {
+    public NullableClass.Builder datetimeProp(.annotation.Nullable OffsetDateTime datetimeProp) {
       this.instance.datetimeProp = datetimeProp;
       return this;
     }
-    public NullableClass.Builder arrayNullableProp(List<Object> arrayNullableProp) {
+    public NullableClass.Builder arrayNullableProp(.annotation.Nullable List<Object> arrayNullableProp) {
       this.instance.arrayNullableProp = arrayNullableProp;
       return this;
     }
-    public NullableClass.Builder arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+    public NullableClass.Builder arrayAndItemsNullableProp(.annotation.Nullable List<Object> arrayAndItemsNullableProp) {
       this.instance.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
       return this;
     }
-    public NullableClass.Builder arrayItemsNullable(List<Object> arrayItemsNullable) {
+    public NullableClass.Builder arrayItemsNullable(.annotation.Nullable List<Object> arrayItemsNullable) {
       this.instance.arrayItemsNullable = arrayItemsNullable;
       return this;
     }
-    public NullableClass.Builder objectNullableProp(Map<String, Object> objectNullableProp) {
+    public NullableClass.Builder objectNullableProp(.annotation.Nullable Map<String, Object> objectNullableProp) {
       this.instance.objectNullableProp = objectNullableProp;
       return this;
     }
-    public NullableClass.Builder objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
+    public NullableClass.Builder objectAndItemsNullableProp(.annotation.Nullable Map<String, Object> objectAndItemsNullableProp) {
       this.instance.objectAndItemsNullableProp = objectAndItemsNullableProp;
       return this;
     }
-    public NullableClass.Builder objectItemsNullable(Map<String, Object> objectItemsNullable) {
+    public NullableClass.Builder objectItemsNullable(.annotation.Nullable Map<String, Object> objectItemsNullable) {
       this.instance.objectItemsNullable = objectItemsNullable;
       return this;
     }

@@ -119,7 +119,7 @@ public class OuterObjectWithEnumProperty {
       this.instance = instance;
     }
 
-    public OuterObjectWithEnumProperty.Builder value(OuterEnumInteger value) {
+    public OuterObjectWithEnumProperty.Builder value(.annotation.Nonnull OuterEnumInteger value) {
       this.instance.value = value;
       return this;
     }

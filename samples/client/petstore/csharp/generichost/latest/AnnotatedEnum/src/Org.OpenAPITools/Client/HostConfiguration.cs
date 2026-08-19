@@ -59,6 +59,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new PropertiesWithAnyOfJsonConverter());
             _jsonOptions.Converters.Add(new SingleAnyOfTestJsonConverter());
             _jsonOptions.Converters.Add(new SingleAnyOfTestNullableJsonConverter());
+            _jsonOptions.Converters.Add(new StringPatternsWithOneOfJsonConverter());
             _jsonOptions.Converters.Add(new TypeIntegerWithOneOfJsonConverter());
             _jsonOptions.Converters.Add(new TypeIntegerWithOneOfNullableJsonConverter());
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);

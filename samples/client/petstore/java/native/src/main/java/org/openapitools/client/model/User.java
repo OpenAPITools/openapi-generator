@@ -573,43 +573,43 @@ public class User {
       this.instance = instance;
     }
 
-    public User.Builder id(Long id) {
+    public User.Builder id(.annotation.Nullable Long id) {
       this.instance.id = id;
       return this;
     }
-    public User.Builder username(String username) {
+    public User.Builder username(.annotation.Nullable String username) {
       this.instance.username = username;
       return this;
     }
-    public User.Builder firstName(String firstName) {
+    public User.Builder firstName(.annotation.Nullable String firstName) {
       this.instance.firstName = firstName;
       return this;
     }
-    public User.Builder lastName(String lastName) {
+    public User.Builder lastName(.annotation.Nullable String lastName) {
       this.instance.lastName = lastName;
       return this;
     }
-    public User.Builder email(String email) {
+    public User.Builder email(.annotation.Nullable String email) {
       this.instance.email = email;
       return this;
     }
-    public User.Builder password(String password) {
+    public User.Builder password(.annotation.Nullable String password) {
       this.instance.password = password;
       return this;
     }
-    public User.Builder phone(String phone) {
+    public User.Builder phone(.annotation.Nullable String phone) {
       this.instance.phone = phone;
       return this;
     }
-    public User.Builder userStatus(Integer userStatus) {
+    public User.Builder userStatus(.annotation.Nullable Integer userStatus) {
       this.instance.userStatus = userStatus;
       return this;
     }
-    public User.Builder objectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
+    public User.Builder objectWithNoDeclaredProps(.annotation.Nullable Object objectWithNoDeclaredProps) {
       this.instance.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
       return this;
     }
-    public User.Builder objectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
+    public User.Builder objectWithNoDeclaredPropsNullable(.annotation.Nullable Object objectWithNoDeclaredPropsNullable) {
       this.instance.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
       return this;
     }
@@ -617,7 +617,7 @@ public class User {
       this.instance.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
       return this;
     }
-    public User.Builder anyTypeProp(Object anyTypeProp) {
+    public User.Builder anyTypeProp(.annotation.Nullable Object anyTypeProp) {
       this.instance.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
       return this;
     }
@@ -625,7 +625,7 @@ public class User {
       this.instance.anyTypeProp = anyTypeProp;
       return this;
     }
-    public User.Builder anyTypePropNullable(Object anyTypePropNullable) {
+    public User.Builder anyTypePropNullable(.annotation.Nullable Object anyTypePropNullable) {
       this.instance.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
       return this;
     }

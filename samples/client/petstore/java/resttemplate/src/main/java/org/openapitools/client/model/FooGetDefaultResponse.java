@@ -120,7 +120,7 @@ public class FooGetDefaultResponse {
       this.instance = instance;
     }
 
-    public FooGetDefaultResponse.Builder string(Foo string) {
+    public FooGetDefaultResponse.Builder string(.annotation.Nullable Foo string) {
       this.instance.string = string;
       return this;
     }

@@ -151,7 +151,7 @@ public class DanishPig {
       this.instance = instance;
     }
 
-    public DanishPig.Builder className(String className) {
+    public DanishPig.Builder className(.annotation.Nonnull String className) {
       this.instance.className = className;
       return this;
     }

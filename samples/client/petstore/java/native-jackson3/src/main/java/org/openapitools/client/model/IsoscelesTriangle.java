@@ -186,11 +186,11 @@ public class IsoscelesTriangle {
       this.instance = instance;
     }
 
-    public IsoscelesTriangle.Builder shapeType(String shapeType) {
+    public IsoscelesTriangle.Builder shapeType(.annotation.Nonnull String shapeType) {
       this.instance.shapeType = shapeType;
       return this;
     }
-    public IsoscelesTriangle.Builder triangleType(String triangleType) {
+    public IsoscelesTriangle.Builder triangleType(.annotation.Nonnull String triangleType) {
       this.instance.triangleType = triangleType;
       return this;
     }

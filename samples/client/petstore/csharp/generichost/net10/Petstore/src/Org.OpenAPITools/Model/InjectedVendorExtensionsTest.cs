@@ -63,46 +63,46 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PotentiallyOverriddenPropertyAccessor
         /// </summary>
         [JsonPropertyName("potentiallyOverriddenPropertyAccessor")]
-        internal string PotentiallyOverriddenPropertyAccessor { get { return this.PotentiallyOverriddenPropertyAccessorOption.Value; } set { this.PotentiallyOverriddenPropertyAccessorOption = new(value); } }
+        public string PotentiallyOverriddenPropertyAccessor { get { return this.PotentiallyOverriddenPropertyAccessorOption.Value; } set { this.PotentiallyOverriddenPropertyAccessorOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of PotentiallyOverriddenPropertyToInternal
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string> PotentiallyOverriddenPropertyToInternalOption { get; private set; }
+        public Option<string> PotentiallyOverriddenPropertyToInternalOption { get; }
 
         /// <summary>
         /// Gets or Sets PotentiallyOverriddenPropertyToInternal
         /// </summary>
         [JsonPropertyName("potentiallyOverriddenPropertyToInternal")]
-        public string PotentiallyOverriddenPropertyToInternal { get { return this.PotentiallyOverriddenPropertyToInternalOption.Value; } internal set { this.PotentiallyOverriddenPropertyToInternalOption = new(value); } }
+        public string PotentiallyOverriddenPropertyToInternal { get { return this.PotentiallyOverriddenPropertyToInternalOption.Value; } }
 
         /// <summary>
         /// Used to track the state of PotentiallyOverriddenPropertyToPrivate
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string> PotentiallyOverriddenPropertyToPrivateOption { get; private set; }
+        public Option<string> PotentiallyOverriddenPropertyToPrivateOption { get; }
 
         /// <summary>
         /// Gets or Sets PotentiallyOverriddenPropertyToPrivate
         /// </summary>
         [JsonPropertyName("potentiallyOverriddenPropertyToPrivate")]
-        public string PotentiallyOverriddenPropertyToPrivate { get { return this.PotentiallyOverriddenPropertyToPrivateOption.Value; } private set { this.PotentiallyOverriddenPropertyToPrivateOption = new(value); } }
+        public string PotentiallyOverriddenPropertyToPrivate { get { return this.PotentiallyOverriddenPropertyToPrivateOption.Value; } }
 
         /// <summary>
         /// Used to track the state of PotentiallyOverriddenPropertyToPublic
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string> PotentiallyOverriddenPropertyToPublicOption { get; private set; }
+        public Option<string> PotentiallyOverriddenPropertyToPublicOption { get; }
 
         /// <summary>
         /// Gets or Sets PotentiallyOverriddenPropertyToPublic
         /// </summary>
         [JsonPropertyName("potentiallyOverriddenPropertyToPublic")]
-        public string PotentiallyOverriddenPropertyToPublic { get { return this.PotentiallyOverriddenPropertyToPublicOption.Value; } set { this.PotentiallyOverriddenPropertyToPublicOption = new(value); } }
+        public string PotentiallyOverriddenPropertyToPublic { get { return this.PotentiallyOverriddenPropertyToPublicOption.Value; } }
 
         /// <summary>
         /// Used to track the state of UnalteredProperty

@@ -187,11 +187,11 @@ public class Apple {
       this.instance = instance;
     }
 
-    public Apple.Builder cultivar(String cultivar) {
+    public Apple.Builder cultivar(.annotation.Nullable String cultivar) {
       this.instance.cultivar = cultivar;
       return this;
     }
-    public Apple.Builder origin(String origin) {
+    public Apple.Builder origin(.annotation.Nullable String origin) {
       this.instance.origin = origin;
       return this;
     }

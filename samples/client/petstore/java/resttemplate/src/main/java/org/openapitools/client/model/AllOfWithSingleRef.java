@@ -152,11 +152,11 @@ public class AllOfWithSingleRef {
       this.instance = instance;
     }
 
-    public AllOfWithSingleRef.Builder username(String username) {
+    public AllOfWithSingleRef.Builder username(.annotation.Nullable String username) {
       this.instance.username = username;
       return this;
     }
-    public AllOfWithSingleRef.Builder singleRefType(SingleRefType singleRefType) {
+    public AllOfWithSingleRef.Builder singleRefType(.annotation.Nullable SingleRefType singleRefType) {
       this.instance.singleRefType = singleRefType;
       return this;
     }

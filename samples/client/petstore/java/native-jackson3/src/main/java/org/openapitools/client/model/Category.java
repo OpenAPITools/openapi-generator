@@ -186,11 +186,11 @@ public class Category {
       this.instance = instance;
     }
 
-    public Category.Builder id(Long id) {
+    public Category.Builder id(.annotation.Nullable Long id) {
       this.instance.id = id;
       return this;
     }
-    public Category.Builder name(String name) {
+    public Category.Builder name(.annotation.Nonnull String name) {
       this.instance.name = name;
       return this;
     }

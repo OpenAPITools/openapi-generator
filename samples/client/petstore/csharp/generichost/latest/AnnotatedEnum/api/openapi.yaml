@@ -132,7 +132,13 @@ components:
       - $ref: "#/components/schemas/Parent"
       nullable: true
     StringPatternsWithOneOf:
-      type: string
+      oneOf:
+      - description: Numeric identifier
+        pattern: "^\\d{1,35}$"
+        type: string
+      - description: UUID identifier
+        pattern: "^[0-9a-f-]{36}$"
+        type: string
     ParentWithPluralOneOfProperty_number:
       oneOf:
       - $ref: "#/components/schemas/Number"

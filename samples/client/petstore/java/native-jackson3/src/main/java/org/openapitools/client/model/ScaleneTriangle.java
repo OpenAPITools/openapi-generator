@@ -186,11 +186,11 @@ public class ScaleneTriangle {
       this.instance = instance;
     }
 
-    public ScaleneTriangle.Builder shapeType(String shapeType) {
+    public ScaleneTriangle.Builder shapeType(.annotation.Nonnull String shapeType) {
       this.instance.shapeType = shapeType;
       return this;
     }
-    public ScaleneTriangle.Builder triangleType(String triangleType) {
+    public ScaleneTriangle.Builder triangleType(.annotation.Nonnull String triangleType) {
       this.instance.triangleType = triangleType;
       return this;
     }

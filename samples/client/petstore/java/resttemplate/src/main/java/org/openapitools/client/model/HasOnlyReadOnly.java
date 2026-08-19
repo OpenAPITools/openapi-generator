@@ -134,11 +134,11 @@ public class HasOnlyReadOnly {
       this.instance = instance;
     }
 
-    public HasOnlyReadOnly.Builder bar(String bar) {
+    public HasOnlyReadOnly.Builder bar(.annotation.Nullable String bar) {
       this.instance.bar = bar;
       return this;
     }
-    public HasOnlyReadOnly.Builder foo(String foo) {
+    public HasOnlyReadOnly.Builder foo(.annotation.Nullable String foo) {
       this.instance.foo = foo;
       return this;
     }

@@ -195,11 +195,11 @@ public class FileContent {
       this.instance.name = name;
       return this;
     }
-    public FileContent.Builder size(@Nullable Integer size) {
+    public FileContent.Builder size(Integer size) {
       this.instance.size = size;
       return this;
     }
-    public FileContent.Builder virusScan(@Nullable VirusScanEnum virusScan) {
+    public FileContent.Builder virusScan(VirusScanEnum virusScan) {
       this.instance.virusScan = virusScan;
       return this;
     }

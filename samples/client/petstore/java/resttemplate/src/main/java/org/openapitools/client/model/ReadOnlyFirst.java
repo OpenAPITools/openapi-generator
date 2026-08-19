@@ -150,11 +150,11 @@ public class ReadOnlyFirst {
       this.instance = instance;
     }
 
-    public ReadOnlyFirst.Builder bar(String bar) {
+    public ReadOnlyFirst.Builder bar(.annotation.Nullable String bar) {
       this.instance.bar = bar;
       return this;
     }
-    public ReadOnlyFirst.Builder baz(String baz) {
+    public ReadOnlyFirst.Builder baz(.annotation.Nullable String baz) {
       this.instance.baz = baz;
       return this;
     }

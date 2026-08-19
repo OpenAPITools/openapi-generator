@@ -152,7 +152,7 @@ public class AllOfRefToFloat {
       this.instance = instance;
     }
 
-    public AllOfRefToFloat.Builder weight(Float weight) {
+    public AllOfRefToFloat.Builder weight(.annotation.Nullable Float weight) {
       this.instance.weight = weight;
       return this;
     }

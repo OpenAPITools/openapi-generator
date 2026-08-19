@@ -272,11 +272,11 @@ public class Zebra {
       this.instance = instance;
     }
 
-    public Zebra.Builder type(TypeEnum type) {
+    public Zebra.Builder type(.annotation.Nullable TypeEnum type) {
       this.instance.type = type;
       return this;
     }
-    public Zebra.Builder className(String className) {
+    public Zebra.Builder className(.annotation.Nonnull String className) {
       this.instance.className = className;
       return this;
     }

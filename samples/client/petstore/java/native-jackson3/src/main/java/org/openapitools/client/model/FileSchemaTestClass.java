@@ -202,11 +202,11 @@ public class FileSchemaTestClass {
       this.instance = instance;
     }
 
-    public FileSchemaTestClass.Builder _file(ModelFile _file) {
+    public FileSchemaTestClass.Builder _file(.annotation.Nullable ModelFile _file) {
       this.instance._file = _file;
       return this;
     }
-    public FileSchemaTestClass.Builder files(List<ModelFile> files) {
+    public FileSchemaTestClass.Builder files(.annotation.Nullable List<ModelFile> files) {
       this.instance.files = files;
       return this;
     }

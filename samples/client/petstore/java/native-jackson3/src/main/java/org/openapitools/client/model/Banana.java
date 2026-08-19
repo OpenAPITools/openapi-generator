@@ -153,7 +153,7 @@ public class Banana {
       this.instance = instance;
     }
 
-    public Banana.Builder lengthCm(BigDecimal lengthCm) {
+    public Banana.Builder lengthCm(.annotation.Nullable BigDecimal lengthCm) {
       this.instance.lengthCm = lengthCm;
       return this;
     }

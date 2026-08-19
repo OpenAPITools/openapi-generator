@@ -157,17 +157,17 @@ public class ChildWithNullable extends ParentWithNullable {
       this.instance = instance;
     }
 
-    public ChildWithNullable.Builder otherProperty(String otherProperty) {
+    public ChildWithNullable.Builder otherProperty(.annotation.Nullable String otherProperty) {
       this.instance.otherProperty = otherProperty;
       return this;
     }
 
-    public ChildWithNullable.Builder type(TypeEnum type) { // inherited: true
+    public ChildWithNullable.Builder type(.annotation.Nullable TypeEnum type) { // inherited: true
       super.type(type);
       return this;
    }
 
-    public ChildWithNullable.Builder nullableProperty(String nullableProperty) { // inherited: true
+    public ChildWithNullable.Builder nullableProperty(.annotation.Nullable String nullableProperty) { // inherited: true
       super.nullableProperty(nullableProperty);
       return this;
    }

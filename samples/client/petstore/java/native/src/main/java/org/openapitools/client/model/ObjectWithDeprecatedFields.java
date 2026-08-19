@@ -279,19 +279,19 @@ public class ObjectWithDeprecatedFields {
       this.instance = instance;
     }
 
-    public ObjectWithDeprecatedFields.Builder uuid(String uuid) {
+    public ObjectWithDeprecatedFields.Builder uuid(.annotation.Nullable String uuid) {
       this.instance.uuid = uuid;
       return this;
     }
-    public ObjectWithDeprecatedFields.Builder id(BigDecimal id) {
+    public ObjectWithDeprecatedFields.Builder id(.annotation.Nullable BigDecimal id) {
       this.instance.id = id;
       return this;
     }
-    public ObjectWithDeprecatedFields.Builder deprecatedRef(DeprecatedObject deprecatedRef) {
+    public ObjectWithDeprecatedFields.Builder deprecatedRef(.annotation.Nullable DeprecatedObject deprecatedRef) {
       this.instance.deprecatedRef = deprecatedRef;
       return this;
     }
-    public ObjectWithDeprecatedFields.Builder bars(List<String> bars) {
+    public ObjectWithDeprecatedFields.Builder bars(.annotation.Nullable List<String> bars) {
       this.instance.bars = bars;
       return this;
     }

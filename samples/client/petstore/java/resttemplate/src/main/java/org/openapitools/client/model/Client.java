@@ -118,7 +118,7 @@ public class Client {
       this.instance = instance;
     }
 
-    public Client.Builder client(String client) {
+    public Client.Builder client(.annotation.Nullable String client) {
       this.instance.client = client;
       return this;
     }

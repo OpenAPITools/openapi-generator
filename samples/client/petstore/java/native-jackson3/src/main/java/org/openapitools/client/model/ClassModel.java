@@ -151,7 +151,7 @@ public class ClassModel {
       this.instance = instance;
     }
 
-    public ClassModel.Builder propertyClass(String propertyClass) {
+    public ClassModel.Builder propertyClass(.annotation.Nullable String propertyClass) {
       this.instance.propertyClass = propertyClass;
       return this;
     }

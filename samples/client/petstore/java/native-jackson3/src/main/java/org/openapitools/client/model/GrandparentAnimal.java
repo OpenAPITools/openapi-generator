@@ -173,7 +173,7 @@ static {
       this.instance = instance;
     }
 
-    public GrandparentAnimal.Builder petType(String petType) {
+    public GrandparentAnimal.Builder petType(.annotation.Nonnull String petType) {
       this.instance.petType = petType;
       return this;
     }

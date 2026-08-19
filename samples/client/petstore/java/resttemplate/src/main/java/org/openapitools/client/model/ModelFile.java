@@ -119,7 +119,7 @@ public class ModelFile {
       this.instance = instance;
     }
 
-    public ModelFile.Builder sourceURI(String sourceURI) {
+    public ModelFile.Builder sourceURI(.annotation.Nullable String sourceURI) {
       this.instance.sourceURI = sourceURI;
       return this;
     }

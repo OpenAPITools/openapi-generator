@@ -188,6 +188,7 @@ class PetApi {
     final _queryParameters = <String, dynamic>{
       r'status': status,
     };
+    removeNullQueryParameters(_queryParameters);
 
     final _response = await _dio.request<Object>(
       _path,
@@ -271,6 +272,7 @@ _responseData = rawData == null ? null : deserialize<List<Pet>, Pet>(rawData, 'L
     final _queryParameters = <String, dynamic>{
       r'tags': tags,
     };
+    removeNullQueryParameters(_queryParameters);
 
     final _response = await _dio.request<Object>(
       _path,

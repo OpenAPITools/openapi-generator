@@ -289,6 +289,7 @@ _responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCh
     final _queryParameters = <String, dynamic>{
       if (query1 != null) r'query_1': query1,
     };
+    removeNullQueryParameters(_queryParameters);
 
     dynamic _bodyData;
 
@@ -1016,6 +1017,7 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
     final _queryParameters = <String, dynamic>{
       r'query': query,
     };
+    removeNullQueryParameters(_queryParameters);
 
     dynamic _bodyData;
 
@@ -1314,6 +1316,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
       if (enumQueryDouble != null) r'enum_query_double': enumQueryDouble,
       if (enumQueryModelArray != null) r'enum_query_model_array': enumQueryModelArray,
     };
+    removeNullQueryParameters(_queryParameters);
 
     dynamic _bodyData;
 
@@ -1409,6 +1412,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
       if (stringGroup != null) r'string_group': stringGroup,
       if (int64Group != null) r'int64_group': int64Group,
     };
+    removeNullQueryParameters(_queryParameters);
 
     final _response = await _dio.request<Object>(
       _path,
@@ -1748,6 +1752,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
       if (language != null) r'language': language,
       r'allowEmpty': allowEmpty,
     };
+    removeNullQueryParameters(_queryParameters);
 
     final _response = await _dio.request<Object>(
       _path,

@@ -469,15 +469,15 @@ public class AdditionalPropertiesClass {
       this.instance = instance;
     }
 
-    public AdditionalPropertiesClass.Builder mapProperty(Map<String, String> mapProperty) {
+    public AdditionalPropertiesClass.Builder mapProperty(.annotation.Nullable Map<String, String> mapProperty) {
       this.instance.mapProperty = mapProperty;
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+    public AdditionalPropertiesClass.Builder mapOfMapProperty(.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
       this.instance.mapOfMapProperty = mapOfMapProperty;
       return this;
     }
-    public AdditionalPropertiesClass.Builder anytype1(Object anytype1) {
+    public AdditionalPropertiesClass.Builder anytype1(.annotation.Nullable Object anytype1) {
       this.instance.anytype1 = JsonNullable.<Object>of(anytype1);
       return this;
     }
@@ -485,23 +485,23 @@ public class AdditionalPropertiesClass {
       this.instance.anytype1 = anytype1;
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
+    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype1(.annotation.Nullable Object mapWithUndeclaredPropertiesAnytype1) {
       this.instance.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
+    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype2(.annotation.Nullable Object mapWithUndeclaredPropertiesAnytype2) {
       this.instance.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
+    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype3(.annotation.Nullable Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
       this.instance.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
       return this;
     }
-    public AdditionalPropertiesClass.Builder emptyMap(Object emptyMap) {
+    public AdditionalPropertiesClass.Builder emptyMap(.annotation.Nullable Object emptyMap) {
       this.instance.emptyMap = emptyMap;
       return this;
     }
-    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
+    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesString(.annotation.Nullable Map<String, String> mapWithUndeclaredPropertiesString) {
       this.instance.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
       return this;
     }

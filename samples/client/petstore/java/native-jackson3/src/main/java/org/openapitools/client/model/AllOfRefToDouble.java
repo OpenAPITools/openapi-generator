@@ -151,7 +151,7 @@ public class AllOfRefToDouble {
       this.instance = instance;
     }
 
-    public AllOfRefToDouble.Builder height(Double height) {
+    public AllOfRefToDouble.Builder height(.annotation.Nullable Double height) {
       this.instance.height = height;
       return this;
     }

@@ -152,7 +152,7 @@ public class BasquePig {
       this.instance = instance;
     }
 
-    public BasquePig.Builder className(String className) {
+    public BasquePig.Builder className(.annotation.Nonnull String className) {
       this.instance.className = className;
       return this;
     }

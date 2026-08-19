@@ -219,11 +219,11 @@ public class ParentWithNullable {
       this.instance = instance;
     }
 
-    public ParentWithNullable.Builder type(TypeEnum type) {
+    public ParentWithNullable.Builder type(.annotation.Nullable TypeEnum type) {
       this.instance.type = type;
       return this;
     }
-    public ParentWithNullable.Builder nullableProperty(String nullableProperty) {
+    public ParentWithNullable.Builder nullableProperty(.annotation.Nullable String nullableProperty) {
       this.instance.nullableProperty = JsonNullable.<String>of(nullableProperty);
       return this;
     }

@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="OneOfArrayRequest" /> class.
         /// </summary>
         /// <param name="list"></param>
-        public OneOfArrayRequest(List<string> list)
+        internal OneOfArrayRequest(List<string> list)
         {
             List = list;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="OneOfArrayRequest" /> class.
         /// </summary>
         /// <param name="list1"></param>
-        public OneOfArrayRequest(List<TestObject> list1)
+        internal OneOfArrayRequest(List<TestObject> list1)
         {
             List1 = list1;
             OnCreated();

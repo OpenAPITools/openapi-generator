@@ -168,7 +168,7 @@ public class ArrayOfArrayOfNumberOnly {
       this.instance = instance;
     }
 
-    public ArrayOfArrayOfNumberOnly.Builder arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+    public ArrayOfArrayOfNumberOnly.Builder arrayArrayNumber(.annotation.Nullable List<List<BigDecimal>> arrayArrayNumber) {
       this.instance.arrayArrayNumber = arrayArrayNumber;
       return this;
     }

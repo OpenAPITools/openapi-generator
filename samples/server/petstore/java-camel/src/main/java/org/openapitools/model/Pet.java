@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -50,9 +51,7 @@ public class Pet {
 
   /**
    * pet status in the store
-   * @deprecated deprecated
    */
-  @Deprecated
   public enum StatusEnum {
     AVAILABLE("available"),
     

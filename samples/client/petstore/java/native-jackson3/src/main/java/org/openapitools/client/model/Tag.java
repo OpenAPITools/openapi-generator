@@ -186,11 +186,11 @@ public class Tag {
       this.instance = instance;
     }
 
-    public Tag.Builder id(Long id) {
+    public Tag.Builder id(.annotation.Nullable Long id) {
       this.instance.id = id;
       return this;
     }
-    public Tag.Builder name(String name) {
+    public Tag.Builder name(.annotation.Nullable String name) {
       this.instance.name = name;
       return this;
     }

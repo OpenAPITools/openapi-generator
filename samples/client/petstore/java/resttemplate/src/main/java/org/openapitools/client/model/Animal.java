@@ -164,11 +164,11 @@ public class Animal {
       this.instance = instance;
     }
 
-    public Animal.Builder className(String className) {
+    public Animal.Builder className(.annotation.Nonnull String className) {
       this.instance.className = className;
       return this;
     }
-    public Animal.Builder color(String color) {
+    public Animal.Builder color(.annotation.Nullable String color) {
       this.instance.color = color;
       return this;
     }
