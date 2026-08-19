@@ -86,7 +86,7 @@ public class ContainerDefaultValueDto {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull 
+  
   @JsonProperty("nullable_required_array")
   public List<String> getNullableRequiredArray() {
     return nullableRequiredArray;

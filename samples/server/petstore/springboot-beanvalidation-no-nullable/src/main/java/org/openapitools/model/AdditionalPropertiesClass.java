@@ -333,7 +333,7 @@ public class AdditionalPropertiesClass {
    * @return anytype2
    */
   
-  @Schema(name = "anytype_2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "anytype_2", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("anytype_2")
   public @Nullable Object getAnytype2() {
     return anytype2;

@@ -290,7 +290,7 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringNullableItem(String arrayStringNullableItem) {
-    if (this.arrayStringNullable == null || !this.arrayStringNullable.isPresent()) {
+    if (this.arrayStringNullable == null || !this.arrayStringNullable.isPresent() || this.arrayStringNullable.get() == null) {
       this.arrayStringNullable = JsonNullable.<List<String>>of(new ArrayList<>());
     }
     try {
@@ -335,7 +335,7 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringExtensionNullableItem(String arrayStringExtensionNullableItem) {
-    if (this.arrayStringExtensionNullable == null || !this.arrayStringExtensionNullable.isPresent()) {
+    if (this.arrayStringExtensionNullable == null || !this.arrayStringExtensionNullable.isPresent() || this.arrayStringExtensionNullable.get() == null) {
       this.arrayStringExtensionNullable = JsonNullable.<List<String>>of(new ArrayList<>());
     }
     try {
