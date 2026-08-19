@@ -9163,4 +9163,32 @@ public class SpringCodegenTest {
                 "Mono<Set<String>> getUserIdSet"
         );
     }
+
+    @Test
+    public void testSchemaMappingAddsImport_issue24232() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(INTERFACE_ONLY, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setAdditionalProperties(properties)
+                .setSchemaMappings(Map.of("MyKey", "MyCustomKey"))
+                .setImportMappings(Map.of("MyCustomKey", "org.myorg.MyCustomKey"))
+                .setInputSpec("src/test/resources/bugs/issue_24232.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        File testApi = new File(output, "src/main/java/xyz/abcdef/api/SomeApi.java");
+        
+        JavaFileAssert.assertThat(testApi).fileContains("import org.myorg.MyCustomKey;");
+    }
 }
