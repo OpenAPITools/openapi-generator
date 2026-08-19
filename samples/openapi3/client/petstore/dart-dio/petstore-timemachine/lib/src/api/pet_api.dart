@@ -146,7 +146,8 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', (encodeQueryParameter(_serializers, petId, const FullType(int)).toString())
+);
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -382,7 +383,8 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', (encodeQueryParameter(_serializers, petId, const FullType(int)).toString())
+);
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -570,7 +572,8 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', (encodeQueryParameter(_serializers, petId, const FullType(int)).toString())
+);
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -648,7 +651,8 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', (encodeQueryParameter(_serializers, petId, const FullType(int)).toString())
+);
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{

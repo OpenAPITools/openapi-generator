@@ -656,6 +656,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             // Defensive copy: avoid mutating shared mapping objects from the parsed spec.
             sub.setMapping(new LinkedHashMap<>(sub.getMapping()));
         }
+        sub.setVendorExtensions(new LinkedHashMap<>(ObjectUtils.firstNonNull(sub.getVendorExtensions(), Collections.emptyMap())));
 
         Discriminator originalDiscriminator = getSchemaLocalDiscriminator(schema);
         if (originalDiscriminator != null) {
@@ -712,12 +713,18 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
         }
 
-        discriminator.getVendorExtensions().put(X_DISCRIMINATOR_MAPPED_MODELS_NONSELF, nonSelfMappedModels);
-        discriminator.getVendorExtensions().put(X_HAS_DISCRIMINATOR_SELF_MAPPING, selfMappingName != null);
+        Map<String, Object> discriminatorVendorExtensions = discriminator.getVendorExtensions();
+        if (discriminatorVendorExtensions == null) {
+            discriminatorVendorExtensions = new LinkedHashMap<>();
+            discriminator.setVendorExtensions(discriminatorVendorExtensions);
+        }
+
+        discriminatorVendorExtensions.put(X_DISCRIMINATOR_MAPPED_MODELS_NONSELF, nonSelfMappedModels);
+        discriminatorVendorExtensions.put(X_HAS_DISCRIMINATOR_SELF_MAPPING, selfMappingName != null);
         if (selfMappingName != null) {
-            discriminator.getVendorExtensions().put(X_DISCRIMINATOR_SELF_MAPPING_NAME, selfMappingName);
+            discriminatorVendorExtensions.put(X_DISCRIMINATOR_SELF_MAPPING_NAME, selfMappingName);
         } else {
-            discriminator.getVendorExtensions().remove(X_DISCRIMINATOR_SELF_MAPPING_NAME);
+            discriminatorVendorExtensions.remove(X_DISCRIMINATOR_SELF_MAPPING_NAME);
         }
     }
 
