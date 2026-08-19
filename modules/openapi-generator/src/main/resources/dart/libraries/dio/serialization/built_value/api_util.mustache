@@ -79,14 +79,4 @@ ListParam<Object?>? encodeCollectionQueryParameter<T>(
   throw ArgumentError('Invalid value passed to encodeCollectionQueryParameter');
 }
 
-void removeNullQueryParameters(Map<String, dynamic> queryParameters) {
-  queryParameters.removeWhere((key, value) => value == null);
-}
-
-void removeNullQueryParametersExcept(
-  Map<String, dynamic> queryParameters,
-  Set<String> requiredParameters,
-) {
-  queryParameters.removeWhere((key, value) => value == null && !requiredParameters.contains(key));
-}
-
+{{>serialization/common/remove_null_query_parameters}}

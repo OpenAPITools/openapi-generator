@@ -414,7 +414,12 @@ class UserApi {
       r'username': encodeQueryParameter(_serializers, username, const FullType(String)),
       r'password': encodeQueryParameter(_serializers, password, const FullType(String)),
     };
-    removeNullQueryParameters(_queryParameters);
+    removeNullQueryParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,

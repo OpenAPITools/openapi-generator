@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
+import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/user.dart';
 
 class UserApi {
@@ -376,7 +377,12 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
       r'username': username,
       r'password': password,
     };
-    removeNullQueryParameters(_queryParameters);
+    removeNullQueryParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,

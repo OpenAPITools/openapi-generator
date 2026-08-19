@@ -296,6 +296,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     private void configureSerializationLibraryJsonSerializable(String srcFolder) {
         supportingFiles.add(new SupportingFile("serialization/json_serializable/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
+        supportingFiles.add(new SupportingFile("serialization/json_serializable/api_util.mustache", srcFolder, "api_util.dart"));
         supportingFiles.add(new SupportingFile("serialization/json_serializable/deserialize.mustache", srcFolder,
                 "deserialize.dart"));
 
@@ -1078,7 +1079,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 }
             }
 
-            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams() || op.getHasPathParams())) {
+            if ((SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) || SERIALIZATION_LIBRARY_JSON_SERIALIZABLE.equals(library))
+                    && (op.getHasFormParams() || op.getHasQueryParams() || op.getHasPathParams())) {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/api_util.dart");
             }
 
