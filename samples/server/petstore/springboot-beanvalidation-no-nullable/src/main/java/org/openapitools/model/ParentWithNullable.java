@@ -107,7 +107,7 @@ public class ParentWithNullable {
    * @return nullableProperty
    */
   
-  @Schema(name = "nullableProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableProperty")
   public @Nullable String getNullableProperty() {
     return nullableProperty;

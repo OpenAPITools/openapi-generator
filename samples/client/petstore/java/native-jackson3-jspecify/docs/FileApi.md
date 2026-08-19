@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 
 ## fileIdGet
 
-> void fileIdGet(id)
+> FileContent fileIdGet(id)
 
 
 
@@ -33,7 +33,8 @@ public class Example {
         FileApi apiInstance = new FileApi(defaultClient);
         String id = "id_example"; // String | 
         try {
-            apiInstance.fileIdGet(id);
+            FileContent result = apiInstance.fileIdGet(id);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FileApi#fileIdGet");
             System.err.println("Status code: " + e.getCode());
@@ -54,8 +55,8 @@ public class Example {
 
 ### Return type
 
+[**FileContent**](FileContent.md)
 
-null (empty response body)
 
 ### Authorization
 
@@ -64,7 +65,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -73,7 +74,7 @@ No authorization required
 
 ## fileIdGetWithHttpInfo
 
-> ApiResponse<Void> fileIdGetWithHttpInfo(id)
+> ApiResponse<FileContent> fileIdGetWithHttpInfo(id)
 
 
 
@@ -96,9 +97,10 @@ public class Example {
         FileApi apiInstance = new FileApi(defaultClient);
         String id = "id_example"; // String | 
         try {
-            ApiResponse<Void> response = apiInstance.fileIdGetWithHttpInfo(id);
+            ApiResponse<FileContent> response = apiInstance.fileIdGetWithHttpInfo(id);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling FileApi#fileIdGet");
             System.err.println("Status code: " + e.getCode());
@@ -119,8 +121,8 @@ public class Example {
 
 ### Return type
 
+ApiResponse<[**FileContent**](FileContent.md)>
 
-ApiResponse<Void>
 
 ### Authorization
 
@@ -129,7 +131,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
