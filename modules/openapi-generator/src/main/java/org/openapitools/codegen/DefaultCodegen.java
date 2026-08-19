@@ -4889,6 +4889,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
 
                 addImportMappedType(imports, r.dataType);
+                addImportMappedType(imports, r.baseType);
 
                 if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
                     op.uniqueItems = true;
@@ -5136,11 +5137,12 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Helper method to add an import for a data type if it exists in the importMapping.
-     * @param imports The set of imports to add to.
+     *
+     * @param imports  The set of imports to add to.
      * @param dataType The data type to check for a mapping.
      */
     protected void addImportMappedType(Set<String> imports, String dataType) {
-        if (importMapping.containsKey(dataType)) {
+        if (imports != null && dataType != null && importMapping.containsKey(dataType)) {
             imports.add(dataType);
         }
     }
@@ -5742,6 +5744,7 @@ public class DefaultCodegen implements CodegenConfig {
             imports.add(codegenProperty.complexType);
         }
         addImportMappedType(imports, codegenParameter.dataType);
+        addImportMappedType(imports, codegenParameter.baseType);
 
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
 

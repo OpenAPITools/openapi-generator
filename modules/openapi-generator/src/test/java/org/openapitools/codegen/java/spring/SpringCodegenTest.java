@@ -9165,30 +9165,23 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testSchemaMappingAddsImport_issue24232() throws IOException {
-        Map<String, Object> properties = new HashMap<>();
-        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
-        properties.put(INTERFACE_ONLY, true);
+    public void issue_24232() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24232.yaml", SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .addTypeMapping("string+custom", "MyCustomId")
+                                .addSchemaMapping("MyKey", "MyCustomKey")
+                                .addImportMapping("MyCustomId", "org.myorg.MyCustomId")
+                                .addImportMapping("MyCustomKey", "org.myorg.MyCustomKey"));
 
-        File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+        JavaFileAssert.assertThat(files.get("SomeApi.java"))
+                .assertMethod("getDummy", "MyCustomId", "MyCustomKey")
+                .toFileAssert()
+                .fileContains("import org.myorg.MyCustomId;", "import org.myorg.MyCustomKey;");
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("spring")
-                .setAdditionalProperties(properties)
-                .setSchemaMappings(Map.of("MyKey", "MyCustomKey"))
-                .setImportMappings(Map.of("MyCustomKey", "org.myorg.MyCustomKey"))
-                .setInputSpec("src/test/resources/bugs/issue_24232.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        DefaultGenerator generator = new DefaultGenerator();
-        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        validateJavaSourceFiles(files);
-
-        File testApi = new File(output, "src/main/java/xyz/abcdef/api/SomeApi.java");
-        
-        JavaFileAssert.assertThat(testApi).fileContains("import org.myorg.MyCustomKey;");
+        JavaFileAssert.assertThat(files.get("Dummy.java"))
+                .fileContains("import org.myorg.MyCustomId;", "import org.myorg.MyCustomKey;");
     }
 }
