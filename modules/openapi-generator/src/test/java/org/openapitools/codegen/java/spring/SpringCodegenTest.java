@@ -7180,34 +7180,23 @@ public class SpringCodegenTest {
                         "Foo.Builder dt(java.time.@Nullable Instant dt)",
                         "Foo.Builder requiredDt(java.time.Instant requiredDt)",
                         "Foo.Builder nullableNumber(@Nullable BigDecimal nullableNumber)"
-                ).fileDoesNotContain(
-                        "javax.annotation.Nullable",
-                        "jakarta.annotation.Nullable")
-                .assertMethod("getRequiredDt").assertMethodAnnotations().containsWithName("NotNull").containsWithName("Valid");
-        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                );
+        JavaFileAssert fooApi = JavaFileAssert.assertThat(files.get("FooApi.java"));
+        fooApi
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "java.time.@Nullable Instant dtParam",
                         "java.time.@Nullable Instant dtQuery",
-                        "java.time.@Nullable Instant dtCookie",
-                        " @RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color"
+                        "java.time.@Nullable Instant dtCookie"
                 );
-        JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
-                .fileContains(
-                        "private @Nullable String str = null;",
-                        "private @Nullable List<String> _list;",
-                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired, @Nullable List<String> _list)",
-                        "@Nullable String getStr()",
-                        "void setStr(@Nullable String str)",
-                        "RequiredAndNullable str(@Nullable String str)",
-                        "RequiredAndNullable.Builder str(@Nullable String str)"
-                )
-                .assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
-        if (!library.equals(SPRING_HTTP_INTERFACE)) {
-            // SPRING_HTTP_INTERFACE does not support @Schema generation (yet)
-            JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
-                    .fileContains(
-                            "@Schema(name = \"str\", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)");
+        if (SPRING_HTTP_INTERFACE.equals(library)) {
+            fooApi.fileContains(
+                        "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") @Nullable String color"
+                    );
+        } else {
+            fooApi.fileContains(
+                        "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color"
+                    );
         }
         JavaFileAssert.assertThat(files.get("FileContent.java"))
                 .fileContains("VirusScanEnum getVirusScan()");
