@@ -16,6 +16,7 @@ lazy val root = (project in file(".")).
       "io.gsonfire" % "gson-fire" % "1.9.0",
       "org.openapitools" % "jackson-databind-nullable" % "0.2.11",
       "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5",
+      "io.swagger.parser.v3" % "swagger-parser-v3" % "2.0.30",
       "org.junit.jupiter" % "junit-jupiter-api" % "5.10.3" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )

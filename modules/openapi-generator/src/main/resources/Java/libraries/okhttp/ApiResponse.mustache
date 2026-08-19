@@ -39,7 +39,7 @@ public class ApiResponse<T> {
         {{#caseInsensitiveResponseHeaders}}
         Map<String, List<String>> responseHeaders = new TreeMap<String, List<String>>(String.CASE_INSENSITIVE_ORDER);
         for(Entry<String, List<String>> entry : headers.entrySet()){
-           responseHeaders.put(entry.getKey(), entry.getValue());
+           responseHeaders.put(entry.getKey().toLowerCase(), entry.getValue());
         }
         {{/caseInsensitiveResponseHeaders}}
         this.headers = {{#caseInsensitiveResponseHeaders}}responseHeaders{{/caseInsensitiveResponseHeaders}}{{^caseInsensitiveResponseHeaders}}headers{{/caseInsensitiveResponseHeaders}};

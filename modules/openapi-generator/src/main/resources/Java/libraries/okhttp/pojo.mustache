@@ -16,12 +16,14 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 {{/isGson}}
 {{#isJackson}}
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+{{! JsonCreator, JsonInclude, JsonProperty and JsonValue are already contributed via model.imports
+    by JavaClientCodegen.postProcessModelProperty; emitting them here too produced duplicate
+    import lines. JsonTypeName is only contributed there for Jackson 2, so Jackson 3 still needs
+    it from the template. }}
+{{#useJackson3}}
 import com.fasterxml.jackson.annotation.JsonTypeName;
+{{/useJackson3}}
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 {{#isAdditionalPropertiesTrue}}
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -31,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 {{#isJsonb}}
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 {{/isJsonb}}
 import java.io.IOException;

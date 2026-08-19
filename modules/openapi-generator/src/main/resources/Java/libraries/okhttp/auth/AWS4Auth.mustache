@@ -63,6 +63,16 @@ public class AWS4Auth implements Authentication {
     SdkHttpFullRequest.Builder requestBuilder =
         SdkHttpFullRequest.builder().uri(uri).method(SdkHttpMethod.fromValue(method));
 
+    // SigV4 requires every x-amz-* header that is actually sent to be part of the canonical
+    // request, otherwise AWS rejects the signature. Content-Type is deliberately not signed:
+    // OkHttp's BridgeInterceptor rewrites multipart content types to append the boundary, so the
+    // signed value would not match the value on the wire.
+    for (Map.Entry<String, String> header : headerParams.entrySet()) {
+      if (header.getKey().toLowerCase(java.util.Locale.ROOT).startsWith("x-amz-")) {
+        requestBuilder.putHeader(header.getKey(), header.getValue());
+      }
+    }
+
     ContentStreamProvider provider = new ContentStreamProvider() {
       @Override
       public InputStream newStream() {

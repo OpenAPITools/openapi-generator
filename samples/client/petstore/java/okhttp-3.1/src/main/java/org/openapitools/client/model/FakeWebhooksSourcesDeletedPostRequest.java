@@ -135,7 +135,7 @@ public class FakeWebhooksSourcesDeletedPostRequest {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private transient Map<String, Object> additionalProperties;
+  private Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

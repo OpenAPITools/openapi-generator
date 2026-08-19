@@ -29,7 +29,9 @@ lazy val root = (project in file(".")).
       {{/isGson}}
       {{#isJackson}}
       "{{jacksonPackage}}.core" % "jackson-core" % "{{#useJackson3}}3.2.1{{/useJackson3}}{{^useJackson3}}2.22.1{{/useJackson3}}",
+      {{^useJackson3}}
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.22",
+      {{/useJackson3}}
       "{{jacksonPackage}}.core" % "jackson-databind" % "{{#useJackson3}}3.2.1{{/useJackson3}}{{^useJackson3}}2.22.1{{/useJackson3}}",
       {{^useJackson3}}
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.22.1",
@@ -56,6 +58,12 @@ lazy val root = (project in file(".")).
       {{#withAWSV4Signature}}
       "software.amazon.awssdk" % "auth" % "2.20.157",
       {{/withAWSV4Signature}}
+      {{#dynamicOperations}}
+      "io.swagger.parser.v3" % "swagger-parser-v3" % "2.0.30",
+      {{/dynamicOperations}}
+      {{#useBeanValidation}}
+      "jakarta.validation" % "jakarta.validation-api" % "{{#useJakartaEe}}3.0.2{{/useJakartaEe}}{{^useJakartaEe}}2.0.2{{/useJakartaEe}}",
+      {{/useBeanValidation}}
       "org.junit.jupiter" % "junit-jupiter-api" % "5.10.3" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
