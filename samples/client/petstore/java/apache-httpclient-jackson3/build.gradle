@@ -18,6 +18,17 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    swagger_annotations_version = "1.6.6"
+    jackson3_version = "3.1.5"
+    jackson_annotations_version = "2.21"
+    jackson_databind_nullable_version = "0.2.11"
+    jakarta_annotation_version = "1.3.5"
+    httpclient_version = "5.1.3"
+    jodatime_version = "2.9.9"
+    junit_version = "5.10.2"
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -116,17 +127,6 @@ if(hasProperty('target') && target == 'android') {
     test {
         useJUnitPlatform()
     }
-}
-
-ext {
-    swagger_annotations_version = "1.6.6"
-    jackson3_version = "3.1.5"
-    jackson_annotations_version = "2.21"
-    jackson_databind_nullable_version = "0.2.11"
-    jakarta_annotation_version = "1.3.5"
-    httpclient_version = "5.1.3"
-    jodatime_version = "2.9.9"
-    junit_version = "5.10.2"
 }
 
 dependencies {

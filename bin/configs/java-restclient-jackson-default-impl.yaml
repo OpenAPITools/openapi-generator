@@ -7,5 +7,6 @@ additionalProperties:
   artifactId: restclient-jackson-default-impl
   hideGenerationTimestamp: "true"
   useOneOfInterfaces: "true"
+  useDeductionForOneOfInterfaces: "true"
   typeInfoDefaultImpls:
     Fruit: Apple

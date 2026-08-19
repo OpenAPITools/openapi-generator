@@ -1,15 +1,18 @@
 package org.openapitools.codegen.languages;
 
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import static org.openapitools.codegen.CodegenConstants.TYPE_INFO_DEFAULT_IMPLS;
 
@@ -28,8 +31,9 @@ public class JavaMicroprofileServerCodegen extends JavaClientCodegen {
         modelPackage = "org.openapitools.server.model";
         setLibrary("microprofile");
 
-        // The microprofile library uses its own model.mustache which does not route to
-        // oneof_interface.mustache, so typeInfoDefaultImpls / x-jackson-default-impl have no effect.
+        // The microprofile library renders oneOf interfaces through its own model.mustache, but does
+        // not support Jackson's @JsonTypeInfo(defaultImpl = ...) on them, so typeInfoDefaultImpls and
+        // x-jackson-default-impl have no meaningful effect here.
         cliOptions.removeIf(opt -> TYPE_INFO_DEFAULT_IMPLS.equals(opt.getOpt()));
     }
 
@@ -53,8 +57,19 @@ public class JavaMicroprofileServerCodegen extends JavaClientCodegen {
         super.processOpts();
         additionalProperties.put(MICROPROFILE_SERVER, microprofileServer);
         // Clear any typeInfoDefaultImpls that the parent may have read; the microprofile
-        // model template does not support oneOf interfaces, so the option has no effect.
+        // model template does not support Jackson defaultImpl on oneOf interfaces.
         typeInfoDefaultImpls.clear();
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        // The inherited resolution in AbstractJavaCodegen would otherwise turn a schema-level
+        // x-jackson-default-impl into a defaultImpl = ... annotation, which the microprofile
+        // templates do not support. Strip the opt-in extension before that resolution runs.
+        for (CodegenModel cm : getAllModels(objs).values()) {
+            cm.vendorExtensions.remove(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName());
+        }
+        return super.postProcessAllModels(objs);
     }
 
     @Override

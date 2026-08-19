@@ -19,5 +19,7 @@ additionalProperties:
   useSpringBoot3: false
   useOneOfInterfaces: "true"
   useDeductionForOneOfInterfaces: "true"
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   typeInfoDefaultImpls:
     Fruit: Apple

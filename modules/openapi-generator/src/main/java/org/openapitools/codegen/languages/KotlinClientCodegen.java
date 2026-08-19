@@ -296,7 +296,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_BYTE_ARRAY, "Map File and Binary to ByteArray (default: false)").defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option."));
-        cliOptions.add(new CliOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, CodegenConstants.TYPE_INFO_DEFAULT_IMPLS_DESC).defaultValue("empty map"));
+        cliOptions.add(new CliOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS,
+                "Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). "
+                        + "For kotlin-client this applies to discriminator-based oneOf interfaces only "
+                        + "(deduction-based oneOf is not supported by the kotlin-client templates). "
+                        + "Overrides x-jackson-default-impl when both are set for the same schema. "
+                        + "Requires the jackson serialization library. "
+                        + "Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`")
+                .defaultValue("empty map"));
 
         cliOptions.add(CliOption.newBoolean(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", false));
 
@@ -1008,30 +1015,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 if (cm.discriminator == null) {
                     continue;
                 }
-                Object rawAnnotationExt = cm.vendorExtensions.get(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName());
-                String schemaAnnotation = rawAnnotationExt instanceof String ? (String) rawAnnotationExt : null;
-                String configValue = typeInfoDefaultImpls.get(cm.schemaName);
-                String rawValue;
-                if (configValue != null && !configValue.isBlank()) {
-                    if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
-                        LOGGER.warn("typeInfoDefaultImpls overrides x-jackson-default-impl on schema '{}': '{}' → '{}'",
-                                cm.schemaName, schemaAnnotation, configValue);
-                    }
-                    rawValue = configValue;
-                } else if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
-                    rawValue = schemaAnnotation;
-                } else {
-                    continue;
-                }
-                String resolved = toModelName(rawValue);
+                String resolved = JacksonDefaultImplResolver.resolve(
+                        typeInfoDefaultImpls, cm, this::toModelName, allModelsMap.keySet(), LOGGER::warn);
                 if (resolved != null && !resolved.isBlank()) {
-                    if (!allModelsMap.containsKey(resolved)) {
-                        LOGGER.warn("x-jackson-default-impl / typeInfoDefaultImpls on schema '{}' refers to '{}' which is not a known model in this spec. " +
-                                "This is valid for external or catch-all classes, but may indicate a typo.", cm.schemaName, resolved);
-                    }
                     // typeInfoAnnotation.mustache is rendered inside {{#discriminator}},
                     // so JMustache resolves 'vendorExtensions' against CodegenDiscriminator.
-                    cm.discriminator.getVendorExtensions().put("x-jackson-resolved-default-impl", resolved);
+                    cm.discriminator.getVendorExtensions().put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
                 }
             }
         }

@@ -1,7 +1,10 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
@@ -22,9 +25,12 @@ import jakarta.validation.Valid
  */
 data class Banana(
 
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("fruitType")
     @get:JsonProperty("fruitType", required = true) override val fruitType: kotlin.String = "BANANA",
 
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("length")
     @get:JsonProperty("length") val length: kotlin.Int? = null
 ) : Fruit {

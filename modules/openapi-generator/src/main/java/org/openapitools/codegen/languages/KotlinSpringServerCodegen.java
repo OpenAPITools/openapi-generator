@@ -1482,33 +1482,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
         // and discriminator-based oneOf interfaces.
         for (CodegenModel cm : allModelsMap.values()) {
-            Object rawAnnotationExt = cm.vendorExtensions.get(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName());
-            String schemaAnnotation = rawAnnotationExt instanceof String ? (String) rawAnnotationExt : null;
-            String configValue = typeInfoDefaultImpls.get(cm.schemaName);
-            String rawValue;
-            if (configValue != null && !configValue.isBlank()) {
-                if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
-                    LOGGER.warn("typeInfoDefaultImpls overrides x-jackson-default-impl on schema '{}': '{}' → '{}'",
-                            cm.schemaName, schemaAnnotation, configValue);
-                }
-                rawValue = configValue;
-            } else if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
-                rawValue = schemaAnnotation;
-            } else {
-                continue;
-            }
-            String resolved = toModelName(rawValue);
+            String resolved = JacksonDefaultImplResolver.resolve(
+                    typeInfoDefaultImpls, cm, this::toModelName, allModelsMap.keySet(), LOGGER::warn);
             if (resolved != null && !resolved.isBlank()) {
-                if (!allModelsMap.containsKey(resolved)) {
-                    LOGGER.warn("x-jackson-default-impl / typeInfoDefaultImpls on schema '{}' refers to '{}' which is not a known model in this spec. " +
-                            "This is valid for external or catch-all classes, but may indicate a typo.", cm.schemaName, resolved);
-                }
-                cm.vendorExtensions.put("x-jackson-resolved-default-impl", resolved);
+                cm.vendorExtensions.put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
                 // When a discriminator is present, the typeInfoAnnotation partial is rendered
                 // inside {{#discriminator}}, so JMustache resolves 'vendorExtensions' against
                 // CodegenDiscriminator (not CodegenModel). Store there too.
                 if (cm.discriminator != null) {
-                    cm.discriminator.getVendorExtensions().put("x-jackson-resolved-default-impl", resolved);
+                    cm.discriminator.getVendorExtensions().put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
                 }
             }
         }
