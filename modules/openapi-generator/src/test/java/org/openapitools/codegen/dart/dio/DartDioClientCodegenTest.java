@@ -216,7 +216,7 @@ public class DartDioClientCodegenTest {
     }
 
     @Test
-    public void testOptionalNullableQueryParameterIsOmittedWhenNull() throws IOException {
+    public void testQueryParameterNullGuardsFollowRequiredness() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
@@ -234,11 +234,28 @@ public class DartDioClientCodegenTest {
 
         TestUtils.assertFileContains(defaultApi,
                 "int? activityId,",
-                "final _queryParameters = <String, dynamic>{",
+                "int? categoryId,",
+                "required int requiredId,",
+                "final _queryParameters = <String, dynamic>{");
+
+        // Optional query parameters use nullable Dart arguments. Null means the
+        // caller omitted the parameter, so the generated request must omit it.
+        TestUtils.assertFileContains(defaultApi,
                 "if (activityId != null)",
-                "r'activity_id': encodeQueryParameter(_serializers, activityId, const FullType(int)),");
+                "r'activity_id': encodeQueryParameter(_serializers, activityId, const FullType(int)),",
+                "if (categoryId != null)",
+                "r'category_id': encodeQueryParameter(_serializers, categoryId, const FullType(int)),");
+
+        // Required query parameters are always emitted. If the schema is
+        // nullable, null is an explicit supplied value rather than omission.
+        TestUtils.assertFileContains(defaultApi,
+                "r'required_id': encodeQueryParameter(_serializers, requiredId, const FullType(int)),",
+                "r'required_nullable_id': encodeQueryParameter(_serializers, requiredNullableId, const FullType(int)),");
         TestUtils.assertFileNotContains(defaultApi,
-                "final _queryParameters = <String, dynamic>{\n      r'activity_id': encodeQueryParameter(_serializers, activityId, const FullType(int)),");
+                "if (requiredId != null)",
+                "if (requiredNullableId != null)",
+                "final _queryParameters = <String, dynamic>{\n      r'activity_id': encodeQueryParameter(_serializers, activityId, const FullType(int)),",
+                "final _queryParameters = <String, dynamic>{\n      r'category_id': encodeQueryParameter(_serializers, categoryId, const FullType(int)),");
     }
 
     /**

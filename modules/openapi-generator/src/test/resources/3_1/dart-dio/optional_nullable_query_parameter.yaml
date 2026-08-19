@@ -15,6 +15,26 @@ paths:
               - type: integer
               - type: "null"
             title: Activity Id
+        - name: category_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            title: Category Id
+        - name: required_id
+          in: query
+          required: true
+          schema:
+            type: integer
+            title: Required Id
+        - name: required_nullable_id
+          in: query
+          required: true
+          schema:
+            anyOf:
+              - type: integer
+              - type: "null"
+            title: Required Nullable Id
       responses:
         "200":
           description: Successful response
