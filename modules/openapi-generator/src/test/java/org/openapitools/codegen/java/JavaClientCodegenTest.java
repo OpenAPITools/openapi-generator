@@ -88,7 +88,8 @@ public class JavaClientCodegenTest {
         JERSEY_3("jersey3", Serializer.JACKSON),
         MICROPROFILE("microprofile", Serializer.JSONB, Set.of(Serializer.JACKSON)),
         NATIVE("native", Serializer.JACKSON),
-        OKHTTP("okhttp-gson", Serializer.GSON),
+        OKHTTP("okhttp", Serializer.GSON, Set.of(Serializer.JACKSON, Serializer.JSONB)),
+        OKHTTP_GSON("okhttp-gson", Serializer.GSON),
         REST_ASSURED("rest-assured", Serializer.GSON, Set.of(Serializer.JACKSON)),
         RESTEASY("resteasy", Serializer.JACKSON),
         REST_CLIENT("restclient", Serializer.JACKSON),
@@ -4990,5 +4991,101 @@ public class JavaClientCodegenTest {
         codegen.setLibrary(JavaClientCodegen.RETROFIT_2);
         codegen.additionalProperties().putAll(properties);
         return codegen;
+    }
+
+    private static JavaClientCodegen newOkhttpCodegen(Map<String, Object> properties) {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.OKHTTP);
+        codegen.additionalProperties().putAll(properties);
+        codegen.processOpts();
+        return codegen;
+    }
+
+    @Test(description = "the okhttp library drives Gson, Jackson and JSON-B from one template set, so it "
+            + "must expose the resolved serialization library as three mutually exclusive mustache flags")
+    public void testOkhttpDefaultsToGson() {
+        JavaClientCodegen codegen = newOkhttpCodegen(Map.of());
+
+        assertEquals(codegen.getSerializationLibrary(), SERIALIZATION_LIBRARY_GSON);
+        assertThat(codegen.additionalProperties())
+                .contains(entry("isGson", true), entry("isJackson", false), entry("isJsonb", false));
+    }
+
+    @Test
+    public void testOkhttpWithJackson() {
+        JavaClientCodegen codegen = newOkhttpCodegen(
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON));
+
+        assertEquals(codegen.getSerializationLibrary(), SERIALIZATION_LIBRARY_JACKSON);
+        assertThat(codegen.additionalProperties())
+                .contains(entry("isGson", false), entry("isJackson", true), entry("isJsonb", false));
+    }
+
+    @Test(description = "openApiNullable is jackson-databind-nullable, which the okhttp pom omits for "
+            + "JSON-B; leaving the flag on would emit JsonNullable references that cannot resolve")
+    public void testOkhttpWithJsonbForcesOpenApiNullableOff() {
+        JavaClientCodegen codegen = newOkhttpCodegen(
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB,
+                        JavaClientCodegen.OPENAPI_NULLABLE, true));
+
+        assertEquals(codegen.getSerializationLibrary(), SERIALIZATION_LIBRARY_JSONB);
+        assertThat(codegen.additionalProperties())
+                .contains(entry("isGson", false), entry("isJackson", false), entry("isJsonb", true),
+                        entry(JavaClientCodegen.OPENAPI_NULLABLE, false));
+    }
+
+    @Test
+    public void testOkhttpWithJackson3() {
+        JavaClientCodegen codegen = newOkhttpCodegen(
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        USE_JACKSON_3, true));
+
+        assertThat(codegen.additionalProperties())
+                .contains(entry("isJackson", true), entry(USE_JACKSON_3, true),
+                        entry("jacksonPackage", "tools.jackson"));
+    }
+
+    @Test(description = "useJspecify must be accepted by the okhttp library")
+    public void testOkhttpWithJspecify() {
+        JavaClientCodegen codegen = newOkhttpCodegen(Map.of(USE_JSPECIFY, true));
+
+        assertThat(codegen.additionalProperties()).contains(entry(USE_JSPECIFY, true));
+    }
+
+    @Test(description = "okhttp's RetryingOAuth is self-contained, so it must not pull in "
+            + "OAuthOkHttpClient or the Apache Oltu dependency that okhttp-gson needs")
+    public void testOkhttpOAuthDoesNotUseOltu() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml", JavaClientCodegen.OKHTTP);
+
+        assertThat(files).containsKey("RetryingOAuth.java");
+        assertThat(files).doesNotContainKey("OAuthOkHttpClient.java");
+        assertThat(files.get("RetryingOAuth.java")).content()
+                .contains("public static class TokenRequestBuilder")
+                .doesNotContain("org.apache.oltu");
+        assertThat(files.get("pom.xml")).content()
+                .contains("<artifactId>okhttp-bom</artifactId>")
+                .doesNotContain("oltu");
+    }
+
+    @DataProvider(name = "okhttpSerializers")
+    public Object[][] okhttpSerializers() {
+        return new Object[][]{
+                {SERIALIZATION_LIBRARY_GSON}, {SERIALIZATION_LIBRARY_JACKSON}, {SERIALIZATION_LIBRARY_JSONB}
+        };
+    }
+
+    @Test(dataProvider = "okhttpSerializers",
+            description = "every serialization library must produce a compilable client from the same templates")
+    public void testOkhttpGeneratesForEverySerializer(String serializationLibrary) {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml", JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, serializationLibrary));
+
+        assertThat(files).containsKeys("ApiClient.java", "JSON.java", "ApiCallback.java", "Pet.java");
+        // JsonNullable and JsonIgnore are Jackson types; they must not leak into Gson or JSON-B output
+        if (!SERIALIZATION_LIBRARY_JACKSON.equals(serializationLibrary)) {
+            assertThat(files.get("Pet.java")).content().doesNotContain("JsonNullable");
+        }
     }
 }
