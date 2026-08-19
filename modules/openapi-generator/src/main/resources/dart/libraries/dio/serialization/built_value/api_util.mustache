@@ -80,6 +80,13 @@ ListParam<Object?>? encodeCollectionQueryParameter<T>(
 }
 
 void removeNullQueryParameters(Map<String, dynamic> queryParameters) {
-  queryParameters.removeWhere((_, value) => value == null);
+  queryParameters.removeWhere((key, value) => value == null);
+}
+
+void removeNullQueryParametersExcept(
+  Map<String, dynamic> queryParameters,
+  Set<String> requiredParameters,
+) {
+  queryParameters.removeWhere((key, value) => value == null && !requiredParameters.contains(key));
 }
 
