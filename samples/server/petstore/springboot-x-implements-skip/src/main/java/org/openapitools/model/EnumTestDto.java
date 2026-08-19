@@ -305,7 +305,7 @@ public class EnumTestDto {
    * @return outerEnum
    */
   @Valid 
-  @Schema(name = "outerEnum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "outerEnum", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("outerEnum")
   public JsonNullable<OuterEnumDto> getOuterEnum() {
     return outerEnum;

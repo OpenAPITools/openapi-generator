@@ -33,6 +33,7 @@ jobs:
           - samples/client/petstore/kotlin-explicit
           - samples/client/petstore/kotlin-gson
           - samples/client/petstore/kotlin-jackson
+          - samples/client/petstore/kotlin-jackson3
           - samples/client/petstore/kotlin-model-prefix-type-mappings
           # needs Android configured
           #- samples/client/petstore/kotlin-json-request-string
@@ -76,6 +77,7 @@ jobs:
           - samples/client/petstore/kotlin-jvm-spring-3-restclient
           - samples/client/echo_api/kotlin-jvm-spring-3-restclient
           - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return
+          - samples/client/petstore/kotlin-jvm-spring-4-restclient-jackson3
           - samples/client/petstore/kotlin-name-parameter-mappings
           - samples/client/others/kotlin-jvm-okhttp-parameter-tests
           - samples/client/others/kotlin-jvm-okhttp-path-comments

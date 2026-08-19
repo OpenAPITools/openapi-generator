@@ -6,8 +6,11 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/FileApi.md
+docs/FileContent.md
 docs/Foo.md
 docs/FooApi.md
+docs/RequiredAndNullable.md
+docs/RequiredAndNullableApi.md
 docs/UploadApi.md
 git_push.sh
 gradle.properties
@@ -31,9 +34,12 @@ src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/api/FileApi.java
 src/main/java/org/openapitools/client/api/FooApi.java
+src/main/java/org/openapitools/client/api/RequiredAndNullableApi.java
 src/main/java/org/openapitools/client/api/UploadApi.java
 src/main/java/org/openapitools/client/api/package-info.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
+src/main/java/org/openapitools/client/model/FileContent.java
 src/main/java/org/openapitools/client/model/Foo.java
+src/main/java/org/openapitools/client/model/RequiredAndNullable.java
 src/main/java/org/openapitools/client/model/package-info.java
 src/main/java/org/openapitools/client/package-info.java

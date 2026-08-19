@@ -224,6 +224,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter
     protected boolean useJspecify;
     protected JSpecifyNullableLambda jSpecifyNullableLambda;
+    protected RemoveAnnotationLambda removeAnnotationLambda;
+
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
 
@@ -707,9 +709,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             writer.write(content);
         });
-        additionalProperties.put("removeAnnotations", (Mustache.Lambda) (fragment, writer) -> {
-            writer.write(removeAnnotations(fragment.execute()));
-        });
+        this.removeAnnotationLambda = new RemoveAnnotationLambda();
+        additionalProperties.put("removeAnnotations", removeAnnotationLambda);
         additionalProperties.put("sanitizeDataType", (Mustache.Lambda) (fragment, writer) -> {
             writer.write(sanitizeDataType(fragment.execute()));
         });
@@ -902,6 +903,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
                     "package-info.java"));
         }
+        // simplify mustache template for jspecify. @Nullable is kept
+        this.removeAnnotationLambda.keepAnnotation("@Nullable");
     }
 
     @Override
@@ -2097,6 +2100,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * <p>
      * For example:
      * <ul>
+     *     <li>{@code @jakarta.annotation.Nullable String} -> {@code String}</li>
      *     <li>{@code @Min(0) @Max(10)Integer} -> {@code Integer}</li>
      *     <li>{@code @Pattern(regexp = "^[a-z]$")String>} -> {@code String}</li>
      *     <li>{@code List<@Pattern(regexp = "^[a-z]$")String>}" -> "{@code List<String>}"</li>
@@ -2108,7 +2112,38 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     public String removeAnnotations(String dataType) {
         if (dataType != null && dataType.contains("@")) {
-            return dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+            return dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+        }
+        return dataType;
+    }
+
+    /**
+     * Remove annotations from the given data type string except annotationToKeep.
+     * <p>
+     * For example:
+     * <ul>
+     *     <li>{@code @Nullable @Min(0) @Max(10)Integer} -> {@code @Nullable Integer}</li>
+     *     <li>{@code @Nullable List<@Valid Pet>}" -> "{@code @Nullable List<Pet>}"</li>
+     * </ul>
+     *
+     * @param dataType the data type string
+     * @param annotationToKeep annotation to keep. For example @Nullable
+     * @return the data type string without annotations.
+     */
+    public String removeAnnotationsWithExclusion(String dataType, String annotationToKeep) {
+        if (dataType != null && dataType.contains("@")) {
+            if (annotationToKeep == null) {
+                return dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            }
+            annotationToKeep += " ";
+            boolean annotationPresent = dataType.indexOf(annotationToKeep) >=0;
+            if (annotationPresent) {
+                dataType = dataType.replace( annotationToKeep, "%%");
+            }
+            dataType = dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            if (annotationPresent) {
+                dataType = dataType.replace("%%", annotationToKeep);
+            }
         }
         return dataType;
     }
@@ -2897,7 +2932,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     /**
      * for Jspecify, remove @Nullable before the datatype and set keptNullable to true if done.
      */
-    class JSpecifyNullableLambda implements Mustache.Lambda {
+    protected class JSpecifyNullableLambda implements Mustache.Lambda {
         private String nullableAnnotation = "@Nullable";
         // remember @Nullable annotation value when jspecify is used.
         private String keptNullable = null;
@@ -2946,5 +2981,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .filter(CodegenParameter::notRequiredOrIsNullable)
                 .findAny()
                 .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+    }
+
+    /**
+     * Simplify the removeAnnotations lambda for custom removal.
+     */
+    protected class RemoveAnnotationLambda implements Mustache.Lambda {
+
+        private String keep;
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            writer.write(removeAnnotationsWithExclusion(fragment.execute(), keep));
+        }
+
+        public void keepAnnotation(String keep) {
+            this.keep = keep;
+        }
     }
 }

@@ -101,6 +101,68 @@ class TestConfiguration(unittest.TestCase):
 
         self.assertEqual(config.proxy, "http://proxy.example")
 
+    def test_proxy_settings_follow_host_assigned_after_construction(self):
+        environment_proxies = {
+            "http": "http://plain-proxy.example",
+            "https": "http://secure-proxy.example",
+        }
+        with patch(
+            "petstore_api.configuration.getproxies",
+            return_value=environment_proxies,
+        ):
+            config = petstore_api.Configuration()
+
+            config.host = "https://api.example"
+            self.assertEqual(config.proxy, "http://secure-proxy.example")
+
+            config.host = "http://api.example"
+            self.assertEqual(config.proxy, "http://plain-proxy.example")
+
+    def test_proxy_settings_resolve_for_a_host_unknown_at_construction(self):
+        # a spec without a server URL leaves the host empty until the caller
+        # assigns one, which is when the scheme first becomes known
+        with patch(
+            "petstore_api.configuration.getproxies",
+            return_value={"https": "http://secure-proxy.example"},
+        ):
+            config = petstore_api.Configuration(host="")
+            self.assertIsNone(config.proxy)
+
+            config.host = "https://api.example"
+            self.assertEqual(config.proxy, "http://secure-proxy.example")
+
+    def test_assigned_proxy_survives_later_host_assignment(self):
+        with patch(
+            "petstore_api.configuration.getproxies",
+            return_value={"https": "http://secure-proxy.example"},
+        ):
+            config = petstore_api.Configuration()
+            config.proxy = "http://assigned-proxy.example"
+            config.host = "https://api.example"
+
+        self.assertEqual(config.proxy, "http://assigned-proxy.example")
+
+    def test_assigned_none_proxy_disables_the_environment(self):
+        with patch(
+            "petstore_api.configuration.getproxies",
+            return_value={"https": "http://secure-proxy.example"},
+        ):
+            config = petstore_api.Configuration()
+            config.proxy = None
+            config.host = "https://api.example"
+
+        self.assertIsNone(config.proxy)
+
+    def test_assigned_host_falls_back_to_the_all_proxy(self):
+        with patch(
+            "petstore_api.configuration.getproxies",
+            return_value={"all": "http://any-proxy.example"},
+        ):
+            config = petstore_api.Configuration()
+            config.host = "https://api.example"
+
+        self.assertEqual(config.proxy, "http://any-proxy.example")
+
     def test_ignore_operation_servers(self):
         self.config.ignore_operation_servers = True
         self.assertTrue(self.config.ignore_operation_servers)

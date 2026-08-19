@@ -92,6 +92,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String USE_SETTINGS_GRADLE = "useSettingsGradle";
     public static final String IDEA = "idea";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
     public static final String USE_RESPONSE_AS_RETURN_TYPE = "useResponseAsReturnType";
 
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -254,7 +255,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportedLibraries.put(JVM_KTOR, "Platform: Java Virtual Machine. HTTP client: Ktor 1.6.7. JSON processing: Gson, Jackson (default).");
         supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(JVM_SPRING_WEBCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 5 (or 6 with useSpringBoot3 enabled) WebClient. JSON processing: Jackson.");
-        supportedLibraries.put(JVM_SPRING_RESTCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 6 RestClient. JSON processing: Jackson.");
+        supportedLibraries.put(JVM_SPRING_RESTCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 6 (or 7 with useSpringBoot4 enabled) RestClient. JSON processing: Jackson.");
         supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
         supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9 (Deprecated)");
@@ -277,6 +278,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3, "Whether to use the Spring Boot 3 with the jvm-spring-webclient library."));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4, "Whether to use the Spring Boot 4 with the jvm-spring-restclient library."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_PLUGIN_VERSIONS, "Whether to declare Gradle plugin versions in build files."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_WRAPPER, "Whether to omit Gradle wrapper for creating a sub project."));
         cliOptions.add(CliOption.newBoolean(USE_SETTINGS_GRADLE, "Whether the project uses settings.gradle."));
@@ -313,8 +315,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_NON_ASCII_HEADERS, "Allow to use non-ascii headers with the okhttp library"));
         cliOptions.add(CliOption.newBoolean(USE_RESPONSE_AS_RETURN_TYPE, "When using retrofit2 and coroutines, use `Response`<`T`> as return type instead of `T`.", true));
 
-        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3,
-            "Use Jackson 3 dependencies (tools.jackson package). Not yet supported for kotlin-client; reserved for future use."));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable."));
     }
 
     @Override
@@ -483,9 +484,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3);
         }
 
-        if (isUseJackson3()) {
-            throw new IllegalArgumentException(
-                "useJackson3 is not yet supported for kotlin-client. Jackson 3 support for kotlin-client will be added in a future release.");
+        boolean useSpringBoot4 = additionalProperties.containsKey(USE_SPRING_BOOT4)
+                && convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4);
+        if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && useSpringBoot4 && !isUseJackson3()) {
+            setUseJackson3(true);
+            additionalProperties.put(USE_JACKSON_3, true);
+            applyJackson3Package();
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
@@ -493,6 +497,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(this.serializationLibrary.name(), true);
         } else {
             additionalProperties.put(this.serializationLibrary.name(), true);
+        }
+
+        if (isUseJackson3()) {
+            if (this.serializationLibrary != SERIALIZATION_LIBRARY_TYPE.jackson) {
+                throw new IllegalArgumentException("useJackson3 requires serializationLibrary=jackson");
+            }
+            if (additionalProperties.containsKey("openApiNullable")
+                    && Boolean.parseBoolean(additionalProperties.get("openApiNullable").toString())) {
+                throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+            }
+            if (!JVM_OKHTTP4.equals(getLibrary()) && !JVM_SPRING_RESTCLIENT.equals(getLibrary())) {
+                throw new IllegalArgumentException("useJackson3 is only supported for the jvm-okhttp4 and jvm-spring-restclient libraries at this time.");
+            }
+            if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && !useSpringBoot4) {
+                throw new IllegalArgumentException("useJackson3 with jvm-spring-restclient requires useSpringBoot4=true.");
+            }
         }
 
         if (additionalProperties.containsKey(MAP_FILE_BINARY_TO_BYTE_ARRAY)) {
@@ -882,8 +902,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processJvmSpringRestClientLibrary(final String infrastructureFolder) {
-        if (additionalProperties.getOrDefault(USE_SPRING_BOOT3, false).equals(false)) {
-            throw new RuntimeException("This library must use Spring Boot 3. Try adding '--additional-properties useSpringBoot3=true' to your command.");
+        if (additionalProperties.getOrDefault(USE_SPRING_BOOT3, false).equals(false)
+                && additionalProperties.getOrDefault(USE_SPRING_BOOT4, false).equals(false)) {
+            throw new RuntimeException("This library requires Spring Boot 3 or 4. Try adding '--additional-properties useSpringBoot3=true' or '--additional-properties useSpringBoot4=true' to your command.");
         }
 
         processJvmSpring(infrastructureFolder);

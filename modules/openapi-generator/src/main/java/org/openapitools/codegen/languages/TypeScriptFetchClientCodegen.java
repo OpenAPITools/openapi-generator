@@ -63,6 +63,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String PREFIX_PARAMETER_INTERFACES = "prefixParameterInterfaces";
     public static final String WITHOUT_RUNTIME_CHECKS = "withoutRuntimeChecks";
+    public static final String DATE_LIBRARY = "dateLibrary";
+    public static final String DATE_LIBRARY_DESC = "Option. Date library to use.";
+    public static final String DATE_LIBRARY_DATE = "date";
+    public static final String DATE_LIBRARY_STRING = "string";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
@@ -85,6 +89,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
     protected boolean withoutRuntimeChecks = false;
+    protected String dateLibrary = DATE_LIBRARY_DATE;
     protected boolean stringEnums = false;
     protected String fileNaming = PASCAL_CASE;
     protected String apiDocPath = "docs";
@@ -102,7 +107,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_OPERATION_RETURN_PASSTHROUGH = "x-operationReturnPassthrough";
     private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
     private static final String X_TYPESCRIPT_FETCH_API_EXAMPLE = "x-typescriptFetchApiExample";
+    private static final String X_HAS_DATE_VARS = "x-hasDateVars";
     private static final String BLOB_API_EXAMPLE = "new Blob(['example file content'], { type: 'application/octet-stream' })";
+    private static final String DATE_TYPE = "date";
+    private static final String DATE_TIME_TYPE = "DateTime";
+    private static final String TS_DATE_TYPE = "Date";
 
     protected boolean sagasAndRecords = false;
     @Getter @Setter
@@ -140,6 +149,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
         this.cliOptions.add(new CliOption(PREFIX_PARAMETER_INTERFACES, "Setting this property to true will generate parameter interface declarations prefixed with API class name to avoid name conflicts.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITHOUT_RUNTIME_CHECKS, "Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+
+        CliOption dateLibraryOption = new CliOption(DATE_LIBRARY, DATE_LIBRARY_DESC).defaultValue(this.getDateLibrary());
+        Map<String, String> dateOptions = new HashMap<>();
+        dateOptions.put(DATE_LIBRARY_DATE, "Native Date. `format: date` and `format: date-time` are both mapped to Date and (de)serialized by the runtime.");
+        dateOptions.put(DATE_LIBRARY_STRING, "Plain string. Values are passed through untouched, leaving date handling to the consumer.");
+        dateLibraryOption.setEnum(dateOptions);
+        this.cliOptions.add(dateLibraryOption);
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_SWITCH_DESC).defaultValue(""));
@@ -196,6 +212,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     public void setWithoutRuntimeChecks(Boolean withoutRuntimeChecks) {
         this.withoutRuntimeChecks = withoutRuntimeChecks;
+    }
+
+    public String getDateLibrary() {
+        return this.dateLibrary;
+    }
+
+    public void setDateLibrary(String dateLibrary) {
+        this.dateLibrary = dateLibrary;
     }
 
     public Boolean getStringEnums() {
@@ -315,11 +339,34 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
         }
 
+        if (additionalProperties.containsKey(DATE_LIBRARY)) {
+            this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+        }
+
         if (!withoutRuntimeChecks) {
             this.modelTemplateFiles.put("models.mustache", ".ts");
-            typeMapping.put("date", "Date");
-            typeMapping.put("DateTime", "Date");
         }
+
+        // `date` needs the model (de)serialization to convert with, which
+        // withoutRuntimeChecks removes: the raw string would just be cast to Date.
+        if (withoutRuntimeChecks && DATE_LIBRARY_DATE.equals(this.dateLibrary)) {
+            if (additionalProperties.containsKey(DATE_LIBRARY)) {
+                LOGGER.warn("{}={} is not compatible with {}=true; falling back to {}={}.",
+                        DATE_LIBRARY, DATE_LIBRARY_DATE, WITHOUT_RUNTIME_CHECKS, DATE_LIBRARY, DATE_LIBRARY_STRING);
+            }
+            this.dateLibrary = DATE_LIBRARY_STRING;
+        }
+
+        if (DATE_LIBRARY_DATE.equals(this.dateLibrary)) {
+            typeMapping.put(DATE_TYPE, TS_DATE_TYPE);
+            typeMapping.put(DATE_TIME_TYPE, TS_DATE_TYPE);
+        } else {
+            typeMapping.put(DATE_TYPE, "string");
+            typeMapping.put(DATE_TIME_TYPE, "string");
+        }
+        additionalProperties.put(DATE_LIBRARY, this.dateLibrary);
+        // Mustache cannot compare strings, so expose the selected library as a flag.
+        additionalProperties.put("isDateLibraryDate", DATE_LIBRARY_DATE.equals(this.dateLibrary));
 
         if (additionalProperties.containsKey(SAGAS_AND_RECORDS)) {
             this.setSagasAndRecords(convertPropertyToBoolean(SAGAS_AND_RECORDS));
@@ -419,6 +466,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             ExtendedCodegenModel cm = (ExtendedCodegenModel) mo.getModel();
             cm.imports = new TreeSet<>(cm.imports);
             this.processCodeGenModel(cm);
+            // Mirrors the branches in modelGeneric.mustache that call the date helpers, so a
+            // model without dates does not import them.
+            cm.vendorExtensions.put(X_HAS_DATE_VARS, cm.vars.stream()
+                    .filter(ExtendedCodegenProperty.class::isInstance)
+                    .map(ExtendedCodegenProperty.class::cast)
+                    .anyMatch(v -> v.isPrimitiveType && !v.isArray && (v.isDateType() || v.isDateTimeType())));
         }
 
         // Add supporting file only if we plan to generate files in /models
@@ -562,7 +615,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
      */
     private Set<String> parseImports(CodegenModel cm) {
         Set<String> newImports = new HashSet<>();
-        if (cm.imports.size() > 0) {
+        if (!cm.imports.isEmpty()) {
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {
                     String[] parts = name.split(" \\| ");
@@ -1484,11 +1537,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         public boolean isDateType() {
-            return isDate && "Date".equals(dataType);
+            return isDate && TypeScriptFetchClientCodegen.isDateType(dataType);
         }
 
         public boolean isDateTimeType() {
-            return isDateTime && "Date".equals(dataType);
+            return isDateTime && TypeScriptFetchClientCodegen.isDateTimeType(dataType);
         }
 
         public ExtendedCodegenParameter(CodegenParameter cp) {
@@ -1635,11 +1688,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         public boolean isDateType() {
-            return isDate && "Date".equals(dataType);
+            return isDate && TypeScriptFetchClientCodegen.isDateType(dataType);
         }
 
         public boolean isDateTimeType() {
-            return isDateTime && "Date".equals(dataType);
+            return isDateTime && TypeScriptFetchClientCodegen.isDateTimeType(dataType);
         }
 
         public ExtendedCodegenProperty(CodegenProperty cp) {
@@ -1923,12 +1976,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public boolean hasSelfReferencingDiscriminatorMapping(){
             return selfReferencingDiscriminatorMapping != null;
         }
+
         public boolean isDateType() {
-            return isDate && "Date".equals(dataType);
+            return isDate && TypeScriptFetchClientCodegen.isDateType(dataType);
         }
 
         public boolean isDateTimeType() {
-            return isDateTime && "Date".equals(dataType);
+            return isDateTime && TypeScriptFetchClientCodegen.isDateTimeType(dataType);
         }
 
         public ExtendedCodegenModel(CodegenModel cm) {
@@ -2068,5 +2122,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     protected String getLicenseNameDefaultValue() {
         return null;
+    }
+
+    private static boolean isDateType(String dataType) {
+        return TS_DATE_TYPE.equals(dataType);
+    }
+
+    private static boolean isDateTimeType(String dataType) {
+        return TS_DATE_TYPE.equals(dataType);
     }
 }

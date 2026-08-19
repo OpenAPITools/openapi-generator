@@ -3243,6 +3243,18 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void contractWithDeprecatedEnumGeneratesDeprecatedAnnotation() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("OuterEnumInteger.java"))
+                .fileContains("@Deprecated", "public enum OuterEnumInteger");
+
+        JavaFileAssert.assertThat(output.get("OuterEnum.java"))
+                .fileDoesNotContain("@Deprecated");
+    }
+
+    @Test
     public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -4051,6 +4063,91 @@ public class SpringCodegenTest {
                 .containsWithName("javax.annotation.security.RolesAllowed")
                 .containsWithName("org.springframework.security.access.annotation.Secured")
                 .containsWithName("org.springframework.security.access.prepost.PreAuthorize");
+    }
+
+    @Test
+    public void testGeneratePreAuthorizeFromOAuth2Scopes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/preauthorize-scopes.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_SPRING_SECURITY_PRE_AUTHORIZE, true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getOverview")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value",
+                        "\"hasAuthority('SCOPE_client-data:read') or hasAuthority('SCOPE_utility-data:read')\""));
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getCombined")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value",
+                        "\"(hasAuthority('SCOPE_client-data:read') and hasAuthority('SCOPE_utility-data:read')) or hasAuthority('SCOPE_other-data:read')\""));
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getAuthenticated")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value", "\"isAuthenticated()\""));
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getNormalized")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value",
+                        "\"hasAuthority('SCOPE_client-data:read')\""));
+        assertThat(Files.readString(files.get("ApiApi.java").toPath()))
+                .contains("import org.springframework.security.access.prepost.PreAuthorize;")
+                .contains("@PreAuthorize(\"hasAuthority('SCOPE_client-data:read''quoted')\")");
+        assertThat(Files.readString(files.get("OpenApiGeneratorApplication.java").toPath()))
+                .contains("import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;")
+                .contains("@EnableMethodSecurity")
+                .doesNotContain("SecurityFilterChain")
+                .doesNotContain("HttpSecurity");
+        assertThat(Files.readString(files.get("pom.xml").toPath()))
+                .contains("<artifactId>spring-boot-starter-security</artifactId>")
+                .doesNotContain("<artifactId>spring-security-config</artifactId>");
+    }
+
+    @Test
+    public void testGeneratePreAuthorizeWithCustomAuthorityPrefix() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/preauthorize-scopes.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_SPRING_SECURITY_PRE_AUTHORIZE, true);
+        codegen.additionalProperties().put(SPRING_SECURITY_AUTHORITY_PREFIX, "PERMISSION_");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ApiApi.java"))
+                .assertMethod("getOverview")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("PreAuthorize", ImmutableMap.of("value",
+                        "\"hasAuthority('PERMISSION_client-data:read') or hasAuthority('PERMISSION_utility-data:read')\""));
     }
 
     @Test
@@ -7046,6 +7143,7 @@ public class SpringCodegenTest {
                         SpringCodegen.OPENAPI_NULLABLE, false,
                         USE_BEANVALIDATION, true,
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
+                        GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true,
                         INTERFACE_ONLY, false,
                         GENERATE_BUILDERS, true,
                         springVersionProperty, springBootVersion > 2
@@ -7082,7 +7180,10 @@ public class SpringCodegenTest {
                         "Foo.Builder dt(java.time.@Nullable Instant dt)",
                         "Foo.Builder requiredDt(java.time.Instant requiredDt)",
                         "Foo.Builder nullableNumber(@Nullable BigDecimal nullableNumber)"
-                );
+                ).fileDoesNotContain(
+                        "javax.annotation.Nullable",
+                        "jakarta.annotation.Nullable")
+                .assertMethod("getRequiredDt").assertMethodAnnotations().containsWithName("NotNull").containsWithName("Valid");
         JavaFileAssert.assertThat(files.get("FooApi.java"))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
@@ -7091,6 +7192,25 @@ public class SpringCodegenTest {
                         "java.time.@Nullable Instant dtCookie",
                         " @RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color"
                 );
+        JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
+                .fileContains(
+                        "private @Nullable String str = null;",
+                        "private @Nullable List<String> _list;",
+                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired, @Nullable List<String> _list)",
+                        "@Nullable String getStr()",
+                        "void setStr(@Nullable String str)",
+                        "RequiredAndNullable str(@Nullable String str)",
+                        "RequiredAndNullable.Builder str(@Nullable String str)"
+                )
+                .assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
+        if (!library.equals(SPRING_HTTP_INTERFACE)) {
+            // SPRING_HTTP_INTERFACE does not support @Schema generation (yet)
+            JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
+                    .fileContains(
+                            "@Schema(name = \"str\", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)");
+        }
+        JavaFileAssert.assertThat(files.get("FileContent.java"))
+                .fileContains("VirusScanEnum getVirusScan()");
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
@@ -7113,6 +7233,7 @@ public class SpringCodegenTest {
                         CONTAINER_DEFAULT_TO_NULL, true,
                         USE_BEANVALIDATION, true,
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
+                        GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true,
                         CodegenConstants.OPENAPI_NULLABLE, true,
                         INTERFACE_ONLY, false,
                         GENERATE_BUILDERS, true,
@@ -7149,7 +7270,10 @@ public class SpringCodegenTest {
                         "Foo.Builder requiredDt(java.time.Instant requiredDt)",
                         "Foo.Builder nullableNumber(@Nullable BigDecimal nullableNumber)",
                         "Foo.Builder nullableNumber(JsonNullable<BigDecimal> nullableNumber)"
-                );
+                ).fileDoesNotContain(
+                        "javax.annotation.Nullable",
+                        "jakarta.annotation.Nullable")
+                .assertMethod("getRequiredDt").assertMethodAnnotations().containsWithName("NotNull").containsWithName("Valid");
         JavaFileAssert.assertThat(files.get("FooApi.java"))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
@@ -7157,6 +7281,17 @@ public class SpringCodegenTest {
                         "java.time.@Nullable Instant dtQuery",
                         "java.time.@Nullable Instant dtCookie"
                 );
+        JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
+                .fileContains(
+                        "private JsonNullable<String> str = JsonNullable.<String>undefined();",
+                        "private JsonNullable<List<String>> _list = JsonNullable.<List<String>>undefined();",
+                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired, @Nullable List<String> _list)",
+                        "JsonNullable<String> getStr()",
+                        "void setStr(JsonNullable<String> str)",
+                        "RequiredAndNullable str(@Nullable String str)",
+                        "RequiredAndNullable.Builder str(@Nullable String str)",
+                        " /* @Present */"
+                ).assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
@@ -7190,6 +7325,7 @@ public class SpringCodegenTest {
                         CONTAINER_DEFAULT_TO_NULL, true,
                         USE_BEANVALIDATION, true,
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
+                        GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true,
                         SpringCodegen.USE_OPTIONAL, true,
                         OPTIONAL_ACCEPT_NULLABLE, optionalAcceptNullable,
                         INTERFACE_ONLY, false,
@@ -7222,7 +7358,10 @@ public class SpringCodegenTest {
                         "public Foo(java.time.@Nullable Instant dt, java.time.@Nullable Instant nullableDt, org.springframework.core.io.@Nullable Resource binary, org.springframework.core.io.@Nullable Resource nullableBinary, @Nullable List<java.time.Instant> listOfDt, @Nullable List<java.time.Instant> listMinIntems, @Nullable List<java.time.Instant> nullableListMinIntems, java.time.Instant requiredDt, @Nullable BigDecimal number, @Nullable BigDecimal nullableNumber, @Nullable String color, String requiredColor, @Nullable String nullableColor) {",
                         "Foo.Builder requiredDt(java.time.Instant requiredDt)",
                         "Foo.Builder nullableNumber(JsonNullable<BigDecimal> nullableNumber)"
-                );
+                ).fileDoesNotContain(
+                        "javax.annotation.Nullable",
+                        "jakarta.annotation.Nullable")
+                .assertMethod("getRequiredDt").assertMethodAnnotations().containsWithName("NotNull").containsWithName("Valid");
         if (optionalAcceptNullable) {
             fooAssert.fileContains(
                     "Foo dt(java.time.@Nullable Instant dt) {\n    this.dt = Optional.ofNullable(dt);",
@@ -7239,6 +7378,15 @@ public class SpringCodegenTest {
                         "Optional<java.time.Instant> dtQuery",
                         "Optional<java.time.Instant> dtCookie"
                 );
+        JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
+                .fileContains(
+                        "private JsonNullable<String> str = JsonNullable.<String>undefined();",
+                        "RequiredAndNullable(@Nullable String str, org.springframework.core.io.@Nullable Resource file, @Nullable String color, String onlyRequired, @Nullable List<String> _list)",
+                        "JsonNullable<String> getStr()",
+                        "void setStr(JsonNullable<String> str)",
+                        "RequiredAndNullable str(@Nullable String str)",
+                        "RequiredAndNullable.Builder str(@Nullable String str)"
+                ).assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))

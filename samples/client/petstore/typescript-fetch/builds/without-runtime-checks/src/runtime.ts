@@ -346,7 +346,7 @@ function querystringSingleKey(key: string, value: string | number | null | undef
         return querystringSingleKey(key, valueAsArray, keyPrefix);
     }
     if (value instanceof Date) {
-        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toISOString())}`;
+        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(serializeDateTime(value))}`;
     }
     if (value instanceof Object) {
         return querystring(value as HTTPQuery, fullKey);
@@ -358,6 +358,18 @@ export function exists(json: any, key: string) {
     const value = json[key];
     return value !== null && value !== undefined;
 }
+
+/**
+ * Every generated date call site routes through these.
+ *
+ * `format: date` is a calendar date, with no time and no offset, so it is converted
+ * against the local calendar on both ends: they have to agree or the date shifts by
+ * a day. `format: date-time` is an instant and uses UTC.
+ */
+export function serializeDateTime(value: Date): string {
+    return value.toISOString();
+}
+
 
 
 export function canConsumeForm(consumes: Consume[]): boolean {

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="color">color</param>
-        public Fruit(Apple apple, Option<string?> color = default)
+        internal Fruit(Apple apple, Option<string?> color = default)
         {
             Apple = apple;
             ColorOption = color;
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public Fruit(Banana banana, Option<string?> color = default)
+        internal Fruit(Banana banana, Option<string?> color = default)
         {
             Banana = banana;
             ColorOption = color;

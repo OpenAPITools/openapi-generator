@@ -18,6 +18,7 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
+import org.openapitools.client.model.FileContent;
 
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
@@ -166,10 +167,11 @@ public class FileApi {
    * 
    * 
    * @param id  (required)
+   * @return FileContent
    * @throws ApiException if fails to make API call
    */
-  public void fileIdGet(String id) throws ApiException {
-    fileIdGet(id, null);
+  public FileContent fileIdGet(String id) throws ApiException {
+    return fileIdGet(id, null);
   }
 
   /**
@@ -177,20 +179,22 @@ public class FileApi {
    * 
    * @param id  (required)
    * @param headers Optional headers to include in the request
+   * @return FileContent
    * @throws ApiException if fails to make API call
    */
-  public void fileIdGet(String id, Map<String, String> headers) throws ApiException {
-    fileIdGetWithHttpInfo(id, headers);
+  public FileContent fileIdGet(String id, Map<String, String> headers) throws ApiException {
+    ApiResponse<FileContent> localVarResponse = fileIdGetWithHttpInfo(id, headers);
+    return localVarResponse.getData();
   }
 
   /**
    * 
    * 
    * @param id  (required)
-   * @return ApiResponse&lt;Void&gt;
+   * @return ApiResponse&lt;FileContent&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> fileIdGetWithHttpInfo(String id) throws ApiException {
+  public ApiResponse<FileContent> fileIdGetWithHttpInfo(String id) throws ApiException {
     return fileIdGetWithHttpInfo(id, null);
   }
 
@@ -199,10 +203,10 @@ public class FileApi {
    * 
    * @param id  (required)
    * @param headers Optional headers to include in the request
-   * @return ApiResponse&lt;Void&gt;
+   * @return ApiResponse&lt;FileContent&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> fileIdGetWithHttpInfo(String id, Map<String, String> headers) throws ApiException {
+  public ApiResponse<FileContent> fileIdGetWithHttpInfo(String id, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = fileIdGetRequestBuilder(id, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -217,20 +221,31 @@ public class FileApi {
           throw getApiException("fileIdGet", localVarResponse);
         }
         localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
-        if (localVarResponseBody != null) {
-          localVarResponseBody.readAllBytes();
+        if (localVarResponseBody == null) {
+          return new ApiResponse<FileContent>(
+              localVarResponse.statusCode(),
+              localVarResponse.headers().map(),
+              null
+          );
         }
-        return new ApiResponse<>(
+
+        
+        
+        String responseBody = new String(localVarResponseBody.readAllBytes());
+        FileContent responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<FileContent>() {});
+        
+
+        return new ApiResponse<FileContent>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            null
+            responseValue
         );
       } finally {
         if (localVarResponseBody != null) {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
