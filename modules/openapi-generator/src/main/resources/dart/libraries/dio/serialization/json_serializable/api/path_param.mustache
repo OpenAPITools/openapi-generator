@@ -1,1 +1,1 @@
-{{{paramName}}}{{#isNullable}}?.toString() ?? ''{{/isNullable}}{{^isNullable}}.toString(){{/isNullable}}
+{{#isNullable}}{{{paramName}}} == null ? '' : {{{paramName}}}.toString(){{/isNullable}}{{^isNullable}}{{{paramName}}}.toString(){{/isNullable}}
