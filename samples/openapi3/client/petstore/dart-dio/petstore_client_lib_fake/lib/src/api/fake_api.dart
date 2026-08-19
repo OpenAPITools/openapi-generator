@@ -1255,20 +1255,20 @@ class FakeApi {
 
     try {
       _bodyData = <String, dynamic>{
-        if (integer != null) r'integer': encodeQueryParameter(_serializers, integer, const FullType(int)),
-        if (int32 != null) r'int32': encodeQueryParameter(_serializers, int32, const FullType(int)),
-        if (int64 != null) r'int64': encodeQueryParameter(_serializers, int64, const FullType(int)),
-        r'number': encodeQueryParameter(_serializers, number, const FullType(num)),
-        if (float != null) r'float': encodeQueryParameter(_serializers, float, const FullType(double)),
-        r'double': encodeQueryParameter(_serializers, double_, const FullType(double)),
-        if (string != null) r'string': encodeQueryParameter(_serializers, string, const FullType(String)),
-        r'pattern_without_delimiter': encodeQueryParameter(_serializers, patternWithoutDelimiter, const FullType(String)),
-        r'byte': encodeQueryParameter(_serializers, byte, const FullType(String)),
-        if (binary != null) r'binary': encodeQueryParameter(_serializers, binary, const FullType(Uint8List)),
-        if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(Date)),
-        if (dateTime != null) r'dateTime': encodeQueryParameter(_serializers, dateTime, const FullType(DateTime)),
-        if (password != null) r'password': encodeQueryParameter(_serializers, password, const FullType(String)),
-        if (callback != null) r'callback': encodeQueryParameter(_serializers, callback, const FullType(String)),
+        if (integer != null) r'integer': encodeFormParameter(_serializers, integer, const FullType(int)),
+        if (int32 != null) r'int32': encodeFormParameter(_serializers, int32, const FullType(int)),
+        if (int64 != null) r'int64': encodeFormParameter(_serializers, int64, const FullType(int)),
+        r'number': encodeFormParameter(_serializers, number, const FullType(num)),
+        if (float != null) r'float': encodeFormParameter(_serializers, float, const FullType(double)),
+        r'double': encodeFormParameter(_serializers, double_, const FullType(double)),
+        if (string != null) r'string': encodeFormParameter(_serializers, string, const FullType(String)),
+        r'pattern_without_delimiter': encodeFormParameter(_serializers, patternWithoutDelimiter, const FullType(String)),
+        r'byte': encodeFormParameter(_serializers, byte, const FullType(String)),
+        if (binary != null) r'binary': encodeFormParameter(_serializers, binary, const FullType(Uint8List)),
+        if (date != null) r'date': encodeFormParameter(_serializers, date, const FullType(Date)),
+        if (dateTime != null) r'dateTime': encodeFormParameter(_serializers, dateTime, const FullType(DateTime)),
+        if (password != null) r'password': encodeFormParameter(_serializers, password, const FullType(String)),
+        if (callback != null) r'callback': encodeFormParameter(_serializers, callback, const FullType(String)),
       };
 
     } catch(error, stackTrace) {
@@ -1368,8 +1368,8 @@ class FakeApi {
 
     try {
       _bodyData = <String, dynamic>{
-        if (enumFormStringArray != null) r'enum_form_string_array': encodeCollectionQueryParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
-        if (enumFormString != null) r'enum_form_string': encodeQueryParameter(_serializers, enumFormString, const FullType(String)),
+        if (enumFormStringArray != null) r'enum_form_string_array': encodeCollectionFormParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
+        if (enumFormString != null) r'enum_form_string': encodeFormParameter(_serializers, enumFormString, const FullType(String)),
       };
 
     } catch(error, stackTrace) {
@@ -1654,8 +1654,8 @@ class FakeApi {
 
     try {
       _bodyData = <String, dynamic>{
-        r'param': encodeQueryParameter(_serializers, param, const FullType(String)),
-        r'param2': encodeQueryParameter(_serializers, param2, const FullType(String)),
+        r'param': encodeFormParameter(_serializers, param, const FullType(String)),
+        r'param2': encodeFormParameter(_serializers, param2, const FullType(String)),
       };
 
     } catch(error, stackTrace) {

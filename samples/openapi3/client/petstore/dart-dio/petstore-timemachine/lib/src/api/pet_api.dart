@@ -596,8 +596,8 @@ class PetApi {
 
     try {
       _bodyData = <String, dynamic>{
-        if (name != null) r'name': encodeQueryParameter(_serializers, name, const FullType(String)),
-        if (status != null) r'status': encodeQueryParameter(_serializers, status, const FullType(String)),
+        if (name != null) r'name': encodeFormParameter(_serializers, name, const FullType(String)),
+        if (status != null) r'status': encodeFormParameter(_serializers, status, const FullType(String)),
       };
 
     } catch(error, stackTrace) {
